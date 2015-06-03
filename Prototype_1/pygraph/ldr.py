@@ -17,100 +17,10 @@ from threading import Thread
 import serial
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
-from filter_motion import filterX
+#from filter_motion import filterX
+import time
 
 
-class GenerateSound(object):
-    """Generate sounds class
-     Makes sounds based on the accelerometer value
-    """
-    def __init__(self):
-        self.generate_command = subprocess.call
-        self.cmds_dict = {}
-        self.prev_note = None
-        self.init_cmds_dict()
-
-    def test(self):
-        """test beat
-        """
-        note = "high"
-        self.start_beat_thread(note, '200')
-
-    def init_cmds_dict(self):
-        """fill dict with lists of commands
-           corresponding to ranges of accel values
-        """
-
-        #sys cmd = ['say','di']
-        self.cmds_dict["high"] = ['say', '-r', '0', ' ']
-        self.cmds_dict["low"] = ['say', '-r', '0', ' ']
-        self.cmds_dict["off"] = ['say', '-r', '0', 'boom']
-
-    def get_velocity(self, value, ref_value):
-        """calculate velocity/amp of sound
-        """
-        rate = abs(value/ref_value) * 100
-        rate = int(rate)
-        rate = str(rate)
-        return rate
-
-    def make_beat(self, value):
-        """make beat data from value
-        """
-        note = None
-        value = int(value)
-        ref_value = 12
-        velocity = None
-        if value >= ref_value:
-            note = "high"
-        elif value <= -ref_value:
-            note = "low"
-
-        elif value <= 5 and value >= -5:
-            note = "off"
-
-        print "beat value / note: %s / %s" % (value, note)
-
-        #todo: use velocity
-
-        if note:
-            velocity = self.get_velocity(value, ref_value)
-            print "start beat thread"
-            self.toggle_beat(note, velocity)
-
-
-    def toggle_beat(self, note="off", velocity='200'):
-        """if beat was just played then turn it off
-           otherwise generate the beat
-        """
-        if note in self.cmds_dict:
-
-            #if not the same note from prev beat, then generate, otherwise skip
-            if note != self.prev_note:
-                self.prev_note = note
-                self.start_beat_thread(note, velocity)
-
-
-    def generate_beat(self, note="off", velocity='200'):
-        """generate sound based on beat / velocity
-           Todo: use midi?
-        """
-
-        #currently just using mac say module to make simple sounds (no velocity)
-        if note in self.cmds_dict:
-            cmds = self.cmds_dict[note]
-            #override velocity
-            cmds[2] = velocity
-            self.generate_command(cmds)
-            sleep(0.5)
-
-    def start_beat_thread(self, note="off", velocity='200'):
-        """generate a beat via thread
-        """
-        thread = Thread(target=self.generate_beat, args=[note, velocity])
-        thread.start()
-
-    
 # plot class
 class AnalogPlot:
     # constr
@@ -121,9 +31,8 @@ class AnalogPlot:
         self.ay = deque([0.0]*maxLen)
         self.az = deque([0.0]*maxLen)
         self.maxLen = maxLen
-        self.sound_gen = GenerateSound()
-        self.filter_x = filterX()
-        self.start = True
+        self.prev_time = 0
+        self.current_time = 0
 
     # add to buffer
     def addToBuf(self, buf, val):
@@ -140,27 +49,27 @@ class AnalogPlot:
         self.addToBuf(self.ay, data[1])
         self.addToBuf(self.az, data[2])
     # update plot
-    def update(self, frameNum, a0, a1):
+    def update(self, frameNum, a0):
         data = []
         try:
+            self.current_time = time.time()
+            t = self.current_time - self.prev_time
+            self.prev_time = self.current_time
+            print t
             self.ser.write('x')
             line = self.ser.readline().rstrip()
             line = line.split(",")
-            x, y, z = line[0], line[1], line[2]
-
-            x = int(x)
-            n = self.filter_x.get_note(x)
+            #x, y, z = line[0], line[1], line[2]
 
             data.append(float(line[0]))
-            data.append(float(n))
             data.append(float(line[1]))
-            #data.append(float(line[2]))
+            data.append(float(line[2]))
 
             # print data
             if(len(data) == 3):
                 self.add(data)
                 a0.set_data(range(self.maxLen), self.ax)
-                a1.set_data(range(self.maxLen), self.ay)
+                #a1.set_data(range(self.maxLen), self.ay)
                 #a2.set_data(range(self.maxLen), self.az)
 
             #self.sound_gen.make_beat(x)
@@ -197,10 +106,10 @@ def main():
     fig = plt.figure()
     ax = plt.axes(xlim=(0, 200), ylim=(-40, 40))
     a0, = ax.plot([], [], '-ro', markersize=3)
-    a1, = ax.plot([], [])
+    #a1, = ax.plot([], [])
     #a2, = ax.plot([], [])
     #anim = animation.FuncAnimation(fig, analogPlot.update, fargs=(a0, a1, a2), interval=50)
-    anim = animation.FuncAnimation(fig, analogPlot.update, fargs=(a0,a1), interval=10)
+    anim = animation.FuncAnimation(fig, analogPlot.update, fargs=(a0,), interval=10)
 
     # show plot
     plt.show()

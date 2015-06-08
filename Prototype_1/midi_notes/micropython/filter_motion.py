@@ -11,7 +11,7 @@ FX3 = (FX1 + FX2)*1.5
 
 #Max samples to count before throwing out rising slope if not falling slope is found
 MaxSamples = 20
-MinSamples = 2
+MinSamples = 4
 
 #min average xsum
 ASum = 6

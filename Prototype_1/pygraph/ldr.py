@@ -59,7 +59,6 @@ class AnalogPlot:
             self.ser.write('x')
             line = self.ser.readline().rstrip()
             line = line.split(",")
-            #x, y, z = line[0], line[1], line[2]
 
             data.append(float(line[0]))
             data.append(float(line[1]))

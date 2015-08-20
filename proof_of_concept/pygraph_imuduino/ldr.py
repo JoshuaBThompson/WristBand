@@ -49,20 +49,10 @@ class AnalogPlot:
         self.addToBuf(self.ay, data[1])
         self.addToBuf(self.az, data[2])
     # update plot
-    def update(self, frameNum, a0, a1):
+    def update(self, frameNum, a0, a1, a2):
         data = []
         try:
-            self.current_time = time.time()
-            t = self.current_time - self.prev_time
-            self.prev_time = self.current_time
-            print t
             self.ser.write('x')
-            #note
-            nl = self.ser.read()
-            nh = self.ser.read()
-            note = (ord(nh) << 8) + ord(nl)
-            if note >= 32768:
-                note = note - 65536
 
             #raw x
             xl = self.ser.read()
@@ -71,18 +61,32 @@ class AnalogPlot:
             if x >= 32768:
                 x = x - 65536
 
-            data.append(int(note))
+            #raw y
+            yl = self.ser.read()
+            yh = self.ser.read()
+            y = (ord(yh) << 8) + ord(yl)
+            if y >= 32768:
+                y = y - 65536
+
+            #raw z
+            zl = self.ser.read()
+            zh = self.ser.read()
+            z = (ord(zh) << 8) + ord(zl)
+            if z >= 32768:
+                z = z - 65536
+
+            #print "z: %d" % z
+
             data.append(int(x))
-            data.append(int(0))
+            data.append(int(y))
+            data.append(int(z))
 
             # print data
             if(len(data) == 3):
                 self.add(data)
                 a0.set_data(range(self.maxLen), self.ax)
                 a1.set_data(range(self.maxLen), self.ay)
-                #a2.set_data(range(self.maxLen), self.az)
-
-            #self.sound_gen.make_beat(x)
+                a2.set_data(range(self.maxLen), self.az)
 
         except KeyboardInterrupt:
             print('exiting')
@@ -114,12 +118,12 @@ def main():
 
     # set up animation
     fig = plt.figure()
-    ax = plt.axes(xlim=(0, 200), ylim=(-60000, 60000))
+    ax = plt.axes(xlim=(0, 200), ylim=(-900, 1200))
     a0, = ax.plot([], [], '-ro', markersize=3)
-    a1, = ax.plot([], [])
-    #a2, = ax.plot([], [])
+    a1, = ax.plot([], [], '-bo', markersize=3)
+    a2, = ax.plot([], [], '-go', markersize=3)
     #anim = animation.FuncAnimation(fig, analogPlot.update, fargs=(a0, a1, a2), interval=50)
-    anim = animation.FuncAnimation(fig, analogPlot.update, fargs=(a0,a1), interval=10)
+    anim = animation.FuncAnimation(fig, analogPlot.update, fargs=(a0, a1, a2), interval=10)
 
     # show plot
     plt.show()

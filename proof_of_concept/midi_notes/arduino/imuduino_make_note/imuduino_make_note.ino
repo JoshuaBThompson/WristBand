@@ -54,7 +54,7 @@ aci_evt_opcode_t laststatus = ACI_EVT_DISCONNECTED;
 aci_evt_opcode_t status = laststatus;
 
 int raw_values[11];
-int note = 0, accelX = 0, prev_note = 0;
+int note = 0, accelX = 0, prev_note = 0, magY = 0;
 //float ypr[3];
 
 // Set the FreeIMU object
@@ -74,31 +74,46 @@ void setup() {
   delay(500);
   my3IMU.init(true);
   filterX.init();
-  BTLEserial.begin();
+  //BTLEserial.begin();
 }
 
 
 void loop() {
   char user;
   char buf[6] = {0, 0, 0, 0, 0, 0};
-  btleLoop();
+  
     
         
            
             
               my3IMU.getRawValues(raw_values);
               accelX = raw_values[0];
+              magY = raw_values[7];
+              if(magY >= 32768){
+                magY = magY - 65536;
+              }
               note = filterX.getNote(accelX);
               buf[0] = note; buf[1] = note >> 8;
               if(note > 0){
-                note = 65;
-                if(prev_note > 0){
-                  note_off(65,0);
+                if(magY > -50){
+                  note = 38;
                 }
-                note_on(65,127);
+                else if(magY > -150){
+                  note = 36;
+                }
+                else if(magY > -600){
+                  note = 44;
+                }
+                
+                
+                if(prev_note > 0){
+                  note_off(prev_note,0);
+                }
+                note_on(note,127);
                 prev_note = note;
               }
               delay(50);
+  
               
             
           
@@ -195,3 +210,6 @@ byte * float2str(float arg) {
   byte * data = (byte *) &arg;
   return data;
 }
+
+
+

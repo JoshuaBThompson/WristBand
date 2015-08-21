@@ -1,5 +1,5 @@
 #include "services.h"
-#include "nrf8001Test.h"
+#include "nrf8001.h"
 #include "lib_aci.h"
 #include "aci_setup.h"
 #include <stdbool.h>
@@ -24,11 +24,11 @@ static const hal_aci_data_t setup_msgs[NB_SETUP_MESSAGES] PROGMEM = SETUP_MESSAG
 
 
 
-uint8_t * nrf8001Test::getDeviceVersion(void){
+uint8_t * nrf8001::getDeviceVersion(void){
   return (uint8_t*)&(aci_evt->params.cmd_rsp.params.get_device_version);
 }
 
-void nrf8001Test::setDeviceVersion(uint8_t pipe){
+void nrf8001::setDeviceVersion(uint8_t pipe){
   //Store the version and configuration information of the nRF8001 in the Hardware Revision String Characteristic
   //ex: pipe = PIPE_DEVICE_INFORMATION_HARDWARE_REVISION_STRING_SET
         lib_aci_set_local_data(&aci_state, pipe,
@@ -36,13 +36,13 @@ void nrf8001Test::setDeviceVersion(uint8_t pipe){
 }
 
 
-void nrf8001Test::configureDevice(){
+void nrf8001::configureDevice(){
     loadGattProfile();
     setupPins();
     init();
 }
 
-void nrf8001Test::init(){
+void nrf8001::init(){
     
     //init variables
     setup_required = false;
@@ -55,7 +55,7 @@ void nrf8001Test::init(){
     lib_aci_init(&aci_state, false);
 }
 
-void nrf8001Test::setupPins(void){
+void nrf8001::setupPins(void){
     
     /*
      Tell the ACI library, the MCU to nRF8001 pin connections.
@@ -83,7 +83,7 @@ void nrf8001Test::setupPins(void){
     
 }
 
-void nrf8001Test::loadGattProfile(void){
+void nrf8001::loadGattProfile(void){
     if (NULL != services_pipe_type_mapping)
     {
         aci_state.aci_setup_info.services_pipe_type_mapping = &services_pipe_type_mapping[0];
@@ -98,15 +98,14 @@ void nrf8001Test::loadGattProfile(void){
     
 }
 
-void nrf8001Test::setDeviceSetupRequired(void){
+void nrf8001::setDeviceSetupRequired(void){
     /**
      When the device is in the setup mode
      */
-    Serial.println(F("Evt Device Started: Setup"));
     setup_required = true;
 }
 
-void nrf8001Test::deviceSetup(void){
+void nrf8001::deviceSetup(void){
     if(setup_required)
     {
         if (SETUP_SUCCESS == do_aci_setup(&aci_state))
@@ -116,22 +115,9 @@ void nrf8001Test::deviceSetup(void){
     }
 }
 
-void nrf8001Test::handleDeviceStandby(void){
-    Serial.println(F("Evt Device Started: Standby"));
-    //Looking for an iPhone by sending radio advertisements
-    //When an iPhone connects to us we will get an ACI_EVT_CONNECTED event from the nRF8001
-    if (aci_evt->params.device_started.hw_error)
-    {
-        Serial.println("HW Error ");
-        delay(20); //Handle the HW error event correctly.
-    }
-    else
-    {
-        startAdv();
-    }
-}
 
-void nrf8001Test::reportCmdRspError(void){
+
+void nrf8001::reportCmdRspError(void){
   
         //ACI ReadDynamicData and ACI WriteDynamicData will have status codes of
         //TRANSACTION_CONTINUE and TRANSACTION_COMPLETE
@@ -142,21 +128,20 @@ void nrf8001Test::reportCmdRspError(void){
         Serial.println(aci_evt->params.cmd_rsp.cmd_status, HEX);
 }
 
-
-void nrf8001Test::requestDeviceVersion(void){
-    status.connected = 1;
-    
-    Serial.println(F("Evt Connected"));
-    timing_change_done              = false;
-    aci_state.data_credit_available = aci_state.data_credit_total;
-    
+void nrf8001::setConnected(void){
+  status.connected = 1;
+  timing_change_done              = false;
+  aci_state.data_credit_available = aci_state.data_credit_total;
+  
+}
+void nrf8001::requestDeviceVersion(void){    
     /*
      Get the device version of the nRF8001 and store it in the Hardware Revision String
      */
     lib_aci_device_version();
 }
 
-void nrf8001Test::sayHello(uint8_t pipe){
+void nrf8001::sayHello(uint8_t pipe){
   char hello[]="JT";
   //ex pipe = PIPE_UART_OVER_BTLE_UART_TX_TX
    sendData(pipe , (uint8_t *)&hello[0], strlen(hello));
@@ -164,7 +149,7 @@ void nrf8001Test::sayHello(uint8_t pipe){
    Serial.println(hello);
 }
 
-void nrf8001Test::changeTimingWithPipe(uint8_t pipe){
+void nrf8001::changeTimingWithPipe(uint8_t pipe){
   //ex: pipe = PIPE_UART_OVER_BTLE_UART_TX_TX
   
   if (lib_aci_is_pipe_available(&aci_state, pipe) && (false == timing_change_done))
@@ -177,29 +162,27 @@ void nrf8001Test::changeTimingWithPipe(uint8_t pipe){
 }
 
 
-void nrf8001Test::setTiming(uint8_t pipe, uint8_t pipe_size){
+void nrf8001::setTiming(uint8_t pipe, uint8_t pipe_size){
     //ex: pipe = PIPE_UART_OVER_BTLE_UART_LINK_TIMING_CURRENT_SET 
     //    pipe_size = PIPE_UART_OVER_BTLE_UART_LINK_TIMING_CURRENT_SET_MAX_SIZE
-    Serial.println(F("setting timing"));
     lib_aci_set_local_data(&aci_state,
                            pipe,
                            (uint8_t *)&(aci_evt->params.timing.conn_rf_interval), /* Byte aligned */
                            pipe_size);
 }
 
-void nrf8001Test::disconnectEvent(void){
-    Serial.println(F("Evt Disconnected/Advertising timed out"));
+void nrf8001::disconnectEvent(void){
     status.connected = 0;
     status.advertising = 0;
     startAdv();
 }
 
 
-void nrf8001Test::dataCreditEvent(void){
+void nrf8001::dataCreditEvent(void){
     aci_state.data_credit_available = aci_state.data_credit_available + aci_evt->params.data_credit.credit;
 }
 
-void nrf8001Test::pipeErrorEvent(void){
+void nrf8001::pipeErrorEvent(void){
     status.error = 1;
     //See the appendix in the nRF8001 Product Specication for details on the error codes
     Serial.print(F("ACI Evt Pipe Error: Pipe #:"));
@@ -216,7 +199,7 @@ void nrf8001Test::pipeErrorEvent(void){
     }
 }
 
-void nrf8001Test::hwErrorEvent(void){
+void nrf8001::hwErrorEvent(void){
     status.error = 1;
     Serial.print(F("HW error: "));
     Serial.println(aci_evt->params.hw_error.line_num, DEC);
@@ -225,12 +208,10 @@ void nrf8001Test::hwErrorEvent(void){
     {
         Serial.write(aci_evt->params.hw_error.file_name[counter]); //uint8_t file_name[20];
     }
-    Serial.println();
-    lib_aci_connect(0/* in seconds, 0 means forever */, 0x0050 /* advertising interval 50ms*/);
-    Serial.println(F("Advertising started. Tap Connect on the nRF UART app"));
+    startAdv();
 }
 
-bool nrf8001Test::getStatus(void){
+bool nrf8001::getStatus(void){
   bool eventReady = lib_aci_event_get(&aci_state, &aci_data);
   if(eventReady){
     aci_evt = &aci_data.evt;
@@ -240,15 +221,24 @@ bool nrf8001Test::getStatus(void){
 
 
 
-void nrf8001Test::startAdv(void){
+void nrf8001::startAdv(void){
   
-  lib_aci_connect(0/* in seconds : 0 means forever */, 0x0050 /* advertising interval 50ms*/);
-  Serial.println(F("Advertising started : Tap Connect on the nRF UART app"));
-  status.advertising = 1;
+    //Looking for an iPhone by sending radio advertisements
+    //When an iPhone connects to us we will get an ACI_EVT_CONNECTED event from the nRF8001
+    if (aci_evt->params.device_started.hw_error)
+    {
+        Serial.println("HW Error ");
+        status.advertising = 0;
+        delay(20); //Handle the HW error event correctly.
+    }
+    else{
+       lib_aci_connect(0/* in seconds : 0 means forever */, 0x0050 /* advertising interval 50ms*/);
+       status.advertising = 1;
+    }
     
 }
 
-bool nrf8001Test::sendData(uint8_t pipe, uint8_t *buffer, uint8_t buffer_len)
+bool nrf8001::sendData(uint8_t pipe, uint8_t *buffer, uint8_t buffer_len)
 {
     //ex: pipe =  PIPE_UART_OVER_BTLE_UART_TX_TX
     bool status = false;
@@ -266,32 +256,31 @@ bool nrf8001Test::sendData(uint8_t pipe, uint8_t *buffer, uint8_t buffer_len)
     return status;
 }
 
-void nrf8001Test::receiveData(uint8_t pipe, aci_evt_t * aci_evt, uint8_t * uart_buffer, uint8_t * uart_buffer_len){
+void nrf8001::receiveData(uint8_t pipe, aci_evt_t * aci_evt, uint8_t * rx_buffer, uint8_t * rx_buffer_len){
     //ex: pipe = PIPE_UART_OVER_BTLE_UART_RX_RX
     if ( pipe == aci_evt->params.data_received.rx_data.pipe_number)
     {
         
-        Serial.print(F(" Data(Hex) : "));
         for(int i=0; i<aci_evt->len - 2; i++)
         {
             Serial.print((char)aci_evt->params.data_received.rx_data.aci_data[i]);
-            uart_buffer[i] = aci_evt->params.data_received.rx_data.aci_data[i];
+            rx_buffer[i] = aci_evt->params.data_received.rx_data.aci_data[i];
             Serial.print(F(" "));
         }
-        *uart_buffer_len = aci_evt->len - 2;
+        *rx_buffer_len = aci_evt->len - 2;
         
     }
   
     
 }
 
-void nrf8001Test::disconnectDevice(void){
+void nrf8001::disconnectDevice(void){
     
 }
 
     
     
-void nrf8001Test::handleEvents(void){
+void nrf8001::handleEvents(void){
     
     // We enter the if statement only when there is a ACI event available to be processed
     setup_required = false;
@@ -306,7 +295,7 @@ void nrf8001Test::handleEvents(void){
             
             case ACI_EVT_DEVICE_STARTED:
             {
-                Serial.println("Device started");
+                Serial.println("Device started event");
                 aci_state.data_credit_total = aci_evt->params.device_started.credit_available;
                 switch(aci_evt->params.device_started.device_mode)
                 {
@@ -316,8 +305,8 @@ void nrf8001Test::handleEvents(void){
                         break;
                         
                     case ACI_DEVICE_STANDBY:
-                        Serial.println("Device standby");
-                        handleDeviceStandby();
+                        Serial.println("Device standby, start advertising");
+                        startAdv();
                        
                         break;
                     default:
@@ -337,8 +326,7 @@ void nrf8001Test::handleEvents(void){
                   }
                   if (ACI_CMD_GET_DEVICE_VERSION == aci_evt->params.cmd_rsp.cmd_opcode)
                   {
-                      Serial.println("set device version");
-                      //setDeviceVersion(PIPE_DEVICE_INFORMATION_HARDWARE_REVISION_STRING_SET);
+                      Serial.println("set device version (todo)");
                   }
                   else if(ACI_CMD_CONNECT == aci_evt->params.cmd_rsp.cmd_opcode){
                       Serial.println("Connected cmd response received");
@@ -353,17 +341,18 @@ void nrf8001Test::handleEvents(void){
                 break;
                 
             case ACI_EVT_CONNECTED:
-                Serial.println("Device connected, request dev version");
-                requestDeviceVersion();
+                Serial.println("Device connected");
+                setConnected();
                 break;
                 
             case ACI_EVT_PIPE_STATUS:
-                Serial.println("change timing with pipe");
-                //changeTimingWithPipe(PIPE_UART_OVER_BTLE_UART_TX_TX);
+                Serial.println("Data pipes connected / open");
+                //Data service pipes are connected and in open state: Credits can be used for the service pipes identified as open
+                //no data commands should be sent until this pipe status event is received and at least one data pipe is open
                 break;
                 
             case ACI_EVT_TIMING:
-                Serial.println("set device timing");
+                Serial.println("set device timing (todo)");
                 //setTiming(PIPE_UART_OVER_BTLE_UART_LINK_TIMING_CURRENT_SET, PIPE_UART_OVER_BTLE_UART_LINK_TIMING_CURRENT_SET_MAX_SIZE);
                 break;
                 
@@ -373,11 +362,8 @@ void nrf8001Test::handleEvents(void){
                 break;
                 
             case ACI_EVT_DATA_RECEIVED:
-                Serial.println("Device data received");
-                //receiveData(PIPE_UART_OVER_BTLE_UART_RX_RX, aci_evt, uart_buffer, &uart_buffer_len);
-                //Serial.println("Saying hello");
-                
-                //sayHello(PIPE_UART_OVER_BTLE_UART_TX_TX);
+                Serial.println("Device data received (todo)");
+                //receiveData(PIPE_UART_OVER_BTLE_UART_RX_RX, aci_evt, rx_buffer, &rx_buffer_len);
                 break;
                 
             case ACI_EVT_DATA_CREDIT:
@@ -418,7 +404,7 @@ void nrf8001Test::handleEvents(void){
     
 }
 
-void nrf8001Test::parseMIDItoAppleBle(uint8_t pipe, int noteType) {
+void nrf8001::parseMIDItoAppleBle(uint8_t pipe, int noteType) {
   char time[2];
   char buf[20];
   byte outBuff[] = {0x90,65,127};
@@ -448,13 +434,13 @@ void nrf8001Test::parseMIDItoAppleBle(uint8_t pipe, int noteType) {
       messageBuff[2] = outBuff[0]; messageBuff[3] = outBuff[1];
       messageBuff[4] = outBuff[2];
       sendData(pipe, (uint8_t *)&messageBuff[0], 5);
-      Serial.print("Sent: ");
-      Serial.print(timeBuff[0],BIN);
-      Serial.print(" "); Serial.println(timeBuff[1], BIN);
+      //Serial.print("Sent: ");
+      //Serial.print(timeBuff[0],BIN);
+      //Serial.print(" "); Serial.println(timeBuff[1], BIN);
       
-      Serial.print(outBuff[0],BIN); Serial.print(" ");
-      Serial.print(outBuff[1],BIN); Serial.print(" ");
-      Serial.println(outBuff[2],BIN);
+      //Serial.print(outBuff[0],BIN); Serial.print(" ");
+      //Serial.print(outBuff[1],BIN); Serial.print(" ");
+      //Serial.println(outBuff[2],BIN);
       
       
       

@@ -50,6 +50,8 @@ public:
     
     void hwErrorEvent(void);
     
+    void checkStandbyHwError(void);
+    
     bool getStatus(void);
     
     void startAdv(void);

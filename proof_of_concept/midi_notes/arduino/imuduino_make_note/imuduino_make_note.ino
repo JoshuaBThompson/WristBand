@@ -95,15 +95,7 @@ void loop() {
               note = filterX.getNote(accelX);
               buf[0] = note; buf[1] = note >> 8;
               if(note > 0){
-                if(magY > -50){
-                  note = 38;
-                }
-                else if(magY > -150){
-                  note = 36;
-                }
-                else if(magY > -600){
-                  note = 44;
-                }
+                note = 65;
                 
                 
                 if(prev_note > 0){

@@ -225,17 +225,8 @@ void nrf8001::startAdv(void){
   
     //Looking for an iPhone by sending radio advertisements
     //When an iPhone connects to us we will get an ACI_EVT_CONNECTED event from the nRF8001
-    if (aci_evt->params.device_started.hw_error)
-    {
-        Serial.println("HW Error ");
-        status.advertising = 0;
-        delay(20); //Handle the HW error event correctly.
-    }
-    else{
        lib_aci_connect(0/* in seconds : 0 means forever */, 0x0050 /* advertising interval 50ms*/);
-       status.advertising = 1;
-    }
-    
+       status.advertising = 1;    
 }
 
 bool nrf8001::sendData(uint8_t pipe, uint8_t *buffer, uint8_t buffer_len)
@@ -278,6 +269,14 @@ void nrf8001::disconnectDevice(void){
     
 }
 
+void nrf8001::checkStandbyHwError(void){
+  if (aci_evt->params.device_started.hw_error)
+    {
+        Serial.println("HW Error ");
+        status.advertising = 0;
+        delay(20); //Handle the HW error event correctly.
+    }
+}
     
     
 void nrf8001::handleEvents(void){
@@ -306,6 +305,7 @@ void nrf8001::handleEvents(void){
                         
                     case ACI_DEVICE_STANDBY:
                         Serial.println("Device standby, start advertising");
+                        checkStandbyHwError();
                         startAdv();
                        
                         break;

@@ -64,7 +64,7 @@ public:
         
     void handleEvents(void);
     
-    void parseMIDItoAppleBle(uint8_t pipe, int noteType);
+    void parseMIDItoAppleBle(uint8_t pipe, char note_on, char note);
 
     
     

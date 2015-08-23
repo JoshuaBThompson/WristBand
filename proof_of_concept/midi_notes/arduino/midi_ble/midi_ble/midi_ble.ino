@@ -19,10 +19,13 @@
 nrf8001 nrf8001_midi = nrf8001();
 IMUduino my3IMU = IMUduino();
 FilterMotion filterX = FilterMotion();
+FilterMotion filterY = FilterMotion();
+FilterMotion filterZ = FilterMotion();
+
 int raw_values[11];
-int note = 0, accelX = 0, prev_note = 0;
+int noteX = 0, noteY = 0, noteZ = 0, accelX = 0, accelY = 0, accelZ = 0;
 char buf[6] = {0, 0, 0, 0, 0, 0};
-int note_num = 0;
+char note_on = 0, note = 0, prev_note = 0;
 unsigned long time_elapsed = 0;
 unsigned long start_time = 0;
 
@@ -53,6 +56,8 @@ void setup(void)
   Serial.println(F("IMU and Filter setup"));
   my3IMU.init(true);
   filterX.init();
+  filterY.init();
+  filterZ.init();
   Serial.println(F("Arduino setup"));
   Serial.println(F("Set line ending to newline to send data from the serial monitor"));
   nrf8001_midi.configureDevice();
@@ -71,23 +76,36 @@ void loop() {
          if(millis() - start_time > 40){
               my3IMU.getRawValues(raw_values);
               accelX = raw_values[0];
-              note = filterX.getNote(accelX);
-              buf[0] = note; buf[1] = note >> 8;
+              accelY = raw_values[1];
+              accelZ = raw_values[2];
+              noteX = filterX.getNote(accelX);
+              noteY = filterY.getNote(accelY);
+              noteZ = filterZ.getNote(accelZ);
+              if(noteX >= noteY && noteX >= noteZ && noteX > 0){
+                note = 30;
+              }
+              else if(noteY >= noteX && noteY >= noteZ && noteY > 0){
+                note = 45;
+              }
+              else if (noteZ >= noteX && noteZ >= noteY && noteZ > 0){
+                 note = 65;
+              }
+              else{
+                note = 0;
+              }
               if(note > 0){
-                //note = 65;
                 
                 
                 if(prev_note > 0){
-                  //note off
-                  note_num = 0;
+                  note_on = 0; //set note OFF
                   if(nrf8001_midi.status.connected==1){
-                    nrf8001_midi.parseMIDItoAppleBle(PIPE_MIDI_MIDI_IO_TX, note_num);
-                    delay(5); //wait 5ms before sending on note
+                    nrf8001_midi.parseMIDItoAppleBle(PIPE_MIDI_MIDI_IO_TX, note_on, prev_note);
+                    delay(12); //wait 12ms before sending on note
                   }
                 }
-                note_num = 1; //note 65
+                note_on = 1; //set note ON
                 if(nrf8001_midi.status.connected==1){
-                  nrf8001_midi.parseMIDItoAppleBle(PIPE_MIDI_MIDI_IO_TX, note_num);
+                  nrf8001_midi.parseMIDItoAppleBle(PIPE_MIDI_MIDI_IO_TX, note_on, note);
                 }
                 prev_note = note;
               }

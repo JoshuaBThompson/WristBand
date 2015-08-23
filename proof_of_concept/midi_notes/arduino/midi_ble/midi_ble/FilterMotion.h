@@ -34,19 +34,19 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define RX3            (RX1 + RX2)*1
 
 //Constants for falling slope
-#define FX1            -5000
-#define FX2            -5000
-#define FX3            (FX1 + FX2)*2
+#define FX1            -7000
+#define FX2            -7000
+#define FX3            (FX1 + FX2)*1
 
 //Max samples to count before throwing out rising slope
-#define MaxSamples     20
-#define MinSamples     4
+#define MaxSamples     10
+#define MinSamples     3
 
 //Min samples required to do calculation (x1, x2, x3)
 #define MinCount       3
 
 //minimum average sum of all points on valid note xsum/count
-#define ASum           7000
+#define ASum           7500
 
 
 #include "Arduino.h"

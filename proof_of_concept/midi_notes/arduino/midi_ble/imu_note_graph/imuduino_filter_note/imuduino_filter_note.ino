@@ -76,17 +76,20 @@ void loop() {
               noteX = filterX.getNote(accelX);
               noteY = filterY.getNote(accelY);
               noteZ = filterZ.getNote(accelZ);
-              if(noteX >= noteY && noteX >= noteZ){
+              if(noteX >= noteY && noteX >= noteZ && noteX > 0){
                 noteX = 30000;
                 buf[0] = noteX; buf[1] = noteX >> 8;
               }
-              else if(noteY >= noteX && noteY >= noteZ){
+              else if(noteY >= noteX && noteY >= noteZ && noteY > 0){
                 noteY = 20000;
                 buf[0] = noteY; buf[1] = noteY >> 8;
               }
-              else{
+              else if (noteZ >= noteX && noteZ >= noteY && noteZ > 0){
                  noteZ = 10000;
                  buf[0] = noteZ; buf[1] = noteZ >> 8;
+              }
+              else{
+                buf[0] = 0; buf[1] = 0;
               }
               
               

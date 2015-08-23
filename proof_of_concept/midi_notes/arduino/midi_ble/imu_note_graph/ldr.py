@@ -80,7 +80,6 @@ class AnalogPlot:
             
             #print "z: %d" % z
             """
-            
 
             data.append(int(x))
             #data.append(int(y))
@@ -123,12 +122,12 @@ def main():
 
     # set up animation
     fig = plt.figure()
-    ax = plt.axes(xlim=(0, 200), ylim=(-900, 1200))
+    ax = plt.axes(xlim=(0, 200), ylim=(-50000, 50000))
     a0, = ax.plot([], [], '-ro', markersize=3)
     #a1, = ax.plot([], [], '-bo', markersize=3)
     #a2, = ax.plot([], [], '-go', markersize=3)
     #anim = animation.FuncAnimation(fig, analogPlot.update, fargs=(a0, a1, a2), interval=50)
-    anim = animation.FuncAnimation(fig, analogPlot.update, fargs=(a0), interval=10)
+    anim = animation.FuncAnimation(fig, analogPlot.update, fargs=(a0,), interval=10)
 
     # show plot
     plt.show()

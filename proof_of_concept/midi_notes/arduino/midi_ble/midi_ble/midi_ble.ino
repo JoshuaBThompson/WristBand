@@ -25,7 +25,7 @@ FilterMotion filterZ = FilterMotion();
 int raw_values[11];
 int noteX = 0, noteY = 0, noteZ = 0, accelX = 0, accelY = 0, accelZ = 0;
 char buf[6] = {0, 0, 0, 0, 0, 0};
-char note_on = 0, note = 0, prev_note = 0;
+char note_on = 0, note = 0, prev_note = 0, velocity = 0;
 unsigned long time_elapsed = 0;
 unsigned long start_time = 0;
 
@@ -47,8 +47,9 @@ void setup(void)
   //Wait until the serial port is available (useful only for the Leonardo)
   //As the Leonardo board is not reseted every time you open the Serial Monitor
   #if defined (__AVR_ATmega32U4__)
-    while(!Serial)
-    {}
+    delay(2000);
+    //while(!Serial)
+    //{}
     delay(5000);  //5 seconds delay for enabling to see the start up comments on the serial board
   #elif defined(__PIC32MX__)
     delay(1000);
@@ -82,30 +83,37 @@ void loop() {
               noteY = filterY.getNote(accelY);
               noteZ = filterZ.getNote(accelZ);
               if(noteX >= noteY && noteX >= noteZ && noteX > 0){
-                note = 30;
+                note = 36; //kick C2
+                velocity = 127;
               }
               else if(noteY >= noteX && noteY >= noteZ && noteY > 0){
-                note = 45;
+                note = 50; //crash 15 in D3
+                velocity = 127;
               }
               else if (noteZ >= noteX && noteZ >= noteY && noteZ > 0){
-                 note = 65;
+                 note = 44; //closed edge high hat G#2
+                 velocity = 127;
               }
               else{
                 note = 0;
               }
               if(note > 0){
+                //reset all notes after sending a note, to prevent multiple notes from happening in succession
+                filterX.reset();
+                filterY.reset();
+                filterZ.reset();
                 
                 
                 if(prev_note > 0){
                   note_on = 0; //set note OFF
                   if(nrf8001_midi.status.connected==1){
-                    nrf8001_midi.parseMIDItoAppleBle(PIPE_MIDI_MIDI_IO_TX, note_on, prev_note);
+                    nrf8001_midi.parseMIDItoAppleBle(PIPE_MIDI_MIDI_IO_TX, note_on, prev_note, velocity);
                     delay(12); //wait 12ms before sending on note
                   }
                 }
                 note_on = 1; //set note ON
                 if(nrf8001_midi.status.connected==1){
-                  nrf8001_midi.parseMIDItoAppleBle(PIPE_MIDI_MIDI_IO_TX, note_on, note);
+                  nrf8001_midi.parseMIDItoAppleBle(PIPE_MIDI_MIDI_IO_TX, note_on, note, velocity);
                 }
                 prev_note = note;
               }

@@ -404,7 +404,7 @@ void nrf8001::handleEvents(void){
     
 }
 
-void nrf8001::parseMIDItoAppleBle(uint8_t pipe, char note_on, char note) {
+void nrf8001::parseMIDItoAppleBle(uint8_t pipe, char note_on, char note, char velocity) {
   char time[2];
   char buf[20];
   byte outBuff[] = {0x90,65,127};
@@ -434,7 +434,7 @@ void nrf8001::parseMIDItoAppleBle(uint8_t pipe, char note_on, char note) {
       else{
         outBuff[0] = 0x90; //note off else it's note on
         outBuff[1] = note; // note type (0 - 127)
-        outBuff[2] = 127; //velocity (0 - 127)
+        outBuff[2] = velocity; //velocity (0 - 127)
       }
       messageBuff[0] = timeBuff[0]; messageBuff[1] = timeBuff[1];
       messageBuff[2] = outBuff[0]; messageBuff[3] = outBuff[1];

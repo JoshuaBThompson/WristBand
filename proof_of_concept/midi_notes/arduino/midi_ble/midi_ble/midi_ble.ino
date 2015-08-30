@@ -18,13 +18,14 @@
 //init nrf8001 object
 nrf8001 nrf8001_midi = nrf8001();
 IMUduino my3IMU = IMUduino();
-FilterMotion filterX = FilterMotion();
-FilterMotion filterY = FilterMotion();
-FilterMotion filterZ = FilterMotion();
+FilterMotion accelNoteX = FilterMotion(ACCELMOTION);
+FilterMotion accelNoteY = FilterMotion(ACCELMOTION);
+FilterMotion accelNoteZ = FilterMotion(ACCELMOTION);
+
+FilterMotion gyroNoteZ = FilterMotion(GYROMOTION);
 
 int raw_values[11];
 int noteX = 0, noteY = 0, noteZ = 0, accelX = 0, accelY = 0, accelZ = 0;
-char buf[6] = {0, 0, 0, 0, 0, 0};
 char note_on = 0, note = 0, prev_note = 0, velocity = 0;
 unsigned long time_elapsed = 0;
 unsigned long start_time = 0;
@@ -56,9 +57,9 @@ void setup(void)
   #endif
   Serial.println(F("IMU and Filter setup"));
   my3IMU.init(true);
-  filterX.init();
-  filterY.init();
-  filterZ.init();
+  accelNoteX.init();
+  accelNoteY.init();
+  accelNoteZ.init();
   Serial.println(F("Arduino setup"));
   Serial.println(F("Set line ending to newline to send data from the serial monitor"));
   nrf8001_midi.configureDevice();
@@ -79,9 +80,9 @@ void loop() {
               accelX = raw_values[0];
               accelY = raw_values[1];
               accelZ = raw_values[2];
-              noteX = filterX.getNote(accelX);
-              noteY = filterY.getNote(accelY);
-              noteZ = filterZ.getNote(accelZ);
+              noteX = accelNoteX.getNote(accelX);
+              noteY = accelNoteY.getNote(accelY);
+              noteZ = accelNoteZ.getNote(accelZ);
               if(noteX >= noteY && noteX >= noteZ && noteX > 0){
                 note = 36; //kick C2
                 velocity = 127;
@@ -99,9 +100,9 @@ void loop() {
               }
               if(note > 0){
                 //reset all notes after sending a note, to prevent multiple notes from happening in succession
-                filterX.reset();
-                filterY.reset();
-                filterZ.reset();
+                accelNoteX.reset();
+                accelNoteY.reset();
+                accelNoteZ.reset();
                 
                 
                 if(prev_note > 0){

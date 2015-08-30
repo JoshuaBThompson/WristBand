@@ -39,6 +39,7 @@ All text above, and the splash screen below must be included in any redistributi
 
 int raw_values[11];
 int noteX = 0, noteY = 0, noteZ = 0, accelX = 0, accelY = 0, accelZ = 0;
+int gyroX = 0, gyroY = 0, gyroZ = 0;
 char user;
 char buf[6] = {0, 0, 0, 0, 0, 0};
 
@@ -70,6 +71,10 @@ void loop() {
             user = Serial.read();
             if(user == 'x'){
               my3IMU.getRawValues(raw_values);
+              gyroX = raw_values[3];
+              gyroY = raw_values[4];
+              gyroZ = raw_values[5];
+              /*
               accelX = raw_values[0];
               accelY = raw_values[1];
               accelZ = raw_values[2];
@@ -91,9 +96,10 @@ void loop() {
               else{
                 buf[0] = 0; buf[1] = 0;
               }
+              */
               
               
-              
+              buf[0] = gyroZ; buf[1] = gyroZ >> 8;
               //raw x values instead of note buf[2] = raw_values[0]; buf[3] = raw_values[0] >> 8;
               Serial.write(buf,2);
               delay(40);

@@ -122,7 +122,7 @@ def main():
 
     # set up animation
     fig = plt.figure()
-    ax = plt.axes(xlim=(0, 200), ylim=(-50000, 50000))
+    ax = plt.axes(xlim=(0, 200), ylim=(-8000, 8000))
     a0, = ax.plot([], [], '-ro', markersize=3)
     #a1, = ax.plot([], [], '-bo', markersize=3)
     #a2, = ax.plot([], [], '-go', markersize=3)

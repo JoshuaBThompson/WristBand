@@ -22,10 +22,12 @@ FilterMotion accelNoteX = FilterMotion(ACCELMOTION);
 FilterMotion accelNoteY = FilterMotion(ACCELMOTION);
 FilterMotion accelNoteZ = FilterMotion(ACCELMOTION);
 
+FilterMotion gyroNoteX = FilterMotion(GYROMOTION);
+FilterMotion gyroNoteY = FilterMotion(GYROMOTION);
 FilterMotion gyroNoteZ = FilterMotion(GYROMOTION);
 
 int raw_values[11];
-int noteX = 0, noteY = 0, noteZ = 0, accelX = 0, accelY = 0, accelZ = 0;
+int noteX = 0, noteY = 0, noteZ = 0, accelX = 0, accelY = 0, accelZ = 0, gyroZ=0, gyroY=0, gyroX=0, noteZ_gyro=0, noteY_gyro=0, noteX_gyro=0, filter_note = 0;
 char note_on = 0, note = 0, prev_note = 0, velocity = 0;
 unsigned long time_elapsed = 0;
 unsigned long start_time = 0;
@@ -55,16 +57,20 @@ void setup(void)
   #elif defined(__PIC32MX__)
     delay(1000);
   #endif
-  Serial.println(F("IMU and Filter setup"));
+  //Serial.println(F("IMU and Filter setup"));
   my3IMU.init(true);
   accelNoteX.init();
   accelNoteY.init();
   accelNoteZ.init();
-  Serial.println(F("Arduino setup"));
-  Serial.println(F("Set line ending to newline to send data from the serial monitor"));
+  
+  gyroNoteX.init();
+  gyroNoteY.init();
+  gyroNoteZ.init();
+  //Serial.println(F("Arduino setup"));
+  //Serial.println(F("Set line ending to newline to send data from the serial monitor"));
   nrf8001_midi.configureDevice();
  
-  Serial.println(F("Set up done"));
+  //Serial.println(F("Set up done"));
   start_time = millis(); //get current time since program started say...5500 ms
 }
 
@@ -75,36 +81,80 @@ void loop() {
   // print the string when a newline arrives:
             //check if time elapsed since start time > 45 ms
          
+         //data from sensors should be collected ~ every 40 milli seconds
          if(millis() - start_time > 40){
+              note = 0;
+              filter_note = 0;
+              //get accelerometer and gyroscope sensor data and put in raw_values array
               my3IMU.getRawValues(raw_values);
+              
+              //load accel and gyro data into variables
               accelX = raw_values[0];
               accelY = raw_values[1];
               accelZ = raw_values[2];
+              
+              gyroX = raw_values[3];
+              gyroY = raw_values[4];
+              gyroZ = raw_values[5];
+              
+              //add data to running note calculation, filter will see if this data point completes a note, adds to a developing note (rising slope) or is a non note data point
               noteX = accelNoteX.getNote(accelX);
               noteY = accelNoteY.getNote(accelY);
               noteZ = accelNoteZ.getNote(accelZ);
-              if(noteX >= noteY && noteX >= noteZ && noteX > 0){
+              
+              //to remove a note from the midi output, just comment it out
+              //ex: //noteX_gyro = gyroNoteX.getNote(gyroX);
+              //this will remove the gyro note x from sound output
+              
+              noteX_gyro = gyroNoteX.getNote(gyroX);
+              noteY_gyro = gyroNoteY.getNote(gyroY);
+              noteZ_gyro = gyroNoteZ.getNote(gyroZ);
+              
+              
+              //compare notes of each direction and see which one has the large magnitude, the largest will be played on midi and the rest will be discarded
+              if(noteX > 0 && noteX >= filter_note){
+                filter_note = noteX;
                 note = 36; //kick C2
                 velocity = 127;
               }
-              else if(noteY >= noteX && noteY >= noteZ && noteY > 0){
+              if(noteY > 0 && noteY >= filter_note){
+                filter_note = noteY;
                 note = 50; //crash 15 in D3
                 velocity = 127;
               }
-              else if (noteZ >= noteX && noteZ >= noteY && noteZ > 0){
+              if (noteZ > 0 && noteZ >= filter_note){
+                 filter_note = noteZ;
                  note = 44; //closed edge high hat G#2
                  velocity = 127;
               }
-              else{
-                note = 0;
+              if (noteZ_gyro > 0 && noteZ_gyro >= filter_note){
+                filter_note = noteZ_gyro;
+                note = 37; //cowbell
+                velocity = 127;
               }
+              if (noteY_gyro > 0 && noteY_gyro >= filter_note){
+                filter_note = noteY_gyro;
+                note = 45; //low tom
+                velocity = 127;
+              }
+              if (noteX_gyro > 0 && noteX_gyro >= filter_note){
+                filter_note = noteX_gyro;
+                note = 46; //open hi hat
+                velocity = 127;
+              }
+              
+              
+              //see if note was generated and then reset all filters if it was
               if(note > 0){
-                //reset all notes after sending a note, to prevent multiple notes from happening in succession
+                //reset all notes after sending a note, to reduce multiple notes from happening in succession (though it still happens, but less using resets)
                 accelNoteX.reset();
                 accelNoteY.reset();
                 accelNoteZ.reset();
+                gyroNoteZ.reset();
+                gyroNoteY.reset();
+                gyroNoteZ.reset();
                 
-                
+                //make sure to send a note off midi from the previous note generated
                 if(prev_note > 0){
                   note_on = 0; //set note OFF
                   if(nrf8001_midi.status.connected==1){
@@ -112,6 +162,8 @@ void loop() {
                     delay(12); //wait 12ms before sending on note
                   }
                 }
+                
+                //send midi on note 
                 note_on = 1; //set note ON
                 if(nrf8001_midi.status.connected==1){
                   nrf8001_midi.parseMIDItoAppleBle(PIPE_MIDI_MIDI_IO_TX, note_on, note, velocity);

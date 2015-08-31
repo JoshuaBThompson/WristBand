@@ -41,37 +41,37 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define AccelF2            -7000
 #define AccelF3            (AccelF1 + AccelF2)*1
 
-//Max samples to count before throwing out rising slope
-#define AccelMaxSamples     10
+//Max and min samples to count before throwing out rising slope
+#define AccelMaxSamples     12
 #define AccelMinSamples     3
 
 //Min samples required to do calculation (x1, x2, x3)
 #define AccelMinCount       3
 
-//minimum average sum of all points on valid note xsum/count
-#define AccelASum           7500
+//minimum average sum of all points on valid note:  xsum/count >= accel sum
+#define AccelASum           6000
 
 // -----------------filter constants for Gyro Notes-----------------
 
 //Constants for determining rising slope
-#define GyroR1            5000
-#define GyroR2            5000
+#define GyroR1            500
+#define GyroR2            700
 #define GyroR3            (GyroR1 + GyroR2)*1
 
 //Constants for falling slope
-#define GyroF1            -7000
-#define GyroF2            -7000
+#define GyroF1            -700
+#define GyroF2            -700
 #define GyroF3            (GyroF1 + GyroF2)*1
 
 //Max samples to count before throwing out rising slope
-#define GyroMaxSamples     10
-#define GyroMinSamples     3
+#define GyroMaxSamples     12
+#define GyroMinSamples     4
 
 //Min samples required to do calculation (x1, x2, x3)
 #define GyroMinCount       3
 
 //minimum average sum of all points on valid note xsum/count
-#define GyroASum           7500
+#define GyroASum           1100
 
 
 #include "Arduino.h"

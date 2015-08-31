@@ -66,7 +66,7 @@ void FilterMotion::loadAccelParams(){
 }
 
 void FilterMotion::loadGyroParams(){
-  aSum = AccelASum; 
+  aSum = GyroASum; 
   r1 = GyroR1;
   r2 = GyroR2; 
   r3 = GyroR3;

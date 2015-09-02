@@ -92,7 +92,7 @@ void FilterMotion::init() {
   x3 = 0;
   xref = 0;
   xsum = 0;
-  sampleCount = 0;
+  sampleCount = 1;
   updateCount = 0;
 
   //todo: anything else?
@@ -228,7 +228,7 @@ void FilterMotion::reset(){
     falling = false;
     xsum = 0;
     xref = 0;
-    sampleCount = 2;
+    sampleCount = 1;
 }
 
 

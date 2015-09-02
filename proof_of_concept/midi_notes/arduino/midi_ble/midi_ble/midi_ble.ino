@@ -30,8 +30,7 @@ int raw_values[11];
 int noteX = 0, noteY = 0, noteZ = 0, accelX = 0, accelY = 0, accelZ = 0, gyroZ=0, gyroY=0, gyroX=0, noteZ_gyro=0, noteY_gyro=0, noteX_gyro=0, filter_note = 0;
 char note_on = 0, note = 0, prev_note = 0, velocity = 0;
 unsigned long time_elapsed = 0;
-unsigned long start_time = 0;
-
+unsigned long start_time = 0, prev_note_time = 0;
 /* Define how assert should function in the BLE library */
 void __ble_assert(const char *file, uint16_t line)
 {
@@ -71,7 +70,8 @@ void setup(void)
   nrf8001_midi.configureDevice();
  
   //Serial.println(F("Set up done"));
-  start_time = millis(); //get current time since program started say...5500 ms
+  start_time = millis(); //get current time since program started say...5500 ms for example
+  prev_note_time = millis(); //get current time since program started
 }
 
 
@@ -156,11 +156,8 @@ void loop() {
                 
                 //make sure to send a note off midi from the previous note generated
                 if(prev_note > 0){
-                  note_on = 0; //set note OFF
-                  if(nrf8001_midi.status.connected==1){
-                    nrf8001_midi.parseMIDItoAppleBle(PIPE_MIDI_MIDI_IO_TX, note_on, prev_note, velocity);
-                    delay(12); //wait 12ms before sending on note
-                  }
+                  sendNoteOff(prev_note);
+                  
                 }
                 
                 //send midi on note 
@@ -170,8 +167,20 @@ void loop() {
                 }
                 prev_note = note;
               }
+          
+           
           //get new start time 
-          start_time = millis();    
+          start_time = millis();  
+          prev_note_time  = millis();  
+         }
+         
+         if(millis() - prev_note_time > 100){
+             //send note off of prev note made
+            if(prev_note > 0 ){
+              sendNoteOff(prev_note);
+              prev_note = 0;
+            }
+            prev_note_time  = millis();
          }
          
 }
@@ -179,6 +188,12 @@ void loop() {
 //functions
 
 
-
+void sendNoteOff(int prev_note){
+   note_on = 0; //set note OFF
+  if(nrf8001_midi.status.connected==1){
+    nrf8001_midi.parseMIDItoAppleBle(PIPE_MIDI_MIDI_IO_TX, note_on, prev_note, velocity);
+    //delay(12); //wait 12ms before sending on note
+  }
+}
 
 

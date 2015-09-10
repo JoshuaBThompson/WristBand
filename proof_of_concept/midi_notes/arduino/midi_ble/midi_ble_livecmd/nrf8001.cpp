@@ -363,7 +363,7 @@ void nrf8001::handleEvents(void){
                 
             case ACI_EVT_DATA_RECEIVED:
                 Serial.println("Device data received (todo)");
-                //receiveData(PIPE_UART_OVER_BTLE_UART_RX_RX, aci_evt, rx_buffer, &rx_buffer_len);
+                receiveData(PIPE_NORDIC_UART_OVER_BTLE_UART_RX_RX, aci_evt, rx_buffer, &rx_buffer_len);
                 break;
                 
             case ACI_EVT_DATA_CREDIT:

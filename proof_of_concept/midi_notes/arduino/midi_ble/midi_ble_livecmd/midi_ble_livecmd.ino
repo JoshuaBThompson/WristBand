@@ -110,34 +110,38 @@ void loop() {
               noteY_gyro = gyroNoteY.getNote(gyroY);
               noteZ_gyro = gyroNoteZ.getNote(gyroZ);
               
+              //nrf8001_midi.rx_buffer[0] ...or  [1].... etc will control which notes will be allowed
+              //example1: if sending data from uart ble app on iphone and you want only the acceleration notes on and the gyro notes off then you send: 111000
+              //example2: for only noteX allowed send: 100000
+              
               
               //compare notes of each direction and see which one has the large magnitude, the largest will be played on midi and the rest will be discarded
-              if(noteX > 0 && noteX >= filter_note){
+              if(noteX > 0 && noteX >= filter_note && nrf8001_midi.rx_buffer[0]){
                 filter_note = noteX;
                 note = 36; //kick C2
                 velocity = 127;
               }
-              if(noteY > 0 && noteY >= filter_note){
+              if(noteY > 0 && noteY >= filter_note && nrf8001_midi.rx_buffer[1]){
                 filter_note = noteY;
                 note = 50; //crash 15 in D3
                 velocity = 127;
               }
-              if (noteZ > 0 && noteZ >= filter_note){
+              if (noteZ > 0 && noteZ >= filter_note && nrf8001_midi.rx_buffer[2]){
                  filter_note = noteZ;
                  note = 44; //closed edge high hat G#2
                  velocity = 127;
               }
-              if (noteZ_gyro > 0 && noteZ_gyro >= filter_note){
+              if (noteZ_gyro > 0 && noteZ_gyro >= filter_note && nrf8001_midi.rx_buffer[3]){
                 filter_note = noteZ_gyro;
                 note = 37; //cowbell
                 velocity = 127;
               }
-              if (noteY_gyro > 0 && noteY_gyro >= filter_note){
+              if (noteY_gyro > 0 && noteY_gyro >= filter_note && nrf8001_midi.rx_buffer[4]){
                 filter_note = noteY_gyro;
                 note = 45; //low tom
                 velocity = 127;
               }
-              if (noteX_gyro > 0 && noteX_gyro >= filter_note){
+              if (noteX_gyro > 0 && noteX_gyro >= filter_note && nrf8001_midi.rx_buffer[5]){
                 filter_note = noteX_gyro;
                 note = 46; //open hi hat
                 velocity = 127;

@@ -45,9 +45,9 @@ char buf[6] = {0, 0, 0, 0, 0, 0};
 
 // Set the FreeIMU object
 IMUduino my3IMU = IMUduino();
-FilterMotion filterX = FilterMotion();
-FilterMotion filterY = FilterMotion();
-FilterMotion filterZ = FilterMotion();
+FilterMotion filterX = FilterMotion(ACCELMOTION);
+FilterMotion filterY = FilterMotion(ACCELMOTION);
+FilterMotion filterZ = FilterMotion(ACCELMOTION);
 
 
 void setup() {
@@ -62,6 +62,8 @@ void setup() {
   delay(500);
   my3IMU.init(true);
   filterX.init();
+  filterY.init();
+  filterZ.init();
 }
 
 
@@ -71,16 +73,19 @@ void loop() {
             user = Serial.read();
             if(user == 'x'){
               my3IMU.getRawValues(raw_values);
-              gyroX = raw_values[3];
-              gyroY = raw_values[4];
-              gyroZ = raw_values[5];
-              /*
+
+              
               accelX = raw_values[0];
               accelY = raw_values[1];
               accelZ = raw_values[2];
+
+              if(accelX >= 32768){
+                accelX = accelX - 65536;
+              }
               noteX = filterX.getNote(accelX);
               noteY = filterY.getNote(accelY);
               noteZ = filterZ.getNote(accelZ);
+              /*
               if(noteX >= noteY && noteX >= noteZ && noteX > 0){
                 noteX = 30000;
                 buf[0] = noteX; buf[1] = noteX >> 8;
@@ -97,12 +102,15 @@ void loop() {
                 buf[0] = 0; buf[1] = 0;
               }
               */
+             buf[0] = noteX; buf[1] = noteX >> 8;
               
               
-              buf[0] = gyroZ; buf[1] = gyroZ >> 8;
+              
+              
+            buf[2] = accelX; buf[3] = accelX >> 8;
               //raw x values instead of note buf[2] = raw_values[0]; buf[3] = raw_values[0] >> 8;
-              Serial.write(buf,2);
-              delay(40);
+              Serial.write(buf,4);
+              //delay(40);
               
             }
           

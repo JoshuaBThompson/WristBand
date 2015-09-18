@@ -129,6 +129,10 @@ bool FilterMotion::areSamplesReady(){
 */
 
 void FilterMotion::updateX(int x){
+    //negative values
+    if(x >= 32768){
+       x = x - 65536;
+     }
     //push x to x3 and x3 to x2 and x2 to x1
     //keep the order!
     x1 = x2;

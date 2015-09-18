@@ -79,10 +79,10 @@ void loop() {
   
   nrf8001_midi.handleEvents();
   // print the string when a newline arrives:
-            //check if time elapsed since start time > 45 ms
+            //check if time elapsed since start time > 30 ms
          
-         //data from sensors should be collected ~ every 40 milli seconds
-         if(millis() - start_time > 40){
+         //data from sensors should be collected ~ every 30 milli seconds
+         if(millis() - start_time > 30){
               note = 0;
               filter_note = 0;
               //get accelerometer and gyroscope sensor data and put in raw_values array

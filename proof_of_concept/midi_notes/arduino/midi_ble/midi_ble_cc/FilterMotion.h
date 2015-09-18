@@ -32,24 +32,24 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // -----------------filter constants for Acceleration Notes-----------------
 
 //Constants for determining rising slope
-#define AccelR1            5000
-#define AccelR2            5000
+#define AccelR1            3000
+#define AccelR2            3000
 #define AccelR3            (AccelR1 + AccelR2)*1
 
 //Constants for falling slope
-#define AccelF1            -7000
-#define AccelF2            -7000
+#define AccelF1            -5000
+#define AccelF2            -5000
 #define AccelF3            (AccelF1 + AccelF2)*1
 
 //Max and min samples to count before throwing out rising slope
 #define AccelMaxSamples     12
-#define AccelMinSamples     3
+#define AccelMinSamples     2
 
 //Min samples required to do calculation (x1, x2, x3)
 #define AccelMinCount       3
 
 //minimum average sum of all points on valid note:  xsum/count >= accel sum
-#define AccelASum           6000
+#define AccelASum           5000
 
 // -----------------filter constants for Gyro Notes-----------------
 

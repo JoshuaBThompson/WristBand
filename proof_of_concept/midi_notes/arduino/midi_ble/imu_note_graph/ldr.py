@@ -44,31 +44,32 @@ class AnalogPlot:
 
     # add data
     def add(self, data):
-        assert(len(data) == 1)
+        assert(len(data) == 2)
         self.addToBuf(self.ax, data[0])
-        #self.addToBuf(self.ay, data[1])
+        self.addToBuf(self.ay, data[1])
         #self.addToBuf(self.az, data[2])
     # update plot
-    def update(self, frameNum, a0):
+    def update(self, frameNum, a0, a1):
         data = []
         try:
+            #time.sleep(0.040)
             self.ser.write('x')
 
-            #raw x
+            #raw x = note data
             xl = self.ser.read()
             xh = self.ser.read()
             x = (ord(xh) << 8) + ord(xl)
             if x >= 32768:
                 x = x - 65536
 
-            #raw y
-            """
+            #raw y = raw x accel data
+
             yl = self.ser.read()
             yh = self.ser.read()
             y = (ord(yh) << 8) + ord(yl)
             if y >= 32768:
                 y = y - 65536
-            """
+
 
             #raw z
             """
@@ -82,14 +83,14 @@ class AnalogPlot:
             """
 
             data.append(int(x))
-            #data.append(int(y))
+            data.append(int(y))
             #data.append(int(z))
 
             # print data
-            if(len(data) == 1):
+            if(len(data) == 2):
                 self.add(data)
                 a0.set_data(range(self.maxLen), self.ax)
-                #a1.set_data(range(self.maxLen), self.ay)
+                a1.set_data(range(self.maxLen), self.ay)
                 #a2.set_data(range(self.maxLen), self.az)
 
         except KeyboardInterrupt:
@@ -122,12 +123,12 @@ def main():
 
     # set up animation
     fig = plt.figure()
-    ax = plt.axes(xlim=(0, 200), ylim=(-8000, 8000))
+    ax = plt.axes(xlim=(0, 200), ylim=(-30000, 80000))
     a0, = ax.plot([], [], '-ro', markersize=3)
-    #a1, = ax.plot([], [], '-bo', markersize=3)
+    a1, = ax.plot([], [], '-bo', markersize=3)
     #a2, = ax.plot([], [], '-go', markersize=3)
     #anim = animation.FuncAnimation(fig, analogPlot.update, fargs=(a0, a1, a2), interval=50)
-    anim = animation.FuncAnimation(fig, analogPlot.update, fargs=(a0,), interval=10)
+    anim = animation.FuncAnimation(fig, analogPlot.update, fargs=(a0,a1,), interval=50)
 
     # show plot
     plt.show()

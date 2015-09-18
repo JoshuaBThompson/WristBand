@@ -27,7 +27,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "FilterMotion.h"
 
 
-FilterMotion::FilterMotion() {
+FilterMotion::FilterMotion(int motionType) {
 
   // initialize variables
   falling = false;
@@ -43,7 +43,39 @@ FilterMotion::FilterMotion() {
   xsum = 0;
   sampleCount = 0;
   updateCount = 0;
+  if(motionType==ACCELMOTION){
+    loadAccelParams();
+  }
+  else if(motionType==GYROMOTION){
+    loadGyroParams();
+  }
 
+}
+
+void FilterMotion::loadAccelParams(){
+  aSum = AccelASum; 
+  r1 = AccelR1;
+  r2 = AccelR2; 
+  r3 = AccelR3;
+  f1 = AccelF1;
+  f2 = AccelF2;
+  f3 = AccelF3;
+  minSamples = AccelMinSamples;
+  maxSamples = AccelMaxSamples;
+  minCount = AccelMinCount;
+}
+
+void FilterMotion::loadGyroParams(){
+  aSum = GyroASum; 
+  r1 = GyroR1;
+  r2 = GyroR2; 
+  r3 = GyroR3;
+  f1 = GyroF1;
+  f2 = GyroF2;
+  f3 = GyroF3;
+  minSamples = GyroMinSamples;
+  maxSamples = GyroMaxSamples;
+  minCount = GyroMinCount;
 }
 
 void FilterMotion::init() {
@@ -60,7 +92,7 @@ void FilterMotion::init() {
   x3 = 0;
   xref = 0;
   xsum = 0;
-  sampleCount = 0;
+  sampleCount = 1;
   updateCount = 0;
 
   //todo: anything else?
@@ -81,7 +113,7 @@ bool FilterMotion::areSamplesReady(){
 
     //if samplesReady set once, then that's it, no need to check count anymore
 
-    if(updateCount >= MinCount) {
+    if(updateCount >= minCount) {
         samplesReady = true;
         return true;
     }
@@ -135,7 +167,7 @@ void FilterMotion::getDelX(){
 */
 
 bool FilterMotion::isRising(){
-    rising = (delX1 > RX1) || (delX2 > RX2) || (delX3 > RX3);
+    rising = (delX1 > r1) || (delX2 > r2) || (delX3 > r3);
 
     //check if rising detection if from previously falling slope and update xref, x1 if so
     //otherwise, if rising xref should be set to x1
@@ -159,7 +191,7 @@ bool FilterMotion::isRising(){
 */
 
 bool FilterMotion::isFalling(){
-    falling = (delX1 < FX1) || (delX2 < FX2) || (delX3 < FX3);
+    falling = (delX1 < f1) || (delX2 < f2) || (delX3 < f3);
         return falling;
 }
 
@@ -196,7 +228,7 @@ void FilterMotion::reset(){
     falling = false;
     xsum = 0;
     xref = 0;
-    sampleCount = 2;
+    sampleCount = 1;
 }
 
 
@@ -206,7 +238,7 @@ void FilterMotion::reset(){
 bool FilterMotion::noteValid(){
     bool valid = false;
     if(falling){
-        valid = (sampleCount <= MaxSamples) && (sampleCount >= MinSamples) && (xsum/sampleCount) >= ASum;
+        valid = (sampleCount <= maxSamples) && (sampleCount >= minSamples) && (xsum/sampleCount) >= aSum;
     }
     return valid;
 }
@@ -223,7 +255,7 @@ bool FilterMotion::resetNeeded(){
             reset_needed = true;
     }
     else if(rising){
-        reset_needed = sampleCount > MaxSamples;
+        reset_needed = sampleCount > maxSamples;
     }
     else{
        reset_needed = false;
@@ -240,7 +272,7 @@ bool FilterMotion::resetNeeded(){
 
 bool FilterMotion::isOversampled(){
 
-    return sampleCount >= MaxSamples;
+    return sampleCount >= maxSamples;
 
 }
 
@@ -250,7 +282,7 @@ bool FilterMotion::isOversampled(){
 
 bool FilterMotion::isUndersampled(){
 
-     return sampleCount <= MinSamples;
+     return sampleCount <= minSamples;
 }
 
 
@@ -279,5 +311,6 @@ int FilterMotion::getNote(int xk){
     return note;
 
 }
+
 
 

@@ -9,7 +9,9 @@
 #ifndef _nrf8001_H_
 #define _nrf8001_H_
 
-
+#define CC_CMD_TYPE        0x0C
+#define NOTE_CMD_TYPE      0x0A
+#define MaxDirNum          2
 
 class nrf8001 {
 public:
@@ -70,10 +72,20 @@ public:
     
     void sendRunningMIDI(uint8_t pipe, byte dataByte0, byte dataByte1);
     
+    void clearRxBuffer();
+    
+    void parseMIDICmd(uint8_t * uart_buffer);
+    
     
     //pulic members
     uint8_t         rx_buffer[20];
+    uint8_t         rx_max_len = 20;
     uint8_t         rx_buffer_len = 0;
+    byte ccDataByte0;
+    byte ccStatusByte;
+    char directionsOn[3] = {0,0,0};
+    char dirNote = 0;
+    char dirNum = 0;
     bool setup_required = false;
     bool timing_change_done  = false;
     struct status_s {

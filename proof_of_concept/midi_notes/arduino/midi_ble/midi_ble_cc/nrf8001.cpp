@@ -47,6 +47,10 @@ void nrf8001::init(){
     //init variables
     setup_required = false;
     timing_change_done = false;
+    dirNote = 0;
+    dirNum = 0;
+    ccDataByte0 = 0;
+    ccStatusByte = 0;
     
     //We reset the nRF8001 here by toggling the RESET line connected to the nRF8001
     //If the RESET line is not available we call the ACI Radio Reset to soft reset the nRF8001
@@ -249,6 +253,7 @@ bool nrf8001::sendData(uint8_t pipe, uint8_t *buffer, uint8_t buffer_len)
 
 void nrf8001::receiveData(uint8_t pipe, aci_evt_t * aci_evt, uint8_t * rx_buffer, uint8_t * rx_buffer_len){
     //ex: pipe = PIPE_UART_OVER_BTLE_UART_RX_RX
+    clearRxBuffer(); 
     if ( pipe == aci_evt->params.data_received.rx_data.pipe_number)
     {
         
@@ -257,12 +262,52 @@ void nrf8001::receiveData(uint8_t pipe, aci_evt_t * aci_evt, uint8_t * rx_buffer
             Serial.print((char)aci_evt->params.data_received.rx_data.aci_data[i]);
             rx_buffer[i] = aci_evt->params.data_received.rx_data.aci_data[i];
             Serial.print(F(" "));
+            
         }
         *rx_buffer_len = aci_evt->len - 2;
+        
+        parseMIDICmd(rx_buffer);
         
     }
   
     
+}
+
+void nrf8001::clearRxBuffer(){
+  for(int i=0; i<rx_buffer_len; i++){
+    rx_buffer[i] = 0;
+  }
+}
+
+void nrf8001::parseMIDICmd(uint8_t * rx_buffer){
+  char cmdType = rx_buffer[0];
+  if(cmdType == CC_CMD_TYPE){
+    //cmd ex for cmd type cc and volume ctrl: 0x C 0 7
+    //C== cmd type cc
+    //0 == first hex 4 bit of cc byte
+    //7 == 2nd hex 4 bit of cc byte
+    
+      ccDataByte0 = rx_buffer[1];
+      Serial.println("receive cc cmd change ");
+      Serial.println(ccDataByte0,HEX);
+  }
+  else if(cmdType == NOTE_CMD_TYPE){
+    //cmd ex for cmd type note and x dir on with note 60: 0x A 0 6 0
+    //A == cmd type note
+    //0 == accel x dir on
+    //6 == first digit of note
+    //0 = second digit of note
+    dirNum = rx_buffer[1];
+    dirNote = rx_buffer[2];
+    if(dirNum <= MaxDirNum){
+      directionsOn[dirNum] = dirNote;
+    }
+    Serial.println("receive note cmd change ");
+    Serial.println(dirNum,DEC);
+    Serial.print(" ");
+    Serial.println(dirNote,DEC);
+
+  }
 }
 
 void nrf8001::disconnectDevice(void){

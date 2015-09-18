@@ -24,29 +24,54 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //#ifndef FilterMotion_h
 #define FilterMotion_h
 
+//Motion Types
+#define ACCELMOTION 0
+#define GYROMOTION 1
 
 
-// filter constants
+// -----------------filter constants for Acceleration Notes-----------------
 
 //Constants for determining rising slope
-#define RX1            5000
-#define RX2            5000
-#define RX3            (RX1 + RX2)*1
+#define AccelR1            3000
+#define AccelR2            3000
+#define AccelR3            (AccelR1 + AccelR2)*1
 
 //Constants for falling slope
-#define FX1            -5000
-#define FX2            -5000
-#define FX3            (FX1 + FX2)*2
+#define AccelF1            -5000
+#define AccelF2            -5000
+#define AccelF3            (AccelF1 + AccelF2)*1
 
-//Max samples to count before throwing out rising slope
-#define MaxSamples     20
-#define MinSamples     4
+//Max and min samples to count before throwing out rising slope
+#define AccelMaxSamples     12
+#define AccelMinSamples     2
 
 //Min samples required to do calculation (x1, x2, x3)
-#define MinCount       3
+#define AccelMinCount       3
+
+//minimum average sum of all points on valid note:  xsum/count >= accel sum
+#define AccelASum           5000
+
+// -----------------filter constants for Gyro Notes-----------------
+
+//Constants for determining rising slope
+#define GyroR1            500
+#define GyroR2            700
+#define GyroR3            (GyroR1 + GyroR2)*1
+
+//Constants for falling slope
+#define GyroF1            -700
+#define GyroF2            -700
+#define GyroF3            (GyroF1 + GyroF2)*1
+
+//Max samples to count before throwing out rising slope
+#define GyroMaxSamples     12
+#define GyroMinSamples     4
+
+//Min samples required to do calculation (x1, x2, x3)
+#define GyroMinCount       3
 
 //minimum average sum of all points on valid note xsum/count
-#define ASum           5000
+#define GyroASum           1100
 
 
 #include "Arduino.h"
@@ -55,7 +80,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 class FilterMotion
 {
   public:
-    FilterMotion();
+    FilterMotion(int);
     void init();
     bool areSamplesReady();
     void updateX(int x);
@@ -69,14 +94,17 @@ class FilterMotion
     bool isUndersampled();
     bool isOversampled();
     int getNote(int x);
+    void loadAccelParams();
+    void loadGyroParams();
 
     bool falling, rising, samplesReady;
     long int delX1, delX2, delX3, x1, x2, x3, xref, xsum, sampleCount, updateCount;
-    
+    int aSum, r1, r2, r3, f1, f2, f3, minSamples, maxSamples, minCount;
 };
 
 
 
 
 //#endif // FilterMotion_h
+
 

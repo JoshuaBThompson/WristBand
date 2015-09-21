@@ -44,12 +44,12 @@ class AnalogPlot:
 
     # add data
     def add(self, data):
-        assert(len(data) == 2)
+        assert(len(data) == 3)
         self.addToBuf(self.ax, data[0])
         self.addToBuf(self.ay, data[1])
-        #self.addToBuf(self.az, data[2])
+        self.addToBuf(self.az, data[2])
     # update plot
-    def update(self, frameNum, a0, a1):
+    def update(self, frameNum, a0, a1, a2):
         data = []
         try:
             #time.sleep(0.040)
@@ -72,26 +72,27 @@ class AnalogPlot:
 
 
             #raw z
-            """
+
             zl = self.ser.read()
             zh = self.ser.read()
             z = (ord(zh) << 8) + ord(zl)
-            if z >= 32768:
-                z = z - 65536
+            z = z*1000;
+            #if z >= 32768:
+            #    z = z - 65536
             
             #print "z: %d" % z
-            """
+
 
             data.append(int(x))
             data.append(int(y))
-            #data.append(int(z))
+            data.append(int(z))
 
             # print data
-            if(len(data) == 2):
+            if(len(data) == 3):
                 self.add(data)
                 a0.set_data(range(self.maxLen), self.ax)
                 a1.set_data(range(self.maxLen), self.ay)
-                #a2.set_data(range(self.maxLen), self.az)
+                a2.set_data(range(self.maxLen), self.az)
 
         except KeyboardInterrupt:
             print('exiting')
@@ -126,9 +127,9 @@ def main():
     ax = plt.axes(xlim=(0, 200), ylim=(-30000, 80000))
     a0, = ax.plot([], [], '-ro', markersize=3)
     a1, = ax.plot([], [], '-bo', markersize=3)
-    #a2, = ax.plot([], [], '-go', markersize=3)
+    a2, = ax.plot([], [], '-go', markersize=3)
     #anim = animation.FuncAnimation(fig, analogPlot.update, fargs=(a0, a1, a2), interval=50)
-    anim = animation.FuncAnimation(fig, analogPlot.update, fargs=(a0,a1,), interval=50)
+    anim = animation.FuncAnimation(fig, analogPlot.update, fargs=(a0,a1,a2), interval=50)
 
     # show plot
     plt.show()

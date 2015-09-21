@@ -97,7 +97,7 @@ class FilterMotion
     void loadAccelParams();
     void loadGyroParams();
 
-    bool falling, rising, samplesReady;
+    bool falling, rising, samplesReady, prev_falling;
     long int delX1, delX2, delX3, x1, x2, x3, xref, xsum, sampleCount, updateCount;
     int aSum, r1, r2, r3, f1, f2, f3, minSamples, maxSamples, minCount;
 };

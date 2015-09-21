@@ -192,7 +192,14 @@ bool FilterMotion::isRising(){
 
 bool FilterMotion::isFalling(){
     falling = (delX1 < f1) || (delX2 < f2) || (delX3 < f3);
+    //return falling;
+    if(prev_falling){
         return falling;
+    }
+    else{
+        prev_falling = falling;
+        return false;
+    }
 }
 
 
@@ -226,6 +233,7 @@ long int FilterMotion::getXSum(int xk){
 void FilterMotion::reset(){
     rising = false;
     falling = false;
+    prev_falling = false;
     xsum = 0;
     xref = 0;
     sampleCount = 1;

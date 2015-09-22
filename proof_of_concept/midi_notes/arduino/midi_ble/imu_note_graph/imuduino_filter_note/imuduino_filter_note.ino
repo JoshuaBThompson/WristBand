@@ -33,45 +33,29 @@ All text above, and the splash screen below must be included in any redistributi
 //#define DEBUG
 #include "DebugUtils.h"
 #include "IMUduino.h"
-#include "FilterMotion.h"
 #include <Wire.h>
 #include <SPI.h>
 
 int raw_values[11];
 int noteX = 0, noteY = 0, noteZ = 0, accelX = 0, accelY = 0, accelZ = 0;
-int gyroX = 0, gyroY = 0, gyroZ = 0;
 char user;
 char buf[6] = {0, 0, 0, 0, 0, 0};
 
-//testing new algorithm
+//new algorithm variables
 long int x1 = 0, x0 = 0, maxSamples = 15, minDiff = 5000, minSum = 5000, samples=0, minFalling = -7000, catchFalling = -10000;
 bool rising, falling;
 long int xSum = 0, diff = 0;
 // Set the FreeIMU object
 IMUduino my3IMU = IMUduino();
-/*
-FilterMotion filterX = FilterMotion(ACCELMOTION);
-FilterMotion filterY = FilterMotion(ACCELMOTION);
-FilterMotion filterZ = FilterMotion(ACCELMOTION);
-*/
 
 void setup() {
-////  Mouse.begin();
   
   Serial.begin(115200);
   while(!Serial);
   Wire.begin();
-  
-  //Serial.println(F("Test: Adafruit Bluefruit Low Energy nRF8001 + FreeIMU Print echo demo"));
-  
+    
   delay(500);
-  my3IMU.init(true);
-  /*
-  filterX.init();
-  filterY.init();
-  filterZ.init();
-  */
-  
+  my3IMU.init(true);  
   //get first x sample x0
   my3IMU.getRawValues(raw_values);
   accelX = raw_values[0];
@@ -81,13 +65,6 @@ void setup() {
 
 
 void loop() {
-  /*
-        delay(1000);
-        my3IMU.getRawValues(raw_values);
-        accelX = raw_values[0];
-        Serial.println("x");
-        Serial.println(accelX);
-   */
         
         if(Serial.available() > 0){
             user = Serial.read();
@@ -99,9 +76,6 @@ void loop() {
               accelY = raw_values[1];
               accelZ = raw_values[2];
 
-              //if(accelX >= 32768){
-              //  accelX = accelX - 65536;
-              //}
               x1 = accelX;
               
               //1) diff = xi+1 - xi
@@ -140,42 +114,17 @@ void loop() {
                   falling = 0;
                   
               }
-           
-              /*
-              noteX = filterX.getNote(accelX);
-              noteY = filterY.getNote(accelY);
-              noteZ = filterZ.getNote(accelZ);
-              */
-              /*
-              if(noteX >= noteY && noteX >= noteZ && noteX > 0){
-                noteX = 30000;
-                buf[0] = noteX; buf[1] = noteX >> 8;
-              }
-              else if(noteY >= noteX && noteY >= noteZ && noteY > 0){
-                noteY = 20000;
-                buf[0] = noteY; buf[1] = noteY >> 8;
-              }
-              else if (noteZ >= noteX && noteZ >= noteY && noteZ > 0){
-                 noteZ = 10000;
-                 buf[0] = noteZ; buf[1] = noteZ >> 8;
-              }
-              else{
-                buf[0] = 0; buf[1] = 0;
-              }
-              */
+          
              buf[0] = noteX; buf[1] = noteX >> 8;
               
               
             buf[2] = accelX; buf[3] = accelX >> 8;
             buf[4] = samples; buf[5] = 0;
-              //raw x values instead of note buf[2] = raw_values[0]; buf[3] = raw_values[0] >> 8;
-              Serial.write(buf,6);
-              //delay(40);
+            Serial.write(buf,6);
               
             }
           
-        }
-        
+        }   
      
 }
 

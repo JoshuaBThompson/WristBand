@@ -449,52 +449,6 @@ void nrf8001::handleEvents(void){
     
 }
 
-void nrf8001::parseMIDItoAppleBle(uint8_t pipe, char note_on, char note, char velocity) {
-  char time[2];
-  char buf[20];
-  byte outBuff[] = {0x90,65,127};
-  byte timeBuff[2];
-  byte messageBuff[5];
-  unsigned long timer = 0;
-  timer = millis();
-  
-  uint16_t blueMidiTime = 0;
-  blueMidiTime = 32768 + (timer % 16383);
-  //need 12bit time millis but not sure what to do when it rolls over passed 8 sec (max)
-  timeBuff[0] = blueMidiTime >> 8; //0b1000 0000 (1st header 1 bit + no millis)
-  timeBuff[1] = 0x80; //0b1000 0000 (2nd header 1 bit)
-  
-
-  // 0x80 0x80 Prefix Bytes for Apple Protocol    
-  // buffer empty, write apple time prefix
-  // TO DO: 
-  // Implement correct Apple Time Coding
-  // 2nd byte (0x80) is temp workaround
-      if(note_on == 0){
-        outBuff[0] = 0x80; //note off else it's note on
-        outBuff[1] = note; // note type (0 - 127)
-        outBuff[2] = 0; //velocity (0 - 127)
-      }
-      else{
-        outBuff[0] = 0x90; //note on
-        outBuff[1] = note; // note type (0 - 127)
-        outBuff[2] = velocity; //velocity (0 - 127)
-      }
-      messageBuff[0] = timeBuff[0]; messageBuff[1] = timeBuff[1];
-      messageBuff[2] = outBuff[0]; messageBuff[3] = outBuff[1];
-      messageBuff[4] = outBuff[2];
-      sendData(pipe, (uint8_t *)&messageBuff[0], 5);
-      //Serial.print("Sent: ");
-      //Serial.print(timeBuff[0],BIN);
-      //Serial.print(" "); Serial.println(timeBuff[1], BIN);
-      
-      //Serial.print(outBuff[0],BIN); Serial.print(" ");
-      //Serial.print(outBuff[1],BIN); Serial.print(" ");
-      //Serial.println(outBuff[2],BIN);
-      
-      
-      
-}
 
 void nrf8001::sendFullMIDI(uint8_t pipe, byte statusByte, byte dataByte0, byte dataByte1){
   char time[2];

@@ -13,25 +13,24 @@
 #include <MS561101BA.h>
 #include <HMC58X3.h>
 
+//Constants
+#define NOTE_ON_STATUS      0x90
+#define NOTE_OFF_STATUS     0x80
+#define CH1_CCMODE_STATUS   0xB0
 
 
 //init nrf8001 object
 nrf8001 nrf8001_midi = nrf8001();
 IMUduino my3IMU = IMUduino();
-
-
+FilterMotion filterX = FilterMotion();
 
 
 int raw_values[11];
-int noteX = 0, noteY = 0, noteZ = 0, accelX = 0, accelY = 0, accelZ = 0, filter_note = 0;
-char note_on = 0, note = 0, prev_note = 0, velocity = 127, ccNote = 0;
-unsigned long time_elapsed = 0;
-unsigned long start_time = 0, prev_note_time = 0;
+int accelX, accelY, accelZ;
+char note = 0, prev_note = 0, velocity = 127, ccNote = 0;
+bool noteX = false;
+unsigned long time_elapsed = 0, start_time = 0, prev_note_time = 0;
 
-//testing new algorithm
-long int x1 = 0, x0 = 0, maxSamples = 15, minDiff = 5000, minSum = 5000, samples=0, minFalling = -7000, catchFalling = -10000;
-bool rising, falling;
-long int xSum = 0, diff = 0;
 
 /* Define how assert should function in the BLE library */
 void __ble_assert(const char *file, uint16_t line)
@@ -58,112 +57,59 @@ void setup(void)
   #elif defined(__PIC32MX__)
     delay(1000);
   #endif
-  //Serial.println(F("IMU and Filter setup"));
-  my3IMU.init(true);
-
-
   
-  //Serial.println(F("Arduino setup"));
-  //Serial.println(F("Set line ending to newline to send data from the serial monitor"));
+  //Initialize 
+  my3IMU.init(true);
   nrf8001_midi.configureDevice();
- 
-  //Serial.println(F("Set up done"));
-  start_time = millis(); //get current time since program started say...5500 ms for example
-  prev_note_time = millis(); //get current time since program started
   my3IMU.getRawValues(raw_values);
   accelX = raw_values[0];
-  x0 = accelX;
-  
-  
+  //need to start the note filter with an initial value
+  filterX.setX0(accelX);
+    
+  //Initialize time variables
+  start_time = millis(); //get current time since program started say...5500 ms for example
+  prev_note_time = millis(); //get current time since program started
 }
 
 
 void loop() {
   
   nrf8001_midi.handleEvents();
-  //check if time elapsed since start time > 100 ms
          
-         //data from sensors should be collected ~ every 35 milli seconds
+         //data from sensors should be collected at least ~ every 35 milli seconds
          if(millis() - start_time > 35){
               
               my3IMU.getRawValues(raw_values);
-
-              
               accelX = raw_values[0];
-              accelY = raw_values[1];
+              //accelY = raw_values[1]; //not used now
               accelZ = raw_values[2];
 
               //continuous controll note value 0 - 127
               ccNote = getCCNote(accelZ);
               
-              //get new value
-              x1 = accelX;
+              //get note if motion valid
+              noteX = filterX.isNote(accelX);
               
-              //1) diff = xi+1 - xi
-              diff = x1 - x0;
-              x0 = x1; //update x0 for next sample
-              
-              //2) is rising
-              rising = rising || (diff >= minDiff);
-              
-              if(rising){
-                samples++;
-                falling = diff <= minFalling;
-                
-                if(falling){
-                  samples++;
-                }
-              }
-     
-              
-              //3) get xsum
-              xSum = (xSum + diff) * rising;
-              
-              //4) get note
-              if(diff <= catchFalling && !noteX && !rising){
-                noteX = minDiff;
-              }
-              else{
-                noteX = ((xSum <= minSum) && rising && falling)*minDiff;
-              }
-              if(noteX || (samples >= maxSamples)){
-                  //reset all
-                  
-                  xSum = 0; 
-                  samples = 0;
-                  rising = 0;
-                  falling = 0;
-                  
-              }
-              
-              
-              
-              if(noteX > 0 && nrf8001_midi.directionsOn[0]){
+              if(noteX && nrf8001_midi.directionsOn[0]){
             
-                note = nrf8001_midi.directionsOn[0]; //get note value from user over bluetooth using iphone app
-                
-                //make sure to send a note off midi from the previous note generated
-                if(prev_note > 0){
-                  sendNoteOff(prev_note);
-                  prev_note = 0;
-                  
-                }
-
-              
-                //send midi on note 
-                if(nrf8001_midi.status.connected==1){
-                  
-                  nrf8001_midi.sendFullMIDI(PIPE_MIDI_MIDI_IO_TX, 0x90, note, velocity); //accel note
-                }
-               
-               prev_note = note;
-               prev_note_time = millis();
-               
-               if(nrf8001_midi.status.connected==1){
-                 nrf8001_midi.sendFullMIDI(PIPE_MIDI_MIDI_IO_TX, 0xB0, nrf8001_midi.ccDataByte0, ccNote); //cc
-               }    
-           
+                    note = nrf8001_midi.directionsOn[0]; //get note value from user over bluetooth using iphone app
+                    
+                    //make sure to send a note off midi from the previous note generated
+                   if(prev_note > 0){
+                      sendNoteOff(prev_note);
+                      prev_note = 0;
+                      
+                   }
+    
+                    //send midi on note 
+                   sendNoteOn(note);
+                   
+                   prev_note = note;
+                   prev_note_time = millis();
+                   
+                   sendCCNote(ccNote);    
               }
+              
           //get new start time 
           start_time = millis();  
          }
@@ -171,7 +117,6 @@ void loop() {
          if(millis() - prev_note_time > 100){
              //send note off of prev note made
             if(prev_note > 0 ){
-              Serial.println("100 ms note off ");
               sendNoteOff(prev_note);
               prev_note = 0;
             }
@@ -182,11 +127,21 @@ void loop() {
 
 //functions
 
-
-void sendNoteOff(int prev_note){
+void sendNoteOff(char noteVal){
   if(nrf8001_midi.status.connected==1){
-    nrf8001_midi.parseMIDItoAppleBle(PIPE_MIDI_MIDI_IO_TX, 0, prev_note, 0);
-    //delay(12); //wait 12ms before sending on note
+    nrf8001_midi.sendFullMIDI(PIPE_MIDI_MIDI_IO_TX, NOTE_OFF_STATUS, noteVal, 0); //accel note off
+  }
+}
+
+void sendNoteOn(char noteVal){
+  if(nrf8001_midi.status.connected==1){             
+     nrf8001_midi.sendFullMIDI(PIPE_MIDI_MIDI_IO_TX, NOTE_ON_STATUS, noteVal, velocity); //accel note
+  }
+}
+
+void sendCCNote(char ccVal){
+  if(nrf8001_midi.status.connected==1){
+       nrf8001_midi.sendFullMIDI(PIPE_MIDI_MIDI_IO_TX, CH1_CCMODE_STATUS, nrf8001_midi.ccDataByte0, ccVal); //cc
   }
 }
 

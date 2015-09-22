@@ -65,9 +65,7 @@ public:
     void disconnectDevice(void);
         
     void handleEvents(void);
-    
-    void parseMIDItoAppleBle(uint8_t pipe, char note_on, char note, char velocity);
-    
+        
     void sendFullMIDI(uint8_t pipe, byte statusByte, byte dataByte0, byte dataByte1);
     
     void sendRunningMIDI(uint8_t pipe, byte dataByte0, byte dataByte1);

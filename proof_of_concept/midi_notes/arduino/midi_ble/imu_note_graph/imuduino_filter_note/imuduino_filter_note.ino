@@ -37,7 +37,7 @@ All text above, and the splash screen below must be included in any redistributi
 #include <SPI.h>
 
 int raw_values[11];
-int noteX = 0, noteY = 0, noteZ = 0, accelX = 0, accelY = 0, accelZ = 0;
+int noteX = 0, noteY = 0, noteZ = 0, accelX = 0, accelY = 0, accelZ = 0, gyroY=0;
 char user;
 char buf[6] = {0, 0, 0, 0, 0, 0};
 
@@ -51,16 +51,11 @@ IMUduino my3IMU = IMUduino();
 void setup() {
   
   Serial.begin(115200);
-  while(!Serial);
+  //while(!Serial);
   Wire.begin();
     
   delay(500);
   my3IMU.init(true);  
-  //get first x sample x0
-  my3IMU.getRawValues(raw_values);
-  accelX = raw_values[0];
-
-  x0 = accelX;
 }
 
 
@@ -72,55 +67,14 @@ void loop() {
               my3IMU.getRawValues(raw_values);
 
               
-              accelX = raw_values[0];
-              accelY = raw_values[1];
-              accelZ = raw_values[2];
+            accelX = raw_values[0];
+            accelY = raw_values[1];
+            //accelZ = raw_values[2];
+            gyroY = raw_values[4];
 
-              x1 = accelX;
               
-              //1) diff = xi+1 - xi
-              diff = x1 - x0;
-              x0 = x1; //update x0 for next sample
-              
-              //2) is rising
-              rising = rising || (diff >= minDiff);
-              
-              if(rising){
-                samples++;
-                falling = diff <= minFalling;
-                
-                if(falling){
-                  samples++;
-                }
-              }
-     
-              
-              //3) get xsum
-              xSum = (xSum + diff) * rising;
-              
-              //4) get note
-              if(diff <= catchFalling && !noteX && !rising){
-                noteX = minDiff;
-              }
-              else{
-                noteX = ((xSum <= minSum) && rising && falling)*minDiff;
-              }
-              if(noteX || (samples >= maxSamples)){
-                  //reset all
-                  
-                  xSum = 0; 
-                  samples = 0;
-                  rising = 0;
-                  falling = 0;
-                  
-              }
-          
-             buf[0] = noteX; buf[1] = noteX >> 8;
-              
-              
-            buf[2] = accelX; buf[3] = accelX >> 8;
-            buf[4] = samples; buf[5] = 0;
-            Serial.write(buf,6);
+            buf[0] = accelY; buf[1] = accelY >> 8;
+            Serial.write(buf,2);
               
             }
           

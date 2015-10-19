@@ -69,12 +69,13 @@ void loop() {
               
             accelX = raw_values[0];
             accelY = raw_values[1];
-            //accelZ = raw_values[2];
+            accelZ = raw_values[2];
             gyroY = raw_values[4];
 
               
             buf[0] = accelY; buf[1] = accelY >> 8;
-            Serial.write(buf,2);
+            buf[2] = accelZ; buf[3] = accelZ >> 8;
+            Serial.write(buf,4);
               
             }
           

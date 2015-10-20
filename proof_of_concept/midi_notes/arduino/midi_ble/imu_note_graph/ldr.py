@@ -72,17 +72,19 @@ class AnalogPlot:
             print "writing"
             self.ser.write('x')
 
-            #raw x = note data
-            print "reading"
+            #raw accel y
             yl = self.ser.read()
             yh = self.ser.read()
-            #raw z
 
+            #raw accel z
+            print "reading y"
             zl = self.ser.read()
             zh = self.ser.read()
 
+            #raw angle
+            al = self.ser.read()
+            ah = self.ser.read()
 
-            print "calculating"
             y = (ord(yh) << 8) + ord(yl)
             if y >= 32768:
                 y = y - 65536
@@ -90,6 +92,12 @@ class AnalogPlot:
             z = (ord(zh) << 8) + ord(zl)
             if z >= 32768:
                 z = z - 65536
+
+            a = (ord(ah) << 8) + ord(al)
+            if a >= 32768:
+                a = a - 65536
+
+            """
 
             if self.count < self.max:
                 self.average_sum_y += y
@@ -142,7 +150,7 @@ class AnalogPlot:
 
 
             #raw y = raw x accel data
-            """
+
             yl = self.ser.read()
             yh = self.ser.read()
             y = (ord(yh) << 8) + ord(yl)
@@ -151,12 +159,13 @@ class AnalogPlot:
             """
             
             
+            print "y %d" % y
+            print "z %d" % z
+            print "a %d" % a
 
-
-            data.append(self.angle)
-            data.append(10.0*self.running_average_y) #multiply by 10 to scale with angle
-            data.append(10.0*self.running_average_z)
-            #data.append(int(z))
+            data.append(a)
+            data.append(y)
+            data.append(z)
 
             # print data
             if(len(data) == 3):

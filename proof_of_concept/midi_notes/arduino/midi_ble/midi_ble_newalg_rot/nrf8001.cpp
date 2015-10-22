@@ -51,6 +51,7 @@ void nrf8001::init(){
     dirNum = 0;
     ccDataByte0 = 0;
     ccStatusByte = 0;
+    directionsOn[0] = 25; directionsOn[1] = 45; directionsOn[2] = 65;
     
     //We reset the nRF8001 here by toggling the RESET line connected to the nRF8001
     //If the RESET line is not available we call the ACI Radio Reset to soft reset the nRF8001

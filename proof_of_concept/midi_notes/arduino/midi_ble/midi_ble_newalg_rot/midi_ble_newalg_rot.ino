@@ -35,7 +35,7 @@ unsigned long time_elapsed = 0, start_time = 0, prev_note_time = 0;
 int average_count = 0, max_ave_count = 5, accel_scale_y = 16675, accel_scale_z = 17809, angle = 0;
 int calc_average_y[5];
 int calc_average_z[5];
-float running_average_y = 0.0, running_average_z = 0.0, angle_f = 0.0;
+float running_average_y = 0.0, running_average_z = 0.0, angle_f = 0.0, y_offset=-450.0, z_offset=-450.0;
 
 
 /* Define how assert should function in the BLE library */
@@ -100,9 +100,8 @@ void loop() {
               //get note if motion valid
               noteX = filterX.isNote(accelX);
               
-              if(noteX || nrf8001_midi.directionsOn[0]){
-                    //&& instead of|| is final compare, just use || for testing
-                    note = getNoteFromAngle();//nrf8001_midi.directionsOn[0]; //get note value from user over bluetooth using iphone app
+              if(noteX){
+                    note = getNoteFromAngle();//get note value from angle and user sent value (user can set note of angle 1 , 2 or 3 using iphone app)
                     
                     //make sure to send a note off midi from the previous note generated
                    if(prev_note > 0){
@@ -117,10 +116,8 @@ void loop() {
                    prev_note = note;
                    prev_note_time = millis();
                    
-                   sendCCNote(ccNote);    
+                   sendCCNote(ccNote); //this will result in device sending cc data to the iphone or pc. User must send cc note type via iphone or this will just be cc 0 (which is still a valid cc cmd)    
               }
-              //get new start time (moved to beginning of loop) 
-              //start_time = millis();  
          }
          
          if(millis() - prev_note_time > 100){
@@ -186,7 +183,8 @@ void updateAngle(void){
           running_average_y += (float)calc_average_y[i]/(float)max_ave_count;
           running_average_z += (float)calc_average_z[i]/(float)max_ave_count;
       }
-      
+      running_average_y = running_average_y - y_offset;
+      running_average_z = running_average_z - z_offset;
       average_count = 0;
   }
     
@@ -200,19 +198,22 @@ void updateAngle(void){
 }
 
 char getNoteFromAngle(void){
-  if(angle <= 0 && angle >= -100){
-     return 25;
-  }
+  char angle1Note = nrf8001_midi.directionsOn[0]; //initially 25, user can send 0A0000 to set to 0 or for example 0A0041 to set to 65 (since 41 hex = 65 deciminal)
+  char angle2Note = nrf8001_midi.directionsOn[1]; //initially 45, user can send 0A0100 to set to 0 or for example 0A0141 to set to 65
+  char angle3Note = nrf8001_midi.directionsOn[2]; //initially 65, user can send 0A0200 to set to 0 or for example 0A0241 to set to 65
   
-  if(angle < -100){
-     return 45;
+  
+  //only 2 angles for now....
+  if(angle <= 0){
+     return angle1Note;
   }
   
   if(angle > 0){
-     return 65;
+     return angle2Note;
   }
   
-  //should not reach here
+  
+  //should not reach here, but if so will return Note = 0
   return 0;
   
 }

@@ -1,0 +1,59 @@
+//
+//  ViewController.h
+//  MidiDevice
+//
+//  Created by sofiebio on 11/29/15.
+//  Copyright © 2015 wristband. All rights reserved.
+//
+
+#import <Cocoa/Cocoa.h>
+#import <IOBluetooth/IOBluetooth.h>
+#import "Instrument.h"
+
+@interface ViewController : NSViewController <NSApplicationDelegate,CBCentralManagerDelegate, CBPeripheralDelegate>
+{
+    //midi bluetooth low energy
+    NSString * deviceName;
+    NSString * manufactureName;
+    NSString * tempType;
+    NSString * tempString;
+    NSString * mesurementType;
+    NSString * timeStampString;
+    NSString * connectStatus;
+    
+    CBCentralManager *manager;
+    CBPeripheral *testPeripheral;
+    CBCharacteristic * midiData;
+    
+    NSMutableArray *midiDevices;
+    NSArrayController *arrayController;
+    BOOL autoConnect;
+}
+//midi bluetooth low energy
+@property (copy) NSString* deviceName;
+@property (copy) NSString * manufactureName;
+@property (copy) NSString* tempType;
+@property (copy) NSString* tempString;
+@property (copy) NSString* timeStampString;
+@property (copy) NSString * connectStatus;
+@property (copy) NSString * mesurementType;
+@property (retain) CBCharacteristic * midiData;
+@property (retain) NSMutableArray *midiDevices;
+
+@property Instrument *instrument;
+
+//audiokit
+
+- (IBAction)play:(NSButton *)sender;
+- (IBAction)record:(NSButton *)sender;
+
+- (IBAction)changeNote1:(NSButton *)sender;
+- (IBAction)changeNote2:(NSButton *)sender;
+- (IBAction)connect:(NSButton *)sender;
+
+//bluetooth methods
+- (void) startScan;
+- (void) startReceivingMidi;
+- (BOOL) isLECapableHardware;
+@end
+

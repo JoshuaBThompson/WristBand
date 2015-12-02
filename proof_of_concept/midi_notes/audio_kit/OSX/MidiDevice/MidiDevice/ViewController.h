@@ -47,13 +47,17 @@
 - (IBAction)play:(NSButton *)sender;
 - (IBAction)record:(NSButton *)sender;
 
+//midi ble, note change..etc
 - (IBAction)changeNote1:(NSButton *)sender;
 - (IBAction)changeNote2:(NSButton *)sender;
 - (IBAction)connect:(NSButton *)sender;
+@property (weak) IBOutlet NSTextField *note1Value;
+@property (weak) IBOutlet NSTextField *note2Value;
 
-//bluetooth methods
 - (void) startScan;
 - (void) startReceivingMidi;
 - (BOOL) isLECapableHardware;
+
+
 @end
 

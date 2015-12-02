@@ -34,7 +34,7 @@
     midiServiceUUID = @"03B80E5A-EDE8-4B33-A751-6CE34EC4C700";
     midiIOUUID = @"7772E5DB-3868-4112-A1A9-F2669D106BF3";
     data1[0]=0x0A; data1[1] = 0x00; data1[2] = 0x70;
-    data2[0]=0x0A; data2[1] = 0x00; data2[2] = 0x30;
+    data2[0]=0x0A; data2[1] = 0x01; data2[2] = 0x30;
     
     //instruments
     AKTambourineInstrument * tambourine = [[AKTambourineInstrument alloc] initWithNumber:1];
@@ -367,11 +367,34 @@
 }
 
 - (IBAction)changeNote1:(NSButton *)sender {
-     NSLog(@"Change note 1");
+    
+    if(testPeripheral){
+        NSLog(@"Change note 1");
+        int value = [self.note1Value intValue];
+        data1[2] = value;
+        NSData *data = [NSData dataWithBytes: data1 length: 4];
+        
+        if([data bytes]){
+            NSLog(@"changing to note number 1");
+        [testPeripheral writeValue:data forCharacteristic:self.midiData type:CBCharacteristicWriteWithoutResponse];
+        }
+        
+    }
 }
 
 - (IBAction)changeNote2:(NSButton *)sender {
-     NSLog(@"Change note 2");
+    if(testPeripheral){
+        NSLog(@"Change note 2");
+        int value = [self.note2Value intValue];
+        data2[2] = value;
+        NSData *data = [NSData dataWithBytes: data2 length: 4];
+        
+        if([data bytes]){
+            NSLog(@"changing to note number 2");
+            [testPeripheral writeValue:data forCharacteristic:self.midiData type:CBCharacteristicWriteWithoutResponse];
+        }
+        
+    }
 }
 
 - (IBAction)connect:(NSButton *)sender {

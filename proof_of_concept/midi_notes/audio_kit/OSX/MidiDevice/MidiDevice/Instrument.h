@@ -24,4 +24,5 @@
 - (void)recordNotes;
 - (void)playRecord;
 - (void)startMidiInputHandler;
+- (void)midiNoteOn;
 @end

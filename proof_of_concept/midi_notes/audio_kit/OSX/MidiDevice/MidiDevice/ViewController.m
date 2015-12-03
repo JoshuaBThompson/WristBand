@@ -36,6 +36,8 @@
     data1[0]=0x0A; data1[1] = 0x00; data1[2] = 0x70;
     data2[0]=0x0A; data2[1] = 0x01; data2[2] = 0x30;
     
+    self.midiDevices = [NSMutableArray array];
+    
     //instruments
     AKTambourineInstrument * tambourine = [[AKTambourineInstrument alloc] initWithNumber:1];
     [AKOrchestra addInstrument:tambourine];
@@ -49,13 +51,30 @@
     
     self.instrument = [[Instrument alloc] initWithInstrumet:tambourine];
     [AKOrchestra addInstrument:self.instrument];
-    [self.instrument startMidiInputHandler];
-    [self.instrument startListeningOnAllMidiChannels];
     [self.instrument play];
     
     //load cb manager
     autoConnect = TRUE;  /* uncomment this line if you want to automatically connect to previosly known peripheral */
+    audioMidiSetupEn = FALSE;
     manager = [[CBCentralManager alloc] initWithDelegate:self queue:nil];
+}
+
+- (void) dealloc
+{
+    [self stopScan];
+    
+    [testPeripheral setDelegate:nil];
+    
+    
+    
+}
+
+/*
+ Request CBCentralManager to stop scanning for health thermometer peripherals
+ */
+- (void)stopScan
+{
+    [manager stopScan];
 }
 
 
@@ -67,15 +86,30 @@
 - (void)startScan
 {
     
+    //check if already connected
+    if(testPeripheral){
+        NSLog(@"Already connected to peripheral");
+        return;
+    }
+    
     NSArray* connectedDevices = [manager retrieveConnectedPeripheralsWithServices:@[[CBUUID UUIDWithString:midiServiceUUID]]];
     NSLog(@"Found %lu connected devices", (unsigned long)[connectedDevices count]);
     if(connectedDevices.count > 0){
+        audioMidiSetupEn = TRUE;
     testPeripheral = [connectedDevices objectAtIndex:0];
     [manager connectPeripheral:testPeripheral options:[NSDictionary dictionaryWithObject:[NSNumber numberWithBool:YES] forKey:CBConnectPeripheralOptionNotifyOnDisconnectionKey]];
     [manager connectPeripheral:testPeripheral options:nil];
+        
+    [self.instrument startMidiInputHandler];
+    [self.instrument startListeningOnAllMidiChannels];
+        
     }
     else{
-        NSLog(@"No valid midi bluetooth device found!");
+        NSLog(@"No connected midi bluetooth device found!");
+        NSLog(@"Scanning for unconnected devices");
+        NSDictionary * options = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithBool:FALSE], CBCentralManagerScanOptionAllowDuplicatesKey, nil];
+        audioMidiSetupEn = FALSE;
+        [manager scanForPeripheralsWithServices:[NSArray arrayWithObject:[CBUUID UUIDWithString:midiServiceUUID]] options:options];
     }
     
 }
@@ -136,6 +170,7 @@
     NSLog(@"Number of services %lul", (unsigned long)[[peripheral services] count]);
     
     self.connectStatus = @"Connected";
+    [self.connectButton setTitle:@"Connected!"];
     [peripheral setDelegate:self];
     [peripheral discoverServices:nil];
 }
@@ -182,6 +217,43 @@
 - (void)centralManagerDidUpdateState:(CBCentralManager *)central
 {
     [self isLECapableHardware];
+}
+
+/*
+ Invoked when the central discovers thermometer peripheral while scanning.
+ */
+- (void)centralManager:(CBCentralManager *)central didDiscoverPeripheral:(CBPeripheral *)peripheral advertisementData:(NSDictionary *)advertisementData RSSI:(NSNumber *)RSSI
+{
+    NSLog(@"Did discover peripheral. peripheral: %@ rssi: %@, UUID: %@ advertisementData: %@ ", peripheral, RSSI, peripheral.UUID, advertisementData);
+    
+    NSMutableArray *peripherals = [self mutableArrayValueForKey:@"midiDevices"];
+    if( ![self.midiDevices containsObject:peripheral] )
+        [peripherals addObject:peripheral];
+    
+    /* Retreive already known devices */
+    if(autoConnect)
+    {
+        [manager retrievePeripherals:[NSArray arrayWithObject:(id)peripheral.UUID]];
+    }
+}
+
+/*
+ Invoked when the central manager retrieves the list of known peripherals.
+ Automatically connect to first known peripheral
+ */
+- (void)centralManager:(CBCentralManager *)central didRetrievePeripherals:(NSArray *)peripherals
+{
+    NSLog(@"Retrieved peripheral: %lu - %@", [peripherals count], peripherals);
+    
+    [self stopScan];
+    
+    /* If there are any known devices, automatically connect to it.*/
+    if([peripherals count] >=1)
+    {
+
+        testPeripheral = [peripherals objectAtIndex:0];
+        [manager connectPeripheral:testPeripheral options:[NSDictionary dictionaryWithObject:[NSNumber numberWithBool:YES] forKey:CBConnectPeripheralOptionNotifyOnDisconnectionKey]];
+    }
 }
 
 #pragma mark - CBPeripheralDelegate methods
@@ -290,6 +362,9 @@
         NSLog(@"Midi Response= %@", characteristic);
         NSData * updatedValue = characteristic.value;
         NSLog(@"MIDI Response Data = %@", updatedValue);
+        if(!audioMidiSetupEn){
+            [self.instrument midiNoteOn];
+        }
     }
     
     /* Value for device name received */

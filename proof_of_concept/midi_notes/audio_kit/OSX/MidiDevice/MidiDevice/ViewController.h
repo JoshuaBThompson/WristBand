@@ -28,6 +28,7 @@
     NSMutableArray *midiDevices;
     NSArrayController *arrayController;
     BOOL autoConnect;
+    BOOL audioMidiSetupEn;
 }
 //midi bluetooth low energy
 @property (copy) NSString* deviceName;
@@ -51,6 +52,8 @@
 - (IBAction)changeNote1:(NSButton *)sender;
 - (IBAction)changeNote2:(NSButton *)sender;
 - (IBAction)connect:(NSButton *)sender;
+@property (weak) IBOutlet NSButton *connectButton;
+
 @property (weak) IBOutlet NSTextField *note1Value;
 @property (weak) IBOutlet NSTextField *note2Value;
 

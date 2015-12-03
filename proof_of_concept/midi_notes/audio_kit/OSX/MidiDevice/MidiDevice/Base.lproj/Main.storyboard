@@ -718,7 +718,7 @@
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ANP-k0-JFY">
-                                <rect key="frame" x="195" y="13" width="92" height="32"/>
+                                <rect key="frame" x="184" y="13" width="116" height="32"/>
                                 <animations/>
                                 <buttonCell key="cell" type="push" title="Connect" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="jjp-M0-QWd">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -750,6 +750,7 @@
                         <animations/>
                     </view>
                     <connections>
+                        <outlet property="connectButton" destination="ANP-k0-JFY" id="Gnq-RB-iBX"/>
                         <outlet property="note1Value" destination="fls-Bi-0ng" id="yVi-p5-MTc"/>
                         <outlet property="note2Value" destination="kLk-kh-4Fo" id="xqq-s9-nlp"/>
                     </connections>

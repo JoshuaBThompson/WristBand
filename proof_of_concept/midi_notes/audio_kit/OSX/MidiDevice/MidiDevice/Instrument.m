@@ -55,10 +55,10 @@
 
 - (void)startMidiInputHandler {
     NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
-    [center addObserver:self selector:@selector(midiNoteOn:) name:AKMidiNoteOnNotification object:nil];
+    [center addObserver:self selector:@selector(midiNoteOnWithNotif:) name:AKMidiNoteOnNotification object:nil];
 }
 
-- (void)midiNoteOn:(NSNotification *)notif
+- (void)midiNoteOnWithNotif:(NSNotification *)notif
 {
     NSLog(@"Received NOTE ON!! %@", notif.userInfo[@"note"]);
     NSLog(@"Record is %hhd!!!!!", _record);
@@ -78,5 +78,27 @@
     }
     
 }
+
+- (void)midiNoteOn
+{
+    NSLog(@"Record is %hhd!!!!!", _record);
+    
+    if(_record){
+        
+        // do stuff...
+        _endDate = [NSDate date];
+        double end = [_endDate timeIntervalSince1970];
+        float timeInterval = end - _start;
+        NSLog(@"Recording note at %f", timeInterval);
+        AKTambourineNote *note = [[AKTambourineNote alloc] init];
+        [_phrase addNote: note atTime: timeInterval];
+    }
+    else{
+        [_otherInstrument play];
+    }
+    
+}
+
+
 
 @end

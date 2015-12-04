@@ -15,8 +15,10 @@
     // STEP 2 : Set up an instance variable for the instrument
     NSString * midiServiceUUID;
     NSString * midiIOUUID;
-    unsigned char data1[7];
-    unsigned char data2[7];
+    unsigned char note1Data[7];
+    unsigned char note2Data[7];
+    unsigned char ccModeData[7];
+    unsigned char channelChangeData[7];
 }
 
 @synthesize deviceName;
@@ -33,8 +35,10 @@
     [super viewDidLoad];
     midiServiceUUID = @"03B80E5A-EDE8-4B33-A751-6CE34EC4C700";
     midiIOUUID = @"7772E5DB-3868-4112-A1A9-F2669D106BF3";
-    data1[0]=0x0A; data1[1] = 0x00; data1[2] = 0x70;
-    data2[0]=0x0A; data2[1] = 0x01; data2[2] = 0x30;
+    note1Data[0]=0x0A; note1Data[1] = 0x00; note1Data[2] = 0x70;
+    note2Data[0]=0x0A; note2Data[1] = 0x01; note2Data[2] = 0x30;
+    ccModeData[0]=0x0C; ccModeData[1] = 0x00; ccModeData[2] = 0x00;
+    channelChangeData[0]=0x0D; channelChangeData[1] = 0x00; channelChangeData[2] = 0x00;
     
     self.midiDevices = [NSMutableArray array];
     
@@ -446,8 +450,8 @@
     if(testPeripheral){
         NSLog(@"Change note 1");
         int value = [self.note1Value intValue];
-        data1[2] = value;
-        NSData *data = [NSData dataWithBytes: data1 length: 4];
+        note1Data[2] = value;
+        NSData *data = [NSData dataWithBytes: note1Data length: 4];
         
         if([data bytes]){
             NSLog(@"changing to note number 1");
@@ -461,8 +465,8 @@
     if(testPeripheral){
         NSLog(@"Change note 2");
         int value = [self.note2Value intValue];
-        data2[2] = value;
-        NSData *data = [NSData dataWithBytes: data2 length: 4];
+        note2Data[2] = value;
+        NSData *data = [NSData dataWithBytes: note2Data length: 4];
         
         if([data bytes]){
             NSLog(@"changing to note number 2");
@@ -477,6 +481,37 @@
     if( autoConnect )
     {
         [self startScan];
+    }
+}
+
+- (IBAction)changeCCMode:(NSButton *)sender {
+    if(testPeripheral){
+        
+        int value = [self.ccModeValue intValue];
+        ccModeData[1] = value;
+        NSData *data = [NSData dataWithBytes: ccModeData length: 4];
+        
+        if([data bytes]){
+            NSLog(@"Change cc mode value %@", data);
+            [testPeripheral writeValue:data forCharacteristic:self.midiData type:CBCharacteristicWriteWithoutResponse];
+        }
+        
+    }
+}
+
+- (IBAction)changeChannel:(NSButton *)sender {
+    
+    if(testPeripheral){
+        
+        int value = [self.channelNumber intValue];
+        channelChangeData[1] = value;
+        NSData *data = [NSData dataWithBytes: channelChangeData length: 4];
+        
+        if([data bytes]){
+            NSLog(@"Changing channel number %@", data);
+            [testPeripheral writeValue:data forCharacteristic:self.midiData type:CBCharacteristicWriteWithoutResponse];
+        }
+        
     }
 }
 @end

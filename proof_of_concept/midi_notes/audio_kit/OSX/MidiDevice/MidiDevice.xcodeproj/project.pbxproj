@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F374280E1C1889E000D0843F /* Tempo.m in Sources */ = {isa = PBXBuildFile; fileRef = F374280D1C1889E000D0843F /* Tempo.m */; };
+		F37428141C1889F200D0843F /* TimeSignature.m in Sources */ = {isa = PBXBuildFile; fileRef = F37428131C1889F200D0843F /* TimeSignature.m */; };
+		F37428171C188A0000D0843F /* Measure.m in Sources */ = {isa = PBXBuildFile; fileRef = F37428161C188A0000D0843F /* Measure.m */; };
+		F374281A1C188B4200D0843F /* Track.m in Sources */ = {isa = PBXBuildFile; fileRef = F37428191C188B4200D0843F /* Track.m */; };
 		F3CBB6A01C0BAFD700C515CD /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = F3CBB69F1C0BAFD700C515CD /* AppDelegate.m */; };
 		F3CBB6A31C0BAFD700C515CD /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = F3CBB6A21C0BAFD700C515CD /* main.m */; };
 		F3CBB6A61C0BAFD700C515CD /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F3CBB6A51C0BAFD700C515CD /* ViewController.m */; };
@@ -70,6 +74,14 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		F374280C1C1889E000D0843F /* Tempo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Tempo.h; sourceTree = "<group>"; };
+		F374280D1C1889E000D0843F /* Tempo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Tempo.m; sourceTree = "<group>"; };
+		F37428121C1889F200D0843F /* TimeSignature.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TimeSignature.h; sourceTree = "<group>"; };
+		F37428131C1889F200D0843F /* TimeSignature.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TimeSignature.m; sourceTree = "<group>"; };
+		F37428151C188A0000D0843F /* Measure.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Measure.h; sourceTree = "<group>"; };
+		F37428161C188A0000D0843F /* Measure.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Measure.m; sourceTree = "<group>"; };
+		F37428181C188B4200D0843F /* Track.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Track.h; sourceTree = "<group>"; };
+		F37428191C188B4200D0843F /* Track.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Track.m; sourceTree = "<group>"; };
 		F3CBB69B1C0BAFD700C515CD /* MidiDevice.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MidiDevice.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F3CBB69E1C0BAFD700C515CD /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		F3CBB69F1C0BAFD700C515CD /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -129,6 +141,14 @@
 				F3CBB6A11C0BAFD700C515CD /* Supporting Files */,
 				F3D508C51C0E09EA00F7E55A /* Instrument.h */,
 				F3D508C61C0E09EA00F7E55A /* Instrument.m */,
+				F374280C1C1889E000D0843F /* Tempo.h */,
+				F374280D1C1889E000D0843F /* Tempo.m */,
+				F37428121C1889F200D0843F /* TimeSignature.h */,
+				F37428131C1889F200D0843F /* TimeSignature.m */,
+				F37428151C188A0000D0843F /* Measure.h */,
+				F37428161C188A0000D0843F /* Measure.m */,
+				F37428181C188B4200D0843F /* Track.h */,
+				F37428191C188B4200D0843F /* Track.m */,
 			);
 			path = MidiDevice;
 			sourceTree = "<group>";
@@ -279,8 +299,12 @@
 			files = (
 				F3D508C71C0E09EA00F7E55A /* Instrument.m in Sources */,
 				F3CBB6A61C0BAFD700C515CD /* ViewController.m in Sources */,
+				F374280E1C1889E000D0843F /* Tempo.m in Sources */,
+				F37428141C1889F200D0843F /* TimeSignature.m in Sources */,
 				F3CBB6A31C0BAFD700C515CD /* main.m in Sources */,
 				F3CBB6A01C0BAFD700C515CD /* AppDelegate.m in Sources */,
+				F37428171C188A0000D0843F /* Measure.m in Sources */,
+				F374281A1C188B4200D0843F /* Track.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

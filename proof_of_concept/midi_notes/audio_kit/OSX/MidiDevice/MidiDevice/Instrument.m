@@ -15,21 +15,12 @@
 {
     self = [super init];
     _otherInstrument = newInstrument;
-    _phrase = [AKPhrase phrase];
+    self.track = [[Track alloc] init];
     _count = 0.0;
-    _startDate = [NSDate date];
-    _endDate = [NSDate date];
-    _start = [_startDate timeIntervalSince1970];
     
     _record = FALSE;
     if (self) {
-        //[self enableParameterLog:@"note number " parameter:self.note.notenumber timeInterval:1000];
-        //[self enableParameterLog:@"frequency   " parameter:self.note.frequency timeInterval:1000];
-        //[self enableParameterLog:@"velocity    " parameter:self.note.velocity timeInterval:1000];
-        //[self enableParameterLog:@"modulation  " parameter:self.note.modulation timeInterval:0.1];
-        //[self enableParameterLog:@"pitch bend  " parameter:self.note.pitchBend timeInterval:0.1];
-        //[self enableParameterLog:@"aftertouch  " parameter:self.note.aftertouch timeInterval:0.1];
-        
+        //todo?
     }
     return self;
 }
@@ -37,18 +28,16 @@
 - (void)recordNotes {
     NSLog(@"Setting Record!!!!!");
     _record = TRUE;
-    // do stuff...
-    _startDate = [NSDate date];
-    _start = [_startDate timeIntervalSince1970];
-    [_phrase reset];
+    [self.track reset];
+    [self.track startTimer];
     
 }
 
 - (void)playRecord{
     NSLog(@"Playing recorded note!!!!!");
     _record = FALSE;
-    
-    [_otherInstrument playPhrase:_phrase];
+    [self.track stopTimer];
+    [_otherInstrument playPhrase: self.track.phrase];
     
     
 }
@@ -64,14 +53,9 @@
     NSLog(@"Record is %hhd!!!!!", _record);
     
     if(_record){
-        
-        // do stuff...
-        _endDate = [NSDate date];
-        double end = [_endDate timeIntervalSince1970];
-        float timeInterval = end - _start;
-        NSLog(@"Recording note at %f", timeInterval);
         AKTambourineNote *note = [[AKTambourineNote alloc] init];
-        [_phrase addNote: note atTime: timeInterval];
+        [self.track addNote:note];
+        [_otherInstrument play];
     }
     else{
         [_otherInstrument play];
@@ -85,13 +69,9 @@
     
     if(_record){
         
-        // do stuff...
-        _endDate = [NSDate date];
-        double end = [_endDate timeIntervalSince1970];
-        float timeInterval = end - _start;
-        NSLog(@"Recording note at %f", timeInterval);
         AKTambourineNote *note = [[AKTambourineNote alloc] init];
-        [_phrase addNote: note atTime: timeInterval];
+        [self.track addNote:note];
+        [_otherInstrument play];
     }
     else{
         [_otherInstrument play];

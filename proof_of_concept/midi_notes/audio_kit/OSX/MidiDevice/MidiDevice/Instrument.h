@@ -8,16 +8,17 @@
 
 #import <Foundation/Foundation.h>
 #import "AKFoundation.h"
+#import "Track.h"
 
 
 @interface Instrument : AKMidiInstrument
     @property (weak) AKInstrument * otherInstrument;
     @property BOOL record;
-    @property AKPhrase * phrase;
     @property float count;
-    @property double start;
-    @property NSDate * startDate;
-    @property NSDate * endDate;
+
+    //track
+    @property Track * track;
+
 
     //methods
 - (instancetype)initWithInstrumet: (AKInstrument *)newInstrument;

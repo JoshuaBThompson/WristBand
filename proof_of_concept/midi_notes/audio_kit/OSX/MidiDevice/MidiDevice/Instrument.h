@@ -26,4 +26,5 @@
 - (void)playRecord;
 - (void)startMidiInputHandler;
 - (void)midiNoteOn;
+- (void)updateTempo: (float)tempoValue;
 @end

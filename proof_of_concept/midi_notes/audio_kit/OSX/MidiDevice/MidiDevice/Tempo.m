@@ -14,6 +14,7 @@
     if(self){
         self.beatsPerMin = 60.0; //default tempo
         self.secPerMin = 60.0;
+        self.beatsPerSec = self.beatsPerMin / self.secPerMin;
         self.phrase = [AKPhrase phrase];
         [self initInstrument];
     }
@@ -35,6 +36,12 @@
     amp.instrumentNumber = 3;
     [AKOrchestra addInstrument:amp];
     [amp start];
+}
+
+-(float) getBeatsPerSec{
+    float beatsPerSec = self.beatsPerMin / self.secPerMin;
+    self.beatsPerSec = beatsPerSec;
+    return beatsPerSec;
 }
 
 -(void) playTempo{

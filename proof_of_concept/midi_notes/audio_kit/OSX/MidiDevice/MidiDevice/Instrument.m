@@ -79,6 +79,14 @@
     
 }
 
+/*
+ Updates tempo object used by track class
+ */
+
+- (void)updateTempo: (float)tempoValue{
+    self.track.tempo.beatsPerMin = tempoValue;
+}
+
 
 
 @end

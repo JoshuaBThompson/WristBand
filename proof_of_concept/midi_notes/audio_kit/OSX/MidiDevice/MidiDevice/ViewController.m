@@ -514,4 +514,12 @@
         
     }
 }
+
+- (IBAction)changeTempo:(NSButton *)sender {
+    NSLog(@"Changing tempo");
+    float newTempo = self.tempoValue.floatValue;
+    [self.instrument updateTempo:newTempo];
+    
+    
+}
 @end

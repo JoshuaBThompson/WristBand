@@ -7,7 +7,16 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "Tempo.h"
+#import "TimeSignature.h"
 
 @interface Measure : NSObject
+@property int measureCount;
+@property float secPerMeasure;
+@property float totalDuration;
+@property TimeSignature * timeSignature;
+@property Tempo * tempo;
 
+-(id) initWithTempoAndTimeSig: (Tempo *) tempo withTimeSignature: (TimeSignature *) timeSignature;
+-(void) updateMeasure;
 @end

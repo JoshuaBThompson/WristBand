@@ -9,5 +9,6 @@
 #import <Foundation/Foundation.h>
 
 @interface TimeSignature : NSObject
-
+@property int noteSubDiv; //ex: 1/4 note
+@property int beatsPerMeasure; //ex: 4 X 1/4
 @end

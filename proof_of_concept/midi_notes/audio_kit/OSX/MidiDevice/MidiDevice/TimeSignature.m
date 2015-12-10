@@ -10,4 +10,13 @@
 
 @implementation TimeSignature
 
+-(id) init{
+    self = [super init];
+    if(self){
+        self.noteSubDiv = 4; //quarter note
+        self.beatsPerMeasure = 4; //4 quarter notes in a measure
+    }
+    return self;
+}
+
 @end

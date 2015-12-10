@@ -54,6 +54,7 @@
 - (IBAction)connect:(NSButton *)sender;
 - (IBAction)changeCCMode:(NSButton *)sender;
 - (IBAction)changeChannel:(NSButton *)sender;
+- (IBAction)changeTempo:(NSButton *)sender;
 
 
 @property (weak) IBOutlet NSButton *connectButton;
@@ -62,6 +63,8 @@
 @property (weak) IBOutlet NSTextField *note2Value;
 @property (weak) IBOutlet NSTextField *ccModeValue;
 @property (weak) IBOutlet NSTextField *channelNumber;
+@property (weak) IBOutlet NSTextField *tempoValue;
+
 
 - (void) startScan;
 - (void) startReceivingMidi;

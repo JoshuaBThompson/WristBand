@@ -35,5 +35,7 @@
 -(void) startTimer;
 -(void) stopTimer;
 -(float) getTimeElapsed;
+-(float) getMeasureElapsed;
+-(float) getMeasureTimeElapsed;
 
 @end

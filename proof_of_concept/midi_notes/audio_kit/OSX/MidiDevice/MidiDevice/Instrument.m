@@ -30,7 +30,11 @@
     _record = TRUE;
     [self.track reset];
     [self.track startTimer];
-    
+}
+
+- (void)stopRecord {
+    _record = FALSE;
+    [self.track stopTimer];
 }
 
 - (void)playRecord{
@@ -85,6 +89,17 @@
 
 - (void)updateTempo: (float)tempoValue{
     self.track.tempo.beatsPerMin = tempoValue;
+}
+
+/*
+ Updates measures object used by track class
+ */
+
+- (void)updateMeasures:(int)measuresValue{
+    self.track.measure.measureCount = measuresValue;
+    
+    //update the other params of the measure object based on the new measure count value
+    [self.track.measure updateMeasure];
 }
 
 

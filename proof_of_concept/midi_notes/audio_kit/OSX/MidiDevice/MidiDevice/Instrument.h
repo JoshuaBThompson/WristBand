@@ -24,7 +24,9 @@
 - (instancetype)initWithInstrumet: (AKInstrument *)newInstrument;
 - (void)recordNotes;
 - (void)playRecord;
+- (void)stopRecord;
 - (void)startMidiInputHandler;
 - (void)midiNoteOn;
 - (void)updateTempo: (float)tempoValue;
+- (void)updateMeasures: (int)measuresValue;
 @end

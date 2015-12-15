@@ -47,6 +47,7 @@
 
 - (IBAction)play:(NSButton *)sender;
 - (IBAction)record:(NSButton *)sender;
+- (IBAction)stop:(NSButton *)sender;
 
 //midi ble, note change..etc
 - (IBAction)changeNote1:(NSButton *)sender;
@@ -55,6 +56,9 @@
 - (IBAction)changeCCMode:(NSButton *)sender;
 - (IBAction)changeChannel:(NSButton *)sender;
 - (IBAction)changeTempo:(NSButton *)sender;
+- (IBAction)changeMeasures:(NSButton *)sender;
+- (IBAction)changeTimeSignature:(NSButton *)sender;
+
 
 
 @property (weak) IBOutlet NSButton *connectButton;
@@ -64,6 +68,8 @@
 @property (weak) IBOutlet NSTextField *ccModeValue;
 @property (weak) IBOutlet NSTextField *channelNumber;
 @property (weak) IBOutlet NSTextField *tempoValue;
+@property (weak) IBOutlet NSTextField *measuresValue;
+@property (weak) IBOutlet NSTextField *timeSignatureValue;
 
 
 - (void) startScan;

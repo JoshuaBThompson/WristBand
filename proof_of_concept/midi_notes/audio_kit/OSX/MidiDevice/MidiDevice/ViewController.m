@@ -445,6 +445,11 @@
     [self.instrument recordNotes];
 }
 
+- (IBAction)stop:(NSButton *)sender {
+    NSLog(@"Stop recording!");
+    [self.instrument playRecord];
+}
+
 - (IBAction)changeNote1:(NSButton *)sender {
     
     if(testPeripheral){
@@ -522,4 +527,33 @@
     
     
 }
+
+- (IBAction)changeMeasures:(NSButton *)sender {
+    NSLog(@"Changing measures");
+    int measures = self.measuresValue.intValue;
+    [self.instrument updateMeasures:measures];
+    
+}
+
+- (IBAction)changeTimeSignature:(NSButton *)sender {
+    NSString * timeSignatureStr = self.timeSignatureValue.stringValue;
+    NSArray * signatureParams = [timeSignatureStr componentsSeparatedByString:@"/"];
+    if(signatureParams.count==2){
+        NSString * beatsPerMeasure = signatureParams[0];
+        NSString * noteSubDiv = signatureParams[1];
+        if(noteSubDiv.intValue > 0 && beatsPerMeasure.intValue > 0){
+            self.instrument.track.timeSignature.noteSubDiv = noteSubDiv.intValue;
+            self.instrument.track.timeSignature.beatsPerMeasure = beatsPerMeasure.intValue;
+            NSLog(@"Changed time signature to %d / %d", beatsPerMeasure.intValue, noteSubDiv.intValue);
+        }
+        else{
+            NSLog(@"invalid - beats %d / note %d", beatsPerMeasure.intValue, noteSubDiv.intValue);
+        }
+    }
+    else{
+        NSLog(@"No valid time signature");
+    }
+    
+}
+
 @end

@@ -50,6 +50,7 @@
 - (IBAction)stop:(NSButton *)sender;
 
 //midi ble, note change..etc
+- (void) updateParams;
 - (IBAction)changeNote1:(NSButton *)sender;
 - (IBAction)changeNote2:(NSButton *)sender;
 - (IBAction)connect:(NSButton *)sender;
@@ -70,7 +71,9 @@
 @property (weak) IBOutlet NSTextField *tempoValue;
 @property (weak) IBOutlet NSTextField *measuresValue;
 @property (weak) IBOutlet NSTextField *timeSignatureValue;
-
+@property (weak) IBOutlet NSTextField *measureCounter;
+@property (weak) IBOutlet NSTextField *beatCounter;
+@property (weak) IBOutlet NSTextField *totalDuration;
 
 - (void) startScan;
 - (void) startReceivingMidi;

@@ -17,6 +17,7 @@
         self.phrase = [AKPhrase phrase];
         self.tempo = [[Tempo alloc] init];
         self.timeSignature = [[TimeSignature alloc] init];
+        self.clickTrack = [[ClickTrack alloc] initWithTempoAndTimeSignature:self.tempo Signature:self.timeSignature];
         self.measure = [[Measure alloc] initWithTempoAndTimeSig:self.tempo withTimeSignature:self.timeSignature];
         self.startDate = [NSDate date];
         self.endDate = [NSDate date];
@@ -33,7 +34,7 @@
 
 -(void) startTimer{
     //start tempo clock
-    [self.tempo playTempo];
+    [self.clickTrack playClickTrack];
     self.startDate = [NSDate date];
     self.startTime = [_startDate timeIntervalSince1970];
     self.timerStarted = true;
@@ -41,7 +42,7 @@
 
 -(void) stopTimer{
     //stop tempo clock
-    [self.tempo stopTempo];
+    [self.clickTrack stopClickTrack];
     self.startTime = 0;
     self.timerStarted = false;
 }

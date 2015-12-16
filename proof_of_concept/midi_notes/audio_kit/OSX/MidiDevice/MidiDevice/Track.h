@@ -11,6 +11,7 @@
 #import "Tempo.h"
 #import "TimeSignature.h"
 #import "Measure.h"
+#import "ClickTrack.h"
 
 @interface Track : NSObject
 //akphrase to hold notes
@@ -18,6 +19,10 @@
 
 //tempo to set speed
 @property Tempo * tempo;
+
+//click track
+@property ClickTrack * clickTrack;
+
 //time signature (ex: 4 4th...etc)
 @property TimeSignature * timeSignature;
 //measure (ex: how many 4 4ths...etc)

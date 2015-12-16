@@ -20,6 +20,7 @@
 		F3CBB6CA1C0BB46900C515CD /* CsoundLib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F3CBB6C91C0BB46900C515CD /* CsoundLib.framework */; };
 		F3CBB6CC1C0BB49F00C515CD /* CsoundLib.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = F3CBB6C91C0BB46900C515CD /* CsoundLib.framework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		F3D508C71C0E09EA00F7E55A /* Instrument.m in Sources */ = {isa = PBXBuildFile; fileRef = F3D508C61C0E09EA00F7E55A /* Instrument.m */; };
+		F3E5B45C1C21CED8004118FE /* ClickTrack.m in Sources */ = {isa = PBXBuildFile; fileRef = F3E5B45B1C21CED8004118FE /* ClickTrack.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -95,6 +96,8 @@
 		F3CBB6C91C0BB46900C515CD /* CsoundLib.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CsoundLib.framework; path = ../../../AudioKit/Platforms/OSX/CsoundLib.framework; sourceTree = "<group>"; };
 		F3D508C51C0E09EA00F7E55A /* Instrument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Instrument.h; sourceTree = "<group>"; };
 		F3D508C61C0E09EA00F7E55A /* Instrument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Instrument.m; sourceTree = "<group>"; };
+		F3E5B45A1C21CED8004118FE /* ClickTrack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClickTrack.h; sourceTree = "<group>"; };
+		F3E5B45B1C21CED8004118FE /* ClickTrack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClickTrack.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -149,6 +152,8 @@
 				F37428161C188A0000D0843F /* Measure.m */,
 				F37428181C188B4200D0843F /* Track.h */,
 				F37428191C188B4200D0843F /* Track.m */,
+				F3E5B45A1C21CED8004118FE /* ClickTrack.h */,
+				F3E5B45B1C21CED8004118FE /* ClickTrack.m */,
 			);
 			path = MidiDevice;
 			sourceTree = "<group>";
@@ -297,6 +302,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F3E5B45C1C21CED8004118FE /* ClickTrack.m in Sources */,
 				F3D508C71C0E09EA00F7E55A /* Instrument.m in Sources */,
 				F3CBB6A61C0BAFD700C515CD /* ViewController.m in Sources */,
 				F374280E1C1889E000D0843F /* Tempo.m in Sources */,

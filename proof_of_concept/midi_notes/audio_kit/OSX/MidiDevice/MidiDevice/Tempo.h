@@ -13,11 +13,7 @@
 @property float beatsPerMin;
 @property float beatsPerSec;
 @property float secPerMin;
-@property AKPhrase *phrase;
-@property AKTambourineInstrument * instrument;
--(void) playTempo;
--(void) stopTempo;
--(void) initInstrument;
+
 -(float) getBeatsPerSec;
 
 @end

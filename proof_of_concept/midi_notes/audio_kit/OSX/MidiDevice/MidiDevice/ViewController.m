@@ -61,6 +61,7 @@
     autoConnect = TRUE;  /* uncomment this line if you want to automatically connect to previosly known peripheral */
     audioMidiSetupEn = FALSE;
     manager = [[CBCentralManager alloc] initWithDelegate:self queue:nil];
+    [self updateParams];
 }
 
 - (void) dealloc
@@ -447,7 +448,7 @@
 
 - (IBAction)stop:(NSButton *)sender {
     NSLog(@"Stop recording!");
-    [self.instrument playRecord];
+    [self.instrument stopRecord];
 }
 
 - (IBAction)changeNote1:(NSButton *)sender {
@@ -524,7 +525,7 @@
     NSLog(@"Changing tempo");
     float newTempo = self.tempoValue.floatValue;
     [self.instrument updateTempo:newTempo];
-    
+    [self updateParams];
     
 }
 
@@ -532,6 +533,7 @@
     NSLog(@"Changing measures");
     int measures = self.measuresValue.intValue;
     [self.instrument updateMeasures:measures];
+    [self updateParams];
     
 }
 
@@ -553,7 +555,15 @@
     else{
         NSLog(@"No valid time signature");
     }
+    [self updateParams];
     
+}
+
+- (void) updateParams{
+    //update measure duration
+    [self.instrument.track.measure updateMeasure];
+    float duration = [self.instrument.track.measure totalDuration];
+    self.totalDuration.floatValue = duration;
 }
 
 @end

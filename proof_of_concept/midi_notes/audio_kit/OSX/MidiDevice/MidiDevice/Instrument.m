@@ -34,14 +34,18 @@
 
 - (void)stopRecord {
     _record = FALSE;
+    NSLog(@"Stopping record / play");
     [self.track stopTimer];
+    [_otherInstrument stopPhrase];
 }
 
 - (void)playRecord{
     NSLog(@"Playing recorded note!!!!!");
     _record = FALSE;
     [self.track stopTimer];
-    [_otherInstrument playPhrase: self.track.phrase];
+    //[_otherInstrument playPhrase: self.track.phrase];
+    float measureDuration = self.track.measure.totalDuration;
+    [_otherInstrument repeatPhrase:self.track.phrase duration:measureDuration];
     
     
 }

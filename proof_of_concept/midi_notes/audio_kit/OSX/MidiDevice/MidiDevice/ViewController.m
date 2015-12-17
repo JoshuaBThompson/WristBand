@@ -447,7 +447,7 @@
 }
 
 - (IBAction)stop:(NSButton *)sender {
-    NSLog(@"Stop recording!");
+    NSLog(@"Stop recording or playing!");
     [self.instrument stopRecord];
 }
 
@@ -557,6 +557,10 @@
     }
     [self updateParams];
     
+}
+
+- (IBAction)clearTrack:(NSButton *)sender {
+    [self.instrument clearTrack];
 }
 
 - (void) updateParams{

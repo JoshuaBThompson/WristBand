@@ -29,4 +29,5 @@
 - (void)midiNoteOn;
 - (void)updateTempo: (float)tempoValue;
 - (void)updateMeasures: (int)measuresValue;
+- (void)clearTrack;
 @end

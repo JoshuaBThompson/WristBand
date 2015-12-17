@@ -59,6 +59,7 @@
 - (IBAction)changeTempo:(NSButton *)sender;
 - (IBAction)changeMeasures:(NSButton *)sender;
 - (IBAction)changeTimeSignature:(NSButton *)sender;
+- (IBAction)clearTrack:(NSButton *)sender;
 
 
 

@@ -28,19 +28,11 @@
 //measure (ex: how many 4 4ths...etc)
 @property Measure * measure;
 
-//time stamp for adding notes to phrase
-@property double startTime;
-@property bool timerStarted;
-@property NSDate * startDate;
-@property NSDate * endDate;
 
 //methods
 -(void) addNote: (AKNote *)note;
 -(void) reset;
 -(void) startTimer;
 -(void) stopTimer;
--(float) getTimeElapsed;
--(float) getMeasureElapsed;
--(float) getMeasureTimeElapsed;
 
 @end

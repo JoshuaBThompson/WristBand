@@ -17,11 +17,16 @@
 #import "ClickTrack.h"
 
 @implementation ClickTrack
--(id) initWithTempoAndTimeSignature:(Tempo *)tempo Signature:(TimeSignature *)timeSignature{
+-(id) initWithTempoAndTimeSignature:(Tempo *)tempo Signature:(TimeSignature *)timeSignature withMeasure: (Measure *) measure{
     self = [super init];
     if(self){
         self.timeSignature = timeSignature;
         self.tempo = tempo;
+        self.measure = measure;
+        self.startDate = [NSDate date];
+        self.endDate = [NSDate date];
+        self.startTime = [self.startDate timeIntervalSince1970];
+        self.timerStarted = false;
         
         self.secPerClick = 0.0;
         self.phrase = [AKPhrase phrase];
@@ -68,8 +73,69 @@
     [self.instrument repeatPhrase:self.phrase duration:totalClicks*self.secPerClick];
 }
 -(void) stopClickTrack{
-    NSLog(@"Stoping click track");
+    NSLog(@"Stopping click track");
     [self.instrument stopPhrase];
 }
+
+/*
+ Get time elapsed since startTimer method called, if method was not called return 0
+ */
+-(float) getTimeElapsed{
+    
+    if(self.timerStarted){
+        self.endDate = [NSDate date];
+        double end = [_endDate timeIntervalSince1970];
+        float elapsed = end - self.startTime;
+        return elapsed;
+    }
+    else{
+        return 0;
+    }
+}
+
+/*
+ Get elapsed measure
+ */
+-(float) getMeasureElapsed{
+    float currentTimeInMeasure = [self getMeasureTimeElapsed];
+    //current measure = int (current time) / int (time of 1 measure)
+    int currentMeasure = currentTimeInMeasure / self.measure.secPerMeasure;
+    return currentMeasure;
+}
+
+/*
+ Get the time elapsed within the measure bounds
+ */
+-(float) getMeasureTimeElapsed{
+    float totalElapsedTime = [self getTimeElapsed];
+    //get measure time elapsed
+    float measureTimeElapsed = 0.0;
+    if(totalElapsedTime <= self.measure.totalDuration){
+        measureTimeElapsed = totalElapsedTime;
+    }
+    else{
+        //get modulus of two float numbers ex: 220.4 sec / 100.0 sec = 20.4
+        //this will be the time elapsed of the total measure duration
+        measureTimeElapsed = fmod(totalElapsedTime, self.measure.totalDuration);
+    }
+    return measureTimeElapsed;
+    
+}
+
+-(void) startTimer{
+    //start tempo clock
+    [self playClickTrack];
+    self.startDate = [NSDate date];
+    self.startTime = [_startDate timeIntervalSince1970];
+    self.timerStarted = true;
+}
+
+-(void) stopTimer{
+    //stop tempo clock
+    [self stopClickTrack];
+    self.startTime = 0;
+    self.timerStarted = false;
+}
+
 @end
 

@@ -27,9 +27,21 @@
 
 - (void)recordNotes {
     NSLog(@"Setting Record!!!!!");
+    //first turn off any playback or record that might be running
+    [self stopRecord];
+    
+    //now play any recorded notes in the background and start click track
+    [self playRecord];
+    
+    //set record to True since playRecord sets it to False and start recording notes over existing record
     _record = TRUE;
+}
+
+- (void) clearTrack {
+    NSLog(@"Clearing track notes");
+    //stopRecording and then clear track phrase / sequence
+    [self stopRecord];
     [self.track reset];
-    [self.track startTimer];
 }
 
 - (void)stopRecord {
@@ -42,8 +54,13 @@
 - (void)playRecord{
     NSLog(@"Playing recorded note!!!!!");
     _record = FALSE;
-    [self.track stopTimer];
-    //[_otherInstrument playPhrase: self.track.phrase];
+    
+    //if click track not started yet then start it, otherwise that's it
+    //note: this is just a click track and will not affect the playback, we can remove it
+    if(!self.track.clickTrack.timerStarted){
+        [self.track startTimer];
+    }
+    
     float measureDuration = self.track.measure.totalDuration;
     [_otherInstrument repeatPhrase:self.track.phrase duration:measureDuration];
     

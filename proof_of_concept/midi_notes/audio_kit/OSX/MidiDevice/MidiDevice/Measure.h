@@ -14,6 +14,8 @@
 @property int measureCount;
 @property float secPerMeasure;
 @property float totalDuration;
+@property int totalBeats;
+@property int beatsPerMeasure;
 @property TimeSignature * timeSignature;
 @property Tempo * tempo;
 

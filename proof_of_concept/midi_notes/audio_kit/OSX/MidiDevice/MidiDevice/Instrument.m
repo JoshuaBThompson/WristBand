@@ -18,7 +18,7 @@
     self.track = [[Track alloc] init];
     _count = 0.0;
     
-    _record = FALSE;
+    self.record = FALSE;
     if (self) {
         //todo?
     }
@@ -34,7 +34,7 @@
     [self playRecord];
     
     //set record to True since playRecord sets it to False and start recording notes over existing record
-    _record = TRUE;
+    self.record = TRUE;
 }
 
 - (void) clearTrack {
@@ -45,7 +45,7 @@
 }
 
 - (void)stopRecord {
-    _record = FALSE;
+    self.record = FALSE;
     NSLog(@"Stopping record / play");
     [self.track stopTimer];
     [_otherInstrument stopPhrase];
@@ -53,7 +53,7 @@
 
 - (void)playRecord{
     NSLog(@"Playing recorded note!!!!!");
-    _record = FALSE;
+    self.record = FALSE;
     
     //if click track not started yet then start it, otherwise that's it
     //note: this is just a click track and will not affect the playback, we can remove it
@@ -75,9 +75,9 @@
 - (void)midiNoteOnWithNotif:(NSNotification *)notif
 {
     NSLog(@"Received NOTE ON!! %@", notif.userInfo[@"note"]);
-    NSLog(@"Record is %hhd!!!!!", _record);
+    NSLog(@"Record is %hhd!!!!!", self.record);
     
-    if(_record){
+    if(self.record){
         AKTambourineNote *note = [[AKTambourineNote alloc] init];
         [self.track addNote:note];
         [_otherInstrument play];
@@ -90,9 +90,9 @@
 
 - (void)midiNoteOn
 {
-    NSLog(@"Record is %hhd!!!!!", _record);
+    NSLog(@"Record is %hhd!!!!!", self.record);
     
-    if(_record){
+    if(self.record){
         
         AKTambourineNote *note = [[AKTambourineNote alloc] init];
         [self.track addNote:note];

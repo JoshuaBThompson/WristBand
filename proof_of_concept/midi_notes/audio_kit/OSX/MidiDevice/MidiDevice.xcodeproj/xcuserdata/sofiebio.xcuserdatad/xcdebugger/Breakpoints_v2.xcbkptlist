@@ -26,11 +26,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MidiDevice/Instrument.m"
-            timestampString = "471975268.828597"
+            timestampString = "472062996.479939"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "63"
-            endingLineNumber = "63"
+            startingLineNumber = "80"
+            endingLineNumber = "80"
             landmarkName = "-midiNoteOnWithNotif:"
             landmarkType = "5">
          </BreakpointContent>
@@ -58,11 +58,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MidiDevice/Track.m"
-            timestampString = "471978315.021515"
+            timestampString = "472065247.529943"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "100"
-            endingLineNumber = "100"
+            startingLineNumber = "51"
+            endingLineNumber = "51"
             landmarkName = "-addNote:"
             landmarkType = "5">
          </BreakpointContent>
@@ -74,11 +74,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MidiDevice/ViewController.m"
-            timestampString = "471976360.345089"
+            timestampString = "472255136.672761"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "544"
-            endingLineNumber = "544"
+            startingLineNumber = "548"
+            endingLineNumber = "548"
             landmarkName = "-changeTimeSignature:"
             landmarkType = "5">
          </BreakpointContent>

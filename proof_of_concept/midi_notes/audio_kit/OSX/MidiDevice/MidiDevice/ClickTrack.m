@@ -16,7 +16,10 @@
 
 #import "ClickTrack.h"
 
-@implementation ClickTrack
+@implementation ClickTrack{
+    NSTimer *clickTimer;
+    int clickCounter;
+}
 -(id) initWithTempoAndTimeSignature:(Tempo *)tempo Signature:(TimeSignature *)timeSignature withMeasure: (Measure *) measure{
     self = [super init];
     if(self){
@@ -27,12 +30,47 @@
         self.endDate = [NSDate date];
         self.startTime = [self.startDate timeIntervalSince1970];
         self.timerStarted = false;
-        
+        clickCounter = 0;
         self.secPerClick = 0.0;
         self.phrase = [AKPhrase phrase];
         [self initInstrument];
     }
     return self;
+}
+
+-(void) onTimerTick{
+    //self.currentMeasureCount = [self getMeasureElapsed];
+    clickCounter++;
+    if(clickCounter > self.measure.totalBeats){
+        clickCounter = 1;
+    }
+    
+    //self.totalTimeElapsed = clickCounter * self.secPerClick;
+    self.currentMeasureCount = clickCounter / self.measure.beatsPerMeasure;
+    self.currentBeatInMeasure = clickCounter;
+}
+
+-(void) stopTimerTick{
+    //stop timer that gets measure count
+    [clickTimer invalidate];
+    clickTimer = nil;
+    clickCounter = 0;
+    self.currentMeasureCount = 0;
+    self.currentBeatInMeasure = 0;
+    self.startTime = 0;
+    self.timerStarted = false;
+}
+
+-(void) startTimerTick{
+    NSLog(@"Starting timer tick at %f sec per click", self.secPerClick);
+    NSLog(@"total beats %d", self.measure.totalBeats);
+    self.startDate = [NSDate date];
+    self.startTime = [_startDate timeIntervalSince1970];
+    self.timerStarted = true;
+    clickTimer = [NSTimer scheduledTimerWithTimeInterval: self.secPerClick
+                                                  target: self
+                                                selector:@selector(onTimerTick)
+                                                userInfo: nil repeats:YES];
 }
 
 -(void)initInstrument{
@@ -63,11 +101,10 @@
     float startTime = 0.0;
     int totalClicks = self.timeSignature.beatsPerMeasure;
     
-    for(int i = 0; i<totalClicks; i++){
-        AKMandolinNote *note = [[AKMandolinNote alloc] init];
+    for(int i = 1; i<=totalClicks; i++){
+        ClickTrackNote *note = [[ClickTrackNote alloc] initWithClickTrack:self];
         note.frequency.value = 440;
         [self.phrase addNote:note atTime:startTime + i*self.secPerClick];
-        NSLog(@"added click track note %d", i);
     }
     
     [self.instrument repeatPhrase:self.phrase duration:totalClicks*self.secPerClick];
@@ -81,25 +118,27 @@
  Get time elapsed since startTimer method called, if method was not called return 0
  */
 -(float) getTimeElapsed{
+    float elapsed = 0;
     
     if(self.timerStarted){
         self.endDate = [NSDate date];
         double end = [_endDate timeIntervalSince1970];
-        float elapsed = end - self.startTime;
-        return elapsed;
+        elapsed = end - self.startTime;
     }
-    else{
-        return 0;
-    }
+    self.totalTimeElapsed = elapsed;
+    return elapsed;
 }
 
 /*
  Get elapsed measure
  */
 -(float) getMeasureElapsed{
-    float currentTimeInMeasure = [self getMeasureTimeElapsed];
+    float currentTimeInMeasure = roundf([self getMeasureTimeElapsed]);
+    NSLog(@"Current time in measure %f", currentTimeInMeasure);
+    self.currentBeatInMeasure = currentTimeInMeasure + 1;
     //current measure = int (current time) / int (time of 1 measure)
-    int currentMeasure = currentTimeInMeasure / self.measure.secPerMeasure;
+    //currentTimeInMeasure + 1 since current time in measure starts at 0 (0,1,2,3...etc)
+    int currentMeasure = (currentTimeInMeasure + 1) / self.measure.secPerMeasure;
     return currentMeasure;
 }
 
@@ -125,16 +164,33 @@
 -(void) startTimer{
     //start tempo clock
     [self playClickTrack];
-    self.startDate = [NSDate date];
-    self.startTime = [_startDate timeIntervalSince1970];
-    self.timerStarted = true;
+    //start timer that updates current measure count
+    [self startTimerTick];
 }
 
 -(void) stopTimer{
     //stop tempo clock
     [self stopClickTrack];
-    self.startTime = 0;
-    self.timerStarted = false;
+    
+    //stop timer that updates current measure count
+    [self stopTimerTick];
+}
+
+@end
+
+//---------Click track note
+@implementation ClickTrackNote
+-(id)initWithClickTrack:(ClickTrack *)clickTrack{
+    self = [super init];
+    if(self){
+        self.clickTrack = clickTrack;
+    }
+    return self;
+}
+
+-(void)play{
+    [super play];
+    //[self.clickTrack getMeasureElapsed];
 }
 
 @end

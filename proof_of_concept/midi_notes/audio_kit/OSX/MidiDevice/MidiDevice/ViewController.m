@@ -54,6 +54,11 @@
     
     
     self.instrument = [[Instrument alloc] initWithInstrumet:tambourine];
+    //register as an observer of instrument.record value
+    [self.instrument.track.clickTrack addObserver:self forKeyPath:@"currentMeasureCount" options:(NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld) context:NULL];
+    
+    [self.instrument.track.clickTrack addObserver:self forKeyPath:@"currentBeatInMeasure" options:(NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld) context:NULL];
+    
     [AKOrchestra addInstrument:self.instrument];
     [self.instrument play];
     
@@ -568,6 +573,28 @@
     [self.instrument.track.measure updateMeasure];
     float duration = [self.instrument.track.measure totalDuration];
     self.totalDuration.floatValue = duration;
+}
+
+
+//observer of values that change in the instrument object, use to update view
+- (void)observeValueForKeyPath:(NSString *)keyPath
+                      ofObject:(id)object
+                        change:(NSDictionary *)change
+                       context:(void *)context {
+    
+    
+    if ([keyPath isEqual:@"currentMeasureCount"]) {
+        self.measureCounter.intValue = self.instrument.track.clickTrack.currentMeasureCount;
+    }
+    
+    else if ([keyPath isEqual:@"currentBeatInMeasure"]) {
+        self.beatCounter.intValue = self.instrument.track.clickTrack.currentBeatInMeasure;
+    }
+    /*
+     Be sure to call the superclass's implementation *if it implements it*.
+     NSObject does not implement the method.
+     */
+    
 }
 
 @end

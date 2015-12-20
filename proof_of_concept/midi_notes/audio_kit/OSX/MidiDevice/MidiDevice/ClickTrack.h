@@ -19,6 +19,9 @@
 @property AKPhrase *phrase;
 @property AKTambourineInstrument * instrument;
 @property float secPerClick;
+@property int currentMeasureCount;
+@property int currentBeatInMeasure;
+@property float totalTimeElapsed;
 
 //time stamp for adding notes to phrase
 @property double startTime;
@@ -31,11 +34,22 @@
 -(void) initInstrument;
 -(id) initWithTempoAndTimeSignature: (Tempo *) tempo Signature: (TimeSignature *) timeSignature withMeasure: (Measure *) measure;
 
+-(void) onTimerTick;
+-(void) startTimerTick;
+-(void) stopTimerTick;
+
 -(void) startTimer;
 -(void) stopTimer;
 -(float) getTimeElapsed;
 -(float) getMeasureElapsed;
 -(float) getMeasureTimeElapsed;
 
+@end
 
+
+//---------Click track note
+@interface ClickTrackNote : AKMandolinNote
+//subclass the AKNote to execute callback method from clicktrack when play note is called
+-(id) initWithClickTrack: (ClickTrack *)clickTrack;
+@property ClickTrack * clickTrack;
 @end

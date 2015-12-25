@@ -21,7 +21,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-//#ifndef FilterMotion_h
+#ifndef FilterMotion_h
 #define FilterMotion_h
 
 //Motion Types
@@ -66,6 +66,6 @@ class FilterMotion
 
 
 
-//#endif // FilterMotion_h
+#endif // FilterMotion_h
 
 

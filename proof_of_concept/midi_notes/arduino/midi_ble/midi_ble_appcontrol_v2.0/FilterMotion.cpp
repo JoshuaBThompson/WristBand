@@ -31,7 +31,6 @@ FilterMotion::FilterMotion(void) {
 
   // initialize variables
     reset();
-  
 }
 
 /*

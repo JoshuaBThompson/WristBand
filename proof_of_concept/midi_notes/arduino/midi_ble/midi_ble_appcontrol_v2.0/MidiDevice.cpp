@@ -1,116 +1,61 @@
 /*
-IMUDuino.cpp - Originally based on FreeIMU.cpp - A libre and easy to use orientation sensing library for Arduino
-Copyright (C) 2011-2012 Fabio Varesano <fabio at varesano dot net>
-
-Development of this code has been supported by the Department of Computer Science,
-Universita' degli Studi di Torino, Italy within the Piemonte Project
-http://www.piemonte.di.unito.it/
-
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the version 3 GNU General Public License as
-published by the Free Software Foundation.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
+MidiDevice.cpp
+Author: jbthompson.eng@gmail.com
+Date Created: 12/22/2015
+Desc: Main object that is responsible for parsing motion data to generate midi messages and send them over bluetooth to a user iphone/mac
+      Can also receives cmd over the uart ble service
 */
 
 
 #include <inttypes.h>
 #include <stdint.h>
-#include "FilterMotion.h"
+#include "MidiDevice.h"
+
+/*
+ * Constructor
+ */
+MidiDevice::MidiDevice(void):MidiDeviceCmds() {
+
+}
 
 
-FilterMotion::FilterMotion(void) {
+/*
+ * Check bluetooth communication rx buffer for cmds or error, handle events or cmds
+ */
+void MidiDevice::handleBleEvents(void){
 
-  // initialize variables
-    reset();
+  //check ble event states, see if errors, messages received, timing request changes...etc
+  //if received message, ble will put in rxBuffer
+   ble.handleEvents();
+
+   //check errors?
+   if(ble.errorEvent){
+   }
+   //check messages if any and copy to cmd buffer
+   if(ble.rxEvent){
+      bool cmdAvailable = parseCmdFromRxBuffer(ble.rxBuffer, cmd);
+      if(cmdAvailable){
+        cmdCallback(cmd);
+      }
+   }
+
+   //clear events
+   ble.clearEvents();
+   
+}
+
+
+/*
+ * Update values from the accelerometer / gyro, note #, rotation angle, channel #, mode, button output (cc...etc)
+ */
+void MidiDevice::updateState(void){
   
 }
 
 /*
-* setX1: set the class variable x0 representing the previous data point, usually set to x1 after difference calculation
-*/
-void FilterMotion::setX0(long int x){
-    x0 = x;
-}
-
-/*
-* setX1: set the class variable x1 representing the most recent data point
-*/
-void FilterMotion::setX1(long int x){
-    x1 = x;
-}
-
-
-/*
-* isNote: See if a note is generated with new data point
-*/
-bool FilterMotion::isNote(long int x){  
-    
-    //-------Get x0, x1 and difference between them
-    setX1(x);
-    diff = x1 - x0; //get difference between current and prev samples to see if acceleration is rising or falling
-    setX0(x1); //update x0 for next sample
-    
-    
-    //-------Get rising, falling and sample count
-    rising = rising || (diff >= MinDiff); //rising if rising previously or current rising detected
-    
-    if(rising){
-      samples++; //only increment samples if rising / falling
-      falling = diff <= MinFalling;
-      
-      if(falling){
-        samples++;
-      }
-    }
-     
-    
-    //--------Get running sum
-    //If not rising then set to 0
-    xSum = (xSum + diff) * rising;
-    
-    //--------Get note
-    if(diff <= CatchFalling && !note && !rising){
-      //catch a large falling data point that might have been missed
-      //If the fall is large enough then this is probably a note
-      note = true;
-    }
-    else{
-      //normal note should be interpreted when total xsum is close to initial x0 recorded when first rise detected
-      //rising and falling must both be set to indicate a complete note
-      note = (xSum <= MinSum) && rising && falling;
-    }
-    
-    //-------Check for reset condition
-    if(note || (samples >= MaxSamples)){
-        //reset all if note is valid or max samples detected
-        xSum = 0; 
-        samples = 0;
-        rising = 0;
-        falling = 0;
-    }
-    
-    return note;
-}
-
-
-/*
-* reset: Initiliaze / reset variables
-*/
-void FilterMotion::reset() {
-    falling = false;
-    rising = false;
-    note = false;
-    x1 = x0 = xSum = diff = 0;
-    samples = 0;
+ * If note valid sends midi note, if button pressed send midi message (varies), send sensor data?
+ */
+void MidiDevice.sendState(void){
   
 }
 

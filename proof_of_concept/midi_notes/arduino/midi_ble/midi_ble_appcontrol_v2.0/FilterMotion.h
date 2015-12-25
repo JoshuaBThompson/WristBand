@@ -61,6 +61,7 @@ class FilterMotion
     unsigned int samples;
     long int x1, x0, xSum, diff;
     bool rising, falling, note;
+    char cmdBuffer[MAX_BLE_RX_SIZE];
 };
 
 

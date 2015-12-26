@@ -7,9 +7,10 @@ Date Created: 12/22/2015
 #define MidiSensor_h
 
 #include "Arduino.h"
-#include "IMUduino.h"
-#include "FilterMotion.h"
+#include "ImuFilter.h"
+#include "MotionFilter."
 #include "MidiSensorModel.h"
+#include "QueueList.h"
 
 
 class MidiSensor
@@ -22,9 +23,11 @@ class MidiSensor
     void reset(void);
     
     //attributes
+    // create a queue of bool for FIFO of midi data
+    QueueList <midi_event_t> midiEventQueue;
     sensor_model_t model;
-    MotionFilter motionFilter; //filters imu data to determine if motion constitutes a beat / note
-    IMUduino imu; //gyro and accelerometer and magnetometer (todo: get rid of magnetometer)
+    MotionFilter motionFilter; //wrapper around beat and rotation filter
+    ImuFilter imuFilter; //gyro and accelerometer and magnetometer data
 };
 
 #endif // MidiSensor_h

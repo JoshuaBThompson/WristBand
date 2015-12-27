@@ -8,6 +8,7 @@ Date Created: 12/22/2015
 
 
 #include "Arduino.h"
+#include "IMUFilter.h"
 
 /******RotationFilter data model struct
  * Contains struct of axis type, angle in deg and radians
@@ -31,12 +32,14 @@ class RotationFilter
   public:
     
     //Methods
-    RotationFilter(void);
+    RotationFilter(IMUFilter *);
     void reset(void);
     void init(void);
+    void updateState(void);
 
     //Variables
     rotation_filter_model_t model;
+    IMUFilter * imuFilter;
     
 };
 

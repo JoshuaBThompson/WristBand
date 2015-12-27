@@ -7,10 +7,10 @@ Date Created: 12/22/2015
 #define BeatFilter_h
 
 #include "Arduino.h"
+#include "IMUFilter.h"
 
 //Motion Types
-#define ACCELMOTION 0
-#define GYROMOTION 1
+typedef enum {ACCEL, GYRO, MAG} motion_source_t;
 
 
 // -----------------filter constants for Acceleration beat analysis-----------------
@@ -37,6 +37,7 @@ typedef struct {
   int minFalling;
   int catchFalling;
   int maxSamples;
+  motion_source_t motionSource;
 
   //used to calc beat
   unsigned int samples;
@@ -53,7 +54,7 @@ class BeatFilter
   public:
     
     //Methods
-    BeatFilter(void);
+    BeatFilter(IMUFilter *);
     void reset(void);
     void init(void);
     void setX0(long int x);
@@ -61,6 +62,7 @@ class BeatFilter
     bool isBeat(long int x);
 
     //Attributes
+    IMUFilter * imuFilter;
     beat_filter_model_t model;
 };
 

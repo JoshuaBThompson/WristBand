@@ -9,9 +9,9 @@ Date Created: 12/22/2015
 #include "BeatFilter.h"
 
 
-BeatFilter::BeatFilter(void) {
-
+BeatFilter::BeatFilter(IMUFilter * imuFilterPtr) {
   // todo:?
+  imuFilter = imuFilterPtr;
 }
 
 
@@ -19,8 +19,7 @@ BeatFilter::BeatFilter(void) {
  * Inititalize filter variables
  */
 void BeatFilter::init(void){
-  reset();
-  
+  reset(); 
 }
 
 /*
@@ -100,7 +99,14 @@ void BeatFilter::reset() {
     model.beat = false;
     model.x1 = model.x0 = model.xSum = model.diff = 0;
     model.samples = 0;
-  
+
+    //init params to default values
+    model.minDiff = MinDiff;
+    model.minSum = MinSum;
+    model.minFalling = MinFalling;
+    model.catchFalling = CatchFalling;
+    model.maxSamples = MaxSamples;
+    model.motionSource = ACCEL;
 }
 
 

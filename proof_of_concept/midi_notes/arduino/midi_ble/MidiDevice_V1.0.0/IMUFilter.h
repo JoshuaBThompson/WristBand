@@ -9,6 +9,8 @@ Date Created: 12/22/2015
 #include "Arduino.h"
 #include "IMUduino.h"
 
+//----Constants
+#define SENSOR_VALUES_COUNT 11 //accel x,y,z | gyro x,y,z | mag x,y,z | altitude and temperature
 
 /*********ImuFilter model Struct
  * Defines structure of ImuFilter model data
@@ -32,11 +34,22 @@ typedef struct {
 
 typedef union {
   imu_measurements_t data;
-  int data_array;
+  int data_array[SENSOR_VALUES_COUNT];
 } imu_enum_t;
+
+
+//generic data struct that can apply to accelerometer, rate gyro or magnetometer
+typedef struct {
+  int x;
+  int y;
+  int z;
+} axis_sensor_data_t;
 
 typdef struct {
   imu_enum_t raw_data;
+  axis_sensor_data_t accel;
+  axis_sensor_data_t gyro;
+  axis_sensor_data_t mag;
 } imu_filter_model_t;
 
 /*
@@ -49,9 +62,12 @@ class IMUFilter
     //Methods
     IMUFilter(void);
     void init(void);
-    void initModel(void);
     void reset(void);
     void updateState(void);
+    void calibrateImu(void);
+    void calibrateAccel(void);
+    void calibrateGyro(void);
+    void calibrateMag(void);
     
     //attributes
     imu_filter_model_t model;

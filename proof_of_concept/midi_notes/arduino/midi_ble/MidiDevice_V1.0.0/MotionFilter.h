@@ -17,7 +17,6 @@ class MotionFilter
     //Methods
     MotionFilter(void);
     void init(void);
-    void initModel(void);
     void reset(void);
     void updateState(void);
     

@@ -48,38 +48,78 @@ void RotationFilter::reset() {
 }
 
 /*
- * Update rotation angle from imu data
+ * Update rotation angle and accel axis data from imu
  */
 
 void RotationFilter::updateState(void){
-  if(average_count < max_ave_count){
-                calc_average_y[average_count] = accelY;
-                calc_average_z[average_count] = accelZ;
-                average_count += 1;
+  updateAxisValues();
+  updateRotationAngle();
+}
+
+/*
+ * Fill in axis values from imu based on the ref axis
+ */
+
+void RotationFilter:updateAxisValues(void){
+  switch(model.aboutAxis){
+    case X:
+      model.accelAxis1Val = imuFilter.model.accel.y;
+      model.accelAxis2Val = imuFilter.model.accel.z;
+      model.accelRefAxisVal = imuFilter.model.accel.x;
+      
+    break;
+
+    case Y:
+      model.accelAxis1Val = imuFilter.model.accel.x;
+      model.accelAxis2Val = imuFilter.model.accel.z;
+      model.accelRefAxisVal = imuFilter.model.accel.y;
+    break;
+
+    case Z:
+      //probably will never use this setting
+      model.accelAxis1Val = imuFilter.model.accel.x;
+      model.accelAxis2Val = imuFilter.model.accel.y;
+      model.accelRefAxisVal = imuFilter.model.accel.z;
+    break;
+
+    default:
+      //should never get to default, but just in case...
+      model.accelAxis1Val = imuFilter.model.accel.y;
+      model.accelAxis2Val = imuFilter.model.accel.z;
+      model.accelRefAxisVal = imuFilter.model.accel.x;
+    break;
+  }
+}
+
+/*
+ * Update rotation angle from imu data
+ */
+
+void RotationFilter::updateRotationAngle(void){
+  if(model.averageCount < model.maxAverageCount){
+                model.averageAxis1Buff[averageCount] = model.accelAxis1Val;
+                model.averageAxis2Buff[averageCount] = model.accelAxis2Val;
+                model.averageCount += 1;
             }
 
-  else if (average_count == max_ave_count){
-      running_average_y = 0;
-      running_average_z = 0;
-      for( char i=0; i < max_ave_count; i++){
-          running_average_y += (float)calc_average_y[i]/(float)max_ave_count;
-          running_average_z += (float)calc_average_z[i]/(float)max_ave_count;
+  else if (model.averageCount == model.maxAverageCount){
+      model.runningAverageAxis1 = 0;
+      model.runningAverageAxis2 = 0;
+      for( char i=0; i < model.maxAverageCount; i++){
+          model.runningAverageAxis1 += (float)model.averageAxis1Buff[i]/(float)model.maxAverageCount;
+          running_average_z += (float)model.averageAxis2Buff[i]/(float)model.maxAverageCount;
       }
-      running_average_y = running_average_y - y_offset;
-      running_average_z = running_average_z - z_offset;
-      average_count = 0;
+      model.runningAverageAxis1 = model.runningAverageAxis1 - axis1Offset;
+      model.runningAverageAxis2 = model.runningAverageAxis2 - axis2Offset;
+      model.averageCount = 0;
   }
     
-  if((running_average_y >= -1*accel_scale_y) && (running_average_y <= 1*accel_scale_y)){
-      if((running_average_z >= -1*accel_scale_z) && (running_average_z <= 1*accel_scale_z)){
-          angle_f = atan2(running_average_y, running_average_z)*180.0/PI;
-          angle = (int)angle_f;
+  if((model.runningAverageAxis1 >= -1*model.accelScaleAxis1) && (model.runningAverageAxis1 <= 1*model.accelScaleAxis1)){
+      if((model.runningAverageAxis2 >= -1*model.accelScaleAxis2) && (model.runningAverageAxis2 <= 1*model.accelScaleAxis2)){
+          model.angleRad = atan2(model.runningAverageAxis1, model.runningAverageAxis2);
+          model.angleDeg = (int)(model.angleRad*180.0/PI);
       }
   }
   
 }
-
-
-
-
 

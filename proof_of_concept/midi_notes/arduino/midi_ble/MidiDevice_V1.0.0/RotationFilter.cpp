@@ -38,12 +38,25 @@ RotationFilter::RotationFilter(IMUFilter * imuFilterPtr) {
  */
 void RotationFilter::init(void){
    reset();
+   initRunningAverage();
 }
 
 /*
 * reset: Initiliaze / reset variables
 */
 void RotationFilter::reset() {
+  model.averageCount = 0;
+  model.maxAverageCount = MAX_AVERAGE_COUNT;
+  model.accelAxis1Val = 0;
+  model.accelAxis2Val = 0;
+  model.accelRefAxisVal = 0;
+  model.runningAverageAxis1 = 0;
+  model.runningAverageAxis2 = 0;
+  updateAboutAxis(X_AXIS_TYPE); //updates aboutAxis and other params that depend on it
+  for(int i = 0; i < MAX_AVERAGE_COUNT; i++){
+    model.averageAxis1Buff[i] = 0;
+    model.averageAxis2Buff[i] = 0;
+  }
   
 }
 
@@ -56,37 +69,73 @@ void RotationFilter::updateState(void){
   updateRotationAngle();
 }
 
+void RotationFilter::updateAboutAxis(char axis_number){
+  model.aboutAxis = axis_number;
+  switch(model.aboutAxis){
+    case X_AXIS_TYPE:
+      model.axis1Offset = YOFFSET;
+      model.axis2Offset = ZOFFSET;
+      model.accelScaleAxis1 = ACCEL_SCALE_Y;
+      model.accelScaleAxis2 = ACCEL_SCALE_Z;
+    break;
+
+    case Y_AXIS_TYPE:
+      model.axis1Offset = XOFFSET;
+      model.axis2Offset = ZOFFSET;
+      model.accelScaleAxis1 = ACCEL_SCALE_X;
+      model.accelScaleAxis2 = ACCEL_SCALE_Z;
+    break;
+
+    case Z_AXIS_TYPE:
+      //probably will never use this setting
+      model.axis1Offset = XOFFSET;
+      model.axis2Offset = YOFFSET;
+      model.accelScaleAxis1 = ACCEL_SCALE_X;
+      model.accelScaleAxis2 = ACCEL_SCALE_Y;
+    break;
+
+    default:
+      //should never get to default, but just in case...
+      model.axis1Offset = YOFFSET;
+      model.axis2Offset = ZOFFSET;
+      model.accelScaleAxis1 = ACCEL_SCALE_Y;
+      model.accelScaleAxis2 = ACCEL_SCALE_Z;
+    break;
+  }
+  
+}
+
 /*
  * Fill in axis values from imu based on the ref axis
  */
 
 void RotationFilter:updateAxisValues(void){
   switch(model.aboutAxis){
-    case X:
-      model.accelAxis1Val = imuFilter.model.accel.y;
-      model.accelAxis2Val = imuFilter.model.accel.z;
-      model.accelRefAxisVal = imuFilter.model.accel.x;
+    case X_AXIS_TYPE:
+      model.accelAxis1Val = imuFilter->model.accel.y;
+      model.accelAxis2Val = imuFilter->model.accel.z;
+      model.accelRefAxisVal = imuFilter->model.accel.x;
       
     break;
 
-    case Y:
-      model.accelAxis1Val = imuFilter.model.accel.x;
-      model.accelAxis2Val = imuFilter.model.accel.z;
-      model.accelRefAxisVal = imuFilter.model.accel.y;
+    case Y_AXIS_TYPE:
+      model.accelAxis1Val = imuFilter->model.accel.x;
+      model.accelAxis2Val = imuFilter->model.accel.z;
+      model.accelRefAxisVal = imuFilter->model.accel.y;
     break;
 
-    case Z:
+    case Z_AXIS_TYPE:
       //probably will never use this setting
-      model.accelAxis1Val = imuFilter.model.accel.x;
-      model.accelAxis2Val = imuFilter.model.accel.y;
-      model.accelRefAxisVal = imuFilter.model.accel.z;
+      model.accelAxis1Val = imuFilter->model.accel.x;
+      model.accelAxis2Val = imuFilter->model.accel.y;
+      model.accelRefAxisVal = imuFilter->model.accel.z;
     break;
 
     default:
       //should never get to default, but just in case...
-      model.accelAxis1Val = imuFilter.model.accel.y;
-      model.accelAxis2Val = imuFilter.model.accel.z;
-      model.accelRefAxisVal = imuFilter.model.accel.x;
+      model.accelAxis1Val = imuFilter->model.accel.y;
+      model.accelAxis2Val = imuFilter->model.accel.z;
+      model.accelRefAxisVal = imuFilter->model.accel.x;
     break;
   }
 }
@@ -109,8 +158,8 @@ void RotationFilter::updateRotationAngle(void){
           model.runningAverageAxis1 += (float)model.averageAxis1Buff[i]/(float)model.maxAverageCount;
           running_average_z += (float)model.averageAxis2Buff[i]/(float)model.maxAverageCount;
       }
-      model.runningAverageAxis1 = model.runningAverageAxis1 - axis1Offset;
-      model.runningAverageAxis2 = model.runningAverageAxis2 - axis2Offset;
+      model.runningAverageAxis1 = model.runningAverageAxis1 - model.axis1Offset;
+      model.runningAverageAxis2 = model.runningAverageAxis2 - model.axis2Offset;
       model.averageCount = 0;
   }
     
@@ -120,6 +169,46 @@ void RotationFilter::updateRotationAngle(void){
           model.angleDeg = (int)(model.angleRad*180.0/PI);
       }
   }
+  
+}
+
+void RotationFilter::updateRotationAngleNew(void){
+  if(model.averageCount < model.maxAverageCount){
+                model.runningAverageAxis1 -= (float)(model.averageAxis1Buff[averageCount]-model.axis1Offset)/(float)model.maxAverageCount;
+                model.runningAverageAxis2 -= (float)(model.averageAxis2Buff[averageCount]-model.axis2Offset)/(float)model.maxAverageCount;
+                
+                model.averageAxis1Buff[averageCount] = model.accelAxis1Val;
+                model.averageAxis2Buff[averageCount] = model.accelAxis2Val;
+                
+                model.runningAverageAxis1 += (float)(model.averageAxis1Buff[averageCount]-model.axis1Offset)/(float)model.maxAverageCount;
+                model.runningAverageAxis2 += (float)(model.averageAxis2Buff[averageCount]-model.axis2Offset)/(float)model.maxAverageCount;
+                
+                model.averageCount++;
+                if(model.averageCount => model.maxAverageCount){model.averageCount=0;} //reset
+            }
+    
+  if((model.runningAverageAxis1 >= -1*model.accelScaleAxis1) && (model.runningAverageAxis1 <= 1*model.accelScaleAxis1)){
+      if((model.runningAverageAxis2 >= -1*model.accelScaleAxis2) && (model.runningAverageAxis2 <= 1*model.accelScaleAxis2)){
+          model.angleRad = atan2(model.runningAverageAxis1, model.runningAverageAxis2);
+          model.angleDeg = (int)(model.angleRad*180.0/PI);
+      }
+  }
+}
+
+/*
+ * Intialize average buffer and running averages with single accelerometer values initially before main loop starts using updateState method
+ */
+void RotationFilter::initRunningAverage(void){
+  updateAxisValues();//get accel x,y and z values and put in proper order in model
+
+  //fill in all average buffers with same accel value initially
+  for(int i = 0; i<model.maxAverageCount; i++){
+    model.averageAxis1Buff[i] = model.accelAxis1Val;
+    model.averageAxis2Buff[i] = model.accelAxis2Val;
+  }
+
+  model.runningAverageAxis1 = (float)(model.accelAxis1Val-model.axis1Offset);
+  model.runningAverageAxis2 = (float)(model.accelAxis1Val-model.axis2Offset);
   
 }
 

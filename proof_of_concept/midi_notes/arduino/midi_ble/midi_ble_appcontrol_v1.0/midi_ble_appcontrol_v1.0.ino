@@ -19,6 +19,7 @@
 #define CCMODE_STATUS   0xB0
 
 
+
 //init nrf8001 object
 nrf8001 nrf8001_midi = nrf8001();
 IMUduino my3IMU = IMUduino();

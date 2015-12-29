@@ -16,6 +16,16 @@ BeatFilter::BeatFilter(IMUFilter * imuFilterPtr) {
 
 
 /*
+ * UpdateState of beatFilter using updated imuData and updating beat calculation
+ */
+
+void BeatFilter::updateState(void){
+  updateAxisValues();
+  int x = model.axisValues[model.axis];
+  isBeat(x);
+}
+
+/*
  * Inititalize filter variables
  */
 void BeatFilter::init(void){
@@ -45,7 +55,7 @@ bool BeatFilter::isBeat(long int x){
     //-------Get x0, x1 and difference between them
     setX1(x);
     model.diff = model.x1 - model.x0; //get difference between current and prev samples to see if acceleration is rising or falling
-    setX0(x1); //update x0 for next sample
+    setX0(model.x1); //update x0 for next sample
     
     
     //-------Get rising, falling and sample count
@@ -99,6 +109,7 @@ void BeatFilter::reset() {
     model.beat = false;
     model.x1 = model.x0 = model.xSum = model.diff = 0;
     model.samples = 0;
+    model.axis = X;
 
     //init params to default values
     model.minDiff = MinDiff;
@@ -106,7 +117,63 @@ void BeatFilter::reset() {
     model.minFalling = MinFalling;
     model.catchFalling = CatchFalling;
     model.maxSamples = MaxSamples;
-    model.motionSource = ACCEL;
+    model.motionSource = ACCEL_MOTION_SOURCE;
+}
+
+void BeatFilter::updateMotionSource(char motion_number){
+  model.motionSource = motion_number;
+
+  //todo: any params depend on the source?
+  switch(model.motionSource){
+    case ACCEL_MOTION_SOURCE:
+    break;
+
+    case GYRO_MOTION_SOURCE:
+    break;
+
+    case MAG_MOTION_SOURCE:
+      //probably will never use this setting
+    break;
+
+    default:
+      //should never get to default, but just in case...
+    break;
+  }
+  
+}
+
+/*
+ * Fill in axis values from imu based on the ref axis
+ */
+
+void BeatFilter:updateAxisValues(void){
+  model.motionSource = motion_number;
+
+  switch(model.motionSource){
+    case ACCEL_MOTION_SOURCE:
+      model.axisValues[0] = imuFilter->model.accel.x;
+      model.axisValues[1] = imuFilter->model.accel.y;
+      model.axisValues[2] = imuFilter->model.accel.z;
+      
+    break;
+
+    case GYRO_MOTION_SOURCE:
+      model.axisValues[0] = imuFilter->model.gyro.x;
+      model.axisValues[1] = imuFilter->model.gyro.y;
+      model.axisValues[2] = imuFilter->model.gyro.z;
+    break;
+
+    case MAG_MOTION_SOURCE:
+      //probably will never use this setting
+      model.axisValues[0] = imuFilter->model.mag.x;
+      model.axisValues[1] = imuFilter->model.mag.y;
+      model.axisValues[2] = imuFilter->model.mag.z;
+    break;
+
+    default:
+      //should never get to default, but just in case...
+    break;
+  }
 }
 
 

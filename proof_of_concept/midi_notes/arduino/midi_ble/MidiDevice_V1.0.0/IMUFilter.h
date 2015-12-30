@@ -28,8 +28,8 @@ typedef struct {
   int mag_x;
   int mag_y;
   int mag_z;
-  int s1;
-  int s2; 
+  int pressure; //todo: double check this
+  int temperature; //todo: double check this
 } imu_measurements_t;
 
 typedef union {

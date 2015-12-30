@@ -13,11 +13,8 @@ Desc: Main object that is responsible for filtering motion data to produce data 
  * Constructor
 */
 MidiSensor::MidiSensor(void) {
-    beatFilter = BeatFilter();
-    rotationFilter = RotationFilter();
-    imu = imuFilter();
-    //reset variables
-    reset();
+    motionFilter = MotionFilter();
+    model.timeInterval = TimeInterval; //35 ms
 }
 
 
@@ -32,64 +29,134 @@ void MidiSensor::reset(void){
  * Init MidiDevice by 
 */
 void MidiSensor::init(void){
-  //init objects
-  beatFilter.init();
-  rotationFilter.init();
-  imu.init();  
+  //todo: init objects?
+  
+   //reset variables
+    reset();
+}
+
+
+/*
+ * Rest model vars
+ */
+
+void MidiSensor::reset(void){
+  model.timeInterval = TimeInterval; //35 ms
 }
 
 /*
- * Initialize the sensor model struct
+ * Get Note On state / updat model
+ */
+void MidiSensor::updateNoteOnState(void){
+  model.noteOn.enabled = motionFilter.model.beat;
+  if(model.noteOn.enabled){
+    updateNoteOnValue();
+    updateNoteOnQueue();
+  }
+  return ;
+}
+
+/*
+ * Get event state / update model
+ */
+void MidiSensor::updateEventState(void){
+  model.event.dataByte2 = motionFilter.imuFilter.model.data.dataArray[model.event.source]; //choose accel or gyro or mag  ...(x, y, z)
+  return ;
+}
+
+
+/*
+ * Update Note Off state / update model
  */
 
-void MidiSensor::initModel(void){
-  //todo: 
-  //init params
+void MidiSensor::updateNoteOffState(void){
+  if(model.noteOff.set && model.noteOn.enabled){
+    model.noteOff.enabled = true;
+    updateNoteOffQueue(); //put noteoff on queue then reset set and enabled vars
+    //since note enabled the set noteOff again and record time
+    model.noteOff.set = true;
+    model.noteOff.setTime = model.currentTime;
+  }
 
-  //init events
+  else if (model.noteOn.enabled){
+    //new note detected, so set noteOff and record time and set noteOff note value to prev note value
+    model.noteOff.set = true;
+    model.noteOff.setTime = model.currentTime;
+    updateNoteOffValue();
+  }
 
-  //init measurements
+  int timeDiff = model.currentTime - model.noteOff.setTime;
+  else if (model.noteOff.set && timeDiff >= model.noteOff.maxTimeDelay){
+    model.noteOff.enabled = true;
+    updateNoteOffQueue(); //put noteoff on queue then reset set and enabled vars
+  }
+  
 }
+
 
 /*
  * Filter beat and motion data and update model state variables (not on, off, cc ...etc)
  */
 void MidiSensor::updateState(void){
   model.currentTime = millis();
-  if(mode.currentTime - mode.prevTime <= mode.intervalTime)
+  if(model.currentTime - model.prevTime < model.intervalTime)
   {
       return;
   }
   else{
-      mode.prevTime = mode.currentTime;
+      model.prevTime = model.currentTime;
   }
   
-  imu.updateState();
-  beatFilter.updateState();
-  rotationFilter.updateState();
+  motionFilter.updateState();
     
   //update model
-  model.noteOn.enabled = beatFilter.model.beatDetected;
-  model.event.dataByte2 = imu.model.measurements[model.event.sensorNumber];
-  
-  
-  if(model.noteOff.set && (model.currentTime - model.noteOff.prevTime >= model.noteOff.maxDelay){
-      model.noteOff.enabled = true;
-      model.noteOff.set = false;
-  }
-  else if (model.noteOn.enabled && model.noteOff.set){
-      model.noteOff.enabled = true;
-      model.noteOff.set = true;
-      model.noteOff.prevTime = model.currentTime;
-  }
-  else if (model.noteOn.enabled){
-      model.noteOff.set = true;
-      model.noteOff.prevTime = model.currentTime;
-  }
-  else{
-      model.noteOff.enabled = false;
-  }
+  updateNoteOnState();
+  updateNoteOffState();
+  updateEventState();
 }
+
+/*
+ * Update midi note mode source 
+ */
+
+void MidiSensor::updateMidiNoteMode(char modeNumber){
+  
+}
+
+/*
+ * Update midi generic event motion source
+ */
+
+void MidiSensor::updateMidiEventSource(char sourceNumber){
+  
+}
+
+/*
+ * Update midi note motion source
+ */
+
+void MidiSensor::updateMidiNoteSource(char sourceNumber){
+  
+}
+
+/*
+ * Update note on pitch and vel based on mode and motion source
+ */
+
+void MidiSensor::updateNoteOnValue(void){
+  
+}
+
+
+/*
+ * Update note off pitch and vel based on mode and motion source
+ */
+
+void MidiSensor::updateNoteOffValue(void){
+  
+}
+
+
 
 
 

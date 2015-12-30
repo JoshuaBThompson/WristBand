@@ -11,9 +11,10 @@ Date Created: 12/22/2015
 
 
 MotionFilter::MotionFilter(void) {
+  bool parent = true;
   imuFilter = IMUFilter();
-  beatFilter = BeatFilter(&imuFilter);
-  rotationFilter = RotationFilter(&imuFilter);
+  beatFilter = BeatFilter(&imuFilter, parent); //sets beatFilter child attribute to true, so that it expects motion filter class to update imu filter model
+  rotationFilter = RotationFilter(&imuFilter, parent); //sets rotationFilter child attribute to true...etc
 }
 
 /*
@@ -38,10 +39,13 @@ void MotionFilter::reset() {
  */
 
 void MotionFilter::updateState(void){
+  imuFilter.updateState(); //get accel, gyro and mag x,y,z values and calibrate
   beatFilter.updateState();
   rotationFilter.updateState();
-  
-  //todo: update model?
+  //update model
+  model.beat = beatFilter.beat;
+  model.angleRad = rotationFilter.model.angleRad;
+  model.angleDeg = rotationFilter.model.angleDeg;
 }
 
 

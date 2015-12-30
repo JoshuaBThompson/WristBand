@@ -27,9 +27,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "RotationFilter.h"
 
 
-RotationFilter::RotationFilter(IMUFilter * imuFilterPtr) {
+RotationFilter::RotationFilter(IMUFilter * imuFilterPtr, bool isChild) {
 
   // todo:?
+  child = isChild; //if true, then parent class will update imu data, else this class should update imu data when calling updateState
   imuFilter = imuFilterPtr;
 }
 
@@ -65,14 +66,15 @@ void RotationFilter::reset() {
  */
 
 void RotationFilter::updateState(void){
+  if(!child){imuFilter->updateState();} //update imu data if there is no motionFilter parent calling updateState of imuFilter
   updateAxisValues();
   updateRotationAngle();
 }
 
-void RotationFilter::updateAboutAxis(char axis_number){
-  model.aboutAxis = axis_number;
-  switch(model.aboutAxis){
+void RotationFilter::updateAboutAxis(char axisNumber){
+  switch(axisNumber){
     case X_AXIS_TYPE:
+      model.aboutAxis = axisNumber;
       model.axis1Offset = YOFFSET;
       model.axis2Offset = ZOFFSET;
       model.accelScaleAxis1 = ACCEL_SCALE_Y;
@@ -80,6 +82,7 @@ void RotationFilter::updateAboutAxis(char axis_number){
     break;
 
     case Y_AXIS_TYPE:
+      model.aboutAxis = axisNumber;
       model.axis1Offset = XOFFSET;
       model.axis2Offset = ZOFFSET;
       model.accelScaleAxis1 = ACCEL_SCALE_X;
@@ -88,6 +91,7 @@ void RotationFilter::updateAboutAxis(char axis_number){
 
     case Z_AXIS_TYPE:
       //probably will never use this setting
+      model.aboutAxis = axisNumber;
       model.axis1Offset = XOFFSET;
       model.axis2Offset = YOFFSET;
       model.accelScaleAxis1 = ACCEL_SCALE_X;

@@ -28,7 +28,7 @@ Date Created: 12/22/2015
 typedef struct {
   rotation_axis_t axis;
   int angleDeg;
-  int angleRad;
+  float angleRad;
   char aboutAxis;
   int averageAxis1Buff[MAX_averageCount];
   int averageAxis2Buff[MAX_averageCount];
@@ -52,7 +52,7 @@ class RotationFilter
   public:
     
     //Methods
-    RotationFilter(IMUFilter *);
+    RotationFilter(IMUFilter * imuFilterPtr, bool isChild);
     void reset(void);
     void init(void);
     void updateState(void);
@@ -60,6 +60,7 @@ class RotationFilter
     //Variables
     rotation_filter_model_t model;
     IMUFilter * imuFilter;
+    bool child; //determine if rotationFilter class will update imu data or if parent class will
     
 };
 

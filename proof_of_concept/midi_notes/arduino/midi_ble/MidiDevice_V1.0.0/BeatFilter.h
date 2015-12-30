@@ -65,7 +65,7 @@ class BeatFilter
   public:
     
     //Methods
-    BeatFilter(IMUFilter *);
+    BeatFilter(IMUFilter * imuFilterPtr, bool isChild);
     void reset(void);
     void init(void);
     void setX0(long int x);
@@ -73,11 +73,13 @@ class BeatFilter
     bool isBeat(long int x);
     void updateState(void);
     void updateAxisValues(void);
-    void updateMotionSource(char motion_number);
+    void updateMotionSource(char motionNumber);
+    void updateAxisSource(char axisNumber);
 
     //Attributes
     IMUFilter * imuFilter;
     beat_filter_model_t model;
+    bool child; //determine if beatFilter class will update imu data or if parent class will
 };
 
 #endif // BeatFilter_h

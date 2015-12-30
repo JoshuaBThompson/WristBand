@@ -9,8 +9,9 @@ Date Created: 12/22/2015
 #include "BeatFilter.h"
 
 
-BeatFilter::BeatFilter(IMUFilter * imuFilterPtr) {
+BeatFilter::BeatFilter(IMUFilter * imuFilterPtr, bool isChild) {
   // todo:?
+  child = isChild; //if child, then imu data will be updated from the parent class, else beatFilter class must update imu data when calling updateState
   imuFilter = imuFilterPtr;
 }
 
@@ -20,6 +21,7 @@ BeatFilter::BeatFilter(IMUFilter * imuFilterPtr) {
  */
 
 void BeatFilter::updateState(void){
+  if(!child){imuFilter->updateState();} //update imu data if there is no motionFilter parent calling updateState of imuFilter
   updateAxisValues();
   int x = model.axisValues[model.axis];
   isBeat(x);
@@ -120,18 +122,45 @@ void BeatFilter::reset() {
     model.motionSource = ACCEL_MOTION_SOURCE;
 }
 
-void BeatFilter::updateMotionSource(char motion_number){
-  model.motionSource = motion_number;
+void BeatFilter::updateMotionSource(char motionNumber){
 
+  //set beat motion calculation using accelerometer or gyro or magnetometer
   //todo: any params depend on the source?
-  switch(model.motionSource){
+  switch(motionNumber){
     case ACCEL_MOTION_SOURCE:
+      model.motionSource = motionNumber;
     break;
 
     case GYRO_MOTION_SOURCE:
+      model.motionSource = motionNumber;
     break;
 
     case MAG_MOTION_SOURCE:
+      //probably will never use this setting
+      model.motionSource = motionNumber;
+    break;
+
+    default:
+      //should never get to default, but just in case...
+    break;
+  }
+  
+}
+
+void BeatFilter::updateAxisSource(char axisNumber){
+  //set beat motion calculation on x, y or z axis
+  //todo: any params depend on the axis number?
+  switch(axisNumber){
+    case X:
+      model.axis = axisNumber;
+    break;
+
+    case Y:
+      model.axis = axisNumber;
+    break;
+
+    case Z:
+      model.axis = axisNumber;
       //probably will never use this setting
     break;
 
@@ -147,10 +176,10 @@ void BeatFilter::updateMotionSource(char motion_number){
  */
 
 void BeatFilter:updateAxisValues(void){
-  model.motionSource = motion_number;
 
-  switch(model.motionSource){
+  switch(motion_number){
     case ACCEL_MOTION_SOURCE:
+      model.motionSource = motion_number;
       model.axisValues[0] = imuFilter->model.accel.x;
       model.axisValues[1] = imuFilter->model.accel.y;
       model.axisValues[2] = imuFilter->model.accel.z;
@@ -158,6 +187,7 @@ void BeatFilter:updateAxisValues(void){
     break;
 
     case GYRO_MOTION_SOURCE:
+      model.motionSource = motion_number;
       model.axisValues[0] = imuFilter->model.gyro.x;
       model.axisValues[1] = imuFilter->model.gyro.y;
       model.axisValues[2] = imuFilter->model.gyro.z;
@@ -165,6 +195,7 @@ void BeatFilter:updateAxisValues(void){
 
     case MAG_MOTION_SOURCE:
       //probably will never use this setting
+      model.motionSource = motion_number;
       model.axisValues[0] = imuFilter->model.mag.x;
       model.axisValues[1] = imuFilter->model.mag.y;
       model.axisValues[2] = imuFilter->model.mag.z;
@@ -172,9 +203,12 @@ void BeatFilter:updateAxisValues(void){
 
     default:
       //should never get to default, but just in case...
+      //todo: ?
     break;
   }
 }
+
+
 
 
 

@@ -11,6 +11,12 @@ Date Created: 12/22/2015
 #include "BeatFilter.h"
 #include "RotationFilter.h"
 
+typedef struct {
+  bool beat;
+  int angleDeg;
+  float angleRad;
+} motion_filter_model_t;
+
 class MotionFilter
 {
   public:

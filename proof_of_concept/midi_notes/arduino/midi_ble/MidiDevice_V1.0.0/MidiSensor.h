@@ -13,6 +13,10 @@ Date Created: 12/22/2015
 
 
 #define IntervalTime  35.0 //millisec to wait between udpateState loop
+#define NOTE_ON_BYTE  (byte)0x90 //ch1
+#define NOTE_OFF_BYTE (byte)0x80 //ch1
+#define DEFAULT_CHANNEL 0
+#define NOTE_VELOCITY_BYTE  (byte)0x7f //note velocity 0 - 127
 
 /*********MidiSensor Struct
  * Defines structure of MidiSensor object 
@@ -23,25 +27,35 @@ Date Created: 12/22/2015
  * sources and mode of note event values
 ***********/
 
-
 //source of motion data for a midi event
-typedef enum {ACCEL_X, ACCEL_Y, ACCEL_Z, GYRO_X, GYRO_Y, GYRO_Z, MAG_X, MAG_Y, MAG_Z} sources_t;
-typedef enum {ROTATION, SINGLE} note_modes_t;
-typedef enum {EN_CC, NOTE, PAUSE, START} button_func_sources_t;
+typedef enum {ACCEL_X=0, ACCEL_Y=1, ACCEL_Z=2, GYRO_X=3, GYRO_Y=4, GYRO_Z=5, MAG_X=6, MAG_Y=7, MAG_Z=8} sources_t;
+typedef enum {ROTATION=0, SINGLE=1} note_modes_t;
+typedef enum {EN_CC=0, NOTE=1, PAUSE=2, START=3} button_func_sources_t;
 
 //generic midi event structure (note on, off, cc volume change...etc)
 typedef struct {
-  char statusByte;
-  char dataByte1;
-  char dataByte2;
-  sources_t source;
+  byte statusByte;
+  byte dataByte1;
+  byte dataByte2;
 } midi_event_t;
 
-//note is just a type of midi event, we will add a mode param that determines if note are made based on rotation angle and beat or just a beat
+//general params for general events
 typedef struct {
-  midi_event_t event;
+  sources_t source;
+  char channel;
+} event_params_t;
+
+
+//general params for notes
+typedef struct {
   note_modes_t mode;
-} midi_note_event_t;
+  sources_t source;
+  byte note1Number;
+  byte note2Number;
+  char channel;
+  char velocity;
+} note_params_t;
+
 
 //button function params
 typedef struct {
@@ -50,12 +64,12 @@ typedef struct {
 
 //note on / off struct that uses note ptr
 typedef struct {
-  midi_note_event_t note;
+  midi_event_t note;
   bool enabled;
 } note_on_t;
 
 typedef struct {
-  midi_note_event_t note;
+  midi_event_t note;
   bool enabled;
   bool set;
   unsigned long setTime; //millis
@@ -64,6 +78,8 @@ typedef struct {
 
 typedef struct {
   button_func_params_t button;
+  note_params_t noteParams;
+  event_params_t eventParams;
   note_on_t noteOn;
   note_off_t noteOff;
   midi_event_t event;

@@ -29,7 +29,8 @@ void MidiSensor::reset(void){
  * Init MidiDevice by 
 */
 void MidiSensor::init(void){
-  //todo: init objects?
+  //todo: init model
+  
   
    //reset variables
     reset();
@@ -120,7 +121,18 @@ void MidiSensor::updateState(void){
  */
 
 void MidiSensor::updateMidiNoteMode(char modeNumber){
-  
+  note_modes_t number = (note_modes_t)modeNumber;
+  switch(number){
+    case ROTATION:
+      model.noteParams.mode = number;
+    break;
+    case SINGLE:
+      model.noteParams.mode = number;
+    break;
+    default:
+      //no nothing, since mode number is not a valid option
+    break;
+  }
 }
 
 /*
@@ -128,6 +140,40 @@ void MidiSensor::updateMidiNoteMode(char modeNumber){
  */
 
 void MidiSensor::updateMidiEventSource(char sourceNumber){
+  sources_t source = (sources_t)sourceNumber:
+  switch(source){
+    case ACCEL_X:
+      model.eventParams.source = source;
+    break;
+    case ACCEL_Y:
+      model.eventParams.source = source;
+    break;
+    case ACCEL_Z:
+      model.eventParams.source = source;
+    break;
+    case GYRO_X:
+      model.eventParams.source = source;
+    break;
+    case GYRO_Y:
+      model.eventParams.source = source;
+    break;
+    case GYRO_Z:
+      model.eventParams.source = source;
+    break;
+    case MAG_X:
+      model.eventParams.source = source;
+    break;
+    case MAG_Y:
+      model.eventParams.source = source;
+    break;
+    case MAG_Z:
+      model.eventParams.source = source;
+    break;
+    default:
+      //do nothing since not a valid option
+    break;
+    
+  }
   
 }
 
@@ -136,6 +182,40 @@ void MidiSensor::updateMidiEventSource(char sourceNumber){
  */
 
 void MidiSensor::updateMidiNoteSource(char sourceNumber){
+  sources_t source = (sources_t)sourceNumber:
+  switch(source){
+    case ACCEL_X:
+      model.noteParams.source = source;
+    break;
+    case ACCEL_Y:
+      model.noteParams.source = source;
+    break;
+    case ACCEL_Z:
+      model.noteParams.source = source;
+    break;
+    case GYRO_X:
+      model.noteParams.source = source;
+    break;
+    case GYRO_Y:
+      model.noteParams.source = source;
+    break;
+    case GYRO_Z:
+      model.noteParams.source = source;
+    break;
+    case MAG_X:
+      model.noteParams.source = source;
+    break;
+    case MAG_Y:
+      model.noteParams.source = source;
+    break;
+    case MAG_Z:
+      model.noteParams.source = source;
+    break;
+    default:
+      //do nothing since not a valid option
+    break;
+    
+  }
   
 }
 
@@ -154,6 +234,22 @@ void MidiSensor::updateNoteOnValue(void){
 
 void MidiSensor::updateNoteOffValue(void){
   
+}
+
+/*
+ * Update the note on/off number for option 1 (assigned to any beat if not using rotation  mode, or rotation angle 1 if using rotation mode)
+ */
+
+void MidiSensor::updateNote1Number(byte noteNumber){
+  model.note1.event.dataByte1 = noteNumber;
+}
+
+/*
+ * Update the note on/off number for option 2 (assigned to any beat if not using rotation  mode, or rotation angle 1 if using rotation mode)
+ */
+
+void MidiSensor::updateNote2Number(void){
+  model.note2.event.dataByte1 = noteNumber;
 }
 
 

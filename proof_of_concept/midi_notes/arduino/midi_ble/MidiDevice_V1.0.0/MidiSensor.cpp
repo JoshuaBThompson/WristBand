@@ -29,20 +29,64 @@ void MidiSensor::reset(void){
  * Init MidiDevice by 
 */
 void MidiSensor::init(void){
-  //todo: init model
-  
-  
+   //todo: init model?
    //reset variables
     reset();
 }
 
 
 /*
- * Rest model vars
+ * Reset Note params / on / off
+ */
+
+void MidiSensor::resetNoteParams(void){
+
+  //note params
+    model.noteParams.note1Number = NOTE1_NUMBER;
+    model.noteParams.note2Number = NOTE2_NUMBER;
+    model.noteParams.channel = NOTE_CHANNEL;
+    model.noteParams.velocity = NOTE_VELOCITY;
+    model.noteParams.mode = ROTATION;
+    model.noteParams.source = ACCEL_X;
+
+    //note on / off
+    model.noteOn.note.statusByte = NOTE_ON_BYTE + NOTE_CHANNEL;
+    model.noteOn.note.dataByte1 = NOTE1_NUMBER;
+    model.noteOn.note.dataByte2 = NOTE_VELOCITY;
+    model.noteOn.enabled = false;
+
+    model.noteOff.note.statusByte = NOTE_OFF_BYTE + NOTE_CHANNEL;
+    model.noteOff.note.dataByte1 = NOTE1_NUMBER;
+    model.noteOff.note.dataByte2 = 0; //velocity not really necessary...
+    model.noteOff.enabled = false;
+    model.noteOff.set = false;
+    mode.noteOff.setTime = 0;
+  
+}
+
+/*
+ * Reset generic event params
+ */
+
+void MidiSensor::resetEventParams(void){
+  //generic event params
+    model.eventParams.source = ACCEL_Z;
+    model.eventParams.channel = EVENT_CHANNEL;
+
+    //generic event
+    model.event.statusByte = DEFAULT_STATUS_BYTE;
+    model.event.dataByte1 = DEFAULT_EVENT_DATA_BYTE1;
+    model.event.dataByte2 = DEFAULT_EVENT_DATA_BYTE2;
+}
+
+/*
+ * Reset / init model vars
  */
 
 void MidiSensor::reset(void){
   model.timeInterval = TimeInterval; //35 ms
+  resetNoteParams();
+  resetEventParams();
 }
 
 /*
@@ -51,7 +95,17 @@ void MidiSensor::reset(void){
 void MidiSensor::updateNoteOnState(void){
   model.noteOn.enabled = motionFilter.model.beat;
   if(model.noteOn.enabled){
-    updateNoteOnValue();
+    if(model.noteParams.mode == ROTATION){
+      if(motionFilter.rotationFilter.rotationNumber == motionFilter.rotationFilter.firstRotation){
+        model.noteOn.note.dataByte1 = model.noteParams.noteNumber1;
+      }
+      else{
+        model.noteOn.note.dataByte1 = model.noteParams.noteNumber2;
+      }
+    }
+    else{
+      model.noteOn.note.dataByte1 = model.noteParams.noteNumber1;
+    }
     updateNoteOnQueue();
   }
   return ;
@@ -83,7 +137,7 @@ void MidiSensor::updateNoteOffState(void){
     //new note detected, so set noteOff and record time and set noteOff note value to prev note value
     model.noteOff.set = true;
     model.noteOff.setTime = model.currentTime;
-    updateNoteOffValue();
+    model.noteOff.note.dataByte1 = model.noteOn.note.dataByte1; //set not off value to current note on value
   }
 
   int timeDiff = model.currentTime - model.noteOff.setTime;
@@ -223,7 +277,7 @@ void MidiSensor::updateMidiNoteSource(char sourceNumber){
  * Update note on pitch and vel based on mode and motion source
  */
 
-void MidiSensor::updateNoteOnValue(void){
+void MidiSensor::updateNoteOnNumber(void){
   
 }
 
@@ -232,7 +286,7 @@ void MidiSensor::updateNoteOnValue(void){
  * Update note off pitch and vel based on mode and motion source
  */
 
-void MidiSensor::updateNoteOffValue(void){
+void MidiSensor::updateNoteOffNumber(void){
   
 }
 
@@ -241,15 +295,15 @@ void MidiSensor::updateNoteOffValue(void){
  */
 
 void MidiSensor::updateNote1Number(byte noteNumber){
-  model.note1.event.dataByte1 = noteNumber;
+   model.noteParams.noteNumber1 = noteNumber;;
 }
 
 /*
  * Update the note on/off number for option 2 (assigned to any beat if not using rotation  mode, or rotation angle 1 if using rotation mode)
  */
 
-void MidiSensor::updateNote2Number(void){
-  model.note2.event.dataByte1 = noteNumber;
+void MidiSensor::updateNote2Number(byte noteNumber){
+  model.noteParams.noteNumber2 = noteNumber;
 }
 
 

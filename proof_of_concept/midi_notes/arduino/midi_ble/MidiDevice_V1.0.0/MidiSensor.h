@@ -13,10 +13,20 @@ Date Created: 12/22/2015
 
 
 #define IntervalTime  35.0 //millisec to wait between udpateState loop
-#define NOTE_ON_BYTE  (byte)0x90 //ch1
-#define NOTE_OFF_BYTE (byte)0x80 //ch1
-#define DEFAULT_CHANNEL 0
-#define NOTE_VELOCITY_BYTE  (byte)0x7f //note velocity 0 - 127
+
+//Note 
+#define NOTE_ON_BYTE        (byte)0x90 //ch1
+#define NOTE_OFF_BYTE       (byte)0x80 //ch1
+#define NOTE_CHANNEL              0
+#define NOTE_VELOCITY       (byte)0x7F //note velocity 0 - 127
+#define NOTE1_NUMBER        (byte)65
+#define NOTE2_NUMBER        (byte)45
+
+//Generic Event
+#define DEFAULT_EVENT_STATUS_BYTE (byte)0xB0 //cc ch1
+#define DEFAULT_EVENT_DATA_BYTE1  (byte)0x07 //volume cc control mode change channel 1
+#define DEFAULT_EVENT_DATA_BYTE2  (byte)0x00 //volume at 0 (from 0 - 127)
+#define DEFAULT_EVENT_CHANNEL             0 //ch1
 
 /*********MidiSensor Struct
  * Defines structure of MidiSensor object 

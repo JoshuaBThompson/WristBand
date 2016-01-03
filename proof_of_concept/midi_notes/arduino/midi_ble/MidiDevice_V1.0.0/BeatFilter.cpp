@@ -119,25 +119,26 @@ void BeatFilter::reset() {
     model.minFalling = MinFalling;
     model.catchFalling = CatchFalling;
     model.maxSamples = MaxSamples;
-    model.motionSource = ACCEL_MOTION_SOURCE;
+    model.source = ACCEL;
 }
 
-void BeatFilter::updateMotionSource(char motionNumber){
+void BeatFilter::setMotionSource(char motionNumber){
 
   //set beat motion calculation using accelerometer or gyro or magnetometer
   //todo: any params depend on the source?
-  switch(motionNumber){
-    case ACCEL_MOTION_SOURCE:
-      model.motionSource = motionNumber;
+  sources_t source = (sources_t)motionNumber;
+  switch(source){
+    case ACCEL:
+      model.source = source;
     break;
 
-    case GYRO_MOTION_SOURCE:
-      model.motionSource = motionNumber;
+    case GYRO:
+      model.source = source;
     break;
 
-    case MAG_MOTION_SOURCE:
+    case MAG:
       //probably will never use this setting
-      model.motionSource = motionNumber;
+      model.source = source;
     break;
 
     default:
@@ -147,20 +148,21 @@ void BeatFilter::updateMotionSource(char motionNumber){
   
 }
 
-void BeatFilter::updateAxisSource(char axisNumber){
+void BeatFilter::setAxisSource(char axisNumber){
   //set beat motion calculation on x, y or z axis
   //todo: any params depend on the axis number?
-  switch(axisNumber){
+  axis_t axis = (axis_t)axisNumber;
+  switch(axis){
     case X:
-      model.axis = axisNumber;
+      model.axis = axis;
     break;
 
     case Y:
-      model.axis = axisNumber;
+      model.axis = axis;
     break;
 
     case Z:
-      model.axis = axisNumber;
+      model.axis = axis;
       //probably will never use this setting
     break;
 
@@ -175,27 +177,24 @@ void BeatFilter::updateAxisSource(char axisNumber){
  * Fill in axis values from imu based on the ref axis
  */
 
-void BeatFilter:updateAxisValues(void){
+void BeatFilter::updateAxisValues(void){
 
-  switch(motion_number){
-    case ACCEL_MOTION_SOURCE:
-      model.motionSource = motion_number;
+  switch(model.source){
+    case ACCEL:
       model.axisValues[0] = imuFilter->model.accel.x;
       model.axisValues[1] = imuFilter->model.accel.y;
       model.axisValues[2] = imuFilter->model.accel.z;
       
     break;
 
-    case GYRO_MOTION_SOURCE:
-      model.motionSource = motion_number;
+    case GYRO:
       model.axisValues[0] = imuFilter->model.gyro.x;
       model.axisValues[1] = imuFilter->model.gyro.y;
       model.axisValues[2] = imuFilter->model.gyro.z;
     break;
 
-    case MAG_MOTION_SOURCE:
+    case MAG:
       //probably will never use this setting
-      model.motionSource = motion_number;
       model.axisValues[0] = imuFilter->model.mag.x;
       model.axisValues[1] = imuFilter->model.mag.y;
       model.axisValues[2] = imuFilter->model.mag.z;

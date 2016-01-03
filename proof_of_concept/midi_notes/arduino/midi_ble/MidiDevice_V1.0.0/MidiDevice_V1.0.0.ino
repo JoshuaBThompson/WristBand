@@ -2,8 +2,9 @@
 #include <EEPROM.h>
 #include <Wire.h>
 #include <I2Cdev.h>
+#include "MidiSensor.h"
 
-MidiDevice midiDevice = MidiDevice();
+MidiSensor midiSensor = MidiSensor();
 
 
 /* Define how assert should function in the BLE library */
@@ -32,16 +33,12 @@ void setup(void)
     delay(1000);
   #endif
 
-  //Init midi device
-  midiDevice.init();
   
 }
 
 
 void loop() {
-  midiDevice.handleBleEvents(); //check bluetooth communication buffer to see if any messages from user, handle cmds or errors
-  midiDevice.updateState(); //update values from the accelerometer / gyro, note #, rotation angle, channel #, mode, button output (cc...etc)
-  midiDevice.sendState(); //if note valid sends midi note, if button pressed send midi message (varies), send sensor data?
+
 }
 
 

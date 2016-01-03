@@ -53,7 +53,7 @@ void RotationFilter::reset() {
   model.accelRefAxisVal = 0;
   model.runningAverageAxis1 = 0;
   model.runningAverageAxis2 = 0;
-  updateAboutAxis(X_AXIS_TYPE); //updates aboutAxis and other params that depend on it
+  setAboutAxis(X); //updates aboutAxis and other params that depend on it
   for(int i = 0; i < MAX_AVERAGE_COUNT; i++){
     model.averageAxis1Buff[i] = 0;
     model.averageAxis2Buff[i] = 0;
@@ -71,27 +71,28 @@ void RotationFilter::updateState(void){
   updateRotationAngle();
 }
 
-void RotationFilter::updateAboutAxis(char axisNumber){
+void RotationFilter::setAboutAxis(char axisNumber){
+  axis_t axis = (axis_t)axisNumber;
   switch(axisNumber){
-    case X_AXIS_TYPE:
-      model.aboutAxis = axisNumber;
+    case X:
+      model.axis = axis;
       model.axis1Offset = YOFFSET;
       model.axis2Offset = ZOFFSET;
       model.accelScaleAxis1 = ACCEL_SCALE_Y;
       model.accelScaleAxis2 = ACCEL_SCALE_Z;
     break;
 
-    case Y_AXIS_TYPE:
-      model.aboutAxis = axisNumber;
+    case Y:
+      model.axis = axis;
       model.axis1Offset = XOFFSET;
       model.axis2Offset = ZOFFSET;
       model.accelScaleAxis1 = ACCEL_SCALE_X;
       model.accelScaleAxis2 = ACCEL_SCALE_Z;
     break;
 
-    case Z_AXIS_TYPE:
+    case Z:
       //probably will never use this setting
-      model.aboutAxis = axisNumber;
+      model.axis = axis;
       model.axis1Offset = XOFFSET;
       model.axis2Offset = YOFFSET;
       model.accelScaleAxis1 = ACCEL_SCALE_X;
@@ -114,21 +115,21 @@ void RotationFilter::updateAboutAxis(char axisNumber){
  */
 
 void RotationFilter:updateAxisValues(void){
-  switch(model.aboutAxis){
-    case X_AXIS_TYPE:
+  switch(model.axis){
+    case X:
       model.accelAxis1Val = imuFilter->model.accel.y;
       model.accelAxis2Val = imuFilter->model.accel.z;
       model.accelRefAxisVal = imuFilter->model.accel.x;
       
     break;
 
-    case Y_AXIS_TYPE:
+    case Y:
       model.accelAxis1Val = imuFilter->model.accel.x;
       model.accelAxis2Val = imuFilter->model.accel.z;
       model.accelRefAxisVal = imuFilter->model.accel.y;
     break;
 
-    case Z_AXIS_TYPE:
+    case Z:
       //probably will never use this setting
       model.accelAxis1Val = imuFilter->model.accel.x;
       model.accelAxis2Val = imuFilter->model.accel.y;

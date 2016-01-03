@@ -18,18 +18,16 @@ Date Created: 12/22/2015
 #define YOFFSET (float)-450.0
 #define ZOFFSET (float)-450.0
 #define XOFFSET (float)-450.0
-#define X_AXIS_TYPE 0
-#define Y_AXIS_TYPE 1
-#define Z_AXIS_TYPE 2
+
+typedef enum {X, Y, Z} axis_t;
 /******RotationFilter data model struct
  * Contains struct of axis type, angle in deg and radians
 **********/
 
 typedef struct {
-  rotation_axis_t axis;
+  axis_t axis;
   int angleDeg;
   float angleRad;
-  char aboutAxis;
   int averageAxis1Buff[MAX_averageCount];
   int averageAxis2Buff[MAX_averageCount];
   int accelAxis1Val, accelAxis2Val, accelRefAxisVal; //imu values
@@ -56,6 +54,11 @@ class RotationFilter
     void reset(void);
     void init(void);
     void updateState(void);
+    void updateAxisValues(void);
+    void setAboutAxis(char axisNumber);
+    void updateRotationAngle(void);
+    void updateRotationAngleNew(void);
+    void initRunningAverage(void);
 
     //Variables
     rotation_filter_model_t model;

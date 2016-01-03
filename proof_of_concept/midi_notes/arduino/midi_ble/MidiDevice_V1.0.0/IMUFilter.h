@@ -45,7 +45,7 @@ typedef struct {
   int z;
 } axis_sensor_data_t;
 
-typdef struct {
+typedef struct {
   imu_enum_t raw_data;
   axis_sensor_data_t accel;
   axis_sensor_data_t gyro;

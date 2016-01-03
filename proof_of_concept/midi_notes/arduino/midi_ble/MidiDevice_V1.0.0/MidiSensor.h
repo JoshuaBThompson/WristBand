@@ -8,7 +8,7 @@ Date Created: 12/22/2015
 
 #include "Arduino.h"
 #include "ImuFilter.h"
-#include "MotionFilter."
+#include "MotionFilter.h"
 #include "QueueList.h"
 
 
@@ -28,6 +28,10 @@ Date Created: 12/22/2015
 #define DEFAULT_EVENT_DATA_BYTE2  (byte)0x00 //volume at 0 (from 0 - 127)
 #define DEFAULT_EVENT_CHANNEL             0 //ch1
 
+//Midi Message List 
+#define MIDI_MESSAGE_LIST_FIRST (byte)0x80 //note off
+#define MIDI_MESSAGE_LIST_LAST  (byte)0xF0 //system reset (not yet implemented)
+
 /*********MidiSensor Struct
  * Defines structure of MidiSensor object 
  * Note On events
@@ -38,7 +42,8 @@ Date Created: 12/22/2015
 ***********/
 
 //source of motion data for a midi event
-typedef enum {ACCEL_X=0, ACCEL_Y=1, ACCEL_Z=2, GYRO_X=3, GYRO_Y=4, GYRO_Z=5, MAG_X=6, MAG_Y=7, MAG_Z=8} sources_t;
+typedef enum {ACCEL, GYRO, MAG} sources_t;
+typedef enum {X, Y, Z} axis_t;
 typedef enum {ROTATION=0, SINGLE=1} note_modes_t;
 typedef enum {EN_CC=0, NOTE=1, PAUSE=2, START=3} button_func_sources_t;
 
@@ -52,6 +57,7 @@ typedef struct {
 //general params for general events
 typedef struct {
   sources_t source;
+  axis_t axis;
   char channel;
 } event_params_t;
 
@@ -60,10 +66,11 @@ typedef struct {
 typedef struct {
   note_modes_t mode;
   sources_t source;
+  axis_t axis;
   byte note1Number;
   byte note2Number;
-  char channel;
-  char velocity;
+  byte channel;
+  byte velocity;
 } note_params_t;
 
 
@@ -103,8 +110,27 @@ class MidiSensor
     //Methods
     MidiSensor(void);
     void init(void);
-    void initModel(void);
     void reset(void);
+    void resetNoteParams(void);
+    void resetEventParams(void);
+    void updateNoteOnState(void);
+    void updateEventState(void);
+    void updateNoteOffState(void);
+    void updateState(void);
+    void updateNoteOnNumber(void);
+    void updateNoteOffNumber(void);
+    void setMidiNoteMode(char modeNumber);
+    void setRotationAxis(char axisNumber);
+    void setMidiEventAxis(char axisNumber);
+    void setMidiEventSource(char sourceNumber);
+    void setMidiNoteAxis(char axisNumber);
+    void setMidiNoteSource(char sourceNumber);
+    void setNote1Number(byte noteNumber);
+    void setNote2Number(byte noteNumber);
+    void setNoteChannel(byte channel);
+    void setNoteVelocity(byte velocity);
+    void setEventChannel(byte channel);
+    void setEventType(byte eventType);
     
     //attributes
     // create a queue of bool for FIFO of midi data

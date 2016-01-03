@@ -10,14 +10,8 @@ Date Created: 12/22/2015
 #include "IMUFilter.h"
 
 //Motion Types
-#define ACCEL_MOTION_SOURCE 0
-#define GYRO_MOTION_SOURCE 1
-#define MAG_MOTION_SOURCE 2
-
-//AXIS
-#define X 0
-#define Y 1
-#define Z 2
+typedef enum {ACCEL, GYRO, MAG} sources_t;
+typedef enum {X, Y, Z} axis_t;
 
 #define AXIS_COUNT  3
 
@@ -46,13 +40,13 @@ typedef struct {
   int minFalling;
   int catchFalling;
   int maxSamples;
-  char motionSource;
 
   //variables that are updated often
-  char axis; //X, Y or Z
+  sources_t source;
+  axis_t axis; //X, Y or Z
   int axisValues[AXIS_COUNT];
   unsigned int samples;
-  long int x1, x0, xsum, diff;
+  long int x1, x0, xSum, diff;
   bool rising, falling, beat;
   
 } beat_filter_model_t;
@@ -73,8 +67,8 @@ class BeatFilter
     bool isBeat(long int x);
     void updateState(void);
     void updateAxisValues(void);
-    void updateMotionSource(char motionNumber);
-    void updateAxisSource(char axisNumber);
+    void setMotionSource(char motionNumber);
+    void setAxisSource(char axisNumber);
 
     //Attributes
     IMUFilter * imuFilter;

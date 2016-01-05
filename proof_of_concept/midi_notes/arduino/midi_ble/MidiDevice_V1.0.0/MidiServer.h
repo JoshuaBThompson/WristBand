@@ -9,19 +9,19 @@ Date Created: 12/22/2015
 #include "Arduino.h"
 #include "MidiController.h"
 #include "services.h"
-#include "nrf8001.h"
+#include "NRF8001Ble.h"
 
-class MidiServer: MidiController
+class MidiServer: public MidiController
 {
   public: 
     //Methods
-    MidiController(void);
+    MidiServer(void);
     void handleBleEvents(void);
     void updateState(void); 
     void sendState(void); 
     
     //Variables
-    Nrf8001Ble ble;  //nrf8001 bluetooth low energy module
+    Nrf8001 ble;  //nrf8001 bluetooth low energy module
 };
 
 #endif // MidiServer_h

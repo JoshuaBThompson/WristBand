@@ -1,5 +1,4 @@
 #include "services.h"
-#include "nrf8001.h"
 #include "lib_aci.h"
 #include "aci_setup.h"
 #include <stdbool.h>
@@ -7,6 +6,7 @@
 #include <EEPROM.h>
 #include <avr/sleep.h>
 #include <avr/power.h>
+#include "NRF8001Ble.h"
 
 #ifdef SERVICES_PIPE_TYPE_MAPPING_CONTENT
 static services_pipe_type_mapping_t
@@ -24,7 +24,7 @@ static const hal_aci_data_t setup_msgs[NB_SETUP_MESSAGES] PROGMEM = SETUP_MESSAG
 
 
 
-uint8_t * nrf8001::getDeviceVersion(void){
+uint8_t * Nrf8001::getDeviceVersion(void){
   return (uint8_t*)&(aci_evt->params.cmd_rsp.params.get_device_version);
 }
 
@@ -36,13 +36,13 @@ void nrf8001::setDeviceVersion(uint8_t pipe){
 }
 
 
-void nrf8001::configureDevice(){
+void Nrf8001::configureDevice(){
     loadGattProfile();
     setupPins();
     init();
 }
 
-void nrf8001::init(){
+void Nrf8001::init(){
     
     //init variables
     setup_required = false;
@@ -64,7 +64,7 @@ void nrf8001::init(){
     lib_aci_init(&aci_state, false);
 }
 
-void nrf8001::setupPins(void){
+void Nrf8001::setupPins(void){
     
     /*
      Tell the ACI library, the MCU to nRF8001 pin connections.
@@ -92,7 +92,7 @@ void nrf8001::setupPins(void){
     
 }
 
-void nrf8001::loadGattProfile(void){
+void Nrf8001::loadGattProfile(void){
     if (NULL != services_pipe_type_mapping)
     {
         aci_state.aci_setup_info.services_pipe_type_mapping = &services_pipe_type_mapping[0];
@@ -107,14 +107,14 @@ void nrf8001::loadGattProfile(void){
     
 }
 
-void nrf8001::setDeviceSetupRequired(void){
+void Nrf8001::setDeviceSetupRequired(void){
     /**
      When the device is in the setup mode
      */
     setup_required = true;
 }
 
-void nrf8001::deviceSetup(void){
+void Nrf8001::deviceSetup(void){
     if(setup_required)
     {
         if (SETUP_SUCCESS == do_aci_setup(&aci_state))
@@ -126,7 +126,7 @@ void nrf8001::deviceSetup(void){
 
 
 
-void nrf8001::reportCmdRspError(void){
+void Nrf8001::reportCmdRspError(void){
   
         //ACI ReadDynamicData and ACI WriteDynamicData will have status codes of
         //TRANSACTION_CONTINUE and TRANSACTION_COMPLETE
@@ -137,20 +137,20 @@ void nrf8001::reportCmdRspError(void){
         Serial.println(aci_evt->params.cmd_rsp.cmd_status, HEX);
 }
 
-void nrf8001::setConnected(void){
+void Nrf8001::setConnected(void){
   status.connected = 1;
   timing_change_done              = false;
   aci_state.data_credit_available = aci_state.data_credit_total;
   
 }
-void nrf8001::requestDeviceVersion(void){    
+void Nrf8001::requestDeviceVersion(void){    
     /*
      Get the device version of the nRF8001 and store it in the Hardware Revision String
      */
     lib_aci_device_version();
 }
 
-void nrf8001::sayHello(uint8_t pipe){
+void Nrf8001::sayHello(uint8_t pipe){
   char hello[]="JT";
   //ex pipe = PIPE_UART_OVER_BTLE_UART_TX_TX
    sendData(pipe , (uint8_t *)&hello[0], strlen(hello));
@@ -158,7 +158,7 @@ void nrf8001::sayHello(uint8_t pipe){
    Serial.println(hello);
 }
 
-void nrf8001::changeTimingWithPipe(uint8_t pipe){
+void Nrf8001::changeTimingWithPipe(uint8_t pipe){
   //ex: pipe = PIPE_UART_OVER_BTLE_UART_TX_TX
   
   if (lib_aci_is_pipe_available(&aci_state, pipe) && (false == timing_change_done))
@@ -171,7 +171,7 @@ void nrf8001::changeTimingWithPipe(uint8_t pipe){
 }
 
 
-void nrf8001::setTiming(uint8_t pipe, uint8_t pipe_size){
+void Nrf8001::setTiming(uint8_t pipe, uint8_t pipe_size){
     //ex: pipe = PIPE_UART_OVER_BTLE_UART_LINK_TIMING_CURRENT_SET 
     //    pipe_size = PIPE_UART_OVER_BTLE_UART_LINK_TIMING_CURRENT_SET_MAX_SIZE
     lib_aci_set_local_data(&aci_state,
@@ -180,18 +180,18 @@ void nrf8001::setTiming(uint8_t pipe, uint8_t pipe_size){
                            pipe_size);
 }
 
-void nrf8001::disconnectEvent(void){
+void Nrf8001::disconnectEvent(void){
     status.connected = 0;
     status.advertising = 0;
     startAdv();
 }
 
 
-void nrf8001::dataCreditEvent(void){
+void Nrf8001::dataCreditEvent(void){
     aci_state.data_credit_available = aci_state.data_credit_available + aci_evt->params.data_credit.credit;
 }
 
-void nrf8001::pipeErrorEvent(void){
+void Nrf8001::pipeErrorEvent(void){
     status.error = 1;
     //See the appendix in the nRF8001 Product Specication for details on the error codes
     Serial.print(F("ACI Evt Pipe Error: Pipe #:"));
@@ -208,7 +208,7 @@ void nrf8001::pipeErrorEvent(void){
     }
 }
 
-void nrf8001::hwErrorEvent(void){
+void Nrf8001::hwErrorEvent(void){
     status.error = 1;
     Serial.print(F("HW error: "));
     Serial.println(aci_evt->params.hw_error.line_num, DEC);
@@ -220,7 +220,7 @@ void nrf8001::hwErrorEvent(void){
     startAdv();
 }
 
-bool nrf8001::getStatus(void){
+bool Nrf8001::getStatus(void){
   bool eventReady = lib_aci_event_get(&aci_state, &aci_data);
   if(eventReady){
     aci_evt = &aci_data.evt;
@@ -230,7 +230,7 @@ bool nrf8001::getStatus(void){
 
 
 
-void nrf8001::startAdv(void){
+void Nrf8001::startAdv(void){
   
     //Looking for an iPhone by sending radio advertisements
     //When an iPhone connects to us we will get an ACI_EVT_CONNECTED event from the nRF8001
@@ -238,7 +238,7 @@ void nrf8001::startAdv(void){
        status.advertising = 1;    
 }
 
-bool nrf8001::sendData(uint8_t pipe, uint8_t *buffer, uint8_t buffer_len)
+bool Nrf8001::sendData(uint8_t pipe, uint8_t *buffer, uint8_t buffer_len)
 {
     //ex: pipe =  PIPE_UART_OVER_BTLE_UART_TX_TX
     bool status = false;
@@ -256,7 +256,7 @@ bool nrf8001::sendData(uint8_t pipe, uint8_t *buffer, uint8_t buffer_len)
     return status;
 }
 
-void nrf8001::receiveData(uint8_t pipe, aci_evt_t * aci_evt, uint8_t * rx_buffer, uint8_t * rx_buffer_len){
+void Nrf8001::receiveData(uint8_t pipe, aci_evt_t * aci_evt, uint8_t * rx_buffer, uint8_t * rx_buffer_len){
     //ex: pipe = PIPE_UART_OVER_BTLE_UART_RX_RX
     clearRxBuffer(); 
     if ( pipe == aci_evt->params.data_received.rx_data.pipe_number)
@@ -278,13 +278,13 @@ void nrf8001::receiveData(uint8_t pipe, aci_evt_t * aci_evt, uint8_t * rx_buffer
     
 }
 
-void nrf8001::clearRxBuffer(){
+void Nrf8001::clearRxBuffer(){
   for(int i=0; i<rx_buffer_len; i++){
     rx_buffer[i] = 0;
   }
 }
 
-void nrf8001::parseMIDICmd(uint8_t * rx_buffer){
+void Nrf8001::parseMIDICmd(uint8_t * rx_buffer){
   char cmdType = rx_buffer[0];
   if(cmdType == CC_CMD_TYPE){
     //cmd ex for cmd type cc and volume ctrl: 0x 0C 07 00
@@ -335,11 +335,11 @@ void nrf8001::parseMIDICmd(uint8_t * rx_buffer){
  
 }
 
-void nrf8001::disconnectDevice(void){
+void Nrf8001::disconnectDevice(void){
     
 }
 
-void nrf8001::checkStandbyHwError(void){
+void Nrf8001::checkStandbyHwError(void){
   if (aci_evt->params.device_started.hw_error)
     {
         Serial.println("HW Error ");
@@ -349,7 +349,7 @@ void nrf8001::checkStandbyHwError(void){
 }
     
     
-void nrf8001::handleEvents(void){
+void Nrf8001::handleEvents(void){
     
     // We enter the if statement only when there is a ACI event available to be processed
     setup_required = false;
@@ -476,7 +476,7 @@ void nrf8001::handleEvents(void){
 }
 
 
-void nrf8001::sendFullMIDI(uint8_t pipe, byte statusByte, byte dataByte0, byte dataByte1){
+void Nrf8001::sendFullMIDI(uint8_t pipe, byte statusByte, byte dataByte0, byte dataByte1){
   char time[2];
   char buf[20];
   byte outBuff[] = {0,0,0};
@@ -503,7 +503,7 @@ void nrf8001::sendFullMIDI(uint8_t pipe, byte statusByte, byte dataByte0, byte d
 }
 
 
-void nrf8001::sendRunningMIDI(uint8_t pipe, byte dataByte0, byte dataByte1){
+void Nrf8001::sendRunningMIDI(uint8_t pipe, byte dataByte0, byte dataByte1){
   char time[2];
   char buf[20];
   byte outBuff[] = {0,0};

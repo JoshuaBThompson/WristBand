@@ -3,18 +3,19 @@
 #else
 #include "WProgram.h"
 #endif
+
 #include "lib_aci.h"
 #include "aci_setup.h"
 
-#ifndef _nrf8001_H_
-#define _nrf8001_H_
+#ifndef _NRF8001Ble_H_
+#define _NRF8001Ble_H_
 
 #define CC_CMD_TYPE        0x0C
 #define NOTE_CMD_TYPE      0x0A
 #define CH_CMD_TYPE        0x0D
 #define MaxDirNum          2
 
-class nrf8001 {
+class Nrf8001 {
 public:
     //public methods
     uint8_t * getDeviceVersion(void);
@@ -77,9 +78,9 @@ public:
     
     
     //pulic members
-    uint8_t         rx_buffer[20];
-    uint8_t         rx_max_len = 20;
-    uint8_t         rx_buffer_len = 0;
+    uint8_t         rxBuffer[20];
+    uint8_t         rxMaxLen = 20;
+    uint8_t         rxBufferLen = 0;
     byte ccDataByte0;
     byte ccStatusByte;
     char directionsOn[3] = {0,0,0};
@@ -92,10 +93,11 @@ public:
     bool setup_required = false;
     bool timing_change_done  = false;
     struct status_s {
-        int connected;
-        int advertising;
-        int error;
-        int data_available;
+        bool connected;
+        bool advertising;
+        bool errorEvent;
+        bool rxEvent;
+        bool data_available;
     } status;
     
      //aci data and event structures

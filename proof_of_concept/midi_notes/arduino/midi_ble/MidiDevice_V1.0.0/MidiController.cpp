@@ -36,54 +36,57 @@ void MidiController::reset(void){
 void MidiController::init(void){
   //init objects
   midiSensor.init();
-  midiProtocol.init();
   //todo: init what?
   
 }
 
 
-void MidiController::changeNoteChannel(char channel){
-  midiSensor.params.note.channel = channel;
+void MidiController::changeNoteChannel(byte channel){
+  midiSensor.setNoteChannel(channel);
 }
 
-void MidiController::changeNoteNumber(char number){
-  midiSensor.params.note.number = number;
+void MidiController::changeNote1Number(byte number){
+  midiSensor.setNote1Number(number);
   
 }
 
+void MidiController::changeNote2Number(byte number){
+  midiSensor.setNote2Number(number);
+  
+}
+
+void MidiController::changeNoteVelocity(byte velocity){
+  midiSensor.setNoteVelocity(velocity);
+}
+
 void MidiController::changeNoteMode(char modeNumber){
-  midiSensor.params.note.mode = modeNumber;
+  midiSensor.setMidiNoteMode(modeNumber);
 }
 
-void MidiController::changeNoteVelocity(char velocity){
-  midiSensor.params.note.velocity = velocity;
+
+/*
+ * Change generic midi event type (ex cc)
+ */
+void MidiController::changeEventType(byte eventType){
+  midiSensor.setEventType(eventType);
 }
 
-void MidiController::changeMode(char modeNumber){
-  midiSensor.params.mode.number = modeNumber;
+/*
+ * Change sensor source of generic midi event output (ex accelerometer)
+ */
+void MidiController::changeEventSource(char sourceNumber){
+  midiSensor.setMidiEventSource(sourceNumber);
 }
 
-void MidiController::changeCCFunction(char functionNumber){
-  midiSensor.params.cc.number = functionNumber;
+void MidiController::changeBeatFilterAverageCount(char averageCount){
 }
 
-void MidiController::changeCCSensor(char sensorNumber){
-  midiSensor.params.cc.sensor = sensorNumber;
+void MidiController::changeBeatFilterMaxCount(char maxCount){
 }
 
-void MidiController::changeFilterAverageCount(char averageCount){
-  midiSensor.params.filter.averageCount = averageCount;
-}
-
-void MidiController::changeFilterMaxCount(char maxCount){
-  midiSensor.params.filter.maxCount = maxCount;
-}
-
-void MidiController::changeFilterMaxAmp(char maxAmp){
-  midiSensor.params.filter.maxAmp = maxAmp;
+void MidiController::changeBeatFilterMaxAmp(char maxAmp){
 }
 
 void MidiController::changeButtonFunction(char functionNumber){
-  midiSensor.params.button.number = functionNumber;
 }
 

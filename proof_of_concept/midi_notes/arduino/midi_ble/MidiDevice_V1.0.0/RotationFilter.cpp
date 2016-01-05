@@ -53,6 +53,9 @@ void RotationFilter::reset() {
   model.accelRefAxisVal = 0;
   model.runningAverageAxis1 = 0;
   model.runningAverageAxis2 = 0;
+  model.rotationNumber = 0;
+  model.firstRotation = FIRST_ROTATION;
+  model.secondRotation = SECOND_ROTATION;
   setAboutAxis(X); //updates aboutAxis and other params that depend on it
   for(int i = 0; i < MAX_AVERAGE_COUNT; i++){
     model.averageAxis1Buff[i] = 0;
@@ -172,6 +175,7 @@ void RotationFilter::updateRotationAngle(void){
       if((model.runningAverageAxis2 >= -1*model.accelScaleAxis2) && (model.runningAverageAxis2 <= 1*model.accelScaleAxis2)){
           model.angleRad = atan2(model.runningAverageAxis1, model.runningAverageAxis2);
           model.angleDeg = (int)(model.angleRad*180.0/PI);
+          model.rotationNumber = (model.angleDeg >= ROTATION_ANGLE_THRESHOLD) ? 1:0;
       }
   }
   

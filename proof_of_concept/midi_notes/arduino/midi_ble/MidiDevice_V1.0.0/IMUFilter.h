@@ -34,7 +34,7 @@ typedef struct {
 
 typedef union {
   imu_measurements_t data;
-  int data_array[SENSOR_VALUES_COUNT];
+  int dataArray[SENSOR_VALUES_COUNT];
 } imu_enum_t;
 
 
@@ -46,7 +46,7 @@ typedef struct {
 } axis_sensor_data_t;
 
 typedef struct {
-  imu_enum_t raw_data;
+  imu_enum_t rawData;
   axis_sensor_data_t accel;
   axis_sensor_data_t gyro;
   axis_sensor_data_t mag;

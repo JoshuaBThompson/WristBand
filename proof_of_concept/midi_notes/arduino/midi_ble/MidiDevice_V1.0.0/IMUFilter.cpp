@@ -25,7 +25,7 @@ IMUFilter::IMUFilter(void) {
 void IMUFilter::reset(void){
   //todo: clear all 
   for(int i = 0; i< SENSOR_VALUES_COUNT; i++){
-    model.raw_data.data_array[i] = 0;
+    model.rawData.dataArray[i] = 0;
   }
   
   model.accel.x = model.accel.y = model.accel.z = 0;
@@ -48,7 +48,7 @@ void IMUFilter::init(void){
  * Filter accel and gyro data into model structure
  */
 void IMUFilter::updateState(void){
-  imu.getRawValues(model.raw_data.data_array); //fill imu raw data array with accel, gyro and magnetometer data from imu sensor
+  imu.getRawValues(model.rawData.dataArray); //fill imu raw data array with accel, gyro and magnetometer data from imu sensor
   calibrateImu(); //calibrate data and fill sensor specific struct
 }
 
@@ -71,9 +71,9 @@ void IMUFilter::calibrateAccel(void){
   //todo: any calibration
 
   //fill in accel data struct
-  model.accel.x = model.raw_data.data.accel_x;
-  model.accel.y = model.raw_data.data.accel_y;
-  model.accel.z = model.raw_data.data.accel_z;
+  model.accel.x = model.rawData.data.accel_x;
+  model.accel.y = model.rawData.data.accel_y;
+  model.accel.z = model.rawData.data.accel_z;
   
 }
 
@@ -81,17 +81,17 @@ void IMUFilter::calibrateGyro(void){
   //todo: any calibration
   
   //fill in accel data struct
-  model.gyro.x = model.raw_data.data.gyro_x;
-  model.gyro.y = model.raw_data.data.gyro_y;
-  model.gyro.z = model.raw_data.data.gyro_z;
+  model.gyro.x = model.rawData.data.gyro_x;
+  model.gyro.y = model.rawData.data.gyro_y;
+  model.gyro.z = model.rawData.data.gyro_z;
 }
 
 void IMUFilter::calibrateMag(void){
   //todo: any calibration
   
   //fill in accel data struct
-  model.mag.x = model.raw_data.data.mag_x;
-  model.mag.y = model.raw_data.data.mag_y;
-  model.mag.z = model.raw_data.data.mag_z;
+  model.mag.x = model.rawData.data.mag_x;
+  model.mag.y = model.rawData.data.mag_y;
+  model.mag.z = model.rawData.data.mag_z;
 }
 

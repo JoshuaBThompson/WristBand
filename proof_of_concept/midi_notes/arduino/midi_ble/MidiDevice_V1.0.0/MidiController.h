@@ -15,19 +15,19 @@ class MidiController
   public:
     
     //Methods
-    MidiDeviceCmds(void);
+    MidiController(void);
     void init(void);
     void reset(void);
-    void changeNoteChannel(char channel);
-    void changeNoteNumber(char number);
+    void changeNoteChannel(byte channel);
+    void changeNote1Number(byte number);
+    void changeNote2Number(byte number);
+    void changeNoteVelocity(byte velocity);
     void changeNoteMode(char modeNumber);
-    void changeNoteVelocity(char velocity);
-    void changeMode(char channel);
-    void changeCCFunction(char functionNumber);
-    void changeCCSensor(char sensorNumber);
-    void changeFilterAverageCount(char averageCount);
-    void changeFilterMaxCount(char maxCount);
-    void changeFilterMaxAmp(char maxAmp);
+    void changeEventType(byte eventType);
+    void changeEventSource(char sourceNumber);
+    void changeBeatFilterAverageCount(char averageCount);
+    void changeBeatFilterMaxCount(char maxCount);
+    void changeBeatFilterMaxAmp(char maxAmp);
     void changeButtonFunction(char functionNumber);
     
     //variables

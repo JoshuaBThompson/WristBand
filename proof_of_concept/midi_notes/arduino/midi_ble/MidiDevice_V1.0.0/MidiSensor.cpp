@@ -8,13 +8,14 @@ Desc: Main object that is responsible for filtering motion data to produce data 
 
 #include <inttypes.h>
 #include <stdint.h>
+#include "MidiSensor.h"
 
 /*
  * Constructor
 */
 MidiSensor::MidiSensor(void) {
     motionFilter = MotionFilter();
-    model.timeInterval = TimeInterval; //35 ms
+    model.intervalTime = IntervalTime; //35 ms
 }
 
 
@@ -23,7 +24,7 @@ MidiSensor::MidiSensor(void) {
  */
 
 void MidiSensor::reset(void){
-  model.timeInterval = TimeInterval; //35 ms
+  model.intervalTime = IntervalTime; //35 ms
   resetNoteParams();
   resetEventParams();
 }
@@ -50,7 +51,8 @@ void MidiSensor::resetNoteParams(void){
     model.noteParams.channel = NOTE_CHANNEL;
     model.noteParams.velocity = NOTE_VELOCITY;
     model.noteParams.mode = ROTATION;
-    model.noteParams.source = ACCEL_X;
+    model.noteParams.source = ACCEL;
+    model.noteParams.axis = X;
 
     //note on / off
     model.noteOn.note.statusByte = NOTE_ON_BYTE + NOTE_CHANNEL;
@@ -63,7 +65,8 @@ void MidiSensor::resetNoteParams(void){
     model.noteOff.note.dataByte2 = 0; //velocity not really necessary...
     model.noteOff.enabled = false;
     model.noteOff.set = false;
-    mode.noteOff.setTime = 0;
+    model.noteOff.setTime = 0;
+    model.noteOff.maxTimeDelay = NoteOffMaxTimeDelay; //100 ms
   
 }
 
@@ -73,11 +76,12 @@ void MidiSensor::resetNoteParams(void){
 
 void MidiSensor::resetEventParams(void){
   //generic event params
-    model.eventParams.source = ACCEL_Z;
-    model.eventParams.channel = EVENT_CHANNEL;
+    model.eventParams.source = ACCEL;
+    model.eventParams.axis = Z;
+    model.eventParams.channel = DEFAULT_EVENT_CHANNEL;
 
     //generic event
-    model.event.statusByte = DEFAULT_STATUS_BYTE;
+    model.event.statusByte = DEFAULT_EVENT_STATUS_BYTE;
     model.event.dataByte1 = DEFAULT_EVENT_DATA_BYTE1;
     model.event.dataByte2 = DEFAULT_EVENT_DATA_BYTE2;
 }
@@ -89,7 +93,7 @@ void MidiSensor::resetEventParams(void){
 void MidiSensor::updateNoteOnState(void){
   model.noteOn.enabled = motionFilter.model.beat;
   if(model.noteOn.enabled){
-    updateNotOnNumber();
+    updateNoteOnNumber();
     updateNoteOnQueue();
   }
   return ;
@@ -103,7 +107,7 @@ void MidiSensor::updateEventState(void){
   char axisIndex = (char)model.eventParams.axis;
   char imuValueIndex = sourceIndex*(3) + axisIndex;
    
-  model.event.dataByte2 = motionFilter.imuFilter.model.data.dataArray[imuValueIndex]; //choose accel or gyro or mag  ...(x, y, z)
+  model.event.dataByte2 = motionFilter.imuFilter.model.rawData.dataArray[imuValueIndex]; //choose accel or gyro or mag  ...(x, y, z)
 }
 
 
@@ -112,6 +116,8 @@ void MidiSensor::updateEventState(void){
  */
 
 void MidiSensor::updateNoteOffState(void){
+  int timeDiff = model.currentTime - model.noteOff.setTime;
+  
   if(model.noteOff.set && model.noteOn.enabled){
     model.noteOff.enabled = true;
     updateNoteOffQueue(); //put noteoff on queue then reset set and enabled vars
@@ -127,7 +133,6 @@ void MidiSensor::updateNoteOffState(void){
     updateNoteOffNumber();
   }
 
-  int timeDiff = model.currentTime - model.noteOff.setTime;
   else if (model.noteOff.set && timeDiff >= model.noteOff.maxTimeDelay){
     model.noteOff.enabled = true;
     updateNoteOffQueue(); //put noteoff on queue then reset set and enabled vars
@@ -163,15 +168,15 @@ void MidiSensor::updateState(void){
 
 void MidiSensor::updateNoteOnNumber(void){
   if(model.noteParams.mode == ROTATION){
-      if(motionFilter.rotationFilter.rotationNumber == motionFilter.rotationFilter.firstRotation){
-        model.noteOn.note.dataByte1 = model.noteParams.noteNumber1;
+      if(motionFilter.rotationFilter.model.rotationNumber == motionFilter.rotationFilter.model.firstRotation){
+        model.noteOn.note.dataByte1 = model.noteParams.note1Number;
       }
       else{
-        model.noteOn.note.dataByte1 = model.noteParams.noteNumber2;
+        model.noteOn.note.dataByte1 = model.noteParams.note1Number;
       }
     }
     else{
-      model.noteOn.note.dataByte1 = model.noteParams.noteNumber1;
+      model.noteOn.note.dataByte1 = model.noteParams.note1Number;
     }
 }
 
@@ -181,6 +186,20 @@ void MidiSensor::updateNoteOnNumber(void){
 
 void MidiSensor::updateNoteOffNumber(void){
  model.noteOff.note.dataByte1 = model.noteOn.note.dataByte1; //set not off value to current note on value 
+}
+
+/*
+ * Put note off data into queue so that other objects can access the midi sensor data on the fly
+ */
+void MidiSensor::updateNoteOffQueue(void){
+  
+}
+
+/*
+ * Put note on data into queue so that other objects can access the midi sensor data on the fly
+ */
+void MidiSensor::updateNoteOnQueue(void){
+  
 }
 
 /*
@@ -202,21 +221,14 @@ void MidiSensor::setMidiNoteMode(char modeNumber){
   }
 }
 
-/*
- * Set rotation filter axis
- */
-void MidiSensor::setRotationAxis(char axisNumber){
-  motionFilter.rotationFilter.setAboutAxis(axisNumber);
-}
-
 
 /*
  * Set midi generic event motion axis
  */
 
 void MidiSensor::setMidiEventAxis(char axisNumber){
-  axis_t axis = (axis_t)axisNumber:
-  switch(source){
+  axis_t axis = (axis_t)axisNumber;
+  switch(axis){
     case X:
       model.eventParams.axis = axis;
     break;
@@ -230,13 +242,14 @@ void MidiSensor::setMidiEventAxis(char axisNumber){
       //do nothing since not a valid option
     break;
 }
+}
 
 /*
  * Set midi generic event motion source
  */
 
 void MidiSensor::setMidiEventSource(char sourceNumber){
-  sources_t source = (sources_t)sourceNumber:
+  sources_t source = (sources_t)sourceNumber;
   switch(source){
     case ACCEL:
       model.eventParams.source = source;
@@ -260,23 +273,24 @@ void MidiSensor::setMidiEventSource(char sourceNumber){
  */
 
 void MidiSensor::setMidiNoteAxis(char axisNumber){
-  axis_t axis = (axis_t)axisNumber:
-  switch(source){
+  axis_t axis = (axis_t)axisNumber;
+  switch(axis){
     case X:
       model.noteParams.axis = axis;
       motionFilter.beatFilter.setAxisSource(axisNumber);
     break;
     case Y:
-      model.noteParams.source = axis;
+      model.noteParams.axis = axis;
       motionFilter.beatFilter.setAxisSource(axisNumber);
     break;
     case Z:
-      model.noteParams.source = axis;
+      model.noteParams.axis = axis;
       motionFilter.beatFilter.setAxisSource(axisNumber);
     break;
     default:
       //do nothing since not a valid option
     break;
+}
 }
 
 /*
@@ -284,7 +298,7 @@ void MidiSensor::setMidiNoteAxis(char axisNumber){
  */
 
 void MidiSensor::setMidiNoteSource(char sourceNumber){
-  sources_t source = (sources_t)sourceNumber:
+  sources_t source = (sources_t)sourceNumber;
   switch(source){
     case ACCEL:
       model.noteParams.source = source;
@@ -312,7 +326,7 @@ void MidiSensor::setMidiNoteSource(char sourceNumber){
  */
 
 void MidiSensor::setNote1Number(byte noteNumber){
-   model.noteParams.noteNumber1 = noteNumber;;
+   model.noteParams.note1Number = noteNumber;;
 }
 
 /*
@@ -320,7 +334,7 @@ void MidiSensor::setNote1Number(byte noteNumber){
  */
 
 void MidiSensor::setNote2Number(byte noteNumber){
-  model.noteParams.noteNumber2 = noteNumber;
+  model.noteParams.note2Number = noteNumber;
   
 }
 
@@ -369,6 +383,13 @@ void MidiSensor::setEventType(byte eventType){
     model.event.statusByte &= 0x0F; //get rid of existing status 4 bits but keep channel bits
     model.event.statusByte |= eventType; //add event type bits
   }
+}
+
+/*
+ * Set rotation filter axis
+ */
+void MidiSensor::setRotationAxis(char axisNumber){
+  motionFilter.rotationFilter.setAboutAxis(axisNumber);
 }
 
 

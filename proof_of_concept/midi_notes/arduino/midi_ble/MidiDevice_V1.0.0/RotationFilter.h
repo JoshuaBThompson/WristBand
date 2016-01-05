@@ -9,6 +9,7 @@ Date Created: 12/22/2015
 
 #include "Arduino.h"
 #include "IMUFilter.h"
+#include "Common.h"
 
 #define AXIS_COUNT  3 //x, y and z (maybe)
 #define MAX_AVERAGE_COUNT 10 //max samples to average the rotation angle (may only use a portion of these, which will lead to quicker but less accurate rotation calc)
@@ -19,7 +20,12 @@ Date Created: 12/22/2015
 #define ZOFFSET (float)-450.0
 #define XOFFSET (float)-450.0
 
-typedef enum {X, Y, Z} axis_t;
+#define ROTATION_ANGLE_THRESHOLD 150 //deg
+#define FIRST_ROTATION  0
+#define SECOND_ROTATION 1
+
+//axis_t imported from Common.h
+//typedef enum {X, Y, Z} axis_t;
 /******RotationFilter data model struct
  * Contains struct of axis type, angle in deg and radians
 **********/
@@ -28,14 +34,17 @@ typedef struct {
   axis_t axis;
   int angleDeg;
   float angleRad;
-  int averageAxis1Buff[MAX_averageCount];
-  int averageAxis2Buff[MAX_averageCount];
+  int averageAxis1Buff[MAX_AVERAGE_COUNT];
+  int averageAxis2Buff[MAX_AVERAGE_COUNT];
   int accelAxis1Val, accelAxis2Val, accelRefAxisVal; //imu values
   int accelScaleAxis1, accelScaleAxis2;
   float runningAverageAxis1, runningAverageAxis2;
   float axis1Offset, axis2Offset;
   int averageCount; //running count
   int maxAverageCount; //user can use to override MAX_averageCount
+  int rotationNumber; //either 0 or 1 depending on the measured angle in deg
+  int firstRotation;
+  int secondRotation;
   
 } rotation_filter_model_t;
 

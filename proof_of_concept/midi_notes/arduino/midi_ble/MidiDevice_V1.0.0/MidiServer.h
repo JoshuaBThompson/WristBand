@@ -15,7 +15,7 @@ class MidiServer: MidiController
 {
   public: 
     //Methods
-    MidiDevice(void);
+    MidiController(void);
     void handleBleEvents(void);
     void updateState(void); 
     void sendState(void); 

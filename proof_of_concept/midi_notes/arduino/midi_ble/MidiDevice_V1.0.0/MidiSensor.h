@@ -9,10 +9,9 @@ Date Created: 12/22/2015
 #include "Arduino.h"
 #include "ImuFilter.h"
 #include "MotionFilter.h"
+#include "Common.h"
 #include "QueueList.h"
 
-
-#define IntervalTime  35.0 //millisec to wait between udpateState loop
 
 //Note 
 #define NOTE_ON_BYTE        (byte)0x90 //ch1
@@ -32,6 +31,10 @@ Date Created: 12/22/2015
 #define MIDI_MESSAGE_LIST_FIRST (byte)0x80 //note off
 #define MIDI_MESSAGE_LIST_LAST  (byte)0xF0 //system reset (not yet implemented)
 
+//Timing
+#define IntervalTime  35 //millisec
+#define NoteOffMaxTimeDelay 100 //millisec
+
 /*********MidiSensor Struct
  * Defines structure of MidiSensor object 
  * Note On events
@@ -41,9 +44,7 @@ Date Created: 12/22/2015
  * sources and mode of note event values
 ***********/
 
-//source of motion data for a midi event
-typedef enum {ACCEL, GYRO, MAG} sources_t;
-typedef enum {X, Y, Z} axis_t;
+//modes
 typedef enum {ROTATION=0, SINGLE=1} note_modes_t;
 typedef enum {EN_CC=0, NOTE=1, PAUSE=2, START=3} button_func_sources_t;
 
@@ -74,10 +75,12 @@ typedef struct {
 } note_params_t;
 
 
-//button function params
+//button function data structure
 typedef struct {
   button_func_sources_t source;
-} button_func_params_t;
+  midi_event_t event;
+  byte channel;
+} button_func_t;
 
 //note on / off struct that uses note ptr
 typedef struct {
@@ -90,11 +93,12 @@ typedef struct {
   bool enabled;
   bool set;
   unsigned long setTime; //millis
+  unsigned short maxTimeDelay; //millis
 } note_off_t;
 
 
 typedef struct {
-  button_func_params_t button;
+  button_func_t button;
   note_params_t noteParams;
   event_params_t eventParams;
   note_on_t noteOn;
@@ -119,6 +123,8 @@ class MidiSensor
     void updateState(void);
     void updateNoteOnNumber(void);
     void updateNoteOffNumber(void);
+    void updateNoteOffQueue(void);
+    void updateNoteOnQueue(void);
     void setMidiNoteMode(char modeNumber);
     void setRotationAxis(char axisNumber);
     void setMidiEventAxis(char axisNumber);

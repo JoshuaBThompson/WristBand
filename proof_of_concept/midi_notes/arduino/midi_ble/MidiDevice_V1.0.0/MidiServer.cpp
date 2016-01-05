@@ -9,7 +9,7 @@ Desc: Main object that is responsible for parsing motion data to generate midi m
 
 #include <inttypes.h>
 #include <stdint.h>
-#include "MidiDevice.h"
+#include "MidiServer.h"
 
 /*
  * Constructor

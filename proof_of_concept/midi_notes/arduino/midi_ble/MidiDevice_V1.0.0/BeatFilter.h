@@ -8,10 +8,11 @@ Date Created: 12/22/2015
 
 #include "Arduino.h"
 #include "IMUFilter.h"
+#include "Common.h"
 
-//Motion Types
-typedef enum {ACCEL, GYRO, MAG} sources_t;
-typedef enum {X, Y, Z} axis_t;
+//Motion Types - include from Common.h
+//typedef enum {ACCEL, GYRO, MAG} sources_t;
+//typedef enum {X, Y, Z} axis_t;
 
 #define AXIS_COUNT  3
 

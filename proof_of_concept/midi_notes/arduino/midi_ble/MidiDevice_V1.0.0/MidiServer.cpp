@@ -21,8 +21,6 @@ MidiServer::MidiServer(void):MidiController() {
 
 void MidiServer::initCallbacks(void){
   //todo?
-  testPtr = changeNoteNumber;
-  testPtr(status.cmd);
   callbackPtrList[0] = changeNoteNumber;
 }
 
@@ -55,7 +53,7 @@ void MidiServer::handleBleEvents(void){
  * Ex: to change note number 1 to 65: rx cmd would be: "!,0,1,65,!" where change note cmd has id 0 and params 1 and 65 to indicate note to change and it's value
  * Places params in cmd buffer
  */
-bool parseCmdFromRxBuffer(uint8_t * sourceBuffer, uint8_t * cmdBuffer){
+bool MidiServer::parseCmdFromRxBuffer(uint8_t * sourceBuffer, uint8_t * cmdBuffer){
   bool cmdReady = false;
   //todo: parse here
   return cmdReady;
@@ -64,11 +62,11 @@ bool parseCmdFromRxBuffer(uint8_t * sourceBuffer, uint8_t * cmdBuffer){
 /*
  * cmd callback 
  */
-void cmdCallback(uint8_t * cmdBuffer){
+void MidiServer::cmdCallback(uint8_t * cmdBuffer){
   int cmdID = cmdBuffer[0];
   if(cmdID < CALLBACK_COUNT){
     //todo: make ptr callback work!
-    //callbackPtrList[cmdID](cmdBuffer); //run cmd callback
+    callbackPtrList[cmdID](cmdBuffer); //run cmd callback
   }
 }
 

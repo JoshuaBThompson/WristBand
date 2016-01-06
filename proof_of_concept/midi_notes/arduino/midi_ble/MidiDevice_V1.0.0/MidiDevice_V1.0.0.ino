@@ -2,6 +2,8 @@
 #include <EEPROM.h>
 #include <Wire.h>
 #include <I2Cdev.h>
+#include <lib_aci.h>
+#include <aci_setup.h>
 #include "MidiSensor.h"
 
 MidiSensor midiSensor = MidiSensor();

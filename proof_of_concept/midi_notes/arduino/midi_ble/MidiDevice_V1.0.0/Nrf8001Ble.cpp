@@ -56,12 +56,27 @@ void Nrf8001::init(){
     noteOnStatus = 0x90;
     noteOffStatus = 0x80;
     ccModeStatus = 0xB0;
+    initStatus();
     
     //We reset the nRF8001 here by toggling the RESET line connected to the nRF8001
     //If the RESET line is not available we call the ACI Radio Reset to soft reset the nRF8001
     //then we initialize the data structures required to setup the nRF8001
     //The second parameter is for turning debug printing on for the ACI Commands and Events so they be printed on the Serial
     lib_aci_init(&aci_state, false);
+}
+
+void Nrf8001::initStatus(void){
+  status.connected = false;
+  status.advertising = false;
+  status.errorEvent = false;
+  status.rxMaxLen = RX_MAX_LEN;
+  status.rxBufferLen=0;
+  status.rxEvent = false;
+  status.dataAvailable = false;
+  for(int i = 0; i<RX_MAX_LEN; i++){
+    status.rxBuffer[i] = 0;
+  }
+
 }
 
 void Nrf8001::setupPins(void){

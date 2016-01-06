@@ -15,9 +15,16 @@ Desc: Main object that is responsible for parsing motion data to generate midi m
  * Constructor
  */
 MidiServer::MidiServer(void):MidiController() {
-
+  initCallbacks();
 }
 
+
+void MidiServer::initCallbacks(void){
+  //todo?
+  testPtr = changeNoteNumber;
+  testPtr(status.cmd);
+  callbackPtrList[0] = changeNoteNumber;
+}
 
 /*
  * Check bluetooth communication rx buffer for cmds or error, handle events or cmds
@@ -33,17 +40,37 @@ void MidiServer::handleBleEvents(void){
    }
    //check messages if any and copy to cmd buffer
    if(ble.status.rxEvent){
-      bool cmdAvailable = parseCmdFromRxBuffer(ble.status.rxBuffer, cmd);
+      bool cmdAvailable = parseCmdFromRxBuffer(ble.status.rxBuffer, status.cmd);
       if(cmdAvailable){
-        cmdCallback(cmd);
+        cmdCallback(status.cmd);
       }
    }
 
-   //clear events
-   ble.clearEvents();
+   //clear events?
    
 }
 
+/*
+ * User can send cmd request through the rx characteristic instead of using individual characteristic changes (note change, mode change...etc)
+ * Ex: to change note number 1 to 65: rx cmd would be: "!,0,1,65,!" where change note cmd has id 0 and params 1 and 65 to indicate note to change and it's value
+ * Places params in cmd buffer
+ */
+bool parseCmdFromRxBuffer(uint8_t * sourceBuffer, uint8_t * cmdBuffer){
+  bool cmdReady = false;
+  //todo: parse here
+  return cmdReady;
+}
+
+/*
+ * cmd callback 
+ */
+void cmdCallback(uint8_t * cmdBuffer){
+  int cmdID = cmdBuffer[0];
+  if(cmdID < CALLBACK_COUNT){
+    //todo: make ptr callback work!
+    //callbackPtrList[cmdID](cmdBuffer); //run cmd callback
+  }
+}
 
 /*
  * Update values from the accelerometer / gyro, note #, rotation angle, channel #, mode, button output (cc...etc)
@@ -55,9 +82,16 @@ void MidiServer::updateState(void){
 /*
  * If note valid sends midi note, if button pressed send midi message (varies), send sensor data?
  */
-void MidiServer.sendState(void){
+void MidiServer::sendState(void){
   
 }
+
+//--------------Callbacks--------------------------------
+
+void changeNoteNumber(uint8_t * cmdBuffer){
+  //todo?
+}
+
 
 
 

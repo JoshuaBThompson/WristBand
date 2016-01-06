@@ -14,6 +14,7 @@
 #define NOTE_CMD_TYPE      0x0A
 #define CH_CMD_TYPE        0x0D
 #define MaxDirNum          2
+#define RX_MAX_LEN  20
 
 class Nrf8001 {
 public:
@@ -25,6 +26,8 @@ public:
     void configureDevice(void);
     
     void init(void);
+
+    void initStatus(void);
     
     void setupPins(void);
     
@@ -75,12 +78,9 @@ public:
     void clearRxBuffer();
     
     void parseMIDICmd(uint8_t * uart_buffer);
-    
+
     
     //pulic members
-    uint8_t         rxBuffer[20];
-    uint8_t         rxMaxLen = 20;
-    uint8_t         rxBufferLen = 0;
     byte ccDataByte0;
     byte ccStatusByte;
     char directionsOn[3] = {0,0,0};
@@ -96,8 +96,11 @@ public:
         bool connected;
         bool advertising;
         bool errorEvent;
+        uint8_t rxBuffer[RX_MAX_LEN];
+        uint8_t rxMaxLen;
+        uint8_t rxBufferLen;
         bool rxEvent;
-        bool data_available;
+        bool dataAvailable;
     } status;
     
      //aci data and event structures

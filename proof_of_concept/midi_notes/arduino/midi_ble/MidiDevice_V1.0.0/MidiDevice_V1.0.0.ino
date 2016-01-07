@@ -7,6 +7,8 @@
 #include "MidiSensor.h"
 
 MidiSensor midiSensor = MidiSensor();
+midi_event_t midiEvent;
+
 
 
 /* Define how assert should function in the BLE library */
@@ -23,7 +25,8 @@ void __ble_assert(const char *file, uint16_t line)
 
 void setup(void)
 {
-  Serial.begin(115200);
+  Serial.begin(9600);
+  
   //Wait until the serial port is available (useful only for the Leonardo)
   //As the Leonardo board is not reseted every time you open the Serial Monitor
   #if defined (__AVR_ATmega32U4__)
@@ -34,12 +37,19 @@ void setup(void)
   #elif defined(__PIC32MX__)
     delay(1000);
   #endif
+  midiSensor.init();
 
   
 }
 
 
 void loop() {
+  midiSensor.updateState();
+  if(!midiSensor.midiEventQueue.isEmpty()){
+    midiEvent = midiSensor.midiEventQueue.pop();
+    Serial.println("Got event!");
+  }
+  delay(20);
 
 }
 

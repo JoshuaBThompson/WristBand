@@ -28,7 +28,7 @@ uint8_t * Nrf8001::getDeviceVersion(void){
   return (uint8_t*)&(aci_evt->params.cmd_rsp.params.get_device_version);
 }
 
-void nrf8001::setDeviceVersion(uint8_t pipe){
+void Nrf8001::setDeviceVersion(uint8_t pipe){
   //Store the version and configuration information of the nRF8001 in the Hardware Revision String Characteristic
   //ex: pipe = PIPE_DEVICE_INFORMATION_HARDWARE_REVISION_STRING_SET
         lib_aci_set_local_data(&aci_state, pipe,
@@ -207,7 +207,7 @@ void Nrf8001::dataCreditEvent(void){
 }
 
 void Nrf8001::pipeErrorEvent(void){
-    status.error = 1;
+    status.errorEvent = true;
     //See the appendix in the nRF8001 Product Specication for details on the error codes
     Serial.print(F("ACI Evt Pipe Error: Pipe #:"));
     Serial.print(aci_evt->params.pipe_error.pipe_number, DEC);
@@ -224,7 +224,7 @@ void Nrf8001::pipeErrorEvent(void){
 }
 
 void Nrf8001::hwErrorEvent(void){
-    status.error = 1;
+    status.errorEvent = true;
     Serial.print(F("HW error: "));
     Serial.println(aci_evt->params.hw_error.line_num, DEC);
     
@@ -271,7 +271,7 @@ bool Nrf8001::sendData(uint8_t pipe, uint8_t *buffer, uint8_t buffer_len)
     return status;
 }
 
-void Nrf8001::receiveData(uint8_t pipe, aci_evt_t * aci_evt, uint8_t * rx_buffer, uint8_t * rx_buffer_len){
+void Nrf8001::receiveData(uint8_t pipe, aci_evt_t * aci_evt, uint8_t * rxBuffer, uint8_t * rxBuffer_len){
     //ex: pipe = PIPE_UART_OVER_BTLE_UART_RX_RX
     clearRxBuffer(); 
     if ( pipe == aci_evt->params.data_received.rx_data.pipe_number)
@@ -280,13 +280,13 @@ void Nrf8001::receiveData(uint8_t pipe, aci_evt_t * aci_evt, uint8_t * rx_buffer
         for(int i=0; i<aci_evt->len - 2; i++)
         {
             //Serial.print((char)aci_evt->params.data_received.rx_data.aci_data[i], HEX);
-            rx_buffer[i] = aci_evt->params.data_received.rx_data.aci_data[i];
+            rxBuffer[i] = aci_evt->params.data_received.rx_data.aci_data[i];
             //Serial.print(F(" "));
             
         }
-        *rx_buffer_len = aci_evt->len - 2;
+        *rxBuffer_len = aci_evt->len - 2;
         
-        parseMIDICmd(rx_buffer);
+        parseMIDICmd(rxBuffer);
         
     }
   
@@ -294,19 +294,19 @@ void Nrf8001::receiveData(uint8_t pipe, aci_evt_t * aci_evt, uint8_t * rx_buffer
 }
 
 void Nrf8001::clearRxBuffer(){
-  for(int i=0; i<rx_buffer_len; i++){
-    rx_buffer[i] = 0;
+  for(int i=0; i<status.rxBufferLen; i++){
+    status.rxBuffer[i] = 0;
   }
 }
 
-void Nrf8001::parseMIDICmd(uint8_t * rx_buffer){
-  char cmdType = rx_buffer[0];
+void Nrf8001::parseMIDICmd(uint8_t * rxBuffer){
+  char cmdType = rxBuffer[0];
   if(cmdType == CC_CMD_TYPE){
     //cmd ex for cmd type cc and volume ctrl: 0x 0C 07 00
     //0C== Control cmd type 
     //07 = cc byte for volume change (see midi event table 3 online)
     
-      ccDataByte0 = rx_buffer[1];
+      ccDataByte0 = rxBuffer[1];
       Serial.println("cc mode change: ");
       Serial.println(ccDataByte0, HEX);
 
@@ -316,8 +316,8 @@ void Nrf8001::parseMIDICmd(uint8_t * rx_buffer){
     //0A == cmd type note
     //00 == accel x dir (0 is x, 1 is y and 2 is z)
     //60 == note byte
-    dirNum = rx_buffer[1];
-    dirNote = rx_buffer[2];
+    dirNum = rxBuffer[1];
+    dirNote = rxBuffer[2];
     if(dirNum <= MaxDirNum){
       directionsOn[dirNum] = dirNote;
     }
@@ -327,7 +327,7 @@ void Nrf8001::parseMIDICmd(uint8_t * rx_buffer){
     //cmd ex for cmd type channel change to ch7: 0x CC 07
     //CC == Channel Change cmd type
     //07 == channel number 7 
-    channelNum = rx_buffer[1];
+    channelNum = rxBuffer[1];
     if(channelNum >=16){
       channelNum = 15; //allowable range is -> ch 0 - 15
     }
@@ -448,8 +448,8 @@ void Nrf8001::handleEvents(void){
                 
             case ACI_EVT_DATA_RECEIVED:
                 //Serial.println("Device data received (todo)");
-                receiveData(PIPE_NORDIC_UART_OVER_BTLE_UART_RX_RX, aci_evt, rx_buffer, &rx_buffer_len);
-                receiveData(PIPE_MIDI_MIDI_IO_RX, aci_evt, rx_buffer, &rx_buffer_len);
+                receiveData(PIPE_NORDIC_UART_OVER_BTLE_UART_RX_RX, aci_evt, status.rxBuffer, &status.rxBufferLen);
+                receiveData(PIPE_MIDI_MIDI_IO_RX, aci_evt, status.rxBuffer, &status.rxBufferLen);
                 break;
                 
             case ACI_EVT_DATA_CREDIT:

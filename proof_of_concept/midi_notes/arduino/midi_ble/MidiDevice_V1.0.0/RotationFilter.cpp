@@ -99,7 +99,7 @@ void RotationFilter::setAboutAxis(char axisNumber){
  * Fill in axis values from imu based on the ref axis
  */
 
-void RotationFilter:updateAxisValues(void){
+void RotationFilter::updateAxisValues(void){
   switch(model.axis){
     case X:
       model.accelAxis1Val = imuFilter->model.accel.y;
@@ -136,8 +136,8 @@ void RotationFilter:updateAxisValues(void){
 
 void RotationFilter::updateRotationAngle(void){
   if(model.averageCount < model.maxAverageCount){
-                model.averageAxis1Buff[averageCount] = model.accelAxis1Val;
-                model.averageAxis2Buff[averageCount] = model.accelAxis2Val;
+                model.averageAxis1Buff[model.averageCount] = model.accelAxis1Val;
+                model.averageAxis2Buff[model.averageCount] = model.accelAxis2Val;
                 model.averageCount += 1;
             }
 
@@ -146,7 +146,7 @@ void RotationFilter::updateRotationAngle(void){
       model.runningAverageAxis2 = 0;
       for( char i=0; i < model.maxAverageCount; i++){
           model.runningAverageAxis1 += (float)model.averageAxis1Buff[i]/(float)model.maxAverageCount;
-          running_average_z += (float)model.averageAxis2Buff[i]/(float)model.maxAverageCount;
+          model.runningAverageAxis2 += (float)model.averageAxis2Buff[i]/(float)model.maxAverageCount;
       }
       model.runningAverageAxis1 = model.runningAverageAxis1 - model.axis1Offset;
       model.runningAverageAxis2 = model.runningAverageAxis2 - model.axis2Offset;
@@ -165,17 +165,17 @@ void RotationFilter::updateRotationAngle(void){
 
 void RotationFilter::updateRotationAngleNew(void){
   if(model.averageCount < model.maxAverageCount){
-                model.runningAverageAxis1 -= (float)(model.averageAxis1Buff[averageCount]-model.axis1Offset)/(float)model.maxAverageCount;
-                model.runningAverageAxis2 -= (float)(model.averageAxis2Buff[averageCount]-model.axis2Offset)/(float)model.maxAverageCount;
+                model.runningAverageAxis1 -= (float)(model.averageAxis1Buff[model.averageCount]-model.axis1Offset)/(float)model.maxAverageCount;
+                model.runningAverageAxis2 -= (float)(model.averageAxis2Buff[model.averageCount]-model.axis2Offset)/(float)model.maxAverageCount;
                 
-                model.averageAxis1Buff[averageCount] = model.accelAxis1Val;
-                model.averageAxis2Buff[averageCount] = model.accelAxis2Val;
+                model.averageAxis1Buff[model.averageCount] = model.accelAxis1Val;
+                model.averageAxis2Buff[model.averageCount] = model.accelAxis2Val;
                 
-                model.runningAverageAxis1 += (float)(model.averageAxis1Buff[averageCount]-model.axis1Offset)/(float)model.maxAverageCount;
-                model.runningAverageAxis2 += (float)(model.averageAxis2Buff[averageCount]-model.axis2Offset)/(float)model.maxAverageCount;
+                model.runningAverageAxis1 += (float)(model.averageAxis1Buff[model.averageCount]-model.axis1Offset)/(float)model.maxAverageCount;
+                model.runningAverageAxis2 += (float)(model.averageAxis2Buff[model.averageCount]-model.axis2Offset)/(float)model.maxAverageCount;
                 
                 model.averageCount++;
-                if(model.averageCount => model.maxAverageCount){model.averageCount=0;} //reset
+                if(model.averageCount >= model.maxAverageCount){model.averageCount=0;} //reset
             }
     
   if((model.runningAverageAxis1 >= -1*model.accelScaleAxis1) && (model.runningAverageAxis1 <= 1*model.accelScaleAxis1)){

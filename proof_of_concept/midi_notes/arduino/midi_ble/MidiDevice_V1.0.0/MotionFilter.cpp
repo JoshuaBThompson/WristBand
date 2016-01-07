@@ -10,11 +10,8 @@ Date Created: 12/22/2015
 #include "MotionFilter.h"
 
 
-MotionFilter::MotionFilter(void) {
-  bool parent = true;
-  imuFilter = IMUFilter();
-  beatFilter = BeatFilter(&imuFilter, parent); //sets beatFilter child attribute to true, so that it expects motion filter class to update imu filter model
-  rotationFilter = RotationFilter(&imuFilter, parent); //sets rotationFilter child attribute to true...etc
+MotionFilter::MotionFilter(void):imuFilter(), beatFilter(&imuFilter, true), rotationFilter(&imuFilter, true) {
+  reset(); // reset all model variables to defaults
 }
 
 /*
@@ -22,6 +19,7 @@ MotionFilter::MotionFilter(void) {
  */
 
 void MotionFilter::init(void){
+  imuFilter.init();
   beatFilter.init();
   rotationFilter.init();
 }
@@ -31,7 +29,7 @@ void MotionFilter::init(void){
 */
 void MotionFilter::reset() {
     beatFilter.reset();
-    rotationFilter.reset():
+    rotationFilter.reset();
 }
 
 /*
@@ -43,7 +41,7 @@ void MotionFilter::updateState(void){
   beatFilter.updateState();
   rotationFilter.updateState();
   //update model
-  model.beat = beatFilter.beat;
+  model.beat = beatFilter.model.beat;
   model.angleRad = rotationFilter.model.angleRad;
   model.angleDeg = rotationFilter.model.angleDeg;
 }

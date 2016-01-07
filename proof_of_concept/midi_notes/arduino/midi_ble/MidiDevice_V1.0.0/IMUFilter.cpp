@@ -13,9 +13,8 @@ Desc: Main object that is responsible for parsing imu accel and gyro data
 /*
  * Constructor
 */
-IMUFilter::IMUFilter(void) {
+IMUFilter::IMUFilter(void): imu() {
 
-    imu = IMUduino();
 }
 
 
@@ -40,7 +39,23 @@ void IMUFilter::init(void){
   //clear variables
   reset();
   //init objects
-  imu.init();  
+  imu.init(true);
+  Serial.println("init imu"); 
+  delay(100);
+  int data[11];
+  imu.getRawValues(data);
+  Serial.println(data[0]);
+  Serial.println(data[1]);
+  delay(40);
+  imu.getRawValues(data);
+  Serial.println(data[0]);
+  Serial.println(data[1]);
+  delay(50);
+  imu.getRawValues(data);
+  Serial.println(data[0]);
+  Serial.println(data[1]);
+  delay(3000);
+   
 }
 
 
@@ -48,6 +63,7 @@ void IMUFilter::init(void){
  * Filter accel and gyro data into model structure
  */
 void IMUFilter::updateState(void){
+  int myArray[11];
   imu.getRawValues(model.rawData.dataArray); //fill imu raw data array with accel, gyro and magnetometer data from imu sensor
   calibrateImu(); //calibrate data and fill sensor specific struct
 }

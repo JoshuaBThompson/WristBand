@@ -36,6 +36,7 @@ void MidiSensor::init(void){
    //todo: init model?
    //reset variables
     reset();
+    motionFilter.init();
 }
 
 
@@ -151,8 +152,9 @@ void MidiSensor::updateState(void){
       return;
   }
   else{
-      model.prevTime = model.currentTime;
+      model.prevTime = model.currentTime;     
   }
+  
   
   motionFilter.updateState();
     
@@ -192,14 +194,14 @@ void MidiSensor::updateNoteOffNumber(void){
  * Put note off data into queue so that other objects can access the midi sensor data on the fly
  */
 void MidiSensor::updateNoteOffQueue(void){
-  
+  midiEventQueue.push(model.noteOff.note);
 }
 
 /*
  * Put note on data into queue so that other objects can access the midi sensor data on the fly
  */
 void MidiSensor::updateNoteOnQueue(void){
-  
+  midiEventQueue.push(model.noteOn.note);
 }
 
 /*

@@ -14,7 +14,7 @@ Desc: Main object that is responsible for filtering motion data to produce data 
  * Constructor
 */
 MidiSensor::MidiSensor(void) {
-    motionFilter = MotionFilter();
+    Serial.println("construct midi sensor");
     model.intervalTime = IntervalTime; //35 ms
 }
 

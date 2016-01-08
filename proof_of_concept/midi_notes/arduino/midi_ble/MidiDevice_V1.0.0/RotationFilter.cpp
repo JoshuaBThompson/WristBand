@@ -9,11 +9,11 @@ RotationFilter.cpp
 #include "RotationFilter.h"
 
 
-RotationFilter::RotationFilter(IMUFilter * imuFilterPtr, bool isChild) {
+RotationFilter::RotationFilter(IMUFilter * filterPtr, bool isChild) {
 
   // todo:?
+  imuFilter = filterPtr;
   child = isChild; //if true, then parent class will update imu data, else this class should update imu data when calling updateState
-  imuFilter = imuFilterPtr;
 }
 
 /*

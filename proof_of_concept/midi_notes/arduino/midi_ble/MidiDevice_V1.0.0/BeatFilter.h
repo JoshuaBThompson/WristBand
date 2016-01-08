@@ -60,7 +60,7 @@ class BeatFilter
   public:
     
     //Methods
-    BeatFilter(IMUFilter * imuFilterPtr, bool isChild);
+    BeatFilter(IMUFilter * filterPtr, bool isChild);
     void reset(void);
     void init(void);
     void setX0(long int x);

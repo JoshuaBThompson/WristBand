@@ -40,21 +40,6 @@ void IMUFilter::init(void){
   reset();
   //init objects
   imu.init(true);
-  Serial.println("init imu"); 
-  delay(100);
-  int data[11];
-  imu.getRawValues(data);
-  Serial.println(data[0]);
-  Serial.println(data[1]);
-  delay(40);
-  imu.getRawValues(data);
-  Serial.println(data[0]);
-  Serial.println(data[1]);
-  delay(50);
-  imu.getRawValues(data);
-  Serial.println(data[0]);
-  Serial.println(data[1]);
-  delay(3000);
    
 }
 

@@ -59,7 +59,7 @@ class RotationFilter
   public:
     
     //Methods
-    RotationFilter(IMUFilter * imuFilterPtr, bool isChild);
+    RotationFilter(IMUFilter * filterPtr, bool isChild);
     void reset(void);
     void init(void);
     void updateState(void);

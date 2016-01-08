@@ -9,10 +9,10 @@ Date Created: 12/22/2015
 #include "BeatFilter.h"
 
 
-BeatFilter::BeatFilter(IMUFilter * imuFilterPtr, bool isChild) {
+BeatFilter::BeatFilter(IMUFilter * filterPtr, bool isChild) {
   // todo:?
+  imuFilter = filterPtr;
   child = isChild; //if child, then imu data will be updated from the parent class, else beatFilter class must update imu data when calling updateState
-  imuFilter = imuFilterPtr;
 }
 
 

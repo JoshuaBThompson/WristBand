@@ -8,8 +8,7 @@
 
 MidiSensor midiSensor = MidiSensor();
 midi_event_t midiEvent;
-
-
+int x = 0;
 
 /* Define how assert should function in the BLE library */
 void __ble_assert(const char *file, uint16_t line)
@@ -33,12 +32,12 @@ void setup(void)
     delay(2000);
     while(!Serial)
     {}
-    delay(5000);  //5 seconds delay for enabling to see the start up comments on the serial board
+    delay(2000);  //5 seconds delay for enabling to see the start up comments on the serial board
   #elif defined(__PIC32MX__)
     delay(1000);
   #endif
   midiSensor.init();
-
+  
   
 }
 

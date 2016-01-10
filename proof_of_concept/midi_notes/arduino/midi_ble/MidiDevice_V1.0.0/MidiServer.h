@@ -47,3 +47,4 @@ class MidiServer: public MidiController
 };
 
 #endif // MidiServer_h
+

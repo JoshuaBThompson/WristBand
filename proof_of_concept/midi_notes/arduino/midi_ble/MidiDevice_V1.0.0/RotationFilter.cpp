@@ -53,7 +53,7 @@ void RotationFilter::reset() {
 void RotationFilter::updateState(void){
   if(!child){imuFilter->updateState();} //update imu data if there is no motionFilter parent calling updateState of imuFilter
   updateAxisValues();
-  updateRotationAngle();
+  updateRotationAngleNew();
 }
 
 void RotationFilter::setAboutAxis(char axisNumber){
@@ -157,7 +157,7 @@ void RotationFilter::updateRotationAngle(void){
       if((model.runningAverageAxis2 >= -1*model.accelScaleAxis2) && (model.runningAverageAxis2 <= 1*model.accelScaleAxis2)){
           model.angleRad = atan2(model.runningAverageAxis1, model.runningAverageAxis2);
           model.angleDeg = (int)(model.angleRad*180.0/PI);
-          model.rotationNumber = (model.angleDeg >= ROTATION_ANGLE_THRESHOLD) ? 1:0;
+          model.rotationNumber = (model.angleDeg >= ROTATION_ANGLE_THRESHOLD) ? FIRST_ROTATION:SECOND_ROTATION;
       }
   }
   
@@ -165,18 +165,17 @@ void RotationFilter::updateRotationAngle(void){
 
 void RotationFilter::updateRotationAngleNew(void){
   if(model.averageCount < model.maxAverageCount){
-                model.runningAverageAxis1 -= (float)(model.averageAxis1Buff[model.averageCount]-model.axis1Offset)/(float)model.maxAverageCount;
-                model.runningAverageAxis2 -= (float)(model.averageAxis2Buff[model.averageCount]-model.axis2Offset)/(float)model.maxAverageCount;
+                model.runningAverageAxis1 -= ((float)model.averageAxis1Buff[model.averageCount]-model.axis1Offset)/(float)model.maxAverageCount;
+                model.runningAverageAxis2 -= ((float)model.averageAxis2Buff[model.averageCount]-model.axis2Offset)/(float)model.maxAverageCount;
                 
                 model.averageAxis1Buff[model.averageCount] = model.accelAxis1Val;
                 model.averageAxis2Buff[model.averageCount] = model.accelAxis2Val;
                 
-                model.runningAverageAxis1 += (float)(model.averageAxis1Buff[model.averageCount]-model.axis1Offset)/(float)model.maxAverageCount;
-                model.runningAverageAxis2 += (float)(model.averageAxis2Buff[model.averageCount]-model.axis2Offset)/(float)model.maxAverageCount;
-                
+                model.runningAverageAxis1 += ((float)model.averageAxis1Buff[model.averageCount]-model.axis1Offset)/(float)model.maxAverageCount;
+                model.runningAverageAxis2 += ((float)model.averageAxis2Buff[model.averageCount]-model.axis2Offset)/(float)model.maxAverageCount;
                 model.averageCount++;
                 if(model.averageCount >= model.maxAverageCount){model.averageCount=0;} //reset
-            }
+  }
     
   if((model.runningAverageAxis1 >= -1*model.accelScaleAxis1) && (model.runningAverageAxis1 <= 1*model.accelScaleAxis1)){
       if((model.runningAverageAxis2 >= -1*model.accelScaleAxis2) && (model.runningAverageAxis2 <= 1*model.accelScaleAxis2)){
@@ -184,22 +183,28 @@ void RotationFilter::updateRotationAngleNew(void){
           model.angleDeg = (int)(model.angleRad*180.0/PI);
       }
   }
+
+  model.rotationNumber = (model.angleDeg >= ROTATION_ANGLE_THRESHOLD) ? FIRST_ROTATION:SECOND_ROTATION;
+  
 }
 
 /*
  * Intialize average buffer and running averages with single accelerometer values initially before main loop starts using updateState method
  */
 void RotationFilter::initRunningAverage(void){
+  delay(30);
+  imuFilter->updateState();
   updateAxisValues();//get accel x,y and z values and put in proper order in model
 
   //fill in all average buffers with same accel value initially
   for(int i = 0; i<model.maxAverageCount; i++){
     model.averageAxis1Buff[i] = model.accelAxis1Val;
     model.averageAxis2Buff[i] = model.accelAxis2Val;
+
+    model.runningAverageAxis1 += ((float)model.accelAxis1Val-model.axis1Offset)/(float)model.maxAverageCount;
+    model.runningAverageAxis2 += ((float)model.accelAxis2Val-model.axis2Offset)/(float)model.maxAverageCount;
   }
 
-  model.runningAverageAxis1 = (float)(model.accelAxis1Val-model.axis1Offset);
-  model.runningAverageAxis2 = (float)(model.accelAxis1Val-model.axis2Offset);
-  
 }
+
 

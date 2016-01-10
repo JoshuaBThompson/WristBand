@@ -31,7 +31,20 @@ void BeatFilter::updateState(void){
  * Inititalize filter variables
  */
 void BeatFilter::init(void){
-  reset(); 
+  reset();
+  initSamples(); //fill x0 and x1 
+}
+
+/*
+ * Fill in x0 and x1 with sensor values before starting
+ */
+void BeatFilter::initSamples(void){
+  imuFilter->updateState();
+  updateAxisValues();
+  int x = model.axisValues[model.axis];
+  setX0(x);
+  setX1(x);
+  
 }
 
 /*
@@ -55,8 +68,6 @@ void BeatFilter::setX1(long int x){
 bool BeatFilter::isBeat(long int x){  
     
     //-------Get x0, x1 and difference between them
-    Serial.println("isBeat");
-    Serial.println(x,DEC);
     setX1(x);
     model.diff = model.x1 - model.x0; //get difference between current and prev samples to see if acceleration is rising or falling
     setX0(model.x1); //update x0 for next sample
@@ -208,6 +219,7 @@ void BeatFilter::updateAxisValues(void){
     break;
   }
 }
+
 
 
 

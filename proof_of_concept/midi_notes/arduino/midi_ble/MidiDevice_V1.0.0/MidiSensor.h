@@ -32,8 +32,8 @@ Date Created: 12/22/2015
 #define MIDI_MESSAGE_LIST_LAST  (byte)0xF0 //system reset (not yet implemented)
 
 //Timing
-#define IntervalTime  35 //millisec
-#define NoteOffMaxTimeDelay 100 //millisec
+#define IntervalTime  40 //millisec
+#define NoteOffMaxTimeDelay 300 //millisec
 
 /*********MidiSensor Struct
  * Defines structure of MidiSensor object 
@@ -50,6 +50,7 @@ typedef enum {EN_CC=0, NOTE=1, PAUSE=2, START=3} button_func_sources_t;
 
 //generic midi event structure (note on, off, cc volume change...etc)
 typedef struct {
+  bool valid;
   byte statusByte;
   byte dataByte1;
   byte dataByte2;
@@ -104,6 +105,7 @@ typedef struct {
   note_on_t noteOn;
   note_off_t noteOff;
   midi_event_t event;
+  midi_event_t blankEvent;
   unsigned long currentTime, prevTime;
   int intervalTime; // should be set to ~35 millis
 } sensor_model_t;
@@ -117,6 +119,7 @@ class MidiSensor
     void reset(void);
     void resetNoteParams(void);
     void resetEventParams(void);
+    void resetBlankEvent(void);
     void updateNoteOnState(void);
     void updateEventState(void);
     void updateNoteOffState(void);
@@ -137,6 +140,8 @@ class MidiSensor
     void setNoteVelocity(byte velocity);
     void setEventChannel(byte channel);
     void setEventType(byte eventType);
+    midi_event_t readEvent(void);
+    
     
     //attributes
     // create a queue of bool for FIFO of midi data

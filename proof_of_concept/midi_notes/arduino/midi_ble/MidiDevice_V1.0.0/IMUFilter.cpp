@@ -96,3 +96,4 @@ void IMUFilter::calibrateMag(void){
   model.mag.z = model.rawData.data.mag_z;
 }
 
+

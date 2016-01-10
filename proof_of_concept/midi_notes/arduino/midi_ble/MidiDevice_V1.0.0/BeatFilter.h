@@ -63,6 +63,7 @@ class BeatFilter
     BeatFilter(IMUFilter * filterPtr, bool isChild);
     void reset(void);
     void init(void);
+    void initSamples(void);
     void setX0(long int x);
     void setX1(long int x);
     bool isBeat(long int x);
@@ -78,5 +79,6 @@ class BeatFilter
 };
 
 #endif // BeatFilter_h
+
 
 

@@ -12,15 +12,15 @@ Date Created: 12/22/2015
 #include "Common.h"
 
 #define AXIS_COUNT  3 //x, y and z (maybe)
-#define MAX_AVERAGE_COUNT 10 //max samples to average the rotation angle (may only use a portion of these, which will lead to quicker but less accurate rotation calc)
+#define MAX_AVERAGE_COUNT 5 //max samples to average the rotation angle (may only use a portion of these, which will lead to quicker but less accurate rotation calc)
 #define ACCEL_SCALE_Y (int)16675
 #define ACCEL_SCALE_X (int)16675 //need to test and get better value for X
 #define ACCEL_SCALE_Z (int)17809
-#define YOFFSET (float)-450.0
-#define ZOFFSET (float)-450.0
-#define XOFFSET (float)-450.0
+#define YOFFSET (float) 0//-450.0
+#define ZOFFSET (float) 0//-450.0
+#define XOFFSET (float) 0//-450.0
 
-#define ROTATION_ANGLE_THRESHOLD 150 //deg
+#define ROTATION_ANGLE_THRESHOLD 0 //deg
 #define FIRST_ROTATION  0
 #define SECOND_ROTATION 1
 

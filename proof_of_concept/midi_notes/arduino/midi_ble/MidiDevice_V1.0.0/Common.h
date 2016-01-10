@@ -15,3 +15,4 @@ typedef enum {ACCEL, GYRO, MAG} sources_t;
 typedef enum {X, Y, Z} axis_t;
 
 #endif //COMMON_H_
+

@@ -30,8 +30,8 @@ void setup(void)
   //As the Leonardo board is not reseted every time you open the Serial Monitor
   #if defined (__AVR_ATmega32U4__)
     delay(2000);
-    while(!Serial)
-    {}
+    //while(!Serial)
+    //{}
     delay(2000);  //5 seconds delay for enabling to see the start up comments on the serial board
   #elif defined(__PIC32MX__)
     delay(1000);
@@ -45,8 +45,19 @@ void setup(void)
 void loop() {
   midiSensor.updateState();
   if(!midiSensor.midiEventQueue.isEmpty()){
-    midiEvent = midiSensor.midiEventQueue.pop();
-    Serial.println("Got event!");
+    midiEvent = midiSensor.readEvent();
+    //Serial.print("Got event ");
+    //Serial.println(midiEvent.statusByte,HEX);
+    Serial.println(midiEvent.dataByte1,HEX);
+  }
+  else{
+    /*
+    int angle = midiSensor.motionFilter.rotationFilter.model.angleDeg;
+    Serial.println("angle ");
+    Serial.println(angle,DEC);
+    */
+    
+    
   }
   delay(20);
 

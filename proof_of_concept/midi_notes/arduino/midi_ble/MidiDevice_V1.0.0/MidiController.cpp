@@ -90,3 +90,4 @@ void MidiController::changeBeatFilterMaxAmp(char maxAmp){
 void MidiController::changeButtonFunction(char functionNumber){
 }
 
+

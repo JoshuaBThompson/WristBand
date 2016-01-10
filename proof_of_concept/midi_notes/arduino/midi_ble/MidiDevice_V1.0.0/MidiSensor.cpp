@@ -14,7 +14,6 @@ Desc: Main object that is responsible for filtering motion data to produce data 
  * Constructor
 */
 MidiSensor::MidiSensor(void) {
-    Serial.println("construct midi sensor");
     model.intervalTime = IntervalTime; //35 ms
 }
 
@@ -27,6 +26,7 @@ void MidiSensor::reset(void){
   model.intervalTime = IntervalTime; //35 ms
   resetNoteParams();
   resetEventParams();
+  resetBlankEvent();
 }
 
 /*
@@ -56,11 +56,13 @@ void MidiSensor::resetNoteParams(void){
     model.noteParams.axis = X;
 
     //note on / off
+    model.noteOn.note.valid = true;
     model.noteOn.note.statusByte = NOTE_ON_BYTE + NOTE_CHANNEL;
     model.noteOn.note.dataByte1 = NOTE1_NUMBER;
     model.noteOn.note.dataByte2 = NOTE_VELOCITY;
     model.noteOn.enabled = false;
 
+    model.noteOff.note.valid = true;
     model.noteOff.note.statusByte = NOTE_OFF_BYTE + NOTE_CHANNEL;
     model.noteOff.note.dataByte1 = NOTE1_NUMBER;
     model.noteOff.note.dataByte2 = 0; //velocity not really necessary...
@@ -82,9 +84,21 @@ void MidiSensor::resetEventParams(void){
     model.eventParams.channel = DEFAULT_EVENT_CHANNEL;
 
     //generic event
+    model.event.valid = true;
     model.event.statusByte = DEFAULT_EVENT_STATUS_BYTE;
     model.event.dataByte1 = DEFAULT_EVENT_DATA_BYTE1;
     model.event.dataByte2 = DEFAULT_EVENT_DATA_BYTE2;
+}
+
+/*
+ * Reset Null / blank event - readEvent returns null event if nothing in queue
+ */
+
+void MidiSensor::resetBlankEvent(void){
+    model.blankEvent.valid = false;
+    model.blankEvent.statusByte = 0;
+    model.blankEvent.dataByte1 = 0;
+    model.blankEvent.dataByte2 = 0;
 }
 
 
@@ -137,6 +151,8 @@ void MidiSensor::updateNoteOffState(void){
   else if (model.noteOff.set && timeDiff >= model.noteOff.maxTimeDelay){
     model.noteOff.enabled = true;
     updateNoteOffQueue(); //put noteoff on queue then reset set and enabled vars
+    model.noteOff.enabled = false;
+    model.noteOff.set = false;
   }
   
 }
@@ -172,9 +188,10 @@ void MidiSensor::updateNoteOnNumber(void){
   if(model.noteParams.mode == ROTATION){
       if(motionFilter.rotationFilter.model.rotationNumber == motionFilter.rotationFilter.model.firstRotation){
         model.noteOn.note.dataByte1 = model.noteParams.note1Number;
+        
       }
       else{
-        model.noteOn.note.dataByte1 = model.noteParams.note1Number;
+        model.noteOn.note.dataByte1 = model.noteParams.note2Number;
       }
     }
     else{
@@ -394,6 +411,22 @@ void MidiSensor::setRotationAxis(char axisNumber){
   motionFilter.rotationFilter.setAboutAxis(axisNumber);
 }
 
+
+/*
+ * Read midi event from queue
+ */
+
+midi_event_t MidiSensor::readEvent(void){
+  midi_event_t event;
+  if(!midiEventQueue.isEmpty()){
+    event = midiEventQueue.pop();
+   }
+   else{
+    //if queue empty return blank event that has valid param = false
+    event = model.blankEvent;
+   }
+  return event;
+}
 
 
 

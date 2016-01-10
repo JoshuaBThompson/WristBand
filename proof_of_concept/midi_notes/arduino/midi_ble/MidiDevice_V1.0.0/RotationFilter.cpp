@@ -22,6 +22,7 @@ RotationFilter::RotationFilter(IMUFilter * filterPtr, bool isChild) {
 void RotationFilter::init(void){
    reset();
    initRunningAverage();
+   prevTime = millis();
 }
 
 /*
@@ -156,7 +157,7 @@ void RotationFilter::updateRotationAngle(void){
   if((model.runningAverageAxis1 >= -1*model.accelScaleAxis1) && (model.runningAverageAxis1 <= 1*model.accelScaleAxis1)){
       if((model.runningAverageAxis2 >= -1*model.accelScaleAxis2) && (model.runningAverageAxis2 <= 1*model.accelScaleAxis2)){
           model.angleRad = atan2(model.runningAverageAxis1, model.runningAverageAxis2);
-          model.angleDeg = (int)(model.angleRad*180.0/PI);
+          model.angleDeg = model.angleRad*180.0/PI;
           model.rotationNumber = (model.angleDeg >= ROTATION_ANGLE_THRESHOLD) ? FIRST_ROTATION:SECOND_ROTATION;
       }
   }
@@ -164,6 +165,8 @@ void RotationFilter::updateRotationAngle(void){
 }
 
 void RotationFilter::updateRotationAngleNew(void){
+  timeDiff = millis() - prevTime;
+  prevTime = millis();
   if(model.averageCount < model.maxAverageCount){
                 model.runningAverageAxis1 -= ((float)model.averageAxis1Buff[model.averageCount]-model.axis1Offset)/(float)model.maxAverageCount;
                 model.runningAverageAxis2 -= ((float)model.averageAxis2Buff[model.averageCount]-model.axis2Offset)/(float)model.maxAverageCount;
@@ -180,12 +183,19 @@ void RotationFilter::updateRotationAngleNew(void){
   if((model.runningAverageAxis1 >= -1*model.accelScaleAxis1) && (model.runningAverageAxis1 <= 1*model.accelScaleAxis1)){
       if((model.runningAverageAxis2 >= -1*model.accelScaleAxis2) && (model.runningAverageAxis2 <= 1*model.accelScaleAxis2)){
           model.angleRad = atan2(model.runningAverageAxis1, model.runningAverageAxis2);
-          model.angleDeg = (int)(model.angleRad*180.0/PI);
+          model.angleDeg = model.angleRad*180.0/PI;
       }
+  }
+  else{
+     Serial.println("using gyro");
+     float degSec = (float)(imuFilter->model.gyro.x  - imuFilter->imu.gyro_off_x) / 16.4f; //x deg / sec gyro rate
+     model.angleDeg +=degSec*(float)(timeDiff/1000.0);//deg/sec * time
+    
+
   }
 
   model.rotationNumber = (model.angleDeg >= ROTATION_ANGLE_THRESHOLD) ? FIRST_ROTATION:SECOND_ROTATION;
-  
+ 
 }
 
 /*

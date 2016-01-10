@@ -15,8 +15,6 @@ Desc: Main object that is responsible for retrieving midi event data from the mi
  * Constructor
 */
 MidiController::MidiController(void) {
-  midiSensor = MidiSensor();
-  midiProtocol = MidiProtocol();
   //reset variables
   reset();
   

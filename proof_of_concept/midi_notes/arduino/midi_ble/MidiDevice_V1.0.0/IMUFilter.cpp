@@ -63,8 +63,8 @@ void IMUFilter::calibrateImu(void){
   calibrateAccel();
 
   //not using magnetometer or gyro at the moment
-  //calibrateGyro(); 
-  //calibrateMag();
+  calibrateGyro(); 
+  calibrateMag();
   
 }
 

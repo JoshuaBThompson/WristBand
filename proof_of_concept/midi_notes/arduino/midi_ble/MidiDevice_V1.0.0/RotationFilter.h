@@ -32,7 +32,7 @@ Date Created: 12/22/2015
 
 typedef struct {
   axis_t axis;
-  int angleDeg;
+  float angleDeg;
   float angleRad;
   int averageAxis1Buff[MAX_AVERAGE_COUNT];
   int averageAxis2Buff[MAX_AVERAGE_COUNT];
@@ -70,6 +70,9 @@ class RotationFilter
     void initRunningAverage(void);
 
     //Variables
+    unsigned long timeDiff;
+    unsigned long prevTime;
+    float angleDeg;
     rotation_filter_model_t model;
     IMUFilter * imuFilter;
     bool child; //determine if rotationFilter class will update imu data or if parent class will

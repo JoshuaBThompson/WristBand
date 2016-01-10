@@ -74,7 +74,7 @@ void MidiServer::cmdCallback(uint8_t * cmdBuffer){
  * Update values from the accelerometer / gyro, note #, rotation angle, channel #, mode, button output (cc...etc)
  */
 void MidiServer::updateState(void){
-  
+  midiSensor.updateState();
 }
 
 /*

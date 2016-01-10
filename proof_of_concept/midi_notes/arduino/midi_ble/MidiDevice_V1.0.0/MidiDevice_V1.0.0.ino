@@ -4,9 +4,9 @@
 #include <I2Cdev.h>
 #include <lib_aci.h>
 #include <aci_setup.h>
-#include "MidiSensor.h"
+#include "MidiServer.h"
 
-MidiSensor midiSensor = MidiSensor();
+MidiServer midiServer = MidiServer();
 midi_event_t midiEvent;
 int x = 0;
 
@@ -36,33 +36,24 @@ void setup(void)
   #elif defined(__PIC32MX__)
     delay(1000);
   #endif
-  midiSensor.init();
-  
+  midiServer.init();
   
 }
 
 
 void loop() {
-  midiSensor.updateState();
-  if(!midiSensor.midiEventQueue.isEmpty()){
-    midiEvent = midiSensor.readEvent();
-    //Serial.print("Got event ");
-    //Serial.println(midiEvent.statusByte,HEX);
+
+  midiServer.updateState();
+  midiServer.handleBleEvents();
+  if(!midiServer.midiSensor.midiEventQueue.isEmpty()){
+    midiEvent = midiServer.midiSensor.readEvent();
+    if(midiEvent.statusByte != 0x80){
     Serial.println(midiEvent.dataByte1,HEX);
-  }
-  else{
-    /*
-    int angle = midiSensor.motionFilter.rotationFilter.model.angleDeg;
-    Serial.println("angle ");
-    Serial.println(angle,DEC);
-    */
-    
-    
-  }
+    }
   delay(20);
 
 }
 
-
+}
 
 

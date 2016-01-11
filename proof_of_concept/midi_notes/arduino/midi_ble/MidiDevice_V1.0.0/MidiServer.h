@@ -12,16 +12,30 @@ Date Created: 12/22/2015
 #include "NRF8001Ble.h"
 
 #define CMD_BUFF_MAX_LEN  20
+#define ARG_BUFF_MAX_LEN  8
 #define CALLBACK_COUNT  1
+#define FIRST_RX_CMD_HEADER_INDEX 0
+#define LAST_RX_CMD_HEADER_INDEX 19
+#define RX_CMD_NUMBER_INDEX 1
+#define CMD_TYPE_INDEX  2
+#define RX_CMD_ARGS_START_INDEX 3
+
+typedef union {
+  byte byteValue;
+  int     intValue;
+  float   floatValue;
+  uint8_t bufferValue[ARG_BUFF_MAX_LEN];
+} rx_cmd_args_t;
+
+typedef enum {BYTE_TYPE, INT_TYPE, FLOAT_TYPE, BUFF_TYPE} rx_cmd_types_t;
 
 typedef struct {
-  uint8_t cmd[CMD_BUFF_MAX_LEN];
-} status_t;
-
-typedef void (*callbackPtr_t)(uint8_t *); //function ptr with char * argument and void return type
-//--------------Callbacks--------------------------------
-
-void changeNoteNumber(uint8_t * cmdBuffer);
+  uint8_t cmdBuffer[CMD_BUFF_MAX_LEN];
+  uint8_t number;
+  rx_cmd_types_t dataType;
+  rx_cmd_args_t args;
+  bool valid;
+} rx_cmd_t;
 
 
 //-------------Server Class------------------------------
@@ -34,16 +48,13 @@ class MidiServer: public MidiController
     void handleBleEvents(void);
     void updateState(void); 
     void sendState(void); 
-    bool parseCmdFromRxBuffer(uint8_t * sourceBuffer, uint8_t * cmdBuffer);
-    void cmdCallback(uint8_t * cmdBuffer);
-    void initCallbacks(void);
-    //callbacks
+    bool parseCmdFromRxBuffer(uint8_t * sourceBuffer, rx_cmd_t * cmd);
+    void RxCmdCallback(rx_cmd_t * cmd);
+    void cpyBufferStartEnd(uint8_t * sourceBuffer, uint8_t * cmdBuffer, int startIndex, int endIndex);
     
     //Variables
     Nrf8001 ble;  //nrf8001 bluetooth low energy module
-    status_t status;
-    callbackPtr_t callbackPtrList[CALLBACK_COUNT]; //list of function pointers
-    callbackPtr_t testPtr;
+    rx_cmd_t rxCmd;
 };
 
 #endif // MidiServer_h

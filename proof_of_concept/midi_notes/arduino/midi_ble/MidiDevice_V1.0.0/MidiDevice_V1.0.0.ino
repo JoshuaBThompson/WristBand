@@ -9,6 +9,8 @@
 MidiServer midiServer = MidiServer();
 midi_event_t midiEvent;
 int x = 0;
+byte c;
+String myStr;
 
 /* Define how assert should function in the BLE library */
 void __ble_assert(const char *file, uint16_t line)
@@ -42,7 +44,7 @@ void setup(void)
 
 
 void loop() {
-
+  /*
   midiServer.updateState();
   midiServer.handleBleEvents();
   if(!midiServer.midiSensor.midiEventQueue.isEmpty()){
@@ -51,7 +53,14 @@ void loop() {
     Serial.println(midiEvent.dataByte1,HEX);
     }
   delay(20);
+}
+*/
+if(Serial.available() > 0){
 
+myStr = Serial.readString();
+Serial.println("Got str");
+Serial.print(myStr);
+//midiServer.parseCmdFromRxBuffer
 }
 
 }

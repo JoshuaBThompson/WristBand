@@ -13,18 +13,22 @@ Date Created: 12/22/2015
 
 #define CMD_BUFF_MAX_LEN  20
 #define ARG_BUFF_MAX_LEN  8
-#define CALLBACK_COUNT  1
+
+//rx cmd parsing
 #define FIRST_RX_CMD_HEADER_INDEX 0
-#define LAST_RX_CMD_HEADER_INDEX 19
 #define RX_CMD_NUMBER_INDEX 1
 #define CMD_TYPE_INDEX  2
 #define RX_CMD_ARGS_START_INDEX 3
+#define FIRST_RX_CMD_HEADER '!'
+#define LAST_RX_CMD_HEADER '!'
+#define RX_CMD_DELIM  ','
+
 
 typedef union {
   byte byteValue;
   int     intValue;
   float   floatValue;
-  uint8_t bufferValue[ARG_BUFF_MAX_LEN];
+  uint8_t buffValue[ARG_BUFF_MAX_LEN];
 } rx_cmd_args_t;
 
 typedef enum {BYTE_TYPE, INT_TYPE, FLOAT_TYPE, BUFF_TYPE} rx_cmd_types_t;

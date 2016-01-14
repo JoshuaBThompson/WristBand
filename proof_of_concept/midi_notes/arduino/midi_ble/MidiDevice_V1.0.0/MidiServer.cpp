@@ -43,9 +43,9 @@ void MidiServer::handleBleEvents(void){
 }
 
 
-void MidiServer::cpyBufferStartEnd(uint8_t * sourceBuffer, uint8_t * cmdBuffer, int startIndex, int endIndex){
-  for(int i = startIndex; i<endIndex; i++){
-    cmdBuffer[i] = sourceBuffer[i];
+void MidiServer::cpyBufferStartEnd(uint8_t * sourceBuffer, uint8_t * destBuffer, int startIndex, int endIndex){
+  for(int i = startIndex; i<=endIndex; i++){
+    destBuffer[i] = sourceBuffer[i];
   }
 }
 /*
@@ -56,46 +56,76 @@ void MidiServer::cpyBufferStartEnd(uint8_t * sourceBuffer, uint8_t * cmdBuffer, 
 bool MidiServer::parseCmdFromRxBuffer(uint8_t * sourceBuffer, rx_cmd_t * cmd){
   bool cmdReady = false;
   cpyBufferStartEnd(sourceBuffer, cmd->cmdBuffer, 0, CMD_BUFF_MAX_LEN);
-  //todo: parse here
-  char firstHeader = (char)cmd->cmdBuffer[FIRST_RX_CMD_HEADER_INDEX];
-  char lastHeader = (char)cmd->cmdBuffer[LAST_RX_CMD_HEADER_INDEX];
-  bool validCmdHeader = (firstHeader == "!");
-  bool validCmdHeader &= (lastHeader == "!");
-  if(!validCmdHeader){
-    cmd->valid = false;
-    cmdReady = false;
-    return cmdReady;
+  getCmdArgs(cmd);
+  if(cmd->valid){
+    cmdRead = true;
   }
-  cmd->number = cmd->cmdBuffer[RX_CMD_NUMBER_INDEX];
-  rx_cmd_types_t cmdDataType = (rx_cmd_types_t)cmd->cmdBuffer[CMD_TYPE_INDEX];
-  switch(cmdDataType){
-    case BYTE_TYPE:
-      cmd->cmdType = BYTE_TYPE;
-      cmd->args.byteValue = (byte)cmd->cmdBuffer[RX_CMD_ARGS_START_INDEX];
-      cmd->valid = true;
-      break;
-    case INT_TYPE:
-      cmd->cmdType = INT_TYPE;
-      cmd->args.intValue = (int)((cmd->cmdBuffer[RX_CMD_ARGS_START_INDEX]<<8) + cmd->cmdBuffer[RX_CMD_ARGS_START_INDEX+1]);
-      cmd->valid = true;
-      break;
-    case FLOAT_TYPE:
-      cmd->cmdType = FLOAT_TYPE;
-      cmd->args.floatValue = (float)((cmd->cmdBuffer[RX_CMD_ARGS_START_INDEX]<<24) + (cmd->cmdBuffer[RX_CMD_ARGS_START_INDEX+1]<<16) + (cmd->cmdBuffer[RX_CMD_ARGS_START_INDEX+2]<<8) + cmd->cmdBuffer[RX_CMD_ARGS_START_INDEX+3]);
-      cmd->valid = true;
-      break;
-    case BUFF_TYPE:
-      cmd->cmdType = BUFF_TYPE;
-      cmd->args.buffValue = cmd->cmdBuffer[RX_CMD_ARGS_START_INDEX];
-      cpyBufferStartEnd(cmd->cmdBuffer, cmd->args.buffValue, RX_CMD_ARGS_START_INDEX, RX_CMD_ARGS_END_INDEX);
-      cmd->valid = true;
-      break;
-    default:
-      cmd->valid = false;
-      break;
-  }
+
   return cmdReady;
 }
+
+/*
+ * Get args from cmd buffer
+ */
+void MidiServer::getCmdArgs(rx_cmd_t * cmd){
+  //'!,0,1,230.0,!' is a typical cmd: 0 is cmd num, 1 is cmd data type, 230.0 is arg value
+  uint8_t c;
+  uint8_t * firstHeaderPtr, cmdNumPtr, dataTypePtr, cmdArgPtr, lastHeaderPtr;
+  firstHeaderPtr = getCmdParamsFromBuff(cmd->cmdBuffer,CMD_BUFF_MAX_LEN, RX_CMD_DELIM, 0);
+  cmdNumPtr = getCmdParamsFromBuff(cmd->cmdBuffer,CMD_BUFF_MAX_LEN, RX_CMD_DELIM, 1);
+  dataTypePtr = getCmdParamsFromBuff(cmd->cmdBuffer,CMD_BUFF_MAX_LEN, RX_CMD_DELIM, 2);
+  cmdArgPtr = getCmdParamsFromBuff(cmd->cmdBuffer,CMD_BUFF_MAX_LEN, RX_CMD_DELIM, 3);
+  lastHeaderPtr = getCmdParamsFromBuff(cmd->cmdBuffer,CMD_BUFF_MAX_LEN, RX_CMD_DELIM, 4);
+  if(firstHeaderPtr && cmdNumPtr && dataTypePtr && cmdArgPtr && lastHeaderPtr){
+    cmd->valid = true;
+  }
+  else{
+    cmd->valid = false;
+    return;
+  }
+
+  
+  
+  
+}
+
+/*
+ * parse out cmd params from buffer with deliminator
+ */
+uint8_t  * MidiServer::getCmdParamsFromBuff(uint8_t * buff, int maxLen, uint8_t delim, int param){
+        uint8_t tempParamBuff[maxLen];
+        int paramNum = 0;
+
+        uint8_t * ptr;
+        int len = 0;
+        for(int i = 0; i<maxLen; i++){
+         if(buff[i] == delim || buff[i] == '\0'){
+         //got parameter, now point to it
+
+        if(paramNum==param){
+        tempParamBuff[len] = '\0'; //null char to end param buffer
+        len++;
+        ptr = (uint8_t *)malloc(len); //get memory for len size buffer and point to it
+        for(int j=0; j<len; j++){ptr[j] = tempParamBuff[j];}
+        return ptr;
+        }
+        paramNum++; //incrmenet to the next param number
+        len = 0; //reset
+        if(buff[i]=='\0'){
+                ptr=NULL;
+                return ptr;
+        }
+        }
+        else
+        {
+        tempParamBuff[len] = buff[i];
+        len++;
+        }
+ }
+return ptr;
+}
+
+
 
 /*
  * cmd callback 

@@ -28,10 +28,9 @@ typedef union {
   byte byteValue;
   int     intValue;
   float   floatValue;
-  uint8_t buffValue[ARG_BUFF_MAX_LEN];
 } rx_cmd_args_t;
 
-typedef enum {BYTE_TYPE, INT_TYPE, FLOAT_TYPE, BUFF_TYPE} rx_cmd_types_t;
+typedef enum {BYTE_TYPE, INT_TYPE, FLOAT_TYPE} rx_cmd_types_t;
 
 typedef struct {
   uint8_t cmdBuffer[CMD_BUFF_MAX_LEN];
@@ -52,9 +51,11 @@ class MidiServer: public MidiController
     void handleBleEvents(void);
     void updateState(void); 
     void sendState(void); 
-    bool parseCmdFromRxBuffer(uint8_t * sourceBuffer, rx_cmd_t * cmd);
+    bool parseCmdFromRxBuffer(uint8_t * sourceBuffer);
     void RxCmdCallback(rx_cmd_t * cmd);
     void cpyBufferStartEnd(uint8_t * sourceBuffer, uint8_t * cmdBuffer, int startIndex, int endIndex);
+    void getCmdArgs(rx_cmd_t * cmd);
+    uint8_t * getCmdParamsFromBuff(uint8_t * buff, int maxLen, uint8_t delim, int param);
     
     //Variables
     Nrf8001 ble;  //nrf8001 bluetooth low energy module

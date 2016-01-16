@@ -32,7 +32,7 @@ void MidiServer::handleBleEvents(void){
    }
    //check messages if any and copy to cmd buffer
    if(ble.status.rxEvent){
-      bool cmdAvailable = parseCmdFromRxBuffer(ble.status.rxBuffer, &rxCmd);
+      bool cmdAvailable = parseCmdFromRxBuffer(ble.status.rxBuffer);
       if(cmdAvailable){
         RxCmdCallback(&rxCmd);
       }
@@ -53,12 +53,12 @@ void MidiServer::cpyBufferStartEnd(uint8_t * sourceBuffer, uint8_t * destBuffer,
  * Ex: to change note number 1 to 65: rx cmd would be: "!,0,1,65,!" where change note cmd has id 0 and params 1 and 65 to indicate note to change and it's value
  * Places params in cmd buffer
  */
-bool MidiServer::parseCmdFromRxBuffer(uint8_t * sourceBuffer, rx_cmd_t * cmd){
+bool MidiServer::parseCmdFromRxBuffer(uint8_t * sourceBuffer){
   bool cmdReady = false;
-  cpyBufferStartEnd(sourceBuffer, cmd->cmdBuffer, 0, CMD_BUFF_MAX_LEN);
-  getCmdArgs(cmd);
-  if(cmd->valid){
-    cmdRead = true;
+  cpyBufferStartEnd(sourceBuffer, rxCmd.cmdBuffer, 0, CMD_BUFF_MAX_LEN);
+  getCmdArgs(&rxCmd);
+  if(rxCmd.valid){
+    cmdReady = true;
   }
 
   return cmdReady;
@@ -70,7 +70,12 @@ bool MidiServer::parseCmdFromRxBuffer(uint8_t * sourceBuffer, rx_cmd_t * cmd){
 void MidiServer::getCmdArgs(rx_cmd_t * cmd){
   //'!,0,1,230.0,!' is a typical cmd: 0 is cmd num, 1 is cmd data type, 230.0 is arg value
   uint8_t c;
-  uint8_t * firstHeaderPtr, cmdNumPtr, dataTypePtr, cmdArgPtr, lastHeaderPtr;
+  uint8_t * firstHeaderPtr;
+  uint8_t * cmdNumPtr;
+  uint8_t * dataTypePtr;
+  uint8_t * cmdArgPtr;
+  uint8_t * lastHeaderPtr;
+  
   firstHeaderPtr = getCmdParamsFromBuff(cmd->cmdBuffer,CMD_BUFF_MAX_LEN, RX_CMD_DELIM, 0);
   cmdNumPtr = getCmdParamsFromBuff(cmd->cmdBuffer,CMD_BUFF_MAX_LEN, RX_CMD_DELIM, 1);
   dataTypePtr = getCmdParamsFromBuff(cmd->cmdBuffer,CMD_BUFF_MAX_LEN, RX_CMD_DELIM, 2);
@@ -83,6 +88,21 @@ void MidiServer::getCmdArgs(rx_cmd_t * cmd){
     cmd->valid = false;
     return;
   }
+ cmd->number = (uint8_t)cmdNumPtr[0] - 48;
+ cmd->dataType = (rx_cmd_types_t)((uint8_t)dataTypePtr[0] - 48);
+ switch(cmd->dataType){
+  case BYTE_TYPE:
+    cmd->args.byteValue = (byte)cmdArgPtr[0]; //only one char - for example: 'C' or '2'.... but not '56' since that is two characters '5' and '6'
+    break;
+  case INT_TYPE:
+    cmd->args.intValue = atoi((char *)cmdArgPtr);
+    break;
+  case FLOAT_TYPE:
+    cmd->args.floatValue = atof((char *)cmdArgPtr);
+    break;
+  default:
+    break;
+}
 
   
   
@@ -131,13 +151,13 @@ return ptr;
  * cmd callback 
  */
 void MidiServer::RxCmdCallback(rx_cmd_t * cmd){
-  bool valid = cmd.valid;
-  uint8_t number = cmd.number;
+  bool valid = cmd->valid;
+  uint8_t number = cmd->number;
 
   //call cmd
   
   //reset valid
-  cmd.valid = false;
+  cmd->valid = false;
   
 }
 

@@ -11,10 +11,6 @@ Date Created: 12/22/2015
 
 
 MotionFilter::MotionFilter(void):beatFilter(&imuFilter, true), rotationFilter(&imuFilter, true) {
-  Serial.println("Construct motion filter");
-  Serial.println((int)beatFilter.imuFilter,DEC);
-  Serial.println((int)rotationFilter.imuFilter,DEC);
-  Serial.println((int)&imuFilter,DEC);
   reset(); // reset all model variables to defaults
 }
 

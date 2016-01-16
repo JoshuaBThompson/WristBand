@@ -49,15 +49,21 @@ class MidiServer: public MidiController
     //Methods
     MidiServer(void);
     void handleBleEvents(void);
+    void handleMidiEvents(void);
+    void handleEvents(void);
     void updateState(void); 
     void sendState(void); 
     bool parseCmdFromRxBuffer(uint8_t * sourceBuffer);
-    void RxCmdCallback(rx_cmd_t * cmd);
+    void rxCmdCallback(rx_cmd_t * cmd);
     void cpyBufferStartEnd(uint8_t * sourceBuffer, uint8_t * cmdBuffer, int startIndex, int endIndex);
     void getCmdArgs(rx_cmd_t * cmd);
     uint8_t * getCmdParamsFromBuff(uint8_t * buff, int maxLen, uint8_t delim, int param);
+    void sendFullMidiEvent(midi_event_t event);
+    void sendRunningMidiEvent(midi_event_t event);
     
     //Variables
+    midi_event_t midiEvent;
+    midi_event_t prevMidiEvent;
     Nrf8001 ble;  //nrf8001 bluetooth low energy module
     rx_cmd_t rxCmd;
 };

@@ -42,9 +42,7 @@ public:
     void requestDeviceVersion(void);
     
     void setConnected(void);
-    
-    void sayHello(uint8_t pipe);
-    
+        
     void changeTimingWithPipe(uint8_t pipe);
         
     void setTiming(uint8_t pipe, uint8_t pipe_size);
@@ -70,26 +68,13 @@ public:
     void disconnectDevice(void);
         
     void handleEvents(void);
-        
-    void sendFullMIDI(uint8_t pipe, byte statusByte, byte dataByte0, byte dataByte1);
-    
-    void sendRunningMIDI(uint8_t pipe, byte dataByte0, byte dataByte1);
     
     void clearRxBuffer();
-    
+       
     void parseMIDICmd(uint8_t * uart_buffer);
 
     
     //pulic members
-    byte ccDataByte0;
-    byte ccStatusByte;
-    char directionsOn[3] = {0,0,0};
-    char dirNote = 0;
-    char dirNum = 0;
-    char channelNum = 0x00;
-    char noteOnStatus = 0x90;
-    char noteOffStatus = 0x80;
-    char ccModeStatus = 0xB0;
     bool setup_required = false;
     bool timing_change_done  = false;
     struct status_s {

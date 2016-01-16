@@ -40,24 +40,30 @@ void MidiController::init(void){
 
 
 void MidiController::changeNoteChannel(byte channel){
+  //Serial.print("changetNoteChannel "); //Serial.println(channel);
+  
   midiSensor.setNoteChannel(channel);
 }
 
 void MidiController::changeNote1Number(byte number){
+  //Serial.print("changeNote1Number "); //Serial.println(number);
   midiSensor.setNote1Number(number);
   
 }
 
 void MidiController::changeNote2Number(byte number){
+  //Serial.print("changeNote2Number "); //Serial.println(number);
   midiSensor.setNote2Number(number);
   
 }
 
 void MidiController::changeNoteVelocity(byte velocity){
+  //Serial.print("changeNoteVelocity "); //Serial.println(velocity);
   midiSensor.setNoteVelocity(velocity);
 }
 
 void MidiController::changeNoteMode(char modeNumber){
+  //Serial.print("changeNoteMode "); //Serial.println(modeNumber);
   midiSensor.setMidiNoteMode(modeNumber);
 }
 
@@ -66,6 +72,7 @@ void MidiController::changeNoteMode(char modeNumber){
  * Change generic midi event type (ex cc)
  */
 void MidiController::changeEventType(byte eventType){
+  //Serial.print("changeEventType "); //Serial.println(eventType);
   midiSensor.setEventType(eventType);
 }
 
@@ -73,19 +80,24 @@ void MidiController::changeEventType(byte eventType){
  * Change sensor source of generic midi event output (ex accelerometer)
  */
 void MidiController::changeEventSource(char sourceNumber){
+  //Serial.print("changeEventSource "); //Serial.println(sourceNumber);
   midiSensor.setMidiEventSource(sourceNumber);
 }
 
 void MidiController::changeBeatFilterAverageCount(char averageCount){
+  //Serial.print("changeBeatFilterAverageCount "); //Serial.println(averageCount);
 }
 
 void MidiController::changeBeatFilterMaxCount(char maxCount){
+   //Serial.print("changeBeatFilterMaxCount "); //Serial.println(maxCount);
 }
 
 void MidiController::changeBeatFilterMaxAmp(char maxAmp){
+  //Serial.print("changeBeatFilterMaxAmp "); //Serial.println(maxAmp);
 }
 
 void MidiController::changeButtonFunction(char functionNumber){
+   //Serial.print("changeButtonFunction "); //Serial.println(functionNumber);
 }
 
 

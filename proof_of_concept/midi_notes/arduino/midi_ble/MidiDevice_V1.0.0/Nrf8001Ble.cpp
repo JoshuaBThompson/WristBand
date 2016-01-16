@@ -47,15 +47,6 @@ void Nrf8001::init(){
     //init variables
     setup_required = false;
     timing_change_done = false;
-    dirNote = 0;
-    dirNum = 0;
-    ccDataByte0 = 0;
-    ccStatusByte = 0;
-    directionsOn[0] = 25; directionsOn[1] = 45; directionsOn[2] = 65;
-    channelNum = 0x00;
-    noteOnStatus = 0x90;
-    noteOffStatus = 0x80;
-    ccModeStatus = 0xB0;
     initStatus();
     
     //We reset the nRF8001 here by toggling the RESET line connected to the nRF8001
@@ -146,14 +137,16 @@ void Nrf8001::reportCmdRspError(void){
         //ACI ReadDynamicData and ACI WriteDynamicData will have status codes of
         //TRANSACTION_CONTINUE and TRANSACTION_COMPLETE
         //all other ACI commands will have status code of ACI_STATUS_SCUCCESS for a successful command
+        /**debug
         Serial.print(F("ACI Command "));
         Serial.println(aci_evt->params.cmd_rsp.cmd_opcode, HEX);
         Serial.print(F("Evt Cmd respone: Status "));
         Serial.println(aci_evt->params.cmd_rsp.cmd_status, HEX);
+        **/
 }
 
 void Nrf8001::setConnected(void){
-  status.connected = 1;
+  status.connected = true;
   timing_change_done              = false;
   aci_state.data_credit_available = aci_state.data_credit_total;
   
@@ -165,13 +158,6 @@ void Nrf8001::requestDeviceVersion(void){
     lib_aci_device_version();
 }
 
-void Nrf8001::sayHello(uint8_t pipe){
-  char hello[]="JT";
-  //ex pipe = PIPE_UART_OVER_BTLE_UART_TX_TX
-   sendData(pipe , (uint8_t *)&hello[0], strlen(hello));
-   Serial.print(F("Sending :"));
-   Serial.println(hello);
-}
 
 void Nrf8001::changeTimingWithPipe(uint8_t pipe){
   //ex: pipe = PIPE_UART_OVER_BTLE_UART_TX_TX
@@ -227,11 +213,13 @@ void Nrf8001::hwErrorEvent(void){
     status.errorEvent = true;
     Serial.print(F("HW error: "));
     Serial.println(aci_evt->params.hw_error.line_num, DEC);
-    
+
+    /**
     for(uint8_t counter = 0; counter <= (aci_evt->len - 3); counter++)
     {
         Serial.write(aci_evt->params.hw_error.file_name[counter]); //uint8_t file_name[20];
     }
+    **/
     startAdv();
 }
 
@@ -284,13 +272,10 @@ void Nrf8001::receiveData(uint8_t pipe, aci_evt_t * aci_evt, uint8_t * rxBuffer,
             //Serial.print(F(" "));
             
         }
-        *rxBuffer_len = aci_evt->len - 2;
-        
-        parseMIDICmd(rxBuffer);
-        
+        *rxBuffer_len = aci_evt->len - 2;        
     }
   
-    
+    status.rxEvent = true;
 }
 
 void Nrf8001::clearRxBuffer(){
@@ -299,56 +284,6 @@ void Nrf8001::clearRxBuffer(){
   }
 }
 
-void Nrf8001::parseMIDICmd(uint8_t * rxBuffer){
-  char cmdType = rxBuffer[0];
-  if(cmdType == CC_CMD_TYPE){
-    //cmd ex for cmd type cc and volume ctrl: 0x 0C 07 00
-    //0C== Control cmd type 
-    //07 = cc byte for volume change (see midi event table 3 online)
-    
-      ccDataByte0 = rxBuffer[1];
-      Serial.println("cc mode change: ");
-      Serial.println(ccDataByte0, HEX);
-
-  }
-  else if(cmdType == NOTE_CMD_TYPE){
-    //cmd ex for cmd type note and x dir on with note 60: 0x 0A 00 60
-    //0A == cmd type note
-    //00 == accel x dir (0 is x, 1 is y and 2 is z)
-    //60 == note byte
-    dirNum = rxBuffer[1];
-    dirNote = rxBuffer[2];
-    if(dirNum <= MaxDirNum){
-      directionsOn[dirNum] = dirNote;
-    }
-  }
-
-  else if(cmdType == CH_CMD_TYPE){
-    //cmd ex for cmd type channel change to ch7: 0x CC 07
-    //CC == Channel Change cmd type
-    //07 == channel number 7 
-    channelNum = rxBuffer[1];
-    if(channelNum >=16){
-      channelNum = 15; //allowable range is -> ch 0 - 15
-    }
-    Serial.println("channel change: ");
-    Serial.println(channelNum, HEX);
-    //update note on, off and cc status bytes with new channel nibs (first 4 bits)
-    //ch on status byte default 0x90
-    noteOnStatus &= 0xF0; //clear first 4 bits
-    noteOnStatus |= channelNum; //add channel num to first 4 bits
-
-    //ch off status byte default 0x80
-    noteOffStatus &= 0xF0; //clear first 4 bits
-    noteOffStatus |= channelNum; //add channel num to first 4 bits
-    
-    //cc mode status byte default 0xB0
-    ccModeStatus &= 0xF0; //clear first 4 bits
-    ccModeStatus |= channelNum; //add channel num to first 4 bits
-    
-  }
- 
-}
 
 void Nrf8001::disconnectDevice(void){
     
@@ -411,7 +346,7 @@ void Nrf8001::handleEvents(void){
                   }
                   if (ACI_CMD_GET_DEVICE_VERSION == aci_evt->params.cmd_rsp.cmd_opcode)
                   {
-                      Serial.println("set device version (todo)");
+                      //Serial.println("set device version (todo)");
                   }
                   else if(ACI_CMD_CONNECT == aci_evt->params.cmd_rsp.cmd_opcode){
                       //Serial.println("Connected cmd response received");
@@ -437,19 +372,19 @@ void Nrf8001::handleEvents(void){
                 break;
                 
             case ACI_EVT_TIMING:
-                Serial.println("set device timing (todo)");
+                //Serial.println("set device timing (todo)");
                 //setTiming(PIPE_UART_OVER_BTLE_UART_LINK_TIMING_CURRENT_SET, PIPE_UART_OVER_BTLE_UART_LINK_TIMING_CURRENT_SET_MAX_SIZE);
                 break;
                 
             case ACI_EVT_DISCONNECTED:
                 Serial.println("Device disconnected");
                 disconnectEvent();
+                status.connected = false;
                 break;
                 
             case ACI_EVT_DATA_RECEIVED:
                 //Serial.println("Device data received (todo)");
                 receiveData(PIPE_NORDIC_UART_OVER_BTLE_UART_RX_RX, aci_evt, status.rxBuffer, &status.rxBufferLen);
-                receiveData(PIPE_MIDI_MIDI_IO_RX, aci_evt, status.rxBuffer, &status.rxBufferLen);
                 break;
                 
             case ACI_EVT_DATA_CREDIT:
@@ -458,12 +393,12 @@ void Nrf8001::handleEvents(void){
                 break;
                 
             case ACI_EVT_PIPE_ERROR:
-                Serial.println("Device pipe error event");
+                //Serial.println("Device pipe error event");
                 pipeErrorEvent();
                 break;
                 
             case ACI_EVT_HW_ERROR:
-                Serial.println("Device hw error event");
+                //Serial.println("Device hw error event");
                 hwErrorEvent();
                 break;
                 
@@ -484,54 +419,13 @@ void Nrf8001::handleEvents(void){
     
     if(setup_required)
     {
-      Serial.println("Device setup ...");
+      //Serial.println("Device setup ...");
       deviceSetup();
      }
     
 }
 
-
-void Nrf8001::sendFullMIDI(uint8_t pipe, byte statusByte, byte dataByte0, byte dataByte1){
-  char time[2];
-  char buf[20];
-  byte outBuff[] = {0,0,0};
-  byte timeBuff[2];
-  byte messageBuff[5];
-  unsigned long timer = 0;
-  timer = millis();
-  
-  uint16_t blueMidiTime = 0;
-  blueMidiTime = 32768 + (timer % 16383);
-  //need 12bit time millis but not sure what to do when it rolls over passed 8 sec (max)
-  timeBuff[0] = blueMidiTime >> 8; //0b1000 0000 (1st header 1 bit + no millis)
-  timeBuff[1] = 0x80; //0b1000 0000 (2nd header 1 bit)
-  
-  
-      outBuff[0] = statusByte; //status header byte (ex: note off)
-      outBuff[1] = dataByte0; // data byte 0 (ex: note)
-      outBuff[2] = dataByte1; // data byte 1 (ex: velocity (0 - 127))
-
-      messageBuff[0] = timeBuff[0]; messageBuff[1] = timeBuff[1];
-      messageBuff[2] = outBuff[0]; messageBuff[3] = outBuff[1];
-      messageBuff[4] = outBuff[2];
-      sendData(pipe, (uint8_t *)&messageBuff[0], 5);
-}
-
-
-void Nrf8001::sendRunningMIDI(uint8_t pipe, byte dataByte0, byte dataByte1){
-  char time[2];
-  char buf[20];
-  byte outBuff[] = {0,0};
-  byte timeBuff[2];
-  byte messageBuff[5];
-  unsigned long timer = 0;  
-  
-      outBuff[0] = dataByte0; // data byte 0 (ex: note)
-      outBuff[0] = dataByte1; // data byte 1 (ex: velocity (0 - 127))
-
-      messageBuff[0] = outBuff[0]; messageBuff[1] = outBuff[1];
-      sendData(pipe, (uint8_t *)&messageBuff[0], 2);
-}    
+    
 
 
 

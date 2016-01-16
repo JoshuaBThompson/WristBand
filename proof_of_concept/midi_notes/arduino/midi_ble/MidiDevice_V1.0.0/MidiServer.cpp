@@ -19,6 +19,18 @@ MidiServer::MidiServer(void):MidiController() {
 
 
 /*
+ * Handle bluetooth low energy device events (received data, connect, errors...etc, update midiSensor state, sent out midi events to user when available)
+ */
+
+void MidiServer::handleEvents(void){
+  handleBleEvents();
+  updateState();
+  handleMidiEvents();
+  
+}
+
+
+/*
  * Check bluetooth communication rx buffer for cmds or error, handle events or cmds
  */
 void MidiServer::handleBleEvents(void){
@@ -34,12 +46,29 @@ void MidiServer::handleBleEvents(void){
    if(ble.status.rxEvent){
       bool cmdAvailable = parseCmdFromRxBuffer(ble.status.rxBuffer);
       if(cmdAvailable){
-        RxCmdCallback(&rxCmd);
+        rxCmdCallback(&rxCmd);
       }
+     ble.status.rxEvent = false; //clear event
    }
+  //clear some events?
 
-   //clear events?
-   
+}
+
+/*
+ * Check midi sensor queue to see if any midi events
+ */
+
+void MidiServer::handleMidiEvents(void){
+  if(!midiSensor.midiEventQueue.isEmpty()){
+    midiEvent = midiSensor.readEvent();
+    if(midiEvent.statusByte == prevMidiEvent.statusByte){
+      sendFullMidiEvent(midiEvent);
+    }
+    else{
+      sendRunningMidiEvent(midiEvent);
+    }
+    prevMidiEvent = midiEvent;
+}
 }
 
 
@@ -102,9 +131,7 @@ void MidiServer::getCmdArgs(rx_cmd_t * cmd){
     break;
   default:
     break;
-}
-
-  
+ }
   
   
 }
@@ -150,12 +177,54 @@ return ptr;
 /*
  * cmd callback 
  */
-void MidiServer::RxCmdCallback(rx_cmd_t * cmd){
-  bool valid = cmd->valid;
-  uint8_t number = cmd->number;
-
-  //call cmd
+void MidiServer::rxCmdCallback(rx_cmd_t * cmd){
+  if(!cmd->valid){return;}
   
+  switch(cmd->number){
+    case ChangeNoteChannel:  //0
+      changeNoteChannel(cmd->args.byteValue);
+    break;
+
+    case ChangeNote1Number:  //1
+      changeNote1Number(cmd->args.byteValue);
+    break;
+
+    case ChangeNote2Number:  //2
+      changeNote2Number(cmd->args.byteValue);
+    break;
+
+    case ChangeNoteVelocity: //3
+      changeNoteVelocity(cmd->args.byteValue);
+    break;
+
+    case ChangeNoteMode:  //4
+      changeNoteMode(cmd->args.byteValue);
+    break;
+
+    case ChangeEventType:  //5
+      changeEventType(cmd->args.byteValue);
+    break;
+
+    case ChangeEventSource:  //6
+      changeEventSource(cmd->args.byteValue);
+    break;
+
+    case ChangeBeatFilterAverageCount: //7
+      changeBeatFilterAverageCount(cmd->args.byteValue);
+    break;
+
+    case ChangeBeatFilterMaxCount:  //8
+      changeBeatFilterMaxCount(cmd->args.byteValue);
+    break;
+
+    case ChangeBeatFilterMaxAmp:  //9
+      changeBeatFilterMaxAmp(cmd->args.byteValue);
+    break;
+
+    case ChangeButtonFunction:  //10
+      changeButtonFunction(cmd->args.byteValue);
+    break;
+  }
   //reset valid
   cmd->valid = false;
   
@@ -169,10 +238,47 @@ void MidiServer::updateState(void){
 }
 
 /*
- * If note valid sends midi note, if button pressed send midi message (varies), send sensor data?
+ * Send full midi event over ble (with time signature)
  */
-void MidiServer::sendState(void){
+void MidiServer::sendFullMidiEvent(midi_event_t event){
+  byte outBuff[] = {0,0,0};
+  byte timeBuff[2];
+  byte messageBuff[5];
+  unsigned long timer = 0;
+  timer = millis();
   
+  uint16_t bleMidiTime = 0;
+  bleMidiTime = 32768 + (timer % 16383);
+  //need 12bit time millis but not sure what to do when it rolls over passed 8 sec (max)
+  timeBuff[0] = bleMidiTime >> 8; //0b1000 0000 (1st header 1 bit + no millis)
+  timeBuff[1] = 0x80; //0b1000 0000 (2nd header 1 bit)
+  
+  
+      outBuff[0] = event.statusByte; //status header byte (ex: note off)
+      outBuff[1] = event.dataByte1; // data byte 1 (ex: note)
+      outBuff[2] = event.dataByte2; // data byte 2 (ex: velocity (0 - 127))
+
+      messageBuff[0] = timeBuff[0]; messageBuff[1] = timeBuff[1];
+      messageBuff[2] = outBuff[0]; messageBuff[3] = outBuff[1];
+      messageBuff[4] = outBuff[2];
+
+      //PIPE_MIDI_MIDI_IO_TX is defined in services.h
+      ble.sendData(PIPE_MIDI_MIDI_IO_TX, (uint8_t *)&messageBuff[0], 5);
+}
+
+/*
+ * Send running midi event over ble(no time signature required)
+ */
+void MidiServer::sendRunningMidiEvent(midi_event_t event){
+  byte outBuff[] = {0,0};
+  byte messageBuff[5];
+  
+  outBuff[0] = event.dataByte1; // data byte 1 (ex: note)
+  outBuff[0] = event.dataByte2; // data byte 2 (ex: velocity (0 - 127))
+
+  messageBuff[0] = outBuff[0]; messageBuff[1] = outBuff[1];
+  //PIPE_MIDI_MIDI_IO_TX is defined in services.h
+  ble.sendData(PIPE_MIDI_MIDI_IO_TX, (uint8_t *)&messageBuff[0], 2);
 }
 
 

@@ -10,6 +10,22 @@ Date Created: 12/22/2015
 #include "MidiSensor.h"
 #include "MidiProtocol.h"
 
+//----------Define Change Method Numbers (can be used by MidiServer for callbacks)
+#define ChangeNoteChannel               0
+#define ChangeNote1Number               1
+#define ChangeNote2Number               2
+#define ChangeNoteVelocity              3
+#define ChangeNoteMode                  4
+#define ChangeEventType                 5
+#define ChangeEventSource               6
+#define ChangeBeatFilterAverageCount    7
+#define ChangeBeatFilterMaxCount        8
+#define ChangeBeatFilterMaxAmp          9
+#define ChangeButtonFunction            10
+
+
+
+
 class MidiController
 {
   public:

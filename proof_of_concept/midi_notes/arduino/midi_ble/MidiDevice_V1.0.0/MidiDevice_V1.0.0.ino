@@ -7,11 +7,9 @@
 #include "MidiServer.h"
 
 MidiServer midiServer = MidiServer();
-midi_event_t midiEvent;
-int x = 0;
-byte c;
 String myStr;
-uint8_t UmyStr[20];
+uint8_t UmyStr[10];
+bool cmdAvailable;
 
 /* Define how assert should function in the BLE library */
 void __ble_assert(const char *file, uint16_t line)
@@ -44,51 +42,52 @@ void setup(void)
 }
 
 
+//------------------Main Loop---------------------------------
 void loop() {
-  /*
-  midiServer.updateState();
-  midiServer.handleBleEvents();
-  if(!midiServer.midiSensor.midiEventQueue.isEmpty()){
-    midiEvent = midiServer.midiSensor.readEvent();
-    if(midiEvent.statusByte != 0x80){
-    Serial.println(midiEvent.dataByte1,HEX);
-    }
-  delay(20);
-}
-*/
-if(Serial.available() > 0){
-
-myStr = Serial.readString();
-Serial.println("Got str");
-Serial.print(myStr);
-Serial.println("");
-for(int i = 0; i<20; i++){
-  UmyStr[i] = (uint8_t)myStr[i];
-}
-midiServer.parseCmdFromRxBuffer(UmyStr);
-Serial.print("number ");
-Serial.println(midiServer.rxCmd.number);
-Serial.print("data type ");
-switch(midiServer.rxCmd.dataType){
-  case BYTE_TYPE:
-    Serial.print("byte");
-    Serial.println((char)midiServer.rxCmd.args.byteValue);
-    break;
-  case INT_TYPE:
-    Serial.print("int");
-    Serial.println(midiServer.rxCmd.args.intValue);
-    break;
-  case FLOAT_TYPE:
-    Serial.print("float");
-    Serial.println(midiServer.rxCmd.args.floatValue);
-    break;
-  default:
-    Serial.println("none");
-    break;
+  midiServer.handleEvents();
 }
 
-}
 
+//------------------Functions---------------------------------
+void handleSerialEvents(void){
+
+      if(Serial.available() > 0){
+    
+        myStr = Serial.readString();
+        //Serial.println("Got str");
+        //Serial.print(myStr);
+        //Serial.println("");
+        for(int i = 0; i<10; i++){
+          UmyStr[i] = (uint8_t)myStr[i];
+        }
+        cmdAvailable = midiServer.parseCmdFromRxBuffer(UmyStr);
+        /*
+        Serial.print("number ");
+        Serial.println(midiServer.rxCmd.number);
+        Serial.print("data type ");
+        switch(midiServer.rxCmd.dataType){
+          case BYTE_TYPE:
+            Serial.print("byte");
+            Serial.println((char)midiServer.rxCmd.args.byteValue);
+            break;
+          case INT_TYPE:
+            Serial.print("int");
+            Serial.println(midiServer.rxCmd.args.intValue);
+            break;
+          case FLOAT_TYPE:
+            Serial.print("float");
+            Serial.println(midiServer.rxCmd.args.floatValue);
+            break;
+          default:
+            Serial.println("none");
+            break;
+        }
+        */
+    
+        if(cmdAvailable){
+           midiServer.rxCmdCallback(&midiServer.rxCmd);
+        }
+    }//end if serial available
 }
 
 

@@ -187,7 +187,6 @@ void RotationFilter::updateRotationAngleNew(void){
       }
   }
   else{
-     Serial.println("using gyro");
      float degSec = (float)(imuFilter->model.gyro.x  - imuFilter->imu.gyro_off_x) / 16.4f; //x deg / sec gyro rate
      model.angleDeg +=degSec*(float)(timeDiff/1000.0);//deg/sec * time
     

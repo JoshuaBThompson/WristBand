@@ -15,9 +15,19 @@ Desc: Main object that is responsible for parsing motion data to generate midi m
  * Constructor
  */
 MidiServer::MidiServer(void):MidiController() {
-  //ble.configureDevice();
+  //ble->configureDevice();
+  testCount = 0;
 }
 
+
+/*
+ * Init ble object
+ */
+
+void MidiServer::initBle(void){
+  //todo? what ble are we going to use long term?
+  //need to point ble ptr to correct object instance or ble will not work!
+}
 
 /*
  * Handle bluetooth low energy device events (received data, connect, errors...etc, update midiSensor state, sent out midi events to user when available)
@@ -25,7 +35,6 @@ MidiServer::MidiServer(void):MidiController() {
 
 void MidiServer::handleEvents(void){
   handleBleEvents();
-  updateState();
   handleMidiEvents();
   
 }
@@ -38,18 +47,18 @@ void MidiServer::handleBleEvents(void){
 
   //check ble event states, see if errors, messages received, timing request changes...etc
   //if received message, ble will put in rxBuffer
-   ble.handleEvents();
+   ble->handleEvents();
 
    //check errors?
-   if(ble.status.errorEvent){
+   if(ble->status.errorEvent){
    }
    //check messages if any and copy to cmd buffer
-   if(ble.status.rxEvent){
-      bool cmdAvailable = parseCmdFromRxBuffer(ble.status.rxBuffer);
+   if(ble->status.rxEvent){
+      bool cmdAvailable = parseCmdFromRxBuffer(ble->status.rxBuffer);
       if(cmdAvailable){
         rxCmdCallback(&rxCmd);
       }
-     ble.status.rxEvent = false; //clear event
+     ble->status.rxEvent = false; //clear event
    }
   //clear some events?
 
@@ -60,13 +69,18 @@ void MidiServer::handleBleEvents(void){
  */
 
 void MidiServer::handleMidiEvents(void){
+  updateState();
   if(!midiSensor.midiEventQueue.isEmpty()){
     midiEvent = midiSensor.readEvent();
+    if(midiEvent.statusByte == 0x90){
+      Serial.print(testCount++);
+      Serial.print(" note on ");Serial.println(midiEvent.dataByte1,HEX);
+    }
     if(midiEvent.statusByte == prevMidiEvent.statusByte){
-      sendFullMidiEvent(midiEvent);
+      //sendFullMidiEvent(midiEvent);
     }
     else{
-      sendRunningMidiEvent(midiEvent);
+      //sendRunningMidiEvent(midiEvent);
     }
     prevMidiEvent = midiEvent;
 }
@@ -264,7 +278,7 @@ void MidiServer::sendFullMidiEvent(midi_event_t event){
       messageBuff[4] = outBuff[2];
 
       //PIPE_MIDI_MIDI_IO_TX is defined in services.h
-      ble.sendData(PIPE_MIDI_MIDI_IO_TX, (uint8_t *)&messageBuff[0], 5);
+      ble->sendData(PIPE_MIDI_MIDI_IO_TX, (uint8_t *)&messageBuff[0], 5);
 }
 
 /*
@@ -279,8 +293,9 @@ void MidiServer::sendRunningMidiEvent(midi_event_t event){
 
   messageBuff[0] = outBuff[0]; messageBuff[1] = outBuff[1];
   //PIPE_MIDI_MIDI_IO_TX is defined in services.h
-  ble.sendData(PIPE_MIDI_MIDI_IO_TX, (uint8_t *)&messageBuff[0], 2);
+  ble->sendData(PIPE_MIDI_MIDI_IO_TX, (uint8_t *)&messageBuff[0], 2);
 }
+
 
 
 

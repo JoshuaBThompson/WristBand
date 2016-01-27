@@ -1,0 +1,119 @@
+#if ARDUINO >= 100
+#include "Arduino.h"
+#else
+#include "WProgram.h"
+#endif
+
+#include "lib_aci.h"
+#include "aci_setup.h"
+
+#ifndef _NRF8001Ble_H_
+#define _NRF8001Ble_H_
+
+#define CC_CMD_TYPE        0x0C
+#define NOTE_CMD_TYPE      0x0A
+#define CH_CMD_TYPE        0x0D
+#define MaxDirNum          2
+#define RX_MAX_LEN  20
+
+class Nrf8001 {
+public:
+    //public methods
+    uint8_t * getDeviceVersion(void);
+
+    void setDeviceVersion(uint8_t pipe);
+    
+    void configureDevice(void);
+    
+    void init(void);
+
+    void initStatus(void);
+    
+    void setupPins(void);
+    
+    void loadGattProfile(void);
+    
+    void setDeviceSetupRequired(void);
+    
+    void deviceSetup(void);
+        
+    void reportCmdRspError(void);
+    
+    void requestDeviceVersion(void);
+    
+    void setConnected(void);
+        
+    void changeTimingWithPipe(uint8_t pipe);
+        
+    void setTiming(uint8_t pipe, uint8_t pipe_size);
+    
+    void disconnectEvent(void);
+        
+    void dataCreditEvent(void);
+    
+    void pipeErrorEvent(void);
+    
+    void hwErrorEvent(void);
+    
+    void checkStandbyHwError(void);
+    
+    bool getStatus(void);
+    
+    void startAdv(void);
+    
+    bool sendData(uint8_t pipe, uint8_t *buffer, uint8_t buffer_len);
+    
+    void receiveData(uint8_t pipe, aci_evt_t * aci_evt, uint8_t * uart_buffer, uint8_t * uart_buffer_len);
+    
+    void disconnectDevice(void);
+        
+    void handleEvents(void);
+    
+    void clearRxBuffer();
+       
+    void parseMIDICmd(uint8_t * uart_buffer);
+
+    
+    //pulic members
+    bool setup_required = false;
+    bool timing_change_done  = false;
+    struct status_s {
+        bool connected;
+        bool advertising;
+        bool errorEvent;
+        uint8_t rxBuffer[RX_MAX_LEN];
+        uint8_t rxMaxLen;
+        uint8_t rxBufferLen;
+        bool rxEvent;
+        bool dataAvailable;
+    } status;
+    
+     //aci data and event structures
+    // aci_struct that will contain
+    // total initial credits
+    // current credit
+    // current state of the aci (setup/standby/active/sleep)
+    // open remote pipe pending
+    // close remote pipe pending
+    // Current pipe available bitmap
+    // Current pipe closed bitmap
+    // Current connection interval, slave latency and link supervision timeout
+    // Current State of the the GATT client (Service Discovery)
+    // Status of the bond (R) Peer address
+    struct aci_state_t aci_state;
+    
+    //used in getStatus for all event opcodes
+    aci_evt_t * aci_evt;
+    
+    /*
+     Temporary buffers for sending ACI commands
+     */
+    hal_aci_evt_t  aci_data;
+    //static hal_aci_data_t aci_cmd;
+};
+
+#endif
+
+
+
+

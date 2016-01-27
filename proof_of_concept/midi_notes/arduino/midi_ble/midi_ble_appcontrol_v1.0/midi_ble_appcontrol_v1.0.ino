@@ -193,6 +193,7 @@ void updateAngle(void){
       if((running_average_z >= -1*accel_scale_z) && (running_average_z <= 1*accel_scale_z)){
           angle_f = atan2(running_average_y, running_average_z)*180.0/PI;
           angle = (int)angle_f;
+          Serial.println(angle,DEC);
       }
   }
   

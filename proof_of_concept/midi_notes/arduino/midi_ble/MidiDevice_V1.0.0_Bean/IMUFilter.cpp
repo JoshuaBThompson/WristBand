@@ -14,10 +14,10 @@ Desc: Main object that is responsible for parsing imu accel and gyro data
  * Constructor
 */
 IMUFilter::IMUFilter(void): imu() {
-  //only using MPU6050 gyro/accel and HMC58X3 magnetometer, no pressure or temp sensors
+  //only using accel on the lightblue bean device for now (BMA250 accelerometer)
   model.accel.enabled = true;
-  model.gyro.enabled = true;
-  model.mag.enabled = true;
+  model.gyro.enabled = false;
+  model.mag.enabled = false;
 
 }
 
@@ -50,7 +50,7 @@ void IMUFilter::init(void){
   //clear variables
   reset();
   //init objects
-  imu.init(true);
+  imu.init();
   model.prevTime = millis();
   Serial.println("calibrating imuFilter");
   calibrateImu(); //get offsets
@@ -103,21 +103,7 @@ void IMUFilter::calibrateAccel(void){
  * Calibrate gyro rate sensor data
  */
 void IMUFilter::calibrateGyro(void){
-  float degSecX, degSecY, degSecZ; 
-  //todo: y and z values?
 
-  for(int i = 0; i<GYRO_CALIB_COUNT; i++){
-    getImu();
-    degSecX +=(float)(model.gyro.x);
-    degSecY +=(float)(model.gyro.y);
-    degSecZ +=(float)(model.gyro.z);
-    
-    delay(20);
-  }
-  model.gyroOffsets.x = degSecX/GYRO_CALIB_COUNT;
-  model.gyroOffsets.y = degSecY/GYRO_CALIB_COUNT;
-  model.gyroOffsets.z = degSecZ/GYRO_CALIB_COUNT;
-  Serial.print("x offset "); Serial.println(model.gyroOffsets.x);
 }
 
 /*

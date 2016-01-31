@@ -7,7 +7,7 @@ Date Created: 12/22/2015
 #define IMUFilter_h
 
 #include "Arduino.h"
-#include "IMUduino_AGM.h"
+#include "BeanIMU.h"
 
 //----Constants
 #define SENSOR_VALUES_COUNT 9 //accel x,y,z | gyro x,y,z | mag x,y,z
@@ -98,7 +98,7 @@ class IMUFilter
     
     //attributes
     imu_filter_model_t model;
-    IMUduino_AGM imu; 
+    BeanIMU imu; 
 };
 
 #endif // IMUFilter_h

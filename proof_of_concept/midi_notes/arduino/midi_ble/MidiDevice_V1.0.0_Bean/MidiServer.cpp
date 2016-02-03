@@ -48,16 +48,18 @@ void MidiServer::handleBleEvents(void){
   //check ble event states, see if errors, messages received, timing request changes...etc
   //if received message, ble will put in rxBuffer
    ble->handleEvents();
-
+  
    //check errors?
    if(ble->status.errorEvent){
    }
+   
    //check messages if any and copy to cmd buffer
    if(ble->status.rxEvent){
       bool cmdAvailable = parseCmdFromRxBuffer(ble->status.rxBuffer);
       if(cmdAvailable){
         rxCmdCallback(&rxCmd);
       }
+      
      ble->status.rxEvent = false; //clear event
    }
   //clear some events?
@@ -72,24 +74,13 @@ void MidiServer::handleMidiEvents(void){
   updateState();
   if(!midiSensor.midiEventQueue.isEmpty()){
     midiEvent = midiSensor.readEvent();
-    if(midiEvent.statusByte == 0x90){
-      //Serial.print(testCount++);
-      //Serial.print(" note on ");Serial.println(midiEvent.dataByte1,HEX);
-      BeanMidi.noteOn(CHANNEL0, NOTE_C4, 127);
-      //NOTE_C4, NOTE_D4, NOTE_E4, NOTE_F4, NOTE_G4
-    }
-    if(midiEvent.statusByte == 0x80){
-      //Serial.print(testCount++);
-      //Serial.print(" note off ");Serial.println(midiEvent.dataByte1,HEX);
-      BeanMidi.noteOff(CHANNEL0, NOTE_C4, 0);
-    }
     
     if(midiEvent.statusByte == prevMidiEvent.statusByte){
-      //sendFullMidiEvent(midiEvent);
+      sendFullMidiEvent(midiEvent);
       
     }
     else{
-      //sendRunningMidiEvent(midiEvent);
+      sendRunningMidiEvent(midiEvent);
       
     }
     prevMidiEvent = midiEvent;
@@ -266,42 +257,24 @@ void MidiServer::updateState(void){
  * Send full midi event over ble (with time signature)
  */
 void MidiServer::sendFullMidiEvent(midi_event_t event){
-  byte outBuff[] = {0,0,0};
-  byte timeBuff[2];
-  byte messageBuff[5];
-  unsigned long timer = 0;
-  timer = millis();
-  
-  uint16_t bleMidiTime = 0;
-  bleMidiTime = 32768 + (timer % 16383);
-  //need 12bit time millis but not sure what to do when it rolls over passed 8 sec (max)
-  timeBuff[0] = bleMidiTime >> 8; //0b1000 0000 (1st header 1 bit + no millis)
-  timeBuff[1] = 0x80; //0b1000 0000 (2nd header 1 bit)
-  
-  
-      outBuff[0] = event.statusByte; //status header byte (ex: note off)
-      outBuff[1] = event.dataByte1; // data byte 1 (ex: note)
-      outBuff[2] = event.dataByte2; // data byte 2 (ex: velocity (0 - 127))
-
-      messageBuff[0] = timeBuff[0]; messageBuff[1] = timeBuff[1];
-      messageBuff[2] = outBuff[0]; messageBuff[3] = outBuff[1];
-      messageBuff[4] = outBuff[2];
-
-      ble->sendData((uint8_t *)&messageBuff[0], 5);
+  uint8_t statusByte = event.statusByte; // status byte (ex: note on ch0 0x90)
+  uint8_t dataByte1 = event.dataByte1; // data byte 1 (ex: note (0 - 127))
+  uint8_t dataByte2 = event.dataByte2; // data byte 2 (ex: velocity (0 - 127))
+ 
+  ble->sendMidiMessage(statusByte, dataByte1, dataByte2);
 }
 
 /*
  * Send running midi event over ble(no time signature required)
  */
 void MidiServer::sendRunningMidiEvent(midi_event_t event){
-  byte outBuff[] = {0,0};
-  byte messageBuff[5];
-  
-  outBuff[0] = event.dataByte1; // data byte 1 (ex: note)
-  outBuff[0] = event.dataByte2; // data byte 2 (ex: velocity (0 - 127))
-
-  messageBuff[0] = outBuff[0]; messageBuff[1] = outBuff[1];
-  ble->sendData((uint8_t *)&messageBuff[0], 2);
+  //todo: how to send running message via bean midi class?
+  //don't know, so for now just sent regular midi message (same as sendFullMidiEvent)
+  uint8_t statusByte = event.statusByte; // status byte (ex: note on ch0 0x90)
+  uint8_t dataByte1 = event.dataByte1; // data byte 1 (ex: note (0 - 127))
+  uint8_t dataByte2 = event.dataByte2; // data byte 2 (ex: velocity (0 - 127))
+ 
+  ble->sendMidiMessage(statusByte, dataByte1, dataByte2);
 }
 
 

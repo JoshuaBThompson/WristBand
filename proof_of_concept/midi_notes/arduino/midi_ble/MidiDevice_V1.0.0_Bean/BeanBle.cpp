@@ -58,10 +58,11 @@ void BeanBle::disconnectEvent(void){
 bool BeanBle::getStatus(void){
   bool eventReady = false;
   //todo: is there a ready event for the bean ble chip?
-  
+  receiveUARTData(); //updates the rxEvent if received data on the bluetooth uart characteristic
+  eventReady = status.rxEvent;
   if(eventReady){
-    //todo: ?
   }
+  Serial.println(lastScratch.length);
   return eventReady;
 }
 
@@ -76,9 +77,19 @@ void BeanBle::startAdv(void){
 }
 
 /*
+ * Send midi messages
+ */
+
+bool BeanBle::sendMidiMessage(uint8_t statusByte, uint8_t dataByte1, uint8_t dataByte2){
+  int sent = BeanMidi.sendMessage(statusByte, dataByte1, dataByte2);
+  return (bool)sent;
+}
+  
+
+/*
  * Send up to 20 bytes of data
  */
-bool BeanBle::sendData(uint8_t * dataBuffer, uint8_t bufferLen)
+bool BeanBle::sendUARTData(uint8_t * dataBuffer, uint8_t bufferLen)
 {
     bool sendStatus = false;
     
@@ -91,12 +102,43 @@ bool BeanBle::sendData(uint8_t * dataBuffer, uint8_t bufferLen)
 /*
  * Get any incoming data from the ble device
  */
-void BeanBle::receiveData(void){
-    //ex: pipe = PIPE_UART_OVER_BTLE_UART_RX_RX
-    clearRxBuffer(); 
-    //todo: get data from bean ble
-  
-    status.rxEvent = true;
+void BeanBle::receiveUARTData(void){ 
+    //todo: get data from bean ble scratch characteristic 1 (for now just use 1)
+    ScratchData rxScratch = Bean.readScratchData(UART_NUMBER);
+    bool match = compareScratch(&rxScratch, &lastScratch);
+    if(!match){
+      status.rxEvent = true;
+      lastScratch = rxScratch;
+      clearRxBuffer();
+      for(int i = 0; i<rxScratch.length; i++){
+        status.rxBuffer[i] = rxScratch.data[i];
+      }
+    }
+   else{
+    status.rxEvent = false;
+   }
+}
+
+/*
+ * Compare prev and current bean uart data, to see if new data received
+ */
+
+ bool BeanBle::compareScratch(ScratchData *scratch1, ScratchData *scratch2) {
+  // If they contain different numbers of bytes, they can't be equal,
+  // so return false
+  if (scratch1->length != scratch2->length) {
+    return false;
+  }
+
+  // Compare each byte in order and return false if two bytes don't match
+  for (int i = 0; i < scratch1->length; i++) {
+    if (scratch1->data[i] != scratch2->data[i]) {
+      return false;
+    }
+  }
+
+  // If we've gotten this far, every byte in both ScratchData objects matches
+  return true;
 }
 
 /*
@@ -120,10 +162,12 @@ void BeanBle::disconnectDevice(void){
  */
 void BeanBle::handleEvents(void){
     
-    // We enter the if statement only when there is a ACI event available to be processed
+    // We enter the if statement only when there an rxEvent from receiving data
     if (getStatus())
     {
       //todo: ?
+      //for now getStatus just checks if data is available / received from the client, and updates the rxBuffer and rxEvent status
+      //midiserver can read the rxEvent to see if new data is available on the rxBuffer
     }
     else
     {

@@ -2,6 +2,7 @@
 #define _BeanBle_H_
 
 #define RX_MAX_LEN  20
+#define UART_NUMBER 1 //bean has characteristics for uart i/o (1,2,3,4,5)
 
 #include "Arduino.h"
 
@@ -22,9 +23,13 @@ public:
     
     void startAdv(void);
     
-    bool sendData(uint8_t * dataBuffer, uint8_t bufferLen);
+    bool sendUARTData(uint8_t * dataBuffer, uint8_t bufferLen);
     
-    void receiveData(void);
+    void receiveUARTData(void);
+
+    bool compareScratch(ScratchData *scratch1, ScratchData *scratch2);
+
+    bool sendMidiMessage(uint8_t statusByte, uint8_t dataByte1, uint8_t dataByte2);
     
     void disconnectDevice(void);
         
@@ -44,6 +49,9 @@ public:
         bool rxEvent;
         bool dataAvailable;
     } status;
+    //just for lightblue bean
+    ScratchData lastScratch;
+    byte led;
 };
 
 #endif

@@ -51,7 +51,6 @@ public:
     } status;
     //just for lightblue bean
     ScratchData lastScratch;
-    byte led;
 };
 
 #endif

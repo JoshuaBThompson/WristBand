@@ -3,6 +3,7 @@
 #include "MidiServer.h"
 
 MidiServer midiServer = MidiServer();
+ScratchData myScratch;
 
 void setup(void)
 {
@@ -16,15 +17,6 @@ void setup(void)
 //------------------Main Loop---------------------------------
 void loop() {
   midiServer.handleEvents();
-  /*
-  ScratchData thisScratch = Bean.readScratchData(1);
-  for(int i = 0; i<thisScratch.length; i++){
-    Serial.print(thisScratch.data[i]);
-  }
-  Serial.println(" ... ");
-  */
+  
 }
-
-
-
 

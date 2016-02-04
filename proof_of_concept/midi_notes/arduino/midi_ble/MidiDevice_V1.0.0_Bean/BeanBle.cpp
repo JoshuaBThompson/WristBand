@@ -62,7 +62,6 @@ bool BeanBle::getStatus(void){
   eventReady = status.rxEvent;
   if(eventReady){
   }
-  Serial.println(lastScratch.length);
   return eventReady;
 }
 
@@ -105,18 +104,24 @@ bool BeanBle::sendUARTData(uint8_t * dataBuffer, uint8_t bufferLen)
 void BeanBle::receiveUARTData(void){ 
     //todo: get data from bean ble scratch characteristic 1 (for now just use 1)
     ScratchData rxScratch = Bean.readScratchData(UART_NUMBER);
+    
     bool match = compareScratch(&rxScratch, &lastScratch);
+    lastScratch = rxScratch;
     if(!match){
+      //Serial.println(rxScratch.length);
+      
       status.rxEvent = true;
-      lastScratch = rxScratch;
-      clearRxBuffer();
+      //clearRxBuffer();
       for(int i = 0; i<rxScratch.length; i++){
         status.rxBuffer[i] = rxScratch.data[i];
+        
       }
+      
     }
    else{
     status.rxEvent = false;
    }
+   
 }
 
 /*

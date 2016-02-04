@@ -67,7 +67,6 @@ class MidiServer: public MidiController
     midi_event_t prevMidiEvent;
     BeanBle * ble;  //lightblue bean bluetooth api
     rx_cmd_t rxCmd;
-    byte beanLight;
 };
 
 #endif // MidiServer_h

@@ -39,7 +39,7 @@ void MotionFilter::reset() {
 void MotionFilter::updateState(void){
   imuFilter.updateState(); //get accel, gyro and mag x,y,z values and calibrate
   beatFilter.updateState();
-  rotationFilter.updateState();
+  //rotationFilter.updateState();
   //update model
   model.beat = beatFilter.model.beat;
   model.angleRad = rotationFilter.model.angleRad;

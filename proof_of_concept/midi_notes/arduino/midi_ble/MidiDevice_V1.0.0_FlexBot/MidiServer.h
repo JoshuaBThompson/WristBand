@@ -15,6 +15,8 @@ Date Created: 12/22/2015
 #define ARG_BUFF_MAX_LEN  8
 
 //rx cmd parsing
+//'!,0,1,230.0,!' is a typical cmd: 0 is cmd num, 1 is cmd data type, 230.0 is arg value
+//see MidiController.h for cmd number mapping
 #define FIRST_RX_CMD_HEADER_INDEX 0
 #define RX_CMD_NUMBER_INDEX 1
 #define CMD_TYPE_INDEX  2
@@ -63,10 +65,9 @@ class MidiServer: public MidiController
     void initBle(void);
     
     //Variables
-    int testCount;
     midi_event_t midiEvent;
     midi_event_t prevMidiEvent;
-    Nrf8001 * ble;  //nrf8001 bluetooth low energy module
+    Nrf8001 ble;  //nrf8001 bluetooth low energy module
     rx_cmd_t rxCmd;
 };
 

@@ -261,7 +261,7 @@ bool Nrf8001::sendData(uint8_t pipe, uint8_t *buffer, uint8_t buffer_len)
 
 void Nrf8001::receiveData(uint8_t pipe, aci_evt_t * aci_evt, uint8_t * rxBuffer, uint8_t * rxBuffer_len){
     //ex: pipe = PIPE_UART_OVER_BTLE_UART_RX_RX
-    clearRxBuffer(); 
+    //clearRxBuffer(); 
     if ( pipe == aci_evt->params.data_received.rx_data.pipe_number)
     {
         
@@ -384,7 +384,8 @@ void Nrf8001::handleEvents(void){
                 
             case ACI_EVT_DATA_RECEIVED:
                 //Serial.println("Device data received (todo)");
-                receiveData(PIPE_NORDIC_UART_OVER_BTLE_UART_RX_RX, aci_evt, status.rxBuffer, &status.rxBufferLen);
+                //receiveData(PIPE_NORDIC_UART_OVER_BTLE_UART_RX_RX, aci_evt, status.rxBuffer, &status.rxBufferLen);
+                receiveData(PIPE_MIDI_MIDI_IO_RX, aci_evt, status.rxBuffer, &status.rxBufferLen);
                 break;
                 
             case ACI_EVT_DATA_CREDIT:

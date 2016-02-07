@@ -34,7 +34,7 @@ void MidiController::reset(void){
 void MidiController::init(void){
   //init objects
   midiSensor.init();
-  Serial.println("init midi controller");
+  //Serial.println("init midi controller");
   //todo: init what?
   
 }
@@ -47,14 +47,14 @@ void MidiController::changeNoteChannel(byte channel){
 }
 
 void MidiController::changeNote1Number(byte number){
-  //Serial.print("changeNote1Number "); //Serial.println(number);
   midiSensor.setNote1Number(number);
+  Serial.print("changed note1 to "); Serial.println(number);
   
 }
 
 void MidiController::changeNote2Number(byte number){
-  //Serial.print("changeNote2Number "); //Serial.println(number);
   midiSensor.setNote2Number(number);
+  Serial.print("changed note2 to "); Serial.println(number);
   
 }
 

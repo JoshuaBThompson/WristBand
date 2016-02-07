@@ -15,7 +15,6 @@ Desc: Main object that is responsible for parsing motion data to generate midi m
  * Constructor
  */
 MidiServer::MidiServer(void):MidiController() {
-  //ble.configureDevice();
 }
 
 

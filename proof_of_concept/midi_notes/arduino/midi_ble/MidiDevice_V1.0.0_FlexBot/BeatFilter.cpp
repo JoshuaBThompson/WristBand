@@ -137,7 +137,7 @@ void BeatFilter::reset() {
 
 void BeatFilter::setMotionSource(char motionNumber){
 
-  //set beat motion calculation using accelerometer or gyro or magnetometer
+  //set beat motion calculation using accelerometer or gyro
   //todo: any params depend on the source?
   sources_t source = (sources_t)motionNumber;
   switch(source){
@@ -146,11 +146,6 @@ void BeatFilter::setMotionSource(char motionNumber){
     break;
 
     case GYRO:
-      model.source = source;
-    break;
-
-    case MAG:
-      //probably will never use this setting
       model.source = source;
     break;
 
@@ -204,13 +199,6 @@ void BeatFilter::updateAxisValues(void){
       model.axisValues[0] = imuFilter->model.gyro.x;
       model.axisValues[1] = imuFilter->model.gyro.y;
       model.axisValues[2] = imuFilter->model.gyro.z;
-    break;
-
-    case MAG:
-      //probably will never use this setting
-      model.axisValues[0] = imuFilter->model.mag.x;
-      model.axisValues[1] = imuFilter->model.mag.y;
-      model.axisValues[2] = imuFilter->model.mag.z;
     break;
 
     default:

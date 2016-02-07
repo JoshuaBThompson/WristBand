@@ -55,6 +55,7 @@ void MidiServer::handleBleEvents(void){
    
    //check messages if any and copy to cmd buffer
    if(ble->status.rxEvent){
+      //Serial.println("got event");
       bool cmdAvailable = parseCmdFromRxBuffer(ble->status.rxBuffer);
       if(cmdAvailable){
         rxCmdCallback(&rxCmd);

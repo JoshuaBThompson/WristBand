@@ -14,10 +14,9 @@ Desc: Main object that is responsible for parsing imu accel and gyro data
  * Constructor
 */
 IMUFilter::IMUFilter(void): imu() {
-  //only using MPU6050 gyro/accel and HMC58X3 magnetometer, no pressure or temp sensors
+  //only using MPU6050 gyro/accel no HMC58X3 magnetometer and no pressure or temp sensors
   model.accel.enabled = true;
-  model.gyro.enabled = true;
-  model.mag.enabled = true;
+  model.gyro.enabled = false;
 
 }
 
@@ -33,7 +32,6 @@ void IMUFilter::reset(void){
   
   model.accel.x = model.accel.y = model.accel.z = 0;
   model.gyro.x = model.gyro.y = model.gyro.z = 0;
-  model.mag.x = model.mag.y = model.mag.z = 0;
   model.prevTime = 0;
   model.angles.x = 0;
   model.anglesAtan2.x = 0;
@@ -52,7 +50,7 @@ void IMUFilter::init(void){
   //init objects
   imu.init(true);
   model.prevTime = millis();
-  Serial.println("calibrating imuFilter");
+  //Serial.println("calibrating imuFilter");
   calibrateImu(); //get offsets
    
 }
@@ -63,7 +61,9 @@ void IMUFilter::init(void){
  */
 void IMUFilter::updateState(void){
   getImu(); //calibrate data and fill sensor specific struct
-  getAngles(millis() - model.prevTime);
+  if(model.gyro.enabled){
+    getAngles(millis() - model.prevTime);
+  }
   model.prevTime = millis();
 }
 
@@ -73,10 +73,11 @@ void IMUFilter::updateState(void){
  */
 
 void IMUFilter::getImu(void){
-  imu.getRawValues(model.rawData.dataArray); //fill imu raw data array with accel, gyro and magnetometer data from imu sensor
+  imu.getRawValues(model.rawData.dataArray); //fill imu raw data array with accel, gyro data from imu sensor
   getAccel();
-  getGyro();
-  getMag();
+  if(model.gyro.enabled){
+    getGyro();
+  }
 }
 
 /*
@@ -87,8 +88,9 @@ void IMUFilter::calibrateImu(void){
   //todo: ? any calibration
   calibrateAccel();
   //not using magnetometer or gyro at the moment
-  calibrateGyro(); 
-  calibrateMag();
+  if(model.gyro.enabled){
+    calibrateGyro(); 
+  }
   
 }
 
@@ -120,14 +122,6 @@ void IMUFilter::calibrateGyro(void){
   Serial.print("x offset "); Serial.println(model.gyroOffsets.x);
 }
 
-/*
- * Calibrate magnetometer sensor data
- */
-void IMUFilter::calibrateMag(void){
-  
-}
-
-
 void IMUFilter::getAccel(void){
   //todo: any calibration
 
@@ -147,14 +141,6 @@ void IMUFilter::getGyro(void){
   model.gyro.z = model.rawData.data.gyro_z;
 }
 
-void IMUFilter::getMag(void){
-  //todo: any calibration
-  
-  //fill in accel data struct
-  model.mag.x = model.rawData.data.mag_x;
-  model.mag.y = model.rawData.data.mag_y;
-  model.mag.z = model.rawData.data.mag_z;
-}
 
 void IMUFilter::getAngles(unsigned long timeDiff){
   //x axis

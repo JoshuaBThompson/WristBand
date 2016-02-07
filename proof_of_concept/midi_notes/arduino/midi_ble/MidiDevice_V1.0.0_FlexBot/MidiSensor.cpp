@@ -37,7 +37,7 @@ void MidiSensor::init(void){
    //reset variables
     reset();
     motionFilter.init();
-    Serial.println("init midi sensor");
+    //Serial.println("init midi sensor");
 }
 
 
@@ -109,6 +109,13 @@ void MidiSensor::resetBlankEvent(void){
 void MidiSensor::updateNoteOnState(void){
   model.noteOn.enabled = motionFilter.model.beat;
   if(model.noteOn.enabled){
+    if (model.noteOff.set){
+      //need to send note off to turn off the prev note, only if it was set previously
+      model.noteOff.enabled = true;
+      updateNoteOffQueue(); //put noteoff on queue then reset set and enabled vars
+      model.noteOff.enabled = false;
+      model.noteOff.set = false;
+    }
     updateNoteOnNumber();
     updateNoteOnQueue();
   }

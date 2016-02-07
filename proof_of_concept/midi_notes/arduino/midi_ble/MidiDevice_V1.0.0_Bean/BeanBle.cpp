@@ -4,7 +4,8 @@
  * BeanBle Constructor
  */
 BeanBle::BeanBle(void){
-  
+  blue=green=red=0;
+  Bean.setLed(green, blue, red);
 }
 
 /*
@@ -128,10 +129,13 @@ void BeanBle::receiveUARTData(void){
  * Compare prev and current bean uart data, to see if new data received
  */
 
- bool BeanBle::compareScratch(ScratchData *scratch1, ScratchData *scratch2) {
+ bool BeanBle::compareScratch(ScratchData * scratch1, ScratchData * scratch2) {
   // If they contain different numbers of bytes, they can't be equal,
   // so return false
   if (scratch1->length != scratch2->length) {
+      if(green){green=0; blue=255; red=0;}
+      else if(blue){blue=0; green=255; red=0;}
+      Bean.setLed(green, blue, red);
     return false;
   }
 

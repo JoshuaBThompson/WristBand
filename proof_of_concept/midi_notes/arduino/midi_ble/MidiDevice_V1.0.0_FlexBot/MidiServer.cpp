@@ -120,7 +120,6 @@ void MidiServer::getCmdArgs(rx_cmd_t * cmd){
   uint8_t * dataTypePtr;
   uint8_t * cmdArgPtr;
   uint8_t * lastHeaderPtr;
-  
   firstHeaderPtr = getCmdParamsFromBuff(cmd->cmdBuffer,CMD_BUFF_MAX_LEN, RX_CMD_DELIM, 0);
   cmdNumPtr = getCmdParamsFromBuff(cmd->cmdBuffer,CMD_BUFF_MAX_LEN, RX_CMD_DELIM, 1);
   dataTypePtr = getCmdParamsFromBuff(cmd->cmdBuffer,CMD_BUFF_MAX_LEN, RX_CMD_DELIM, 2);
@@ -165,19 +164,19 @@ uint8_t  * MidiServer::getCmdParamsFromBuff(uint8_t * buff, int maxLen, uint8_t 
          if(buff[i] == delim || buff[i] == '\0'){
          //got parameter, now point to it
 
-        if(paramNum==param){
-        tempParamBuff[len] = '\0'; //null char to end param buffer
-        len++;
-        ptr = (uint8_t *)malloc(len); //get memory for len size buffer and point to it
-        for(int j=0; j<len; j++){ptr[j] = tempParamBuff[j];}
-        return ptr;
-        }
-        paramNum++; //incrmenet to the next param number
-        len = 0; //reset
-        if(buff[i]=='\0'){
-                ptr=NULL;
-                return ptr;
-        }
+            if(paramNum==param){
+            tempParamBuff[len] = '\0'; //null char to end param buffer
+            len++;
+            ptr = (uint8_t *)malloc(len); //get memory for len size buffer and point to it
+            for(int j=0; j<len; j++){ptr[j] = tempParamBuff[j];}
+            return ptr;
+            }
+            paramNum++; //incrmenet to the next param number
+            len = 0; //reset
+            if(buff[i]=='\0'){
+                    ptr=NULL;
+                    return ptr;
+            }
         }
         else
         {
@@ -206,6 +205,7 @@ void MidiServer::rxCmdCallback(rx_cmd_t * cmd){
     break;
 
     case ChangeNote2Number:  //2
+      Serial.print("note 2 "); Serial.println(cmd->args.intValue);
       changeNote2Number(cmd->args.byteValue);
     break;
 
@@ -217,27 +217,36 @@ void MidiServer::rxCmdCallback(rx_cmd_t * cmd){
       changeNoteMode(cmd->args.byteValue);
     break;
 
-    case ChangeEventType:  //5
+    case ChangeEventData:  //5
+      Serial.print("event data "); Serial.println(cmd->args.intValue);
+      changeEventData(cmd->args.byteValue);
+    break;
+    
+    case ChangeEventChannel:  //6
+      changeEventChannel(cmd->args.byteValue);
+    break;
+    
+    case ChangeEventType:  //7
       changeEventType(cmd->args.byteValue);
     break;
 
-    case ChangeEventSource:  //6
+    case ChangeEventSource:  //8
       changeEventSource(cmd->args.byteValue);
     break;
 
-    case ChangeBeatFilterAverageCount: //7
+    case ChangeBeatFilterAverageCount: //9
       changeBeatFilterAverageCount(cmd->args.byteValue);
     break;
 
-    case ChangeBeatFilterMaxCount:  //8
+    case ChangeBeatFilterMaxCount:  //10
       changeBeatFilterMaxCount(cmd->args.byteValue);
     break;
 
-    case ChangeBeatFilterMaxAmp:  //9
+    case ChangeBeatFilterMaxAmp:  //11
       changeBeatFilterMaxAmp(cmd->args.byteValue);
     break;
 
-    case ChangeButtonFunction:  //10
+    case ChangeButtonFunction:  //12
       changeButtonFunction(cmd->args.byteValue);
     break;
   }

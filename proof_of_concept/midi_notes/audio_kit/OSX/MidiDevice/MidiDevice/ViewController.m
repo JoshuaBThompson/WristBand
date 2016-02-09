@@ -15,10 +15,9 @@
     // STEP 2 : Set up an instance variable for the instrument
     NSString * midiServiceUUID;
     NSString * midiIOUUID;
-    unsigned char note1Data[7];
-    unsigned char note2Data[7];
-    unsigned char ccModeData[7];
-    unsigned char channelChangeData[7];
+    //lighblue bean scratch general purpose uart UUIDs
+    NSString * BeanScratch1UUID;
+    NSString * BeanScratchServiceUUID;
 }
 
 @synthesize deviceName;
@@ -29,16 +28,15 @@
 @synthesize connectStatus;
 @synthesize mesurementType;
 @synthesize midiData;
+@synthesize beanData;
 @synthesize midiDevices;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     midiServiceUUID = @"03B80E5A-EDE8-4B33-A751-6CE34EC4C700";
     midiIOUUID = @"7772E5DB-3868-4112-A1A9-F2669D106BF3";
-    note1Data[0]=0x0A; note1Data[1] = 0x00; note1Data[2] = 0x70;
-    note2Data[0]=0x0A; note2Data[1] = 0x01; note2Data[2] = 0x30;
-    ccModeData[0]=0x0C; ccModeData[1] = 0x00; ccModeData[2] = 0x00;
-    channelChangeData[0]=0x0D; channelChangeData[1] = 0x00; channelChangeData[2] = 0x00;
+    BeanScratchServiceUUID = @"a495ff20-c5b1-4b44-b512-1370f02d74de";
+    BeanScratch1UUID = @"a495ff21-c5b1-4b44-b512-1370f02d74de";
     
     self.midiDevices = [NSMutableArray array];
     
@@ -288,6 +286,11 @@
             /* Midi BLE Service */
             [testPeripheral discoverCharacteristics:[NSArray arrayWithObjects:[CBUUID UUIDWithString: midiIOUUID], nil] forService:service];
         }
+        else if([service.UUID isEqual:[CBUUID UUIDWithString: BeanScratchServiceUUID]])
+        {
+            /* Lightblue Bean BLE Uart Service */
+            [testPeripheral discoverCharacteristics:[NSArray arrayWithObjects:[CBUUID UUIDWithString: BeanScratch1UUID], nil] forService:service];
+        }
         else if([service.UUID isEqual:[CBUUID UUIDWithString:@"180A"]])
         {
             /* Device Information Service - discover manufacture name characteristic */
@@ -328,16 +331,19 @@
         [self startReceivingMidi];
     }
     
-    if([service.UUID isEqual:[CBUUID UUIDWithString:@"180A"]])
+    
+    if([service.UUID isEqual:[CBUUID UUIDWithString: BeanScratchServiceUUID]])
     {
         for (CBCharacteristic * characteristic in service.characteristics)
         {
-            /* Read manufacturer name */
-            if([characteristic.UUID isEqual:[CBUUID UUIDWithString:@"2A29"]])
+            /* Set indication on bean scratch io */
+            if([characteristic.UUID isEqual:[CBUUID UUIDWithString: BeanScratch1UUID]])
             {
-                [testPeripheral readValueForCharacteristic:characteristic];
-                NSLog(@"Found a Device Manufacturer Name Characteristic - Read manufacturer name");
+                NSLog(@"JOSH!!!!");
+                NSLog(@"Found a Bean IO Characteristic !! %@", characteristic);
+                self.beanData = characteristic;
             }
+            
         }
     }
     
@@ -366,7 +372,7 @@
         return;
     }
     
-    /* Value for device name received */
+    /* Value for midi data received */
     if([characteristic.UUID isEqual:[CBUUID UUIDWithString:midiIOUUID]])
     {
         NSLog(@"Midi Response= %@", characteristic);
@@ -375,6 +381,14 @@
         if(!audioMidiSetupEn){
             [self.instrument midiNoteOn];
         }
+    }
+    
+    /* Value for bean io received */
+    if([characteristic.UUID isEqual:[CBUUID UUIDWithString:BeanScratch1UUID]])
+    {
+        NSLog(@"Bean IO Response= %@", characteristic);
+        NSData * updatedValue = characteristic.value;
+        NSLog(@"Bean Response Data = %@", updatedValue);
     }
     
     /* Value for device name received */
@@ -460,12 +474,17 @@
     
     if(testPeripheral){
         NSLog(@"Change note 1");
-        int value = [self.note1Value intValue];
-        note1Data[2] = value;
-        NSData *data = [NSData dataWithBytes: note1Data length: 4];
+        NSString * noteStr = [self.note1Value stringValue];
+        //format ex: '!,1,1,65,!'
+            //1 is the cmd type (change note 1)
+            //next 1 is the data type (1 = int, 0 = byte, 2 = float)
+            //65 is the note number
+        NSString *myString = [NSString stringWithFormat:@"!,1,1,%d,!", self.note1Value.intValue];
+        NSData *data = [myString dataUsingEncoding:NSUTF8StringEncoding];
         
         if([data bytes]){
-            NSLog(@"changing to note number 1");
+            NSLog(@"Sending %@", myString);
+            NSLog(@"changing to note number 1 %@", noteStr);
         [testPeripheral writeValue:data forCharacteristic:self.midiData type:CBCharacteristicWriteWithoutResponse];
         }
         
@@ -475,11 +494,11 @@
 - (IBAction)changeNote2:(NSButton *)sender {
     if(testPeripheral){
         NSLog(@"Change note 2");
-        int value = [self.note2Value intValue];
-        note2Data[2] = value;
-        NSData *data = [NSData dataWithBytes: note2Data length: 4];
+        NSString *myString = [NSString stringWithFormat:@"!,2,1,%d,!", self.note2Value.intValue];
+        NSData *data = [myString dataUsingEncoding:NSUTF8StringEncoding];
         
         if([data bytes]){
+            NSLog(@"Sending %@", myString);
             NSLog(@"changing to note number 2");
             [testPeripheral writeValue:data forCharacteristic:self.midiData type:CBCharacteristicWriteWithoutResponse];
         }
@@ -498,12 +517,11 @@
 - (IBAction)changeCCMode:(NSButton *)sender {
     if(testPeripheral){
         
-        int value = [self.ccModeValue intValue];
-        ccModeData[1] = value;
-        NSData *data = [NSData dataWithBytes: ccModeData length: 4];
+        NSString *myString = [NSString stringWithFormat:@"!,5,1,%d,!", self.ccModeValue.intValue];
+        NSData *data = [myString dataUsingEncoding:NSUTF8StringEncoding];
         
         if([data bytes]){
-            NSLog(@"Change cc mode value %@", data);
+            NSLog(@"Change cc mode (dataByte1) value %@", data);
             [testPeripheral writeValue:data forCharacteristic:self.midiData type:CBCharacteristicWriteWithoutResponse];
         }
         
@@ -515,12 +533,13 @@
     if(testPeripheral){
         
         int value = [self.channelNumber intValue];
-        channelChangeData[1] = value;
-        NSData *data = [NSData dataWithBytes: channelChangeData length: 4];
+        NSString *myString = [NSString stringWithFormat:@"!,0,1,%d,!", self.channelNumber.intValue];
+        NSData *data = [myString dataUsingEncoding:NSUTF8StringEncoding];
         
         if([data bytes]){
-            NSLog(@"Changing channel number %@", data);
+            NSLog(@"Changing channel number %d", value);
             [testPeripheral writeValue:data forCharacteristic:self.midiData type:CBCharacteristicWriteWithoutResponse];
+            //[testPeripheral writeValue:data forCharacteristic:self.beanData type:CBCharacteristicWriteWithoutResponse];
         }
         
     }

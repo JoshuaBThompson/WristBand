@@ -16,12 +16,14 @@ Date Created: 12/22/2015
 #define ChangeNote2Number               2
 #define ChangeNoteVelocity              3
 #define ChangeNoteMode                  4
-#define ChangeEventType                 5
-#define ChangeEventSource               6
-#define ChangeBeatFilterAverageCount    7
-#define ChangeBeatFilterMaxCount        8
-#define ChangeBeatFilterMaxAmp          9
-#define ChangeButtonFunction            10
+#define ChangeEventData                 5
+#define ChangeEventChannel              6
+#define ChangeEventType                 7
+#define ChangeEventSource               8
+#define ChangeBeatFilterAverageCount    9
+#define ChangeBeatFilterMaxCount        10
+#define ChangeBeatFilterMaxAmp          11
+#define ChangeButtonFunction            12
 
 
 
@@ -39,6 +41,8 @@ class MidiController
     void changeNote2Number(byte number);
     void changeNoteVelocity(byte velocity);
     void changeNoteMode(char modeNumber);
+    void changeEventData(byte eventData);
+    void changeEventChannel(byte eventChannel);
     void changeEventType(byte eventType);
     void changeEventSource(char sourceNumber);
     void changeBeatFilterAverageCount(char averageCount);

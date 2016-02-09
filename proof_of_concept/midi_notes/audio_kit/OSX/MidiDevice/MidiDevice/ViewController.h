@@ -24,6 +24,7 @@
     CBCentralManager *manager;
     CBPeripheral *testPeripheral;
     CBCharacteristic * midiData;
+    CBCharacteristic * beanData;
     
     NSMutableArray *midiDevices;
     NSArrayController *arrayController;
@@ -40,6 +41,9 @@
 @property (copy) NSString * mesurementType;
 @property (retain) CBCharacteristic * midiData;
 @property (retain) NSMutableArray *midiDevices;
+
+//light blue bean
+@property (retain) CBCharacteristic * beanData;
 
 @property Instrument *instrument;
 

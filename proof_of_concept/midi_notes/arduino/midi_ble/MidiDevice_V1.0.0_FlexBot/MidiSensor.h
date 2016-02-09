@@ -140,6 +140,7 @@ class MidiSensor
     void setNoteVelocity(byte velocity);
     void setEventChannel(byte channel);
     void setEventType(byte eventType);
+    void setEventData(byte eventData);
     midi_event_t readEvent(void);
     
     

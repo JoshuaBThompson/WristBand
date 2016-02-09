@@ -400,7 +400,7 @@ void MidiSensor::setEventChannel(byte channel){
 }
 
 /*
- * Set generic event type (ex change from cc to pitch modulation)
+ * Set generic event type (statusByte) (ex change from cc to pitch modulation)
  */
 
 void MidiSensor::setEventType(byte eventType){
@@ -410,6 +410,15 @@ void MidiSensor::setEventType(byte eventType){
     model.event.statusByte &= 0x0F; //get rid of existing status 4 bits but keep channel bits
     model.event.statusByte |= eventType; //add event type bits
   }
+}
+
+/*
+ * Set generic event dataByte1 (ex change from cc velocity modulation to cc somethingelse)
+ */
+
+void MidiSensor::setEventData(byte eventData){
+  //ex: for continuous control velocity modulation eventData = 0x07 or foot controller = 0x04...etc
+  model.event.dataByte1 = eventData;
 }
 
 /*

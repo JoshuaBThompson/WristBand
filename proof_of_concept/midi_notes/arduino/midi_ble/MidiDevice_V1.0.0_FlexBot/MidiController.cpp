@@ -70,6 +70,22 @@ void MidiController::changeNoteMode(char modeNumber){
 
 
 /*
+ * Change generic midi event dataByte1 (ex 0x07 for velocity cc control to 0x04 foot pedal cc)
+ */
+void MidiController::changeEventData(byte eventData){
+  //Serial.print("changeEventData "); //Serial.println(eventData);
+  midiSensor.setEventData(eventData);
+}
+
+/*
+ * Change generic midi event channel (ex 0 to 1)
+ */
+void MidiController::changeEventChannel(byte eventChannel){
+  //Serial.print("changeEventChannel "); //Serial.println(eventChannel);
+  midiSensor.setEventChannel(eventChannel);
+}
+
+/*
  * Change generic midi event type (ex cc)
  */
 void MidiController::changeEventType(byte eventType){

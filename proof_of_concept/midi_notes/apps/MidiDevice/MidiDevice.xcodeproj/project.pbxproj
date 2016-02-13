@@ -1,0 +1,431 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		F3248B771C6E32FF007298EC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3248B761C6E32FF007298EC /* AppDelegate.swift */; };
+		F3248B791C6E32FF007298EC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3248B781C6E32FF007298EC /* ViewController.swift */; };
+		F3248B7C1C6E32FF007298EC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F3248B7A1C6E32FF007298EC /* Main.storyboard */; };
+		F3248B7E1C6E32FF007298EC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F3248B7D1C6E32FF007298EC /* Assets.xcassets */; };
+		F3248B811C6E32FF007298EC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F3248B7F1C6E32FF007298EC /* LaunchScreen.storyboard */; };
+		F3248B8C1C6E32FF007298EC /* MidiDeviceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3248B8B1C6E32FF007298EC /* MidiDeviceTests.swift */; };
+		F3248B971C6E332A007298EC /* AudioKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F3248B961C6E332A007298EC /* AudioKit.framework */; };
+		F3248B981C6E332A007298EC /* AudioKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F3248B961C6E332A007298EC /* AudioKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		F3248B881C6E32FF007298EC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F3248B6B1C6E32FF007298EC /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F3248B721C6E32FF007298EC;
+			remoteInfo = MidiDevice;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		F3248B991C6E332A007298EC /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				F3248B981C6E332A007298EC /* AudioKit.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		F3248B731C6E32FF007298EC /* MidiDevice.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MidiDevice.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		F3248B761C6E32FF007298EC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		F3248B781C6E32FF007298EC /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		F3248B7B1C6E32FF007298EC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		F3248B7D1C6E32FF007298EC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		F3248B801C6E32FF007298EC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		F3248B821C6E32FF007298EC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F3248B871C6E32FF007298EC /* MidiDeviceTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MidiDeviceTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		F3248B8B1C6E32FF007298EC /* MidiDeviceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MidiDeviceTests.swift; sourceTree = "<group>"; };
+		F3248B8D1C6E32FF007298EC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F3248B961C6E332A007298EC /* AudioKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AudioKit.framework; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		F3248B701C6E32FF007298EC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F3248B971C6E332A007298EC /* AudioKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F3248B841C6E32FF007298EC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		F3248B6A1C6E32FF007298EC = {
+			isa = PBXGroup;
+			children = (
+				F3248B961C6E332A007298EC /* AudioKit.framework */,
+				F3248B751C6E32FF007298EC /* MidiDevice */,
+				F3248B8A1C6E32FF007298EC /* MidiDeviceTests */,
+				F3248B741C6E32FF007298EC /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		F3248B741C6E32FF007298EC /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F3248B731C6E32FF007298EC /* MidiDevice.app */,
+				F3248B871C6E32FF007298EC /* MidiDeviceTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		F3248B751C6E32FF007298EC /* MidiDevice */ = {
+			isa = PBXGroup;
+			children = (
+				F3248B761C6E32FF007298EC /* AppDelegate.swift */,
+				F3248B781C6E32FF007298EC /* ViewController.swift */,
+				F3248B7A1C6E32FF007298EC /* Main.storyboard */,
+				F3248B7D1C6E32FF007298EC /* Assets.xcassets */,
+				F3248B7F1C6E32FF007298EC /* LaunchScreen.storyboard */,
+				F3248B821C6E32FF007298EC /* Info.plist */,
+			);
+			path = MidiDevice;
+			sourceTree = "<group>";
+		};
+		F3248B8A1C6E32FF007298EC /* MidiDeviceTests */ = {
+			isa = PBXGroup;
+			children = (
+				F3248B8B1C6E32FF007298EC /* MidiDeviceTests.swift */,
+				F3248B8D1C6E32FF007298EC /* Info.plist */,
+			);
+			path = MidiDeviceTests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		F3248B721C6E32FF007298EC /* MidiDevice */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F3248B901C6E32FF007298EC /* Build configuration list for PBXNativeTarget "MidiDevice" */;
+			buildPhases = (
+				F3248B6F1C6E32FF007298EC /* Sources */,
+				F3248B701C6E32FF007298EC /* Frameworks */,
+				F3248B711C6E32FF007298EC /* Resources */,
+				F3248B991C6E332A007298EC /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MidiDevice;
+			productName = MidiDevice;
+			productReference = F3248B731C6E32FF007298EC /* MidiDevice.app */;
+			productType = "com.apple.product-type.application";
+		};
+		F3248B861C6E32FF007298EC /* MidiDeviceTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F3248B931C6E32FF007298EC /* Build configuration list for PBXNativeTarget "MidiDeviceTests" */;
+			buildPhases = (
+				F3248B831C6E32FF007298EC /* Sources */,
+				F3248B841C6E32FF007298EC /* Frameworks */,
+				F3248B851C6E32FF007298EC /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				F3248B891C6E32FF007298EC /* PBXTargetDependency */,
+			);
+			name = MidiDeviceTests;
+			productName = MidiDeviceTests;
+			productReference = F3248B871C6E32FF007298EC /* MidiDeviceTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		F3248B6B1C6E32FF007298EC /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0720;
+				LastUpgradeCheck = 0720;
+				ORGANIZATIONNAME = wristband;
+				TargetAttributes = {
+					F3248B721C6E32FF007298EC = {
+						CreatedOnToolsVersion = 7.2.1;
+					};
+					F3248B861C6E32FF007298EC = {
+						CreatedOnToolsVersion = 7.2.1;
+						TestTargetID = F3248B721C6E32FF007298EC;
+					};
+				};
+			};
+			buildConfigurationList = F3248B6E1C6E32FF007298EC /* Build configuration list for PBXProject "MidiDevice" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = F3248B6A1C6E32FF007298EC;
+			productRefGroup = F3248B741C6E32FF007298EC /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				F3248B721C6E32FF007298EC /* MidiDevice */,
+				F3248B861C6E32FF007298EC /* MidiDeviceTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		F3248B711C6E32FF007298EC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F3248B811C6E32FF007298EC /* LaunchScreen.storyboard in Resources */,
+				F3248B7E1C6E32FF007298EC /* Assets.xcassets in Resources */,
+				F3248B7C1C6E32FF007298EC /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F3248B851C6E32FF007298EC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		F3248B6F1C6E32FF007298EC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F3248B791C6E32FF007298EC /* ViewController.swift in Sources */,
+				F3248B771C6E32FF007298EC /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F3248B831C6E32FF007298EC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F3248B8C1C6E32FF007298EC /* MidiDeviceTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		F3248B891C6E32FF007298EC /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F3248B721C6E32FF007298EC /* MidiDevice */;
+			targetProxy = F3248B881C6E32FF007298EC /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		F3248B7A1C6E32FF007298EC /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F3248B7B1C6E32FF007298EC /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		F3248B7F1C6E32FF007298EC /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F3248B801C6E32FF007298EC /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		F3248B8E1C6E32FF007298EC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		F3248B8F1C6E32FF007298EC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		F3248B911C6E32FF007298EC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
+				INFOPLIST_FILE = MidiDevice/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = wristband.MidiDevice;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		F3248B921C6E32FF007298EC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
+				INFOPLIST_FILE = MidiDevice/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = wristband.MidiDevice;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		F3248B941C6E32FF007298EC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = MidiDeviceTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = wristband.MidiDeviceTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MidiDevice.app/MidiDevice";
+			};
+			name = Debug;
+		};
+		F3248B951C6E32FF007298EC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = MidiDeviceTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = wristband.MidiDeviceTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MidiDevice.app/MidiDevice";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		F3248B6E1C6E32FF007298EC /* Build configuration list for PBXProject "MidiDevice" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F3248B8E1C6E32FF007298EC /* Debug */,
+				F3248B8F1C6E32FF007298EC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F3248B901C6E32FF007298EC /* Build configuration list for PBXNativeTarget "MidiDevice" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F3248B911C6E32FF007298EC /* Debug */,
+				F3248B921C6E32FF007298EC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		F3248B931C6E32FF007298EC /* Build configuration list for PBXNativeTarget "MidiDeviceTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F3248B941C6E32FF007298EC /* Debug */,
+				F3248B951C6E32FF007298EC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = F3248B6B1C6E32FF007298EC /* Project object */;
+}

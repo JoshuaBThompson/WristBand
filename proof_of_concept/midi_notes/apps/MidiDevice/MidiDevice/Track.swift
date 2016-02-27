@@ -7,7 +7,38 @@
 //
 
 import Foundation
+import CoreFoundation
 import AudioKit
+
+//Timer
+
+class Timer {
+    
+    var startTime:CFAbsoluteTime
+    var endTime:CFAbsoluteTime?
+    
+    init() {
+        startTime = CFAbsoluteTimeGetCurrent()
+    }
+    
+    func start(){
+        startTime = CFAbsoluteTimeGetCurrent()
+    }
+    
+    func stop() -> CFAbsoluteTime {
+        endTime = CFAbsoluteTimeGetCurrent()
+        
+        return duration!
+    }
+    
+    var duration:CFAbsoluteTime? {
+        if let endTime = endTime {
+            return endTime - startTime
+        } else {
+            return nil
+        }
+    }
+}
 
 //Time Signature
 
@@ -32,15 +63,29 @@ class Measure {
     var timeSignature = TimeSignature()
     var tempo = Tempo()
     var clickTrack: ClickTrack!
+    var timer = Timer()
     var count = 1
-    var secPerMeasure: Double {return Double(timeSignature.beatsPerMeasure) / tempo.beatsPerSec * 4/Double(timeSignature.beatUnit) }
+    var secPerMeasure: Double!
+    
+    //computed
     var beatsPerMeasure: Int { return timeSignature.beatsPerMeasure }
     var totalBeats: Int { return count * beatsPerMeasure}
     var totalDuration: Double {return secPerMeasure * Double(count)}
+    var timeElapsed: Double {
+        let timeElapsedSec = timer.stop()
+        if timeElapsedSec <= totalDuration {
+            return timeElapsedSec
+        }
+        else{
+            return fmod(timeElapsedSec, totalDuration)
+        }
+    }
     
     init(){
         clickTrack = ClickTrack(clickTempo: tempo, clickTimeSignature: timeSignature)
+        secPerMeasure = clickTrack.secPerMeasure
     }
+    
     
 }
 
@@ -50,24 +95,25 @@ class ClickTrack: AKVoice{
     var timeSignature: TimeSignature!
     var clickOperation: AKOperation!
     var clickGenerator: AKOperationGenerator!
-    var secPerClick: Double!
-    var clickPerSec: Double!
-    var secPerBeat: Double!
-    var beatsPerClick: Double!
+    
+    //computed
+    var secPerMeasure: Double {return Double(timeSignature.beatsPerMeasure) / tempo.beatsPerSec * 4/Double(timeSignature.beatUnit) }
+    var secPerClick: Double { return secPerMeasure / Double(timeSignature.beatsPerMeasure) }
+    var clickPerSec: Double { return 1/secPerClick }
+    
     
     init(clickTempo: Tempo, clickTimeSignature: TimeSignature){
+        super.init()
         tempo = clickTempo
         timeSignature = clickTimeSignature
-        secPerBeat = 1/tempo.beatsPerSec
-        beatsPerClick = (4.0/Double(timeSignature.beatUnit))
-        secPerClick =  secPerBeat*beatsPerClick
-        clickPerSec = 1/secPerClick
         clickOperation = AKOperation.metronome(clickPerSec) // metronome needs frequency of beat
         clickGenerator = AKOperationGenerator(operation: clickOperation)
-        super.init()
         avAudioNode = clickGenerator.avAudioNode
         clickGenerator.start()
     }
+    
+    //MARK: functions
+    
 }
 
 
@@ -82,9 +128,7 @@ class Track {
     var kickInst: AKSynthKick!
     var mixer: AKMixer!
     var notePosition: Double = 1
-    var Note1 = 90
-    var Note2 = 80
-    var Note3 = 70
+    var recordEnabled = false
     
     init(){
     
@@ -98,7 +142,7 @@ class Track {
         AudioKit.output = mixer
         sequence.newTrack()
         sequence.tracks[0].setMIDIOutput(kickMidi.midiIn)
-        sequence.setBPM(100)
+        sequence.setBPM(Float(measure.clickTrack.clickPerSec))
         
     }
     
@@ -113,41 +157,26 @@ class Track {
         
     }
     
-    func addNote1(){
-        print(String(format:"Adding note to pos %f", notePosition))
+    func addNote(note: Int){
+        if !recordEnabled {
+            print("Record not enabled, no add note allowed")
+            return
+        }
         //only add note if record is enabled, otherwise just play it
         //add note to current track
         //todo: input to function should a note with vel, note value
         //todo: next add note to current track based on selected instrument (not yet developed)
-        sequence.tracks[0].addNote(Note1, vel: 80, position: notePosition, dur: 1)
-        notePosition++
-        
-    }
-    
-    func addNote2(){
-        print(String(format:"Adding note to pos %f", notePosition))
-        //only add note if record is enabled, otherwise just play it
-        //add note to current track
-        //todo: input to function should a note with vel, note value
-        //todo: next add note to current track based on selected instrument (not yet developed)
-        sequence.tracks[0].addNote(Note2, vel: 80, position: notePosition, dur: 1)
-        notePosition++
-        
-    }
-    
-    func addNote3(){
-        print(String(format:"Adding note to pos %f", notePosition))
-        //only add note if record is enabled, otherwise just play it
-        //add note to current track
-        //todo: input to function should a note with vel, note value
-        //todo: next add note to current track based on selected instrument (not yet developed)
-        sequence.tracks[0].addNote(Note3, vel: 80, position: notePosition, dur: 1)
+        let timeElapsed = measure.timeElapsed
+        print(String(format: "Time elapsed %f", timeElapsed))
+        sequence.tracks[0].addNote(note, vel: 80, position: timeElapsed, dur: 1)
         notePosition++
         
     }
     
     func record(){
         print("Recording note")
+        recordEnabled = true
+        measure.timer.start()
         //start recording
         //set record enabled
         //now addNote function will add notes to sequences track
@@ -158,14 +187,19 @@ class Track {
         //play note in sequence track (just play first track for now)
         sequence.loopOn()
         sequence.play()
+        //start timer
+        
+        
         
     }
     
     func stop(){
         print("Stop playing notes in sequence track")
+        recordEnabled = false
         //stop playing note in sequence track
         sequence.loopOff()
         sequence.stop()
+        measure.timer.stop()
     }
     
     

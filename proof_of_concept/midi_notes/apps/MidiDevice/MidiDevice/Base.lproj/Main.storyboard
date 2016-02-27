@@ -18,48 +18,55 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QLd-HI-d4v">
-                                <rect key="frame" x="152" y="234" width="59" height="30"/>
+                                <rect key="frame" x="152" y="261" width="59" height="30"/>
                                 <state key="normal" title="Connect"/>
                                 <connections>
                                     <action selector="Connect:" destination="BYZ-38-t0r" eventType="touchUpInside" id="b5V-6l-lZT"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Debug" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="afC-el-VRu">
-                                <rect key="frame" x="9" y="268" width="501" height="214"/>
+                                <rect key="frame" x="9" y="295" width="501" height="214"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pPw-qJ-iEx">
-                                <rect key="frame" x="146" y="158" width="71" height="30"/>
+                                <rect key="frame" x="146" y="185" width="71" height="30"/>
                                 <state key="normal" title="Play Track"/>
                                 <connections>
                                     <action selector="playTrack:" destination="BYZ-38-t0r" eventType="touchUpInside" id="BPX-Ny-25g"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="prx-tf-ish">
-                                <rect key="frame" x="144" y="196" width="75" height="30"/>
+                                <rect key="frame" x="144" y="223" width="75" height="30"/>
                                 <state key="normal" title="Stop Track"/>
                                 <connections>
                                     <action selector="stopTrack:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Hu5-ga-839"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8Tw-oe-mie">
+                                <rect key="frame" x="136" y="152" width="91" height="30"/>
+                                <state key="normal" title="Record Track"/>
+                                <connections>
+                                    <action selector="recordTrack:" destination="BYZ-38-t0r" eventType="touchUpInside" id="x7U-DA-904"/>
+                                </connections>
+                            </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uVR-zg-gBZ">
-                                <rect key="frame" x="161" y="48" width="40" height="30"/>
+                                <rect key="frame" x="161" y="42" width="40" height="30"/>
                                 <state key="normal" title="Note1"/>
                                 <connections>
                                     <action selector="addNote1:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Od4-Vb-HiW"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Gey-SZ-Mve">
-                                <rect key="frame" x="161" y="80" width="42" height="30"/>
+                                <rect key="frame" x="161" y="74" width="42" height="30"/>
                                 <state key="normal" title="Note2"/>
                                 <connections>
                                     <action selector="addNote2:" destination="BYZ-38-t0r" eventType="touchUpInside" id="5BX-PT-kid"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="48O-8v-flb">
-                                <rect key="frame" x="160" y="120" width="43" height="30"/>
+                                <rect key="frame" x="160" y="114" width="43" height="30"/>
                                 <state key="normal" title="Note3"/>
                                 <connections>
                                     <action selector="addNote3:" destination="BYZ-38-t0r" eventType="touchUpInside" id="9is-rz-dHN"/>

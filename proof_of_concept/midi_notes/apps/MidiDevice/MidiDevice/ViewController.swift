@@ -36,16 +36,20 @@ class ViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDe
     
     //MARK: actions
     
+    @IBAction func recordTrack(sender: UIButton) {
+        track.record()
+    }
+    
     @IBAction func addNote1(sender: UIButton) {
-        track.addNote1()
+        track.addNote(90)
     }
     
     @IBAction func addNote2(sender: UIButton) {
-        track.addNote2()
+        track.addNote(80)
     }
     
     @IBAction func addNote3(sender: UIButton) {
-        track.addNote3()
+        track.addNote(70)
     }
     
     

@@ -18,7 +18,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QLd-HI-d4v">
-                                <rect key="frame" x="152" y="187" width="59" height="30"/>
+                                <rect key="frame" x="152" y="234" width="59" height="30"/>
                                 <state key="normal" title="Connect"/>
                                 <connections>
                                     <action selector="Connect:" destination="BYZ-38-t0r" eventType="touchUpInside" id="b5V-6l-lZT"/>
@@ -30,6 +30,41 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pPw-qJ-iEx">
+                                <rect key="frame" x="146" y="158" width="71" height="30"/>
+                                <state key="normal" title="Play Track"/>
+                                <connections>
+                                    <action selector="playTrack:" destination="BYZ-38-t0r" eventType="touchUpInside" id="BPX-Ny-25g"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="prx-tf-ish">
+                                <rect key="frame" x="144" y="196" width="75" height="30"/>
+                                <state key="normal" title="Stop Track"/>
+                                <connections>
+                                    <action selector="stopTrack:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Hu5-ga-839"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uVR-zg-gBZ">
+                                <rect key="frame" x="161" y="48" width="40" height="30"/>
+                                <state key="normal" title="Note1"/>
+                                <connections>
+                                    <action selector="addNote1:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Od4-Vb-HiW"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Gey-SZ-Mve">
+                                <rect key="frame" x="161" y="80" width="42" height="30"/>
+                                <state key="normal" title="Note2"/>
+                                <connections>
+                                    <action selector="addNote2:" destination="BYZ-38-t0r" eventType="touchUpInside" id="5BX-PT-kid"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="48O-8v-flb">
+                                <rect key="frame" x="160" y="120" width="43" height="30"/>
+                                <state key="normal" title="Note3"/>
+                                <connections>
+                                    <action selector="addNote3:" destination="BYZ-38-t0r" eventType="touchUpInside" id="9is-rz-dHN"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>

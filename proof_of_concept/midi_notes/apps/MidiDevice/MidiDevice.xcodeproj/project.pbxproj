@@ -17,10 +17,6 @@
 		F3248B981C6E332A007298EC /* AudioKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F3248B961C6E332A007298EC /* AudioKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F3248B9B1C6FBC5B007298EC /* Instrument.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3248B9A1C6FBC5B007298EC /* Instrument.swift */; };
 		F3248B9D1C6FBC9E007298EC /* Track.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3248B9C1C6FBC9E007298EC /* Track.swift */; };
-		F3248B9F1C6FBCAC007298EC /* Tempo.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3248B9E1C6FBCAC007298EC /* Tempo.swift */; };
-		F3248BA11C6FBCBB007298EC /* TimeSignature.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3248BA01C6FBCBB007298EC /* TimeSignature.swift */; };
-		F3248BA31C6FBCCA007298EC /* Measure.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3248BA21C6FBCCA007298EC /* Measure.swift */; };
-		F3248BA51C6FBCE2007298EC /* ClickTrack.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3248BA41C6FBCE2007298EC /* ClickTrack.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,10 +57,6 @@
 		F3248B961C6E332A007298EC /* AudioKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AudioKit.framework; sourceTree = "<group>"; };
 		F3248B9A1C6FBC5B007298EC /* Instrument.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Instrument.swift; sourceTree = "<group>"; };
 		F3248B9C1C6FBC9E007298EC /* Track.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Track.swift; sourceTree = "<group>"; };
-		F3248B9E1C6FBCAC007298EC /* Tempo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tempo.swift; sourceTree = "<group>"; };
-		F3248BA01C6FBCBB007298EC /* TimeSignature.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimeSignature.swift; sourceTree = "<group>"; };
-		F3248BA21C6FBCCA007298EC /* Measure.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Measure.swift; sourceTree = "<group>"; };
-		F3248BA41C6FBCE2007298EC /* ClickTrack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClickTrack.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -116,10 +108,6 @@
 				F3248B7F1C6E32FF007298EC /* LaunchScreen.storyboard */,
 				F3248B821C6E32FF007298EC /* Info.plist */,
 				F3248B9C1C6FBC9E007298EC /* Track.swift */,
-				F3248B9E1C6FBCAC007298EC /* Tempo.swift */,
-				F3248BA01C6FBCBB007298EC /* TimeSignature.swift */,
-				F3248BA21C6FBCCA007298EC /* Measure.swift */,
-				F3248BA41C6FBCE2007298EC /* ClickTrack.swift */,
 			);
 			path = MidiDevice;
 			sourceTree = "<group>";
@@ -185,6 +173,11 @@
 					F3248B721C6E32FF007298EC = {
 						CreatedOnToolsVersion = 7.2.1;
 						DevelopmentTeam = XPYTM2G2L5;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 0;
+							};
+						};
 					};
 					F3248B861C6E32FF007298EC = {
 						CreatedOnToolsVersion = 7.2.1;
@@ -236,14 +229,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F3248BA31C6FBCCA007298EC /* Measure.swift in Sources */,
 				F3248B791C6E32FF007298EC /* ViewController.swift in Sources */,
 				F3248B9B1C6FBC5B007298EC /* Instrument.swift in Sources */,
 				F3248B771C6E32FF007298EC /* AppDelegate.swift in Sources */,
 				F3248B9D1C6FBC9E007298EC /* Track.swift in Sources */,
-				F3248B9F1C6FBCAC007298EC /* Tempo.swift in Sources */,
-				F3248BA51C6FBCE2007298EC /* ClickTrack.swift in Sources */,
-				F3248BA11C6FBCBB007298EC /* TimeSignature.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

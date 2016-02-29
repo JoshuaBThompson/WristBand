@@ -51,8 +51,8 @@ struct TimeSignature {
 //Tempo
 
 struct Tempo {
-    var beatsPerMin = 60.0
-    let secPerMin = 60.0
+    var beatsPerMin = Double(60.0)
+    let secPerMin = Double(60.0)
     var beatsPerSec: Double { return beatsPerMin / secPerMin }
 }
 
@@ -65,9 +65,9 @@ class Measure {
     var clickTrack: ClickTrack!
     var timer = Timer()
     var count = 1
-    var secPerMeasure: Double!
     
     //computed
+    var secPerMeasure: Double { return clickTrack.secPerMeasure }
     var beatsPerMeasure: Int { return timeSignature.beatsPerMeasure }
     var totalBeats: Int { return count * beatsPerMeasure}
     var totalDuration: Double {return secPerMeasure * Double(count)}
@@ -83,7 +83,6 @@ class Measure {
     
     init(){
         clickTrack = ClickTrack(clickTempo: tempo, clickTimeSignature: timeSignature)
-        secPerMeasure = clickTrack.secPerMeasure
     }
     
     
@@ -109,7 +108,15 @@ class ClickTrack: AKVoice{
         clickOperation = AKOperation.metronome(clickPerSec) // metronome needs frequency of beat
         clickGenerator = AKOperationGenerator(operation: clickOperation)
         avAudioNode = clickGenerator.avAudioNode
+        
         clickGenerator.start()
+    }
+    
+    func update(clickTempo: Tempo, clickTimeSignature: TimeSignature){
+        print("update click track")
+        tempo = clickTempo
+        timeSignature = clickTimeSignature
+        
     }
     
     //MARK: functions
@@ -144,6 +151,7 @@ class Track {
         sequence.tracks[0].setMIDIOutput(kickMidi.midiIn)
         sequence.setBPM(Float(measure.clickTrack.clickPerSec))
         
+        
     }
     
     func start(){
@@ -170,7 +178,6 @@ class Track {
         print(String(format: "Time elapsed %f", timeElapsed))
         sequence.tracks[0].addNote(note, vel: 80, position: timeElapsed, dur: 1)
         notePosition++
-        
     }
     
     func record(){
@@ -187,9 +194,6 @@ class Track {
         //play note in sequence track (just play first track for now)
         sequence.loopOn()
         sequence.play()
-        //start timer
-        
-        
         
     }
     
@@ -200,6 +204,18 @@ class Track {
         sequence.loopOff()
         sequence.stop()
         measure.timer.stop()
+    }
+    
+    func setTempo(newBeatsPerMin: Double){
+        measure.tempo.beatsPerMin = newBeatsPerMin
+        print("todo: click track update tempo")
+        measure.clickTrack.update(measure.tempo, clickTimeSignature: measure.timeSignature)
+    }
+    
+    func setTimeSignature(newBeatsPerMeasure: Int, newNote: Int){
+        measure.timeSignature.beatsPerMeasure = newBeatsPerMeasure
+        measure.timeSignature.beatUnit = newNote
+        measure.clickTrack.update(measure.tempo, clickTimeSignature: measure.timeSignature)
     }
     
     

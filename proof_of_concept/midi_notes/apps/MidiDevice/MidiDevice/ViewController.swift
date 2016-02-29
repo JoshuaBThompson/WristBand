@@ -30,11 +30,36 @@ class ViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDe
     
     //MARK: outlets
     
-    
     @IBOutlet weak var debugLabel: UILabel!
     
+    @IBOutlet weak var measureDurationLabel: UILabel!
     
+    @IBOutlet weak var tempoTextField: UITextField!
+    
+    @IBOutlet weak var timeSigTextFieldBPM: UITextField!
+    
+    @IBOutlet weak var timeSigTextFieldNote: UITextField!
     //MARK: actions
+    
+    @IBAction func timeSigButtonNote(sender: UIButton) {
+        print("Updating time signature beats per measure")
+        let beatsPerMeasure = track.measure.timeSignature.beatsPerMeasure
+        let note = Int(timeSigTextFieldNote.text!)!
+        track.setTimeSignature(beatsPerMeasure, newNote: note)
+        measureDurationLabel.text = String(format: "%f", track.measure.totalDuration)
+    }
+    @IBAction func timeSigButtonBPM(sender: UIButton) {
+        print("Updating time signature beats per measure")
+        let note = track.measure.timeSignature.beatUnit
+        let beatsPerMeasure = Int(timeSigTextFieldBPM.text!)!
+        track.setTimeSignature(beatsPerMeasure, newNote: note)
+        measureDurationLabel.text = String(format: "%f", track.measure.totalDuration)
+    }
+    @IBAction func tempoButton(sender: UIButton) {
+        let beatsPerMin = Double(tempoTextField.text!)!
+        track.setTempo(beatsPerMin)
+        measureDurationLabel.text = String(format: "%f", track.measure.totalDuration)
+    }
     
     @IBAction func recordTrack(sender: UIButton) {
         track.record()

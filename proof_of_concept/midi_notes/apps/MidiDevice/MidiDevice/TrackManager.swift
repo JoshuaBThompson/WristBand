@@ -137,9 +137,9 @@ class ClickTrack: AKVoice{
 
 
 
-class Track {
+class TrackManager {
     var measure = Measure()
-    var sequence = AKSequencer()
+    var sequence = AKSequencer() //contains the tracks
     
     //Testing
     var midi = AKMIDI()
@@ -161,6 +161,10 @@ class Track {
         AudioKit.output = mixer
         sequence.newTrack()
         sequence.tracks[0].setMIDIOutput(kickMidi.midiIn)
+        sequence.newTrack()
+        sequence.tracks[1].setMIDIOutput(kickMidi.midiIn)
+        sequence.newTrack()
+        sequence.tracks[2].setMIDIOutput(kickMidi.midiIn)
         sequence.setBPM(Float(measure.clickTrack.clickPerSec))
         
         
@@ -171,13 +175,25 @@ class Track {
         AudioKit.start()
     }
     
+    func clear(){
+        //stop any currently playing tracks first
+        stop()
+        
+        //clear all recorded tracks
+        for var trackNum=0; trackNum < sequence.trackCount; trackNum++ {
+            sequence.tracks[trackNum].clear()
+            //after clearing make sure to reinsert midi trigger
+            //sequence.tracks[trackNum].setMIDIOutput(kickMidi.midiIn)
+        }
+    }
+    
     func playNote(){
         //play note based on selected instrument
         print("Playing note")
         
     }
     
-    func addNote(note: Int){
+    func addNote(note: Int, trackNumber: Int){
         if !recordEnabled {
             print("Record not enabled, no add note allowed")
             return
@@ -188,11 +204,11 @@ class Track {
         //todo: next add note to current track based on selected instrument (not yet developed)
         let timeElapsed = measure.timeElapsed
         print(String(format: "Time elapsed %f", timeElapsed))
-        sequence.tracks[0].addNote(note, vel: 80, position: timeElapsed, dur: 1)
-        notePosition++
+        sequence.tracks[trackNumber].addNote(note, vel: 80, position: timeElapsed, dur: 1)
     }
     
     func record(){
+        stop()
         print("Recording note")
         recordEnabled = true
         measure.timer.start()

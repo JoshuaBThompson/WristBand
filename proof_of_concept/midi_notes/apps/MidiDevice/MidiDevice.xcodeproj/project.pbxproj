@@ -16,7 +16,7 @@
 		F3248B971C6E332A007298EC /* AudioKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F3248B961C6E332A007298EC /* AudioKit.framework */; };
 		F3248B981C6E332A007298EC /* AudioKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F3248B961C6E332A007298EC /* AudioKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F3248B9B1C6FBC5B007298EC /* Instrument.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3248B9A1C6FBC5B007298EC /* Instrument.swift */; };
-		F3248B9D1C6FBC9E007298EC /* Track.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3248B9C1C6FBC9E007298EC /* Track.swift */; };
+		F3248B9D1C6FBC9E007298EC /* TrackManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3248B9C1C6FBC9E007298EC /* TrackManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,7 +56,7 @@
 		F3248B8D1C6E32FF007298EC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F3248B961C6E332A007298EC /* AudioKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AudioKit.framework; sourceTree = "<group>"; };
 		F3248B9A1C6FBC5B007298EC /* Instrument.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Instrument.swift; sourceTree = "<group>"; };
-		F3248B9C1C6FBC9E007298EC /* Track.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Track.swift; sourceTree = "<group>"; };
+		F3248B9C1C6FBC9E007298EC /* TrackManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,7 +107,7 @@
 				F3248B7D1C6E32FF007298EC /* Assets.xcassets */,
 				F3248B7F1C6E32FF007298EC /* LaunchScreen.storyboard */,
 				F3248B821C6E32FF007298EC /* Info.plist */,
-				F3248B9C1C6FBC9E007298EC /* Track.swift */,
+				F3248B9C1C6FBC9E007298EC /* TrackManager.swift */,
 			);
 			path = MidiDevice;
 			sourceTree = "<group>";
@@ -232,7 +232,7 @@
 				F3248B791C6E32FF007298EC /* ViewController.swift in Sources */,
 				F3248B9B1C6FBC5B007298EC /* Instrument.swift in Sources */,
 				F3248B771C6E32FF007298EC /* AppDelegate.swift in Sources */,
-				F3248B9D1C6FBC9E007298EC /* Track.swift in Sources */,
+				F3248B9D1C6FBC9E007298EC /* TrackManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

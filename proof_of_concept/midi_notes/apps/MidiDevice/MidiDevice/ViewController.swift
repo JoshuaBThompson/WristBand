@@ -11,7 +11,7 @@ import AudioKit
 import CoreBluetooth
 
 class ViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDelegate {
-    var track: Track!
+    var trackManager: TrackManager!
     let midiServiceUUID = "03B80E5A-EDE8-4B33-A751-6CE34EC4C700"
     let midiIOUUID = "7772E5DB-3868-4112-A1A9-F2669D106BF3"
     var midiDevices = [CBPeripheral]()
@@ -39,51 +39,59 @@ class ViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDe
     @IBOutlet weak var timeSigTextFieldBPM: UITextField!
     
     @IBOutlet weak var timeSigTextFieldNote: UITextField!
+    
+    
     //MARK: actions
+    
+    
+    @IBAction func clearTrack(sender: UIButton) {
+        print("Clearing track")
+        trackManager.clear()
+    }
     
     @IBAction func timeSigButtonNote(sender: UIButton) {
         print("Updating time signature beats per measure")
-        let beatsPerMeasure = track.measure.timeSignature.beatsPerMeasure
+        let beatsPerMeasure = trackManager.measure.timeSignature.beatsPerMeasure
         let note = Int(timeSigTextFieldNote.text!)!
-        track.setTimeSignature(beatsPerMeasure, newNote: note)
-        measureDurationLabel.text = String(format: "%f", track.measure.totalDuration)
+        trackManager.setTimeSignature(beatsPerMeasure, newNote: note)
+        measureDurationLabel.text = String(format: "%f", trackManager.measure.totalDuration)
     }
     @IBAction func timeSigButtonBPM(sender: UIButton) {
         print("Updating time signature beats per measure")
-        let note = track.measure.timeSignature.beatUnit
+        let note = trackManager.measure.timeSignature.beatUnit
         let beatsPerMeasure = Int(timeSigTextFieldBPM.text!)!
-        track.setTimeSignature(beatsPerMeasure, newNote: note)
-        measureDurationLabel.text = String(format: "%f", track.measure.totalDuration)
+        trackManager.setTimeSignature(beatsPerMeasure, newNote: note)
+        measureDurationLabel.text = String(format: "%f", trackManager.measure.totalDuration)
     }
     @IBAction func tempoButton(sender: UIButton) {
         let beatsPerMin = Double(tempoTextField.text!)!
-        track.setTempo(beatsPerMin)
-        measureDurationLabel.text = String(format: "%f", track.measure.totalDuration)
+        trackManager.setTempo(beatsPerMin)
+        measureDurationLabel.text = String(format: "%f", trackManager.measure.totalDuration)
     }
     
     @IBAction func recordTrack(sender: UIButton) {
-        track.record()
+        trackManager.record()
     }
     
     @IBAction func addNote1(sender: UIButton) {
-        track.addNote(90)
+        trackManager.addNote(90, trackNumber: 0)
     }
     
     @IBAction func addNote2(sender: UIButton) {
-        track.addNote(80)
+        trackManager.addNote(80, trackNumber: 1)
     }
     
     @IBAction func addNote3(sender: UIButton) {
-        track.addNote(70)
+        trackManager.addNote(70, trackNumber: 2)
     }
     
     
     @IBAction func playTrack(sender: UIButton) {
-        track.play()
+        trackManager.play()
     }
     
     @IBAction func stopTrack(sender: UIButton) {
-        track.stop()
+        trackManager.stop()
     }
     
     
@@ -101,8 +109,8 @@ class ViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDe
         // Do any additional setup after loading the view, typically from a nib.
         bleManager = CBCentralManager.init(delegate: self, queue: nil)
         debugLabel.text = "View did load"
-        track = Track()
-        track.start()
+        trackManager = TrackManager()
+        trackManager.start()
         
     }
     

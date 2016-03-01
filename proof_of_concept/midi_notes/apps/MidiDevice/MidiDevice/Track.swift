@@ -99,23 +99,35 @@ class ClickTrack: AKVoice{
     var secPerMeasure: Double {return Double(timeSignature.beatsPerMeasure) / tempo.beatsPerSec * 4/Double(timeSignature.beatUnit) }
     var secPerClick: Double { return secPerMeasure / Double(timeSignature.beatsPerMeasure) }
     var clickPerSec: Double { return 1/secPerClick }
-    
+    var beep: AKOperation!
+    var trig: AKOperation!
+    var beeps: AKOperation!
     
     init(clickTempo: Tempo, clickTimeSignature: TimeSignature){
         super.init()
         tempo = clickTempo
         timeSignature = clickTimeSignature
-        clickOperation = AKOperation.metronome(clickPerSec) // metronome needs frequency of beat
-        clickGenerator = AKOperationGenerator(operation: clickOperation)
-        avAudioNode = clickGenerator.avAudioNode
         
+        beep = AKOperation.sineWave(frequency: 480)
+        
+        trig = AKOperation.metronome(AKOperation.parameters(0))
+        
+        beeps = beep.triggeredWithEnvelope(
+            trig,
+            attack: 0.01, hold: 0, release: 0.01)
+        
+        clickGenerator = AKOperationGenerator(operation: beeps)
+        clickGenerator.parameters = [clickPerSec]
+        avAudioNode = clickGenerator.avAudioNode
         clickGenerator.start()
     }
     
     func update(clickTempo: Tempo, clickTimeSignature: TimeSignature){
         print("update click track")
+        //update click track freq data
         tempo = clickTempo
         timeSignature = clickTimeSignature
+        clickGenerator.parameters = [clickPerSec] // clickPerSec is computed var that used updated tempo and timeSignature
         
     }
     

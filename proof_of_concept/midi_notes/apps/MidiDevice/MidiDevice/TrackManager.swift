@@ -159,6 +159,8 @@ class TrackManager {
         kickMidi = AKMIDIInstrument(instrument: kickInst)
         kickMidi.enableMIDI(midi.midiClient, name: "Synth kick midi")
         AudioKit.output = mixer
+        
+        
         sequence.newTrack()
         sequence.tracks[0].setMIDIOutput(kickMidi.midiIn)
         sequence.newTrack()
@@ -166,6 +168,7 @@ class TrackManager {
         sequence.newTrack()
         sequence.tracks[2].setMIDIOutput(kickMidi.midiIn)
         sequence.setBPM(Float(measure.clickTrack.clickPerSec))
+        
         
         
     }
@@ -182,18 +185,19 @@ class TrackManager {
         //clear all recorded tracks
         for var trackNum=0; trackNum < sequence.trackCount; trackNum++ {
             sequence.tracks[trackNum].clear()
-            //after clearing make sure to reinsert midi trigger
-            //sequence.tracks[trackNum].setMIDIOutput(kickMidi.midiIn)
         }
     }
     
-    func playNote(){
+    func playNote(note: Int){
         //play note based on selected instrument
         print("Playing note")
-        
+        kickInst.playNote(note, velocity: 120)
+        kickInst.stopNote(note)
     }
     
     func addNote(note: Int, trackNumber: Int){
+        //play note event if not recording
+        playNote(note)
         if !recordEnabled {
             print("Record not enabled, no add note allowed")
             return
@@ -204,7 +208,7 @@ class TrackManager {
         //todo: next add note to current track based on selected instrument (not yet developed)
         let timeElapsed = measure.timeElapsed
         print(String(format: "Time elapsed %f", timeElapsed))
-        sequence.tracks[trackNumber].addNote(note, vel: 80, position: timeElapsed, dur: 1)
+        sequence.tracks[trackNumber].addNote(note, vel: 120, position: timeElapsed, dur: 1)
     }
     
     func record(){

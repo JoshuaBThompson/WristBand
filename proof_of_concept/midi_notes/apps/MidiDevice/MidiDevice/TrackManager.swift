@@ -145,31 +145,43 @@ class TrackManager {
     var midi = AKMIDI()
     var kickMidi: AKMIDIInstrument!
     var kickInst: AKSynthKick!
+    var snareInst: AKSynthSnare!
+    var snareMidi: AKMIDIInstrument!
     var mixer: AKMixer!
     var notePosition: Double = 1
     var recordEnabled = false
+    var playing = false
     
     init(){
     
         kickInst = AKSynthKick(voiceCount: 1)
+        snareInst = AKSynthSnare(voiceCount: 2)
+        snareInst.amplitude = 2
+        kickInst.amplitude = 2
         measure = Measure()
         mixer = AKMixer()
         mixer.connect(kickInst)
+        mixer.connect(snareInst)
         mixer.connect(measure.clickTrack)
         kickMidi = AKMIDIInstrument(instrument: kickInst)
         kickMidi.enableMIDI(midi.midiClient, name: "Synth kick midi")
+        snareMidi = AKMIDIInstrument(instrument: snareInst)
+        snareMidi.enableMIDI(midi.midiClient, name: "Synth snare midi")
+        
         AudioKit.output = mixer
         
         
         sequence.newTrack()
         sequence.tracks[0].setMIDIOutput(kickMidi.midiIn)
         sequence.newTrack()
-        sequence.tracks[1].setMIDIOutput(kickMidi.midiIn)
+        sequence.tracks[1].setMIDIOutput(snareMidi.midiIn)
         sequence.newTrack()
         sequence.tracks[2].setMIDIOutput(kickMidi.midiIn)
         sequence.setBPM(Float(measure.clickTrack.clickPerSec))
+        sequence.setLength(measure.totalDuration)
         
-        
+        print(String(format: "sequence bpm %f", measure.clickTrack.tempo.beatsPerMin))
+        print(String(format: "sequence length %f", measure.totalDuration))
         
     }
     
@@ -191,12 +203,20 @@ class TrackManager {
     func playNote(note: Int){
         //play note based on selected instrument
         print("Playing note")
-        kickInst.playNote(note, velocity: 120)
-        kickInst.stopNote(note)
+        if note == 90{
+            kickInst.playNote(note, velocity: 127)
+            kickInst.stopNote(note)
+        }
+        else if note == 80 {
+            snareInst.playNote(note, velocity: 127)
+            snareInst.stopNote(note)
+        }
+        
     }
     
     func addNote(note: Int, trackNumber: Int){
         //play note event if not recording
+        
         playNote(note)
         if !recordEnabled {
             print("Record not enabled, no add note allowed")
@@ -208,11 +228,13 @@ class TrackManager {
         //todo: next add note to current track based on selected instrument (not yet developed)
         let timeElapsed = measure.timeElapsed
         print(String(format: "Time elapsed %f", timeElapsed))
-        sequence.tracks[trackNumber].addNote(note, vel: 120, position: timeElapsed, dur: 1)
+        sequence.tracks[trackNumber].addNote(note, vel: 127, position: timeElapsed, dur: 0.5)
+        if !playing { play() }
+        
     }
     
     func record(){
-        stop()
+        //stop()
         print("Recording note")
         recordEnabled = true
         measure.timer.start()
@@ -226,6 +248,7 @@ class TrackManager {
         //play note in sequence track (just play first track for now)
         sequence.loopOn()
         sequence.play()
+        playing = true
         
     }
     
@@ -236,18 +259,23 @@ class TrackManager {
         sequence.loopOff()
         sequence.stop()
         measure.timer.stop()
+        playing = false
     }
     
     func setTempo(newBeatsPerMin: Double){
         measure.tempo.beatsPerMin = newBeatsPerMin
         print("todo: click track update tempo")
         measure.clickTrack.update(measure.tempo, clickTimeSignature: measure.timeSignature)
+        sequence.setBPM(Float(measure.clickTrack.tempo.beatsPerMin))
+        sequence.setLength(measure.totalDuration)
     }
     
     func setTimeSignature(newBeatsPerMeasure: Int, newNote: Int){
         measure.timeSignature.beatsPerMeasure = newBeatsPerMeasure
         measure.timeSignature.beatUnit = newNote
         measure.clickTrack.update(measure.tempo, clickTimeSignature: measure.timeSignature)
+        sequence.setLength(measure.totalDuration)
+        
     }
     
     

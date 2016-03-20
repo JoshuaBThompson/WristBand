@@ -24,6 +24,8 @@ MidiSensor::MidiSensor(void) {
 
 void MidiSensor::reset(void){
     model.intervalTime = IntervalTime; //35 ms
+    global_millis = 0;
+    model.prevTime = millis();
     resetNoteParams();
     resetEventParams();
     resetBlankEvent();
@@ -161,9 +163,12 @@ void MidiSensor::updateNoteOffState(void){
 /*
  * Filter beat and motion data and update model state variables (not on, off, cc ...etc)
  */
-void MidiSensor::updateState(int x, int y, int z){
+void MidiSensor::updateState(int x, int y, int z, unsigned long elapsed_ms){
+    //update global is just a workaround to mimic a system clock, millis uses the global var
+    update_global_millis(elapsed_ms);
     model.currentTime = millis();
-    if(model.currentTime - model.prevTime < model.intervalTime)
+    model.elapsedTime = model.currentTime - model.prevTime;
+    if(model.elapsedTime < model.intervalTime)
     {
         return;
     }

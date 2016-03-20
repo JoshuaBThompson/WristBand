@@ -107,7 +107,7 @@ typedef struct {
     note_off_t noteOff;
     midi_event_t event;
     midi_event_t blankEvent;
-    unsigned long currentTime, prevTime;
+    unsigned long currentTime, prevTime, elapsedTime;
     int intervalTime; // should be set to ~35 millis
 } sensor_model_t;
 
@@ -124,7 +124,7 @@ public:
     void updateNoteOnState(void);
     void updateEventState(void);
     void updateNoteOffState(void);
-    void updateState(int x, int y, int z);
+    void updateState(int x, int y, int z, unsigned long elapsed_ms);
     void updateNoteOnNumber(void);
     void updateNoteOffNumber(void);
     void updateNoteOffQueue(void);

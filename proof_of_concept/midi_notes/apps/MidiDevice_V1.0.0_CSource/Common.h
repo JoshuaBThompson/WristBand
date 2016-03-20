@@ -13,7 +13,12 @@
 typedef enum {ACCEL, GYRO, MAG} sources_t;
 typedef enum {X, Y, Z} axis_t;
 
+
 //time functions
+static unsigned long global_millis;
+
+void update_global_millis(unsigned long millis_elapsed);
+
 unsigned long millis(void);
 
 #endif //COMMON_h

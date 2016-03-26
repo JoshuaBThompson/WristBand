@@ -32,7 +32,7 @@
 #define MIDI_MESSAGE_LIST_LAST  0xF0 //system reset (not yet implemented)
 
 //Timing
-#define IntervalTime  35 //millisec
+#define IntervalTime  10 //millisec
 #define NoteOffMaxTimeDelay 300 //millisec
 
 /*********MidiSensor Struct

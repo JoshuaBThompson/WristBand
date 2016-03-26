@@ -89,6 +89,7 @@ bool BeatFilter::isBeat(long int x){
     model.xSum = (model.xSum + model.diff) * model.rising;
     
     //--------Get beat
+    /*
     if(model.diff <= model.catchFalling && !model.beat && !model.rising){
         //catch a large falling data point that might have been missed
         //If the fall is large enough then this is probably a beat motion
@@ -97,11 +98,21 @@ bool BeatFilter::isBeat(long int x){
     else{
         //normal beat should be interpreted when total xsum is close to initial x0 recorded when first rise detected
         //rising and falling must both be set to indicate a complete beat
-        model.beat = (model.xSum <= model.minSum) && model.rising && model.falling;
+        model.beat = (model.xSum >= model.minSum) && model.rising && model.falling;
+        
     }
+     */
+    model.beat = model.rising && model.falling;
     
     //-------Check for reset condition
     if(model.beat || (model.samples >= model.maxSamples)){
+        //check for large falling edge
+        if(model.diff <= model.catchFalling){
+            //catch a large falling data point that might have been missed
+            //If the fall is large enough then this is probably a beat motion
+            model.beat = true;
+        }
+        
         //reset all if beat is valid or max samples detected
         model.xSum = 0;
         model.samples = 0;

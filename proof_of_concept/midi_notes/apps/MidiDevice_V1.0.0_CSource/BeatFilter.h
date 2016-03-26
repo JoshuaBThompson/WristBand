@@ -19,13 +19,13 @@
 // -----------------filter constants for Acceleration beat analysis-----------------
 
 //Constants for determining when motion constitutes a beat
-#define MinDiff             2000//5000
-#define MinSum              2000//5000
-#define MinFalling         -4000//-7000
-#define CatchFalling       -10000//-10000
+#define MinDiff             5000
+#define MinSum              5000
+#define MinFalling         -5000
+#define CatchFalling       -70000
 
 //Max samples that can be used to generate a beat
-#define MaxSamples     15
+#define MaxSamples     14
 
 
 /*********MotionFilter Struct

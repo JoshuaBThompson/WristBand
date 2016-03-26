@@ -200,6 +200,13 @@ class TrackManager {
         }
     }
     
+    func playRawNote(note: Int, status: Int){
+        //play note using note value and status (on or off)
+        snareInst.playNote(90, velocity: 127)
+        snareInst.stopNote(90);
+
+    }
+    
     func playNote(note: Int){
         //play note based on selected instrument
         print("Playing note")

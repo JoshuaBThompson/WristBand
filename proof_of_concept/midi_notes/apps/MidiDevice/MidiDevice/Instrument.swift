@@ -49,7 +49,7 @@ class Instrument: AKMIDIListener {
         var note = 20
         print("playString")
         let octave = randomInt(0...3)  * 12
-        if random(0, 10) < 1.0 { note++ }
+        if random(0, 10) < 1.0 { note = note+1; }
         
         if random(0, 6) > 1.0 {
             pluckNode.trigger([Double(note + octave)])

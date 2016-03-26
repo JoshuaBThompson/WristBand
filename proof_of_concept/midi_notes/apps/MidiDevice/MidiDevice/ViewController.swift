@@ -9,6 +9,7 @@
 import UIKit
 import AudioKit
 import CoreBluetooth
+import CoreMotion
 
 class ViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDelegate {
     var trackManager: TrackManager!
@@ -23,6 +24,12 @@ class ViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDe
     var midiPeripheral: CBPeripheral!
     var deviceName: String!
     var manufactureName: String!
+    let sensor = MidiSensorWrapper()
+    let motionManager = CMMotionManager()
+    let queue = NSOperationQueue.mainQueue()
+    var timeIntervalMillis: UInt = 10
+    var eventCount = 0
+    
     
     //UUID Constants
     let CBUUIDGenericAccessProfileString = "1800"
@@ -40,8 +47,54 @@ class ViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDe
     
     @IBOutlet weak var timeSigTextFieldNote: UITextField!
     
+    @IBOutlet weak var noteStatusLabel: UILabel!
+    
+    @IBOutlet weak var minDiffTextField: UITextField!
+    
+    @IBOutlet weak var catchFallingTextField: UITextField!
+    
+    @IBOutlet weak var minSumTextField: UITextField!
+    
+    @IBOutlet weak var minFallingTextField: UITextField!
+    
+    @IBOutlet weak var intervalTextField: UITextField!
+    
+    @IBOutlet weak var sensorIntervalTextField: UITextField!
     
     //MARK: actions
+    
+    @IBAction func setSensorInterval(sender: UIButton) {
+        let interval = Int32(sensorIntervalTextField.text!)!
+        sensor.setSensorInterval(interval)
+    }
+    
+    @IBAction func setInterval(sender: UIButton) {
+        timeIntervalMillis = UInt(intervalTextField.text!)!
+        motionManager.accelerometerUpdateInterval = NSTimeInterval(Double(timeIntervalMillis)/1000.0)
+    }
+    
+    @IBAction func setMinDiff(sender: UIButton) {
+        let minDiff = Int32(minDiffTextField.text!)!
+        sensor.setMinDiff(minDiff)
+    }
+    
+    
+    @IBAction func setCatchFalling(sender: UIButton) {
+        let catchFalling = Int32(catchFallingTextField.text!)!
+        sensor.setCatchFalling(catchFalling)
+    }
+    
+    @IBAction func setMinSum(sender: UIButton) {
+        let minSum = Int32(minSumTextField.text!)!
+        sensor.setMinSum(minSum)
+    }
+    
+    
+    
+    @IBAction func setMinFalling(sender: UIButton) {
+        let minFalling = Int32(minFallingTextField.text!)!
+        sensor.setMinFalling(minFalling)
+    }
     
     
     @IBAction func clearTrack(sender: UIButton) {
@@ -72,6 +125,7 @@ class ViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDe
     @IBAction func recordTrack(sender: UIButton) {
         trackManager.record()
     }
+    /*
     
     @IBAction func addNote1(sender: UIButton) {
         trackManager.addNote(90, trackNumber: 0)
@@ -84,6 +138,7 @@ class ViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDe
     @IBAction func addNote3(sender: UIButton) {
         trackManager.addNote(70, trackNumber: 2)
     }
+ */
     
     
     @IBAction func playTrack(sender: UIButton) {
@@ -112,7 +167,14 @@ class ViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDe
         trackManager = TrackManager()
         trackManager.start()
         
+        motionManager.startAccelerometerUpdates()
+        if motionManager.accelerometerAvailable {
+            motionManager.accelerometerUpdateInterval = NSTimeInterval(Double(timeIntervalMillis)/1000.0)
+            motionManager.startAccelerometerUpdatesToQueue(queue, withHandler: beatHandler)
+            
+        }
     }
+    
     
     //MARK: Start scan for ble peripherals
     func startScan(){
@@ -130,6 +192,27 @@ class ViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDe
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    //MARK: Motion Sensor Functions
+    func beatHandler(data: CMAccelerometerData?, error: NSError?){
+        let valx = Int32(16383.0 * (data!.acceleration.x))
+        let valy = Int32(16383.0 * (data!.acceleration.y))
+        let valz = Int32(16383.0 * (data!.acceleration.z))
+        
+        sensor.updateStateWith(valx, andY: valy, andZ: valz, andMillisElapsed: timeIntervalMillis);
+        sensor.handleMidiEvents();
+        if(sensor.beat){
+            let eventNote = Int(sensor.getEventNote())
+            let eventStatus = Int(sensor.getEventStatus())
+            if eventStatus != 0x80{
+                eventCount = eventCount + 1
+                self.trackManager.playRawNote(eventNote, status: eventStatus)
+                self.noteStatusLabel.text = String(format: "%d", eventCount)
+            }
+            
+        }
+        
     }
     
     //MARK: start receiving midi handler

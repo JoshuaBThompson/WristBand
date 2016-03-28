@@ -81,6 +81,9 @@ bool BeatFilter::isBeat(long int x){
         if(model.falling){
             model.samples++;
         }
+        else if(model.samples >= model.confirmRiseSamples){
+            model.riseInvalid = (model.xSum <= model.minSum);
+        }
     }
     
     
@@ -89,8 +92,8 @@ bool BeatFilter::isBeat(long int x){
     model.xSum = (model.xSum + model.diff) * model.rising;
     
     //--------Get beat
-    /*
-    if(model.diff <= model.catchFalling && !model.beat && !model.rising){
+    
+    if(model.diff <= model.catchFalling && !model.prevBeat && !model.rising){
         //catch a large falling data point that might have been missed
         //If the fall is large enough then this is probably a beat motion
         model.beat = true;
@@ -98,26 +101,22 @@ bool BeatFilter::isBeat(long int x){
     else{
         //normal beat should be interpreted when total xsum is close to initial x0 recorded when first rise detected
         //rising and falling must both be set to indicate a complete beat
-        model.beat = (model.xSum >= model.minSum) && model.rising && model.falling;
+        model.beat = model.rising && model.falling;
         
     }
-     */
-    model.beat = model.rising && model.falling;
+    
+    
     
     //-------Check for reset condition
-    if(model.beat || (model.samples >= model.maxSamples)){
-        //check for large falling edge
-        if(model.diff <= model.catchFalling){
-            //catch a large falling data point that might have been missed
-            //If the fall is large enough then this is probably a beat motion
-            model.beat = true;
-        }
+    if(model.riseInvalid || model.beat || (model.samples >= model.maxSamples)){
         
         //reset all if beat is valid or max samples detected
         model.xSum = 0;
         model.samples = 0;
         model.rising = 0;
         model.falling = 0;
+        model.riseInvalid = false;
+        model.prevBeat = model.beat;
     }
     
     return model.beat;
@@ -131,6 +130,8 @@ void BeatFilter::reset() {
     model.falling = false;
     model.rising = false;
     model.beat = false;
+    model.prevBeat = false;
+    model.riseInvalid = false;
     model.x1 = model.x0 = model.xSum = model.diff = 0;
     model.samples = 0;
     model.axis = X;
@@ -141,6 +142,7 @@ void BeatFilter::reset() {
     model.minFalling = MinFalling;
     model.catchFalling = CatchFalling;
     model.maxSamples = MaxSamples;
+    model.confirmRiseSamples = ConfirmRiseSamples;
     model.source = ACCEL;
 }
 

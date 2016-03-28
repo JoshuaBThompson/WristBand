@@ -23,6 +23,7 @@
 - (void) setMinSum: (int)sum;
 - (void) setMinFalling: (int)minFalling;
 - (void) setSensorInterval: (int)interval;
+- (void) setMaxSamples: (int)samples;
 
 @property int count;
 @property bool beat;

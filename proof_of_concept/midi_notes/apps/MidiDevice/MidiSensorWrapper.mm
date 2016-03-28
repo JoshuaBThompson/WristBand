@@ -98,6 +98,11 @@
     self.sensor->model.intervalTime = interval;
 }
 
+- (void) setMaxSamples:(int)samples
+{
+    self.sensor->motionFilter.beatFilter.model.maxSamples = samples;
+}
+
 
 @end
 

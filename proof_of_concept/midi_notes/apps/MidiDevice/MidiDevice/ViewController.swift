@@ -11,7 +11,7 @@ import AudioKit
 import CoreBluetooth
 import CoreMotion
 
-class ViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDelegate {
+class ViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDelegate, UITextFieldDelegate {
     var trackManager: TrackManager!
     let midiServiceUUID = "03B80E5A-EDE8-4B33-A751-6CE34EC4C700"
     let midiIOUUID = "7772E5DB-3868-4112-A1A9-F2669D106BF3"
@@ -27,7 +27,7 @@ class ViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDe
     let sensor = MidiSensorWrapper()
     let motionManager = CMMotionManager()
     let queue = NSOperationQueue.mainQueue()
-    var timeIntervalMillis: UInt = 10
+    var timeIntervalMillis: UInt = 25
     var eventCount = 0
     
     
@@ -53,7 +53,6 @@ class ViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDe
     
     @IBOutlet weak var catchFallingTextField: UITextField!
     
-    @IBOutlet weak var minSumTextField: UITextField!
     
     @IBOutlet weak var minFallingTextField: UITextField!
     
@@ -61,7 +60,18 @@ class ViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDe
     
     @IBOutlet weak var sensorIntervalTextField: UITextField!
     
+    
+    @IBOutlet weak var maxSamplesTextField: UITextField!
+    
+    @IBOutlet weak var minSumTextField: UITextField!
+    
+    
     //MARK: actions
+    
+    @IBAction func setMinSum(sender: UIButton) {
+        let minSum = Int32(minSumTextField.text!)!
+        sensor.setMinSum(minSum)
+    }
     
     @IBAction func setSensorInterval(sender: UIButton) {
         let interval = Int32(sensorIntervalTextField.text!)!
@@ -84,16 +94,17 @@ class ViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDe
         sensor.setCatchFalling(catchFalling)
     }
     
-    @IBAction func setMinSum(sender: UIButton) {
-        let minSum = Int32(minSumTextField.text!)!
-        sensor.setMinSum(minSum)
-    }
-    
     
     
     @IBAction func setMinFalling(sender: UIButton) {
         let minFalling = Int32(minFallingTextField.text!)!
         sensor.setMinFalling(minFalling)
+    }
+    
+    
+    @IBAction func setMaxSamples(sender: UIButton) {
+        let maxSamples = Int32(maxSamplesTextField.text!)!
+        sensor.setMaxSamples(maxSamples)
     }
     
     
@@ -173,6 +184,23 @@ class ViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDe
             motionManager.startAccelerometerUpdatesToQueue(queue, withHandler: beatHandler)
             
         }
+        
+        //hide keyboard
+        self.sensorIntervalTextField.delegate = self;
+        self.intervalTextField.delegate = self;
+        self.minFallingTextField.delegate = self;
+        self.minDiffTextField.delegate = self;
+        self.catchFallingTextField.delegate = self;
+        self.tempoTextField.delegate = self;
+        self.timeSigTextFieldBPM.delegate = self;
+        self.minSumTextField.delegate = self;
+        self.maxSamplesTextField.delegate = self;
+        
+    }
+    
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        self.view.endEditing(true)
+        return false
     }
     
     

@@ -119,68 +119,89 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3HJ-Gk-9EQ">
-                                <rect key="frame" x="156" y="11" width="50" height="30"/>
+                                <rect key="frame" x="74" y="10" width="50" height="30"/>
                                 <state key="normal" title="minDiff"/>
                                 <connections>
                                     <action selector="setMinDiff:" destination="BYZ-38-t0r" eventType="touchUpInside" id="5Zn-FD-PXZ"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="R7a-jw-acX">
-                                <rect key="frame" x="138" y="49" width="82" height="30"/>
+                                <rect key="frame" x="41" y="49" width="82" height="30"/>
                                 <state key="normal" title="catchFalling"/>
                                 <connections>
                                     <action selector="setCatchFalling:" destination="BYZ-38-t0r" eventType="touchUpInside" id="bka-No-h8d"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tzp-2r-Lu3">
-                                <rect key="frame" x="150" y="87" width="56" height="30"/>
-                                <state key="normal" title="minSum"/>
+                                <rect key="frame" x="35" y="87" width="88" height="30"/>
+                                <state key="normal" title="maxSamples"/>
                                 <connections>
+                                    <action selector="setMaxSamples:" destination="BYZ-38-t0r" eventType="touchUpInside" id="PW0-tw-qMK"/>
                                     <action selector="setMinSum:" destination="BYZ-38-t0r" eventType="touchUpInside" id="hVh-4Q-bNe"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lkB-y3-gQd">
-                                <rect key="frame" x="144" y="124" width="69" height="30"/>
+                                <rect key="frame" x="55" y="124" width="69" height="30"/>
                                 <state key="normal" title="minFalling"/>
                                 <connections>
                                     <action selector="setMinFalling:" destination="BYZ-38-t0r" eventType="touchUpInside" id="A0M-ud-AVE"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="00l-Mm-522">
-                                <rect key="frame" x="153" y="163" width="51" height="30"/>
+                                <rect key="frame" x="74" y="162" width="51" height="30"/>
                                 <state key="normal" title="interval"/>
                                 <connections>
                                     <action selector="setInterval:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Zsj-xh-RXn"/>
                                     <action selector="setMinFalling:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Km2-L4-Hii"/>
                                 </connections>
                             </button>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="5000" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="oYe-Du-eO5">
-                                <rect key="frame" x="229" y="11" width="97" height="30"/>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="3500" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="oYe-Du-eO5">
+                                <rect key="frame" x="125" y="11" width="86" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="-64000" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="toJ-px-oVL">
-                                <rect key="frame" x="229" y="49" width="97" height="30"/>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="-22000" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="toJ-px-oVL">
+                                <rect key="frame" x="125" y="50" width="86" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="5000" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="I7W-mQ-qd5">
-                                <rect key="frame" x="229" y="87" width="97" height="30"/>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="15" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="I7W-mQ-qd5">
+                                <rect key="frame" x="125" y="88" width="86" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="-7000" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="izW-gs-cNQ">
-                                <rect key="frame" x="229" y="125" width="97" height="30"/>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="-12000" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="izW-gs-cNQ">
+                                <rect key="frame" x="125" y="125" width="86" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="10" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="w3Q-9Z-ozj">
-                                <rect key="frame" x="229" y="163" width="97" height="30"/>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="25" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="w3Q-9Z-ozj">
+                                <rect key="frame" x="125" y="163" width="86" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UT7-7G-wHA">
+                                <rect key="frame" x="214" y="200" width="56" height="30"/>
+                                <state key="normal" title="minSum"/>
+                                <connections>
+                                    <action selector="setInterval:" destination="BYZ-38-t0r" eventType="touchUpInside" id="lnH-CA-y2Z"/>
+                                    <action selector="setMinFalling:" destination="BYZ-38-t0r" eventType="touchUpInside" id="2ew-Ev-rtG"/>
+                                    <action selector="setMinSum:" destination="BYZ-38-t0r" eventType="touchUpInside" id="aeZ-22-E2h"/>
+                                    <action selector="setSensorInterval:" destination="BYZ-38-t0r" eventType="touchUpInside" id="ue5-vF-lX4"/>
+                                </connections>
+                            </button>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="25" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="bee-EX-jgF">
+                                <rect key="frame" x="125" y="201" width="86" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="6000" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="W8M-Co-Vkj">
+                                <rect key="frame" x="270" y="201" width="56" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qIR-mp-Obr">
-                                <rect key="frame" x="127" y="200" width="101" height="30"/>
+                                <rect key="frame" x="24" y="200" width="101" height="30"/>
                                 <state key="normal" title="sensor interval"/>
                                 <connections>
                                     <action selector="setInterval:" destination="BYZ-38-t0r" eventType="touchUpInside" id="q8C-ha-jK9"/>
@@ -188,11 +209,6 @@
                                     <action selector="setSensorInterval:" destination="BYZ-38-t0r" eventType="touchUpInside" id="OgI-aF-0yW"/>
                                 </connections>
                             </button>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="10" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="bee-EX-jgF">
-                                <rect key="frame" x="229" y="200" width="97" height="30"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
@@ -200,10 +216,11 @@
                         <outlet property="catchFallingTextField" destination="toJ-px-oVL" id="kSY-NV-tpY"/>
                         <outlet property="debugLabel" destination="afC-el-VRu" id="JYS-E1-h1s"/>
                         <outlet property="intervalTextField" destination="w3Q-9Z-ozj" id="Olf-1c-gLS"/>
+                        <outlet property="maxSamplesTextField" destination="I7W-mQ-qd5" id="QbG-VE-Wn6"/>
                         <outlet property="measureDurationLabel" destination="cb5-Od-eJV" id="gYq-0k-oTa"/>
                         <outlet property="minDiffTextField" destination="oYe-Du-eO5" id="y9I-87-cg3"/>
                         <outlet property="minFallingTextField" destination="izW-gs-cNQ" id="toy-n3-K3p"/>
-                        <outlet property="minSumTextField" destination="I7W-mQ-qd5" id="SgG-6F-XDx"/>
+                        <outlet property="minSumTextField" destination="W8M-Co-Vkj" id="95K-qi-IWJ"/>
                         <outlet property="noteStatusLabel" destination="CFP-8x-2wa" id="7ZC-zI-w3R"/>
                         <outlet property="sensorIntervalTextField" destination="bee-EX-jgF" id="3le-cn-sK4"/>
                         <outlet property="tempoTextField" destination="cXb-1b-CLa" id="jXs-Pq-ohI"/>

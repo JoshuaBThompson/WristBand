@@ -19,13 +19,14 @@
 // -----------------filter constants for Acceleration beat analysis-----------------
 
 //Constants for determining when motion constitutes a beat
-#define MinDiff             5000
+#define MinDiff             3500
 #define MinSum              5000
-#define MinFalling         -5000
-#define CatchFalling       -70000
+#define MinFalling         -12000
+#define CatchFalling       -22000
 
 //Max samples that can be used to generate a beat
-#define MaxSamples     14
+#define MaxSamples          15
+#define ConfirmRiseSamples  3
 
 
 /*********MotionFilter Struct
@@ -45,9 +46,9 @@ typedef struct {
     sources_t source;
     axis_t axis; //X, Y or Z
     int axisValues[AXIS_COUNT];
-    unsigned int samples;
+    unsigned int samples, confirmRiseSamples;
     long int x1, x0, xSum, diff;
-    bool rising, falling, beat;
+    bool rising, falling, beat, prevBeat, riseInvalid;
     
 } beat_filter_model_t;
 

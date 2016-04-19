@@ -49,64 +49,15 @@ class ViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDe
     
     @IBOutlet weak var noteStatusLabel: UILabel!
     
-    @IBOutlet weak var minDiffTextField: UITextField!
-    
-    @IBOutlet weak var catchFallingTextField: UITextField!
-    
-    
-    @IBOutlet weak var minFallingTextField: UITextField!
-    
-    @IBOutlet weak var intervalTextField: UITextField!
-    
-    @IBOutlet weak var sensorIntervalTextField: UITextField!
-    
-    
-    @IBOutlet weak var maxSamplesTextField: UITextField!
-    
-    @IBOutlet weak var minSumTextField: UITextField!
-    
     
     //MARK: actions
     
-    @IBAction func setMinSum(sender: UIButton) {
-        let minSum = Int32(minSumTextField.text!)!
-        sensor.setMinSum(minSum)
+    @IBAction func playNote(sender: UIButton) {
+        //just play synth drum beat, don't add to seq
+        print("playing raw note")
+        self.trackManager.playRawNote(90, status: 120)
+        
     }
-    
-    @IBAction func setSensorInterval(sender: UIButton) {
-        let interval = Int32(sensorIntervalTextField.text!)!
-        sensor.setSensorInterval(interval)
-    }
-    
-    @IBAction func setInterval(sender: UIButton) {
-        timeIntervalMillis = UInt(intervalTextField.text!)!
-        motionManager.accelerometerUpdateInterval = NSTimeInterval(Double(timeIntervalMillis)/1000.0)
-    }
-    
-    @IBAction func setMinDiff(sender: UIButton) {
-        let minDiff = Int32(minDiffTextField.text!)!
-        sensor.setMinDiff(minDiff)
-    }
-    
-    
-    @IBAction func setCatchFalling(sender: UIButton) {
-        let catchFalling = Int32(catchFallingTextField.text!)!
-        sensor.setCatchFalling(catchFalling)
-    }
-    
-    
-    
-    @IBAction func setMinFalling(sender: UIButton) {
-        let minFalling = Int32(minFallingTextField.text!)!
-        sensor.setMinFalling(minFalling)
-    }
-    
-    
-    @IBAction func setMaxSamples(sender: UIButton) {
-        let maxSamples = Int32(maxSamplesTextField.text!)!
-        sensor.setMaxSamples(maxSamples)
-    }
-    
     
     @IBAction func clearTrack(sender: UIButton) {
         print("Clearing track")
@@ -136,20 +87,6 @@ class ViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDe
     @IBAction func recordTrack(sender: UIButton) {
         trackManager.record()
     }
-    /*
-    
-    @IBAction func addNote1(sender: UIButton) {
-        trackManager.addNote(90, trackNumber: 0)
-    }
-    
-    @IBAction func addNote2(sender: UIButton) {
-        trackManager.addNote(80, trackNumber: 1)
-    }
-    
-    @IBAction func addNote3(sender: UIButton) {
-        trackManager.addNote(70, trackNumber: 2)
-    }
- */
     
     
     @IBAction func playTrack(sender: UIButton) {
@@ -186,15 +123,8 @@ class ViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDe
         }
         
         //hide keyboard
-        self.sensorIntervalTextField.delegate = self;
-        self.intervalTextField.delegate = self;
-        self.minFallingTextField.delegate = self;
-        self.minDiffTextField.delegate = self;
-        self.catchFallingTextField.delegate = self;
         self.tempoTextField.delegate = self;
         self.timeSigTextFieldBPM.delegate = self;
-        self.minSumTextField.delegate = self;
-        self.maxSamplesTextField.delegate = self;
         
     }
     
@@ -234,6 +164,7 @@ class ViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDe
             let eventNote = Int(sensor.getEventNote())
             let eventStatus = Int(sensor.getEventStatus())
             if eventStatus != 0x80{
+                trackManager.addNote(90, trackNumber: 0) //make sound!
                 eventCount = eventCount + 1
                 self.trackManager.playRawNote(eventNote, status: eventStatus)
                 self.noteStatusLabel.text = String(format: "%d", eventCount)

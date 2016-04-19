@@ -10,6 +10,121 @@ import Foundation
 import CoreFoundation
 import AudioKit
 
+//Custom synth drum
+
+class SynthDrum: AKPolyphonicInstrument{
+    /// Create the synth kick instrument
+    ///
+    /// - parameter voiceCount: Number of voices (usually two is plenty for drums)
+    ///
+    init(voiceCount: Int) {
+        super.init(voice: SynthDrumVoice(), voiceCount: voiceCount)
+    }
+    
+    /// Start playback of a particular voice with MIDI style note and velocity
+    ///
+    /// - parameter voice: Voice to start
+    /// - parameter note: MIDI Note Number
+    /// - parameter velocity: MIDI Velocity (0-127)
+    ///
+    override func playVoice(voice: AKVoice, note: Int, velocity: Int) {
+        voice.start()
+    }
+    
+    /// Stop playback of a particular voice
+    ///
+    /// - parameter voice: Voice to stop
+    /// - parameter note: MIDI Note Number
+    ///
+    override func stopVoice(voice: AKVoice, note: Int) {
+        voice.stop()
+    }
+    
+}
+
+/// Custom Drum Synthesizer Voice
+class SynthDrumVoice: AKVoice{
+    
+    //operatioins
+    var triangleTrigger: AKOperation!
+    var triangleWave: AKOperation!
+    var noiseOperation: AKOperation!
+    var noiseTrigger: AKOperation!
+    
+    
+    //generators
+    var noiseGenerator: AKOperationGenerator
+    var waveGenerator: AKOperationGenerator!
+    
+    //filters
+    var distortion: AKTanhDistortion!
+    var noiseFilter: AKLowPassFilter!
+    var compressor: AKCompressor!
+    
+    //mixer
+    var mixer: AKMixer!
+    
+    //params
+    var frequency: AKOperation!
+    
+    
+    
+    /// Create the synth drum voice
+    override init() {
+        frequency = AKOperation.lineSegment(AKOperation.trigger, start: 30.0, end: 20.0, duration: 0.20)
+        triangleWave = AKOperation.triangleWave(frequency: frequency, amplitude: 1)
+        triangleTrigger = triangleWave.triggeredWithEnvelope(AKOperation.trigger, attack: 0.0001, hold: 0.0, release: 0.20)
+        waveGenerator = AKOperationGenerator(operation: triangleTrigger)
+        
+        distortion = AKTanhDistortion(waveGenerator, pregain: 1.2, postgain: 1, postiveShapeParameter: 0, negativeShapeParameter: 0)
+        
+        noiseOperation = AKOperation.whiteNoise(amplitude: 0.1)
+        noiseTrigger = noiseOperation.triggeredWithEnvelope(AKOperation.trigger, attack: 0.01, hold: 0.0, release: 0.01) //0.02 = 20 ms
+        noiseGenerator = AKOperationGenerator(operation: noiseTrigger)
+        noiseFilter = AKLowPassFilter(noiseGenerator, cutoffFrequency: 1000)
+        
+        mixer = AKMixer(noiseFilter, distortion)
+        
+        compressor = AKCompressor(mixer, threshold: -10, headRoom: 5, attackTime: 0.001, releaseTime: 0.05,masterGain: 5)
+
+        
+        super.init()
+        //set avaudionode
+        self.avAudioNode = compressor.avAudioNode
+        //start generators, filters ...etc
+        compressor.start()
+        noiseFilter.start()
+        waveGenerator.start()
+        noiseGenerator.start()
+        distortion.start()
+        
+    }
+    
+    /// Function create an identical new node for use in creating polyphonic instruments
+    override func duplicate() -> AKVoice {
+        let copy = SynthDrumVoice()
+        return copy
+    }
+    
+    /// Tells whether the node is processing (ie. started, playing, or active)
+    override var isStarted: Bool {
+        let playing: Bool = (noiseGenerator.isPlaying && waveGenerator.isPlaying)
+        return playing
+    }
+    
+    /// Function to start, play, or activate the node, all do the same thing
+    override func start() {
+        print("trigger drum")
+        noiseGenerator.trigger()
+        waveGenerator.trigger()
+    }
+    
+    /// Function to stop or bypass the node, both are equivalent
+    override func stop() {
+        
+    }
+}
+
 //Timer
 
 class Timer {
@@ -146,6 +261,7 @@ class TrackManager {
     var kickMidi: AKMIDIInstrument!
     var kickInst: AKSynthKick!
     var snareInst: AKSynthSnare!
+    var drum: SynthDrum!
     var snareMidi: AKMIDIInstrument!
     var mixer: AKMixer!
     var notePosition: Double = 1
@@ -155,18 +271,21 @@ class TrackManager {
     init(){
     
         kickInst = AKSynthKick(voiceCount: 1)
-        snareInst = AKSynthSnare(voiceCount: 2)
+        snareInst = AKSynthSnare(voiceCount: 1)
+        drum = SynthDrum(voiceCount: 1) //custom synth drum
         snareInst.amplitude = 2
         kickInst.amplitude = 2
         measure = Measure()
         mixer = AKMixer()
         mixer.connect(kickInst)
         mixer.connect(snareInst)
+        mixer.connect(drum)
         mixer.connect(measure.clickTrack)
         kickMidi = AKMIDIInstrument(instrument: kickInst)
         kickMidi.enableMIDI(midi.midiClient, name: "Synth kick midi")
         snareMidi = AKMIDIInstrument(instrument: snareInst)
         snareMidi.enableMIDI(midi.midiClient, name: "Synth snare midi")
+        
         
         AudioKit.output = mixer
         
@@ -177,7 +296,7 @@ class TrackManager {
         sequence.tracks[1].setMIDIOutput(snareMidi.midiIn)
         sequence.newTrack()
         sequence.tracks[2].setMIDIOutput(kickMidi.midiIn)
-        sequence.setBPM(Float(measure.clickTrack.clickPerSec))
+        sequence.setBPM(Double(measure.clickTrack.clickPerSec))
         sequence.setLength(measure.totalDuration)
         
         print(String(format: "sequence bpm %f", measure.clickTrack.tempo.beatsPerMin))
@@ -195,15 +314,16 @@ class TrackManager {
         stop()
         
         //clear all recorded tracks
-        for var trackNum=0; trackNum < sequence.trackCount; trackNum++ {
+        for trackNum in 0 ..< sequence.trackCount {
             sequence.tracks[trackNum].clear()
         }
     }
     
     func playRawNote(note: Int, status: Int){
         //play note using note value and status (on or off)
-        snareInst.playNote(90, velocity: 127)
-        snareInst.stopNote(90);
+        print("play note")
+        drum.playNote(90, velocity: 127) //the params don't do anything yet... just triggers custom drum sound
+        drum.stopNote(90)
 
     }
     
@@ -235,7 +355,7 @@ class TrackManager {
         //todo: next add note to current track based on selected instrument (not yet developed)
         let timeElapsed = measure.timeElapsed
         print(String(format: "Time elapsed %f", timeElapsed))
-        sequence.tracks[trackNumber].addNote(note, vel: 127, position: timeElapsed, dur: 0.5)
+        sequence.tracks[trackNumber].addNote(note, velocity: 127, position: timeElapsed, duration: 0.5)
         if !playing { play() }
         
     }
@@ -273,7 +393,7 @@ class TrackManager {
         measure.tempo.beatsPerMin = newBeatsPerMin
         print("todo: click track update tempo")
         measure.clickTrack.update(measure.tempo, clickTimeSignature: measure.timeSignature)
-        sequence.setBPM(Float(measure.clickTrack.tempo.beatsPerMin))
+        sequence.setBPM(Double(measure.clickTrack.tempo.beatsPerMin))
         sequence.setLength(measure.totalDuration)
     }
     

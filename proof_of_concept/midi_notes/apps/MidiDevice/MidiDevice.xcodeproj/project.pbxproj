@@ -16,12 +16,13 @@
 		F3248B971C6E332A007298EC /* AudioKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F3248B961C6E332A007298EC /* AudioKit.framework */; };
 		F3248B9B1C6FBC5B007298EC /* Instrument.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3248B9A1C6FBC5B007298EC /* Instrument.swift */; };
 		F3248B9D1C6FBC9E007298EC /* TrackManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3248B9C1C6FBC9E007298EC /* TrackManager.swift */; };
+		F3AB3C701CBD54B9003A7470 /* AudioKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F3AB3C6F1CBD54B9003A7470 /* AudioKit.framework */; };
+		F3AB3C711CBD54B9003A7470 /* AudioKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F3AB3C6F1CBD54B9003A7470 /* AudioKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F3E0872F1CA9965600CCBBA2 /* BeatFilter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F3E087251CA9965600CCBBA2 /* BeatFilter.cpp */; };
 		F3E087301CA9965600CCBBA2 /* Common.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F3E087271CA9965600CCBBA2 /* Common.cpp */; };
 		F3E087311CA9965600CCBBA2 /* IMUFilter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F3E087291CA9965600CCBBA2 /* IMUFilter.cpp */; };
 		F3E087321CA9965600CCBBA2 /* MidiSensor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F3E0872B1CA9965600CCBBA2 /* MidiSensor.cpp */; };
 		F3E087331CA9965600CCBBA2 /* MotionFilter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F3E0872D1CA9965600CCBBA2 /* MotionFilter.cpp */; };
-		F3FD996A1CA5969800575D07 /* AudioKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F3FD99691CA5969800575D07 /* AudioKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F3FD99771CA59A2100575D07 /* MidiSensorWrapper.mm in Sources */ = {isa = PBXBuildFile; fileRef = F3FD99761CA59A2100575D07 /* MidiSensorWrapper.mm */; };
 /* End PBXBuildFile section */
 
@@ -36,13 +37,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		F3248B991C6E332A007298EC /* Embed Frameworks */ = {
+		F3AB3C721CBD54B9003A7470 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				F3FD996A1CA5969800575D07 /* AudioKit.framework in Embed Frameworks */,
+				F3AB3C711CBD54B9003A7470 /* AudioKit.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -63,6 +64,7 @@
 		F3248B961C6E332A007298EC /* AudioKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioKit.framework; path = /Users/sofiebio/WristBand/WristBand/proof_of_concept/midi_notes/apps/MidiDevice/AudioKit.framework; sourceTree = "<absolute>"; };
 		F3248B9A1C6FBC5B007298EC /* Instrument.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Instrument.swift; sourceTree = "<group>"; };
 		F3248B9C1C6FBC9E007298EC /* TrackManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackManager.swift; sourceTree = "<group>"; };
+		F3AB3C6F1CBD54B9003A7470 /* AudioKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AudioKit.framework; sourceTree = "<group>"; };
 		F3E087251CA9965600CCBBA2 /* BeatFilter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BeatFilter.cpp; sourceTree = "<group>"; };
 		F3E087261CA9965600CCBBA2 /* BeatFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BeatFilter.h; sourceTree = "<group>"; };
 		F3E087271CA9965600CCBBA2 /* Common.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Common.cpp; sourceTree = "<group>"; };
@@ -73,7 +75,6 @@
 		F3E0872C1CA9965600CCBBA2 /* MidiSensor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MidiSensor.h; sourceTree = "<group>"; };
 		F3E0872D1CA9965600CCBBA2 /* MotionFilter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MotionFilter.cpp; sourceTree = "<group>"; };
 		F3E0872E1CA9965600CCBBA2 /* MotionFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MotionFilter.h; sourceTree = "<group>"; };
-		F3FD99691CA5969800575D07 /* AudioKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AudioKit.framework; sourceTree = "<group>"; };
 		F3FD99751CA59A2100575D07 /* MidiSensorWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MidiSensorWrapper.h; sourceTree = "<group>"; };
 		F3FD99761CA59A2100575D07 /* MidiSensorWrapper.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MidiSensorWrapper.mm; sourceTree = "<group>"; };
 		F3FD99781CA59A4600575D07 /* MidiDevice-Bridge-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MidiDevice-Bridge-Header.h"; sourceTree = "<group>"; };
@@ -84,6 +85,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F3AB3C701CBD54B9003A7470 /* AudioKit.framework in Frameworks */,
 				F3248B971C6E332A007298EC /* AudioKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -101,11 +103,11 @@
 		F3248B6A1C6E32FF007298EC = {
 			isa = PBXGroup;
 			children = (
+				F3AB3C6F1CBD54B9003A7470 /* AudioKit.framework */,
 				F3E087241CA9965600CCBBA2 /* MidiDevice_V1.0.0_CSource */,
 				F3FD99781CA59A4600575D07 /* MidiDevice-Bridge-Header.h */,
 				F3FD99751CA59A2100575D07 /* MidiSensorWrapper.h */,
 				F3FD99761CA59A2100575D07 /* MidiSensorWrapper.mm */,
-				F3FD99691CA5969800575D07 /* AudioKit.framework */,
 				F3248B751C6E32FF007298EC /* MidiDevice */,
 				F3248B8A1C6E32FF007298EC /* MidiDeviceTests */,
 				F3248B741C6E32FF007298EC /* Products */,
@@ -172,7 +174,7 @@
 				F3248B6F1C6E32FF007298EC /* Sources */,
 				F3248B701C6E32FF007298EC /* Frameworks */,
 				F3248B711C6E32FF007298EC /* Resources */,
-				F3248B991C6E332A007298EC /* Embed Frameworks */,
+				F3AB3C721CBD54B9003A7470 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);

@@ -31,9 +31,7 @@ THE SOFTWARE.
 
 #include "MPU60X0_6Axis_MotionApps20.h"
 
-//MPU60X0 mpu(true, 4);
-int accgyro_addr = MPU60X0_DEFAULT_ADDRESS;
-MPU60X0 mpu = MPU60X0(false, accgyro_addr);
+MPU60X0 mpu(true, 4);
 
 /* =========================================================================
    NOTE: In addition to connection 3.3v, GND, SDA, and SCL, this sketch
@@ -148,17 +146,11 @@ void setup() {
 
     // initialize device
     Serial.println(F("Initializing MPU device..."));
-    //mpu.initialize();
-    //mpu.setRate(4); 						// Sample Rate (200Hz = 1Hz Gyro SR / 4+1)
-    //mpu.setDLPFMode(MPU60X0_DLPF_BW_20);			// Low Pass filter 20hz
-    //mpu.setFullScaleGyroRange(MPU60X0_GYRO_FS_250);		// 250? / s
-    //mpu.setFullScaleAccelRange(MPU60X0_ACCEL_FS_2);		// +-2g
-    
     mpu.initialize();
-    mpu.setI2CMasterModeEnabled(0);
-    mpu.setI2CBypassEnabled(1);
-    mpu.setFullScaleGyroRange(MPU60X0_GYRO_FS_2000);
-    delay(5);
+    mpu.setRate(4); 						// Sample Rate (200Hz = 1Hz Gyro SR / 4+1)
+    mpu.setDLPFMode(MPU60X0_DLPF_BW_20);			// Low Pass filter 20hz
+    mpu.setFullScaleGyroRange(MPU60X0_GYRO_FS_250);		// 250? / s
+    mpu.setFullScaleAccelRange(MPU60X0_ACCEL_FS_2);		// +-2g
 	
     // verify connection
     Serial.println(F("Testing device connections..."));

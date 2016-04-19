@@ -32,7 +32,6 @@ THE SOFTWARE.
 
 #include "MPU60X0.h"
 #include <avr/pgmspace.h>
-typedef unsigned char PROGMEM 	prog_uchar;
 
 /* Source is from the InvenSense MotionApps v2 demo code. Original source is
  * unavailable, unless you happen to be amazing as decompiling binary by
@@ -66,7 +65,7 @@ typedef unsigned char PROGMEM 	prog_uchar;
 // this block of memory gets written to the MPU on start-up, and it seems
 // to be volatile memory, so it has to be done each time (it only takes ~1
 // second though)
-const prog_uchar dmpMemory[MPU60X0_DMP_CODE_SIZE] = {
+const prog_uchar dmpMemory[MPU60X0_DMP_CODE_SIZE] PROGMEM = {
     // bank 0, 256 bytes
     0xFB, 0x00, 0x00, 0x3E, 0x00, 0x0B, 0x00, 0x36, 0x00, 0x01, 0x00, 0x02, 0x00, 0x03, 0x00, 0x00,
     0x00, 0x65, 0x00, 0x54, 0xFF, 0xEF, 0x00, 0x00, 0xFA, 0x80, 0x00, 0x0B, 0x12, 0x82, 0x00, 0x01,
@@ -206,7 +205,7 @@ const prog_uchar dmpMemory[MPU60X0_DMP_CODE_SIZE] = {
 };
 
 // thanks to Noah Zerkin for piecing this stuff together!
-const prog_uchar dmpConfig[MPU60X0_DMP_CONFIG_SIZE] = {
+const prog_uchar dmpConfig[MPU60X0_DMP_CONFIG_SIZE] PROGMEM = {
 //  BANK    OFFSET  LENGTH  [DATA]
     0x03,   0x7B,   0x03,   0x4C, 0xCD, 0x6C,         // FCFG_1 inv_set_gyro_calibration
     0x03,   0xAB,   0x03,   0x36, 0x56, 0x76,         // FCFG_3 inv_set_gyro_calibration
@@ -248,7 +247,7 @@ const prog_uchar dmpConfig[MPU60X0_DMP_CONFIG_SIZE] = {
     // the FIFO output at the desired rate. Handling FIFO overflow cleanly is also a good idea.
 };
 
-const prog_uchar dmpUpdates[MPU60X0_DMP_UPDATES_SIZE] = {
+const prog_uchar dmpUpdates[MPU60X0_DMP_UPDATES_SIZE] PROGMEM = {
     0x01,   0xB2,   0x02,   0xFF, 0xFF,
     0x01,   0x90,   0x04,   0x09, 0x23, 0xA1, 0x35,
     0x01,   0x6A,   0x02,   0x06, 0x00,

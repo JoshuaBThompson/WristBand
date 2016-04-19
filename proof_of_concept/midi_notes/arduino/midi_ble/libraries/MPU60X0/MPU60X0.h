@@ -39,9 +39,6 @@ THE SOFTWARE.
 
 #include "I2Cdev.h"
 #include <avr/pgmspace.h>
-#include <Wire.h>
-#include "Arduino.h"
-
 
 //#define DEBUG
 #ifdef DEBUG
@@ -423,7 +420,6 @@ THE SOFTWARE.
 
 // note: DMP code memory blocks defined at end of header file
 
-
 class MPU60X0 {
     public:
         MPU60X0();
@@ -804,8 +800,6 @@ class MPU60X0 {
         // DMP_CFG_2 register
         uint8_t getDMPConfig2();
         void setDMPConfig2(uint8_t config);
-    
-
 		
 		
 

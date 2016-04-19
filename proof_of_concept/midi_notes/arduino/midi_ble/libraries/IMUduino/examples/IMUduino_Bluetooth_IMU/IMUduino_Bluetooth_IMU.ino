@@ -83,7 +83,7 @@ void setup() {
 
 void loop() {
   
-  //btleLoop();
+  btleLoop();
   if (status == ACI_EVT_CONNECTED) {
     
     my3IMU.getRawValues(raw_values);
@@ -104,7 +104,7 @@ void loop() {
     );
     
     // Our btleWrite() method handles spliting chars into 20-byte chunks
-    //btleWrite(str);
+    btleWrite(str);
     delay(150);
   }
 }

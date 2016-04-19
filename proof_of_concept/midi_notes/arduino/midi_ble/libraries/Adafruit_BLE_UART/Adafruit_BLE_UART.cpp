@@ -236,6 +236,8 @@ size_t Adafruit_BLE_UART::write(uint8_t * buffer, uint8_t len)
 {
   uint8_t bytesThisPass, sent = 0;
 
+  // Bug fix "out of credits" error: See https://forums.adafruit.com/viewtopic.php?f=19&t=70254
+  while (0 == aci_state.data_credit_available) {pollACI(); delay(1);} 
 #ifdef BLE_RW_DEBUG
   Serial.print(F("\tWriting out to BTLE:"));
   for (uint8_t i=0; i<len; i++) {
@@ -249,13 +251,13 @@ size_t Adafruit_BLE_UART::write(uint8_t * buffer, uint8_t len)
     if(bytesThisPass > ACI_PIPE_TX_DATA_MAX_LEN)
        bytesThisPass = ACI_PIPE_TX_DATA_MAX_LEN;
 
-    if(!lib_aci_is_pipe_available(&aci_state, PIPE_HEALTH_THERMOMETER_TEMPERATURE_MEASUREMENT_TX ))
+    if(!lib_aci_is_pipe_available(&aci_state, PIPE_UART_OVER_BTLE_UART_TX_TX))
     {
       pollACI();
       continue;
     }
 
-    lib_aci_send_data(PIPE_HEALTH_THERMOMETER_TEMPERATURE_MEASUREMENT_TX , &buffer[sent],
+    lib_aci_send_data(PIPE_UART_OVER_BTLE_UART_TX_TX, &buffer[sent],
       bytesThisPass);
     aci_state.data_credit_available--;
 
@@ -273,9 +275,9 @@ size_t Adafruit_BLE_UART::write(uint8_t buffer)
 #ifdef BLE_RW_DEBUG
   Serial.print(F("\tWriting one byte 0x")); Serial.println(buffer, HEX);
 #endif
-  if (lib_aci_is_pipe_available(&aci_state, PIPE_HEALTH_THERMOMETER_TEMPERATURE_MEASUREMENT_TX ))
+  if (lib_aci_is_pipe_available(&aci_state, PIPE_UART_OVER_BTLE_UART_TX_TX))
   {
-    lib_aci_send_data(PIPE_HEALTH_THERMOMETER_TEMPERATURE_MEASUREMENT_TX , &buffer, 1);
+    lib_aci_send_data(PIPE_UART_OVER_BTLE_UART_TX_TX, &buffer, 1);
     aci_state.data_credit_available--;
 
     delay(35); // required delay between sends
@@ -301,7 +303,7 @@ void Adafruit_BLE_UART::setDeviceName(const char * deviceName)
   }
   else
   {
-    memcpy(device_name, deviceName, strlen(deviceName));
+    memcpy(device_name, deviceName, strlen(deviceName)+1);
   }
 }
 
@@ -385,7 +387,7 @@ void Adafruit_BLE_UART::pollACI()
 	  aci_event(ACI_EVT_CONNECTED);
         
       case ACI_EVT_PIPE_STATUS:
-        if (lib_aci_is_pipe_available(&aci_state, PIPE_HEALTH_THERMOMETER_TEMPERATURE_MEASUREMENT_TX ) && (false == timing_change_done))
+        if (lib_aci_is_pipe_available(&aci_state, PIPE_UART_OVER_BTLE_UART_TX_TX) && (false == timing_change_done))
         {
           lib_aci_change_timing_GAP_PPCP(); // change the timing on the link as specified in the nRFgo studio -> nRF8001 conf. -> GAP. 
                                             // Used to increase or decrease bandwidth

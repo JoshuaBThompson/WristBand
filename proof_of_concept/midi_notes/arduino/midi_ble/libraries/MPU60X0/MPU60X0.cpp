@@ -1759,7 +1759,7 @@ void MPU60X0::getMotion6(int16_t* ax, int16_t* ay, int16_t* az, int16_t* gx, int
  * as defined in Register 25.
  *
  * The accelerometer measurement registers, along with the temperature
- * masurement registers, gyroscope measurement registers, and external sensor
+ * measurement registers, gyroscope measurement registers, and external sensor
  * data registers, are composed of two sets of registers: an internal register
  * set and a user-facing read register set.
  *

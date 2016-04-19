@@ -94,6 +94,7 @@ class IMUduino
     #endif
     void zeroGyro();
     void getRawValues(int * raw_values);
+    void getRawValuesAccelGyro(int * raw_values);
     
     
 

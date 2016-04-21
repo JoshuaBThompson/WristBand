@@ -13,8 +13,15 @@
 		F3D564E21CC92FD70096ECCB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F3D564E11CC92FD70096ECCB /* Assets.xcassets */; };
 		F3D564E51CC92FD70096ECCB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F3D564E31CC92FD70096ECCB /* LaunchScreen.storyboard */; };
 		F3D564F01CC92FD70096ECCB /* MidiDevice_TCL_V0_0_0Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D564EF1CC92FD70096ECCB /* MidiDevice_TCL_V0_0_0Tests.swift */; };
-		F3D564FB1CC930120096ECCB /* AudioKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F3D564FA1CC930120096ECCB /* AudioKit.framework */; };
-		F3D564FC1CC930120096ECCB /* AudioKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F3D564FA1CC930120096ECCB /* AudioKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		F3D5650F1CC933BB0096ECCB /* TrackManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D5650E1CC933BB0096ECCB /* TrackManager.swift */; };
+		F3D565111CC9346C0096ECCB /* AudioKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F3D565101CC9346C0096ECCB /* AudioKit.framework */; };
+		F3D565121CC9346D0096ECCB /* AudioKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F3D565101CC9346C0096ECCB /* AudioKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		F3D5652E1CC935340096ECCB /* BeatFilter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F3D565241CC935340096ECCB /* BeatFilter.cpp */; };
+		F3D5652F1CC935340096ECCB /* Common.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F3D565261CC935340096ECCB /* Common.cpp */; };
+		F3D565301CC935340096ECCB /* IMUFilter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F3D565281CC935340096ECCB /* IMUFilter.cpp */; };
+		F3D565311CC935340096ECCB /* MidiSensor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F3D5652A1CC935340096ECCB /* MidiSensor.cpp */; };
+		F3D565321CC935340096ECCB /* MotionFilter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F3D5652C1CC935340096ECCB /* MotionFilter.cpp */; };
+		F3D5653D1CC93A430096ECCB /* MidiSensorWrapper.mm in Sources */ = {isa = PBXBuildFile; fileRef = F3D5653C1CC93A430096ECCB /* MidiSensorWrapper.mm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -34,7 +41,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				F3D564FC1CC930120096ECCB /* AudioKit.framework in Embed Frameworks */,
+				F3D565121CC9346D0096ECCB /* AudioKit.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -52,7 +59,21 @@
 		F3D564EB1CC92FD70096ECCB /* MidiDevice_TCL_V0.0.0Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MidiDevice_TCL_V0.0.0Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F3D564EF1CC92FD70096ECCB /* MidiDevice_TCL_V0_0_0Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MidiDevice_TCL_V0_0_0Tests.swift; sourceTree = "<group>"; };
 		F3D564F11CC92FD70096ECCB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		F3D564FA1CC930120096ECCB /* AudioKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AudioKit.framework; sourceTree = "<group>"; };
+		F3D5650E1CC933BB0096ECCB /* TrackManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackManager.swift; sourceTree = "<group>"; };
+		F3D565101CC9346C0096ECCB /* AudioKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AudioKit.framework; sourceTree = "<group>"; };
+		F3D565241CC935340096ECCB /* BeatFilter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BeatFilter.cpp; sourceTree = "<group>"; };
+		F3D565251CC935340096ECCB /* BeatFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BeatFilter.h; sourceTree = "<group>"; };
+		F3D565261CC935340096ECCB /* Common.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Common.cpp; sourceTree = "<group>"; };
+		F3D565271CC935340096ECCB /* Common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Common.h; sourceTree = "<group>"; };
+		F3D565281CC935340096ECCB /* IMUFilter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = IMUFilter.cpp; sourceTree = "<group>"; };
+		F3D565291CC935340096ECCB /* IMUFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IMUFilter.h; sourceTree = "<group>"; };
+		F3D5652A1CC935340096ECCB /* MidiSensor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MidiSensor.cpp; sourceTree = "<group>"; };
+		F3D5652B1CC935340096ECCB /* MidiSensor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MidiSensor.h; sourceTree = "<group>"; };
+		F3D5652C1CC935340096ECCB /* MotionFilter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MotionFilter.cpp; sourceTree = "<group>"; };
+		F3D5652D1CC935340096ECCB /* MotionFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MotionFilter.h; sourceTree = "<group>"; };
+		F3D5653B1CC93A430096ECCB /* MidiSensorWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MidiSensorWrapper.h; sourceTree = "<group>"; };
+		F3D5653C1CC93A430096ECCB /* MidiSensorWrapper.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MidiSensorWrapper.mm; sourceTree = "<group>"; };
+		F3D5654A1CC93BF60096ECCB /* MidiDevice_TCL_V0.0.0-Bridge-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MidiDevice_TCL_V0.0.0-Bridge-Header.h"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,7 +81,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F3D564FB1CC930120096ECCB /* AudioKit.framework in Frameworks */,
+				F3D565111CC9346C0096ECCB /* AudioKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -77,7 +98,11 @@
 		F3D564CE1CC92FD60096ECCB = {
 			isa = PBXGroup;
 			children = (
-				F3D564FA1CC930120096ECCB /* AudioKit.framework */,
+				F3D5654A1CC93BF60096ECCB /* MidiDevice_TCL_V0.0.0-Bridge-Header.h */,
+				F3D5653B1CC93A430096ECCB /* MidiSensorWrapper.h */,
+				F3D5653C1CC93A430096ECCB /* MidiSensorWrapper.mm */,
+				F3D565231CC935340096ECCB /* MidiSensor_V1.0.0 */,
+				F3D565101CC9346C0096ECCB /* AudioKit.framework */,
 				F3D564D91CC92FD70096ECCB /* MidiDevice_TCL_V0.0.0 */,
 				F3D564EE1CC92FD70096ECCB /* MidiDevice_TCL_V0.0.0Tests */,
 				F3D564D81CC92FD70096ECCB /* Products */,
@@ -102,6 +127,7 @@
 				F3D564E11CC92FD70096ECCB /* Assets.xcassets */,
 				F3D564E31CC92FD70096ECCB /* LaunchScreen.storyboard */,
 				F3D564E61CC92FD70096ECCB /* Info.plist */,
+				F3D5650E1CC933BB0096ECCB /* TrackManager.swift */,
 			);
 			path = MidiDevice_TCL_V0.0.0;
 			sourceTree = "<group>";
@@ -113,6 +139,23 @@
 				F3D564F11CC92FD70096ECCB /* Info.plist */,
 			);
 			path = MidiDevice_TCL_V0.0.0Tests;
+			sourceTree = "<group>";
+		};
+		F3D565231CC935340096ECCB /* MidiSensor_V1.0.0 */ = {
+			isa = PBXGroup;
+			children = (
+				F3D565241CC935340096ECCB /* BeatFilter.cpp */,
+				F3D565251CC935340096ECCB /* BeatFilter.h */,
+				F3D565261CC935340096ECCB /* Common.cpp */,
+				F3D565271CC935340096ECCB /* Common.h */,
+				F3D565281CC935340096ECCB /* IMUFilter.cpp */,
+				F3D565291CC935340096ECCB /* IMUFilter.h */,
+				F3D5652A1CC935340096ECCB /* MidiSensor.cpp */,
+				F3D5652B1CC935340096ECCB /* MidiSensor.h */,
+				F3D5652C1CC935340096ECCB /* MotionFilter.cpp */,
+				F3D5652D1CC935340096ECCB /* MotionFilter.h */,
+			);
+			path = MidiSensor_V1.0.0;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -218,7 +261,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				F3D564DD1CC92FD70096ECCB /* ViewController.swift in Sources */,
+				F3D565311CC935340096ECCB /* MidiSensor.cpp in Sources */,
+				F3D5652E1CC935340096ECCB /* BeatFilter.cpp in Sources */,
+				F3D5650F1CC933BB0096ECCB /* TrackManager.swift in Sources */,
+				F3D5652F1CC935340096ECCB /* Common.cpp in Sources */,
+				F3D5653D1CC93A430096ECCB /* MidiSensorWrapper.mm in Sources */,
+				F3D565321CC935340096ECCB /* MotionFilter.cpp in Sources */,
 				F3D564DB1CC92FD70096ECCB /* AppDelegate.swift in Sources */,
+				F3D565301CC935340096ECCB /* IMUFilter.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -357,6 +407,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "wristband.MidiDevice-TCL-V0-0-0";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "MidiDevice_TCL_V0.0.0-Bridge-Header.h";
 			};
 			name = Debug;
 		};
@@ -372,6 +423,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "wristband.MidiDevice-TCL-V0-0-0";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "MidiDevice_TCL_V0.0.0-Bridge-Header.h";
 			};
 			name = Release;
 		};
@@ -379,10 +431,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = MidiDevice_TCL_V0.0.0Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "wristband.MidiDevice-TCL-V0-0-0Tests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "MidiDevice_TCL_V0.0.0Tests-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MidiDevice_TCL_V0.0.0.app/MidiDevice_TCL_V0.0.0";
 			};
 			name = Debug;
@@ -391,10 +446,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = MidiDevice_TCL_V0.0.0Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "wristband.MidiDevice-TCL-V0-0-0Tests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "MidiDevice_TCL_V0.0.0Tests-Bridging-Header.h";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MidiDevice_TCL_V0.0.0.app/MidiDevice_TCL_V0.0.0";
 			};
 			name = Release;
@@ -418,6 +475,7 @@
 				F3D564F61CC92FD70096ECCB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		F3D564F71CC92FD70096ECCB /* Build configuration list for PBXNativeTarget "MidiDevice_TCL_V0.0.0Tests" */ = {
 			isa = XCConfigurationList;
@@ -426,6 +484,7 @@
 				F3D564F91CC92FD70096ECCB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

@@ -18,11 +18,11 @@
 		F3248B9D1C6FBC9E007298EC /* TrackManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3248B9C1C6FBC9E007298EC /* TrackManager.swift */; };
 		F3AB3C701CBD54B9003A7470 /* AudioKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F3AB3C6F1CBD54B9003A7470 /* AudioKit.framework */; };
 		F3AB3C711CBD54B9003A7470 /* AudioKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F3AB3C6F1CBD54B9003A7470 /* AudioKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		F3E0872F1CA9965600CCBBA2 /* BeatFilter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F3E087251CA9965600CCBBA2 /* BeatFilter.cpp */; };
-		F3E087301CA9965600CCBBA2 /* Common.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F3E087271CA9965600CCBBA2 /* Common.cpp */; };
-		F3E087311CA9965600CCBBA2 /* IMUFilter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F3E087291CA9965600CCBBA2 /* IMUFilter.cpp */; };
-		F3E087321CA9965600CCBBA2 /* MidiSensor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F3E0872B1CA9965600CCBBA2 /* MidiSensor.cpp */; };
-		F3E087331CA9965600CCBBA2 /* MotionFilter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F3E0872D1CA9965600CCBBA2 /* MotionFilter.cpp */; };
+		F3D565091CC9327F0096ECCB /* BeatFilter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F3D564FF1CC9327F0096ECCB /* BeatFilter.cpp */; };
+		F3D5650A1CC9327F0096ECCB /* Common.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F3D565011CC9327F0096ECCB /* Common.cpp */; };
+		F3D5650B1CC9327F0096ECCB /* IMUFilter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F3D565031CC9327F0096ECCB /* IMUFilter.cpp */; };
+		F3D5650C1CC9327F0096ECCB /* MidiSensor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F3D565051CC9327F0096ECCB /* MidiSensor.cpp */; };
+		F3D5650D1CC9327F0096ECCB /* MotionFilter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F3D565071CC9327F0096ECCB /* MotionFilter.cpp */; };
 		F3FD99771CA59A2100575D07 /* MidiSensorWrapper.mm in Sources */ = {isa = PBXBuildFile; fileRef = F3FD99761CA59A2100575D07 /* MidiSensorWrapper.mm */; };
 /* End PBXBuildFile section */
 
@@ -65,16 +65,16 @@
 		F3248B9A1C6FBC5B007298EC /* Instrument.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Instrument.swift; sourceTree = "<group>"; };
 		F3248B9C1C6FBC9E007298EC /* TrackManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackManager.swift; sourceTree = "<group>"; };
 		F3AB3C6F1CBD54B9003A7470 /* AudioKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AudioKit.framework; sourceTree = "<group>"; };
-		F3E087251CA9965600CCBBA2 /* BeatFilter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BeatFilter.cpp; sourceTree = "<group>"; };
-		F3E087261CA9965600CCBBA2 /* BeatFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BeatFilter.h; sourceTree = "<group>"; };
-		F3E087271CA9965600CCBBA2 /* Common.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Common.cpp; sourceTree = "<group>"; };
-		F3E087281CA9965600CCBBA2 /* Common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Common.h; sourceTree = "<group>"; };
-		F3E087291CA9965600CCBBA2 /* IMUFilter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = IMUFilter.cpp; sourceTree = "<group>"; };
-		F3E0872A1CA9965600CCBBA2 /* IMUFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IMUFilter.h; sourceTree = "<group>"; };
-		F3E0872B1CA9965600CCBBA2 /* MidiSensor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MidiSensor.cpp; sourceTree = "<group>"; };
-		F3E0872C1CA9965600CCBBA2 /* MidiSensor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MidiSensor.h; sourceTree = "<group>"; };
-		F3E0872D1CA9965600CCBBA2 /* MotionFilter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MotionFilter.cpp; sourceTree = "<group>"; };
-		F3E0872E1CA9965600CCBBA2 /* MotionFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MotionFilter.h; sourceTree = "<group>"; };
+		F3D564FF1CC9327F0096ECCB /* BeatFilter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BeatFilter.cpp; sourceTree = "<group>"; };
+		F3D565001CC9327F0096ECCB /* BeatFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BeatFilter.h; sourceTree = "<group>"; };
+		F3D565011CC9327F0096ECCB /* Common.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Common.cpp; sourceTree = "<group>"; };
+		F3D565021CC9327F0096ECCB /* Common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Common.h; sourceTree = "<group>"; };
+		F3D565031CC9327F0096ECCB /* IMUFilter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = IMUFilter.cpp; sourceTree = "<group>"; };
+		F3D565041CC9327F0096ECCB /* IMUFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IMUFilter.h; sourceTree = "<group>"; };
+		F3D565051CC9327F0096ECCB /* MidiSensor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MidiSensor.cpp; sourceTree = "<group>"; };
+		F3D565061CC9327F0096ECCB /* MidiSensor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MidiSensor.h; sourceTree = "<group>"; };
+		F3D565071CC9327F0096ECCB /* MotionFilter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MotionFilter.cpp; sourceTree = "<group>"; };
+		F3D565081CC9327F0096ECCB /* MotionFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MotionFilter.h; sourceTree = "<group>"; };
 		F3FD99751CA59A2100575D07 /* MidiSensorWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MidiSensorWrapper.h; sourceTree = "<group>"; };
 		F3FD99761CA59A2100575D07 /* MidiSensorWrapper.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MidiSensorWrapper.mm; sourceTree = "<group>"; };
 		F3FD99781CA59A4600575D07 /* MidiDevice-Bridge-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MidiDevice-Bridge-Header.h"; sourceTree = "<group>"; };
@@ -103,8 +103,8 @@
 		F3248B6A1C6E32FF007298EC = {
 			isa = PBXGroup;
 			children = (
+				F3D564FE1CC9327F0096ECCB /* MidiSensor_V1.0.0 */,
 				F3AB3C6F1CBD54B9003A7470 /* AudioKit.framework */,
-				F3E087241CA9965600CCBBA2 /* MidiDevice_V1.0.0_CSource */,
 				F3FD99781CA59A4600575D07 /* MidiDevice-Bridge-Header.h */,
 				F3FD99751CA59A2100575D07 /* MidiSensorWrapper.h */,
 				F3FD99761CA59A2100575D07 /* MidiSensorWrapper.mm */,
@@ -147,21 +147,21 @@
 			path = MidiDeviceTests;
 			sourceTree = "<group>";
 		};
-		F3E087241CA9965600CCBBA2 /* MidiDevice_V1.0.0_CSource */ = {
+		F3D564FE1CC9327F0096ECCB /* MidiSensor_V1.0.0 */ = {
 			isa = PBXGroup;
 			children = (
-				F3E087251CA9965600CCBBA2 /* BeatFilter.cpp */,
-				F3E087261CA9965600CCBBA2 /* BeatFilter.h */,
-				F3E087271CA9965600CCBBA2 /* Common.cpp */,
-				F3E087281CA9965600CCBBA2 /* Common.h */,
-				F3E087291CA9965600CCBBA2 /* IMUFilter.cpp */,
-				F3E0872A1CA9965600CCBBA2 /* IMUFilter.h */,
-				F3E0872B1CA9965600CCBBA2 /* MidiSensor.cpp */,
-				F3E0872C1CA9965600CCBBA2 /* MidiSensor.h */,
-				F3E0872D1CA9965600CCBBA2 /* MotionFilter.cpp */,
-				F3E0872E1CA9965600CCBBA2 /* MotionFilter.h */,
+				F3D564FF1CC9327F0096ECCB /* BeatFilter.cpp */,
+				F3D565001CC9327F0096ECCB /* BeatFilter.h */,
+				F3D565011CC9327F0096ECCB /* Common.cpp */,
+				F3D565021CC9327F0096ECCB /* Common.h */,
+				F3D565031CC9327F0096ECCB /* IMUFilter.cpp */,
+				F3D565041CC9327F0096ECCB /* IMUFilter.h */,
+				F3D565051CC9327F0096ECCB /* MidiSensor.cpp */,
+				F3D565061CC9327F0096ECCB /* MidiSensor.h */,
+				F3D565071CC9327F0096ECCB /* MotionFilter.cpp */,
+				F3D565081CC9327F0096ECCB /* MotionFilter.h */,
 			);
-			path = MidiDevice_V1.0.0_CSource;
+			path = MidiSensor_V1.0.0;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -277,11 +277,11 @@
 				F3248B771C6E32FF007298EC /* AppDelegate.swift in Sources */,
 				F3FD99771CA59A2100575D07 /* MidiSensorWrapper.mm in Sources */,
 				F3248B9D1C6FBC9E007298EC /* TrackManager.swift in Sources */,
-				F3E087301CA9965600CCBBA2 /* Common.cpp in Sources */,
-				F3E0872F1CA9965600CCBBA2 /* BeatFilter.cpp in Sources */,
-				F3E087331CA9965600CCBBA2 /* MotionFilter.cpp in Sources */,
-				F3E087321CA9965600CCBBA2 /* MidiSensor.cpp in Sources */,
-				F3E087311CA9965600CCBBA2 /* IMUFilter.cpp in Sources */,
+				F3D5650A1CC9327F0096ECCB /* Common.cpp in Sources */,
+				F3D565091CC9327F0096ECCB /* BeatFilter.cpp in Sources */,
+				F3D5650D1CC9327F0096ECCB /* MotionFilter.cpp in Sources */,
+				F3D5650C1CC9327F0096ECCB /* MidiSensor.cpp in Sources */,
+				F3D5650B1CC9327F0096ECCB /* IMUFilter.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

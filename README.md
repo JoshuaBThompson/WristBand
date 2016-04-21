@@ -17,5 +17,5 @@
 - Would generate some beats based on acceleration data and generate midi notes to send over USB
 
 #### Pygraph
-- Can be uses to analys acceleration, gyro or other data on a graph
+- Can be used to analyze acceleration, gyro or other data on a graph
 - Send over USB using arduino

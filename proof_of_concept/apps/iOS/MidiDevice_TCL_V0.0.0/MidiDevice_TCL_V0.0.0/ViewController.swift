@@ -12,7 +12,7 @@ import CoreBluetooth
 import CoreMotion
 
 class ViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDelegate, UITextFieldDelegate {
-    var trackManager: TrackManager!
+    var song: Song!
     let midiServiceUUID = "03B80E5A-EDE8-4B33-A751-6CE34EC4C700"
     let midiIOUUID = "7772E5DB-3868-4112-A1A9-F2669D106BF3"
     var midiDevices = [CBPeripheral]()
@@ -55,46 +55,46 @@ class ViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDe
     @IBAction func playNote(sender: UIButton) {
         //just play synth drum beat, don't add to seq
         print("playing raw note")
-        self.trackManager.playRawNote(90, status: 120)
+        self.song.playRawNote(90, status: 120)
         
     }
     
     @IBAction func clearTrack(sender: UIButton) {
         print("Clearing track")
-        trackManager.clear()
+        song.clear()
     }
     
     @IBAction func timeSigButtonNote(sender: UIButton) {
         print("Updating time signature beats per measure")
-        let beatsPerMeasure = trackManager.measure.timeSignature.beatsPerMeasure
+        let beatsPerMeasure = song.measure.timeSignature.beatsPerMeasure
         let note = Int(timeSigTextFieldNote.text!)!
-        trackManager.setTimeSignature(beatsPerMeasure, newNote: note)
-        measureDurationLabel.text = String(format: "%f", trackManager.measure.totalDuration)
+        song.setTimeSignature(beatsPerMeasure, newNote: note)
+        measureDurationLabel.text = String(format: "%f", song.measure.totalDuration)
     }
     @IBAction func timeSigButtonBPM(sender: UIButton) {
         print("Updating time signature beats per measure")
-        let note = trackManager.measure.timeSignature.beatUnit
+        let note = song.measure.timeSignature.beatUnit
         let beatsPerMeasure = Int(timeSigTextFieldBPM.text!)!
-        trackManager.setTimeSignature(beatsPerMeasure, newNote: note)
-        measureDurationLabel.text = String(format: "%f", trackManager.measure.totalDuration)
+        song.setTimeSignature(beatsPerMeasure, newNote: note)
+        measureDurationLabel.text = String(format: "%f", song.measure.totalDuration)
     }
     @IBAction func tempoButton(sender: UIButton) {
         let beatsPerMin = Double(tempoTextField.text!)!
-        trackManager.setTempo(beatsPerMin)
-        measureDurationLabel.text = String(format: "%f", trackManager.measure.totalDuration)
+        song.setTempo(beatsPerMin)
+        measureDurationLabel.text = String(format: "%f", song.measure.totalDuration)
     }
     
     @IBAction func recordTrack(sender: UIButton) {
-        trackManager.record()
+        song.record()
     }
     
     
     @IBAction func playTrack(sender: UIButton) {
-        trackManager.play()
+        song.play()
     }
     
     @IBAction func stopTrack(sender: UIButton) {
-        trackManager.stop()
+        song.stop()
     }
     
     
@@ -112,8 +112,8 @@ class ViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDe
         // Do any additional setup after loading the view, typically from a nib.
         bleManager = CBCentralManager.init(delegate: self, queue: nil)
         debugLabel.text = "View did load"
-        trackManager = TrackManager()
-        trackManager.start()
+        song = Song()
+        song.start()
         
         motionManager.startAccelerometerUpdates()
         if motionManager.accelerometerAvailable {
@@ -161,12 +161,12 @@ class ViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDe
         sensor.updateStateWith(valx, andY: valy, andZ: valz, andMillisElapsed: timeIntervalMillis);
         sensor.handleMidiEvents();
         if(sensor.beat){
-            let eventNote = Int(sensor.getEventNote())
+            //let eventNote = Int(sensor.getEventNote())
             let eventStatus = Int(sensor.getEventStatus())
             if eventStatus != 0x80{
-                trackManager.addNote(90, trackNumber: 0) //make sound!
+                song.addNote(80, trackNumber: 1) //make drum sound and add to track if recording!
                 eventCount = eventCount + 1
-                self.trackManager.playRawNote(eventNote, status: eventStatus)
+                //self.song.playRawNote(eventNote, status: eventStatus)
                 self.noteStatusLabel.text = String(format: "%d", eventCount)
             }
             

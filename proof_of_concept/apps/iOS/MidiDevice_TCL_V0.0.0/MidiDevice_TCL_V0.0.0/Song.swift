@@ -45,7 +45,7 @@ class SynthDrum: AKPolyphonicInstrument{
 /// Custom Drum Synthesizer Voice
 class SynthDrumVoice: AKVoice{
     
-    //operatioins
+    //operations
     var triangleTrigger: AKOperation!
     var triangleWave: AKOperation!
     var noiseOperation: AKOperation!
@@ -252,17 +252,16 @@ class ClickTrack: AKVoice{
 
 
 
-class TrackManager {
+class Song {
     var measure = Measure()
-    var sequence = AKSequencer() //contains the tracks
+    var trackManager = AKSequencer()
     
     //Testing
     var midi = AKMIDI()
     var kickMidi: AKMIDIInstrument!
     var kickInst: AKSynthKick!
-    var snareInst: AKSynthSnare!
     var drum: SynthDrum!
-    var snareMidi: AKMIDIInstrument!
+    var drumMidi: AKMIDIInstrument!
     var mixer: AKMixer!
     var notePosition: Double = 1
     var recordEnabled = false
@@ -271,33 +270,28 @@ class TrackManager {
     init(){
         
         kickInst = AKSynthKick(voiceCount: 1)
-        snareInst = AKSynthSnare(voiceCount: 1)
         drum = SynthDrum(voiceCount: 1) //custom synth drum
-        snareInst.amplitude = 2
         kickInst.amplitude = 2
         measure = Measure()
         mixer = AKMixer()
         mixer.connect(kickInst)
-        mixer.connect(snareInst)
         mixer.connect(drum)
         mixer.connect(measure.clickTrack)
         kickMidi = AKMIDIInstrument(instrument: kickInst)
         kickMidi.enableMIDI(midi.midiClient, name: "Synth kick midi")
-        snareMidi = AKMIDIInstrument(instrument: snareInst)
-        snareMidi.enableMIDI(midi.midiClient, name: "Synth snare midi")
+        drumMidi = AKMIDIInstrument(instrument: drum)
+        drumMidi.enableMIDI(midi.midiClient, name: "Synth drum midi")
         
         
         AudioKit.output = mixer
         
         
-        sequence.newTrack()
-        sequence.tracks[0].setMIDIOutput(kickMidi.midiIn)
-        sequence.newTrack()
-        sequence.tracks[1].setMIDIOutput(snareMidi.midiIn)
-        sequence.newTrack()
-        sequence.tracks[2].setMIDIOutput(kickMidi.midiIn)
-        sequence.setBPM(Double(measure.clickTrack.clickPerSec))
-        sequence.setLength(measure.totalDuration)
+        trackManager.newTrack()
+        trackManager.tracks[0].setMIDIOutput(kickMidi.midiIn)
+        trackManager.newTrack()
+        trackManager.tracks[1].setMIDIOutput(drumMidi.midiIn)
+        trackManager.setBPM(Double(measure.clickTrack.clickPerSec))
+        trackManager.setLength(measure.totalDuration)
         
         print(String(format: "sequence bpm %f", measure.clickTrack.tempo.beatsPerMin))
         print(String(format: "sequence length %f", measure.totalDuration))
@@ -314,8 +308,8 @@ class TrackManager {
         stop()
         
         //clear all recorded tracks
-        for trackNum in 0 ..< sequence.trackCount {
-            sequence.tracks[trackNum].clear()
+        for trackNum in 0 ..< trackManager.trackCount {
+            trackManager.tracks[trackNum].clear()
         }
     }
     
@@ -335,8 +329,8 @@ class TrackManager {
             kickInst.stopNote(note)
         }
         else if note == 80 {
-            snareInst.playNote(note, velocity: 127)
-            snareInst.stopNote(note)
+            drum.playNote(note, velocity: 127)
+            drum.stopNote(note)
         }
         
     }
@@ -355,7 +349,7 @@ class TrackManager {
         //todo: next add note to current track based on selected instrument (not yet developed)
         let timeElapsed = measure.timeElapsed
         print(String(format: "Time elapsed %f", timeElapsed))
-        sequence.tracks[trackNumber].addNote(note, velocity: 127, position: timeElapsed, duration: 0.5)
+        trackManager.tracks[trackNumber].addNote(note, velocity: 127, position: timeElapsed, duration: 0.5)
         if !playing { play() }
         
     }
@@ -373,8 +367,8 @@ class TrackManager {
     func play(){
         print("Playing notes in sequence track")
         //play note in sequence track (just play first track for now)
-        sequence.loopOn()
-        sequence.play()
+        trackManager.loopOn()
+        trackManager.play()
         playing = true
         
     }
@@ -383,8 +377,8 @@ class TrackManager {
         print("Stop playing notes in sequence track")
         recordEnabled = false
         //stop playing note in sequence track
-        sequence.loopOff()
-        sequence.stop()
+        trackManager.loopOff()
+        trackManager.stop()
         measure.timer.stop()
         playing = false
     }
@@ -393,15 +387,15 @@ class TrackManager {
         measure.tempo.beatsPerMin = newBeatsPerMin
         print("todo: click track update tempo")
         measure.clickTrack.update(measure.tempo, clickTimeSignature: measure.timeSignature)
-        sequence.setBPM(Double(measure.clickTrack.tempo.beatsPerMin))
-        sequence.setLength(measure.totalDuration)
+        trackManager.setBPM(Double(measure.clickTrack.tempo.beatsPerMin))
+        trackManager.setLength(measure.totalDuration)
     }
     
     func setTimeSignature(newBeatsPerMeasure: Int, newNote: Int){
         measure.timeSignature.beatsPerMeasure = newBeatsPerMeasure
         measure.timeSignature.beatUnit = newNote
         measure.clickTrack.update(measure.tempo, clickTimeSignature: measure.timeSignature)
-        sequence.setLength(measure.totalDuration)
+        trackManager.setLength(measure.totalDuration)
         
     }
     

@@ -18,36 +18,60 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eP1-0j-gBe">
-                                <rect key="frame" x="126" y="51" width="33" height="30"/>
-                                <state key="normal" title="Note"/>
+                                <rect key="frame" x="123" y="20" width="40" height="30"/>
+                                <state key="normal" title="Note1"/>
+                                <connections>
+                                    <action selector="addNote:" destination="BYZ-38-t0r" eventType="touchUpInside" id="BRD-td-fLL"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qm2-GF-2Nd">
                                 <rect key="frame" x="110" y="80" width="49" height="30"/>
                                 <state key="normal" title="Record"/>
+                                <connections>
+                                    <action selector="record:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Vko-ep-3vt"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MUJ-g6-Rtg">
                                 <rect key="frame" x="129" y="111" width="30" height="30"/>
                                 <state key="normal" title="Play"/>
+                                <connections>
+                                    <action selector="play:" destination="BYZ-38-t0r" eventType="touchUpInside" id="WCB-4F-lbG"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sy4-p6-E8C">
                                 <rect key="frame" x="127" y="138" width="32" height="30"/>
                                 <state key="normal" title="Stop"/>
+                                <connections>
+                                    <action selector="stop:" destination="BYZ-38-t0r" eventType="touchUpInside" id="fSr-ZE-DLO"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ACj-vp-gzP">
                                 <rect key="frame" x="123" y="170" width="36" height="30"/>
                                 <state key="normal" title="Clear"/>
+                                <connections>
+                                    <action selector="clear:" destination="BYZ-38-t0r" eventType="touchUpInside" id="8QR-8X-ZyY"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="x76-XO-HUA">
                                 <rect key="frame" x="57" y="199" width="102" height="30"/>
                                 <state key="normal" title="Update Tempo"/>
+                                <connections>
+                                    <action selector="updateTempo:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Ede-aS-6JL"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="g83-DQ-hM0">
                                 <rect key="frame" x="9" y="240" width="150" height="30"/>
                                 <state key="normal" title="Update Time Sig BPM"/>
+                                <connections>
+                                    <action selector="updateTimeSigBpm:" destination="BYZ-38-t0r" eventType="touchUpInside" id="ggW-iv-632"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="241-mI-JUX">
                                 <rect key="frame" x="8" y="281" width="151" height="30"/>
                                 <state key="normal" title="Update Time Sig Note"/>
+                                <connections>
+                                    <action selector="updateTimeSigNote:" destination="BYZ-38-t0r" eventType="touchUpInside" id="RJT-L7-QRE"/>
+                                </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Beat Count" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SOs-ad-4II">
                                 <rect key="frame" x="73" y="366" width="86" height="21"/>
@@ -76,6 +100,12 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Debug" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wCu-Pl-HmI">
+                                <rect key="frame" x="78" y="409" width="374" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Measure Duration" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="L6C-op-mUL">
                                 <rect key="frame" x="23" y="331" width="136" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -88,12 +118,28 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XWO-Xj-ogR">
+                                <rect key="frame" x="122" y="50" width="43" height="30"/>
+                                <state key="normal" title="Note0"/>
+                                <connections>
+                                    <action selector="addKickNote:" destination="BYZ-38-t0r" eventType="touchUpInside" id="jan-C5-OE2"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
+                    <connections>
+                        <outlet property="beatCountLabel" destination="1uL-vS-Apc" id="PHv-Y3-Vi6"/>
+                        <outlet property="debugLabel" destination="wCu-Pl-HmI" id="gig-X6-la1"/>
+                        <outlet property="measureDurationLabel" destination="pzI-j1-pE2" id="U8q-Ob-xHm"/>
+                        <outlet property="tempoTextField" destination="CSv-D3-lT3" id="94P-Pj-Qtb"/>
+                        <outlet property="timeSigTextFieldBPM" destination="7ks-Q8-fiP" id="GMX-Rb-mas"/>
+                        <outlet property="timeSigTextFieldNote" destination="Y8g-aa-OQr" id="pN5-5M-prI"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="247" y="305"/>
         </scene>
     </scenes>
 </document>

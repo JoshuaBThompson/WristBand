@@ -55,7 +55,8 @@ class ViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDe
     @IBAction func playNote(sender: UIButton) {
         //just play synth drum beat, don't add to seq
         print("playing raw note")
-        self.trackManager.playRawNote(90, status: 120)
+        //self.trackManager.playRawNote(90, status: 120)
+        self.trackManager.addNote(80, trackNumber: 1)
         
     }
     

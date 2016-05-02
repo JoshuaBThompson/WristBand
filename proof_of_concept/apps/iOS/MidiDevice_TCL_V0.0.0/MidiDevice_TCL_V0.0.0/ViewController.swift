@@ -26,6 +26,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var measureDurationLabel: UILabel!
     
+    @IBOutlet weak var measureCountTextField: UILabel!
+    
     @IBOutlet weak var tempoTextField: UITextField!
     
     @IBOutlet weak var timeSigTextFieldBPM: UITextField!
@@ -93,6 +95,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         let note = Int(timeSigTextFieldNote.text!)!
         song.setTimeSignature(beatsPerMeasure, newNote: note)
         measureDurationLabel.text = String(format: "%f", song.measure.totalDuration)
+        measureCountTextField.text = String(format: "%d", song.measure.count)
     }
     
     
@@ -102,6 +105,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         let beatsPerMeasure = Int(timeSigTextFieldBPM.text!)!
         song.setTimeSignature(beatsPerMeasure, newNote: note)
         measureDurationLabel.text = String(format: "%f", song.measure.totalDuration)
+        measureCountTextField.text = String(format: "%d", song.measure.count)
     }
 
     @IBAction func updateTempo(sender: UIButton) {

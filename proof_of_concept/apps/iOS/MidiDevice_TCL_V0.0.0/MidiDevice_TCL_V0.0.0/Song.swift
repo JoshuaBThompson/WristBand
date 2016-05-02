@@ -66,20 +66,39 @@ class Measure {
     var clickTrack: ClickTrack!
     var timer = Timer()
     var count = 1
+    var longestTime = 0.0
     
     //computed
     var secPerMeasure: Double { return clickTrack.secPerMeasure }
     var beatsPerMeasure: Int { return timeSignature.beatsPerMeasure }
     var totalBeats: Int { return count * beatsPerMeasure}
-    var totalDuration: Double {return secPerMeasure * Double(count)}
+    var totalDuration: Double {
+        if longestTime > secPerMeasure{
+            //round up to nearest integer to get number of measures
+            //if longest time recorded is greater then secPerMeasure then make more measures
+            //so we don't lose beats that were made while recording
+            count = Int(ceil(Double(longestTime)/Double(secPerMeasure)))
+            
+        }
+        return secPerMeasure * Double(count)
+    }
     var timeElapsed: Double {
+        //this gets called when a beat is added to the track
         let timeElapsedSec = timer.stop()
+        var time = 0.0
         if timeElapsedSec <= totalDuration {
-            return timeElapsedSec
+            time = timeElapsedSec
         }
         else{
-            return fmod(timeElapsedSec, totalDuration)
+            time = fmod(timeElapsedSec, totalDuration)
         }
+        if longestTime < time {
+            //this will record when a beat was added (gets the longest time beat)
+            longestTime = time
+        }
+        
+        return time
+        
     }
     
     init(){
@@ -215,6 +234,7 @@ class Song {
     func clear(){
         //stop any currently playing tracks first
         stop()
+        measure.longestTime = 0.0 //clear
         
         //clear all recorded tracks
         for trackNum in 0 ..< trackManager.trackCount {
@@ -258,7 +278,6 @@ class Song {
     }
     
     func record(){
-        //stop()
         print("Recording note")
         recordEnabled = true
         measure.timer.start()
@@ -285,24 +304,39 @@ class Song {
     }
     
     func setTempo(newBeatsPerMin: Double){
-        if(playing){trackManager.loopOff(); trackManager.stop()}
+        pause()
         measure.tempo.beatsPerMin = newBeatsPerMin
         print("todo: click track update tempo")
         measure.clickTrack.update(measure.tempo, clickTimeSignature: measure.timeSignature)
         trackManager.setBPM(Double(measure.clickTrack.tempo.beatsPerMin))
         trackManager.setLength(measure.totalDuration)
-        if(playing){trackManager.play(); trackManager.loopOn()}
+        unpause()
     }
     
+    
     func setTimeSignature(newBeatsPerMeasure: Int, newNote: Int){
-        if(playing){trackManager.loopOff(); trackManager.stop();}
+        pause()
         measure.timeSignature.beatsPerMeasure = newBeatsPerMeasure
         measure.timeSignature.beatUnit = newNote
         measure.clickTrack.update(measure.tempo, clickTimeSignature: measure.timeSignature)
         trackManager.setLength(measure.totalDuration)
-        if(playing){trackManager.play(); trackManager.loopOn()}
+        print("track manager length \(trackManager.length)")
+        unpause()
         
     }
     
+    func pause(){
+        if(playing){
+            trackManager.stop()
+            trackManager.loopOff()
+        }
+    }
+    
+    func unpause(){
+        if(playing){
+            trackManager.loopOn()
+            trackManager.play()
+        }
+    }
     
 }

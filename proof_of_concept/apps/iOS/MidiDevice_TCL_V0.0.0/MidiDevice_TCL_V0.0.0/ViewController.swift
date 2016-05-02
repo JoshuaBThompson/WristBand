@@ -37,16 +37,49 @@ class ViewController: UIViewController, UITextFieldDelegate {
     
     //MARK: actions
     
-    @IBAction func addNote(sender: UIButton) {
-        print("adding note")
-        self.song.addNote(80, trackNumber: 1)
+    
+    @IBAction func addNote3(sender: UIButton) {
+        print("adding note3")
+        self.song.addNote(drum: 3)
+    }
+    
+    @IBAction func addNote2(sender: UIButton) {
+        print("adding note2")
+        self.song.addNote(drum: 2)
+    }
+    
+    @IBAction func addNote1(sender: UIButton) {
+        print("adding note1")
+        self.song.addNote(drum: 1)
     }
     
     
-    @IBAction func addKickNote(sender: UIButton) {
-        print("adding kick note")
-        self.song.addNote(90, trackNumber: 0)
+    @IBAction func addNote0(sender: UIButton) {
+        print("adding note0")
+        self.song.addNote(drum: 0)
     }
+    
+    @IBAction func setNote3(sender: UIButton) {
+        print("setting beat to note3")
+        song.selectedDrum = 3
+    }
+    
+    @IBAction func setNote2(sender: UIButton) {
+        print("setting beat to note2")
+        song.selectedDrum = 2
+    }
+    
+    
+    @IBAction func setNote1(sender: UIButton) {
+        print("setting beat to note1")
+        song.selectedDrum = 1
+    }
+    
+    @IBAction func setNote0(sender: UIButton) {
+        print("setting beat to note0")
+        song.selectedDrum = 0
+    }
+    
     
     @IBAction func clear(sender: UIButton) {
         print("Clearing song")
@@ -138,7 +171,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
             //let eventNote = Int(sensor.getEventNote())
             let eventStatus = Int(sensor.getEventStatus())
             if eventStatus != 0x80{
-                song.addNote(80, trackNumber: 1) //make drum sound and add to track if recording!
+                song.addSelectedNote() //make drum sound and add to track if recording!
                 eventCount = eventCount + 1
                 self.beatCountLabel.text = String(format:"%d", eventCount);
             }

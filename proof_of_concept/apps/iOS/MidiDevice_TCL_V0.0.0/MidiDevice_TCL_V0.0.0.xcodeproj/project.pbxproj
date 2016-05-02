@@ -22,6 +22,7 @@
 		F3D565311CC935340096ECCB /* MidiSensor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F3D5652A1CC935340096ECCB /* MidiSensor.cpp */; };
 		F3D565321CC935340096ECCB /* MotionFilter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F3D5652C1CC935340096ECCB /* MotionFilter.cpp */; };
 		F3D5653D1CC93A430096ECCB /* MidiSensorWrapper.mm in Sources */ = {isa = PBXBuildFile; fileRef = F3D5653C1CC93A430096ECCB /* MidiSensorWrapper.mm */; };
+		F3E496361CD51364009B8D48 /* SynthDrum.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3E496351CD51364009B8D48 /* SynthDrum.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -74,6 +75,7 @@
 		F3D5653B1CC93A430096ECCB /* MidiSensorWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MidiSensorWrapper.h; sourceTree = "<group>"; };
 		F3D5653C1CC93A430096ECCB /* MidiSensorWrapper.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MidiSensorWrapper.mm; sourceTree = "<group>"; };
 		F3D5654A1CC93BF60096ECCB /* MidiDevice_TCL_V0.0.0-Bridge-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MidiDevice_TCL_V0.0.0-Bridge-Header.h"; sourceTree = "<group>"; };
+		F3E496351CD51364009B8D48 /* SynthDrum.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SynthDrum.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -128,6 +130,7 @@
 				F3D564E31CC92FD70096ECCB /* LaunchScreen.storyboard */,
 				F3D564E61CC92FD70096ECCB /* Info.plist */,
 				F3D5650E1CC933BB0096ECCB /* Song.swift */,
+				F3E496351CD51364009B8D48 /* SynthDrum.swift */,
 			);
 			path = MidiDevice_TCL_V0.0.0;
 			sourceTree = "<group>";
@@ -265,6 +268,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F3E496361CD51364009B8D48 /* SynthDrum.swift in Sources */,
 				F3D564DD1CC92FD70096ECCB /* ViewController.swift in Sources */,
 				F3D565311CC935340096ECCB /* MidiSensor.cpp in Sources */,
 				F3D5652E1CC935340096ECCB /* BeatFilter.cpp in Sources */,

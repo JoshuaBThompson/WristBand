@@ -73,12 +73,14 @@ class Measure {
     var beatsPerMeasure: Int { return timeSignature.beatsPerMeasure }
     var totalBeats: Int { return count * beatsPerMeasure}
     var totalDuration: Double {
-        if longestTime > secPerMeasure{
+        if (longestTime > secPerMeasure){
             //round up to nearest integer to get number of measures
             //if longest time recorded is greater then secPerMeasure then make more measures
             //so we don't lose beats that were made while recording
             count = Int(ceil(Double(longestTime)/Double(secPerMeasure)))
-            
+        }
+        else{
+            count = 1; //todo: how should we update measure counts?
         }
         return secPerMeasure * Double(count)
     }

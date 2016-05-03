@@ -112,6 +112,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         let beatsPerMin = Double(tempoTextField.text!)!
         song.setTempo(beatsPerMin)
         measureDurationLabel.text = String(format: "%f", song.measure.totalDuration)
+        measureCountTextField.text = String(format: "%d", song.measure.count)
     }
     
     

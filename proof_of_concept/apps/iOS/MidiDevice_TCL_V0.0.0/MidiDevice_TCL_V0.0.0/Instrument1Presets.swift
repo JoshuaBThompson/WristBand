@@ -1,37 +1,31 @@
 //
-//  SynthDrum.swift
+//  Instrument1Presets.swift
 //  MidiDevice_TCL_V0.0.0
 //
-//  Created by sofiebio on 4/30/16.
+//  Created by sofiebio on 5/7/16.
 //  Copyright © 2016 wristband. All rights reserved.
 //
 
 import Foundation
 import AudioKit
 
-/****************Base class of synth drums
- ****************/
-
-class SynthDrum: AKPolyphonicInstrument{
-    var note: Int!
-    override init(voice: AKVoice, voiceCount: Int) {
-        super.init(voice: voice, voiceCount: voiceCount)
-    }
-}
 
 
-/****************Custom synth drum (A)
-  Desc: This synth drum replicates a low frequency bass drum using clipping, compressor and distortion / noise
-*****************/
 
-class SynthDrumA: SynthDrum{
+/****************Custom instrument preset 1
+ Desc: This synth drum replicates a low frequency bass drum using clipping, compressor and distortion / noise
+ *****************/
+
+class Instrument1Preset1: SynthInstrument{
     /// Create the synth snare instrument
     ///
     /// - parameter voiceCount: Number of voices (usually two is plenty for drums)
     ///
+    
     init(voiceCount: Int) {
-        super.init(voice: SynthDrumVoiceA(), voiceCount: voiceCount)
+        super.init(instrumentVoice: Instrument1Preset1Voice(), voiceCount: voiceCount)
         note = 90
+        
     }
     
     /// Start playback of a particular voice with MIDI style note and velocity
@@ -55,8 +49,8 @@ class SynthDrumA: SynthDrum{
     
 }
 
-/// Custom Drum Synthesizer Voice (A)
-class SynthDrumVoiceA: AKVoice{
+/// Inst1 preset 1 voice
+class Instrument1Preset1Voice: SynthInstrumentVoice{
     
     //operations
     var triangleTrigger: AKOperation!
@@ -74,8 +68,10 @@ class SynthDrumVoiceA: AKVoice{
     var noiseFilter: AKLowPassFilter!
     var compressor: AKCompressor!
     
-    //mixer
+    //mixers
     var mixer: AKMixer!
+    var presetMixer: AKMixer! //testing
+    
     
     //params
     var frequency: AKOperation!
@@ -100,10 +96,12 @@ class SynthDrumVoiceA: AKVoice{
         
         compressor = AKCompressor(mixer, threshold: -10, headRoom: 5, attackTime: 0.001, releaseTime: 0.05,masterGain: 5)
         
+        presetMixer = AKMixer(compressor, noiseFilter)
+        
         
         super.init()
         //set avaudionode
-        self.avAudioNode = compressor.avAudioNode
+        self.avAudioNode = presetMixer.avAudioNode //compressor.avAudioNode
         //start generators, filters ...etc
         compressor.start()
         noiseFilter.start()
@@ -114,8 +112,8 @@ class SynthDrumVoiceA: AKVoice{
     }
     
     /// Function create an identical new node for use in creating polyphonic instruments
-    override func duplicate() -> AKVoice {
-        let copy = SynthDrumVoiceA()
+    override func duplicate() -> Instrument1Preset1Voice {
+        let copy = Instrument1Preset1Voice()
         return copy
     }
     
@@ -127,7 +125,6 @@ class SynthDrumVoiceA: AKVoice{
     
     /// Function to start, play, or activate the node, all do the same thing
     override func start() {
-        print("trigger drum A")
         noiseGenerator.trigger()
         waveGenerator.trigger()
     }
@@ -139,18 +136,20 @@ class SynthDrumVoiceA: AKVoice{
 }
 
 
-/***************Custom synth drum (B)
+/****************Custom instrument preset 2
  Desc: This synth drum replicates a low frequency bass drum using clipping, compressor and distortion / noise
- ***************/
+ *****************/
 
-class SynthDrumB: SynthDrum{
+class Instrument1Preset2: SynthInstrument{
     /// Create the synth snare instrument
     ///
     /// - parameter voiceCount: Number of voices (usually two is plenty for drums)
     ///
+    
     init(voiceCount: Int) {
-        super.init(voice: SynthDrumVoiceB(), voiceCount: voiceCount)
+        super.init(instrumentVoice: Instrument1Preset2Voice(), voiceCount: voiceCount)
         note = 80
+        
     }
     
     /// Start playback of a particular voice with MIDI style note and velocity
@@ -174,8 +173,8 @@ class SynthDrumB: SynthDrum{
     
 }
 
-/// Custom Drum Synthesizer Voice (B)
-class SynthDrumVoiceB: AKVoice{
+/// Inst1 preset 2 voice
+class Instrument1Preset2Voice: SynthInstrumentVoice{
     
     //operations
     var triangleTrigger: AKOperation!
@@ -193,8 +192,10 @@ class SynthDrumVoiceB: AKVoice{
     var noiseFilter: AKLowPassFilter!
     var compressor: AKCompressor!
     
-    //mixer
+    //mixers
     var mixer: AKMixer!
+    var presetMixer: AKMixer! //testing
+    
     
     //params
     var frequency: AKOperation!
@@ -219,10 +220,12 @@ class SynthDrumVoiceB: AKVoice{
         
         compressor = AKCompressor(mixer, threshold: -10, headRoom: 5, attackTime: 0.001, releaseTime: 0.05,masterGain: 5)
         
+        presetMixer = AKMixer(compressor, noiseFilter)
+        
         
         super.init()
         //set avaudionode
-        self.avAudioNode = compressor.avAudioNode
+        self.avAudioNode = presetMixer.avAudioNode //compressor.avAudioNode
         //start generators, filters ...etc
         compressor.start()
         noiseFilter.start()
@@ -233,8 +236,8 @@ class SynthDrumVoiceB: AKVoice{
     }
     
     /// Function create an identical new node for use in creating polyphonic instruments
-    override func duplicate() -> AKVoice {
-        let copy = SynthDrumVoiceB()
+    override func duplicate() -> Instrument1Preset2Voice {
+        let copy = Instrument1Preset2Voice()
         return copy
     }
     
@@ -246,7 +249,6 @@ class SynthDrumVoiceB: AKVoice{
     
     /// Function to start, play, or activate the node, all do the same thing
     override func start() {
-        print("trigger drum B")
         noiseGenerator.trigger()
         waveGenerator.trigger()
     }
@@ -259,18 +261,21 @@ class SynthDrumVoiceB: AKVoice{
 
 
 
-/*************Custom synth drum (C)
- Desc: This synth drum replicates a low frequency bass drum using clipping, compressor and distortion / noise
- *************/
 
-class SynthDrumC: SynthDrum{
+/****************Custom instrument preset 3
+ Desc: This synth drum replicates a low frequency bass drum using clipping, compressor and distortion / noise
+ *****************/
+
+class Instrument1Preset3: SynthInstrument{
     /// Create the synth snare instrument
     ///
     /// - parameter voiceCount: Number of voices (usually two is plenty for drums)
     ///
+    
     init(voiceCount: Int) {
-        super.init(voice: SynthDrumVoiceC(), voiceCount: voiceCount)
+        super.init(instrumentVoice: Instrument1Preset3Voice(), voiceCount: voiceCount)
         note = 70
+        
     }
     
     /// Start playback of a particular voice with MIDI style note and velocity
@@ -294,8 +299,8 @@ class SynthDrumC: SynthDrum{
     
 }
 
-/// Custom Drum Synthesizer Voice (C)
-class SynthDrumVoiceC: AKVoice{
+/// Inst1 preset 3 voice
+class Instrument1Preset3Voice: SynthInstrumentVoice{
     
     //operations
     var triangleTrigger: AKOperation!
@@ -313,8 +318,10 @@ class SynthDrumVoiceC: AKVoice{
     var noiseFilter: AKLowPassFilter!
     var compressor: AKCompressor!
     
-    //mixer
+    //mixers
     var mixer: AKMixer!
+    var presetMixer: AKMixer! //testing
+    
     
     //params
     var frequency: AKOperation!
@@ -323,7 +330,7 @@ class SynthDrumVoiceC: AKVoice{
     
     /// Create the synth drum voice
     override init() {
-        frequency = AKOperation.lineSegment(AKOperation.trigger, start: 90.0, end: 60.0, duration: 0.20)
+        frequency = AKOperation.lineSegment(AKOperation.trigger, start: 120, end: 80.0, duration: 0.20)
         triangleWave = AKOperation.triangleWave(frequency: frequency, amplitude: 1)
         triangleTrigger = triangleWave.triggeredWithEnvelope(AKOperation.trigger, attack: 0.0001, hold: 0.0, release: 0.20)
         waveGenerator = AKOperationGenerator(operation: triangleTrigger)
@@ -339,10 +346,12 @@ class SynthDrumVoiceC: AKVoice{
         
         compressor = AKCompressor(mixer, threshold: -10, headRoom: 5, attackTime: 0.001, releaseTime: 0.05,masterGain: 5)
         
+        presetMixer = AKMixer(compressor, noiseFilter)
+        
         
         super.init()
         //set avaudionode
-        self.avAudioNode = compressor.avAudioNode
+        self.avAudioNode = presetMixer.avAudioNode //compressor.avAudioNode
         //start generators, filters ...etc
         compressor.start()
         noiseFilter.start()
@@ -353,8 +362,8 @@ class SynthDrumVoiceC: AKVoice{
     }
     
     /// Function create an identical new node for use in creating polyphonic instruments
-    override func duplicate() -> AKVoice {
-        let copy = SynthDrumVoiceC()
+    override func duplicate() -> Instrument1Preset3Voice {
+        let copy = Instrument1Preset3Voice()
         return copy
     }
     
@@ -366,7 +375,6 @@ class SynthDrumVoiceC: AKVoice{
     
     /// Function to start, play, or activate the node, all do the same thing
     override func start() {
-        print("trigger drum C")
         noiseGenerator.trigger()
         waveGenerator.trigger()
     }
@@ -378,19 +386,20 @@ class SynthDrumVoiceC: AKVoice{
 }
 
 
-/*************Custom synth drum (D)
+/****************Custom instrument preset 4
  Desc: This synth drum replicates a low frequency bass drum using clipping, compressor and distortion / noise
- *************/
+ *****************/
 
-class SynthDrumD: SynthDrum{
+class Instrument1Preset4: SynthInstrument{
     /// Create the synth snare instrument
     ///
     /// - parameter voiceCount: Number of voices (usually two is plenty for drums)
     ///
-        init(voiceCount: Int) {
-        super.init(voice: SynthDrumVoiceD(), voiceCount: voiceCount)
+    
+    init(voiceCount: Int) {
+        super.init(instrumentVoice: Instrument1Preset4Voice(), voiceCount: voiceCount)
         note = 60
-
+        
     }
     
     /// Start playback of a particular voice with MIDI style note and velocity
@@ -414,8 +423,8 @@ class SynthDrumD: SynthDrum{
     
 }
 
-/// Custom Drum Synthesizer Voice (D)
-class SynthDrumVoiceD: AKVoice{
+/// Inst1 preset 4 voice
+class Instrument1Preset4Voice: SynthInstrumentVoice{
     
     //operations
     var triangleTrigger: AKOperation!
@@ -433,8 +442,10 @@ class SynthDrumVoiceD: AKVoice{
     var noiseFilter: AKLowPassFilter!
     var compressor: AKCompressor!
     
-    //mixer
+    //mixers
     var mixer: AKMixer!
+    var presetMixer: AKMixer! //testing
+    
     
     //params
     var frequency: AKOperation!
@@ -443,7 +454,7 @@ class SynthDrumVoiceD: AKVoice{
     
     /// Create the synth drum voice
     override init() {
-        frequency = AKOperation.lineSegment(AKOperation.trigger, start: 120.0, end: 80.0, duration: 0.20)
+        frequency = AKOperation.lineSegment(AKOperation.trigger, start: 180.0, end: 90.0, duration: 0.20)
         triangleWave = AKOperation.triangleWave(frequency: frequency, amplitude: 1)
         triangleTrigger = triangleWave.triggeredWithEnvelope(AKOperation.trigger, attack: 0.0001, hold: 0.0, release: 0.20)
         waveGenerator = AKOperationGenerator(operation: triangleTrigger)
@@ -459,10 +470,12 @@ class SynthDrumVoiceD: AKVoice{
         
         compressor = AKCompressor(mixer, threshold: -10, headRoom: 5, attackTime: 0.001, releaseTime: 0.05,masterGain: 5)
         
+        presetMixer = AKMixer(compressor, noiseFilter)
+        
         
         super.init()
         //set avaudionode
-        self.avAudioNode = compressor.avAudioNode
+        self.avAudioNode = presetMixer.avAudioNode //compressor.avAudioNode
         //start generators, filters ...etc
         compressor.start()
         noiseFilter.start()
@@ -473,8 +486,8 @@ class SynthDrumVoiceD: AKVoice{
     }
     
     /// Function create an identical new node for use in creating polyphonic instruments
-    override func duplicate() -> AKVoice {
-        let copy = SynthDrumVoiceD()
+    override func duplicate() -> Instrument1Preset4Voice {
+        let copy = Instrument1Preset4Voice()
         return copy
     }
     
@@ -486,7 +499,6 @@ class SynthDrumVoiceD: AKVoice{
     
     /// Function to start, play, or activate the node, all do the same thing
     override func start() {
-        print("trigger drum D")
         noiseGenerator.trigger()
         waveGenerator.trigger()
     }
@@ -496,3 +508,12 @@ class SynthDrumVoiceD: AKVoice{
         
     }
 }
+
+
+
+
+
+
+
+
+

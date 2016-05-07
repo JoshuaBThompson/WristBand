@@ -41,45 +41,46 @@ class ViewController: UIViewController, UITextFieldDelegate {
     
     
     @IBAction func addNote3(sender: UIButton) {
-        print("adding note3")
-        self.song.addNote(drum: 3)
+        print("adding note preset3")
+        self.song.addNote(preset: 3)
     }
     
     @IBAction func addNote2(sender: UIButton) {
-        print("adding note2")
-        self.song.addNote(drum: 2)
+        print("adding note preset2")
+        self.song.addNote(preset: 2)
     }
     
     @IBAction func addNote1(sender: UIButton) {
-        print("adding note1")
-        self.song.addNote(drum: 1)
+        print("adding note preset1")
+        self.song.addNote(preset: 1)
     }
     
     
     @IBAction func addNote0(sender: UIButton) {
-        print("adding note0")
-        self.song.addNote(drum: 0)
+        print("adding note preset0")
+        self.song.addNote(preset: 0)
+        
     }
     
     @IBAction func setNote3(sender: UIButton) {
-        print("setting beat to note3")
-        song.selectedDrum = 3
+        print("setting preset to 3")
+        song.selectedPreset = 3
     }
     
     @IBAction func setNote2(sender: UIButton) {
-        print("setting beat to note2")
-        song.selectedDrum = 2
+        print("setting preset to 2")
+        song.selectedPreset = 2
     }
     
     
     @IBAction func setNote1(sender: UIButton) {
-        print("setting beat to note1")
-        song.selectedDrum = 1
+        print("setting preset to 1")
+        song.selectedPreset = 1
     }
     
     @IBAction func setNote0(sender: UIButton) {
-        print("setting beat to note0")
-        song.selectedDrum = 0
+        print("setting preset to 0")
+        song.selectedPreset = 0
     }
     
     
@@ -91,28 +92,31 @@ class ViewController: UIViewController, UITextFieldDelegate {
     
     @IBAction func updateTimeSigNote(sender: UIButton) {
         print("Updating time signature beats per measure")
-        let beatsPerMeasure = song.measure.timeSignature.beatsPerMeasure
+        let instNumber = song.selectedInstrument
+        let beatsPerMeasure = song.instruments[instNumber].measure.timeSignature.beatsPerMeasure
         let note = Int(timeSigTextFieldNote.text!)!
         song.setTimeSignature(beatsPerMeasure, newNote: note)
-        measureDurationLabel.text = String(format: "%f", song.measure.totalDuration)
-        measureCountTextField.text = String(format: "%d", song.measure.count)
+        measureDurationLabel.text = String(format: "%f", song.instruments[instNumber].measure.totalDuration)
+        measureCountTextField.text = String(format: "%d", song.instruments[instNumber].measure.count)
     }
     
     
     @IBAction func updateTimeSigBpm(sender: UIButton) {
         print("Updating time signature beats per measure")
-        let note = song.measure.timeSignature.beatUnit
+        let instNumber = song.selectedInstrument
+        let note = song.instruments[instNumber].measure.timeSignature.beatUnit
         let beatsPerMeasure = Int(timeSigTextFieldBPM.text!)!
         song.setTimeSignature(beatsPerMeasure, newNote: note)
-        measureDurationLabel.text = String(format: "%f", song.measure.totalDuration)
-        measureCountTextField.text = String(format: "%d", song.measure.count)
+        measureDurationLabel.text = String(format: "%f", song.instruments[instNumber].measure.totalDuration)
+        measureCountTextField.text = String(format: "%d", song.instruments[instNumber].measure.count)
     }
 
     @IBAction func updateTempo(sender: UIButton) {
         let beatsPerMin = Double(tempoTextField.text!)!
+        let instNumber = song.selectedInstrument
         song.setTempo(beatsPerMin)
-        measureDurationLabel.text = String(format: "%f", song.measure.totalDuration)
-        measureCountTextField.text = String(format: "%d", song.measure.count)
+        measureDurationLabel.text = String(format: "%f", song.instruments[instNumber].measure.totalDuration)
+        measureCountTextField.text = String(format: "%d", song.instruments[instNumber].measure.count)
     }
     
     

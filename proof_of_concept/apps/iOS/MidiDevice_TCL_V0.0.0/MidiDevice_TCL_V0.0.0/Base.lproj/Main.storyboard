@@ -180,18 +180,39 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="P4O-A7-Lpz">
-                                <rect key="frame" x="204" y="171" width="61" height="30"/>
+                                <rect key="frame" x="202" y="171" width="61" height="30"/>
                                 <state key="normal" title="Sim Beat"/>
                                 <connections>
                                     <action selector="simulateBeat:" destination="BYZ-38-t0r" eventType="touchUpInside" id="m3o-oQ-Tvy"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mkg-gI-ldx">
+                                <rect key="frame" x="202" y="202" width="85" height="30"/>
+                                <state key="normal" title="Instrument 1"/>
+                                <connections>
+                                    <action selector="selectInstrument1:" destination="BYZ-38-t0r" eventType="touchUpInside" id="kyA-af-6Pp"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GJA-gG-nr8">
+                                <rect key="frame" x="200" y="234" width="87" height="30"/>
+                                <state key="normal" title="Instrument 2"/>
+                                <connections>
+                                    <action selector="selectInstrument2:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Phx-IR-Gh9"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Instrument" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3xU-R7-GrX">
+                                <rect key="frame" x="66" y="513" width="83" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <connections>
                         <outlet property="beatCountLabel" destination="1uL-vS-Apc" id="PHv-Y3-Vi6"/>
                         <outlet property="debugLabel" destination="wCu-Pl-HmI" id="gig-X6-la1"/>
+                        <outlet property="instrumentLabel" destination="3xU-R7-GrX" id="fAE-Iq-Qsd"/>
                         <outlet property="measureCountTextField" destination="KHv-ja-9Ua" id="L0Z-lj-Lbc"/>
                         <outlet property="measureDurationLabel" destination="pzI-j1-pE2" id="U8q-Ob-xHm"/>
                         <outlet property="tempoTextField" destination="CSv-D3-lT3" id="94P-Pj-Qtb"/>

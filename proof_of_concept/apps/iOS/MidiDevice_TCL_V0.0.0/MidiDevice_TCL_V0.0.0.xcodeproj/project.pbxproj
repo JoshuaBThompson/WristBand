@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		F33D580E1CDE85F0006C0C81 /* Instruments.swift in Sources */ = {isa = PBXBuildFile; fileRef = F33D580D1CDE85F0006C0C81 /* Instruments.swift */; };
 		F33D58101CDEA157006C0C81 /* Instrument1Presets.swift in Sources */ = {isa = PBXBuildFile; fileRef = F33D580F1CDEA157006C0C81 /* Instrument1Presets.swift */; };
+		F33D58121CDFF462006C0C81 /* Instrument2Presets.swift in Sources */ = {isa = PBXBuildFile; fileRef = F33D58111CDFF462006C0C81 /* Instrument2Presets.swift */; };
 		F3D564DB1CC92FD70096ECCB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D564DA1CC92FD70096ECCB /* AppDelegate.swift */; };
 		F3D564DD1CC92FD70096ECCB /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D564DC1CC92FD70096ECCB /* ViewController.swift */; };
 		F3D564E01CC92FD70096ECCB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F3D564DE1CC92FD70096ECCB /* Main.storyboard */; };
@@ -53,6 +54,7 @@
 /* Begin PBXFileReference section */
 		F33D580D1CDE85F0006C0C81 /* Instruments.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Instruments.swift; sourceTree = "<group>"; };
 		F33D580F1CDEA157006C0C81 /* Instrument1Presets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Instrument1Presets.swift; sourceTree = "<group>"; };
+		F33D58111CDFF462006C0C81 /* Instrument2Presets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Instrument2Presets.swift; sourceTree = "<group>"; };
 		F3D564D71CC92FD70096ECCB /* MidiDevice_TCL_V0.0.0.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MidiDevice_TCL_V0.0.0.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F3D564DA1CC92FD70096ECCB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F3D564DC1CC92FD70096ECCB /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -134,6 +136,7 @@
 				F3D5650E1CC933BB0096ECCB /* Song.swift */,
 				F33D580D1CDE85F0006C0C81 /* Instruments.swift */,
 				F33D580F1CDEA157006C0C81 /* Instrument1Presets.swift */,
+				F33D58111CDFF462006C0C81 /* Instrument2Presets.swift */,
 			);
 			path = MidiDevice_TCL_V0.0.0;
 			sourceTree = "<group>";
@@ -271,6 +274,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F33D58121CDFF462006C0C81 /* Instrument2Presets.swift in Sources */,
 				F3D564DD1CC92FD70096ECCB /* ViewController.swift in Sources */,
 				F3D565311CC935340096ECCB /* MidiSensor.cpp in Sources */,
 				F33D58101CDEA157006C0C81 /* Instrument1Presets.swift in Sources */,

@@ -19,13 +19,22 @@ class Song {
     var recordEnabled = false
     var playing = false
     var instrument1Tracks: InstrumentPresetTracks!
+    var instrument2Tracks: InstrumentPresetTracks!
     var instruments = [InstrumentPresetTracks]()
     
     init(){
         mixer = AKMixer()
+        
+        //instrument 1
         instrument1Tracks = InstrumentPresetTracks(preset1: Instrument1Preset1(voiceCount:1), preset2: Instrument1Preset2(voiceCount:1), preset3: Instrument1Preset3(voiceCount:1), preset4: Instrument1Preset4(voiceCount:1))
         instruments.append(instrument1Tracks)
         mixer.connect(instrument1Tracks)
+        
+        //instrument 2
+        instrument2Tracks = InstrumentPresetTracks(preset1: Instrument2Preset1(voiceCount:1), preset2: Instrument2Preset2(voiceCount:1), preset3: Instrument2Preset3(voiceCount:1), preset4: Instrument2Preset4(voiceCount:1))
+        instruments.append(instrument2Tracks)
+        mixer.connect(instrument2Tracks)
+        
         AudioKit.output = mixer
     }
     
@@ -41,6 +50,18 @@ class Song {
         
         //clear all recorded tracks in selected instrument
         instruments[selectedInstrument].clear()
+    }
+    
+    func selectInstrument(number: Int){
+        if(number < instruments.count){
+            //change tempo to next instrument
+            instruments[selectedInstrument].stopClickTrack()
+            selectedInstrument = number
+            
+            //start new click track
+            instruments[selectedInstrument].startClickTrack()
+            
+        }
     }
     
     func playNote(presetNumber: Int){

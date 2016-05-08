@@ -34,10 +34,24 @@ class ViewController: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var timeSigTextFieldNote: UITextField!
     
+    @IBOutlet weak var instrumentLabel: UILabel!
     
     @IBOutlet weak var beatCountLabel: UILabel!
     
     //MARK: actions
+    
+    @IBAction func selectInstrument1(sender: UIButton) {
+        let instrumentNum = 0
+        instrumentLabel.text = String(format: "Inst %d", instrumentNum+1 )
+        song.selectInstrument(instrumentNum)
+    }
+    
+    @IBAction func selectInstrument2(sender: UIButton) {
+        let instrumentNum = 1
+        instrumentLabel.text = String(format: "Inst %d", instrumentNum+1 )
+        song.selectInstrument(instrumentNum)
+    }
+    
     
     @IBAction func simulateBeat(sender: UIButton) {
         //simulate what would happen if user makes beat motion

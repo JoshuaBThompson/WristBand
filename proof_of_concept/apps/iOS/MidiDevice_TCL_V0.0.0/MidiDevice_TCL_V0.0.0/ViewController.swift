@@ -39,6 +39,14 @@ class ViewController: UIViewController, UITextFieldDelegate {
     
     //MARK: actions
     
+    @IBAction func simulateBeat(sender: UIButton) {
+        //simulate what would happen if user makes beat motion
+        //copied from beat handler
+        song.addSelectedNote() //make drum sound and add to track if recording!
+        eventCount = eventCount + 1
+        self.beatCountLabel.text = String(format:"%d", eventCount);
+        
+    }
     
     @IBAction func addNote3(sender: UIButton) {
         print("adding note preset3")

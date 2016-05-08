@@ -197,6 +197,14 @@ class ClickTrack: AKVoice{
         
     }
     
+    func stopClicks(){
+        clickGenerator.stop()
+    }
+    
+    func startClicks(){
+        clickGenerator.start()
+    }
+    
     //MARK: functions
     
 }
@@ -241,6 +249,7 @@ class InstrumentPresetTracks: AKNode {
         mixer.connect(instPreset2)
         mixer.connect(instPreset3)
         mixer.connect(instPreset4)
+        mixer.connect(measure.clickTrack)
     
         preset1Midi = AKMIDIInstrument(instrument: instPreset1)
         preset1Midi.enableMIDI(midi.midiClient, name: "Synth inst preset 1")
@@ -269,6 +278,14 @@ class InstrumentPresetTracks: AKNode {
         self.avAudioNode = mixer.avAudioNode
         
         
+    }
+    
+    func startClickTrack(){
+        measure.clickTrack.startClicks()
+    }
+    
+    func stopClickTrack(){
+        measure.clickTrack.stopClicks()
     }
     
     func clear(){

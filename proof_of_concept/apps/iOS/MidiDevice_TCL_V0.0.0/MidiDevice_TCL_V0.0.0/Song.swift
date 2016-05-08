@@ -22,6 +22,7 @@ class Song {
     var instruments = [InstrumentPresetTracks]()
     
     init(){
+        mixer = AKMixer()
         instrument1Tracks = InstrumentPresetTracks(preset1: Instrument1Preset1(voiceCount:1), preset2: Instrument1Preset2(voiceCount:1), preset3: Instrument1Preset3(voiceCount:1), preset4: Instrument1Preset4(voiceCount:1))
         instruments.append(instrument1Tracks)
         mixer.connect(instrument1Tracks)

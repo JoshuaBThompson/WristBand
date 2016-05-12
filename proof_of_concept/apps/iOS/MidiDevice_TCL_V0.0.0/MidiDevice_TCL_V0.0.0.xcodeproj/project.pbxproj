@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F316CA621CE2337200A93ADC /* TestDrums.swift in Sources */ = {isa = PBXBuildFile; fileRef = F316CA611CE2337200A93ADC /* TestDrums.swift */; };
 		F33D580E1CDE85F0006C0C81 /* Instruments.swift in Sources */ = {isa = PBXBuildFile; fileRef = F33D580D1CDE85F0006C0C81 /* Instruments.swift */; };
 		F33D58101CDEA157006C0C81 /* Instrument1Presets.swift in Sources */ = {isa = PBXBuildFile; fileRef = F33D580F1CDEA157006C0C81 /* Instrument1Presets.swift */; };
 		F33D58121CDFF462006C0C81 /* Instrument2Presets.swift in Sources */ = {isa = PBXBuildFile; fileRef = F33D58111CDFF462006C0C81 /* Instrument2Presets.swift */; };
@@ -52,6 +53,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		F316CA611CE2337200A93ADC /* TestDrums.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestDrums.swift; sourceTree = "<group>"; };
 		F33D580D1CDE85F0006C0C81 /* Instruments.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Instruments.swift; sourceTree = "<group>"; };
 		F33D580F1CDEA157006C0C81 /* Instrument1Presets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Instrument1Presets.swift; sourceTree = "<group>"; };
 		F33D58111CDFF462006C0C81 /* Instrument2Presets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Instrument2Presets.swift; sourceTree = "<group>"; };
@@ -137,6 +139,7 @@
 				F33D580D1CDE85F0006C0C81 /* Instruments.swift */,
 				F33D580F1CDEA157006C0C81 /* Instrument1Presets.swift */,
 				F33D58111CDFF462006C0C81 /* Instrument2Presets.swift */,
+				F316CA611CE2337200A93ADC /* TestDrums.swift */,
 			);
 			path = MidiDevice_TCL_V0.0.0;
 			sourceTree = "<group>";
@@ -275,6 +278,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F33D58121CDFF462006C0C81 /* Instrument2Presets.swift in Sources */,
+				F316CA621CE2337200A93ADC /* TestDrums.swift in Sources */,
 				F3D564DD1CC92FD70096ECCB /* ViewController.swift in Sources */,
 				F3D565311CC935340096ECCB /* MidiSensor.cpp in Sources */,
 				F33D58101CDEA157006C0C81 /* Instrument1Presets.swift in Sources */,

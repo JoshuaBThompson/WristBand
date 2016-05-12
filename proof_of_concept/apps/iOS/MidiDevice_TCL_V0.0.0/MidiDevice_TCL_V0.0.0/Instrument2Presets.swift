@@ -115,7 +115,7 @@ class Instrument2Preset1Voice: SynthInstrumentVoice{
     }
     
     /// Function create an identical new node for use in creating polyphonic instruments
-    override func duplicate() -> Instrument2Preset1Voice {
+    override func duplicate() -> AKVoice {
         let copy = Instrument2Preset1Voice()
         return copy
     }
@@ -242,7 +242,7 @@ class Instrument2Preset2Voice: SynthInstrumentVoice{
     }
     
     /// Function create an identical new node for use in creating polyphonic instruments
-    override func duplicate() -> Instrument2Preset2Voice {
+    override func duplicate() -> AKVoice {
         let copy = Instrument2Preset2Voice()
         return copy
     }
@@ -371,7 +371,7 @@ class Instrument2Preset3Voice: SynthInstrumentVoice{
     }
     
     /// Function create an identical new node for use in creating polyphonic instruments
-    override func duplicate() -> Instrument2Preset3Voice {
+    override func duplicate() -> AKVoice {
         let copy = Instrument2Preset3Voice()
         return copy
     }
@@ -498,7 +498,7 @@ class Instrument2Preset4Voice: SynthInstrumentVoice{
     }
     
     /// Function create an identical new node for use in creating polyphonic instruments
-    override func duplicate() -> Instrument2Preset4Voice {
+    override func duplicate() -> AKVoice {
         let copy = Instrument2Preset4Voice()
         return copy
     }

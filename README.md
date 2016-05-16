@@ -1,5 +1,5 @@
 # WristBand
-## Gesture MIDI Controller
+## Gesture MIDI Controller for iOS
 ### Proof of Concept
 #### Apps
 - iOS and OSX apps

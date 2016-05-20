@@ -266,13 +266,13 @@ class InstrumentPresetTracks {
         mixer.connect(measure.clickTrack)
     
         preset1Midi = AKMIDIInstrument(instrument: instPreset1)
-        preset1Midi.enableMIDI(midi.midiClient, name: "Synth inst preset 1")
+        preset1Midi.enableMIDI(midi.client, name: "Synth inst preset 1")
         preset2Midi = AKMIDIInstrument(instrument: instPreset2)
-        preset2Midi.enableMIDI(midi.midiClient, name: "Synth inst preset 2")
+        preset2Midi.enableMIDI(midi.client, name: "Synth inst preset 2")
         preset3Midi = AKMIDIInstrument(instrument: instPreset3)
-        preset3Midi.enableMIDI(midi.midiClient, name: "Synth inst preset 3")
+        preset3Midi.enableMIDI(midi.client, name: "Synth inst preset 3")
         preset4Midi = AKMIDIInstrument(instrument: instPreset4)
-        preset4Midi.enableMIDI(midi.midiClient, name: "Synth inst preset 4")
+        preset4Midi.enableMIDI(midi.client, name: "Synth inst preset 4")
         
         trackManager.newTrack()
         trackManager.tracks[0].setMIDIOutput(preset1Midi.midiIn)
@@ -355,7 +355,7 @@ class InstrumentPresetTracks {
     func play(){
         print("Playing notes in sequence track")
         //play note in sequence track (just play first track for now)
-        trackManager.loopOn()
+        trackManager.enableLooping()
         trackManager.play()
         playing = true
         
@@ -365,7 +365,7 @@ class InstrumentPresetTracks {
         print("Stop playing notes in sequence track")
         recordEnabled = false
         //stop playing note in sequence track
-        trackManager.loopOff()
+        trackManager.disableLooping()
         trackManager.stop()
         measure.timer.stop()
         playing = false
@@ -396,13 +396,13 @@ class InstrumentPresetTracks {
     func pause(){
         if(playing){
             trackManager.stop()
-            trackManager.loopOff()
+            trackManager.disableLooping()
         }
     }
     
     func unpause(){
         if(playing){
-            trackManager.loopOn()
+            trackManager.enableLooping()
             trackManager.play()
         }
     }
@@ -475,21 +475,21 @@ class InstrumentPresetTracksTest {
         mixer.connect(measure.clickTrack)
         
         preset1Midi = AKMIDIInstrument(instrument: instPreset1)
-        preset1Midi.enableMIDI(midi.midiClient, name: "Synth inst preset 1")
+        preset1Midi.enableMIDI(midi.client, name: "Synth inst preset 1")
         preset2Midi = AKMIDIInstrument(instrument: instPreset2)
-        preset2Midi.enableMIDI(midi.midiClient, name: "Synth inst preset 2")
+        preset2Midi.enableMIDI(midi.client, name: "Synth inst preset 2")
         preset3Midi = AKMIDIInstrument(instrument: instPreset3)
-        preset3Midi.enableMIDI(midi.midiClient, name: "Synth inst preset 3")
+        preset3Midi.enableMIDI(midi.client, name: "Synth inst preset 3")
         preset4Midi = AKMIDIInstrument(instrument: instPreset4)
-        preset4Midi.enableMIDI(midi.midiClient, name: "Synth inst preset 4")
+        preset4Midi.enableMIDI(midi.client, name: "Synth inst preset 4")
         preset5Midi = AKMIDIInstrument(instrument: instPreset5)
-        preset5Midi.enableMIDI(midi.midiClient, name: "Synth inst preset 1")
+        preset5Midi.enableMIDI(midi.client, name: "Synth inst preset 1")
         preset6Midi = AKMIDIInstrument(instrument: instPreset6)
-        preset6Midi.enableMIDI(midi.midiClient, name: "Synth inst preset 2")
+        preset6Midi.enableMIDI(midi.client, name: "Synth inst preset 2")
         preset7Midi = AKMIDIInstrument(instrument: instPreset7)
-        preset7Midi.enableMIDI(midi.midiClient, name: "Synth inst preset 3")
+        preset7Midi.enableMIDI(midi.client, name: "Synth inst preset 3")
         preset8Midi = AKMIDIInstrument(instrument: instPreset8)
-        preset8Midi.enableMIDI(midi.midiClient, name: "Synth inst preset 4")
+        preset8Midi.enableMIDI(midi.client, name: "Synth inst preset 4")
         
         trackManager.newTrack()
         trackManager.tracks[0].setMIDIOutput(preset1Midi.midiIn)
@@ -580,7 +580,7 @@ class InstrumentPresetTracksTest {
     func play(){
         print("Playing notes in sequence track")
         //play note in sequence track (just play first track for now)
-        trackManager.loopOn()
+        trackManager.enableLooping()
         trackManager.play()
         playing = true
         
@@ -590,7 +590,7 @@ class InstrumentPresetTracksTest {
         print("Stop playing notes in sequence track")
         recordEnabled = false
         //stop playing note in sequence track
-        trackManager.loopOff()
+        trackManager.disableLooping()
         trackManager.stop()
         measure.timer.stop()
         playing = false
@@ -621,13 +621,13 @@ class InstrumentPresetTracksTest {
     func pause(){
         if(playing){
             trackManager.stop()
-            trackManager.loopOff()
+            trackManager.disableLooping()
         }
     }
     
     func unpause(){
         if(playing){
-            trackManager.loopOn()
+            trackManager.enableLooping()
             trackManager.play()
         }
     }

@@ -19,20 +19,20 @@ class Song {
     var notePosition: Double = 1
     var recordEnabled = false
     var playing = false
-    var instrument1Tracks: InstrumentPresetTracksTest!
-    //var instrument2Tracks: InstrumentPresetTracks!
-    var instruments = [InstrumentPresetTracksTest]()
-    var instrument: InstrumentPresetTracksTest!
+    var samplerInst: SamplerInstrument!
+    var snareTracks: InstrumentPresetTracks!
+    //var kickTracks: InstrumentPresetTracks!
+    var instruments = [InstrumentPresetTracks]()
+    var instrument: InstrumentPresetTracks!
     
     init(){
-        mixer = AKMixer()
+        samplerInst = SamplerInstrument(voiceCount: 1)
+        mixer = AKMixer(samplerInst)
         
         //instrument 1
-        //instrument1Tracks = InstrumentPresetTracks(preset1: Instrument1Preset1(voiceCount:1), preset2: Instrument1Preset2(voiceCount:1), preset3: Instrument1Preset3(voiceCount:1), preset4: Instrument1Preset4(voiceCount:1))
-        //instrument1Tracks = InstrumentPresetTracks(preset1: Instrument1Preset1Test(voiceCount:1), preset2: Instrument1Preset1Test(voiceCount:1), preset3: Instrument1Preset1Test(voiceCount:1), preset4: Instrument1Preset1Test(voiceCount:1))
-        instrument1Tracks = InstrumentPresetTracksTest()
-        instruments.append(instrument1Tracks)
-        mixer.connect(instrument1Tracks.mixer)
+        snareTracks = InstrumentPresetTracks(preset1: SnareInstrument1(voiceCount:1), preset2: SnareInstrument2(voiceCount:1), preset3: SnareInstrument3(voiceCount:1), preset4: SnareInstrument4(voiceCount:1))
+        instruments.append(snareTracks)
+        mixer.connect(snareTracks.mixer)
         
         //instrument 2
         /*
@@ -45,7 +45,7 @@ class Song {
         
         
         AudioKit.output = mixer
-        instrument = instrument1Tracks
+        instrument = snareTracks //just start of with snare instruments as initial collection (we can change this later...)
     }
     
     func start(){

@@ -9,7 +9,61 @@
 import Foundation
 import AudioKit
 
+//sampler
+class SamplerVoice: SynthInstrumentVoice {
+    var sampler: AKSampler!
+    override init(){
+        sampler = AKSampler()
+        sampler.loadWav("Sounds/Snare/TCM_Snare_1")
+        super.init()
+        self.avAudioNode = sampler.avAudioNode
+    }
+    
+    override func start() {
+        sampler.playNote()
+    }
+    
+    override func stop(){
+        //sampler.stopNote()
+    }
+    
+    override func duplicate() -> AKVoice {
+        let copy = SamplerVoice()
+        return copy
+    }
+}
 
+//test sampler instruments
+class SamplerInstrument: SynthInstrument {
+    /// Create the synth sampler instrument
+    ///
+    /// - parameter voiceCount: Number of voices (usually two is plenty for drums)
+    ///
+    init(voiceCount: Int) {
+        super.init(instrumentVoice: SamplerVoice(), voiceCount: voiceCount)
+    }
+    
+    /// Start playback of a particular voice with MIDI style note and velocity
+    ///
+    /// - parameter voice: Voice to start
+    /// - parameter note: MIDI Note Number
+    /// - parameter velocity: MIDI Velocity (0-127)
+    ///
+    override func playVoice(voice: AKVoice, note: Int, velocity: Int) {
+        print("start sampler inst voice")
+        voice.start()
+    }
+    
+    /// Stop playback of a particular voice
+    ///
+    /// - parameter voice: Voice to stop
+    /// - parameter note: MIDI Note Number
+    ///
+    override func stopVoice(voice: AKVoice, note: Int) {
+        print("stop sampler inst voice")
+        voice.stop()
+    }
+}
 
 //test instruments
 class Kick: SynthInstrument {

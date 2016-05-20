@@ -10,6 +10,84 @@ import Foundation
 import AudioKit
 
 
+/// Inst1 preset 2 voice test
+class Instrument1Preset1VoiceTest: SynthInstrumentVoice{
+    
+    //operations
+    var triangleTrigger: AKOperation!
+    var triangleWave: AKOperation!
+    var noiseOperation: AKOperation!
+    var noiseTrigger: AKOperation!
+    
+    
+    //generators
+    var noiseGenerator: AKOperationGenerator
+    var waveGenerator: AKOperationGenerator!
+    
+    //filters
+    var noiseFilter: AKLowPassFilter!
+    var compressor: AKCompressor!
+    
+    //mixers
+    var mixer: AKMixer!
+    var presetMixer: AKMixer! //testing
+    
+    
+    //params
+    var frequency: AKOperation!
+    
+    
+    
+    /// Create the synth drum voice
+    override init() {
+        frequency = AKOperation.lineSegment(AKOperation.trigger, start: 30.0, end: 20.0, duration: 0.20)
+        triangleWave = AKOperation.triangleWave(frequency: frequency, amplitude: 1)
+        triangleTrigger = triangleWave.triggeredWithEnvelope(AKOperation.trigger, attack: 0.0001, hold: 0.0, release: 0.20)
+        waveGenerator = AKOperationGenerator(operation: triangleTrigger)
+        
+        noiseOperation = AKOperation.whiteNoise(amplitude: 0.1)
+        noiseTrigger = noiseOperation.triggeredWithEnvelope(AKOperation.trigger, attack: 0.01, hold: 0.0, release: 0.01) //0.02 = 20 ms
+        noiseGenerator = AKOperationGenerator(operation: noiseTrigger)
+        noiseFilter = AKLowPassFilter(noiseGenerator, cutoffFrequency: 1000)
+        
+        mixer = AKMixer(noiseFilter, waveGenerator)
+        
+        
+        
+        super.init()
+        //set avaudionode
+        self.avAudioNode = mixer.avAudioNode //compressor.avAudioNode
+        //start generators, filters ...etc
+        noiseFilter.start()
+        waveGenerator.start()
+        noiseGenerator.start()
+        
+        
+    }
+    
+    /// Function create an identical new node for use in creating polyphonic instruments
+    override func duplicate() -> AKVoice {
+        let copy = Instrument1Preset1VoiceTest()
+        return copy
+    }
+    
+    /// Tells whether the node is processing (ie. started, playing, or active)
+    override var isStarted: Bool {
+        let playing: Bool = waveGenerator.isPlaying
+        return playing
+    }
+    
+    /// Function to start, play, or activate the node, all do the same thing
+    override func start() {
+        noiseGenerator.trigger()
+        waveGenerator.trigger()
+    }
+    
+    /// Function to stop or bypass the node, both are equivalent
+    override func stop() {
+        
+    }
+}
 
 
 /****************Custom instrument preset 1 test
@@ -173,84 +251,6 @@ class Instrument1Preset1Voice: SynthInstrumentVoice{
 }
 
 
-/// Inst1 preset 2 voice test
-class Instrument1Preset1VoiceTest: SynthInstrumentVoice{
-    
-    //operations
-    var triangleTrigger: AKOperation!
-    var triangleWave: AKOperation!
-    var noiseOperation: AKOperation!
-    var noiseTrigger: AKOperation!
-    
-    
-    //generators
-    var noiseGenerator: AKOperationGenerator
-    var waveGenerator: AKOperationGenerator!
-    
-    //filters
-    var noiseFilter: AKLowPassFilter!
-    var compressor: AKCompressor!
-    
-    //mixers
-    var mixer: AKMixer!
-    var presetMixer: AKMixer! //testing
-    
-    
-    //params
-    var frequency: AKOperation!
-    
-    
-    
-    /// Create the synth drum voice
-    override init() {
-        frequency = AKOperation.lineSegment(AKOperation.trigger, start: 30.0, end: 20.0, duration: 0.20)
-        triangleWave = AKOperation.triangleWave(frequency: frequency, amplitude: 1)
-        triangleTrigger = triangleWave.triggeredWithEnvelope(AKOperation.trigger, attack: 0.0001, hold: 0.0, release: 0.20)
-        waveGenerator = AKOperationGenerator(operation: triangleTrigger)
-        
-        noiseOperation = AKOperation.whiteNoise(amplitude: 0.1)
-        noiseTrigger = noiseOperation.triggeredWithEnvelope(AKOperation.trigger, attack: 0.01, hold: 0.0, release: 0.01) //0.02 = 20 ms
-        noiseGenerator = AKOperationGenerator(operation: noiseTrigger)
-        noiseFilter = AKLowPassFilter(noiseGenerator, cutoffFrequency: 1000)
-        
-        mixer = AKMixer(noiseFilter, waveGenerator)
-        
-
-        
-        super.init()
-        //set avaudionode
-        self.avAudioNode = mixer.avAudioNode //compressor.avAudioNode
-        //start generators, filters ...etc
-        noiseFilter.start()
-        waveGenerator.start()
-        noiseGenerator.start()
- 
-        
-    }
-    
-    /// Function create an identical new node for use in creating polyphonic instruments
-    override func duplicate() -> AKVoice {
-        let copy = Instrument1Preset1VoiceTest()
-        return copy
-    }
-    
-    /// Tells whether the node is processing (ie. started, playing, or active)
-    override var isStarted: Bool {
-        let playing: Bool = waveGenerator.isPlaying
-        return playing
-    }
-    
-    /// Function to start, play, or activate the node, all do the same thing
-    override func start() {
-        noiseGenerator.trigger()
-        waveGenerator.trigger()
-    }
-    
-    /// Function to stop or bypass the node, both are equivalent
-    override func stop() {
-        
-    }
-}
 
 
 /****************Custom instrument preset 2

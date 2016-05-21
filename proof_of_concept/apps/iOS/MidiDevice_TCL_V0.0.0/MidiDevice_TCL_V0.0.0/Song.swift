@@ -20,28 +20,32 @@ class Song {
     var recordEnabled = false
     var playing = false
     var samplerInst: SamplerInstrument!
+    var sampler: SamplerVoiceTest!
     var snareTracks: InstrumentPresetTracks!
-    //var kickTracks: InstrumentPresetTracks!
+    var kickTracks: InstrumentPresetTracks!
+    var hatTracks: InstrumentPresetTracks!
     var instruments = [InstrumentPresetTracks]()
     var instrument: InstrumentPresetTracks!
     
     init(){
         samplerInst = SamplerInstrument(voiceCount: 1)
-        mixer = AKMixer(samplerInst)
+        sampler = SamplerVoiceTest()
+        mixer = AKMixer(samplerInst, sampler)
         
-        //instrument 1
+        //instrument 1 - snare
         snareTracks = InstrumentPresetTracks(preset1: SnareInstrument1(voiceCount:1), preset2: SnareInstrument2(voiceCount:1), preset3: SnareInstrument3(voiceCount:1), preset4: SnareInstrument4(voiceCount:1))
         instruments.append(snareTracks)
         mixer.connect(snareTracks.mixer)
         
-        //instrument 2
-        /*
-        //instrument2Tracks = InstrumentPresetTracks(preset1: Instrument2Preset1(voiceCount:1), preset2: Instrument2Preset2(voiceCount:1), preset3: Instrument2Preset3(voiceCount:1), preset4: Instrument2Preset4(voiceCount:1))
-        instrument2Tracks = InstrumentPresetTracks(preset1: Instrument1Preset1Test(voiceCount:1), preset2: Instrument1Preset1Test(voiceCount:1), preset3: Instrument1Preset1Test(voiceCount:1), preset4: Instrument1Preset1Test(voiceCount:1))
-
-        instruments.append(instrument2Tracks)
-        mixer.connect(instrument2Tracks.mixer)
-        */
+        //instrument 2 - kick
+        kickTracks = InstrumentPresetTracks(preset1: KickInstrument1(voiceCount:1), preset2: KickInstrument2(voiceCount:1), preset3: KickInstrument3(voiceCount:1), preset4: KickInstrument4(voiceCount:1))
+        instruments.append(kickTracks)
+        mixer.connect(kickTracks.mixer)
+        
+        //instrument 3 - hat
+        hatTracks = InstrumentPresetTracks(preset1: HatInstrument1(voiceCount:1), preset2: HatInstrument2(voiceCount:1), preset3: HatInstrument3(voiceCount:1), preset4: HatInstrument4(voiceCount:1))
+        instruments.append(hatTracks)
+        mixer.connect(hatTracks.mixer)
         
         
         AudioKit.output = mixer

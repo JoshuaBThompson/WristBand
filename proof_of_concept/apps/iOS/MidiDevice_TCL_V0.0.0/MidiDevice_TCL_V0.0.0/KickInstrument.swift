@@ -17,7 +17,6 @@
 import Foundation
 import AudioKit
 
-/*
 
 /****************Kick Instrument 1
  Desc: This synth drum replicates a Kick instrument
@@ -31,8 +30,8 @@ class KickInstrument1: SynthInstrument{
     
     init(voiceCount: Int) {
         super.init(instrumentVoice: KickInstrument1Voice(), voiceCount: voiceCount)
-        note = 60
-        
+        //note = 60
+        note = 70
     }
     
     /// Start playback of a particular voice with MIDI style note and velocity
@@ -68,15 +67,14 @@ class KickInstrument1Voice: SynthInstrumentVoice{
     
     override func start() {
         sampler.playNote()
-        //sampler.stopNote()
     }
     
     override func stop(){
-        sampler.stopNote()
+        //sampler.stopNote()
     }
     
     override func duplicate() -> AKVoice {
-        let copy = SamplerVoice()
+        let copy = KickInstrument1Voice()
         return copy
     }
 }
@@ -131,11 +129,10 @@ class KickInstrument2Voice: SynthInstrumentVoice{
     
     override func start() {
         sampler.playNote()
-        //sampler.stopNote()
     }
     
     override func stop(){
-        sampler.stopNote()
+        //sampler.stopNote()
     }
     
     override func duplicate() -> AKVoice {
@@ -194,11 +191,10 @@ class KickInstrument3Voice: SynthInstrumentVoice{
     
     override func start() {
         sampler.playNote()
-        //sampler.stopNote()
     }
     
     override func stop(){
-        sampler.stopNote()
+        //sampler.stopNote()
     }
     
     override func duplicate() -> AKVoice {
@@ -257,11 +253,10 @@ class KickInstrument4Voice: SynthInstrumentVoice{
     
     override func start() {
         sampler.playNote()
-        //sampler.stopNote()
     }
     
     override func stop(){
-        sampler.stopNote()
+        //sampler.stopNote()
     }
     
     override func duplicate() -> AKVoice {
@@ -269,5 +264,5 @@ class KickInstrument4Voice: SynthInstrumentVoice{
         return copy
     }
 }
-*/
+
 

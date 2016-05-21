@@ -45,8 +45,10 @@ class ViewController: UIViewController, UITextFieldDelegate {
         print("Playing sampler")
         //let voice = song.samplerInst.voices[0]
         //song.samplerInst.playVoice(voice, note: 60, velocity:127)
-        song.samplerInst.playNote(60, velocity: 127)
-        song.samplerInst.stopNote(60)
+        //song.samplerInst.playNote(60, velocity: 127)
+        //song.samplerInst.stopNote(60)
+        song.sampler.start()
+        
     }
     @IBAction func selectInstrument1(sender: UIButton) {
         let instrumentNum = 0
@@ -56,6 +58,13 @@ class ViewController: UIViewController, UITextFieldDelegate {
     
     @IBAction func selectInstrument2(sender: UIButton) {
         let instrumentNum = 1
+        instrumentLabel.text = String(format: "Inst %d", instrumentNum+1 )
+        song.selectInstrument(instrumentNum)
+    }
+    
+    
+    @IBAction func selectInstrument3(sender: UIButton) {
+        let instrumentNum = 2
         instrumentLabel.text = String(format: "Inst %d", instrumentNum+1 )
         song.selectInstrument(instrumentNum)
     }

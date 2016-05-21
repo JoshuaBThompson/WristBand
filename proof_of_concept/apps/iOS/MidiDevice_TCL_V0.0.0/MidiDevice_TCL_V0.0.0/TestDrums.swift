@@ -10,17 +10,47 @@ import Foundation
 import AudioKit
 
 //sampler
-class SamplerVoice: SynthInstrumentVoice {
+class SamplerVoiceTest: AKVoice {
     var sampler: AKSampler!
+    var booster: AKBooster!
     override init(){
         sampler = AKSampler()
-        sampler.loadWav("Sounds/Snare/TCM_Snare_1")
+        sampler.loadWav("Sounds/Snare/TCM_Snare_4")
+        booster = AKBooster(sampler, gain: 3.0)
         super.init()
-        self.avAudioNode = sampler.avAudioNode
+        self.avAudioNode = booster.avAudioNode//sampler.avAudioNode
     }
     
     override func start() {
-        sampler.playNote()
+        sampler.playNote(60)
+        
+    }
+    
+    override func stop(){
+        //sampler.stopNote()
+    }
+    
+    override func duplicate() -> AKVoice {
+        let copy = SamplerVoice()
+        return copy
+    }
+}
+
+//test
+class SamplerVoice: SynthInstrumentVoice {
+    var sampler: AKSampler!
+    var booster: AKBooster!
+    override init(){
+        sampler = AKSampler()
+        sampler.loadWav("Sounds/Snare/TCM_Snare_4")
+        booster = AKBooster(sampler, gain: 3.0)
+        super.init()
+        self.avAudioNode = booster.avAudioNode//sampler.avAudioNode
+    }
+    
+    override func start() {
+        sampler.playNote(60)
+        
     }
     
     override func stop(){

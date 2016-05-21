@@ -11,7 +11,6 @@
 import Foundation
 import AudioKit
 
-/*
 
 /****************Hat Instrument 1
  Desc: This synth drum replicates a Hat instrument
@@ -62,15 +61,14 @@ class HatInstrument1Voice: SynthInstrumentVoice{
     
     override func start() {
         sampler.playNote()
-        //sampler.stopNote()
     }
     
     override func stop(){
-        sampler.stopNote()
+        //sampler.stopNote()
     }
     
     override func duplicate() -> AKVoice {
-        let copy = SamplerVoice()
+        let copy = HatInstrument1Voice()
         return copy
     }
 }
@@ -125,11 +123,10 @@ class HatInstrument2Voice: SynthInstrumentVoice{
     
     override func start() {
         sampler.playNote()
-        //sampler.stopNote()
     }
     
     override func stop(){
-        sampler.stopNote()
+        //sampler.stopNote()
     }
     
     override func duplicate() -> AKVoice {
@@ -188,11 +185,10 @@ class HatInstrument3Voice: SynthInstrumentVoice{
     
     override func start() {
         sampler.playNote()
-        //sampler.stopNote()
     }
     
     override func stop(){
-        sampler.stopNote()
+        //sampler.stopNote()
     }
     
     override func duplicate() -> AKVoice {
@@ -251,11 +247,10 @@ class HatInstrument4Voice: SynthInstrumentVoice{
     
     override func start() {
         sampler.playNote()
-        //sampler.stopNote()
     }
     
     override func stop(){
-        sampler.stopNote()
+        //sampler.stopNote()
     }
     
     override func duplicate() -> AKVoice {
@@ -263,7 +258,4 @@ class HatInstrument4Voice: SynthInstrumentVoice{
         return copy
     }
 }
-*/
-
-
 

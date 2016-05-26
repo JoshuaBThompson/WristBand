@@ -206,7 +206,7 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3Lv-gl-ZeH">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3Lv-gl-ZeH">
                                 <rect key="frame" x="222" y="423" width="51" height="30"/>
                                 <state key="normal" title="Sample"/>
                                 <connections>
@@ -220,8 +220,20 @@
                                     <action selector="selectInstrument3:" destination="BYZ-38-t0r" eventType="touchUpInside" id="VOx-iA-qKm"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zDU-Ga-oAD">
+                                <rect key="frame" x="191" y="520" width="83" height="30"/>
+                                <state key="normal" title="Stop Tempo"/>
+                                <connections>
+                                    <action selector="toggleTempo:" destination="BYZ-38-t0r" eventType="touchUpInside" id="OkD-9p-CzU"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <variation key="default">
+                            <mask key="subviews">
+                                <exclude reference="3Lv-gl-ZeH"/>
+                            </mask>
+                        </variation>
                     </view>
                     <connections>
                         <outlet property="beatCountLabel" destination="1uL-vS-Apc" id="PHv-Y3-Vi6"/>

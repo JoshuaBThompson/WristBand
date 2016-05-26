@@ -15,7 +15,7 @@ class SamplerVoiceTest: AKVoice {
     var booster: AKBooster!
     override init(){
         sampler = AKSampler()
-        sampler.loadWav("Sounds/Snare/TCM_Snare_4")
+        sampler.loadWav("Sounds/Snare/snare-4")
         booster = AKBooster(sampler, gain: 3.0)
         super.init()
         self.avAudioNode = booster.avAudioNode//sampler.avAudioNode
@@ -42,7 +42,7 @@ class SamplerVoice: SynthInstrumentVoice {
     var booster: AKBooster!
     override init(){
         sampler = AKSampler()
-        sampler.loadWav("Sounds/Snare/TCM_Snare_4")
+        sampler.loadWav("Sounds/Snare/snare-4")
         booster = AKBooster(sampler, gain: 3.0)
         super.init()
         self.avAudioNode = booster.avAudioNode//sampler.avAudioNode

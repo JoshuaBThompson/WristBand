@@ -168,6 +168,8 @@ class ClickTrack: AKVoice{
     var beep: AKOperation!
     var trig: AKOperation!
     var beeps: AKOperation!
+    var _running = false
+    var running: Bool { return _running;}
     
     init(clickTempo: Tempo, clickTimeSignature: TimeSignature){
         super.init()
@@ -214,11 +216,14 @@ class ClickTrack: AKVoice{
     /// Function to start, play, or activate the node, all do the same thing
     override func start() {
         clickGenerator.start()
+        _running = true
+        
     }
 
     /// Function to stop or bypass the node, both are equivalent
     override func stop() {
         clickGenerator.stop()
+        _running = false
     }
 
 }
@@ -244,6 +249,7 @@ class InstrumentPresetTracks {
     var notePosition: Double = 1
     var recordEnabled = false
     var playing = false
+    var clickTrackRunning: Bool { return measure.clickTrack.running;}
     
     init(preset1: SynthInstrument, preset2: SynthInstrument, preset3: SynthInstrument, preset4: SynthInstrument){
         midi = AKMIDI()
@@ -440,6 +446,7 @@ class InstrumentPresetTracksTest {
     var notePosition: Double = 1
     var recordEnabled = false
     var playing = false
+    var clickTrackRunning: Bool { return measure.clickTrack.running;}
     
     init(){
         
@@ -515,6 +522,7 @@ class InstrumentPresetTracksTest {
         print(String(format: "sequence length %f", measure.totalDuration))
         
     }
+    
     
     func startClickTrack(){
         measure.clickTrack.start()

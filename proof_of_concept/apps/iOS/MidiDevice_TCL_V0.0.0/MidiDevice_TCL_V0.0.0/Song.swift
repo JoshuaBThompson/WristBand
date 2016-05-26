@@ -19,8 +19,6 @@ class Song {
     var notePosition: Double = 1
     var recordEnabled = false
     var playing = false
-    var samplerInst: SamplerInstrument!
-    var sampler: SamplerVoiceTest!
     var snareTracks: InstrumentPresetTracks!
     var kickTracks: InstrumentPresetTracks!
     var hatTracks: InstrumentPresetTracks!
@@ -28,9 +26,7 @@ class Song {
     var instrument: InstrumentPresetTracks!
     
     init(){
-        samplerInst = SamplerInstrument(voiceCount: 1)
-        sampler = SamplerVoiceTest()
-        mixer = AKMixer(samplerInst, sampler)
+        mixer = AKMixer()
         
         //instrument 1 - snare
         snareTracks = InstrumentPresetTracks(preset1: SnareInstrument1(voiceCount:1), preset2: SnareInstrument2(voiceCount:1), preset3: SnareInstrument3(voiceCount:1), preset4: SnareInstrument4(voiceCount:1))
@@ -69,6 +65,15 @@ class Song {
             instruments[instNum].clear()
         }        
         
+    }
+    
+    func toggleTempo(){
+        if(instrument.clickTrackRunning){
+            instrument.stopClickTrack()
+        }
+        else{
+            instrument.startClickTrack()
+        }
     }
     
     func selectInstrument(number: Int){

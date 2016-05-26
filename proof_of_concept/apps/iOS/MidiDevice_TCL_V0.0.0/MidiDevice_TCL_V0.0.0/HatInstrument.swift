@@ -54,7 +54,7 @@ class HatInstrument1Voice: SynthInstrumentVoice{
     var sampler: AKSampler!
     override init(){
         sampler = AKSampler()
-        sampler.loadWav("Sounds/Hat/TCM_Hat_1")
+        sampler.loadWav("Sounds/Hat/hat-1")
         super.init()
         self.avAudioNode = sampler.avAudioNode
     }
@@ -116,7 +116,7 @@ class HatInstrument2Voice: SynthInstrumentVoice{
     var sampler: AKSampler!
     override init(){
         sampler = AKSampler()
-        sampler.loadWav("Sounds/Hat/TCM_Hat_2")
+        sampler.loadWav("Sounds/Hat/hat-2")
         super.init()
         self.avAudioNode = sampler.avAudioNode
     }
@@ -178,7 +178,7 @@ class HatInstrument3Voice: SynthInstrumentVoice{
     var sampler: AKSampler!
     override init(){
         sampler = AKSampler()
-        sampler.loadWav("Sounds/Hat/TCM_Hat_3")
+        sampler.loadWav("Sounds/Hat/hat-3")
         super.init()
         self.avAudioNode = sampler.avAudioNode
     }
@@ -240,7 +240,7 @@ class HatInstrument4Voice: SynthInstrumentVoice{
     var sampler: AKSampler!
     override init(){
         sampler = AKSampler()
-        sampler.loadWav("Sounds/Hat/TCM_Hat_4")
+        sampler.loadWav("Sounds/Hat/hat-4")
         super.init()
         self.avAudioNode = sampler.avAudioNode
     }

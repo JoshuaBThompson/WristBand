@@ -10,9 +10,9 @@
 		420F2A3E1CEF71040070DE28 /* KickInstrument.swift in Sources */ = {isa = PBXBuildFile; fileRef = 420F2A3D1CEF71040070DE28 /* KickInstrument.swift */; };
 		420F2A421CEF74710070DE28 /* SnareInstrument.swift in Sources */ = {isa = PBXBuildFile; fileRef = 420F2A411CEF74710070DE28 /* SnareInstrument.swift */; };
 		420F2A441CEF74A30070DE28 /* HatInstrument.swift in Sources */ = {isa = PBXBuildFile; fileRef = 420F2A431CEF74A30070DE28 /* HatInstrument.swift */; };
-		420F2A541CEF7B190070DE28 /* Sounds in Resources */ = {isa = PBXBuildFile; fileRef = 420F2A531CEF7B190070DE28 /* Sounds */; };
 		424AAA1B1CEDA42200BB124E /* AudioKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 424AAA1A1CEDA42200BB124E /* AudioKit.framework */; };
 		424AAA1C1CEDA42200BB124E /* AudioKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 424AAA1A1CEDA42200BB124E /* AudioKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		428061F91CF7418A00FC26DA /* Sounds in Resources */ = {isa = PBXBuildFile; fileRef = 428061F81CF7418A00FC26DA /* Sounds */; };
 		F316CA621CE2337200A93ADC /* TestDrums.swift in Sources */ = {isa = PBXBuildFile; fileRef = F316CA611CE2337200A93ADC /* TestDrums.swift */; };
 		F33D580E1CDE85F0006C0C81 /* Instruments.swift in Sources */ = {isa = PBXBuildFile; fileRef = F33D580D1CDE85F0006C0C81 /* Instruments.swift */; };
 		F33D58101CDEA157006C0C81 /* Instrument1Presets.swift in Sources */ = {isa = PBXBuildFile; fileRef = F33D580F1CDEA157006C0C81 /* Instrument1Presets.swift */; };
@@ -60,8 +60,8 @@
 		420F2A3D1CEF71040070DE28 /* KickInstrument.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KickInstrument.swift; sourceTree = "<group>"; };
 		420F2A411CEF74710070DE28 /* SnareInstrument.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SnareInstrument.swift; sourceTree = "<group>"; };
 		420F2A431CEF74A30070DE28 /* HatInstrument.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HatInstrument.swift; sourceTree = "<group>"; };
-		420F2A531CEF7B190070DE28 /* Sounds */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Sounds; sourceTree = "<group>"; };
 		424AAA1A1CEDA42200BB124E /* AudioKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AudioKit.framework; sourceTree = "<group>"; };
+		428061F81CF7418A00FC26DA /* Sounds */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Sounds; sourceTree = "<group>"; };
 		F316CA611CE2337200A93ADC /* TestDrums.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestDrums.swift; sourceTree = "<group>"; };
 		F33D580D1CDE85F0006C0C81 /* Instruments.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Instruments.swift; sourceTree = "<group>"; };
 		F33D580F1CDEA157006C0C81 /* Instrument1Presets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Instrument1Presets.swift; sourceTree = "<group>"; };
@@ -137,7 +137,7 @@
 		F3D564D91CC92FD70096ECCB /* MidiDevice_TCL_V0.0.0 */ = {
 			isa = PBXGroup;
 			children = (
-				420F2A531CEF7B190070DE28 /* Sounds */,
+				428061F81CF7418A00FC26DA /* Sounds */,
 				F3D564DA1CC92FD70096ECCB /* AppDelegate.swift */,
 				F3D564DC1CC92FD70096ECCB /* ViewController.swift */,
 				F3D564DE1CC92FD70096ECCB /* Main.storyboard */,
@@ -272,7 +272,7 @@
 			files = (
 				F3D564E51CC92FD70096ECCB /* LaunchScreen.storyboard in Resources */,
 				F3D564E21CC92FD70096ECCB /* Assets.xcassets in Resources */,
-				420F2A541CEF7B190070DE28 /* Sounds in Resources */,
+				428061F91CF7418A00FC26DA /* Sounds in Resources */,
 				F3D564E01CC92FD70096ECCB /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

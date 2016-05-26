@@ -30,8 +30,7 @@ class KickInstrument1: SynthInstrument{
     
     init(voiceCount: Int) {
         super.init(instrumentVoice: KickInstrument1Voice(), voiceCount: voiceCount)
-        //note = 60
-        note = 70
+        note = 60
     }
     
     /// Start playback of a particular voice with MIDI style note and velocity
@@ -60,7 +59,7 @@ class KickInstrument1Voice: SynthInstrumentVoice{
     var sampler: AKSampler!
     override init(){
         sampler = AKSampler()
-        sampler.loadWav("Sounds/Kick/TCM_Kick_1")
+        sampler.loadWav("Sounds/Kick/kick-1")
         super.init()
         self.avAudioNode = sampler.avAudioNode
     }
@@ -122,7 +121,7 @@ class KickInstrument2Voice: SynthInstrumentVoice{
     var sampler: AKSampler!
     override init(){
         sampler = AKSampler()
-        sampler.loadWav("Sounds/Kick/TCM_Kick_2")
+        sampler.loadWav("Sounds/Kick/kick-2")
         super.init()
         self.avAudioNode = sampler.avAudioNode
     }
@@ -184,7 +183,7 @@ class KickInstrument3Voice: SynthInstrumentVoice{
     var sampler: AKSampler!
     override init(){
         sampler = AKSampler()
-        sampler.loadWav("Sounds/Kick/TCM_Kick_3")
+        sampler.loadWav("Sounds/Kick/kick-3")
         super.init()
         self.avAudioNode = sampler.avAudioNode
     }
@@ -246,7 +245,7 @@ class KickInstrument4Voice: SynthInstrumentVoice{
     var sampler: AKSampler!
     override init(){
         sampler = AKSampler()
-        sampler.loadWav("Sounds/Kick/TCM_Kick_4")
+        sampler.loadWav("Sounds/Kick/kick-4")
         super.init()
         self.avAudioNode = sampler.avAudioNode
     }

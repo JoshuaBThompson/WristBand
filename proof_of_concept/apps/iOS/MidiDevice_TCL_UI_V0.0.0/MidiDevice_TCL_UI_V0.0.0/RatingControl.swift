@@ -13,7 +13,7 @@ class RatingButton: UIButton {
 }
 
 //@IBDesignable
-class RatingControl: UIView {
+class RatingControl: UIControl {
     //MARK: properties
     var emptyStarImage: UIImage!
     var filledStarImage: UIImage!
@@ -96,12 +96,11 @@ class RatingControl: UIView {
     //MARK: button actions
     func ratingButtonTapped(button: RatingButton){
         print("rotating button")
-        knobAngle += 5
         print("button tapped!")
         
         rating = ratingButtons.indexOf(button)! + 1
         updateButtonSelectionStates()
-        setNeedsDisplay()
+        
     }
     
     func updateButtonSelectionStates(){
@@ -132,6 +131,30 @@ class RatingControl: UIView {
         
         print("draw knob!")
         
+    }
+    
+    
+    func turnKnob(){
+        knobAngle += 5
+        setNeedsDisplay()
+    }
+    
+    
+    
+    /* Touch Tracking */
+    override func beginTrackingWithTouch(touch: UITouch, withEvent event: UIEvent?) -> Bool {
+        print("begin tracking knob")
+        return true
+    }
+    
+    override func continueTrackingWithTouch(touch: UITouch, withEvent event: UIEvent?) -> Bool {
+        print("continue tracking with touch")
+        turnKnob()
+        return true
+    }
+    
+    override func endTrackingWithTouch(touch: UITouch?, withEvent event: UIEvent?) {
+        print("end tracking with touch")
     }
 
 

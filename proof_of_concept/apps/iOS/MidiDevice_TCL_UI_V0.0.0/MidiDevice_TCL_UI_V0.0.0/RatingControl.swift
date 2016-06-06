@@ -15,20 +15,9 @@ class RatingButton: UIButton {
 //@IBDesignable
 class RatingControl: UIControl {
     //MARK: properties
-    var emptyStarImage: UIImage!
-    var filledStarImage: UIImage!
     var imageView: UIImageView!
-    var knobAngle: CGFloat = 281
-    var rating = 0 {
-        didSet {
-            setNeedsLayout()
-            
-        }
-    }
-    var ratingButtons = [RatingButton]()
-    let spacing = 5
-    let startCount = 1
-
+    var knobAngle: CGFloat = 0
+    var previousTimestamp = 0.0
     
     // Only override drawRect: if you perform custom drawing.
     // An empty implementation adversely affects performance during animation.
@@ -58,75 +47,59 @@ class RatingControl: UIControl {
     
     //subview
     func addSubviews(){
-        //star images
-        emptyStarImage = UIImage(named: "emptyStar")
-        filledStarImage = UIImage(named: "filledStar")
-        //create buttons
-        for _ in 0..<startCount {
-            let button = RatingButton()
-            //button.setImage(emptyStarImage, forState: .Normal)
-            //button.setImage(emptyStarImage, forState: .Selected)
-            //button.setImage(emptyStarImage, forState: [.Highlighted, .Selected])
-            button.setImage(emptyStarImage, forState: .Normal)
-            button.adjustsImageWhenHighlighted = false
-            button.addTarget(self, action: #selector(RatingControl.ratingButtonTapped(_:)), forControlEvents: .TouchDown)
-            ratingButtons += [button]
-            addSubview(button)
-        }
     }
     
     //MARK: initialization
     override func layoutSubviews() {
         super.layoutSubviews()
-        let buttonSize = 44//Int(frame.size.height)
-        var buttonFrame = CGRect(x: 0, y: 0, width: buttonSize, height: buttonSize)
-        for (index, button) in ratingButtons.enumerate(){
-            buttonFrame.origin.x = CGFloat(index*(buttonSize + spacing))
-            button.frame = buttonFrame
-        }
-        updateButtonSelectionStates()
     }
     
     override func intrinsicContentSize() -> CGSize {
-        let buttonSize = Int(frame.size.height)
-        let width = (buttonSize * startCount) + (startCount*(spacing - 1))
-        return CGSize(width: width, height: buttonSize)
+        let drawingSize = Int(frame.size.height)
+        let width = drawingSize
+        return CGSize(width: width, height: drawingSize)
     }
-    
-    //MARK: button actions
-    func ratingButtonTapped(button: RatingButton){
-        print("rotating button")
-        print("button tapped!")
-        
-        rating = ratingButtons.indexOf(button)! + 1
-        updateButtonSelectionStates()
-        
-    }
-    
-    func updateButtonSelectionStates(){
-        for (index, button) in ratingButtons.enumerate(){
-            button.selected = index < rating
-        }
-    }
+
+
     
     func drawKnob() {
+        layer.borderWidth = 1
         //// General Declarations
         let context = UIGraphicsGetCurrentContext()
         
         
         //// Image Declarations
-        let knobRotatePng = UIImage(named: "knobRotate.png")!
+        let knobRotatePng = UIImage(named: "knobRotate")!
+        let knobBgPng = UIImage(named: "knobBg")!
+        let knobRecessionPng = UIImage(named: "knobRecession")!
+        let knobInnerPng = UIImage(named: "knobInner")!
+        let frameSize = frame.size
         
+        //// knobBg Drawing
+        CGContextSaveGState(context)
+        CGContextTranslateCTM(context, frameSize.width/2.0, frameSize.height/2.0)
+        knobBgPng.drawInRect(CGRectMake(-knobBgPng.size.width/2.0, -knobBgPng.size.height/2.0, knobBgPng.size.width, knobBgPng.size.height))
+        CGContextRestoreGState(context)
         
         //// knobRotate Drawing
         CGContextSaveGState(context)
-        CGContextTranslateCTM(context, 123, 122)
+        CGContextTranslateCTM(context, frameSize.width/2.0, frameSize.height/2.0)
         CGContextRotateCTM(context, -knobAngle * CGFloat(M_PI) / 180)
         
-        //let knobRotatePath = UIBezierPath(ovalInRect: CGRectMake(-123, -122, 245, 245))
         CGContextSaveGState(context)
-        //knobRotatePath.addClip()
-        knobRotatePng.drawInRect(CGRectMake(-123/2.0, -122/2.0, knobRotatePng.size.width, knobRotatePng.size.height))
+        knobRotatePng.drawInRect(CGRectMake(-knobRotatePng.size.width/2.0, -knobRotatePng.size.height/2.0, knobRotatePng.size.width, knobRotatePng.size.height))
+        CGContextRestoreGState(context)
+        
+        //// knobRecession Drawing
+        CGContextSaveGState(context)
+        CGContextTranslateCTM(context, frameSize.width/2.0, frameSize.height/2.0)
+        knobRecessionPng.drawInRect(CGRectMake(-0.7*frameSize.width, -0.7*frameSize.height, knobRecessionPng.size.width, knobRecessionPng.size.height))
+        CGContextRestoreGState(context)
+        
+        //// innerKnobBg Drawing
+        CGContextSaveGState(context)
+        CGContextTranslateCTM(context, frameSize.width/2.0, frameSize.height/2.0)
+        knobInnerPng.drawInRect(CGRectMake(-0.685*frameSize.width, -0.685*frameSize.height, knobInnerPng.size.width, knobInnerPng.size.height))
         CGContextRestoreGState(context)
         
         print("draw knob!")
@@ -135,7 +108,6 @@ class RatingControl: UIControl {
     
     
     func turnKnob(){
-        knobAngle += 5
         setNeedsDisplay()
     }
     
@@ -144,13 +116,34 @@ class RatingControl: UIControl {
     /* Touch Tracking */
     override func beginTrackingWithTouch(touch: UITouch, withEvent event: UIEvent?) -> Bool {
         print("begin tracking knob")
+        previousTimestamp = event!.timestamp;
         return true
     }
     
     override func continueTrackingWithTouch(touch: UITouch, withEvent event: UIEvent?) -> Bool {
         print("continue tracking with touch")
+        let location = touch.locationInView(self)
+        let prevLocation = touch.previousLocationInView(self)
+        let distanceFromPrevious = distanceBetweenPoints(location, prev: prevLocation);
+        let timeSincePrevious = event!.timestamp - self.previousTimestamp;
+        let speed = distanceFromPrevious/CGFloat(timeSincePrevious);
+        previousTimestamp = event!.timestamp;
+        if(speed >= 0){
+            knobAngle += 5
+        }
+        else{
+            knobAngle -= 5
+        }
         turnKnob()
         return true
+    }
+    
+    func distanceBetweenPoints(loc: CGPoint, prev: CGPoint) -> CGFloat{
+        //let xtotal = CGFloat(loc.x - prev.x)
+        let ytotal = CGFloat(loc.y - prev.y)
+        //let total = pow(xtotal + ytotal, 2.0)
+        let total = ytotal
+        return total
     }
     
     override func endTrackingWithTouch(touch: UITouch?, withEvent event: UIEvent?) {

@@ -12,8 +12,9 @@ class ViewController: UIViewController {
     
     //MARK: properties
     
-    @IBOutlet weak var ratingControl: RatingControl!
 
+    @IBOutlet weak var ratingControl: RatingControl!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
     }

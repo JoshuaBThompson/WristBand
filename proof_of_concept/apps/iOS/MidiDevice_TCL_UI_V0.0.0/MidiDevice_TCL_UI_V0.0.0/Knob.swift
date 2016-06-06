@@ -8,6 +8,13 @@
 
 import UIKit
 
+//test button subview
+class TestButton: UIButton {
+    
+    /* Touch Tracking */
+    
+}
+
 //@IBDesignable
 class Knob: UIControl {
     
@@ -15,17 +22,17 @@ class Knob: UIControl {
         super.init(coder: coder)!
     }
     
+    
     override func drawRect(rect: CGRect) {
         super.drawRect(rect)
         KnobStyleKit.drawKnob()
     }
     
     func turnKnob(knobAngle knobAngle: CGFloat = 281, innerKnobAngle: CGFloat = 0){
-        //KnobStyleKit.drawKnob(knobAngle: knobAngle, innerKnobAngle: innerKnobAngle)
-        //KnobStyleKit.drawKnob()
         
     }
     
+ 
     
     /* Touch Tracking */
     override func beginTrackingWithTouch(touch: UITouch, withEvent event: UIEvent?) -> Bool {
@@ -35,11 +42,13 @@ class Knob: UIControl {
     
     override func continueTrackingWithTouch(touch: UITouch, withEvent event: UIEvent?) -> Bool {
         print("continue tracking with touch")
+        turnKnob()
         return true
     }
     
     override func endTrackingWithTouch(touch: UITouch?, withEvent event: UIEvent?) {
         print("end tracking with touch")
     }
+    
  
 }

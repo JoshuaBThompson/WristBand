@@ -14,6 +14,10 @@
 		42B86FF11CFF3B630048B946 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 42B86FEF1CFF3B630048B946 /* LaunchScreen.storyboard */; };
 		42B86FFC1CFF3B630048B946 /* MidiDevice_TCL_UI_V0_0_0Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42B86FFB1CFF3B630048B946 /* MidiDevice_TCL_UI_V0_0_0Tests.swift */; };
 		42B870071CFF3B630048B946 /* MidiDevice_TCL_UI_V0_0_0UITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42B870061CFF3B630048B946 /* MidiDevice_TCL_UI_V0_0_0UITests.swift */; };
+		42B870161CFF3C020048B946 /* Knob.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42B870141CFF3C020048B946 /* Knob.swift */; };
+		42B870171CFF3C020048B946 /* KnobStyleKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42B870151CFF3C020048B946 /* KnobStyleKit.swift */; };
+		42B870191CFF3C1C0048B946 /* images in Resources */ = {isa = PBXBuildFile; fileRef = 42B870181CFF3C1C0048B946 /* images */; };
+		42B8B00D1D0357900030F3C4 /* RatingControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42B8B00C1D0357900030F3C4 /* RatingControl.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +51,10 @@
 		42B870021CFF3B630048B946 /* MidiDevice_TCL_UI_V0.0.0UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MidiDevice_TCL_UI_V0.0.0UITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		42B870061CFF3B630048B946 /* MidiDevice_TCL_UI_V0_0_0UITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MidiDevice_TCL_UI_V0_0_0UITests.swift; sourceTree = "<group>"; };
 		42B870081CFF3B630048B946 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		42B870141CFF3C020048B946 /* Knob.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Knob.swift; sourceTree = "<group>"; };
+		42B870151CFF3C020048B946 /* KnobStyleKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KnobStyleKit.swift; sourceTree = "<group>"; };
+		42B870181CFF3C1C0048B946 /* images */ = {isa = PBXFileReference; lastKnownFileType = folder; path = images; sourceTree = "<group>"; };
+		42B8B00C1D0357900030F3C4 /* RatingControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RatingControl.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,12 +105,16 @@
 		42B86FE51CFF3B630048B946 /* MidiDevice_TCL_UI_V0.0.0 */ = {
 			isa = PBXGroup;
 			children = (
+				42B870181CFF3C1C0048B946 /* images */,
+				42B870141CFF3C020048B946 /* Knob.swift */,
+				42B870151CFF3C020048B946 /* KnobStyleKit.swift */,
 				42B86FE61CFF3B630048B946 /* AppDelegate.swift */,
 				42B86FE81CFF3B630048B946 /* ViewController.swift */,
 				42B86FEA1CFF3B630048B946 /* Main.storyboard */,
 				42B86FED1CFF3B630048B946 /* Assets.xcassets */,
 				42B86FEF1CFF3B630048B946 /* LaunchScreen.storyboard */,
 				42B86FF21CFF3B630048B946 /* Info.plist */,
+				42B8B00C1D0357900030F3C4 /* RatingControl.swift */,
 			);
 			path = MidiDevice_TCL_UI_V0.0.0;
 			sourceTree = "<group>";
@@ -229,6 +241,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				42B870191CFF3C1C0048B946 /* images in Resources */,
 				42B86FF11CFF3B630048B946 /* LaunchScreen.storyboard in Resources */,
 				42B86FEE1CFF3B630048B946 /* Assets.xcassets in Resources */,
 				42B86FEC1CFF3B630048B946 /* Main.storyboard in Resources */,
@@ -256,7 +269,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				42B870171CFF3C020048B946 /* KnobStyleKit.swift in Sources */,
 				42B86FE91CFF3B630048B946 /* ViewController.swift in Sources */,
+				42B870161CFF3C020048B946 /* Knob.swift in Sources */,
+				42B8B00D1D0357900030F3C4 /* RatingControl.swift in Sources */,
 				42B86FE71CFF3B630048B946 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -484,6 +500,7 @@
 				42B8700D1CFF3B630048B946 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		42B8700E1CFF3B630048B946 /* Build configuration list for PBXNativeTarget "MidiDevice_TCL_UI_V0.0.0Tests" */ = {
 			isa = XCConfigurationList;
@@ -492,6 +509,7 @@
 				42B870101CFF3B630048B946 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		42B870111CFF3B630048B946 /* Build configuration list for PBXNativeTarget "MidiDevice_TCL_UI_V0.0.0UITests" */ = {
 			isa = XCConfigurationList;
@@ -500,6 +518,7 @@
 				42B870131CFF3B630048B946 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

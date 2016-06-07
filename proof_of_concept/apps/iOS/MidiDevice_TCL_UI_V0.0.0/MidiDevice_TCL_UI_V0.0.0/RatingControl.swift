@@ -135,6 +135,7 @@ class RatingControl: UIControl {
             knobAngle -= 5
         }
         turnKnob()
+        sendActionsForControlEvents(.ValueChanged) //this tells view controller that something changed
         return true
     }
     

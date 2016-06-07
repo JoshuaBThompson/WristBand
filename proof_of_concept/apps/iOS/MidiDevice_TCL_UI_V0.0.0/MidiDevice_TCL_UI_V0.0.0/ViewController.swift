@@ -17,6 +17,8 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        //rangeSlider.addTarget(self, action: "rangeSliderValueChanged:", forControlEvents: .ValueChanged)
+        ratingControl.addTarget(self, action: #selector(ViewController.knobAngleChanged(_:)), forControlEvents: .ValueChanged)
     }
 
     override func viewDidLayoutSubviews() {
@@ -25,6 +27,13 @@ class ViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    //MARK: Functions
+    func knobAngleChanged(ratingController: RatingControl) {
+        
+        let angle = ratingControl.knobAngle;
+        print("knob angle now \(angle)")
     }
 
 

@@ -93,13 +93,13 @@ class RatingControl: UIControl {
         //// knobRecession Drawing
         CGContextSaveGState(context)
         CGContextTranslateCTM(context, frameSize.width/2.0, frameSize.height/2.0)
-        knobRecessionPng.drawInRect(CGRectMake(-0.7*frameSize.width, -0.7*frameSize.height, knobRecessionPng.size.width, knobRecessionPng.size.height))
+        knobRecessionPng.drawInRect(CGRectMake(-0.679*frameSize.width, -0.689*frameSize.height, knobRecessionPng.size.width, knobRecessionPng.size.height))
         CGContextRestoreGState(context)
         
         //// innerKnobBg Drawing
         CGContextSaveGState(context)
         CGContextTranslateCTM(context, frameSize.width/2.0, frameSize.height/2.0)
-        knobInnerPng.drawInRect(CGRectMake(-0.685*frameSize.width, -0.685*frameSize.height, knobInnerPng.size.width, knobInnerPng.size.height))
+        knobInnerPng.drawInRect(CGRectMake(-0.663*frameSize.width, -0.678*frameSize.height, knobInnerPng.size.width, knobInnerPng.size.height))
         CGContextRestoreGState(context)
         
         print("draw knob!")
@@ -122,29 +122,74 @@ class RatingControl: UIControl {
     
     override func continueTrackingWithTouch(touch: UITouch, withEvent event: UIEvent?) -> Bool {
         print("continue tracking with touch")
+        var rightSide = false
+        var bottomSide = false
         let location = touch.locationInView(self)
         let prevLocation = touch.previousLocationInView(self)
-        let distanceFromPrevious = distanceBetweenPoints(location, prev: prevLocation);
-        let timeSincePrevious = event!.timestamp - self.previousTimestamp;
-        let speed = distanceFromPrevious/CGFloat(timeSincePrevious);
-        previousTimestamp = event!.timestamp;
-        if(speed >= 0){
-            knobAngle += 5
+        let distanceFromPrevious = distanceBetweenPoints(location, prev: prevLocation)
+        let timeSincePrevious = event!.timestamp - self.previousTimestamp
+        
+        previousTimestamp = event!.timestamp
+        let xDist = distanceFromPrevious[0]
+        let yDist = distanceFromPrevious[1]
+        let maxDist = distanceFromPrevious[2]
+        var speed = maxDist/CGFloat(timeSincePrevious)
+        print("y \(location.y) and x: \(location.x)")
+        if(location.x >= frame.size.width/2.0){
+            print("right side")
+            rightSide = true
         }
         else{
-            knobAngle -= 5
+            if(abs(xDist) >= abs(yDist)){
+                speed = speed * (-1)
+            }
+            rightSide = false
         }
+        if(location.y <= frame.size.height/2.0){
+            bottomSide = true
+        }
+        else{
+            if(abs(xDist) >= abs(yDist)){
+                speed = speed * (-1)
+            }
+            bottomSide = false
+        }
+        if(rightSide){
+            if(speed >= 0){
+                knobAngle -= 5
+            }
+            else{
+                knobAngle += 5
+                }
+        }
+        else {
+            if(speed >= 0){
+                knobAngle += 5
+            }
+            else{
+                knobAngle -= 5
+            }
+        }
+        if(knobAngle >= 360 || knobAngle <= -360){
+            knobAngle = 0
+        }
+        
         turnKnob()
         sendActionsForControlEvents(.ValueChanged) //this tells view controller that something changed
         return true
     }
     
-    func distanceBetweenPoints(loc: CGPoint, prev: CGPoint) -> CGFloat{
-        //let xtotal = CGFloat(loc.x - prev.x)
+    func distanceBetweenPoints(loc: CGPoint, prev: CGPoint) -> Array<CGFloat>{
+        let xtotal = CGFloat(loc.x - prev.x)
         let ytotal = CGFloat(loc.y - prev.y)
-        //let total = pow(xtotal + ytotal, 2.0)
-        let total = ytotal
-        return total
+        var max: CGFloat!
+        if(abs(xtotal) >= abs(ytotal)){
+            max = xtotal
+        }
+        else{
+        max = ytotal
+        }
+        return [xtotal, ytotal, max]
     }
     
     override func endTrackingWithTouch(touch: UITouch?, withEvent event: UIEvent?) {

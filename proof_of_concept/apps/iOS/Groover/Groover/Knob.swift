@@ -48,7 +48,7 @@ class Knob: UIControl {
         let r1s = sqrt((r1[0] * r1[0]) + (r1[1] * r1[1]))
         let r2s = sqrt((r2[0] * r2[0]) + (r2[1] * r2[1]))
         var deltaAngleRad: CGFloat = 0.0
-        if(r1s*r2s != 0.0){
+        if(r1s*r2s != 0.0 && r1r2/(r1s*r2s) <= 1.0){
             //make sure don't divide by zero
             deltaAngleRad = acos(r1r2/(r1s*r2s))
         }

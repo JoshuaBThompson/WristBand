@@ -46,7 +46,15 @@ class Knob: UIControl {
         let r1r2 = (r1[0] * r2[0]) + (r1[1] * r2[1])
         let r1s = sqrt((r1[0] * r1[0]) + (r1[1] * r1[1]))
         let r2s = sqrt((r2[0] * r2[0]) + (r2[1] * r2[1]))
-        let deltaAngleRad = acos(r1r2/(r1s*r2s))
+        var deltaAngleRad: CGFloat = 0.0
+        if(r1s*r2s != 0.0){
+            //make sure don't divide by zero
+            deltaAngleRad = acos(r1r2/(r1s*r2s))
+        }
+        else{
+            //if divide by zero then just set angle to 0 radians
+            deltaAngleRad = 0.0
+        }
         let degPerRad = CGFloat(180.0/M_PI)
         
         let deltaAngleDeg = deltaAngleRad*degPerRad //convert radians to degrees

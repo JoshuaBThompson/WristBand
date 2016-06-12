@@ -9,8 +9,8 @@
 import UIKit
 
 class OptionsControl: UIControl {
-    var optionButtons = [UIButton]()
-    var spacing = 10
+    var optionButtons = [Options]()
+    var spacing = 12
     var count = 4
     var currentOptionNum = 0
     
@@ -36,7 +36,7 @@ class OptionsControl: UIControl {
             
             //button.adjustsImageWhenHighlighted = false
             
-            //button.addTarget(self, action: #selector(OptionsControl.optionButtonTapped(_:)), forControlEvents: .TouchDown)
+            button.addTarget(self, action: #selector(OptionsControl.optionButtonTapped(_:)), forControlEvents: .TouchDown)
             optionButtons += [button]
             addSubview(button)
             
@@ -46,11 +46,15 @@ class OptionsControl: UIControl {
     override func layoutSubviews() {
         // Set the button's width and height to a square the size of the frame's height.
         let buttonSize = Int(frame.size.height)
+        let buttonSpacing = Int(frame.size.width) / count
         var buttonFrame = CGRect(x: 0, y: 0, width: buttonSize, height: buttonSize)
         
         // Offset each button's origin by the length of the button plus spacing.
         for (index, button) in optionButtons.enumerate() {
-            buttonFrame.origin.x = CGFloat(index * (buttonSize + spacing))
+            //buttonFrame.origin.x = CGFloat(index * (buttonSize + spacing))
+            buttonFrame.origin.x = CGFloat(index * (buttonSpacing) + spacing)
+            //buttonFrame.size.width = buttonFrame.size.width
+            //buttonFrame.size.height = buttonFrame.size.height
             button.frame = buttonFrame
         }
         updateButtonSelectionStates()
@@ -65,9 +69,9 @@ class OptionsControl: UIControl {
     
     // MARK: Button Action
     
-    func optionsButtonTapped(button: UIButton) {
-        currentOptionNum = optionButtons.indexOf(button)! + 1
-        
+    func optionButtonTapped(button: Options) {
+        currentOptionNum = optionButtons.indexOf(button)!
+        print("Option button tapped")
         updateButtonSelectionStates()
     }
     
@@ -75,6 +79,9 @@ class OptionsControl: UIControl {
         for (index, button) in optionButtons.enumerate() {
             // If the index of a button is less than the rating, that button should be selected.
             button.selected = index == currentOptionNum
+            button.on = button.selected
+            button.updateState()
+            
         }
     }
 

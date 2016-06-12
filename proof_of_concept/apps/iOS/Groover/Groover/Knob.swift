@@ -14,6 +14,7 @@ class Knob: UIControl {
     var angle: CGFloat = 0.0
     var previousTimestamp = 0.0
     var rotDir: CGFloat = 1
+    let angleUpdatePeriod = 0.025
     var previousLocation: CGPoint!
     
     
@@ -104,7 +105,7 @@ class Knob: UIControl {
         let timeSincePrevious = event!.timestamp - previousTimestamp
         
         //only calc angle after 1 sec since delta angles are too small if calc every time continue tracking is called
-        if(timeSincePrevious >= 0.025){
+        if(timeSincePrevious >= angleUpdatePeriod){
             let location = touch.locationInView(self)
             let dltaAngle = getAngleChangeFromPositionChange(location, prevLoc: previousLocation)
             updateRotDirection(location, prevLoc: previousLocation)

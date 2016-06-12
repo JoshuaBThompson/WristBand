@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		42A68B3F1D0B15E6009D7501 /* Options.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42A68B3E1D0B15E6009D7501 /* Options.swift */; };
 		42A68B411D0B1957009D7501 /* Sounds.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42A68B401D0B1957009D7501 /* Sounds.swift */; };
+		42A68B431D0CE8BF009D7501 /* OptionsControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42A68B421D0CE8BF009D7501 /* OptionsControl.swift */; };
 		FA03B9A91D093BC000B2B7F7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA03B9A81D093BC000B2B7F7 /* AppDelegate.swift */; };
 		FA03B9AB1D093BC000B2B7F7 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA03B9AA1D093BC000B2B7F7 /* ViewController.swift */; };
 		FA03B9AE1D093BC000B2B7F7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA03B9AC1D093BC000B2B7F7 /* Main.storyboard */; };
@@ -52,6 +53,7 @@
 /* Begin PBXFileReference section */
 		42A68B3E1D0B15E6009D7501 /* Options.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Options.swift; sourceTree = "<group>"; };
 		42A68B401D0B1957009D7501 /* Sounds.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Sounds.swift; sourceTree = "<group>"; };
+		42A68B421D0CE8BF009D7501 /* OptionsControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OptionsControl.swift; sourceTree = "<group>"; };
 		FA03B9A51D093BC000B2B7F7 /* Groover.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Groover.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA03B9A81D093BC000B2B7F7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FA03B9AA1D093BC000B2B7F7 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -109,6 +111,7 @@
 		FA03B99C1D093BC000B2B7F7 = {
 			isa = PBXGroup;
 			children = (
+				42A68B421D0CE8BF009D7501 /* OptionsControl.swift */,
 				42A68B401D0B1957009D7501 /* Sounds.swift */,
 				42A68B3E1D0B15E6009D7501 /* Options.swift */,
 				FA03B9E21D0941EE00B2B7F7 /* Option1.swift */,
@@ -315,6 +318,7 @@
 				42A68B3F1D0B15E6009D7501 /* Options.swift in Sources */,
 				FA03B9ED1D09448700B2B7F7 /* Sound2.swift in Sources */,
 				FA03B9E71D09429A00B2B7F7 /* Option3.swift in Sources */,
+				42A68B431D0CE8BF009D7501 /* OptionsControl.swift in Sources */,
 				FA03B9E91D0942B500B2B7F7 /* Option4.swift in Sources */,
 				FA03B9DD1D093E0800B2B7F7 /* Knob.swift in Sources */,
 				FA03B9D81D093C3800B2B7F7 /* GrooverUI.swift in Sources */,

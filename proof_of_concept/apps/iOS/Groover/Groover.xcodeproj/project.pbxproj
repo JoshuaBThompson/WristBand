@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		428F5DA01D0F065500CD6181 /* SoundsControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 428F5D9F1D0F065500CD6181 /* SoundsControl.swift */; };
 		42A68B3F1D0B15E6009D7501 /* Options.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42A68B3E1D0B15E6009D7501 /* Options.swift */; };
 		42A68B411D0B1957009D7501 /* Sounds.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42A68B401D0B1957009D7501 /* Sounds.swift */; };
 		42A68B431D0CE8BF009D7501 /* OptionsControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42A68B421D0CE8BF009D7501 /* OptionsControl.swift */; };
@@ -51,6 +52,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		428F5D9F1D0F065500CD6181 /* SoundsControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SoundsControl.swift; sourceTree = "<group>"; };
 		42A68B3E1D0B15E6009D7501 /* Options.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Options.swift; sourceTree = "<group>"; };
 		42A68B401D0B1957009D7501 /* Sounds.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Sounds.swift; sourceTree = "<group>"; };
 		42A68B421D0CE8BF009D7501 /* OptionsControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OptionsControl.swift; sourceTree = "<group>"; };
@@ -111,6 +113,7 @@
 		FA03B99C1D093BC000B2B7F7 = {
 			isa = PBXGroup;
 			children = (
+				428F5D9F1D0F065500CD6181 /* SoundsControl.swift */,
 				42A68B421D0CE8BF009D7501 /* OptionsControl.swift */,
 				42A68B401D0B1957009D7501 /* Sounds.swift */,
 				42A68B3E1D0B15E6009D7501 /* Options.swift */,
@@ -328,6 +331,7 @@
 				FA03B9A91D093BC000B2B7F7 /* AppDelegate.swift in Sources */,
 				FA03B9F11D0944D900B2B7F7 /* Sound4.swift in Sources */,
 				FA03B9DF1D093EF700B2B7F7 /* Play.swift in Sources */,
+				428F5DA01D0F065500CD6181 /* SoundsControl.swift in Sources */,
 				FA03B9EF1D0944C300B2B7F7 /* Sound3.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

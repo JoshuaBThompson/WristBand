@@ -11,6 +11,16 @@ import UIKit
 //@IBDesignable
 class Play: UIButton {
     var on = false
+    
+    //MARK: initialization
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
+    
     override func drawRect(rect: CGRect) {
         GrooverUI.drawPlayCanvas(playSelected: on)
     }
@@ -28,6 +38,8 @@ class Play: UIButton {
     override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
         print("play touch ended")
         toggleState()
+        sendActionsForControlEvents(.ValueChanged) //this tells view controller that something changed
+
     }
     
 }

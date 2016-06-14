@@ -117,6 +117,7 @@ class Knob: UIControl {
             incrementAngle(rotDir*dltaAngle)
             turnKnob()
             print("new angle \(angle)")
+            sendActionsForControlEvents(.ValueChanged) //this tells view controller that something changed
         }
        
         return true

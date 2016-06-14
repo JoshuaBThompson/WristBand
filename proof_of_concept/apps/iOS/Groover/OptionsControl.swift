@@ -8,6 +8,7 @@
 
 import UIKit
 
+//@IBDesignable
 class OptionsControl: UIControl {
     var optionButtons = [Options]()
     var spacing = 12
@@ -15,10 +16,17 @@ class OptionsControl: UIControl {
     var currentOptionNum = 0
     
     // MARK: Initialization
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        addSubviews()
+    }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        
+        addSubviews()
+    }
+    
+    func addSubviews(){
         for i in 0..<count {
             var button: Options!
             switch i {
@@ -73,6 +81,7 @@ class OptionsControl: UIControl {
         currentOptionNum = optionButtons.indexOf(button)!
         print("Option button tapped")
         updateButtonSelectionStates()
+        sendActionsForControlEvents(.ValueChanged) //this tells view controller that something changed
     }
     
     func updateButtonSelectionStates() {

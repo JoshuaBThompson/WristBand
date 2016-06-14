@@ -45,7 +45,11 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <connections>
-                        <outlet property="knob" destination="GiA-Dw-Nu7" id="EF0-Ze-Qqg"/>
+                        <outlet property="knob" destination="GiA-Dw-Nu7" id="WOT-z6-f0s"/>
+                        <outlet property="optionsControl" destination="2rT-MO-jVL" id="own-uY-JcP"/>
+                        <outlet property="play" destination="K7E-6s-1SF" id="III-tM-IaY"/>
+                        <outlet property="record" destination="jsk-si-kqe" id="2gc-0j-7Ka"/>
+                        <outlet property="soundsControl" destination="VZb-2M-jef" id="9Vm-m4-fTq"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

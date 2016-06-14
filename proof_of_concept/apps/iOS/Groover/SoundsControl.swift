@@ -8,6 +8,7 @@
 
 import UIKit
 
+//@IBDesignable
 class SoundsControl: UIControl {
     var soundButtons = [Sounds]()
     var spacing = 20
@@ -16,9 +17,18 @@ class SoundsControl: UIControl {
     
     // MARK: Initialization
     
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        addSubviews()
+    }
+    
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+        addSubviews()
         
+    }
+    
+    func addSubviews(){
         for i in 0..<count {
             var button: Sounds!
             switch i {
@@ -73,6 +83,8 @@ class SoundsControl: UIControl {
         currentSoundNum = soundButtons.indexOf(button)!
         print("Option button tapped")
         updateButtonSelectionStates()
+        sendActionsForControlEvents(.ValueChanged) //this tells view controller that something changed
+
     }
     
     func updateButtonSelectionStates() {

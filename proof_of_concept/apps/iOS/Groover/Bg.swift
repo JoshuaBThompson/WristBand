@@ -11,6 +11,16 @@ import UIKit
 //@IBDesignable
 class Bg: UIView {
     
+    //MARK: initialization
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
+    
+    
     override func drawRect(rect: CGRect) {
         GrooverUI.drawBgCanvas()
     }

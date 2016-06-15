@@ -24,19 +24,14 @@
                                         <rect key="frame" x="20" y="238" width="280" height="280"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     </view>
-                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="K7E-6s-1SF" customClass="Play" customModule="Groover">
-                                        <rect key="frame" x="212" y="8" width="38" height="38"/>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                    </view>
-                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jsk-si-kqe" customClass="Record" customModule="Groover">
-                                        <rect key="frame" x="275" y="6" width="40" height="40"/>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                    </view>
                                     <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2rT-MO-jVL" customClass="OptionsControl" customModule="Groover">
                                         <rect key="frame" x="8" y="70" width="304" height="55"/>
                                     </view>
                                     <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VZb-2M-jef" customClass="SoundsControl" customModule="Groover">
                                         <rect key="frame" x="20" y="155" width="280" height="43"/>
+                                    </view>
+                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uNo-i6-fX4" customClass="PlayRecordControl" customModule="Groover">
+                                        <rect key="frame" x="166" y="8" width="146" height="61"/>
                                     </view>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
@@ -47,8 +42,7 @@
                     <connections>
                         <outlet property="knob" destination="GiA-Dw-Nu7" id="WOT-z6-f0s"/>
                         <outlet property="optionsControl" destination="2rT-MO-jVL" id="own-uY-JcP"/>
-                        <outlet property="play" destination="K7E-6s-1SF" id="III-tM-IaY"/>
-                        <outlet property="record" destination="jsk-si-kqe" id="2gc-0j-7Ka"/>
+                        <outlet property="playRecord" destination="uNo-i6-fX4" id="Euc-2B-B9w"/>
                         <outlet property="soundsControl" destination="VZb-2M-jef" id="9Vm-m4-fTq"/>
                     </connections>
                 </viewController>

@@ -9,37 +9,11 @@
 import UIKit
 
 //@IBDesignable
-class Play: UIButton {
-    var on = false
-    
-    //MARK: initialization
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-    }
+class Play: PlayRecordButton {
     
     override func drawRect(rect: CGRect) {
         GrooverUI.drawPlayCanvas(playSelected: on)
     }
-    
-    //MARK: touch functions
-    func toggleState(){
-        on = !on
-        setNeedsDisplay()
-    }
-    
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        print("play touch began")
-    }
-    
-    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        print("play touch ended")
-        toggleState()
-        sendActionsForControlEvents(.ValueChanged) //this tells view controller that something changed
-
-    }
+ 
     
 }

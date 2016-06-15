@@ -14,8 +14,8 @@ class ViewController: UIViewController {
     @IBOutlet weak var optionsControl: OptionsControl!
     @IBOutlet weak var knob: Knob!
     @IBOutlet weak var soundsControl: SoundsControl!
-    @IBOutlet weak var play: Play!
-    @IBOutlet weak var record: Record!
+    
+    @IBOutlet weak var playRecord: PlayRecordControl!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,8 +24,7 @@ class ViewController: UIViewController {
         knob.addTarget(self, action: #selector(ViewController.knobAngleChanged(_:)), forControlEvents: .ValueChanged)
         optionsControl.addTarget(self, action: #selector(ViewController.optionButtonSelected(_:)), forControlEvents: .ValueChanged)
         soundsControl.addTarget(self, action: #selector(ViewController.soundButtonSelected(_:)), forControlEvents: .ValueChanged)
-        play.addTarget(self, action: #selector(ViewController.playButtonSelected(_:)), forControlEvents: .ValueChanged)
-        record.addTarget(self, action: #selector(ViewController.recordButtonSelected(_:)), forControlEvents: .ValueChanged)
+        playRecord.addTarget(self, action: #selector(ViewController.playRecordButtonSelected(_:)), forControlEvents: .ValueChanged)
     }
 
     override func didReceiveMemoryWarning() {
@@ -39,28 +38,28 @@ class ViewController: UIViewController {
     
     //MARK: knob event handlers
     func knobAngleChanged(knobControl: Knob){
-        print("knob angle changed!")
+        print("knob angle changed to \(knobControl.angle)!")
+        
     }
     
     //MARK: Option button event handlers
     func optionButtonSelected(optionButton: OptionsControl){
         print("option control button changed")
+        print("option button changed to \(optionButton.currentOptionNum)")
     }
     
     //MARK: Sound preset button event handlers
     func soundButtonSelected(soundButton: SoundsControl){
         print("sound control button changed")
+        print("sound control button changed ot \(soundButton.currentSoundNum)")
     }
     
     //MARK: play button event handler
-    func playButtonSelected(playButton: Play){
-        print("play button changed")
+    func playRecordButtonSelected(playRecordButton: PlayRecordControl){
+        print("play or record button changed to \(playRecordButton.currentButtonNum)")
+        
     }
-    
-    //MARK: record button event handler
-    func recordButtonSelected(recordButton: Record){
-        print("record button changed")
-    }
+
 
 }
 

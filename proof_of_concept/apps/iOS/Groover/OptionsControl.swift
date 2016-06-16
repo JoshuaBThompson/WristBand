@@ -14,6 +14,7 @@ class OptionsControl: UIControl {
     var spacing = 12
     var count = 4
     var currentOptionNum = 0
+    var enableTouchFeedback = false
     
     // MARK: Initialization
     override init(frame: CGRect) {
@@ -43,8 +44,9 @@ class OptionsControl: UIControl {
             }
             
             //button.adjustsImageWhenHighlighted = false
-            
-            button.addTarget(self, action: #selector(OptionsControl.optionButtonTapped(_:)), forControlEvents: .TouchDown)
+            if(enableTouchFeedback){
+                button.addTarget(self, action: #selector(OptionsControl.optionButtonTapped(_:)), forControlEvents: .TouchDown)
+            }
             optionButtons += [button]
             addSubview(button)
             
@@ -81,7 +83,6 @@ class OptionsControl: UIControl {
         currentOptionNum = optionButtons.indexOf(button)!
         print("Option button tapped")
         updateButtonSelectionStates()
-        sendActionsForControlEvents(.ValueChanged) //this tells view controller that something changed
     }
     
     func updateButtonSelectionStates() {
@@ -90,8 +91,30 @@ class OptionsControl: UIControl {
             button.selected = index == currentOptionNum
             button.on = button.selected
             button.updateState()
+        }
+        sendActionsForControlEvents(.ValueChanged) //this tells view controller that something changed
+    }
+    
+    func selectButtonByNum(number: Int){
+        //can use this method to manually select button using the button number
+        //call in ViewController.swift
+        if(number >= 0 && (number < optionButtons.count)){
+        
+            if(number != currentOptionNum){
+                //only update if different
+                currentOptionNum = number
+                updateButtonSelectionStates()
+            }
+        }
+        else if(optionButtons.count >= 1) {
+            if(number != currentOptionNum){
+                //only update if different
+                currentOptionNum = optionButtons.count-1
+                updateButtonSelectionStates()
+            }
             
         }
+        
     }
 
 

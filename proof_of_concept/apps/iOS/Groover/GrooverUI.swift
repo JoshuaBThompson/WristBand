@@ -45,7 +45,7 @@ public class GrooverUI : NSObject {
         CGContextRestoreGState(context)
     }
 
-    public class func drawKnobCanvas(knobAngle knobAngle: CGFloat = 0, innerKnobActive: Bool = false, clickActive: Bool = false, innerKnobPosition: CGFloat = 90) {
+    public class func drawKnobCanvas(knobAngle knobAngle: CGFloat = 0, innerKnobActive: Bool = false, clickActive: Bool = false, innerKnobPosition: CGFloat = 0) {
         //// General Declarations
         let context = UIGraphicsGetCurrentContext()
 

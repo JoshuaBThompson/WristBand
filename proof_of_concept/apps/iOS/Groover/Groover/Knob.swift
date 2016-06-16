@@ -11,16 +11,38 @@ import UIKit
 //@IBDesignable
 class Knob: UIControl {
     //MARK: properties
+    var innerKnobActive = false
+    var clickActive = false
     var angle: CGFloat = 0.0
     var previousTimestamp = 0.0
     var rotDir: CGFloat = 1
     let angleUpdatePeriod = 0.025
     var previousLocation: CGPoint!
+    let circleAngle: Int = 360
+    var _divider: CGFloat = 1
+    var divider: CGFloat {
+        if(_divider <= 0){
+            _divider = 1
+        }
+        return _divider
+    }
+    var detentNum: Int {
+        let detent = Int(CGFloat(angle)/divider)
+        if(detent > 0){
+            //for ex: if angle = 2.4 then return 360 - abs Int(2.4/1) = 360 - 2 = 358 deg
+            return circleAngle - detent
+        }
+        else{
+            //for ex: if angle = -2.4 then return abs Int(-2.4/1) = 2 deg
+            return abs(detent)
+        }
+        
+    }
     
     
     
     override func drawRect(rect: CGRect) {
-        GrooverUI.drawKnobCanvas(knobAngle: angle)
+        GrooverUI.drawKnobCanvas(knobAngle: angle, innerKnobActive: innerKnobActive, clickActive: clickActive, innerKnobPosition: angle)
     }
     
     override init(frame: CGRect) {
@@ -36,6 +58,13 @@ class Knob: UIControl {
     //MARK: draw functions
     func turnKnob(){
         setNeedsDisplay()
+    }
+    
+    //MARK: set params
+    func setDivider(num: CGFloat){
+        if(num > 0){
+            _divider = num
+        }
     }
     
     //MARK: get angle displaced function (degrees)
@@ -96,6 +125,8 @@ class Knob: UIControl {
         previousTimestamp = event!.timestamp //need initial timestamp for continue tracking with touch calculations
         previousLocation = touch.previousLocationInView(self)
         print("started touch at x \(previousLocation.x) and y \(previousLocation.y)")
+        clickActive = !clickActive
+        setNeedsDisplay()
         return true
     }
     
@@ -115,6 +146,7 @@ class Knob: UIControl {
             print("delta angle is \(dltaAngle)")
             
             incrementAngle(rotDir*dltaAngle)
+            innerKnobActive = true
             turnKnob()
             print("new angle \(angle)")
             sendActionsForControlEvents(.ValueChanged) //this tells view controller that something changed
@@ -124,6 +156,8 @@ class Knob: UIControl {
     }
     
     override func endTrackingWithTouch(touch: UITouch?, withEvent event: UIEvent?) {
+        innerKnobActive = false
+        setNeedsDisplay()
     }
     
 }

@@ -25,6 +25,9 @@ class ViewController: UIViewController {
         optionsControl.addTarget(self, action: #selector(ViewController.optionButtonSelected(_:)), forControlEvents: .ValueChanged)
         soundsControl.addTarget(self, action: #selector(ViewController.soundButtonSelected(_:)), forControlEvents: .ValueChanged)
         playRecord.addTarget(self, action: #selector(ViewController.playRecordButtonSelected(_:)), forControlEvents: .ValueChanged)
+        
+        //set knob divider for instrument selection
+        knob.setDivider(23)
     }
 
     override func didReceiveMemoryWarning() {
@@ -39,6 +42,8 @@ class ViewController: UIViewController {
     //MARK: knob event handlers
     func knobAngleChanged(knobControl: Knob){
         print("knob angle changed to \(knobControl.angle)!")
+        print("knob detentNum \(knob.detentNum)")
+        optionsControl.selectButtonByNum(knob.detentNum)
         
     }
     

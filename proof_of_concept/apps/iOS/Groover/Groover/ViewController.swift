@@ -7,8 +7,18 @@
 //
 
 import UIKit
+import CoreMotion
 
 class ViewController: UIViewController {
+    //MARK: properties
+    var song: Song!
+    var audioMidiSetupEn = true
+    var manufactureName: String!
+    let sensor = MidiSensorWrapper()
+    let motionManager = CMMotionManager()
+    let queue = NSOperationQueue.mainQueue()
+    var timeIntervalMillis: UInt = 25
+    var eventCount = 0
     
     //MARK: outlets
     @IBOutlet weak var optionsControl: OptionsControl!
@@ -28,6 +38,23 @@ class ViewController: UIViewController {
         
         //set knob divider for instrument selection
         knob.setDivider(23)
+        
+        //Midi
+        // Do any additional setup after loading the view, typically from a nib.
+        //debugLabel.text = "View did load"
+        song = Song()
+        song.start()
+        
+        motionManager.startAccelerometerUpdates()
+        if motionManager.accelerometerAvailable {
+            motionManager.accelerometerUpdateInterval = NSTimeInterval(Double(timeIntervalMillis)/1000.0)
+            motionManager.startAccelerometerUpdatesToQueue(queue, withHandler: beatHandler)
+            
+        }
+        
+        //hide keyboard
+        //self.tempoTextField.delegate = self;
+        //self.timeSigTextFieldBPM.delegate = self;
     }
 
     override func didReceiveMemoryWarning() {
@@ -62,6 +89,35 @@ class ViewController: UIViewController {
     //MARK: play button event handler
     func playRecordButtonSelected(playRecordButton: PlayRecordControl){
         print("play or record button changed to \(playRecordButton.currentButtonNum)")
+        
+    }
+    
+    //MARK: Midi Sensor and AudioKit methods
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        self.view.endEditing(true)
+        return false
+    }
+    
+    
+    
+    //MARK: Motion Sensor Functions
+    func beatHandler(data: CMAccelerometerData?, error: NSError?){
+        let valx = Int32(16383.0 * (data!.acceleration.x))
+        let valy = Int32(16383.0 * (data!.acceleration.y))
+        let valz = Int32(16383.0 * (data!.acceleration.z))
+        
+        sensor.updateStateWith(valx, andY: valy, andZ: valz, andMillisElapsed: timeIntervalMillis);
+        sensor.handleMidiEvents();
+        if(sensor.beat){
+            //let eventNote = Int(sensor.getEventNote())
+            let eventStatus = Int(sensor.getEventStatus())
+            if eventStatus != 0x80{
+                song.addSelectedNote() //make drum sound and add to track if recording!
+                eventCount = eventCount + 1
+                //self.beatCountLabel.text = String(format:"%d", eventCount);
+            }
+            
+        }
         
     }
 

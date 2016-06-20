@@ -71,6 +71,8 @@ class ViewController: UIViewController {
         print("knob angle changed to \(knobControl.angle)!")
         print("knob detentNum \(knob.detentNum)")
         optionsControl.selectButtonByNum(knob.detentNum)
+        let instrumentNum = optionsControl.currentOptionNum //ex: 0 or 1 or 2 or 3
+        song.selectInstrument(instrumentNum)
         
     }
     
@@ -84,6 +86,7 @@ class ViewController: UIViewController {
     func soundButtonSelected(soundButton: SoundsControl){
         print("sound control button changed")
         print("sound control button changed ot \(soundButton.currentSoundNum)")
+        song.selectedPreset = soundsControl.currentSoundNum
     }
     
     //MARK: play button event handler

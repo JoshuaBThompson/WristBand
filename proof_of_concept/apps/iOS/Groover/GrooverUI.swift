@@ -25,7 +25,7 @@ public class GrooverUI : NSObject {
 
     public class var fullbgimage: UIImage {
         if Cache.fullbgimage == nil {
-            Cache.fullbgimage = UIImage(named: "images/fullbgimage.png")!
+            Cache.fullbgimage = UIImage(named: "fullbgimage")!
         }
         return Cache.fullbgimage!
     }
@@ -45,7 +45,7 @@ public class GrooverUI : NSObject {
         CGContextRestoreGState(context)
     }
 
-    public class func drawKnobCanvas(knobAngle knobAngle: CGFloat = 0, innerKnobActive: Bool = false, clickActive: Bool = false, innerKnobPosition: CGFloat = 90) {
+    public class func drawKnobCanvas(knobAngle knobAngle: CGFloat = 0, innerKnobActive: Bool = false, clickActive: Bool = false, innerKnobPosition: CGFloat = 0) {
         //// General Declarations
         let context = UIGraphicsGetCurrentContext()
 
@@ -56,9 +56,9 @@ public class GrooverUI : NSObject {
         let innerpositionIndicatorColor = UIColor(red: 0.037, green: 0.112, blue: 0.182, alpha: 0.114)
 
         //// Image Declarations
-        let knobouterimage = UIImage(named: "images/knobouterimage.png")!
-        let knobrotationimage = UIImage(named: "images/knobrotationimage.png")!
-        let knobcenterimage = UIImage(named: "images/knobcenterimage.png")!
+        let knobouterimage = UIImage(named: "knobouterimage")!
+        let knobrotationimage = UIImage(named: "knobrotationimage")!
+        let knobcenterimage = UIImage(named: "knobcenterimage")!
 
         //// Variable Declarations
         let clickButtonColor = clickActive ? selectedBlueColor : clickIconColor
@@ -196,7 +196,7 @@ public class GrooverUI : NSObject {
         let playButtonSelected = UIColor(red: 0.443, green: 0.737, blue: 0.435, alpha: 1.000)
 
         //// Image Declarations
-        let playglowimage = UIImage(named: "images/playglowimage.png")!
+        let playglowimage = UIImage(named: "playglowimage")!
 
         //// Variable Declarations
         let playButtonColor = playSelected ? playButtonSelected : darkButtonColor
@@ -233,7 +233,7 @@ public class GrooverUI : NSObject {
         let recordButtonSelected = UIColor(red: 0.773, green: 0.141, blue: 0.169, alpha: 1.000)
 
         //// Image Declarations
-        let recordglowimage = UIImage(named: "images/recordglowimage.png")!
+        let recordglowimage = UIImage(named: "recordglowimage")!
 
         //// Variable Declarations
         let recordButtonColor = recordSelected ? recordButtonSelected : darkButtonColor

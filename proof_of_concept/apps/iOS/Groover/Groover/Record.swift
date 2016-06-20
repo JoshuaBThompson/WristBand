@@ -9,27 +9,12 @@
 import UIKit
 
 //@IBDesignable
-class Record: UIButton {
-    var on = false
-    
+class Record: PlayRecordButton {
     override func drawRect(rect: CGRect) {
         GrooverUI.drawRecordCanvas(recordSelected: on)
     }
     
-    //MARK: touch functions
-    func toggleState(){
-        on = !on
-        setNeedsDisplay()
-    }
-    
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        print("record touch began")
-    }
-    
-    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        print("record touch ended")
-        toggleState()
-    }
+
     
     
 }

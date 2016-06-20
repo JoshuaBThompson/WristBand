@@ -24,45 +24,14 @@
                                         <rect key="frame" x="20" y="238" width="280" height="280"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     </view>
-                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="K7E-6s-1SF" customClass="Play" customModule="Groover">
-                                        <rect key="frame" x="212" y="8" width="38" height="38"/>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2rT-MO-jVL" customClass="OptionsControl" customModule="Groover">
+                                        <rect key="frame" x="8" y="70" width="304" height="55"/>
                                     </view>
-                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jsk-si-kqe" customClass="Record" customModule="Groover">
-                                        <rect key="frame" x="275" y="6" width="40" height="40"/>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VZb-2M-jef" customClass="SoundsControl" customModule="Groover">
+                                        <rect key="frame" x="20" y="155" width="280" height="43"/>
                                     </view>
-                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ATW-SM-OQg" customClass="Option1" customModule="Groover">
-                                        <rect key="frame" x="20" y="74" width="50" height="50"/>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                    </view>
-                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rTb-4v-CpV" customClass="Option2" customModule="Groover">
-                                        <rect key="frame" x="97" y="74" width="50" height="50"/>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                    </view>
-                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1pV-jd-dS7" customClass="Option3" customModule="Groover">
-                                        <rect key="frame" x="174" y="74" width="50" height="50"/>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                    </view>
-                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Fb3-Jt-2Oq" customClass="Option4" customModule="Groover">
-                                        <rect key="frame" x="250" y="74" width="50" height="50"/>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                    </view>
-                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5gG-Dr-Ug0" customClass="Sound1" customModule="Groover">
-                                        <rect key="frame" x="29" y="154" width="30" height="30"/>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                    </view>
-                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="niO-dl-Rvd" customClass="Sound2" customModule="Groover">
-                                        <rect key="frame" x="110" y="157" width="24" height="24"/>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                    </view>
-                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qPz-Pc-c8M" customClass="Sound3" customModule="Groover">
-                                        <rect key="frame" x="187" y="157" width="24" height="24"/>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                    </view>
-                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7sp-IO-QH9" customClass="Sound4" customModule="Groover">
-                                        <rect key="frame" x="263" y="157" width="24" height="24"/>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uNo-i6-fX4" customClass="PlayRecordControl" customModule="Groover">
+                                        <rect key="frame" x="166" y="8" width="146" height="61"/>
                                     </view>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
@@ -71,11 +40,15 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <connections>
-                        <outlet property="knob" destination="GiA-Dw-Nu7" id="EF0-Ze-Qqg"/>
+                        <outlet property="knob" destination="GiA-Dw-Nu7" id="WOT-z6-f0s"/>
+                        <outlet property="optionsControl" destination="2rT-MO-jVL" id="own-uY-JcP"/>
+                        <outlet property="playRecord" destination="uNo-i6-fX4" id="Euc-2B-B9w"/>
+                        <outlet property="soundsControl" destination="VZb-2M-jef" id="9Vm-m4-fTq"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="305" y="298"/>
         </scene>
     </scenes>
 </document>

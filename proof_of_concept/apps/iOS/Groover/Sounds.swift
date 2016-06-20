@@ -28,17 +28,13 @@ class Sounds: UIButton {
     //MARK: touch functions
     func toggleState(){
         on = !on
+        updateState()
+    }
+    
+    func updateState(){
         setNeedsDisplay()
     }
-    
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        print("sound touch began")
-    }
-    
-    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        print("sound touch ended")
-        toggleState()
-    }
+
     
 
 }

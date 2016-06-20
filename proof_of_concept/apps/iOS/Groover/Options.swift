@@ -27,9 +27,13 @@ class Options: UIButton {
     //MARK: touch functions
     func toggleState(){
         on = !on
-        setNeedsDisplay()
+        updateState()
     }
     
+    func updateState(){
+        setNeedsDisplay()
+    }
+    /*
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         print("option touch began")
     }
@@ -38,6 +42,7 @@ class Options: UIButton {
         print("option touch ended")
         toggleState()
     }
+     */
 
 
 }

@@ -11,15 +11,38 @@ import UIKit
 //@IBDesignable
 class Knob: UIControl {
     //MARK: properties
+    var innerKnobActive = false
+    var clickActive = false
     var angle: CGFloat = 0.0
     var previousTimestamp = 0.0
     var rotDir: CGFloat = 1
+    let angleUpdatePeriod = 0.025
     var previousLocation: CGPoint!
+    let circleAngle: Int = 360
+    var _divider: CGFloat = 1
+    var divider: CGFloat {
+        if(_divider <= 0){
+            _divider = 1
+        }
+        return _divider
+    }
+    var detentNum: Int {
+        let detent = Int(CGFloat(angle)/divider)
+        if(detent > 0){
+            //for ex: if angle = 2.4 then return 360 - abs Int(2.4/1) = 360 - 2 = 358 deg
+            return circleAngle - detent
+        }
+        else{
+            //for ex: if angle = -2.4 then return abs Int(-2.4/1) = 2 deg
+            return abs(detent)
+        }
+        
+    }
     
     
     
     override func drawRect(rect: CGRect) {
-        GrooverUI.drawKnobCanvas(knobAngle: angle)
+        GrooverUI.drawKnobCanvas(knobAngle: angle, innerKnobActive: innerKnobActive, clickActive: clickActive, innerKnobPosition: angle)
     }
     
     override init(frame: CGRect) {
@@ -37,6 +60,13 @@ class Knob: UIControl {
         setNeedsDisplay()
     }
     
+    //MARK: set params
+    func setDivider(num: CGFloat){
+        if(num > 0){
+            _divider = num
+        }
+    }
+    
     //MARK: get angle displaced function (degrees)
     func getAngleChangeFromPositionChange(currentLoc: CGPoint, prevLoc: CGPoint) -> CGFloat{
         //cosin(deltaAngle) = r1*r2/||r1||*||r2|| --- where currentLoc = r2 and prevLoc = r1
@@ -47,7 +77,7 @@ class Knob: UIControl {
         let r1s = sqrt((r1[0] * r1[0]) + (r1[1] * r1[1]))
         let r2s = sqrt((r2[0] * r2[0]) + (r2[1] * r2[1]))
         var deltaAngleRad: CGFloat = 0.0
-        if((r1s*r2s != 0.0 && r1r2/(r1s*r2s) <= 1.0)){
+        if(r1s*r2s != 0.0 && r1r2/(r1s*r2s) <= 1.0){
             //make sure don't divide by zero
             print("acos \(r1r2/(r1s*r2s))")
             deltaAngleRad = acos(r1r2/(r1s*r2s))
@@ -96,6 +126,8 @@ class Knob: UIControl {
         previousTimestamp = event!.timestamp //need initial timestamp for continue tracking with touch calculations
         previousLocation = touch.previousLocationInView(self)
         print("started touch at x \(previousLocation.x) and y \(previousLocation.y)")
+        clickActive = !clickActive
+        setNeedsDisplay()
         return true
     }
     
@@ -105,7 +137,7 @@ class Knob: UIControl {
         let timeSincePrevious = event!.timestamp - previousTimestamp
         
         //only calc angle after 1 sec since delta angles are too small if calc every time continue tracking is called
-        if(timeSincePrevious >= 0.025){
+        if(timeSincePrevious >= angleUpdatePeriod){
             let location = touch.locationInView(self)
             let dltaAngle = getAngleChangeFromPositionChange(location, prevLoc: previousLocation)
             updateRotDirection(location, prevLoc: previousLocation)
@@ -115,14 +147,18 @@ class Knob: UIControl {
             print("delta angle is \(dltaAngle)")
             
             incrementAngle(rotDir*dltaAngle)
+            innerKnobActive = true
             turnKnob()
             print("new angle \(angle)")
+            sendActionsForControlEvents(.ValueChanged) //this tells view controller that something changed
         }
        
         return true
     }
     
     override func endTrackingWithTouch(touch: UITouch?, withEvent event: UIEvent?) {
+        innerKnobActive = false
+        setNeedsDisplay()
     }
     
 }

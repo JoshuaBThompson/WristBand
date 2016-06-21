@@ -19,6 +19,7 @@ class Knob: UIControl {
     let angleUpdatePeriod = 0.025
     var previousLocation: CGPoint!
     let circleAngle: Int = 360
+    let innerKnobRadius: CGFloat = 70.0
     var _divider: CGFloat = 1
     var divider: CGFloat {
         if(_divider <= 0){
@@ -65,6 +66,15 @@ class Knob: UIControl {
         if(num > 0){
             _divider = num
         }
+    }
+    
+    //MARK: get distance from center of knob and see if within inner knob
+    func isWithinInnerKnob(loc: CGPoint)->Bool{
+        let dx = loc.x - frame.size.width/2.0
+        let dy = loc.y - frame.size.height/2.0
+        
+        let distance = sqrt(pow(dx, 2) + pow(dy, 2))
+        return distance <= innerKnobRadius
     }
     
     //MARK: get angle displaced function (degrees)
@@ -126,8 +136,11 @@ class Knob: UIControl {
         previousTimestamp = event!.timestamp //need initial timestamp for continue tracking with touch calculations
         previousLocation = touch.previousLocationInView(self)
         print("started touch at x \(previousLocation.x) and y \(previousLocation.y)")
-        clickActive = !clickActive
-        setNeedsDisplay()
+        if(isWithinInnerKnob(previousLocation)){
+            clickActive = !clickActive
+            sendActionsForControlEvents(.EditingChanged)
+            setNeedsDisplay()
+        }
         return true
     }
     
@@ -160,5 +173,7 @@ class Knob: UIControl {
         innerKnobActive = false
         setNeedsDisplay()
     }
+    
+    
     
 }

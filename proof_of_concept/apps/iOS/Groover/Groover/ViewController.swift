@@ -32,6 +32,7 @@ class ViewController: UIViewController {
         // Do any additional setup after loading the view, typically from a nib.
         //https://developer.apple.com/library/ios/referencelibrary/GettingStarted/DevelopiOSAppsSwift/Lesson3.html
         knob.addTarget(self, action: #selector(ViewController.knobAngleChanged(_:)), forControlEvents: .ValueChanged)
+        knob.addTarget(self, action: #selector(ViewController.innerKnobTapped(_:)), forControlEvents: .EditingChanged)
         optionsControl.addTarget(self, action: #selector(ViewController.optionButtonSelected(_:)), forControlEvents: .ValueChanged)
         soundsControl.addTarget(self, action: #selector(ViewController.soundButtonSelected(_:)), forControlEvents: .ValueChanged)
         playRecord.addTarget(self, action: #selector(ViewController.playRecordButtonSelected(_:)), forControlEvents: .ValueChanged)
@@ -74,6 +75,12 @@ class ViewController: UIViewController {
         let instrumentNum = optionsControl.currentOptionNum //ex: 0 or 1 or 2 or 3
         song.selectInstrument(instrumentNum)
         
+    }
+    
+    func innerKnobTapped(knobControl: Knob){
+        print("Inner knob tapped")
+        song.toggleTempo()
+        //song.addSelectedNote() //Used for testing in sim mode to simulate motion generated beat
     }
     
     //MARK: Option button event handlers

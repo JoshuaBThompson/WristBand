@@ -51,7 +51,7 @@ class Song {
     func start(){
         //start audiokit output
         AudioKit.start()
-        instrument.startClickTrack()
+        //instrument.startClickTrack()
     }
     
     func clear(){
@@ -79,12 +79,15 @@ class Song {
     func selectInstrument(number: Int){
         if(number < instruments.count){
             //change tempo to next instrument
+            let clickSet = instrument.clickTrackRunning
             instrument.stopClickTrack()
             selectedInstrument = number
             instrument = instruments[selectedInstrument]
             
-            //start new click track
-            instrument.startClickTrack()
+            //start new click track only if user had it set previously
+            if(clickSet){
+                instrument.startClickTrack()
+            }
             
         }
     }

@@ -14,6 +14,7 @@ import AudioKit
 
 class Song {
     var selectedInstrument = 0
+    var prevSelectedInstrument = 0
     var selectedPreset = 0
     var mixer: AKMixer!
     var notePosition: Double = 1
@@ -81,6 +82,7 @@ class Song {
             //change tempo to next instrument
             let clickSet = instrument.clickTrackRunning
             instrument.stopClickTrack()
+            prevSelectedInstrument = selectedInstrument
             selectedInstrument = number
             instrument = instruments[selectedInstrument]
             
@@ -116,7 +118,10 @@ class Song {
             return
         }
         instrument.addNote(preset: presetNumber)
-        if !playing { play() }
+        if !playing {
+            print("record started play")
+            play()
+        }
         
     }
     
@@ -126,6 +131,10 @@ class Song {
         //recorded all tracks
         for instNum in 0 ..< instruments.count {
             instruments[instNum].record()
+        }
+        if !playing {
+            print("record started play")
+            play()
         }
         //now addNote function will add notes to sequences track
     }

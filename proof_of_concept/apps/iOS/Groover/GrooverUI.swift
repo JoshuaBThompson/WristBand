@@ -261,6 +261,44 @@ public class GrooverUI : NSObject {
         recordButtonColor.setFill()
         recordButtonPath.fill()
     }
+    
+    public class func drawClearCanvas(clearSelected clearSelected: Bool = false) {
+        //// General Declarations
+        let context = UIGraphicsGetCurrentContext()
+        
+        //// Color Declarations
+        let darkButtonColor = UIColor(red: 0.043, green: 0.082, blue: 0.157, alpha: 1.000)
+        let clearButtonSelected = UIColor(red: 0.79, green: 0.48, blue: 0.90, alpha: 1.000)
+        
+        //// Image Declarations
+        let clearglowimage = UIImage(named: "recordglowimage")!
+        
+        //// Variable Declarations
+        let clearButtonColor = clearSelected ? clearButtonSelected : darkButtonColor
+        
+        if (clearSelected) {
+            //// recordGlowCanvas Drawing
+            let recordGlowCanvasPath = UIBezierPath(rect: CGRectMake(0, 0, 40, 40))
+            CGContextSaveGState(context)
+            recordGlowCanvasPath.addClip()
+            clearglowimage.drawInRect(CGRectMake(0, 0, clearglowimage.size.width, clearglowimage.size.height))
+            CGContextRestoreGState(context)
+        }
+        
+        
+        //// clearButton Drawing
+        let clearButtonPath = UIBezierPath()
+        clearButtonPath.moveToPoint(CGPointMake(20, 31))
+        clearButtonPath.addCurveToPoint(CGPointMake(31, 20), controlPoint1: CGPointMake(26.08, 31), controlPoint2: CGPointMake(31, 26.08))
+        clearButtonPath.addCurveToPoint(CGPointMake(20, 9), controlPoint1: CGPointMake(31, 13.92), controlPoint2: CGPointMake(26.08, 9))
+        clearButtonPath.addCurveToPoint(CGPointMake(9, 20), controlPoint1: CGPointMake(13.92, 9), controlPoint2: CGPointMake(9, 13.92))
+        clearButtonPath.addCurveToPoint(CGPointMake(20, 31), controlPoint1: CGPointMake(9, 26.08), controlPoint2: CGPointMake(13.92, 31))
+        clearButtonPath.closePath()
+        clearButtonPath.usesEvenOddFillRule = true;
+        
+        clearButtonColor.setFill()
+        clearButtonPath.fill()
+    }
 
     public class func drawOptionsCanvas1(optionOneSelected optionOneSelected: Bool = false) {
         //// Color Declarations

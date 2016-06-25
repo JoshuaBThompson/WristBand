@@ -12,6 +12,7 @@ import UIKit
 class Play: PlayRecordButton {
     
     override func drawRect(rect: CGRect) {
+        print("Play!")
         GrooverUI.drawPlayCanvas(playSelected: on)
     }
  

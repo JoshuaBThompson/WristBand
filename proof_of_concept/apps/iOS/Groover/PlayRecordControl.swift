@@ -8,11 +8,16 @@
 
 import UIKit
 
+
 class PlayRecordControl: UIControl {
     var buttons = [PlayRecordButton]()
-    var spacing = 20
-    var count = 2
+    var spacing = 15
+    var count = 3
     var currentButtonNum = 0
+    var currentButtonType = PlayRecordButtonTypes_t.PLAY
+    var playButton: PlayRecordButton!
+    var clearButton: PlayRecordButton!
+    var recordButton: PlayRecordButton!
     
     // MARK: Initialization
     
@@ -27,25 +32,27 @@ class PlayRecordControl: UIControl {
         
     }
     
+    func addButton(button: PlayRecordButton){
+        button.addTarget(self, action: #selector(PlayRecordControl.playRecordButtonTapped(_:)), forControlEvents: .TouchDown)
+        buttons += [button]
+        addSubview(button)
+    }
+    
     func addSubviews(){
-        for i in 0..<count {
-            var button: PlayRecordButton!
-            switch i {
-            case 0:
-                button = Play()
-            case 1:
-                button = Record()
-            default:
-                button = Play() //TODO: should alert error
-            }
+            playButton = Play()
+            playButton.type = .PLAY
+            addButton(playButton)
+        
+            clearButton = Clear()
+            clearButton.type = .CLEAR
+            addButton(clearButton)
+        
+            recordButton = Record()
+            recordButton.type = .RECORD
+            addButton(recordButton)
             
             //button.adjustsImageWhenHighlighted = false
-            
-            button.addTarget(self, action: #selector(PlayRecordControl.playRecordButtonTapped(_:)), forControlEvents: .TouchDown)
-            buttons += [button]
-            addSubview(button)
-            
-        }
+        
     }
     
     override func layoutSubviews() {
@@ -76,20 +83,72 @@ class PlayRecordControl: UIControl {
     
     func playRecordButtonTapped(button: PlayRecordButton) {
         currentButtonNum = buttons.indexOf(button)!
+        currentButtonType = PlayRecordButtonTypes_t(rawValue: currentButtonNum)!
         print("Play or Record button tapped")
         updateButtonSelectionStates()
         sendActionsForControlEvents(.ValueChanged) //this tells view controller that something changed
         
     }
+    func manualSelectButton(buttonType: PlayRecordButtonTypes_t){
+        currentButtonType = buttonType
+        let num = currentButtonType
+        
+        //just select button, don't deselect others
+        switch num {
+        case .PLAY:
+            print("play manually selected")
+            playButton.selected = true
+            playButton.on = true
+            playButton.set = true
+            playButton.updateState()
+            
+        case .CLEAR:
+            print("clear manually selected")
+            clearButton.selected = true
+            clearButton.on = true
+            clearButton.set = true
+            clearButton.updateState()
+            
+        case .RECORD:
+            print("record manually selected")
+            recordButton.selected = true
+            recordButton.on = true
+            recordButton.set = true
+            recordButton.updateState()
+        }
+
+    }
     
     func updateButtonSelectionStates() {
-        for (index, button) in buttons.enumerate() {
-            // If the index of a button is less than the rating, that button should be selected.
-            button.selected = index == currentButtonNum
-            button.on = button.selected
-            button.updateState()
+        let num = currentButtonType //PlayRecordButtonTypes_t(rawValue: currentButtonNum)!
+        switch num {
+            case .PLAY:
+                print("play selected")
+                playButton.selected = !playButton.selected
+                recordButton.selected = false
+                clearButton.selected = false
             
+            case .CLEAR:
+                print("clear selected")
+                clearButton.selected = false
+            
+            case .RECORD:
+                print("record selected")
+                recordButton.selected = !recordButton.selected
+                clearButton.selected = recordButton.selected
+                playButton.selected = false
         }
+        
+        for (_, button) in buttons.enumerate(){
+            button.on = button.selected
+            button.set = button.selected
+            button.updateState()
+        }
+        
+        
+        
+        
+        
     }
     
     

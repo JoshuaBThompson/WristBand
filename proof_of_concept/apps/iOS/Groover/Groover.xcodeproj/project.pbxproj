@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		423DC3571D1C36CE0036871B /* Clear.swift in Sources */ = {isa = PBXBuildFile; fileRef = 423DC3561D1C36CE0036871B /* Clear.swift */; };
 		42447F161D174EA1001C5BAD /* Sound1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42447F151D174EA1001C5BAD /* Sound1.swift */; };
 		428F5DA01D0F065500CD6181 /* SoundsControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 428F5D9F1D0F065500CD6181 /* SoundsControl.swift */; };
 		42A68B3F1D0B15E6009D7501 /* Options.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42A68B3E1D0B15E6009D7501 /* Options.swift */; };
@@ -85,6 +86,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		423DC3531D1C33DA0036871B /* Groover.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Groover.entitlements; sourceTree = "<group>"; };
+		423DC3561D1C36CE0036871B /* Clear.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Clear.swift; sourceTree = "<group>"; };
 		42447EAE1D17455E001C5BAD /* Groover-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Groover-Bridging-Header.h"; sourceTree = "<group>"; };
 		42447F151D174EA1001C5BAD /* Sound1.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Sound1.swift; sourceTree = "<group>"; };
 		428F5D9F1D0F065500CD6181 /* SoundsControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SoundsControl.swift; sourceTree = "<group>"; };
@@ -208,6 +211,7 @@
 				FA03B9EE1D0944C200B2B7F7 /* Sound3.swift */,
 				FA03B9F01D0944D900B2B7F7 /* Sound4.swift */,
 				FA03B9E01D0940B200B2B7F7 /* Record.swift */,
+				423DC3561D1C36CE0036871B /* Clear.swift */,
 				FA03B9DE1D093EF700B2B7F7 /* Play.swift */,
 				FA03B9D61D093C3800B2B7F7 /* GrooverUI.swift */,
 				FA03B9DC1D093E0800B2B7F7 /* Knob.swift */,
@@ -234,6 +238,7 @@
 		FA03B9A71D093BC000B2B7F7 /* Groover */ = {
 			isa = PBXGroup;
 			children = (
+				423DC3531D1C33DA0036871B /* Groover.entitlements */,
 				42D66EF21D18442300BA2C73 /* Sounds */,
 				42C3861B1D175D7B00B14ECD /* HatInstrument.swift */,
 				42C3861C1D175D7B00B14ECD /* Instrument1Presets.swift */,
@@ -341,6 +346,14 @@
 					FA03B9A41D093BC000B2B7F7 = {
 						CreatedOnToolsVersion = 7.3;
 						DevelopmentTeam = XPYTM2G2L5;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+							com.apple.InterAppAudio = {
+								enabled = 0;
+							};
+						};
 					};
 					FA03B9B81D093BC000B2B7F7 = {
 						CreatedOnToolsVersion = 7.3;
@@ -429,6 +442,7 @@
 				42C386031D1759A000B14ECD /* MidiSensorWrapper.mm in Sources */,
 				42F7C4491D11B0E000A09496 /* PlayRecordControl.swift in Sources */,
 				FA03B9E91D0942B500B2B7F7 /* Option4.swift in Sources */,
+				423DC3571D1C36CE0036871B /* Clear.swift in Sources */,
 				FA03B9DD1D093E0800B2B7F7 /* Knob.swift in Sources */,
 				42C386331D175D7B00B14ECD /* HatInstrument.swift in Sources */,
 				FA03B9D81D093C3800B2B7F7 /* GrooverUI.swift in Sources */,

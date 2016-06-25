@@ -8,9 +8,22 @@
 
 import UIKit
 
+enum PlayRecordButtonTypes: Int {
+    case PLAY = 0
+    case CLEAR = 1
+    case RECORD = 2
+}
+
+typealias PlayRecordButtonTypes_t = PlayRecordButtonTypes
+
 class PlayRecordButton: UIButton {
     
     var on = false
+    var set = false //used for clear button only, for now...
+    var type: PlayRecordButtonTypes!
+    var active: Bool {
+        return on && set && selected
+    }
     
     /*
      // Only override drawRect: if you perform custom drawing.

@@ -11,6 +11,7 @@ import UIKit
 //@IBDesignable
 class Record: PlayRecordButton {
     override func drawRect(rect: CGRect) {
+        print("Record!")
         GrooverUI.drawRecordCanvas(recordSelected: on)
     }
     

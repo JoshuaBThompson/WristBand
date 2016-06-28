@@ -11,33 +11,28 @@ import UIKit
 //@IBDesignable
 class Knob: UIControl {
     //MARK: properties
-    var innerKnobActive = false
+    var instSnap: SnapFilter!
+    var innerKnobActive = true
     var clickActive = false
-    var angle: CGFloat = 0.0
+    var angle: CGFloat = 265.0
     var previousTimestamp = 0.0
     var rotDir: CGFloat = 1
     let angleUpdatePeriod = 0.025
     var previousLocation: CGPoint!
-    let circleAngle: Int = 360
+    let circleAngle: CGFloat = 360
     let innerKnobRadius: CGFloat = 70.0
-    var _divider: CGFloat = 1
-    var divider: CGFloat {
-        if(_divider <= 0){
-            _divider = 1
-        }
-        return _divider
-    }
-    var detentNum: Int {
-        let detent = Int(CGFloat(angle)/divider)
-        if(detent > 0){
-            //for ex: if angle = 2.4 then return 360 - abs Int(2.4/1) = 360 - 2 = 358 deg
-            return circleAngle - detent
+
+    var absAngle: CGFloat {
+        if(angle < 0){
+            return circleAngle + angle //ex: 360 + (-90) = 270 deg
         }
         else{
-            //for ex: if angle = -2.4 then return abs Int(-2.4/1) = 2 deg
-            return abs(detent)
+            return angle
         }
-        
+    }
+    
+    var detent: Int {
+        return instSnap.getDetent(absAngle)
     }
     
     
@@ -48,24 +43,21 @@ class Knob: UIControl {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        print("instrument snap")
+        instSnap = SnapFilter(detentCount: 4, angleOffset: angle, angleRange: 90)
     }
     
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+        print("instrument snap")
+        instSnap = SnapFilter(detentCount: 4, angleOffset: angle, angleRange: 90)
         
     }
     
     //MARK: draw functions
     func turnKnob(){
         setNeedsDisplay()
-    }
-    
-    //MARK: set params
-    func setDivider(num: CGFloat){
-        if(num > 0){
-            _divider = num
-        }
     }
     
     //MARK: get distance from center of knob and see if within inner knob
@@ -104,7 +96,13 @@ class Knob: UIControl {
     
     func incrementAngle(deltaAngle: CGFloat){
         angle += deltaAngle
-        if(abs(angle) > 360){angle = 0}
+        if(angle < instSnap.minAngle){
+            angle = instSnap.minAngle
+        }
+        else if(angle > instSnap.maxAngle){
+            angle = instSnap.maxAngle
+        }
+        else if(abs(angle) > 360){angle = 0}
     }
     
     func updateRotDirection(currentLoc: CGPoint, prevLoc: CGPoint){
@@ -163,6 +161,7 @@ class Knob: UIControl {
             innerKnobActive = true
             turnKnob()
             print("new angle \(angle)")
+            print("abs angle \(absAngle)")
             sendActionsForControlEvents(.ValueChanged) //this tells view controller that something changed
         }
        
@@ -170,10 +169,70 @@ class Knob: UIControl {
     }
     
     override func endTrackingWithTouch(touch: UITouch?, withEvent event: UIEvent?) {
-        innerKnobActive = false
+        innerKnobActive = true  //TODO: should we set back to false?
         setNeedsDisplay()
     }
     
     
+}
+
+
+/*
+ Snap filter class
+ Use this to create snap filter for various knob functions (instrument selection, tempo ...etc)
+ */
+
+
+class SnapFilter {
+    
+    var angles = [CGFloat]() //list of angles for each detent number
+    var count: Int! //divide angle range by this number to get angle per detent
+    var offset: CGFloat! //angle offset, where angles will start from
+    var range: CGFloat! //for ex: 360 deg
+    var apd: CGFloat! //angle per detent
+    
+    
+    var maxAngle: CGFloat {
+        return offset
+    }
+    
+    var minAngle: CGFloat {
+        return offset - range
+    }
+    //MARK: Initialize snap filter
+    init(detentCount: Int, angleOffset: CGFloat, angleRange: CGFloat){
+        count = detentCount
+        offset = angleOffset
+        range = angleRange
+        
+        //calculate angle per detents using count and range
+        //ex: if range = 360 deg and count = 10 then angle per detent = 36 deg
+        apd = abs(range / CGFloat(count))
+    }
+    
+    //MARK: Initialize angle list
+    func initAngles(){
+        for i in 0..<count {
+            let angle = offset + apd*CGFloat(i) //ex: 0 + 36*2 = 72 deg
+            angles.append(angle)
+        }
+    }
+    
+    //MARK: Get detent from angle
+    func getDetent(angle: CGFloat)->Int{
+        let detent = abs(Int((angle-offset)/apd))
+        return detent
+
+    }
+    
+    //MARK: Get detent angle
+    func getDetentAngle(detent: Int)->CGFloat{
+        if(detent < angles.count){
+            return angles[detent]
+        }
+        else{
+            return 0
+        }
+    }
     
 }

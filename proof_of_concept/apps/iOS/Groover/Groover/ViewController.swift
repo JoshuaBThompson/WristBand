@@ -37,9 +37,6 @@ class ViewController: UIViewController {
         soundsControl.addTarget(self, action: #selector(ViewController.soundButtonSelected(_:)), forControlEvents: .ValueChanged)
         playRecord.addTarget(self, action: #selector(ViewController.playRecordButtonSelected(_:)), forControlEvents: .ValueChanged)
         
-        //set knob divider for instrument selection
-        knob.setDivider(23)
-        
         //Midi
         // Do any additional setup after loading the view, typically from a nib.
         //debugLabel.text = "View did load"
@@ -70,8 +67,8 @@ class ViewController: UIViewController {
     //MARK: knob event handlers
     func knobAngleChanged(knobControl: Knob){
         print("knob angle changed to \(knobControl.angle)!")
-        print("knob detentNum \(knob.detentNum)")
-        optionsControl.selectButtonByNum(knob.detentNum)
+        print("knob detentNum \(knob.detent)")
+        optionsControl.selectButtonByNum(knob.detent)
         let instrumentNum = optionsControl.currentOptionNum //ex: 0 or 1 or 2 or 3
         song.selectInstrument(instrumentNum)
         updateButtonStatesAfterKnobTurn()

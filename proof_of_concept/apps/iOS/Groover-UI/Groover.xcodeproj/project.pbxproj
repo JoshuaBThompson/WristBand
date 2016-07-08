@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		42A59FA41D301F8B0070FE46 /* BeatFilter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42A59F9A1D301F8B0070FE46 /* BeatFilter.cpp */; };
+		42A59FA51D301F8B0070FE46 /* Common.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42A59F9C1D301F8B0070FE46 /* Common.cpp */; };
+		42A59FA61D301F8B0070FE46 /* IMUFilter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42A59F9E1D301F8B0070FE46 /* IMUFilter.cpp */; };
+		42A59FA71D301F8B0070FE46 /* MidiSensor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42A59FA01D301F8B0070FE46 /* MidiSensor.cpp */; };
+		42A59FA81D301F8B0070FE46 /* MotionFilter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42A59FA21D301F8B0070FE46 /* MotionFilter.cpp */; };
+		42A59FAB1D301FA60070FE46 /* MidiSensorWrapper.mm in Sources */ = {isa = PBXBuildFile; fileRef = 42A59FAA1D301FA60070FE46 /* MidiSensorWrapper.mm */; };
 		FA50AA531D2A3FE60035C942 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA50AA521D2A3FE60035C942 /* AppDelegate.swift */; };
 		FA50AA551D2A3FE60035C942 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA50AA541D2A3FE60035C942 /* ViewController.swift */; };
 		FA50AA581D2A3FE60035C942 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA50AA561D2A3FE60035C942 /* Main.storyboard */; };
@@ -48,6 +54,19 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		42A59F9A1D301F8B0070FE46 /* BeatFilter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BeatFilter.cpp; sourceTree = "<group>"; };
+		42A59F9B1D301F8B0070FE46 /* BeatFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BeatFilter.h; sourceTree = "<group>"; };
+		42A59F9C1D301F8B0070FE46 /* Common.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Common.cpp; sourceTree = "<group>"; };
+		42A59F9D1D301F8B0070FE46 /* Common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Common.h; sourceTree = "<group>"; };
+		42A59F9E1D301F8B0070FE46 /* IMUFilter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = IMUFilter.cpp; sourceTree = "<group>"; };
+		42A59F9F1D301F8B0070FE46 /* IMUFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IMUFilter.h; sourceTree = "<group>"; };
+		42A59FA01D301F8B0070FE46 /* MidiSensor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MidiSensor.cpp; sourceTree = "<group>"; };
+		42A59FA11D301F8B0070FE46 /* MidiSensor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MidiSensor.h; sourceTree = "<group>"; };
+		42A59FA21D301F8B0070FE46 /* MotionFilter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MotionFilter.cpp; sourceTree = "<group>"; };
+		42A59FA31D301F8B0070FE46 /* MotionFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MotionFilter.h; sourceTree = "<group>"; };
+		42A59FA91D301F9D0070FE46 /* MidiSensorWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MidiSensorWrapper.h; sourceTree = "<group>"; };
+		42A59FAA1D301FA60070FE46 /* MidiSensorWrapper.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MidiSensorWrapper.mm; sourceTree = "<group>"; };
+		42A59FAC1D301FAD0070FE46 /* Groover-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Groover-Bridging-Header.h"; sourceTree = "<group>"; };
 		FA50AA4F1D2A3FE60035C942 /* Groover.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Groover.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA50AA521D2A3FE60035C942 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FA50AA541D2A3FE60035C942 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -100,9 +119,30 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		42A59F991D301F8B0070FE46 /* MidiSensor_V1.0.0 */ = {
+			isa = PBXGroup;
+			children = (
+				42A59F9A1D301F8B0070FE46 /* BeatFilter.cpp */,
+				42A59F9B1D301F8B0070FE46 /* BeatFilter.h */,
+				42A59F9C1D301F8B0070FE46 /* Common.cpp */,
+				42A59F9D1D301F8B0070FE46 /* Common.h */,
+				42A59F9E1D301F8B0070FE46 /* IMUFilter.cpp */,
+				42A59F9F1D301F8B0070FE46 /* IMUFilter.h */,
+				42A59FA01D301F8B0070FE46 /* MidiSensor.cpp */,
+				42A59FA11D301F8B0070FE46 /* MidiSensor.h */,
+				42A59FA21D301F8B0070FE46 /* MotionFilter.cpp */,
+				42A59FA31D301F8B0070FE46 /* MotionFilter.h */,
+			);
+			path = MidiSensor_V1.0.0;
+			sourceTree = "<group>";
+		};
 		FA50AA461D2A3FE60035C942 = {
 			isa = PBXGroup;
 			children = (
+				42A59FAC1D301FAD0070FE46 /* Groover-Bridging-Header.h */,
+				42A59FAA1D301FA60070FE46 /* MidiSensorWrapper.mm */,
+				42A59FA91D301F9D0070FE46 /* MidiSensorWrapper.h */,
+				42A59F991D301F8B0070FE46 /* MidiSensor_V1.0.0 */,
 				FA50AA511D2A3FE60035C942 /* Groover */,
 				FA50AA501D2A3FE60035C942 /* Products */,
 			);
@@ -283,16 +323,22 @@
 			buildActionMask = 2147483647;
 			files = (
 				FAB995F01D2E2B510002EE38 /* Left.swift in Sources */,
+				42A59FA71D301F8B0070FE46 /* MidiSensor.cpp in Sources */,
 				FA50AA951D2B45570035C942 /* Triplet.swift in Sources */,
+				42A59FA81D301F8B0070FE46 /* MotionFilter.cpp in Sources */,
 				FA50AA551D2A3FE60035C942 /* ViewController.swift in Sources */,
+				42A59FA51D301F8B0070FE46 /* Common.cpp in Sources */,
 				FA50AA8F1D2B44440035C942 /* Eighth.swift in Sources */,
 				FA50AA531D2A3FE60035C942 /* AppDelegate.swift in Sources */,
+				42A59FA41D301F8B0070FE46 /* BeatFilter.cpp in Sources */,
 				FA50AA971D2B472E0035C942 /* HamburgerIcon.swift in Sources */,
 				FA50AA891D2B40160035C942 /* Record.swift in Sources */,
 				FA50AA911D2B44DD0035C942 /* Sixteenth.swift in Sources */,
 				FA50AA8B1D2B40E40035C942 /* ParametersButton.swift in Sources */,
+				42A59FA61D301F8B0070FE46 /* IMUFilter.cpp in Sources */,
 				FA50AA8D1D2B43620035C942 /* Quarter.swift in Sources */,
 				FA50AA831D2A433B0035C942 /* UIGroover.swift in Sources */,
+				42A59FAB1D301FA60070FE46 /* MidiSensorWrapper.mm in Sources */,
 				FA820EB41D2E20E800C6FBF4 /* Popup.swift in Sources */,
 				FA50AA931D2B454D0035C942 /* Thirtysecond.swift in Sources */,
 				FA50AA851D2B397F0035C942 /* Knob.swift in Sources */,
@@ -442,6 +488,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = TCM.Groover;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Groover-Bridging-Header.h";
 			};
 			name = Debug;
 		};
@@ -453,6 +500,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = TCM.Groover;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Groover-Bridging-Header.h";
 			};
 			name = Release;
 		};

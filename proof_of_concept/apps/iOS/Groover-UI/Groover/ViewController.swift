@@ -9,6 +9,8 @@
 import UIKit
 
 class ViewController: UIViewController {
+    //MARK: properties
+    let sensor = MidiSensorWrapper()
 
     override func viewDidLoad() {
         super.viewDidLoad()

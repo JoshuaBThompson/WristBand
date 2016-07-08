@@ -20,19 +20,21 @@ class Popup: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        //popupPath = UIBezierPath()
-        //initBlurEffect()
-        //drawPopupCanvas()
-        //addPopupBlurMask()
+        popupPath = UIBezierPath()
+        initBlurEffect()
+        drawPopupCanvas()
+        addPopupBlurMask()
+        hide() //initially hidden, but when user clicks hamburger it will toggle show / hide
         
     }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        //popupPath = UIBezierPath()
-        //initBlurEffect()
-        //drawPopupCanvas()
-        //addPopupBlurMask()
+        popupPath = UIBezierPath()
+        initBlurEffect()
+        drawPopupCanvas()
+        addPopupBlurMask()
+        hide()
         
     }
     
@@ -41,6 +43,22 @@ class Popup: UIView {
         //GrooverUI.drawPopupCanvas()
         //drawPopupCanvas()
     }
+    
+    
+    //MARK: Hide popup function
+    func toggleHide(){
+        hidden = !hidden //toggle true / false
+    }
+    
+    func hide(){
+        hidden = true
+    }
+    
+    func show(){
+        hidden = false
+    }
+    
+    //MARK: Blur functions
     
     func addPopupBlurMask(){
         

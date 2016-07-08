@@ -93,6 +93,10 @@
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="job-r8-sjF" secondAttribute="bottom" id="jPR-4y-32z"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="hamburgerButton" destination="8CQ-3U-35x" id="S0S-1K-vL5"/>
+                        <outlet property="popup" destination="9Oa-HM-AtP" id="ZtD-s1-PYu"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>

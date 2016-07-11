@@ -17,25 +17,28 @@ class Popup: UIView {
     var blurView: UIVisualEffectView!
     var mask: CAShapeLayer!
     
+    //buttons / subviews
+    var buttons = [UIButton]()
+    var leftButton: Left!
+    
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        popupPath = UIBezierPath()
-        initBlurEffect()
-        drawPopupCanvas()
-        addPopupBlurMask()
-        hide() //initially hidden, but when user clicks hamburger it will toggle show / hide
-        
+        initView()
     }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+        initView()
+    }
+    
+    func initView(){
         popupPath = UIBezierPath()
         initBlurEffect()
         drawPopupCanvas()
         addPopupBlurMask()
+        addSubviews()
         hide()
-        
     }
     
     override func drawRect(rect: CGRect) {
@@ -44,18 +47,50 @@ class Popup: UIView {
         //drawPopupCanvas()
     }
     
+    func addButton(button: UIButton){
+        //button.addTarget(self, action: #selector(PlayRecordControl.playRecordButtonTapped(_:)), forControlEvents: .TouchDown)
+        buttons += [button]
+        addSubview(button)
+    }
+    
+    func addSubviews(){
+        leftButton = Left()
+        addButton(leftButton)
+        leftButton.updateState()
+        
+        //button.adjustsImageWhenHighlighted = false
+    }
+    
+    override func layoutSubviews() {
+        // Set the button's width and height to a square the size of the frame's height.
+        let buttonSize = 100
+        var buttonFrame = CGRect(x: 0, y: 0, width: buttonSize, height: buttonSize)
+        buttonFrame.origin.x = CGFloat(0)
+        buttonFrame.origin.y = CGFloat(150)
+        leftButton.frame = buttonFrame
+        leftButton.updateState()
+    }
+    
     
     //MARK: Hide popup function
     func toggleHide(){
         hidden = !hidden //toggle true / false
+        updateButtonStates()
     }
     
     func hide(){
         hidden = true
+        updateButtonStates()
     }
     
     func show(){
         hidden = false
+    }
+    
+    //MARK: Update buttons
+    
+    func updateButtonStates(){
+        leftButton.updateState()
     }
     
     //MARK: Blur functions

@@ -1350,7 +1350,8 @@ public class UIGroover : NSObject {
 
     public class func drawLeftCanvas() {
         //// Color Declarations
-        let fillColor = UIColor(red: 0.276, green: 0.318, blue: 0.364, alpha: 1.000)
+        //let fillColor = UIColor(red: 0.276, green: 0.318, blue: 0.364, alpha: 1.000)
+        let fillColor = UIColor.redColor()
 
         //// leftArrow Drawing
         let leftArrowPath = UIBezierPath()

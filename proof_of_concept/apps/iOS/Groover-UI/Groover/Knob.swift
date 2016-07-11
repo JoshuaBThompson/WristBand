@@ -23,6 +23,7 @@ class Knob: UIControl {
     let innerKnobRadius: CGFloat = 70.0
     let detentCount = 18 //number of instruments
     let angleRangeEn = false //enforce angle range limits
+    let angleRate: CGFloat = 0.5 // if set to 1 then knob turns with user finger at same speed
     
     var absAngle: CGFloat {
         if(angle < 0){
@@ -97,7 +98,7 @@ class Knob: UIControl {
     }
     
     func incrementAngle(deltaAngle: CGFloat){
-        angle += deltaAngle
+        angle += angleRate*deltaAngle
         if(angleRangeEn){
             enforceAngleRange()
         }

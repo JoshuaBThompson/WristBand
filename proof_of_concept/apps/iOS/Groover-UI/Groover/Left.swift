@@ -9,10 +9,16 @@
 import UIKit
 
 //@IBDesignable
-class Left: UIView {
+class Left: UIButton {
     
     override func drawRect(rect: CGRect) {
-        //UIGroover.drawLeftCanvas()
+        UIGroover.drawLeftCanvas()
+        print("left displaying!")
+    }
+    
+    func updateState(){
+        setNeedsDisplay()
+        print("left arrow needs display")
     }
     
 }

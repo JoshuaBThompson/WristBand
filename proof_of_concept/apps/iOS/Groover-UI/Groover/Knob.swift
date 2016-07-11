@@ -14,7 +14,7 @@ class Knob: UIControl {
     var instSnap: SnapFilter!
     var clickRingActive = true
     var clickActive = false
-    var angle: CGFloat = 265.0
+    var angle: CGFloat = 0.0
     var previousTimestamp = 0.0
     var rotDir: CGFloat = 1
     let angleUpdatePeriod = 0.025
@@ -22,6 +22,7 @@ class Knob: UIControl {
     let circleAngle: CGFloat = 360
     let innerKnobRadius: CGFloat = 70.0
     let detentCount = 18 //number of instruments
+    let angleRangeEn = false //enforce angle range limits
     
     var absAngle: CGFloat {
         if(angle < 0){
@@ -45,7 +46,7 @@ class Knob: UIControl {
     override init(frame: CGRect) {
         super.init(frame: frame)
         print("instrument snap")
-        instSnap = SnapFilter(detentCount: 4, angleOffset: angle, angleRange: 360)
+        instSnap = SnapFilter(detentCount: detentCount, angleOffset: angle, angleRange: 360)
     }
     
     
@@ -97,13 +98,21 @@ class Knob: UIControl {
     
     func incrementAngle(deltaAngle: CGFloat){
         angle += deltaAngle
+        if(angleRangeEn){
+            enforceAngleRange()
+        }
+        else if (abs(angle) > 360){
+            self.angle = 0
+        }
+    }
+    
+    func enforceAngleRange(){
         if(angle < instSnap.minAngle){
             angle = instSnap.minAngle
         }
         else if(angle > instSnap.maxAngle){
             angle = instSnap.maxAngle
         }
-        else if(abs(angle) > 360){angle = 0}
     }
     
     func updateRotDirection(currentLoc: CGPoint, prevLoc: CGPoint){

@@ -21,6 +21,7 @@ class Knob: UIControl {
     var previousLocation: CGPoint!
     let circleAngle: CGFloat = 360
     let innerKnobRadius: CGFloat = 70.0
+    let detentCount = 18 //number of instruments
     
     var absAngle: CGFloat {
         if(angle < 0){
@@ -51,7 +52,7 @@ class Knob: UIControl {
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         print("instrument snap")
-        instSnap = SnapFilter(detentCount: 4, angleOffset: angle, angleRange: 360)
+        instSnap = SnapFilter(detentCount: detentCount, angleOffset: angle, angleRange: 360)
         
     }
     

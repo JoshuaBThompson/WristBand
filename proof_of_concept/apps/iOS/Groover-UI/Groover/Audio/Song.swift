@@ -16,6 +16,7 @@ class Song {
     var selectedInstrument = 0
     var prevSelectedInstrument = 0
     var selectedPreset = 0
+    var prevSelectedPreset = 0
     var mixer: AKMixer!
     var notePosition: Double = 1
     var recordEnabled = false
@@ -107,6 +108,11 @@ class Song {
     
     func addSelectedNote(){
         addNote(preset: selectedPreset)
+    }
+    
+    func selectPreset(preset: Int){
+        prevSelectedPreset = selectedPreset
+        selectedPreset = preset
     }
     
     func addNote(preset presetNumber: Int){

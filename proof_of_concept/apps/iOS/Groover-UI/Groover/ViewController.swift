@@ -115,7 +115,9 @@ class ViewController: UIViewController {
         //if recording then make the clear button visible again only if turned to diff instrument
         //to give user chance to clear track again
         print("update after knob turned called")
-        if(song.recordEnabled && !playRecordControl.clearButton.active && song.selectedInstrument != song.prevSelectedInstrument && !song.instrument.empty){
+        let newSong = (song.selectedInstrument != song.prevSelectedInstrument)
+        let newPreset = (song.selectedPreset != song.prevSelectedPreset)
+        if(song.recordEnabled && !playRecordControl.clearButton.active && newSong && newPreset && song.instrument.empty ){
             print("update after knob turned added")
             playRecordControl.manualSelectButton(.CLEAR)
         }
@@ -126,21 +128,21 @@ class ViewController: UIViewController {
             //inst 0
             song.selectInstrument(0)
             let preset = position - 0 //this will result in number 0 - 3
-            song.selectedPreset = preset
+            song.selectPreset(preset)
             print("inst 0 with preset \(preset)")
         }
         else if(position >= 4 && position <= 7){
             //inst 1
             song.selectInstrument(1)
             let preset = position - 4 //this will result in number 0 - 3
-            song.selectedPreset = preset
+            song.selectPreset(preset)
             print("inst 1 with preset \(preset)")
         }
         else if(position >= 8 && position <= 11){
             //inst 2
             song.selectInstrument(2)
             let preset = position - 8 //this will result in number 0 - 3
-            song.selectedPreset = preset
+            song.selectPreset(preset)
             print("inst 2 with preset \(preset)")
         }
         else{

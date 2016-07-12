@@ -15,6 +15,9 @@
 		429A22BD1D338E240045023F /* SnareInstrument.swift in Sources */ = {isa = PBXBuildFile; fileRef = 429A22A81D338E240045023F /* SnareInstrument.swift */; };
 		429A22BE1D338E240045023F /* Song.swift in Sources */ = {isa = PBXBuildFile; fileRef = 429A22A91D338E240045023F /* Song.swift */; };
 		429A22CC1D338E400045023F /* Sounds in Resources */ = {isa = PBXBuildFile; fileRef = 429A22CB1D338E400045023F /* Sounds */; };
+		429A22CE1D354C6E0045023F /* PlayRecordButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 429A22CD1D354C6E0045023F /* PlayRecordButton.swift */; };
+		429A22D01D354C900045023F /* PlayRecordControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 429A22CF1D354C900045023F /* PlayRecordControl.swift */; };
+		429A22D21D354D3D0045023F /* Clear.swift in Sources */ = {isa = PBXBuildFile; fileRef = 429A22D11D354D3D0045023F /* Clear.swift */; };
 		42A59FA41D301F8B0070FE46 /* BeatFilter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42A59F9A1D301F8B0070FE46 /* BeatFilter.cpp */; };
 		42A59FA51D301F8B0070FE46 /* Common.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42A59F9C1D301F8B0070FE46 /* Common.cpp */; };
 		42A59FA61D301F8B0070FE46 /* IMUFilter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42A59F9E1D301F8B0070FE46 /* IMUFilter.cpp */; };
@@ -76,6 +79,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		422D9D361D35525D00E27904 /* Groover.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Groover.entitlements; sourceTree = "<group>"; };
 		429A22A01D338DF70045023F /* AudioKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AudioKit.framework; sourceTree = "<group>"; };
 		429A22A51D338E240045023F /* HatInstrument.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HatInstrument.swift; sourceTree = "<group>"; };
 		429A22A61D338E240045023F /* Instruments.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Instruments.swift; sourceTree = "<group>"; };
@@ -83,6 +87,9 @@
 		429A22A81D338E240045023F /* SnareInstrument.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SnareInstrument.swift; sourceTree = "<group>"; };
 		429A22A91D338E240045023F /* Song.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Song.swift; sourceTree = "<group>"; };
 		429A22CB1D338E400045023F /* Sounds */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Sounds; sourceTree = "<group>"; };
+		429A22CD1D354C6E0045023F /* PlayRecordButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayRecordButton.swift; sourceTree = "<group>"; };
+		429A22CF1D354C900045023F /* PlayRecordControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayRecordControl.swift; sourceTree = "<group>"; };
+		429A22D11D354D3D0045023F /* Clear.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Clear.swift; sourceTree = "<group>"; };
 		42A59F9A1D301F8B0070FE46 /* BeatFilter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BeatFilter.cpp; sourceTree = "<group>"; };
 		42A59F9B1D301F8B0070FE46 /* BeatFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BeatFilter.h; sourceTree = "<group>"; };
 		42A59F9C1D301F8B0070FE46 /* Common.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Common.cpp; sourceTree = "<group>"; };
@@ -205,6 +212,7 @@
 		FA50AA511D2A3FE60035C942 /* Groover */ = {
 			isa = PBXGroup;
 			children = (
+				422D9D361D35525D00E27904 /* Groover.entitlements */,
 				429A22A41D338E240045023F /* Audio */,
 				FA820EB31D2E20E800C6FBF4 /* Popup.swift */,
 				FA50AA521D2A3FE60035C942 /* AppDelegate.swift */,
@@ -228,6 +236,9 @@
 				FA50AA591D2A3FE60035C942 /* Assets.xcassets */,
 				FA50AA5B1D2A3FE60035C942 /* LaunchScreen.storyboard */,
 				FA50AA5E1D2A3FE60035C942 /* Info.plist */,
+				429A22CD1D354C6E0045023F /* PlayRecordButton.swift */,
+				429A22CF1D354C900045023F /* PlayRecordControl.swift */,
+				429A22D11D354D3D0045023F /* Clear.swift */,
 			);
 			path = Groover;
 			sourceTree = "<group>";
@@ -301,7 +312,15 @@
 				TargetAttributes = {
 					FA50AA4E1D2A3FE60035C942 = {
 						CreatedOnToolsVersion = 7.3.1;
-						DevelopmentTeam = V2YR4Q4N2F;
+						DevelopmentTeam = XPYTM2G2L5;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+							com.apple.InterAppAudio = {
+								enabled = 0;
+							};
+						};
 					};
 					FA50AA621D2A3FE60035C942 = {
 						CreatedOnToolsVersion = 7.3.1;
@@ -377,8 +396,10 @@
 				FA50AA951D2B45570035C942 /* Triplet.swift in Sources */,
 				42A59FA81D301F8B0070FE46 /* MotionFilter.cpp in Sources */,
 				FA50AA551D2A3FE60035C942 /* ViewController.swift in Sources */,
+				429A22D01D354C900045023F /* PlayRecordControl.swift in Sources */,
 				42A59FA51D301F8B0070FE46 /* Common.cpp in Sources */,
 				FA50AA8F1D2B44440035C942 /* Eighth.swift in Sources */,
+				429A22D21D354D3D0045023F /* Clear.swift in Sources */,
 				FA50AA531D2A3FE60035C942 /* AppDelegate.swift in Sources */,
 				429A22BB1D338E240045023F /* Instruments.swift in Sources */,
 				42A59FA41D301F8B0070FE46 /* BeatFilter.cpp in Sources */,
@@ -386,6 +407,7 @@
 				FA50AA891D2B40160035C942 /* Record.swift in Sources */,
 				FA50AA911D2B44DD0035C942 /* Sixteenth.swift in Sources */,
 				429A22BA1D338E240045023F /* HatInstrument.swift in Sources */,
+				429A22CE1D354C6E0045023F /* PlayRecordButton.swift in Sources */,
 				FA50AA8B1D2B40E40035C942 /* ParametersButton.swift in Sources */,
 				42A59FA61D301F8B0070FE46 /* IMUFilter.cpp in Sources */,
 				FA50AA8D1D2B43620035C942 /* Quarter.swift in Sources */,

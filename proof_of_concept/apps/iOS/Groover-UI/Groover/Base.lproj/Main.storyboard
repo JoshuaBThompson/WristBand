@@ -29,14 +29,6 @@
                                 <rect key="frame" x="20" y="228" width="280" height="280"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Yv8-lL-arT" customClass="Play" customModule="Groover">
-                                <rect key="frame" x="215" y="18" width="22" height="22"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                            </view>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HFS-BS-fEe" customClass="Record" customModule="Groover" customModuleProvider="target">
-                                <rect key="frame" x="278" y="18" width="22" height="22"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                            </view>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Dc1-Lj-bwp" customClass="Quarter" customModule="Groover">
                                 <rect key="frame" x="19" y="83" width="54" height="54"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -79,6 +71,9 @@
                                 <rect key="frame" x="10" y="218" width="300" height="315"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0JK-5c-46q" customClass="PlayRecordControl" customModule="Groover">
+                                <rect key="frame" x="160" y="8" width="154" height="38"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
@@ -91,6 +86,7 @@
                     <connections>
                         <outlet property="hamburgerButton" destination="8CQ-3U-35x" id="S0S-1K-vL5"/>
                         <outlet property="knob" destination="VOG-gV-ZKn" id="R4P-TT-b9y"/>
+                        <outlet property="playRecordControl" destination="0JK-5c-46q" id="ObG-bV-Mqw"/>
                         <outlet property="popup" destination="9Oa-HM-AtP" id="ZtD-s1-PYu"/>
                         <outlet property="positionIndicator" destination="DKT-hU-eN4" id="Di4-L3-Jk8"/>
                     </connections>

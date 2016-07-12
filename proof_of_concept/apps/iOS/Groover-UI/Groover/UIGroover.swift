@@ -838,6 +838,8 @@ public class UIGroover : NSObject {
         playColor.setFill()
         playButtonPath.fill()
     }
+    
+    
 
     public class func drawRecordCanvas(recordSelected recordSelected: Bool = false) {
         //// Color Declarations
@@ -851,6 +853,21 @@ public class UIGroover : NSObject {
         let recordButtonPath = UIBezierPath(ovalInRect: CGRectMake(0, 0, 22, 22))
         recordColor.setFill()
         recordButtonPath.fill()
+    }
+    
+    public class func drawClearCanvas(clearSelected clearSelected: Bool = false) {
+        //// Color Declarations
+        let transportDark = UIColor(red: 0.043, green: 0.082, blue: 0.157, alpha: 1.000)
+        let transportPurple = UIColor(red: 0.79, green: 0.48, blue: 0.90, alpha: 1.000)
+        
+        //// Variable Declarations
+        let clearColor = clearSelected ? transportPurple : transportDark
+        
+        //// recordButton Drawing
+        let clearButtonPath = UIBezierPath(ovalInRect: CGRectMake(0, 0, 22, 22))
+        clearColor.setFill()
+        clearButtonPath.fill()
+
     }
 
     public class func drawHamburgerCanvas(hamburgerSelected hamburgerSelected: Bool = false) {
@@ -878,6 +895,7 @@ public class UIGroover : NSObject {
         hamburgerColor.setFill()
         hamburgerTopPath.fill()
     }
+    
 
     public class func drawSettingsIconCanvas(settingsSelected settingsSelected: Bool = false) {
         //// Color Declarations

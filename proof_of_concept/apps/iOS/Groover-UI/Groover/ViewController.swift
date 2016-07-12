@@ -25,6 +25,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var popup: Popup!
     @IBOutlet weak var positionIndicator: PositionIndicator!
     @IBOutlet weak var knob: Knob!
+    @IBOutlet weak var playRecordControl: PlayRecordControl!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,7 +35,7 @@ class ViewController: UIViewController {
         hamburgerButton.addTarget(self, action: #selector(ViewController.hamburgerButtonSelected(_:)), forControlEvents: .ValueChanged)
         knob.addTarget(self, action: #selector(ViewController.knobAngleChanged(_:)), forControlEvents: .ValueChanged)
         knob.addTarget(self, action: #selector(ViewController.innerKnobTapped(_:)), forControlEvents: .EditingChanged)
-        
+        playRecordControl.addTarget(self, action: #selector(ViewController.playRecordButtonSelected(_:)), forControlEvents: .ValueChanged)
         song = Song()
         song.start()
         
@@ -62,6 +63,41 @@ class ViewController: UIViewController {
         popup.toggleHide()
     }
     
+    //MARK: play button event handler
+    func playRecordButtonSelected(playRecordButton: PlayRecordControl){
+        print("play or record button changed to \(playRecordButton.currentButtonNum)")
+        switch playRecordButton.currentButtonType {
+        case .PLAY:
+            if(playRecordButton.playButton.on){
+                song.stop() //disable recording first
+                song.play()
+            }
+            else{
+                song.stop()
+            }
+            
+        case .CLEAR:
+            //clear track
+            if(song.recordEnabled){
+                print("clear current instrument song")
+                song.instrument.clear()
+            }
+            
+        case .RECORD:
+            //record if on
+            if(playRecordButton.recordButton.on){
+                song.record()
+                print("start record and enable clear")
+            }
+            else{
+                song.stop()
+                print("stop record and disable clear")
+            }
+            
+        }
+        
+    }
+    
     //MARK: Knob event handlers
     func knobAngleChanged(knobControl: Knob){
         print("knob angle changed to \(knobControl.angle)!")
@@ -69,8 +105,20 @@ class ViewController: UIViewController {
         positionIndicator.setPosition(knobControl.detent)
         let position = positionIndicator.currentPos //ex: 0 or 1 or 2 or 3...17
         selectSound(position)
-        //updateButtonStatesAfterKnobTurn()
+        updateButtonStatesAfterKnobTurn()
         
+    }
+    
+    //MARK: Update button states from knob turn
+    func updateButtonStatesAfterKnobTurn(){
+        //knob turned so check if recording
+        //if recording then make the clear button visible again only if turned to diff instrument
+        //to give user chance to clear track again
+        print("update after knob turned called")
+        if(song.recordEnabled && !playRecordControl.clearButton.active && song.selectedInstrument != song.prevSelectedInstrument && !song.instrument.empty){
+            print("update after knob turned added")
+            playRecordControl.manualSelectButton(.CLEAR)
+        }
     }
     
     func selectSound(position: Int){

@@ -38,10 +38,14 @@ class Knob: UIControl {
         return instSnap.getDetent(absAngle)
     }
     
+    var drawAngle: CGFloat {
+        return -angle
+    }
+    
     
     
     override func drawRect(rect: CGRect) {
-        UIGroover.drawKnobCanvas(rotation: angle, clickSelected: clickActive, clickRingActive: clickRingActive)
+        UIGroover.drawKnobCanvas(rotation: drawAngle, clickSelected: clickActive, clickRingActive: clickRingActive)
     }
     
     override init(frame: CGRect) {
@@ -76,8 +80,8 @@ class Knob: UIControl {
     func getAngleChangeFromPositionChange(currentLoc: CGPoint, prevLoc: CGPoint) -> CGFloat{
         //cosin(deltaAngle) = r1*r2/||r1||*||r2|| --- where currentLoc = r2 and prevLoc = r1
         //so deltaAngle = arccosin( r1 * r2 / ||r1|| * ||r2|| )
-        let r1 = [prevLoc.x - frame.size.width/2.0, prevLoc.y - frame.size.height/2.0]
-        let r2 = [currentLoc.x - frame.size.width/2.0, currentLoc.y - frame.size.height/2.0]
+        let r1 = [prevLoc.x - frame.size.width/2.0, -(prevLoc.y - frame.size.height/2.0)] //-y to fix iOS weird coords
+        let r2 = [currentLoc.x - frame.size.width/2.0, -(currentLoc.y - frame.size.height/2.0)] //-y to fix iOS weird coords
         let r1r2 = (r1[0] * r2[0]) + (r1[1] * r2[1])
         let r1s = sqrt((r1[0] * r1[0]) + (r1[1] * r1[1]))
         let r2s = sqrt((r2[0] * r2[0]) + (r2[1] * r2[1]))
@@ -121,8 +125,8 @@ class Knob: UIControl {
         //velcity = r2 - r1 (current - prev location vector)
         //r = r1 (prev location)
         //L = V x R = Vx*Ryk - Vy*Rxk
-        let r1 = [prevLoc.x - frame.size.width/2.0, prevLoc.y - frame.size.height/2.0] // Rx , Ry
-        let r2 = [currentLoc.x - frame.size.width/2.0, currentLoc.y - frame.size.height/2.0]
+        let r1 = [prevLoc.x - frame.size.width/2.0, -(prevLoc.y - frame.size.height/2.0)] // Rx , Ry
+        let r2 = [currentLoc.x - frame.size.width/2.0, -(currentLoc.y - frame.size.height/2.0)]
         let v = [r2[0] - r1[0], r2[1] - r1[1]] // Vx , Vy
         let r = r1
         let l = v[0]*r[1] - v[1]*r[0] //angular momentum vector k with sign direction

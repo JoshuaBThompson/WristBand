@@ -13,18 +13,55 @@ import AudioKit
  *********/
 
 class Track: AKSequencer{
-    var noteCount = 0
+    var trackNotesCount = [Int]()
+    var trackTimes = [Double]()
+    var noteCount: Int {
+        var count = 0
+        for i in 0 ..< trackNotesCount.count {
+            count = count + trackNotesCount[i]
+        }
+        return count
+    }
+    
+    var longestTime: Double {
+        var currentTime: Double = 0
+        for trackNum in 0 ..< trackCount {
+            if(trackTimes[trackNum] > currentTime){
+                currentTime = trackTimes[trackNum]
+            }
+        }
+        return currentTime
+    }
+    
+    func addNewTrack(){
+        self.newTrack()
+        trackNotesCount.append(0)
+        trackTimes.append(0) //holds max track time elapsed
+        
+    }
     
     func addNote(trackNum: Int, note: Int, velocity: Int, position: Beat, duration: Beat){
         self.tracks[trackNum].addNote(note, velocity: velocity, position: position, duration: duration)
-        noteCount += 1
+        trackNotesCount[trackNum] += 1
+        //if current track time less that new then replace with new
+        trackTimes[trackNum] = (trackTimes[trackNum] > position) ? position: trackTimes[trackNum]
     }
     
     func clear(){
         for trackNum in 0 ..< trackCount {
             tracks[trackNum].clear()
+            trackNotesCount[trackNum] = 0
+            trackTimes[trackNum] = 0
         }
-        noteCount = 0
+    }
+    
+    func clearTrack(trackNum: Int){
+        if(trackNum < tracks.count){
+            tracks[trackNum].clear()
+            trackNotesCount[trackNum] = 0
+            trackTimes[trackNum] = 0
+        }
+        //TODO: track note count for each track
     }
 }
 
@@ -299,13 +336,13 @@ class InstrumentPresetTracks {
         preset4Midi = AKMIDIInstrument(instrument: instPreset4)
         preset4Midi.enableMIDI(midi.client, name: "Synth inst preset 4")
         
-        trackManager.newTrack()
+        trackManager.addNewTrack()
         trackManager.tracks[0].setMIDIOutput(preset1Midi.midiIn)
-        trackManager.newTrack()
+        trackManager.addNewTrack()
         trackManager.tracks[1].setMIDIOutput(preset2Midi.midiIn)
-        trackManager.newTrack()
+        trackManager.addNewTrack()
         trackManager.tracks[2].setMIDIOutput(preset3Midi.midiIn)
-        trackManager.newTrack()
+        trackManager.addNewTrack()
         trackManager.tracks[3].setMIDIOutput(preset4Midi.midiIn)
         
         trackManager.setBPM(Double(measure.clickTrack.tempo.beatsPerMin))
@@ -324,6 +361,17 @@ class InstrumentPresetTracks {
         measure.clickTrack.stop()
     }
     
+    func clearPreset(){
+        //stop any currently playing tracks first
+        stop()
+        measure.longestTime = trackManager.longestTime //get new longest time
+        
+        //clear all recorded tracks
+        trackManager.clearTrack(selectedInst)
+        
+        //start record again
+        record()
+    }
     func clear(){
         //stop any currently playing tracks first
         stop()
@@ -354,7 +402,7 @@ class InstrumentPresetTracks {
     
     func addNote(preset instNumber: Int){
         //play note event if not recording
-        
+        selectedInst = instNumber
         playNote(instNumber)
         if !recordEnabled {
             print("Record not enabled, no add note allowed")

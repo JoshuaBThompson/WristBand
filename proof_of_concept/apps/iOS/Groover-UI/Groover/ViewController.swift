@@ -80,7 +80,9 @@ class ViewController: UIViewController {
             //clear track
             if(song.recordEnabled){
                 print("clear current instrument song")
-                song.instrument.clear()
+                //song.instrument.clear()
+                song.clearPreset()
+                song.record() //afer clear keep recording
             }
             
         case .RECORD:
@@ -117,7 +119,7 @@ class ViewController: UIViewController {
         print("update after knob turned called")
         let newSong = (song.selectedInstrument != song.prevSelectedInstrument)
         let newPreset = (song.selectedPreset != song.prevSelectedPreset)
-        if(song.recordEnabled && !playRecordControl.clearButton.active && newSong && newPreset && song.instrument.empty ){
+        if(song.recordEnabled && !playRecordControl.clearButton.active && (newSong || newPreset) && song.instrument.empty ){
             print("update after knob turned added")
             playRecordControl.manualSelectButton(.CLEAR)
         }

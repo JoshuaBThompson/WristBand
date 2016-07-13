@@ -55,6 +55,10 @@ class Song {
         AudioKit.start()
         //instrument.startClickTrack()
     }
+    func clearPreset(){
+        stop()
+        instrument.clearPreset()
+    }
     
     func clear(){
         //stop any currently playing tracks first
@@ -113,6 +117,7 @@ class Song {
     func selectPreset(preset: Int){
         prevSelectedPreset = selectedPreset
         selectedPreset = preset
+        instrument.selectedInst = selectedPreset
     }
     
     func addNote(preset presetNumber: Int){

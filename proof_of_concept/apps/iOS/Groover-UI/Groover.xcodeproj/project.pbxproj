@@ -24,6 +24,7 @@
 		42A59FA71D301F8B0070FE46 /* MidiSensor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42A59FA01D301F8B0070FE46 /* MidiSensor.cpp */; };
 		42A59FA81D301F8B0070FE46 /* MotionFilter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42A59FA21D301F8B0070FE46 /* MotionFilter.cpp */; };
 		42A59FAB1D301FA60070FE46 /* MidiSensorWrapper.mm in Sources */ = {isa = PBXBuildFile; fileRef = 42A59FAA1D301FA60070FE46 /* MidiSensorWrapper.mm */; };
+		FA479EC71D376CB000619BA0 /* Right.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA479EC61D376CB000619BA0 /* Right.swift */; };
 		FA50AA531D2A3FE60035C942 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA50AA521D2A3FE60035C942 /* AppDelegate.swift */; };
 		FA50AA551D2A3FE60035C942 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA50AA541D2A3FE60035C942 /* ViewController.swift */; };
 		FA50AA581D2A3FE60035C942 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA50AA561D2A3FE60035C942 /* Main.storyboard */; };
@@ -103,6 +104,7 @@
 		42A59FA91D301F9D0070FE46 /* MidiSensorWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MidiSensorWrapper.h; sourceTree = "<group>"; };
 		42A59FAA1D301FA60070FE46 /* MidiSensorWrapper.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MidiSensorWrapper.mm; sourceTree = "<group>"; };
 		42A59FAC1D301FAD0070FE46 /* Groover-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Groover-Bridging-Header.h"; sourceTree = "<group>"; };
+		FA479EC61D376CB000619BA0 /* Right.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Right.swift; sourceTree = "<group>"; };
 		FA50AA4F1D2A3FE60035C942 /* Groover.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Groover.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA50AA521D2A3FE60035C942 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FA50AA541D2A3FE60035C942 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -233,6 +235,7 @@
 				FA50AA801D2A433B0035C942 /* images */,
 				FA50AA811D2A433B0035C942 /* UIGroover.swift */,
 				FAB995EF1D2E2B510002EE38 /* Left.swift */,
+				FA479EC61D376CB000619BA0 /* Right.swift */,
 				FA50AA591D2A3FE60035C942 /* Assets.xcassets */,
 				FA50AA5B1D2A3FE60035C942 /* LaunchScreen.storyboard */,
 				FA50AA5E1D2A3FE60035C942 /* Info.plist */,
@@ -312,7 +315,7 @@
 				TargetAttributes = {
 					FA50AA4E1D2A3FE60035C942 = {
 						CreatedOnToolsVersion = 7.3.1;
-						DevelopmentTeam = XPYTM2G2L5;
+						DevelopmentTeam = V2YR4Q4N2F;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
@@ -392,6 +395,7 @@
 				FAB995F01D2E2B510002EE38 /* Left.swift in Sources */,
 				42A59FA71D301F8B0070FE46 /* MidiSensor.cpp in Sources */,
 				429A22BD1D338E240045023F /* SnareInstrument.swift in Sources */,
+				FA479EC71D376CB000619BA0 /* Right.swift in Sources */,
 				429A22BC1D338E240045023F /* KickInstrument.swift in Sources */,
 				FA50AA951D2B45570035C942 /* Triplet.swift in Sources */,
 				42A59FA81D301F8B0070FE46 /* MotionFilter.cpp in Sources */,
@@ -558,6 +562,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -567,6 +573,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = TCM.Groover;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Groover-Bridging-Header.h";
 			};
 			name = Debug;
@@ -575,6 +582,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -584,6 +593,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = TCM.Groover;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Groover-Bridging-Header.h";
 			};
 			name = Release;

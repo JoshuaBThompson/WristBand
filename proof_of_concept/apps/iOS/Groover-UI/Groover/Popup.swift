@@ -64,9 +64,9 @@ class Popup: UIView {
     override func layoutSubviews() {
         // Set the button's width and height to a square the size of the frame's height.
         let buttonSize = 100
-        var buttonFrame = CGRect(x: 0, y: 0, width: buttonSize, height: buttonSize)
-        buttonFrame.origin.x = CGFloat(0)
-        buttonFrame.origin.y = CGFloat(150)
+        var buttonFrame = CGRect(x: 44, y: 44, width: buttonSize, height: buttonSize)
+        buttonFrame.origin.x = CGFloat(34)
+        buttonFrame.origin.y = CGFloat(124)
         leftButton.frame = buttonFrame
         leftButton.updateState()
     }

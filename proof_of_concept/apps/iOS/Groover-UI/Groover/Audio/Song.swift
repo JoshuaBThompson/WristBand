@@ -26,6 +26,7 @@ class Song {
     var hatTracks: InstrumentPresetTracks!
     var instruments = [InstrumentPresetTracks]()
     var instrument: InstrumentPresetTracks!
+    var clickTrack: ClickTrack!
     
     init(){
         mixer = AKMixer()
@@ -45,7 +46,8 @@ class Song {
         instruments.append(hatTracks)
         mixer.connect(hatTracks.mixer)
         
-        
+        //Use click track of inst 1 (doesn't matter which one since they all have same click track)
+        clickTrack = snareTracks.measure.clickTrack
         AudioKit.output = mixer
         instrument = snareTracks //just start of with snare instruments as initial collection (we can change this later...)
     }
@@ -53,7 +55,7 @@ class Song {
     func start(){
         //start audiokit output
         AudioKit.start()
-        //instrument.startClickTrack()
+        //clickTrack.start()
     }
     func clearPreset(){
         stop()
@@ -74,27 +76,19 @@ class Song {
     }
     
     func toggleTempo(){
-        if(instrument.clickTrackRunning){
-            instrument.stopClickTrack()
+        if(clickTrack.running){
+            clickTrack.stop()
         }
         else{
-            instrument.startClickTrack()
+            clickTrack.start()
         }
     }
     
     func selectInstrument(number: Int){
         if(number < instruments.count){
-            //change tempo to next instrument
-            let clickSet = instrument.clickTrackRunning
-            instrument.stopClickTrack()
             prevSelectedInstrument = selectedInstrument
             selectedInstrument = number
             instrument = instruments[selectedInstrument]
-            
-            //start new click track only if user had it set previously
-            if(clickSet){
-                instrument.startClickTrack()
-            }
             
         }
     }
@@ -173,22 +167,26 @@ class Song {
     
     func setTempo(newBeatsPerMin: Double){
         pause()
-        instrument.measure.tempo.beatsPerMin = newBeatsPerMin
-        print("todo: click track update tempo")
-        instrument.measure.clickTrack.update(instrument.measure.tempo, clickTimeSignature: instrument.measure.timeSignature)
-        instrument.trackManager.setBPM(Double(instrument.measure.clickTrack.tempo.beatsPerMin))
-        instrument.trackManager.setLength(instrument.measure.totalDuration)
+        print("update all instruments with tempo \(newBeatsPerMin)")
+        for inst in instruments{
+            inst.measure.tempo.beatsPerMin = newBeatsPerMin
+            inst.measure.clickTrack.update(instrument.measure.tempo, clickTimeSignature:instrument.measure.timeSignature)
+            inst.trackManager.setBPM(Double(instrument.measure.clickTrack.tempo.beatsPerMin))
+            inst.trackManager.setLength(instrument.measure.totalDuration)
+        }
         unpause()
     }
     
     
     func setTimeSignature(newBeatsPerMeasure: Int, newNote: Int){
         pause()
-        instrument.measure.timeSignature.beatsPerMeasure = newBeatsPerMeasure
-        instrument.measure.timeSignature.beatUnit = newNote
-        instrument.measure.clickTrack.update(instrument.measure.tempo, clickTimeSignature: instrument.measure.timeSignature)
-        instrument.trackManager.setLength(instrument.measure.totalDuration)
-        print("track manager length \(instrument.trackManager.length)")
+        print("update all instruments with beats per measure \(newBeatsPerMeasure) and \(newNote) note")
+        for inst in instruments{
+            inst.measure.timeSignature.beatsPerMeasure = newBeatsPerMeasure
+            inst.measure.timeSignature.beatUnit = newNote
+            inst.measure.clickTrack.update(instrument.measure.tempo, clickTimeSignature: instrument.measure.timeSignature)
+            inst.trackManager.setLength(instrument.measure.totalDuration)
+        }
         unpause()
         
     }

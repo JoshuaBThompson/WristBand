@@ -117,13 +117,25 @@ class ViewController: UIViewController {
         //if recording then make the clear button visible again only if turned to diff instrument
         //to give user chance to clear track again
         print("update after knob turned called")
+        updateClearButton()
+    }
+    
+    //MARK: Update button after note added
+    func updateButtonStatesAfterNoteAdded(){
+        print("update after note added called")
+        playRecordControl.manualSelectButton(.CLEAR)
+    }
+    
+    //MARK: Set clear button if appropriate
+    func updateClearButton(){
         let newSong = (song.selectedInstrument != song.prevSelectedInstrument)
         let newPreset = (song.selectedPreset != song.prevSelectedPreset)
-        if(song.recordEnabled && !playRecordControl.clearButton.active && (newSong || newPreset) && song.instrument.empty ){
+        if(song.recordEnabled && !playRecordControl.clearButton.active && (newSong || newPreset) && !song.instrument.empty ){
             print("update after knob turned added")
             playRecordControl.manualSelectButton(.CLEAR)
         }
     }
+    
     
     func selectSound(position: Int){
         if(position >= 0 && position <= 3){
@@ -159,6 +171,7 @@ class ViewController: UIViewController {
         
         //temporary hack when not using iPhone (using simulator) to allow for beat generation
         song.addSelectedNote() //Used for testing in sim mode to simulate motion generated beat
+        updateButtonStatesAfterNoteAdded()
         //updateButtonStatesAfterNoteAdded()
     }
     
@@ -176,7 +189,7 @@ class ViewController: UIViewController {
             if eventStatus != 0x80{
                 song.addSelectedNote() //make drum sound and add to track if recording!
                 eventCount = eventCount + 1
-                //updateButtonStatesAfterNoteAdded()
+                updateButtonStatesAfterNoteAdded()
             }
             
         }

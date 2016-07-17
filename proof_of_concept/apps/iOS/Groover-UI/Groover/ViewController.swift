@@ -22,6 +22,7 @@ class ViewController: UIViewController {
     //MARK: outlets
     
     @IBOutlet weak var hamburgerButton: HamburgerIcon!
+    @IBOutlet weak var settingsButton: SettingsIcon!
     @IBOutlet weak var popup: Popup!
     @IBOutlet weak var positionIndicator: PositionIndicator!
     @IBOutlet weak var knob: Knob!
@@ -67,6 +68,7 @@ class ViewController: UIViewController {
     //MARK: Hide position indicator
     func hidePositionIndicator(){
         positionIndicator.hide()
+        settingsButton.show()
     }
     
     //MARK: play button event handler
@@ -109,6 +111,7 @@ class ViewController: UIViewController {
     //MARK: Knob event handlers
     func knobAngleChanged(knobControl: Knob){
         positionIndicator.show()
+        settingsButton.hide()
         print("knob angle changed to \(knobControl.angle)!")
         print("knob detentNum \(knob.detent)")
         positionIndicator.setPosition(knobControl.detent)

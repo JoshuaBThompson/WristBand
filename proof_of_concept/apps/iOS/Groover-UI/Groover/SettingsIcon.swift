@@ -15,4 +15,12 @@ class SettingsIcon: UIView {
         UIGroover.drawSettingsIconCanvas()
     }
     
+    func hide(){
+        hidden = true
+    }
+    
+    func show(){
+        hidden = false
+    }
+    
 }

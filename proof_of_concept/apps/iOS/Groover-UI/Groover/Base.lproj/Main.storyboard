@@ -132,6 +132,7 @@
                     <connections>
                         <outlet property="hamburgerButton" destination="8CQ-3U-35x" id="S0S-1K-vL5"/>
                         <outlet property="knob" destination="VOG-gV-ZKn" id="R4P-TT-b9y"/>
+                        <outlet property="parametersButton" destination="QiK-DN-jXn" id="a1I-Ou-qEt"/>
                         <outlet property="playRecordControl" destination="0JK-5c-46q" id="ObG-bV-Mqw"/>
                         <outlet property="popup" destination="9Oa-HM-AtP" id="ZtD-s1-PYu"/>
                         <outlet property="positionIndicator" destination="DKT-hU-eN4" id="Di4-L3-Jk8"/>

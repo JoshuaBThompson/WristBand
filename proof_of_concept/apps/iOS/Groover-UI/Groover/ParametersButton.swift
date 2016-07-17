@@ -14,5 +14,12 @@ class ParametersButton: UIView {
     override func drawRect(rect: CGRect) {
         UIGroover.drawSoundParametersCanvas()
     }
+    func hide(){
+        hidden = true
+    }
+    
+    func show(){
+        hidden = false
+    }
     
 }

@@ -35,6 +35,7 @@ class ViewController: UIViewController {
         hamburgerButton.addTarget(self, action: #selector(ViewController.hamburgerButtonSelected(_:)), forControlEvents: .ValueChanged)
         knob.addTarget(self, action: #selector(ViewController.knobAngleChanged(_:)), forControlEvents: .ValueChanged)
         knob.addTarget(self, action: #selector(ViewController.innerKnobTapped(_:)), forControlEvents: .EditingChanged)
+        knob.addTarget(self, action: #selector(ViewController.hidePositionIndicator), forControlEvents: .EditingDidEnd)
         playRecordControl.addTarget(self, action: #selector(ViewController.playRecordButtonSelected(_:)), forControlEvents: .ValueChanged)
         song = Song()
         song.start()
@@ -61,6 +62,11 @@ class ViewController: UIViewController {
     func hamburgerButtonSelected(button: HamburgerIcon){
         print("hamburger button selected")
         popup.toggleHide()
+    }
+    
+    //MARK: Hide position indicator
+    func hidePositionIndicator(){
+        positionIndicator.hide()
     }
     
     //MARK: play button event handler
@@ -102,6 +108,7 @@ class ViewController: UIViewController {
     
     //MARK: Knob event handlers
     func knobAngleChanged(knobControl: Knob){
+        positionIndicator.show()
         print("knob angle changed to \(knobControl.angle)!")
         print("knob detentNum \(knob.detent)")
         positionIndicator.setPosition(knobControl.detent)

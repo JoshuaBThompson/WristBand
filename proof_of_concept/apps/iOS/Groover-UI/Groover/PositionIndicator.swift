@@ -20,14 +20,27 @@ class PositionIndicator: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        hidden = true
     }
     
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+        hidden = true
         
     }
     
+    func toggleHide(){
+        hidden = !hidden
+    }
+    
+    func hide(){
+        hidden = true
+    }
+    
+    func show(){
+        hidden = false
+    }
     
     func setPosition(newPos: Int){
         if(newPos >= minPos && newPos <= maxPos){

@@ -186,6 +186,7 @@ class Knob: UIControl {
     override func endTrackingWithTouch(touch: UITouch?, withEvent event: UIEvent?) {
         clickRingActive = true  //TODO: should we set back to false?
         setNeedsDisplay()
+        sendActionsForControlEvents(.EditingDidEnd)
     }
     
     

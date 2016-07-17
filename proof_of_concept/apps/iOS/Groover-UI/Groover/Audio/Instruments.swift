@@ -160,8 +160,6 @@ struct Tempo {
 
 //Measure
 class Measure {
-    var timeSignature = TimeSignature()
-    var tempo = Tempo()
     var clickTrack: ClickTrack!
     var timer = Timer()
     var count = 1
@@ -169,7 +167,7 @@ class Measure {
     
     //computed
     var secPerMeasure: Double { return clickTrack.secPerMeasure }
-    var beatsPerMeasure: Int { return timeSignature.beatsPerMeasure }
+    var beatsPerMeasure: Int { return clickTrack.timeSignature.beatsPerMeasure }
     var totalBeats: Int { return count * beatsPerMeasure}
     var totalDuration: Double {
         if (longestTime > secPerMeasure){
@@ -202,8 +200,8 @@ class Measure {
         
     }
     
-    init(){
-        clickTrack = ClickTrack(clickTempo: tempo, clickTimeSignature: timeSignature)
+    init(clickTrackRef: ClickTrack){
+        clickTrack = clickTrackRef
     }
     
     
@@ -308,10 +306,10 @@ class InstrumentPresetTracks {
     var empty: Bool { return trackManager.noteCount <= 0}
     var trackEmpty: Bool {return trackManager.trackNotesCount[selectedInst] <= 0}
     
-    init(preset1: SynthInstrument, preset2: SynthInstrument, preset3: SynthInstrument, preset4: SynthInstrument){
+    init(clickTrack: ClickTrack, preset1: SynthInstrument, preset2: SynthInstrument, preset3: SynthInstrument, preset4: SynthInstrument){
         midi = AKMIDI()
         trackManager = Track()
-        measure = Measure()
+        measure = Measure(clickTrackRef: clickTrack)
         instPreset1 = preset1 //custom synth instrument with preset1
         instruments.append(instPreset1)
         instPreset2 = preset2 //custom synth instrument with preset2
@@ -449,9 +447,9 @@ class InstrumentPresetTracks {
     
     func setTempo(newBeatsPerMin: Double){
         pause()
-        measure.tempo.beatsPerMin = newBeatsPerMin
+        measure.clickTrack.tempo.beatsPerMin = newBeatsPerMin
         print("todo: click track update tempo")
-        measure.clickTrack.update(measure.tempo, clickTimeSignature: measure.timeSignature)
+        measure.clickTrack.update(measure.clickTrack.tempo, clickTimeSignature: measure.clickTrack.timeSignature)
         trackManager.setBPM(Double(measure.clickTrack.tempo.beatsPerMin))
         trackManager.setLength(measure.totalDuration)
         unpause()
@@ -460,9 +458,9 @@ class InstrumentPresetTracks {
     
     func setTimeSignature(newBeatsPerMeasure: Int, newNote: Int){
         pause()
-        measure.timeSignature.beatsPerMeasure = newBeatsPerMeasure
-        measure.timeSignature.beatUnit = newNote
-        measure.clickTrack.update(measure.tempo, clickTimeSignature: measure.timeSignature)
+        measure.clickTrack.timeSignature.beatsPerMeasure = newBeatsPerMeasure
+        measure.clickTrack.timeSignature.beatUnit = newNote
+        measure.clickTrack.update(measure.clickTrack.tempo, clickTimeSignature: measure.clickTrack.timeSignature)
         trackManager.setLength(measure.totalDuration)
         print("track manager length \(trackManager.length)")
         unpause()

@@ -26,23 +26,27 @@ class Song {
     var hatTracks: InstrumentPresetTracks!
     var instruments = [InstrumentPresetTracks]()
     var instrument: InstrumentPresetTracks!
+    var timeSignature = TimeSignature()
+    var tempo = Tempo()
     var clickTrack: ClickTrack!
     
     init(){
         mixer = AKMixer()
+        clickTrack = ClickTrack(clickTempo: tempo, clickTimeSignature: timeSignature)
+        
         
         //instrument 1 - snare
-        snareTracks = InstrumentPresetTracks(preset1: SnareInstrument1(voiceCount:1), preset2: SnareInstrument2(voiceCount:1), preset3: SnareInstrument3(voiceCount:1), preset4: SnareInstrument4(voiceCount:1))
+        snareTracks = InstrumentPresetTracks(clickTrack: clickTrack, preset1: SnareInstrument1(voiceCount:1), preset2: SnareInstrument2(voiceCount:1), preset3: SnareInstrument3(voiceCount:1), preset4: SnareInstrument4(voiceCount:1))
         instruments.append(snareTracks)
         mixer.connect(snareTracks.mixer)
         
         //instrument 2 - kick
-        kickTracks = InstrumentPresetTracks(preset1: KickInstrument1(voiceCount:1), preset2: KickInstrument2(voiceCount:1), preset3: KickInstrument3(voiceCount:1), preset4: KickInstrument4(voiceCount:1))
+        kickTracks = InstrumentPresetTracks(clickTrack: clickTrack, preset1: KickInstrument1(voiceCount:1), preset2: KickInstrument2(voiceCount:1), preset3: KickInstrument3(voiceCount:1), preset4: KickInstrument4(voiceCount:1))
         instruments.append(kickTracks)
         mixer.connect(kickTracks.mixer)
         
         //instrument 3 - hat
-        hatTracks = InstrumentPresetTracks(preset1: HatInstrument1(voiceCount:1), preset2: HatInstrument2(voiceCount:1), preset3: HatInstrument3(voiceCount:1), preset4: HatInstrument4(voiceCount:1))
+        hatTracks = InstrumentPresetTracks(clickTrack: clickTrack, preset1: HatInstrument1(voiceCount:1), preset2: HatInstrument2(voiceCount:1), preset3: HatInstrument3(voiceCount:1), preset4: HatInstrument4(voiceCount:1))
         instruments.append(hatTracks)
         mixer.connect(hatTracks.mixer)
         
@@ -168,9 +172,12 @@ class Song {
     func setTempo(newBeatsPerMin: Double){
         pause()
         print("update all instruments with tempo \(newBeatsPerMin)")
+        clickTrack.tempo.beatsPerMin = newBeatsPerMin
+        let tempo = clickTrack.tempo
+        let timeSig = clickTrack.timeSignature
+        clickTrack.update(tempo, clickTimeSignature:timeSig)
+        
         for inst in instruments{
-            inst.measure.tempo.beatsPerMin = newBeatsPerMin
-            inst.measure.clickTrack.update(instrument.measure.tempo, clickTimeSignature:instrument.measure.timeSignature)
             inst.trackManager.setBPM(Double(instrument.measure.clickTrack.tempo.beatsPerMin))
             inst.trackManager.setLength(instrument.measure.totalDuration)
         }
@@ -181,10 +188,12 @@ class Song {
     func setTimeSignature(newBeatsPerMeasure: Int, newNote: Int){
         pause()
         print("update all instruments with beats per measure \(newBeatsPerMeasure) and \(newNote) note")
+        clickTrack.timeSignature.beatsPerMeasure = newBeatsPerMeasure
+        clickTrack.timeSignature.beatUnit = newNote
+        let tempo = clickTrack.tempo
+        let timeSig = clickTrack.timeSignature
+        clickTrack.update(tempo, clickTimeSignature: timeSig)
         for inst in instruments{
-            inst.measure.timeSignature.beatsPerMeasure = newBeatsPerMeasure
-            inst.measure.timeSignature.beatUnit = newNote
-            inst.measure.clickTrack.update(instrument.measure.tempo, clickTimeSignature: instrument.measure.timeSignature)
             inst.trackManager.setLength(instrument.measure.totalDuration)
         }
         unpause()

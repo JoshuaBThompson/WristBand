@@ -21,9 +21,9 @@ class Knob: UIControl {
     var previousLocation: CGPoint!
     let circleAngle: CGFloat = 360
     let innerKnobRadius: CGFloat = 70.0
-    let detentCount = 18 //number of instruments
+    let detentCount = 12 //number of instruments / presets
     let angleRangeEn = false //enforce angle range limits
-    let angleRate: CGFloat = 0.4 // if set to 1 then knob turns with user finger at same speed
+    let angleRate: CGFloat = 0.7 // if set to 1 then knob turns with user finger at same speed
     
     var absAngle: CGFloat {
         if(angle < 0){

@@ -123,16 +123,27 @@ class ViewController: UIViewController {
     //MARK: Update button after note added
     func updateButtonStatesAfterNoteAdded(){
         print("update after note added called")
-        playRecordControl.manualSelectButton(.CLEAR)
+        updateClearButton(true)
     }
     
     //MARK: Set clear button if appropriate
-    func updateClearButton(){
+    func updateClearButton(noteAdded: Bool=false){
         let newSong = (song.selectedInstrument != song.prevSelectedInstrument)
         let newPreset = (song.selectedPreset != song.prevSelectedPreset)
-        if(song.recordEnabled && !playRecordControl.clearButton.active && (newSong || newPreset) && !song.instrument.empty ){
+        if(song.recordEnabled && noteAdded){
+            playRecordControl.manualSelectButton(.CLEAR)
+            return
+        }
+        else if(song.recordEnabled && !playRecordControl.clearButton.active && (newSong || newPreset) && !song.instrument.trackEmpty){
             print("update after knob turned added")
             playRecordControl.manualSelectButton(.CLEAR)
+        }
+        else if(song.recordEnabled && playRecordControl.clearButton.active && song.instrument.trackEmpty){
+            print("clear deselected!!!")
+            playRecordControl.manualDeselectButton(.CLEAR)
+        }
+        else{
+            print("nothing deselected!")
         }
     }
     

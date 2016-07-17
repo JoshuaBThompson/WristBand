@@ -121,6 +121,36 @@ class PlayRecordControl: UIControl {
         
     }
     
+    func manualDeselectButton(buttonType: PlayRecordButtonTypes_t){
+        currentButtonType = buttonType
+        let num = currentButtonType
+        
+        //just select button, don't deselect others
+        switch num {
+        case .PLAY:
+            print("play manually deselected")
+            playButton.selected = false
+            playButton.on = false
+            playButton.set = false
+            playButton.updateState()
+            
+        case .CLEAR:
+            print("clear manually deselected")
+            clearButton.selected = false
+            clearButton.on = false
+            clearButton.set = false
+            clearButton.updateState()
+            
+        case .RECORD:
+            print("record manually deselected")
+            recordButton.selected = false
+            recordButton.on = false
+            recordButton.set = false
+            recordButton.updateState()
+        }
+        
+    }
+    
     func updateButtonSelectionStates() {
         let num = currentButtonType //PlayRecordButtonTypes_t(rawValue: currentButtonNum)!
         switch num {

@@ -306,6 +306,7 @@ class InstrumentPresetTracks {
     var playing = false
     var clickTrackRunning: Bool { return measure.clickTrack.running;}
     var empty: Bool { return trackManager.noteCount <= 0}
+    var trackEmpty: Bool {return trackManager.trackNotesCount[selectedInst] <= 0}
     
     init(preset1: SynthInstrument, preset2: SynthInstrument, preset3: SynthInstrument, preset4: SynthInstrument){
         midi = AKMIDI()

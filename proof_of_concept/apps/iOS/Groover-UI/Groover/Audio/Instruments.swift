@@ -23,6 +23,7 @@ class ClickTrackInstrument: SynthInstrument{
     init(voiceCount: Int) {
         super.init(instrumentVoice: ClickTrackInstrumentVoice(), voiceCount: voiceCount)
         note = 60
+        muted = true
         
     }
     
@@ -33,6 +34,10 @@ class ClickTrackInstrument: SynthInstrument{
     /// - parameter velocity: MIDI Velocity (0-127)
     ///
     override func playVoice(voice: AKVoice, note: Int, velocity: Int) {
+        
+        if(muted){
+            return
+        }
         let volume = velocity/127.0
         voice.setValue(volume, forKeyPath: "sampler.volume")
         voice.start()
@@ -136,7 +141,7 @@ class Track: AKSequencer{
 
 class SynthInstrument: AKPolyphonicInstrument{
     var note: Int = 0
-    
+    var muted = false
     /// Create the synth snare instrument
     ///
     /// - parameter voiceCount: Number of voices (usually two is plenty for drums)
@@ -294,6 +299,7 @@ class ClickTrack: AKVoice{
     var _running = false
     var running: Bool { return _running}
     var enabled: Bool { return _enabled }
+    var muted: Bool { return instrument.muted}
     
     init(clickTempo: Tempo, clickTimeSignature: TimeSignature){
         super.init()
@@ -332,6 +338,15 @@ class ClickTrack: AKVoice{
         
     }
     
+    func mute(){
+        instrument.muted = true
+    }
+    
+    func unmute(){
+        instrument.muted = false
+    }
+    
+    
     //MARK: Enable / Disable used by start() to determine if it should play the track or not
     
     func enable(){
@@ -360,14 +375,19 @@ class ClickTrack: AKVoice{
 
     /// Function to start, play, or activate the node, all do the same thing
     override func start() {
+        
         if(_enabled){
-            track.enableLooping()
-            track.play()
-            _running = true
+            if(!running){
+                track.enableLooping()
+                track.play()
+                _running = true
+            }
+
         }
         else{
             stop()
         }
+        
         
     }
 
@@ -528,6 +548,7 @@ class InstrumentPresetTracks {
     func play(){
         print("Playing notes in sequence track")
         //play note in sequence track (just play first track for now)
+        trackManager.rewind()
         trackManager.enableLooping()
         trackManager.play()
         playing = true
@@ -539,6 +560,7 @@ class InstrumentPresetTracks {
         recordEnabled = false
         //stop playing note in sequence track
         trackManager.disableLooping()
+        trackManager.rewind()
         trackManager.stop()
         measure.timer.stop()
         playing = false

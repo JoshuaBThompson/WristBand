@@ -81,7 +81,9 @@ class Song {
     }
     
     func enableClickTrack(){
+        clickTrack.unmute()
         clickTrack.enable()
+        
     }
     
     func disableClickTrack(){
@@ -89,21 +91,13 @@ class Song {
     }
     
     
-    func toggleClickTrack(){
-        if(clickTrack.enabled){
-            clickTrack.disable()
+    func toggleClickTrackMute(){
+        if(clickTrack.muted){
+            clickTrack.unmute()
         }
         else{
-            clickTrack.enable()
+            clickTrack.mute()
         }
-        /*
-        if(clickTrack.running){
-            clickTrack.stop()
-        }
-        else{
-            clickTrack.start()
-        }
-        */
         
     }
     
@@ -171,6 +165,9 @@ class Song {
         print("Playing notes of instrument  \(selectedInstrument)")
         //play note in sequence track (just play first track for now)
         //play all recorded tracks
+        if(!clickTrack.enabled){
+            clickTrack.enable() //run click track but mute it
+        }
         clickTrack.start()
         for instNum in 0 ..< instruments.count {
             instruments[instNum].play()

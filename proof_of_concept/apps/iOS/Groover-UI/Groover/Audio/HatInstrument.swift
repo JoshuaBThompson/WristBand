@@ -25,6 +25,7 @@ class HatInstrument1: SynthInstrument{
     init(voiceCount: Int) {
         super.init(instrumentVoice: HatInstrument1Voice(), voiceCount: voiceCount)
         note = 60
+        name = "Hat Instrument 1"
         
     }
     
@@ -89,6 +90,7 @@ class HatInstrument2: SynthInstrument{
     init(voiceCount: Int) {
         super.init(instrumentVoice: HatInstrument2Voice(), voiceCount: voiceCount)
         note = 70
+        name = "Hat Instrument 2"
         
     }
     
@@ -151,6 +153,7 @@ class HatInstrument3: SynthInstrument{
     init(voiceCount: Int) {
         super.init(instrumentVoice: HatInstrument3Voice(), voiceCount: voiceCount)
         note = 80
+        name = "Hat Instrument 3"
         
     }
     
@@ -213,6 +216,7 @@ class HatInstrument4: SynthInstrument{
     init(voiceCount: Int) {
         super.init(instrumentVoice: HatInstrument4Voice(), voiceCount: voiceCount)
         note = 90
+        name = "Hat Instrument 4"
         
     }
     

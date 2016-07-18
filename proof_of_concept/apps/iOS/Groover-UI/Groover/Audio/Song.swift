@@ -29,6 +29,9 @@ class Song {
     var timeSignature = TimeSignature()
     var tempo = Tempo()
     var clickTrack: ClickTrack!
+    var selectedInstrumentName: String {
+        return instrument.instruments[selectedPreset].name
+    }
     
     init(){
         mixer = AKMixer()
@@ -235,5 +238,6 @@ class Song {
             }
         }
     }
+    
     
 }

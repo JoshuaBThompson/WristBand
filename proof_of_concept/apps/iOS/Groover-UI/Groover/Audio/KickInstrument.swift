@@ -31,6 +31,7 @@ class KickInstrument1: SynthInstrument{
     init(voiceCount: Int) {
         super.init(instrumentVoice: KickInstrument1Voice(), voiceCount: voiceCount)
         note = 60
+        name = "Kick Instrument 1"
     }
     
     /// Start playback of a particular voice with MIDI style note and velocity
@@ -92,6 +93,7 @@ class KickInstrument2: SynthInstrument{
     init(voiceCount: Int) {
         super.init(instrumentVoice: KickInstrument2Voice(), voiceCount: voiceCount)
         note = 70
+        name = "Kick Instrument 2"
         
     }
     
@@ -154,6 +156,7 @@ class KickInstrument3: SynthInstrument{
     init(voiceCount: Int) {
         super.init(instrumentVoice: KickInstrument3Voice(), voiceCount: voiceCount)
         note = 80
+        name = "Kick Instrument 3"
         
     }
     
@@ -216,6 +219,7 @@ class KickInstrument4: SynthInstrument{
     init(voiceCount: Int) {
         super.init(instrumentVoice: KickInstrument4Voice(), voiceCount: voiceCount)
         note = 90
+        name = "Kick Instrument 4"
         
     }
     

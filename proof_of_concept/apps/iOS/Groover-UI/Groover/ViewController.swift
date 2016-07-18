@@ -28,6 +28,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var positionIndicator: PositionIndicator!
     @IBOutlet weak var knob: Knob!
     @IBOutlet weak var playRecordControl: PlayRecordControl!
+    @IBOutlet weak var positionLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,7 +40,9 @@ class ViewController: UIViewController {
         knob.addTarget(self, action: #selector(ViewController.innerKnobTapped(_:)), forControlEvents: .EditingChanged)
         knob.addTarget(self, action: #selector(ViewController.hidePositionIndicator), forControlEvents: .EditingDidEnd)
         playRecordControl.addTarget(self, action: #selector(ViewController.playRecordButtonSelected(_:)), forControlEvents: .ValueChanged)
+        
         song = Song()
+        positionLabel.text = song.selectedInstrumentName
         song.start()
         
         motionManager.startAccelerometerUpdates()
@@ -165,6 +168,7 @@ class ViewController: UIViewController {
             song.selectInstrument(0)
             let preset = position - 0 //this will result in number 0 - 3
             song.selectPreset(preset)
+            positionLabel.text = song.selectedInstrumentName
             print("inst 0 with preset \(preset)")
         }
         else if(position >= 4 && position <= 7){
@@ -172,6 +176,7 @@ class ViewController: UIViewController {
             song.selectInstrument(1)
             let preset = position - 4 //this will result in number 0 - 3
             song.selectPreset(preset)
+            positionLabel.text = song.selectedInstrumentName
             print("inst 1 with preset \(preset)")
         }
         else if(position >= 8 && position <= 11){
@@ -179,6 +184,7 @@ class ViewController: UIViewController {
             song.selectInstrument(2)
             let preset = position - 8 //this will result in number 0 - 3
             song.selectPreset(preset)
+            positionLabel.text = song.selectedInstrumentName
             print("inst 2 with preset \(preset)")
         }
         else{

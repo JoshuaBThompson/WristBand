@@ -25,6 +25,7 @@ class SnareInstrument1: SynthInstrument{
     init(voiceCount: Int) {
         super.init(instrumentVoice: SnareInstrument1Voice(), voiceCount: voiceCount)
         note = 60
+        name = "Snare Instrument 1"
         
     }
     
@@ -92,6 +93,7 @@ class SnareInstrument2: SynthInstrument{
     init(voiceCount: Int) {
         super.init(instrumentVoice: SnareInstrument2Voice(), voiceCount: voiceCount)
         note = 70
+        name = "Snare Instrument 2"
         
     }
     
@@ -155,6 +157,7 @@ class SnareInstrument3: SynthInstrument{
     init(voiceCount: Int) {
         super.init(instrumentVoice: SnareInstrument3Voice(), voiceCount: voiceCount)
         note = 80
+        name = "Snare Instrument 3"
         
     }
     
@@ -217,6 +220,7 @@ class SnareInstrument4: SynthInstrument{
     init(voiceCount: Int) {
         super.init(instrumentVoice: SnareInstrument4Voice(), voiceCount: voiceCount)
         note = 90
+        name = "Snare Instrument 4"
         
     }
     

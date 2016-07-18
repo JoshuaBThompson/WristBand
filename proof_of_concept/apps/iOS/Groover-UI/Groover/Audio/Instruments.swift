@@ -142,6 +142,7 @@ class Track: AKSequencer{
 class SynthInstrument: AKPolyphonicInstrument{
     var note: Int = 0
     var muted = false
+    var name = "Synth Instrument"
     /// Create the synth snare instrument
     ///
     /// - parameter voiceCount: Number of voices (usually two is plenty for drums)

@@ -35,7 +35,9 @@ class HatInstrument1: SynthInstrument{
     /// - parameter velocity: MIDI Velocity (0-127)
     ///
     override func playVoice(voice: AKVoice, note: Int, velocity: Int) {
+        
         voice.start()
+        
     }
     
     /// Stop playback of a particular voice
@@ -51,11 +53,11 @@ class HatInstrument1: SynthInstrument{
 
 /// Hat Instrument 1 Voice
 class HatInstrument1Voice: SynthInstrumentVoice{
-    var sampler: AKSampler!
     override init(){
+        
+        super.init()
         sampler = AKSampler()
         sampler.loadWav("Sounds/Hat/hat-1")
-        super.init()
         self.avAudioNode = sampler.avAudioNode
     }
     
@@ -113,11 +115,11 @@ class HatInstrument2: SynthInstrument{
 
 /// Hat Instrument 2 Voice
 class HatInstrument2Voice: SynthInstrumentVoice{
-    var sampler: AKSampler!
     override init(){
+        
+        super.init()
         sampler = AKSampler()
         sampler.loadWav("Sounds/Hat/hat-2")
-        super.init()
         self.avAudioNode = sampler.avAudioNode
     }
     
@@ -175,11 +177,11 @@ class HatInstrument3: SynthInstrument{
 
 /// Hat Instrument 3 Voice
 class HatInstrument3Voice: SynthInstrumentVoice{
-    var sampler: AKSampler!
     override init(){
+        
+        super.init()
         sampler = AKSampler()
         sampler.loadWav("Sounds/Hat/hat-3")
-        super.init()
         self.avAudioNode = sampler.avAudioNode
     }
     
@@ -237,11 +239,11 @@ class HatInstrument4: SynthInstrument{
 
 /// Hat Instrument 4 Voice
 class HatInstrument4Voice: SynthInstrumentVoice{
-    var sampler: AKSampler!
     override init(){
+        
+        super.init()
         sampler = AKSampler()
         sampler.loadWav("Sounds/Hat/hat-4")
-        super.init()
         self.avAudioNode = sampler.avAudioNode
     }
     

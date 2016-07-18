@@ -9,6 +9,71 @@
 import Foundation
 import AudioKit
 
+/****************ClickTrack Instrument
+ Desc: This instrument is used by click track
+ *****************/
+
+class ClickTrackInstrument: SynthInstrument{
+    /// Create the synth ClickTrack instrument
+    ///
+    /// - parameter voiceCount: Number of voices (usually two is plenty for drums)
+    ///
+    var sampler: AKSampler!
+    
+    init(voiceCount: Int) {
+        super.init(instrumentVoice: ClickTrackInstrumentVoice(), voiceCount: voiceCount)
+        note = 60
+        
+    }
+    
+    /// Start playback of a particular voice with MIDI style note and velocity
+    ///
+    /// - parameter voice: Voice to start
+    /// - parameter note: MIDI Note Number
+    /// - parameter velocity: MIDI Velocity (0-127)
+    ///
+    override func playVoice(voice: AKVoice, note: Int, velocity: Int) {
+        let volume = velocity/127.0
+        voice.setValue(volume, forKeyPath: "sampler.volume")
+        voice.start()
+        
+    }
+    
+    /// Stop playback of a particular voice
+    ///
+    /// - parameter voice: Voice to stop
+    /// - parameter note: MIDI Note Number
+    ///
+    override func stopVoice(voice: AKVoice, note: Int) {
+        //voice.stop()
+    }
+    
+}
+
+/// ClickTrack Instrument Voice
+class ClickTrackInstrumentVoice: SynthInstrumentVoice{
+    
+    override init(){
+        super.init()
+        sampler = AKSampler()
+        sampler.loadWav("Sounds/Hat/hat-1")
+        self.avAudioNode = sampler.avAudioNode
+    }
+    
+    override func start() {
+        sampler.playNote()
+    }
+    
+    override func stop(){
+        //sampler.stopNote()
+    }
+    
+    override func duplicate() -> AKVoice {
+        let copy = ClickTrackInstrumentVoice()
+        return copy
+    }
+}
+
 /****************Custom AKSequencer
  *********/
 
@@ -105,8 +170,8 @@ class SynthInstrument: AKPolyphonicInstrument{
 
 class SynthInstrumentVoice: AKVoice{
     var preset = 0
+    var sampler: AKSampler!
 }
-
 
 
 
@@ -209,10 +274,15 @@ class Measure {
 
 //ClickTrack
 class ClickTrack: AKVoice{
+    var midi: AKMIDI!
+    var track: AKSequencer!
+    var instrument: SynthInstrument!
+    var instrumentMidi: AKMIDIInstrument!
     var tempo: Tempo!
     var timeSignature: TimeSignature!
     var clickOperation: AKOperation!
     var clickGenerator: AKOperationGenerator!
+    var _enabled = false
     
     //computed
     var secPerMeasure: Double {return Double(timeSignature.beatsPerMeasure) / tempo.beatsPerSec * 4/Double(timeSignature.beatUnit) }
@@ -222,25 +292,31 @@ class ClickTrack: AKVoice{
     var trig: AKOperation!
     var beeps: AKOperation!
     var _running = false
-    var running: Bool { return _running;}
+    var running: Bool { return _running}
+    var enabled: Bool { return _enabled }
     
     init(clickTempo: Tempo, clickTimeSignature: TimeSignature){
         super.init()
+        midi = AKMIDI()
+        track = AKSequencer()
+        instrument = ClickTrackInstrument(voiceCount: 1)
         tempo = clickTempo
         timeSignature = clickTimeSignature
         
-        beep = AKOperation.sineWave(frequency: 480)
+        instrumentMidi = AKMIDIInstrument(instrument: instrument)
+        instrumentMidi.enableMIDI(midi.client, name: "ClickTrack MIDI Instrument")
         
-        trig = AKOperation.metronome(AKOperation.parameters(0))
+        track.newTrack()
+        track.tracks[0].setMIDIOutput(instrumentMidi.midiIn)
+
         
-        beeps = beep.triggeredWithEnvelope(
-            trig,
-            attack: 0.01, hold: 0, release: 0.01)
-        
-        clickGenerator = AKOperationGenerator(operation: beeps)
-        clickGenerator.parameters = [clickPerSec]
-        self.avAudioNode = clickGenerator.avAudioNode
-        //clickGenerator.start()
+        track.setBPM(Double(tempo.beatsPerMin))
+        track.setLength(secPerMeasure)
+        track.tracks[0].addNote(60, velocity: 127, position: secPerClick*0, duration: 0)
+        track.tracks[0].addNote(60, velocity: 105, position: secPerClick*1, duration: 0)
+        track.tracks[0].addNote(60, velocity: 105, position: secPerClick*2, duration: 0)
+        track.tracks[0].addNote(60, velocity: 105, position: secPerClick*3, duration: 0)
+        self.avAudioNode = instrument.avAudioNode
     }
     
     func update(clickTempo: Tempo, clickTimeSignature: TimeSignature){
@@ -248,11 +324,26 @@ class ClickTrack: AKVoice{
         //update click track freq data
         tempo = clickTempo
         timeSignature = clickTimeSignature
-        clickGenerator.parameters = [clickPerSec] // clickPerSec is computed var that used updated tempo and timeSignature
+        stop()
+        track.setBPM(Double(tempo.beatsPerMin))
+        track.setLength(secPerMeasure)
+        start()
+        //TODO: update track
         
     }
     
-    //MARK: functions
+    //MARK: Enable / Disable used by start() to determine if it should play the track or not
+    
+    func enable(){
+        _enabled = true
+    }
+    
+    func disable(){
+        _enabled = false
+    }
+    
+    
+    //MARK: overriden functions
 
     /// Function create an identical new node for use in creating polyphonic instruments
     override func duplicate() -> AKVoice {
@@ -265,17 +356,25 @@ class ClickTrack: AKVoice{
         let playing: Bool = clickGenerator.isPlaying
         return playing
     }
+    
 
     /// Function to start, play, or activate the node, all do the same thing
     override func start() {
-        clickGenerator.start()
-        _running = true
+        if(_enabled){
+            track.enableLooping()
+            track.play()
+            _running = true
+        }
+        else{
+            stop()
+        }
         
     }
 
     /// Function to stop or bypass the node, both are equivalent
     override func stop() {
-        clickGenerator.stop()
+        track.disableLooping()
+        track.stop()
         _running = false
     }
 

@@ -59,12 +59,13 @@ class Song {
     func start(){
         //start audiokit output
         AudioKit.start()
-        //clickTrack.start()
     }
     func clearPreset(){
         stop()
         instrument.clearPreset()
     }
+    
+    
     
     func clear(){
         //stop any currently playing tracks first
@@ -79,13 +80,31 @@ class Song {
         
     }
     
-    func toggleTempo(){
+    func enableClickTrack(){
+        clickTrack.enable()
+    }
+    
+    func disableClickTrack(){
+        clickTrack.disable()
+    }
+    
+    
+    func toggleClickTrack(){
+        if(clickTrack.enabled){
+            clickTrack.disable()
+        }
+        else{
+            clickTrack.enable()
+        }
+        /*
         if(clickTrack.running){
             clickTrack.stop()
         }
         else{
             clickTrack.start()
         }
+        */
+        
     }
     
     func selectInstrument(number: Int){
@@ -152,6 +171,7 @@ class Song {
         print("Playing notes of instrument  \(selectedInstrument)")
         //play note in sequence track (just play first track for now)
         //play all recorded tracks
+        clickTrack.start()
         for instNum in 0 ..< instruments.count {
             instruments[instNum].play()
         }
@@ -163,6 +183,7 @@ class Song {
         print("Stop playing instrument  \(selectedInstrument)")
         recordEnabled = false
         //stop all recorded tracks
+        clickTrack.stop()
         for instNum in 0 ..< instruments.count {
             instruments[instNum].stop()
         }

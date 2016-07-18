@@ -56,11 +56,11 @@ class KickInstrument1: SynthInstrument{
 
 /// Kick Instrument 1 Voice
 class KickInstrument1Voice: SynthInstrumentVoice{
-    var sampler: AKSampler!
     override init(){
+        
+        super.init()
         sampler = AKSampler()
         sampler.loadWav("Sounds/Kick/kick-1")
-        super.init()
         self.avAudioNode = sampler.avAudioNode
     }
     
@@ -118,11 +118,11 @@ class KickInstrument2: SynthInstrument{
 
 /// Kick Instrument 2 Voice
 class KickInstrument2Voice: SynthInstrumentVoice{
-    var sampler: AKSampler!
     override init(){
+        
+        super.init()
         sampler = AKSampler()
         sampler.loadWav("Sounds/Kick/kick-2")
-        super.init()
         self.avAudioNode = sampler.avAudioNode
     }
     
@@ -180,11 +180,11 @@ class KickInstrument3: SynthInstrument{
 
 /// Kick Instrument 3 Voice
 class KickInstrument3Voice: SynthInstrumentVoice{
-    var sampler: AKSampler!
     override init(){
+        
+        super.init()
         sampler = AKSampler()
         sampler.loadWav("Sounds/Kick/kick-3")
-        super.init()
         self.avAudioNode = sampler.avAudioNode
     }
     
@@ -242,11 +242,11 @@ class KickInstrument4: SynthInstrument{
 
 /// Kick Instrument 4 Voice
 class KickInstrument4Voice: SynthInstrumentVoice{
-    var sampler: AKSampler!
     override init(){
+        
+        super.init()
         sampler = AKSampler()
         sampler.loadWav("Sounds/Kick/kick-4")
-        super.init()
         self.avAudioNode = sampler.avAudioNode
     }
     

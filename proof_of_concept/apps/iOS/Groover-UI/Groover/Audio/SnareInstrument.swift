@@ -55,12 +55,12 @@ class SnareInstrument1: SynthInstrument{
 
 /// Snare Instrument 1 Voice
 class SnareInstrument1Voice: SynthInstrumentVoice{
-    var sampler: AKSampler!
     override init(){
-        sampler = AKSampler()
-        sampler.loadWav("Sounds/Snare/snare-1")
+        
         //sampler.loadWav("Sounds/cheeb-bd")
         super.init()
+        sampler = AKSampler()
+        sampler.loadWav("Sounds/Snare/snare-1")
         self.avAudioNode = sampler.avAudioNode
     }
     
@@ -118,12 +118,12 @@ class SnareInstrument2: SynthInstrument{
 
 /// Snare Instrument 2 Voice
 class SnareInstrument2Voice: SynthInstrumentVoice{
-    var sampler: AKSampler!
     override init(){
-        sampler = AKSampler()
-        sampler.loadWav("Sounds/Snare/snare-2")
+        
         //sampler.loadWav("Sounds/cheeb-bd")
         super.init()
+        sampler = AKSampler()
+        sampler.loadWav("Sounds/Snare/snare-2")
         self.avAudioNode = sampler.avAudioNode
     }
     
@@ -181,12 +181,11 @@ class SnareInstrument3: SynthInstrument{
 
 /// Snare Instrument 3 Voice
 class SnareInstrument3Voice: SynthInstrumentVoice{
-    var sampler: AKSampler!
     override init(){
+        
+        super.init()
         sampler = AKSampler()
         sampler.loadWav("Sounds/Snare/snare-3")
-        //sampler.loadWav("Sounds/cheeb-bd")
-        super.init()
         self.avAudioNode = sampler.avAudioNode
     }
     
@@ -244,12 +243,11 @@ class SnareInstrument4: SynthInstrument{
 
 /// Snare Instrument 4 Voice
 class SnareInstrument4Voice: SynthInstrumentVoice{
-    var sampler: AKSampler!
     override init(){
+        
+        super.init()
         sampler = AKSampler()
         sampler.loadWav("Sounds/Snare/snare-4")
-        //sampler.loadWav("Sounds/cheeb-bd")
-        super.init()
         self.avAudioNode = sampler.avAudioNode
     }
     

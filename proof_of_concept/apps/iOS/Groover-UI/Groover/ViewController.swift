@@ -189,7 +189,7 @@ class ViewController: UIViewController {
     
     func innerKnobTapped(knobControl: Knob){
         print("Inner knob tapped")
-        song.toggleTempo()
+        song.toggleClickTrack()
         
         //temporary hack when not using iPhone (using simulator) to allow for beat generation
         song.addSelectedNote() //Used for testing in sim mode to simulate motion generated beat

@@ -54,7 +54,6 @@ class Song {
         mixer.connect(hatTracks.mixer)
         
         //Use click track of inst 1 (doesn't matter which one since they all have same click track)
-        clickTrack = snareTracks.measure.clickTrack
         AudioKit.output = mixer
         instrument = snareTracks //just start of with snare instruments as initial collection (we can change this later...)
     }
@@ -191,7 +190,7 @@ class Song {
     }
     
     func setTempo(newBeatsPerMin: Double){
-        pause()
+        stop()
         print("update all instruments with tempo \(newBeatsPerMin)")
         clickTrack.tempo.beatsPerMin = newBeatsPerMin
         let tempo = clickTrack.tempo
@@ -202,12 +201,11 @@ class Song {
             inst.trackManager.setBPM(Double(instrument.measure.clickTrack.tempo.beatsPerMin))
             inst.trackManager.setLength(instrument.measure.totalDuration)
         }
-        unpause()
     }
     
     
     func setTimeSignature(newBeatsPerMeasure: Int, newNote: Int){
-        pause()
+        stop()
         print("update all instruments with beats per measure \(newBeatsPerMeasure) and \(newNote) note")
         clickTrack.timeSignature.beatsPerMeasure = newBeatsPerMeasure
         clickTrack.timeSignature.beatUnit = newNote
@@ -217,27 +215,10 @@ class Song {
         for inst in instruments{
             inst.trackManager.setLength(instrument.measure.totalDuration)
         }
-        unpause()
         
     }
     
-    func pause(){
-        if(playing){
-            //stop all recorded tracks
-            for instNum in 0 ..< instruments.count {
-                instruments[instNum].pause()
-            }
-        }
-    }
-    
-    func unpause(){
-        if(playing){
-            //stop all recorded tracks
-            for instNum in 0 ..< instruments.count {
-                instruments[instNum].unpause()
-            }
-        }
-    }
+
     
     
 }

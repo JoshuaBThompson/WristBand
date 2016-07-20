@@ -232,7 +232,7 @@ struct Tempo {
 //Measure
 class Measure {
     var clickTrack: ClickTrack!
-    var timer = Timer()
+    var timer: Timer!
     var count = 1
     var longestTime = 0.0
     
@@ -273,6 +273,7 @@ class Measure {
     
     init(clickTrackRef: ClickTrack){
         clickTrack = clickTrackRef
+        timer = clickTrack.timer
     }
     
     
@@ -280,6 +281,7 @@ class Measure {
 
 //ClickTrack
 class ClickTrack: AKVoice{
+    var timer = Timer()
     var midi: AKMIDI!
     var track: AKSequencer!
     var instrument: SynthInstrument!
@@ -291,7 +293,7 @@ class ClickTrack: AKVoice{
     var _enabled = false
     
     //computed
-    var secPerMeasure: Double {return Double(timeSignature.beatsPerMeasure) / tempo.beatsPerSec * 4/Double(timeSignature.beatUnit) }
+    var secPerMeasure: Double {return (Double(timeSignature.beatsPerMeasure) / tempo.beatsPerSec) * 4/Double(timeSignature.beatUnit) }
     var secPerClick: Double { return secPerMeasure / Double(timeSignature.beatsPerMeasure) }
     var clickPerSec: Double { return 1/secPerClick }
     var beep: AKOperation!
@@ -319,10 +321,11 @@ class ClickTrack: AKVoice{
         
         track.setBPM(Double(tempo.beatsPerMin))
         track.setLength(secPerMeasure)
-        track.tracks[0].addNote(60, velocity: 127, position: secPerClick*0, duration: 0)
-        track.tracks[0].addNote(60, velocity: 105, position: secPerClick*1, duration: 0)
+        //TODO: update the click track setup - this is only for 4/4 time sig
+        track.tracks[0].addNote(60, velocity: 127, position: secPerClick*1, duration: 0)
         track.tracks[0].addNote(60, velocity: 105, position: secPerClick*2, duration: 0)
         track.tracks[0].addNote(60, velocity: 105, position: secPerClick*3, duration: 0)
+        track.tracks[0].addNote(60, velocity: 105, position: secPerClick*4, duration: 0)
         self.avAudioNode = instrument.avAudioNode
     }
     
@@ -395,6 +398,7 @@ class ClickTrack: AKVoice{
     /// Function to stop or bypass the node, both are equivalent
     override func stop() {
         track.disableLooping()
+        track.rewind()
         track.stop()
         _running = false
     }
@@ -568,40 +572,27 @@ class InstrumentPresetTracks {
     }
     
     func setTempo(newBeatsPerMin: Double){
-        pause()
+        stop()
         measure.clickTrack.tempo.beatsPerMin = newBeatsPerMin
         print("todo: click track update tempo")
         measure.clickTrack.update(measure.clickTrack.tempo, clickTimeSignature: measure.clickTrack.timeSignature)
         trackManager.setBPM(Double(measure.clickTrack.tempo.beatsPerMin))
         trackManager.setLength(measure.totalDuration)
-        unpause()
+        
     }
     
     
     func setTimeSignature(newBeatsPerMeasure: Int, newNote: Int){
-        pause()
+        stop()
         measure.clickTrack.timeSignature.beatsPerMeasure = newBeatsPerMeasure
         measure.clickTrack.timeSignature.beatUnit = newNote
         measure.clickTrack.update(measure.clickTrack.tempo, clickTimeSignature: measure.clickTrack.timeSignature)
         trackManager.setLength(measure.totalDuration)
         print("track manager length \(trackManager.length)")
-        unpause()
+        
         
     }
     
-    func pause(){
-        if(playing){
-            trackManager.stop()
-            trackManager.disableLooping()
-        }
-    }
-    
-    func unpause(){
-        if(playing){
-            trackManager.enableLooping()
-            trackManager.play()
-        }
-    }
     
     
 }

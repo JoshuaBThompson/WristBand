@@ -45,6 +45,8 @@
 		FA50AA991D2B47DA0035C942 /* SettingsIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA50AA981D2B47DA0035C942 /* SettingsIcon.swift */; };
 		FA50AA9B1D2B496B0035C942 /* PositionIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA50AA9A1D2B496B0035C942 /* PositionIndicator.swift */; };
 		FA820EB41D2E20E800C6FBF4 /* Popup.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA820EB31D2E20E800C6FBF4 /* Popup.swift */; };
+		FA908EE11D3F3EB6009FAFA4 /* ParametersPopup.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA908EE01D3F3EB6009FAFA4 /* ParametersPopup.swift */; };
+		FA908EE31D3F490A009FAFA4 /* RectBtn.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA908EE21D3F490A009FAFA4 /* RectBtn.swift */; };
 		FAB995F01D2E2B510002EE38 /* Left.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB995EF1D2E2B510002EE38 /* Left.swift */; };
 /* End PBXBuildFile section */
 
@@ -129,6 +131,8 @@
 		FA50AA981D2B47DA0035C942 /* SettingsIcon.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsIcon.swift; sourceTree = "<group>"; };
 		FA50AA9A1D2B496B0035C942 /* PositionIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PositionIndicator.swift; sourceTree = "<group>"; };
 		FA820EB31D2E20E800C6FBF4 /* Popup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Popup.swift; sourceTree = "<group>"; };
+		FA908EE01D3F3EB6009FAFA4 /* ParametersPopup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParametersPopup.swift; sourceTree = "<group>"; };
+		FA908EE21D3F490A009FAFA4 /* RectBtn.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RectBtn.swift; sourceTree = "<group>"; };
 		FAB995EF1D2E2B510002EE38 /* Left.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Left.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -220,6 +224,7 @@
 				FA50AA521D2A3FE60035C942 /* AppDelegate.swift */,
 				FA50AA541D2A3FE60035C942 /* ViewController.swift */,
 				FA50AA561D2A3FE60035C942 /* Main.storyboard */,
+				FA908EE01D3F3EB6009FAFA4 /* ParametersPopup.swift */,
 				FA50AA9A1D2B496B0035C942 /* PositionIndicator.swift */,
 				FA50AA961D2B472E0035C942 /* HamburgerIcon.swift */,
 				FA50AA981D2B47DA0035C942 /* SettingsIcon.swift */,
@@ -234,6 +239,7 @@
 				FA50AA841D2B397F0035C942 /* Knob.swift */,
 				FA50AA801D2A433B0035C942 /* images */,
 				FA50AA811D2A433B0035C942 /* UIGroover.swift */,
+				FA908EE21D3F490A009FAFA4 /* RectBtn.swift */,
 				FAB995EF1D2E2B510002EE38 /* Left.swift */,
 				FA479EC61D376CB000619BA0 /* Right.swift */,
 				FA50AA591D2A3FE60035C942 /* Assets.xcassets */,
@@ -398,6 +404,7 @@
 				FA479EC71D376CB000619BA0 /* Right.swift in Sources */,
 				429A22BC1D338E240045023F /* KickInstrument.swift in Sources */,
 				FA50AA951D2B45570035C942 /* Triplet.swift in Sources */,
+				FA908EE11D3F3EB6009FAFA4 /* ParametersPopup.swift in Sources */,
 				42A59FA81D301F8B0070FE46 /* MotionFilter.cpp in Sources */,
 				FA50AA551D2A3FE60035C942 /* ViewController.swift in Sources */,
 				429A22D01D354C900045023F /* PlayRecordControl.swift in Sources */,
@@ -408,6 +415,7 @@
 				429A22BB1D338E240045023F /* Instruments.swift in Sources */,
 				42A59FA41D301F8B0070FE46 /* BeatFilter.cpp in Sources */,
 				FA50AA971D2B472E0035C942 /* HamburgerIcon.swift in Sources */,
+				FA908EE31D3F490A009FAFA4 /* RectBtn.swift in Sources */,
 				FA50AA891D2B40160035C942 /* Record.swift in Sources */,
 				FA50AA911D2B44DD0035C942 /* Sixteenth.swift in Sources */,
 				429A22BA1D338E240045023F /* HatInstrument.swift in Sources */,

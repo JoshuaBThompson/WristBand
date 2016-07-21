@@ -120,10 +120,10 @@
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0JK-5c-46q" customClass="PlayRecordControl" customModule="Groover">
                                 <rect key="frame" x="160" y="8" width="154" height="38"/>
                             </view>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1PT-Gs-BZQ" customClass="ParametersPopup" customModule="Groover" customModuleProvider="target">
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1PT-Gs-BZQ" customClass="ParametersPopup" customModule="Groover">
                                 <rect key="frame" x="0.0" y="200" width="320" height="368"/>
                                 <subviews>
-                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xgO-rf-Tb5" customClass="ParametersPopup" customModule="Groover" customModuleProvider="target">
+                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xgO-rf-Tb5">
                                         <rect key="frame" x="161" y="276" width="114" height="44"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2FM-h6-xmy">
@@ -152,6 +152,7 @@
                         <outlet property="hamburgerButton" destination="8CQ-3U-35x" id="S0S-1K-vL5"/>
                         <outlet property="knob" destination="VOG-gV-ZKn" id="R4P-TT-b9y"/>
                         <outlet property="parametersButton" destination="QiK-DN-jXn" id="a1I-Ou-qEt"/>
+                        <outlet property="parametersPopup" destination="1PT-Gs-BZQ" id="4QW-zc-bbI"/>
                         <outlet property="playRecordControl" destination="0JK-5c-46q" id="ObG-bV-Mqw"/>
                         <outlet property="popup" destination="9Oa-HM-AtP" id="ZtD-s1-PYu"/>
                         <outlet property="positionIndicator" destination="DKT-hU-eN4" id="Di4-L3-Jk8"/>

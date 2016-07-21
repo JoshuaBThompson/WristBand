@@ -121,7 +121,6 @@ class Popup: UIView {
     }
     
     func drawPopupCanvas(){
-        
         popupPath.moveToPoint(CGPointMake(36.27, 302))
         popupPath.addLineToPoint(CGPointMake(59.54, 302))
         popupPath.addLineToPoint(CGPointMake(71.33, 313.79))
@@ -139,7 +138,7 @@ class Popup: UIView {
         popupPath.addCurveToPoint(CGPointMake(2.99, 302), controlPoint1: CGPointMake(0, 300.65), controlPoint2: CGPointMake(1.34, 302))
         popupPath.addLineToPoint(CGPointMake(36.27, 302))
         popupPath.closePath()
-        popupPath.usesEvenOddFillRule = true;
+        popupPath.usesEvenOddFillRule = true
         
     }
   

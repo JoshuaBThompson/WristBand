@@ -29,17 +29,19 @@ class ViewController: UIViewController {
     @IBOutlet weak var knob: Knob!
     @IBOutlet weak var playRecordControl: PlayRecordControl!
     @IBOutlet weak var positionLabel: UILabel!
+    @IBOutlet weak var parametersPopup: ParametersPopup!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
         //Connect view controller functions to buttons events
-        hamburgerButton.addTarget(self, action: #selector(ViewController.hamburgerButtonSelected(_:)), forControlEvents: .ValueChanged)
+        hamburgerButton.addTarget(self, action: #selector(ViewController.hamburgerButtonSelected), forControlEvents: .ValueChanged)
         knob.addTarget(self, action: #selector(ViewController.knobAngleChanged(_:)), forControlEvents: .ValueChanged)
         knob.addTarget(self, action: #selector(ViewController.innerKnobTapped(_:)), forControlEvents: .EditingChanged)
         knob.addTarget(self, action: #selector(ViewController.hidePositionIndicator), forControlEvents: .EditingDidEnd)
         playRecordControl.addTarget(self, action: #selector(ViewController.playRecordButtonSelected(_:)), forControlEvents: .ValueChanged)
+        parametersButton.addTarget(self, action: #selector(ViewController.parametersButtonSelected), forControlEvents: .ValueChanged)
         
         song = Song()
         positionLabel.text = song.selectedInstrumentName
@@ -64,9 +66,20 @@ class ViewController: UIViewController {
     
     //MARK: Button event handlers
     
-    func hamburgerButtonSelected(button: HamburgerIcon){
+    func hamburgerButtonSelected(){
         print("hamburger button selected")
         popup.toggleHide()
+    }
+    
+    //MARK: Parameter button function
+    func parametersButtonSelected(){
+        //hide or show popup
+        if(parametersPopup.hidden){
+            parametersPopup.show()
+        }
+        else{
+            parametersPopup.hide()
+        }
     }
     
     //MARK: Hide position indicator

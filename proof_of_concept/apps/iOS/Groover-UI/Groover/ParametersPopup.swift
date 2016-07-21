@@ -15,4 +15,26 @@ class ParametersPopup: UIView {
         UIGroover.drawPopupCanvas()
     }
     
+    
+    //MARK: Hide popup function
+    func toggleHide(){
+        hidden = !hidden //toggle true / false
+        updateButtonStates()
+    }
+    
+    func hide(){
+        hidden = true
+        updateButtonStates()
+    }
+    
+    func show(){
+        hidden = false
+    }
+    
+    //MARK: Update buttons
+    
+    func updateButtonStates(){
+    }
+    
+    
 }

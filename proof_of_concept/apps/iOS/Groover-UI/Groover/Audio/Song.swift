@@ -30,26 +30,26 @@ class Song {
     var tempo = Tempo()
     var clickTrack: ClickTrack!
     var selectedInstrumentName: String {
-        return instrument.instruments[selectedPreset].name
+        return instrument.instruments[selectedPreset].instrument.name
     }
     
     init(){
         mixer = AKMixer()
         clickTrack = ClickTrack(clickTempo: tempo, clickTimeSignature: timeSignature)
-        
+        mixer.connect(clickTrack)
         
         //instrument 1 - snare
-        snareTracks = InstrumentPresetTracks(clickTrack: clickTrack, preset1: SnareInstrument1(voiceCount:1), preset2: SnareInstrument2(voiceCount:1), preset3: SnareInstrument3(voiceCount:1), preset4: SnareInstrument4(voiceCount:1))
+        snareTracks = InstrumentPresetTracks(globalClickTrack: clickTrack, preset1: SnareInstrument1(voiceCount:1), preset2: SnareInstrument2(voiceCount:1), preset3: SnareInstrument3(voiceCount:1), preset4: SnareInstrument4(voiceCount:1))
         instruments.append(snareTracks)
         mixer.connect(snareTracks.mixer)
         
         //instrument 2 - kick
-        kickTracks = InstrumentPresetTracks(clickTrack: clickTrack, preset1: KickInstrument1(voiceCount:1), preset2: KickInstrument2(voiceCount:1), preset3: KickInstrument3(voiceCount:1), preset4: KickInstrument4(voiceCount:1))
+        kickTracks = InstrumentPresetTracks(globalClickTrack: clickTrack, preset1: KickInstrument1(voiceCount:1), preset2: KickInstrument2(voiceCount:1), preset3: KickInstrument3(voiceCount:1), preset4: KickInstrument4(voiceCount:1))
         instruments.append(kickTracks)
         mixer.connect(kickTracks.mixer)
         
         //instrument 3 - hat
-        hatTracks = InstrumentPresetTracks(clickTrack: clickTrack, preset1: HatInstrument1(voiceCount:1), preset2: HatInstrument2(voiceCount:1), preset3: HatInstrument3(voiceCount:1), preset4: HatInstrument4(voiceCount:1))
+        hatTracks = InstrumentPresetTracks(globalClickTrack: clickTrack, preset1: HatInstrument1(voiceCount:1), preset2: HatInstrument2(voiceCount:1), preset3: HatInstrument3(voiceCount:1), preset4: HatInstrument4(voiceCount:1))
         instruments.append(hatTracks)
         mixer.connect(hatTracks.mixer)
         
@@ -73,11 +73,9 @@ class Song {
         //stop any currently playing tracks first
         stop()
         //clear all recorded tracks
-        for instNum in 0 ..< instruments.count {
-            //clear previously recorded longest time in track
-            instruments[instNum].measure.longestTime = 0.0
-            //clear all recorded tracks in selected instrument
-            instruments[instNum].clear()
+        for instTracks in instruments {
+            //clear all recorded tracks
+            instTracks.clear()
         }        
         
     }
@@ -116,9 +114,9 @@ class Song {
         //play note based on selected instrument
         print("Playing instrument  \(selectedInstrument) preset \(presetNumber)")
         if(presetNumber < instrument.instruments.count){
-            let note = instrument.instruments[presetNumber].note;
-            instrument.instruments[presetNumber].playNote(note, velocity: 127)
-            instrument.instruments[presetNumber].stopNote(note)
+            let note = instrument.instruments[presetNumber].instrument.note;
+            instrument.instruments[presetNumber].instrument.playNote(note, velocity: 127)
+            instrument.instruments[presetNumber].instrument.stopNote(note)
         }
         
     }
@@ -198,8 +196,7 @@ class Song {
         clickTrack.update(tempo, clickTimeSignature:timeSig)
         
         for inst in instruments{
-            inst.trackManager.setBPM(Double(instrument.measure.clickTrack.tempo.beatsPerMin))
-            inst.trackManager.setLength(instrument.measure.totalDuration)
+            inst.updateTrackTempo()
         }
     }
     
@@ -213,7 +210,7 @@ class Song {
         let timeSig = clickTrack.timeSignature
         clickTrack.update(tempo, clickTimeSignature: timeSig)
         for inst in instruments{
-            inst.trackManager.setLength(instrument.measure.totalDuration)
+            inst.updateTrackTimeSignature()
         }
         
     }

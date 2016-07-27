@@ -79,8 +79,42 @@ class ClickTrackInstrumentVoice: SynthInstrumentVoice{
     }
 }
 
-/****************Custom AKSequencer
- *********/
+/****************Single instrument track manager ********/
+class PresetTrack: AKSequencer{
+    var noteCount = 0
+    var longestTime: Double = 0.0
+    
+    func addNewTrack(){
+        if(trackCount >= 1){
+            print("ERROR: Instrument track should only containt 1 track")
+        }
+        else{
+            self.newTrack()
+        }
+        
+    }
+    
+    func addNote(note: Int, velocity: Int, position: Beat, duration: Beat){
+        if(trackCount >= 1){
+            self.tracks[0].addNote(note, velocity: velocity, position: position, duration: duration)
+            noteCount += 1
+            //if current track time less that new then replace with new
+            longestTime = (longestTime > position) ? position: longestTime
+        }
+    }
+    
+    func clear(){
+        if(trackCount >= 1){
+            self.tracks[0].clear()
+            longestTime = 0.0
+            noteCount = 0
+        }
+    }
+    
+}
+
+
+/****************Custom AKSequencer *********/
 
 class Track: AKSequencer{
     var trackNotesCount = [Int]()
@@ -114,7 +148,7 @@ class Track: AKSequencer{
         self.tracks[trackNum].addNote(note, velocity: velocity, position: position, duration: duration)
         trackNotesCount[trackNum] += 1
         //if current track time less that new then replace with new
-        trackTimes[trackNum] = (trackTimes[trackNum] > position) ? position: trackTimes[trackNum]
+        trackTimes[trackNum] = (trackTimes[trackNum] < position) ? position: trackTimes[trackNum]
     }
     
     func clear(){
@@ -405,92 +439,105 @@ class ClickTrack: AKVoice{
 
 }
 
+/* Instrument track wrapper */
 
-
-class InstrumentPresetTracks {
-    var instruments = [SynthInstrument]()
+class InstrumentTrack {
     var midi: AKMIDI!
-    var mixer: AKMixer!
     var measure: Measure!
-    var trackManager: Track!
+    var trackManager: PresetTrack!
+    var instrument: SynthInstrument!
+    var instrumentMidi: AKMIDIInstrument!
     
-    var selectedInst = 0
-    var instPreset1: SynthInstrument!
-    var instPreset2: SynthInstrument!
-    var instPreset3: SynthInstrument!
-    var instPreset4: SynthInstrument!
-    var preset1Midi: AKMIDIInstrument!
-    var preset2Midi: AKMIDIInstrument!
-    var preset3Midi: AKMIDIInstrument!
-    var preset4Midi: AKMIDIInstrument!
-    var notePosition: Double = 1
-    var recordEnabled = false
-    var playing = false
-    var clickTrackRunning: Bool { return measure.clickTrack.running;}
-    var empty: Bool { return trackManager.noteCount <= 0}
-    var trackEmpty: Bool {return trackManager.trackNotesCount[selectedInst] <= 0}
-    
-    init(clickTrack: ClickTrack, preset1: SynthInstrument, preset2: SynthInstrument, preset3: SynthInstrument, preset4: SynthInstrument){
+    init(clickTrack: ClickTrack, presetInst: SynthInstrument){
         midi = AKMIDI()
-        trackManager = Track()
+        trackManager = PresetTrack()
         measure = Measure(clickTrackRef: clickTrack)
-        instPreset1 = preset1 //custom synth instrument with preset1
-        instruments.append(instPreset1)
-        instPreset2 = preset2 //custom synth instrument with preset2
-        instruments.append(instPreset2)
-        instPreset3 = preset3 //custom synth instrument with preset3
-        instruments.append(instPreset3)
-        instPreset4 = preset4 //custom synth instrument with preset4
-        instruments.append(instPreset4)
+        instrument = presetInst //custom synth instrument
         
-        mixer = AKMixer()
-        mixer.connect(instPreset1)
-        mixer.connect(instPreset2)
-        mixer.connect(instPreset3)
-        mixer.connect(instPreset4)
-        mixer.connect(measure.clickTrack)
-    
-        preset1Midi = AKMIDIInstrument(instrument: instPreset1)
-        preset1Midi.enableMIDI(midi.client, name: "Synth inst preset 1")
-        preset2Midi = AKMIDIInstrument(instrument: instPreset2)
-        preset2Midi.enableMIDI(midi.client, name: "Synth inst preset 2")
-        preset3Midi = AKMIDIInstrument(instrument: instPreset3)
-        preset3Midi.enableMIDI(midi.client, name: "Synth inst preset 3")
-        preset4Midi = AKMIDIInstrument(instrument: instPreset4)
-        preset4Midi.enableMIDI(midi.client, name: "Synth inst preset 4")
+        instrumentMidi = AKMIDIInstrument(instrument: instrument)
+        instrumentMidi.enableMIDI(midi.client, name: "Synth inst preset")
         
         trackManager.addNewTrack()
-        trackManager.tracks[0].setMIDIOutput(preset1Midi.midiIn)
-        trackManager.addNewTrack()
-        trackManager.tracks[1].setMIDIOutput(preset2Midi.midiIn)
-        trackManager.addNewTrack()
-        trackManager.tracks[2].setMIDIOutput(preset3Midi.midiIn)
-        trackManager.addNewTrack()
-        trackManager.tracks[3].setMIDIOutput(preset4Midi.midiIn)
+        trackManager.tracks[0].setMIDIOutput(instrumentMidi.midiIn)
         
         trackManager.setBPM(Double(measure.clickTrack.tempo.beatsPerMin))
         trackManager.setLength(measure.totalDuration)
         
-        print(String(format: "sequence bpm %f", measure.clickTrack.tempo.beatsPerMin))
-        print(String(format: "sequence length %f", measure.totalDuration))        
+    }
+    
+    
+    
+}
+
+/* High level collection of instruments / tracks */
+
+
+class InstrumentPresetTracks {
+    var instruments = [InstrumentTrack]()
+    var midi: AKMIDI!
+    var mixer: AKMixer!
+    var clickTrack: ClickTrack!
+    var instrumentTrack1: InstrumentTrack!
+    var instrumentTrack2: InstrumentTrack!
+    var instrumentTrack3: InstrumentTrack!
+    var instrumentTrack4: InstrumentTrack!
+    
+    var selectedInst = 0
+    var notePosition: Double = 1
+    var recordEnabled = false
+    var playing = false
+    var clickTrackRunning: Bool { return clickTrack.running;}
+    var empty: Bool {
+        var count = 0
+        for inst in instruments{
+            count += inst.trackManager.noteCount
+        }
+        return count == 0
+    }
+    var trackEmpty: Bool {return instruments[selectedInst].trackManager.noteCount <= 0}
+    
+    init(globalClickTrack: ClickTrack, preset1: SynthInstrument, preset2: SynthInstrument, preset3: SynthInstrument, preset4: SynthInstrument){
+        
+        // Global click track provided by Song class (which calls this InstrumentPresetTracks class)
+        clickTrack = globalClickTrack
+        
+        // Initialize all presets
+        instrumentTrack1 = InstrumentTrack(clickTrack: clickTrack, presetInst: preset1)
+        instrumentTrack1.trackManager.addNewTrack()
+        instruments.append(instrumentTrack1)
+        instrumentTrack2 = InstrumentTrack(clickTrack: clickTrack, presetInst: preset2)
+        instrumentTrack2.trackManager.addNewTrack()
+        instruments.append(instrumentTrack2)
+        instrumentTrack3 = InstrumentTrack(clickTrack: clickTrack, presetInst: preset3)
+        instrumentTrack3.trackManager.addNewTrack()
+        instruments.append(instrumentTrack3)
+        instrumentTrack4 = InstrumentTrack(clickTrack: clickTrack, presetInst: preset4)
+        instrumentTrack4.trackManager.addNewTrack()
+        instruments.append(instrumentTrack4)
+        
+        // Connect all instrument sounds in this group of presets to preset mixer
+        mixer = AKMixer()
+        mixer.connect(instrumentTrack1.instrument)
+        mixer.connect(instrumentTrack2.instrument)
+        mixer.connect(instrumentTrack3.instrument)
+        mixer.connect(instrumentTrack4.instrument)
         
     }
     
     func startClickTrack(){
-        measure.clickTrack.start()
+        clickTrack.start()
     }
     
     func stopClickTrack(){
-        measure.clickTrack.stop()
+        clickTrack.stop()
     }
     
     func clearPreset(){
         //stop any currently playing tracks first
         stop()
-        measure.longestTime = trackManager.longestTime //get new longest time
         
         //clear all recorded tracks
-        trackManager.clearTrack(selectedInst)
+        instruments[selectedInst].trackManager.clear()
         
         //start record again
         record()
@@ -498,10 +545,11 @@ class InstrumentPresetTracks {
     func clear(){
         //stop any currently playing tracks first
         stop()
-        measure.longestTime = 0.0 //clear
         
         //clear all recorded tracks
-        trackManager.clear()
+        for inst in instruments{
+            inst.trackManager.clear()
+        }
         
         //start record again
         record()
@@ -512,9 +560,9 @@ class InstrumentPresetTracks {
         //play note based on selected instrument preset
         print("Playing preset \(presetNumber) note")
         if(presetNumber < instruments.count){
-            let note = instruments[presetNumber].note;
-            instruments[presetNumber].playNote(note, velocity: 127)
-            instruments[presetNumber].stopNote(note)
+            let note = instruments[presetNumber].instrument.note;
+            instruments[presetNumber].instrument.playNote(note, velocity: 127)
+            instruments[presetNumber].instrument.stopNote(note)
         }
         
     }
@@ -531,14 +579,14 @@ class InstrumentPresetTracks {
             print("Record not enabled, no add note allowed")
             return
         }
-        let note = instruments[instNumber].note
+        let note = instruments[instNumber].instrument.note
+        let instTrack = instruments[instNumber]
         //only add note if record is enabled, otherwise just play it
         //add note to current track
         //todo: input to function should a note with vel, note value
         //todo: next add note to current track based on selected instrument (not yet developed)
-        let timeElapsed = measure.timeElapsed
-        print(String(format: "Time elapsed %f", timeElapsed))
-        trackManager.addNote(instNumber, note: note, velocity: 127, position: timeElapsed, duration: 0)
+        let timeElapsed = instTrack.measure.timeElapsed
+        instTrack.trackManager.addNote(note, velocity: 127, position: timeElapsed, duration: 0)
         if !playing { play() }
         
     }
@@ -546,16 +594,19 @@ class InstrumentPresetTracks {
     func record(){
         print("Recording note")
         recordEnabled = true
-        measure.timer.start()
+        clickTrack.timer.start()
         //now addNote function will add notes to sequences track
     }
     
     func play(){
         print("Playing notes in sequence track")
         //play note in sequence track (just play first track for now)
-        trackManager.rewind()
-        trackManager.enableLooping()
-        trackManager.play()
+        
+        for inst in instruments{
+            inst.trackManager.rewind()
+            inst.trackManager.enableLooping()
+            inst.trackManager.play()
+        }
         playing = true
         
     }
@@ -564,33 +615,50 @@ class InstrumentPresetTracks {
         print("Stop playing notes in sequence track")
         recordEnabled = false
         //stop playing note in sequence track
-        trackManager.disableLooping()
-        trackManager.rewind()
-        trackManager.stop()
-        measure.timer.stop()
+        clickTrack.timer.stop()
+        for inst in instruments{
+            inst.trackManager.disableLooping()
+            inst.trackManager.rewind()
+            inst.trackManager.stop()
+        }
         playing = false
     }
     
     func setTempo(newBeatsPerMin: Double){
         stop()
-        measure.clickTrack.tempo.beatsPerMin = newBeatsPerMin
+        clickTrack.tempo.beatsPerMin = newBeatsPerMin
         print("todo: click track update tempo")
-        measure.clickTrack.update(measure.clickTrack.tempo, clickTimeSignature: measure.clickTrack.timeSignature)
-        trackManager.setBPM(Double(measure.clickTrack.tempo.beatsPerMin))
-        trackManager.setLength(measure.totalDuration)
+        clickTrack.update(clickTrack.tempo, clickTimeSignature: clickTrack.timeSignature)
+        for inst in instruments{
+            inst.trackManager.setBPM(Double(clickTrack.tempo.beatsPerMin))
+            inst.trackManager.setLength(inst.measure.totalDuration)
+        }
         
+    }
+    
+    func updateTrackTempo(){
+        for inst in instruments{
+            inst.trackManager.setBPM(Double(clickTrack.tempo.beatsPerMin))
+            inst.trackManager.setLength(inst.measure.totalDuration)
+        }
     }
     
     
     func setTimeSignature(newBeatsPerMeasure: Int, newNote: Int){
         stop()
-        measure.clickTrack.timeSignature.beatsPerMeasure = newBeatsPerMeasure
-        measure.clickTrack.timeSignature.beatUnit = newNote
-        measure.clickTrack.update(measure.clickTrack.tempo, clickTimeSignature: measure.clickTrack.timeSignature)
-        trackManager.setLength(measure.totalDuration)
-        print("track manager length \(trackManager.length)")
+        clickTrack.timeSignature.beatsPerMeasure = newBeatsPerMeasure
+        clickTrack.timeSignature.beatUnit = newNote
+        clickTrack.update(clickTrack.tempo, clickTimeSignature: clickTrack.timeSignature)
+        for inst in instruments{
+            inst.trackManager.setLength(inst.measure.totalDuration)
+        }
         
-        
+    }
+    
+    func updateTrackTimeSignature(){
+        for inst in instruments{
+            inst.trackManager.setLength(inst.measure.totalDuration)
+        }
     }
     
     

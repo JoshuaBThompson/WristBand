@@ -524,14 +524,6 @@ class InstrumentPresetTracks {
         
     }
     
-    func startClickTrack(){
-        clickTrack.start()
-    }
-    
-    func stopClickTrack(){
-        clickTrack.stop()
-    }
-    
     func clearPreset(){
         //stop any currently playing tracks first
         stop()
@@ -594,8 +586,13 @@ class InstrumentPresetTracks {
     func record(){
         print("Recording note")
         recordEnabled = true
-        clickTrack.timer.start()
+        //clickTrack.timer.start()
         //now addNote function will add notes to sequences track
+    }
+    
+    func stop_record(){
+        recordEnabled = false
+        //clickTrack.timer.stop()
     }
     
     func play(){
@@ -615,7 +612,7 @@ class InstrumentPresetTracks {
         print("Stop playing notes in sequence track")
         recordEnabled = false
         //stop playing note in sequence track
-        clickTrack.timer.stop()
+        //clickTrack.timer.stop()
         for inst in instruments{
             inst.trackManager.disableLooping()
             inst.trackManager.rewind()

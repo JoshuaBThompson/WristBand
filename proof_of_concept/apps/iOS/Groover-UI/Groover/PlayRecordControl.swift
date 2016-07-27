@@ -152,29 +152,45 @@ class PlayRecordControl: UIControl {
     }
     
     func updateButtonSelectionStates() {
-        let num = currentButtonType //PlayRecordButtonTypes_t(rawValue: currentButtonNum)!
+        let num = currentButtonType
+        var changed = false
         switch num {
         case .PLAY:
             print("play selected")
             playButton.selected = !playButton.selected
-            recordButton.selected = false
+            if(!playButton.selected){
+                recordButton.selected = false
+            }
             clearButton.selected = false
+            changed = true
             
         case .CLEAR:
             print("clear selected")
             clearButton.selected = false
+            changed = true
             
         case .RECORD:
-            print("record selected")
-            recordButton.selected = !recordButton.selected
-            clearButton.selected = recordButton.selected
-            playButton.selected = false
+            
+            //only change record button if play button is already selected
+            if(playButton.selected){
+                print("record selected")
+                recordButton.selected = !recordButton.selected
+                clearButton.selected = recordButton.selected
+                changed = true
+            }
+            else{
+                changed = false
+            }
         }
         
-        for (_, button) in buttons.enumerate(){
-            button.on = button.selected
-            button.set = button.selected
-            button.updateState()
+        
+        if(changed){
+        
+            for (_, button) in buttons.enumerate(){
+                button.on = button.selected
+                button.set = button.selected
+                button.updateState()
+            }
         }
         
         

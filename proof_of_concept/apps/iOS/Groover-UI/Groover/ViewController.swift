@@ -90,7 +90,6 @@ class ViewController: UIViewController {
     
     //MARK: play button event handler
     func playRecordButtonSelected(playRecordButton: PlayRecordControl){
-        print("play or record button changed to \(playRecordButton.currentButtonNum)")
         switch playRecordButton.currentButtonType {
         case .PLAY:
             if(playRecordButton.playButton.on){
@@ -107,18 +106,18 @@ class ViewController: UIViewController {
                 print("clear current instrument song")
                 //song.instrument.clear()
                 song.clearPreset()
-                song.record() //afer clear keep recording
+                //song.record() //afer clear keep recording
             }
             
         case .RECORD:
-            //record if on
-            if(playRecordButton.recordButton.on){
+            //record if on and is playing
+            if(playRecordButton.recordButton.on && playRecordButton.playButton.on){
                 song.record()
                 print("start record and enable clear")
             }
             else{
-                song.stop()
-                print("stop record and disable clear")
+                song.stop_record()
+                //print("stop record and disable clear")
             }
             
         }

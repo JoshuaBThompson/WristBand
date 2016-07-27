@@ -63,7 +63,7 @@ class Song {
         AudioKit.start()
     }
     func clearPreset(){
-        stop()
+        //stop()
         instrument.clearPreset()
     }
     
@@ -148,17 +148,28 @@ class Song {
     }
     
     func record(){
+        if !playing {
+            print("record cannot start before play")
+            return
+        }
         print("Recording instrument \(selectedInstrument) note")
         recordEnabled = true
+        clickTrack.timer.start()
         //recorded all tracks
         for instNum in 0 ..< instruments.count {
             instruments[instNum].record()
         }
-        if !playing {
-            print("record started play")
-            play()
-        }
+        
         //now addNote function will add notes to sequences track
+    }
+    
+    func stop_record(){
+        recordEnabled = false
+        clickTrack.timer.stop()
+        for instNum in 0 ..< instruments.count {
+            instruments[instNum].stop_record()
+        }
+        
     }
     
     func play(){

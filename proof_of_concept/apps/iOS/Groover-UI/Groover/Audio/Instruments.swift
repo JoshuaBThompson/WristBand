@@ -81,8 +81,27 @@ class ClickTrackInstrumentVoice: SynthInstrumentVoice{
 
 /****************Single instrument track manager ********/
 class PresetTrack: AKSequencer{
+    var first = false
+    var measure: Measure!
     var noteCount = 0
     var longestTime: Double = 0.0
+    let defaultTrackLen = 120.0 //120 minutes as default length - will be changed once user adds beats
+                                //Updated track len = last beat time + remaining dur till end of last measure
+    
+    init(trackMeasure: Measure){
+        super.init()
+        measure = trackMeasure
+        addNewTrack()
+        
+    }
+    
+    func updateBPM(){
+        setBPM(Double(measure.clickTrack.tempo.beatsPerMin))
+    }
+    
+    func updateLength(){
+        setLength(measure.totalDuration)
+    }
     
     func addNewTrack(){
         if(trackCount >= 1){
@@ -113,61 +132,6 @@ class PresetTrack: AKSequencer{
     
 }
 
-
-/****************Custom AKSequencer *********/
-
-class Track: AKSequencer{
-    var trackNotesCount = [Int]()
-    var trackTimes = [Double]()
-    var noteCount: Int {
-        var count = 0
-        for i in 0 ..< trackNotesCount.count {
-            count = count + trackNotesCount[i]
-        }
-        return count
-    }
-    
-    var longestTime: Double {
-        var currentTime: Double = 0
-        for trackNum in 0 ..< trackCount {
-            if(trackTimes[trackNum] > currentTime){
-                currentTime = trackTimes[trackNum]
-            }
-        }
-        return currentTime
-    }
-    
-    func addNewTrack(){
-        self.newTrack()
-        trackNotesCount.append(0)
-        trackTimes.append(0) //holds max track time elapsed
-        
-    }
-    
-    func addNote(trackNum: Int, note: Int, velocity: Int, position: Beat, duration: Beat){
-        self.tracks[trackNum].addNote(note, velocity: velocity, position: position, duration: duration)
-        trackNotesCount[trackNum] += 1
-        //if current track time less that new then replace with new
-        trackTimes[trackNum] = (trackTimes[trackNum] < position) ? position: trackTimes[trackNum]
-    }
-    
-    func clear(){
-        for trackNum in 0 ..< trackCount {
-            tracks[trackNum].clear()
-            trackNotesCount[trackNum] = 0
-            trackTimes[trackNum] = 0
-        }
-    }
-    
-    func clearTrack(trackNum: Int){
-        if(trackNum < tracks.count){
-            tracks[trackNum].clear()
-            trackNotesCount[trackNum] = 0
-            trackTimes[trackNum] = 0
-        }
-        //TODO: track note count for each track
-    }
-}
 
 
 /****************Base class of synth instruments
@@ -450,18 +414,18 @@ class InstrumentTrack {
     
     init(clickTrack: ClickTrack, presetInst: SynthInstrument){
         midi = AKMIDI()
-        trackManager = PresetTrack()
+        
         measure = Measure(clickTrackRef: clickTrack)
+        trackManager = PresetTrack(trackMeasure: measure)
         instrument = presetInst //custom synth instrument
         
         instrumentMidi = AKMIDIInstrument(instrument: instrument)
         instrumentMidi.enableMIDI(midi.client, name: "Synth inst preset")
         
-        trackManager.addNewTrack()
         trackManager.tracks[0].setMIDIOutput(instrumentMidi.midiIn)
         
-        trackManager.setBPM(Double(measure.clickTrack.tempo.beatsPerMin))
-        trackManager.setLength(measure.totalDuration)
+        trackManager.updateBPM() //update bpm based on measure.clickTrack
+        trackManager.updateLength() //updated length of track based on measure.totalDuration
         
     }
     
@@ -565,6 +529,7 @@ class InstrumentPresetTracks {
     
     func addNote(preset instNumber: Int){
         //play note event if not recording
+        //only add note if record is enabled, otherwise just play it
         selectedInst = instNumber
         playNote(instNumber)
         if !recordEnabled {
@@ -573,10 +538,7 @@ class InstrumentPresetTracks {
         }
         let note = instruments[instNumber].instrument.note
         let instTrack = instruments[instNumber]
-        //only add note if record is enabled, otherwise just play it
-        //add note to current track
-        //todo: input to function should a note with vel, note value
-        //todo: next add note to current track based on selected instrument (not yet developed)
+        
         let timeElapsed = instTrack.measure.timeElapsed
         instTrack.trackManager.addNote(note, velocity: 127, position: timeElapsed, duration: 0)
         if !playing { play() }
@@ -586,18 +548,14 @@ class InstrumentPresetTracks {
     func record(){
         print("Recording note")
         recordEnabled = true
-        //clickTrack.timer.start()
-        //now addNote function will add notes to sequences track
     }
     
     func stop_record(){
         recordEnabled = false
-        //clickTrack.timer.stop()
     }
     
     func play(){
         print("Playing notes in sequence track")
-        //play note in sequence track (just play first track for now)
         
         for inst in instruments{
             inst.trackManager.rewind()
@@ -612,7 +570,6 @@ class InstrumentPresetTracks {
         print("Stop playing notes in sequence track")
         recordEnabled = false
         //stop playing note in sequence track
-        //clickTrack.timer.stop()
         for inst in instruments{
             inst.trackManager.disableLooping()
             inst.trackManager.rewind()
@@ -621,43 +578,22 @@ class InstrumentPresetTracks {
         playing = false
     }
     
-    func setTempo(newBeatsPerMin: Double){
-        stop()
-        clickTrack.tempo.beatsPerMin = newBeatsPerMin
-        print("todo: click track update tempo")
-        clickTrack.update(clickTrack.tempo, clickTimeSignature: clickTrack.timeSignature)
-        for inst in instruments{
-            inst.trackManager.setBPM(Double(clickTrack.tempo.beatsPerMin))
-            inst.trackManager.setLength(inst.measure.totalDuration)
-        }
-        
-    }
     
     func updateTrackTempo(){
+        //tell trackManager to update bpm and length based on measure and clickTrack object data
         for inst in instruments{
-            inst.trackManager.setBPM(Double(clickTrack.tempo.beatsPerMin))
-            inst.trackManager.setLength(inst.measure.totalDuration)
+            inst.trackManager.updateBPM()
+            inst.trackManager.updateLength()
         }
     }
     
-    
-    func setTimeSignature(newBeatsPerMeasure: Int, newNote: Int){
-        stop()
-        clickTrack.timeSignature.beatsPerMeasure = newBeatsPerMeasure
-        clickTrack.timeSignature.beatUnit = newNote
-        clickTrack.update(clickTrack.tempo, clickTimeSignature: clickTrack.timeSignature)
-        for inst in instruments{
-            inst.trackManager.setLength(inst.measure.totalDuration)
-        }
-        
-    }
     
     func updateTrackTimeSignature(){
+        //tell trackManager to update length based on time signature defined by measure and clickTrack object data
         for inst in instruments{
-            inst.trackManager.setLength(inst.measure.totalDuration)
+            inst.trackManager.updateLength()
         }
     }
-    
     
     
 }

@@ -100,15 +100,7 @@ class Song {
         }
         
     }
-    
-    func selectInstrument(number: Int){
-        if(number < instruments.count){
-            prevSelectedInstrument = selectedInstrument
-            selectedInstrument = number
-            instrument = instruments[selectedInstrument]
-            
-        }
-    }
+
     
     func playNote(presetNumber: Int){
         //play note based on selected instrument
@@ -125,10 +117,23 @@ class Song {
         addNote(preset: selectedPreset)
     }
     
+    
+    func selectInstrument(number: Int){
+        if(number < instruments.count){
+            if(recordEnabled){
+                instrument.deselect() //update track measure length of instruments in collection if first recording of a track
+            }
+            prevSelectedInstrument = selectedInstrument
+            selectedInstrument = number
+            instrument = instruments[selectedInstrument]
+            
+        }
+    }
+    
     func selectPreset(preset: Int){
         prevSelectedPreset = selectedPreset
         selectedPreset = preset
-        instrument.selectedInst = selectedPreset
+        instrument.selectPreset(selectedPreset)
     }
     
     func addNote(preset presetNumber: Int){

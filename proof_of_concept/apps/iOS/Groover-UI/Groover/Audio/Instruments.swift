@@ -319,10 +319,30 @@ class InstrumentTrack {
         
         trackManager.tracks[0].setMIDIOutput(instrumentMidi.midiIn)
         
-        trackManager.updateBPM() //update bpm based on measure.clickTrack
-        trackManager.updateLength() //updated length of track based on measure.totalDuration
+    }
+    
+    func addNote(velocity: Int, duration: Beat){
+        let note = instrument.note
+        trackManager.addNote(note, velocity: velocity, duration: duration)
         
     }
+    
+    func deselect(){
+        trackManager.deselect() //run deselect routines - for ex: checks if should update measure count (if first time track is recorded)
+    }
+    
+    func play(){
+        trackManager.rewind()
+        trackManager.enableLooping()
+        trackManager.play()
+    }
+    
+    func stop(){
+        trackManager.stop()
+        trackManager.disableLooping()
+        trackManager.rewind()        
+    }
+    
     
 }
 
@@ -332,9 +352,8 @@ class TrackManager: AKSequencer{
     //MARK: Attributes
     var noteCount = 0
     var longestTime: Double = 0.0
-    let maxCount = 1
-    var measureCount = 1 //default measure count is high initially but will be changed once user adds beats
-    
+    var measureCount = 1000 //default measure count is high initially but will be changed once user adds beats
+    var firstInstance = true //informs if this is the first time the track is being filled so we can define the initial measure count / duration
     var clickTrack: ClickTrack!
     var timer: Timer!
     
@@ -346,17 +365,16 @@ class TrackManager: AKSequencer{
         if (longestTime > secPerMeasure){
             //round up to nearest integer to get number of measures
             //if longest time recorded is greater then secPerMeasure then make more measures
+            //this might happen if user changes time sig or tempo which may compress or stretch out the track so we need to compensate
             //so we don't lose beats that were made while recording
             measureCount = Int(ceil(Double(longestTime)/Double(secPerMeasure)))
         }
-        else{
-            measureCount = maxCount //todo: how should we update measure counts?
-        }
+
         return secPerMeasure * Double(measureCount)
     }
     var timeElapsed: Double {
         //this gets called when a beat is added to the track
-        let timeElapsedSec = timer.stop()
+        let timeElapsedSec = timer.stop() //gets the global click track time that is shared with the song / all instruments
         var time = 0.0
         if timeElapsedSec <= totalDuration {
             time = timeElapsedSec
@@ -379,7 +397,10 @@ class TrackManager: AKSequencer{
         addNewTrack()
         clickTrack = clickTrackRef
         timer = clickTrack.timer
-        measureCount = maxCount
+        //set beats per min and total measure count (duration) initially with default value
+        updateBPM()
+        updateLength()
+        
     }
     
     //MARK: Functions
@@ -402,13 +423,28 @@ class TrackManager: AKSequencer{
         
     }
     
-    func addNote(note: Int, velocity: Int, position: Beat, duration: Beat){
+    func addNote(note: Int, velocity: Int, duration: Beat){
         if(trackCount >= 1){
+            let position = Beat(timeElapsed)
             self.tracks[0].addNote(note, velocity: velocity, position: position, duration: duration)
             noteCount += 1
             //if current track time less that new then replace with new
             longestTime = (longestTime > position) ? position: longestTime
         }
+    }
+    
+    //MARK: deselect instrument track - do anything that needs to be done after user stops using this track
+    func deselect(){
+        if(firstInstance && trackCount >= 1){
+            //If this is the first time the track is being created then update measure count after instrument record stopped / deselected
+            //measure count = roundUp(timeElapsed (sec) / secPerMeasure) roundUp = ceil math function
+            //for ex: if timeElapsed = 9 sec and sec per measure = 4 then measure count = ceil(9/4) = 2.25 = 3 measure counts
+            
+            measureCount = Int(ceil(timeElapsed / secPerMeasure))
+            updateLength()
+            firstInstance = false //first instance measure count update complete
+        }
+        
     }
     
     func clear(){
@@ -485,6 +521,22 @@ class InstrumentCollection {
         
     }
     
+    func deselect(){
+        for inst in instruments{
+            inst.deselect()
+        }
+    }
+    
+    
+    func selectPreset(preset: Int){
+        if(preset < instruments.count){
+            if(recordEnabled){
+                instruments[selectedInst].deselect() //run previous instrument deselect routine if recording
+            }
+            selectedInst = preset
+        }
+    }
+    
     func clearPreset(){
         //stop any currently playing tracks first
         stop()
@@ -529,15 +581,13 @@ class InstrumentCollection {
         //only add note if record is enabled, otherwise just play it
         selectedInst = instNumber
         playNote(instNumber)
+        
         if !recordEnabled {
             print("Record not enabled, no add note allowed")
             return
         }
-        let note = instruments[instNumber].instrument.note
-        let instTrack = instruments[instNumber]
-        
-        let timeElapsed = instTrack.trackManager.timeElapsed
-        instTrack.trackManager.addNote(note, velocity: 127, position: timeElapsed, duration: 0)
+        let velocity = 127
+        instruments[instNumber].addNote(velocity, duration: 0) //duration is just how long to hold the beat for if not a pre recorded sample ... I think
         if !playing { play() }
         
     }
@@ -549,15 +599,16 @@ class InstrumentCollection {
     
     func stop_record(){
         recordEnabled = false
+        for inst in instruments{
+            inst.deselect()
+        }
     }
     
     func play(){
         print("Playing notes in sequence track")
         
         for inst in instruments{
-            inst.trackManager.rewind()
-            inst.trackManager.enableLooping()
-            inst.trackManager.play()
+            inst.play()
         }
         playing = true
         
@@ -565,12 +616,15 @@ class InstrumentCollection {
     
     func stop(){
         print("Stop playing notes in sequence track")
+        if(recordEnabled){
+            for inst in instruments{
+                inst.deselect()
+            }
+        }
         recordEnabled = false
         //stop playing note in sequence track
         for inst in instruments{
-            inst.trackManager.disableLooping()
-            inst.trackManager.rewind()
-            inst.trackManager.stop()
+            inst.stop()
         }
         playing = false
     }

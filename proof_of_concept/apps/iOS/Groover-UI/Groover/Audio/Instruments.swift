@@ -79,60 +79,6 @@ class ClickTrackInstrumentVoice: SynthInstrumentVoice{
     }
 }
 
-/****************Single instrument track manager ********/
-class PresetTrack: AKSequencer{
-    var first = false
-    var measure: Measure!
-    var noteCount = 0
-    var longestTime: Double = 0.0
-    let defaultTrackLen = 120.0 //120 minutes as default length - will be changed once user adds beats
-                                //Updated track len = last beat time + remaining dur till end of last measure
-    
-    init(trackMeasure: Measure){
-        super.init()
-        measure = trackMeasure
-        addNewTrack()
-        
-    }
-    
-    func updateBPM(){
-        setBPM(Double(measure.clickTrack.tempo.beatsPerMin))
-    }
-    
-    func updateLength(){
-        setLength(measure.totalDuration)
-    }
-    
-    func addNewTrack(){
-        if(trackCount >= 1){
-            print("ERROR: Instrument track should only containt 1 track")
-        }
-        else{
-            self.newTrack()
-        }
-        
-    }
-    
-    func addNote(note: Int, velocity: Int, position: Beat, duration: Beat){
-        if(trackCount >= 1){
-            self.tracks[0].addNote(note, velocity: velocity, position: position, duration: duration)
-            noteCount += 1
-            //if current track time less that new then replace with new
-            longestTime = (longestTime > position) ? position: longestTime
-        }
-    }
-    
-    func clear(){
-        if(trackCount >= 1){
-            self.tracks[0].clear()
-            longestTime = 0.0
-            noteCount = 0
-        }
-    }
-    
-}
-
-
 
 /****************Base class of synth instruments
  ****************/
@@ -180,7 +126,6 @@ class SynthInstrumentVoice: AKVoice{
 
 
 //Timer
-
 class Timer {
     
     var startTime:CFAbsoluteTime
@@ -210,7 +155,6 @@ class Timer {
 }
 
 //Time Signature
-
 struct TimeSignature {
     var beatsPerMeasure = 4 //upper - ex: 4 quarter notes in a measure for a (4/4th)
     var beatUnit = 4 //lower - ex: quarter note (4/4th)
@@ -218,7 +162,6 @@ struct TimeSignature {
 
 
 //Tempo
-
 struct Tempo {
     var beatsPerMin = Double(60.0)
     let secPerMin = Double(60.0)
@@ -226,56 +169,6 @@ struct Tempo {
 }
 
 
-
-//Measure
-class Measure {
-    var clickTrack: ClickTrack!
-    var timer: Timer!
-    var count = 1
-    var longestTime = 0.0
-    
-    //computed
-    var secPerMeasure: Double { return clickTrack.secPerMeasure }
-    var beatsPerMeasure: Int { return clickTrack.timeSignature.beatsPerMeasure }
-    var totalBeats: Int { return count * beatsPerMeasure}
-    var totalDuration: Double {
-        if (longestTime > secPerMeasure){
-            //round up to nearest integer to get number of measures
-            //if longest time recorded is greater then secPerMeasure then make more measures
-            //so we don't lose beats that were made while recording
-            count = Int(ceil(Double(longestTime)/Double(secPerMeasure)))
-        }
-        else{
-            count = 1; //todo: how should we update measure counts?
-        }
-        return secPerMeasure * Double(count)
-    }
-    var timeElapsed: Double {
-        //this gets called when a beat is added to the track
-        let timeElapsedSec = timer.stop()
-        var time = 0.0
-        if timeElapsedSec <= totalDuration {
-            time = timeElapsedSec
-        }
-        else{
-            time = fmod(timeElapsedSec, totalDuration)
-        }
-        if longestTime < time {
-            //this will record when a beat was added (gets the longest time beat)
-            longestTime = time
-        }
-        
-        return time
-        
-    }
-    
-    init(clickTrackRef: ClickTrack){
-        clickTrack = clickTrackRef
-        timer = clickTrack.timer
-    }
-    
-    
-}
 
 //ClickTrack
 class ClickTrack: AKVoice{
@@ -403,20 +296,22 @@ class ClickTrack: AKVoice{
 
 }
 
-/* Instrument track wrapper */
+/* InstrumentTrack
+ * Desc:
+ *      - Each instrument (like kick preset 1) will have one of these
+ *      - Controls the measure count of each track and is responsible for adding notes to track at the right time according to the tempo and time signature
+ */
 
 class InstrumentTrack {
     var midi: AKMIDI!
-    var measure: Measure!
-    var trackManager: PresetTrack!
+    var trackManager: TrackManager!
     var instrument: SynthInstrument!
     var instrumentMidi: AKMIDIInstrument!
     
     init(clickTrack: ClickTrack, presetInst: SynthInstrument){
         midi = AKMIDI()
         
-        measure = Measure(clickTrackRef: clickTrack)
-        trackManager = PresetTrack(trackMeasure: measure)
+        trackManager = TrackManager(clickTrackRef: clickTrack)
         instrument = presetInst //custom synth instrument
         
         instrumentMidi = AKMIDIInstrument(instrument: instrument)
@@ -429,14 +324,113 @@ class InstrumentTrack {
         
     }
     
+}
+
+
+/****************Single instrument track manager ********/
+class TrackManager: AKSequencer{
+    //MARK: Attributes
+    var noteCount = 0
+    var longestTime: Double = 0.0
+    let maxCount = 1
+    var measureCount = 1 //default measure count is high initially but will be changed once user adds beats
     
+    var clickTrack: ClickTrack!
+    var timer: Timer!
+    
+    //MARK: Computed
+    var secPerMeasure: Double { return clickTrack.secPerMeasure }
+    var beatsPerMeasure: Int { return clickTrack.timeSignature.beatsPerMeasure }
+    var totalBeats: Int { return measureCount * beatsPerMeasure}
+    var totalDuration: Double {
+        if (longestTime > secPerMeasure){
+            //round up to nearest integer to get number of measures
+            //if longest time recorded is greater then secPerMeasure then make more measures
+            //so we don't lose beats that were made while recording
+            measureCount = Int(ceil(Double(longestTime)/Double(secPerMeasure)))
+        }
+        else{
+            measureCount = maxCount //todo: how should we update measure counts?
+        }
+        return secPerMeasure * Double(measureCount)
+    }
+    var timeElapsed: Double {
+        //this gets called when a beat is added to the track
+        let timeElapsedSec = timer.stop()
+        var time = 0.0
+        if timeElapsedSec <= totalDuration {
+            time = timeElapsedSec
+        }
+        else{
+            time = fmod(timeElapsedSec, totalDuration)
+        }
+        if longestTime < time {
+            //this will record when a beat was added (gets the longest time beat)
+            longestTime = time
+        }
+        
+        return time
+    }
+    
+    //MARK: Initialize
+    
+    init(clickTrackRef: ClickTrack){
+        super.init()
+        addNewTrack()
+        clickTrack = clickTrackRef
+        timer = clickTrack.timer
+        measureCount = maxCount
+    }
+    
+    //MARK: Functions
+    
+    func updateBPM(){
+        setBPM(Double(clickTrack.tempo.beatsPerMin))
+    }
+    
+    func updateLength(){
+        setLength(totalDuration)
+    }
+    
+    func addNewTrack(){
+        if(trackCount >= 1){
+            print("ERROR: Instrument track should only containt 1 track")
+        }
+        else{
+            self.newTrack()
+        }
+        
+    }
+    
+    func addNote(note: Int, velocity: Int, position: Beat, duration: Beat){
+        if(trackCount >= 1){
+            self.tracks[0].addNote(note, velocity: velocity, position: position, duration: duration)
+            noteCount += 1
+            //if current track time less that new then replace with new
+            longestTime = (longestTime > position) ? position: longestTime
+        }
+    }
+    
+    func clear(){
+        if(trackCount >= 1){
+            self.tracks[0].clear()
+            longestTime = 0.0
+            noteCount = 0
+        }
+    }
     
 }
 
-/* High level collection of instruments / tracks */
 
 
-class InstrumentPresetTracks {
+/* InstrumentCollection
+ * Desc:
+ *     - Contains group of similar instruments (all Snare presets for example)
+ *     - Song class deals with this class to record, play and add notes to instrument within a group
+ */
+
+class InstrumentCollection {
+    //MARK: Attributes
     var instruments = [InstrumentTrack]()
     var midi: AKMIDI!
     var mixer: AKMixer!
@@ -450,6 +444,8 @@ class InstrumentPresetTracks {
     var notePosition: Double = 1
     var recordEnabled = false
     var playing = false
+    
+    //MARK: Computed attributes
     var clickTrackRunning: Bool { return clickTrack.running;}
     var empty: Bool {
         var count = 0
@@ -460,6 +456,7 @@ class InstrumentPresetTracks {
     }
     var trackEmpty: Bool {return instruments[selectedInst].trackManager.noteCount <= 0}
     
+    //MARK: Initialization
     init(globalClickTrack: ClickTrack, preset1: SynthInstrument, preset2: SynthInstrument, preset3: SynthInstrument, preset4: SynthInstrument){
         
         // Global click track provided by Song class (which calls this InstrumentPresetTracks class)
@@ -539,7 +536,7 @@ class InstrumentPresetTracks {
         let note = instruments[instNumber].instrument.note
         let instTrack = instruments[instNumber]
         
-        let timeElapsed = instTrack.measure.timeElapsed
+        let timeElapsed = instTrack.trackManager.timeElapsed
         instTrack.trackManager.addNote(note, velocity: 127, position: timeElapsed, duration: 0)
         if !playing { play() }
         

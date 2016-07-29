@@ -21,11 +21,11 @@ class Song {
     var notePosition: Double = 1
     var recordEnabled = false
     var playing = false
-    var snareTracks: InstrumentPresetTracks!
-    var kickTracks: InstrumentPresetTracks!
-    var hatTracks: InstrumentPresetTracks!
-    var instruments = [InstrumentPresetTracks]()
-    var instrument: InstrumentPresetTracks!
+    var snareTracks: InstrumentCollection!
+    var kickTracks: InstrumentCollection!
+    var hatTracks: InstrumentCollection!
+    var instruments = [InstrumentCollection]()
+    var instrument: InstrumentCollection!
     var timeSignature = TimeSignature()
     var tempo = Tempo()
     var clickTrack: ClickTrack!
@@ -39,17 +39,17 @@ class Song {
         mixer.connect(clickTrack)
         
         //instrument 1 - snare
-        snareTracks = InstrumentPresetTracks(globalClickTrack: clickTrack, preset1: SnareInstrument1(voiceCount:1), preset2: SnareInstrument2(voiceCount:1), preset3: SnareInstrument3(voiceCount:1), preset4: SnareInstrument4(voiceCount:1))
+        snareTracks = InstrumentCollection(globalClickTrack: clickTrack, preset1: SnareInstrument1(voiceCount:1), preset2: SnareInstrument2(voiceCount:1), preset3: SnareInstrument3(voiceCount:1), preset4: SnareInstrument4(voiceCount:1))
         instruments.append(snareTracks)
         mixer.connect(snareTracks.mixer)
         
         //instrument 2 - kick
-        kickTracks = InstrumentPresetTracks(globalClickTrack: clickTrack, preset1: KickInstrument1(voiceCount:1), preset2: KickInstrument2(voiceCount:1), preset3: KickInstrument3(voiceCount:1), preset4: KickInstrument4(voiceCount:1))
+        kickTracks = InstrumentCollection(globalClickTrack: clickTrack, preset1: KickInstrument1(voiceCount:1), preset2: KickInstrument2(voiceCount:1), preset3: KickInstrument3(voiceCount:1), preset4: KickInstrument4(voiceCount:1))
         instruments.append(kickTracks)
         mixer.connect(kickTracks.mixer)
         
         //instrument 3 - hat
-        hatTracks = InstrumentPresetTracks(globalClickTrack: clickTrack, preset1: HatInstrument1(voiceCount:1), preset2: HatInstrument2(voiceCount:1), preset3: HatInstrument3(voiceCount:1), preset4: HatInstrument4(voiceCount:1))
+        hatTracks = InstrumentCollection(globalClickTrack: clickTrack, preset1: HatInstrument1(voiceCount:1), preset2: HatInstrument2(voiceCount:1), preset3: HatInstrument3(voiceCount:1), preset4: HatInstrument4(voiceCount:1))
         instruments.append(hatTracks)
         mixer.connect(hatTracks.mixer)
         

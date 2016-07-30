@@ -140,8 +140,8 @@ class Song {
         //play note event if not recording
         
         playNote(presetNumber)
-        if !recordEnabled {
-            print("Record not enabled, no add note allowed")
+        if !recordEnabled || !clickTrack.running {
+            print("Record not enabled or pre-record not finished, no add note allowed")
             return
         }
         instrument.addNote(preset: presetNumber)
@@ -159,7 +159,9 @@ class Song {
         }
         print("Recording instrument \(selectedInstrument) note")
         recordEnabled = true
-        clickTrack.timer.start()
+        clickTrack.stop() //will be started again after pre-record track is finished
+        //clickTrack.timer.start()
+        clickTrack.startTimerFromPreRecord()
         //recorded all tracks
         for instNum in 0 ..< instruments.count {
             instruments[instNum].record()

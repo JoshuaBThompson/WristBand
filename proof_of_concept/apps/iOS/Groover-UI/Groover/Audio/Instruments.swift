@@ -362,7 +362,7 @@ class TrackManager: AKSequencer{
     var beatsPerMeasure: Int { return clickTrack.timeSignature.beatsPerMeasure }
     var totalBeats: Int { return measureCount * beatsPerMeasure}
     var totalDuration: Double {
-        if (longestTime > secPerMeasure){
+        if (longestTime > secPerMeasure*Double(measureCount)){
             //round up to nearest integer to get number of measures
             //if longest time recorded is greater then secPerMeasure then make more measures
             //this might happen if user changes time sig or tempo which may compress or stretch out the track so we need to compensate
@@ -435,7 +435,7 @@ class TrackManager: AKSequencer{
     
     //MARK: deselect instrument track - do anything that needs to be done after user stops using this track
     func deselect(){
-        if(firstInstance && trackCount >= 1){
+        if(firstInstance && noteCount >= 1){
             //If this is the first time the track is being created then update measure count after instrument record stopped / deselected
             //measure count = roundUp(timeElapsed (sec) / secPerMeasure) roundUp = ceil math function
             //for ex: if timeElapsed = 9 sec and sec per measure = 4 then measure count = ceil(9/4) = 2.25 = 3 measure counts

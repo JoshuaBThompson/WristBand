@@ -545,7 +545,7 @@ class TrackManager: AKSequencer{
     }
     
     func addNewTrack(){
-        if(trackCount >= 1){
+        if(trackCount > 1){
             print("ERROR: Instrument track should only containt 1 track")
         }
         else{

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4254BC451D4D8366007572B6 /* PopupBlur.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4254BC441D4D8366007572B6 /* PopupBlur.swift */; };
 		429A22A11D338DF70045023F /* AudioKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 429A22A01D338DF70045023F /* AudioKit.framework */; };
 		429A22A21D338DF70045023F /* AudioKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 429A22A01D338DF70045023F /* AudioKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		429A22BA1D338E240045023F /* HatInstrument.swift in Sources */ = {isa = PBXBuildFile; fileRef = 429A22A51D338E240045023F /* HatInstrument.swift */; };
@@ -83,6 +84,7 @@
 
 /* Begin PBXFileReference section */
 		422D9D361D35525D00E27904 /* Groover.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Groover.entitlements; sourceTree = "<group>"; };
+		4254BC441D4D8366007572B6 /* PopupBlur.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopupBlur.swift; sourceTree = "<group>"; };
 		429A22A01D338DF70045023F /* AudioKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AudioKit.framework; sourceTree = "<group>"; };
 		429A22A51D338E240045023F /* HatInstrument.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HatInstrument.swift; sourceTree = "<group>"; };
 		429A22A61D338E240045023F /* Instruments.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Instruments.swift; sourceTree = "<group>"; };
@@ -248,6 +250,7 @@
 				429A22CD1D354C6E0045023F /* PlayRecordButton.swift */,
 				429A22CF1D354C900045023F /* PlayRecordControl.swift */,
 				429A22D11D354D3D0045023F /* Clear.swift */,
+				4254BC441D4D8366007572B6 /* PopupBlur.swift */,
 			);
 			path = Groover;
 			sourceTree = "<group>";
@@ -418,6 +421,7 @@
 				FA908EE31D3F490A009FAFA4 /* RectBtn.swift in Sources */,
 				FA50AA891D2B40160035C942 /* Record.swift in Sources */,
 				FA50AA911D2B44DD0035C942 /* Sixteenth.swift in Sources */,
+				4254BC451D4D8366007572B6 /* PopupBlur.swift in Sources */,
 				429A22BA1D338E240045023F /* HatInstrument.swift in Sources */,
 				429A22CE1D354C6E0045023F /* PlayRecordButton.swift in Sources */,
 				FA50AA8B1D2B40E40035C942 /* ParametersButton.swift in Sources */,

@@ -1373,7 +1373,7 @@ public class UIGroover : NSObject {
 
     public class func drawLeftCanvas() {
         //// Color Declarations
-        let popupElements = UIColor(red: 0.800, green: 0.847, blue: 0.890, alpha: 0.698)
+        let popupElements = UIColor.redColor()//UIColor(red: 0.800, green: 0.847, blue: 0.890, alpha: 0.698)
 
         //// leftArrow Drawing
         let leftArrowPath = UIBezierPath()
@@ -1408,8 +1408,30 @@ public class UIGroover : NSObject {
         popupElements.setFill()
         rightButtonPath.fill()
     }
+    
+    public class func drawPopupCanvas(popupPath: UIBezierPath){
+        popupPath.moveToPoint(CGPointMake(36.27, 302))
+        popupPath.addLineToPoint(CGPointMake(59.54, 302))
+        popupPath.addLineToPoint(CGPointMake(71.33, 313.79))
+        popupPath.addCurveToPoint(CGPointMake(75.58, 313.79), controlPoint1: CGPointMake(72.5, 314.96), controlPoint2: CGPointMake(74.41, 314.96))
+        popupPath.addLineToPoint(CGPointMake(87.37, 302))
+        popupPath.addLineToPoint(CGPointMake(87.37, 302))
+        popupPath.addLineToPoint(CGPointMake(187.18, 302))
+        popupPath.addLineToPoint(CGPointMake(297.01, 302))
+        popupPath.addCurveToPoint(CGPointMake(300, 299), controlPoint1: CGPointMake(298.66, 302), controlPoint2: CGPointMake(300, 300.66))
+        popupPath.addLineToPoint(CGPointMake(300, 3))
+        popupPath.addCurveToPoint(CGPointMake(297.01, 0), controlPoint1: CGPointMake(300, 1.35), controlPoint2: CGPointMake(298.66, 0))
+        popupPath.addLineToPoint(CGPointMake(2.99, 0))
+        popupPath.addCurveToPoint(CGPointMake(0, 3), controlPoint1: CGPointMake(1.34, 0), controlPoint2: CGPointMake(0, 1.34))
+        popupPath.addLineToPoint(CGPointMake(0, 299))
+        popupPath.addCurveToPoint(CGPointMake(2.99, 302), controlPoint1: CGPointMake(0, 300.65), controlPoint2: CGPointMake(1.34, 302))
+        popupPath.addLineToPoint(CGPointMake(36.27, 302))
+        popupPath.closePath()
+        popupPath.usesEvenOddFillRule = true
+        
+    }
 
-    public class func drawPopupCanvas(largePopupFrame largePopupFrame: CGRect = CGRectMake(10, 11, 300, 345)) {
+    public class func drawParametersPopupCanvas(largePopupFrame largePopupFrame: CGRect = CGRectMake(10, 11, 300, 345)) {
         //// Color Declarations
         let black = UIColor(red: 0.000, green: 0.000, blue: 0.000, alpha: 1.000)
 

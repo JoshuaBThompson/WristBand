@@ -20,6 +20,7 @@ class Popup: UIView {
     //buttons / subviews
     var buttons = [UIButton]()
     var leftButton: Left!
+    var popupBlurView: PopupBlur!
     
     
     override init(frame: CGRect) {
@@ -34,17 +35,17 @@ class Popup: UIView {
     
     func initView(){
         popupPath = UIBezierPath()
-        initBlurEffect()
-        drawPopupCanvas()
-        addPopupBlurMask()
         addSubviews()
         hide()
     }
     
     override func drawRect(rect: CGRect) {
+        /*
+        initBlurEffect()
+        UIGroover.drawPopupCanvas(popupPath)
+        addPopupBlurMask()
+        */
         
-        //GrooverUI.drawPopupCanvas()
-        //drawPopupCanvas()
     }
     
     func addButton(button: UIButton){
@@ -53,10 +54,16 @@ class Popup: UIView {
         addSubview(button)
     }
     
+    
     func addSubviews(){
+        popupBlurView = PopupBlur()
+        popupBlurView.updateState()
+        addSubview(popupBlurView)
+        
         leftButton = Left()
         addButton(leftButton)
         leftButton.updateState()
+        
         
         //button.adjustsImageWhenHighlighted = false
     }
@@ -68,7 +75,13 @@ class Popup: UIView {
         buttonFrame.origin.x = CGFloat(34)
         buttonFrame.origin.y = CGFloat(124)
         leftButton.frame = buttonFrame
+        
         leftButton.updateState()
+        
+        let popupFrame = CGRect(x: 0, y: 0, width: frame.width, height: frame.height)//frame
+        popupBlurView.frame = popupFrame
+        popupBlurView.backgroundColor = UIColor.clearColor()
+        popupBlurView.updateState()
     }
     
     
@@ -90,7 +103,8 @@ class Popup: UIView {
     //MARK: Update buttons
     
     func updateButtonStates(){
-        leftButton.updateState()
+        //leftButton.updateState()
+        //popupBlurView.updateState()
     }
     
     //MARK: Blur functions
@@ -119,7 +133,7 @@ class Popup: UIView {
         addConstraint(NSLayoutConstraint(item: blurView, attribute: .CenterX, relatedBy: .Equal, toItem: self, attribute: .CenterX, multiplier: 1.0, constant: 0))
         addConstraint(NSLayoutConstraint(item: blurView, attribute: .CenterY, relatedBy: .Equal, toItem: self, attribute: .CenterY, multiplier: 1.0, constant: 0))
     }
-    
+    /**** this was commented out becauase added drawPopupCanvas to UIGroover that is called by this classes drawRect function
     func drawPopupCanvas(){
         popupPath.moveToPoint(CGPointMake(36.27, 302))
         popupPath.addLineToPoint(CGPointMake(59.54, 302))
@@ -141,6 +155,7 @@ class Popup: UIView {
         popupPath.usesEvenOddFillRule = true
         
     }
+    */
   
     
     

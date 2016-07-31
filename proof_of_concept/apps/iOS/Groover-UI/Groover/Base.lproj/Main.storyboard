@@ -69,52 +69,6 @@
                             </label>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9Oa-HM-AtP" customClass="Popup" customModule="Groover">
                                 <rect key="frame" x="10" y="218" width="300" height="315"/>
-                                <subviews>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="right" contentVerticalAlignment="center" text="120" placeholder="120" textAlignment="right" minimumFontSize="32" translatesAutoresizingMaskIntoConstraints="NO" id="kOe-iC-dim">
-                                        <rect key="frame" x="56" y="140" width="97" height="30"/>
-                                        <color key="textColor" red="0.80000000000000004" green="0.84705882352941175" blue="0.8901960784313725" alpha="0.69999999999999996" colorSpace="calibratedRGB"/>
-                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="32"/>
-                                        <textInputTraits key="textInputTraits"/>
-                                    </textField>
-                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" text="bpm" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hU4-X9-abX">
-                                        <rect key="frame" x="161" y="134" width="63" height="36"/>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        <color key="textColor" red="0.80000000000000004" green="0.84705882349999995" blue="0.89019607840000003" alpha="0.69999999999999996" colorSpace="calibratedRGB"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="24"/>
-                                        <textInputTraits key="textInputTraits"/>
-                                    </textView>
-                                    <view contentMode="center" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cjI-gr-823" customClass="Right" customModule="Groover">
-                                        <rect key="frame" x="243" y="130" width="44" height="44"/>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                    </view>
-                                    <view contentMode="center" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="K7W-Ua-zdy" customClass="Left" customModule="Groover">
-                                        <rect key="frame" x="22" y="219" width="44" height="44"/>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                    </view>
-                                    <view contentMode="center" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="UY0-Ln-ljx" customClass="Right" customModule="Groover">
-                                        <rect key="frame" x="243" y="219" width="44" height="44"/>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                    </view>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="right" contentVerticalAlignment="center" text="5" placeholder="120" textAlignment="right" minimumFontSize="32" translatesAutoresizingMaskIntoConstraints="NO" id="3yS-Lu-JAH">
-                                        <rect key="frame" x="74" y="219" width="61" height="39"/>
-                                        <color key="textColor" red="0.80000000000000004" green="0.84705882349999995" blue="0.89019607840000003" alpha="0.69999999999999996" colorSpace="calibratedRGB"/>
-                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="32"/>
-                                        <textInputTraits key="textInputTraits"/>
-                                    </textField>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="right" contentVerticalAlignment="center" text="4" placeholder="120" minimumFontSize="32" translatesAutoresizingMaskIntoConstraints="NO" id="gSb-Km-QG5">
-                                        <rect key="frame" x="162" y="219" width="61" height="39"/>
-                                        <color key="textColor" red="0.80000000000000004" green="0.84705882349999995" blue="0.89019607840000003" alpha="0.69999999999999996" colorSpace="calibratedRGB"/>
-                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="32"/>
-                                        <textInputTraits key="textInputTraits"/>
-                                    </textField>
-                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" text="/" textAlignment="center" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eRc-Th-cW6">
-                                        <rect key="frame" x="138" y="211" width="25" height="55"/>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        <color key="textColor" red="0.80000000000000004" green="0.84705882349999995" blue="0.89019607840000003" alpha="0.69999999999999996" colorSpace="calibratedRGB"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="32"/>
-                                        <textInputTraits key="textInputTraits"/>
-                                    </textView>
-                                </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0JK-5c-46q" customClass="PlayRecordControl" customModule="Groover">

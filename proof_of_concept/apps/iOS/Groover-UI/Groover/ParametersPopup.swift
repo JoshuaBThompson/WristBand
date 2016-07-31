@@ -12,9 +12,22 @@ import UIKit
 class ParametersPopup: UIView {
     
     override func drawRect(rect: CGRect) {
-        UIGroover.drawPopupCanvas()
+        UIGroover.drawParametersPopupCanvas()
     }
     
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        initView()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        initView()
+    }
+    
+    func initView(){
+        hidden = true
+    }
     
     //MARK: Hide popup function
     func toggleHide(){

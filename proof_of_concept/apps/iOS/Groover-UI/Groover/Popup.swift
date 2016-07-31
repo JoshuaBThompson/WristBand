@@ -55,34 +55,41 @@ class Popup: UIView {
     
     
     func addSubviews(){
-        tempoLabel = UILabel()
-        updateTempoString()
-        timeSigLabel = UILabel()
-        updateTimeSigString()
-        addSubview(tempoLabel)
-        addSubview(timeSigLabel)
+        
+        //popup blur
         popupBlurView = PopupBlur()
         popupBlurView.updateState()
         addSubview(popupBlurView)
         
         //upper buttons
         upperLeftButton = Left()
+        upperLeftButton.addTarget(self, action: #selector(Popup.upperLeftButtonTapped), forControlEvents: .TouchDown)
         addButton(upperLeftButton)
         upperLeftButton.updateState()
         
         upperRightButton = Right()
+        upperRightButton.addTarget(self, action: #selector(Popup.upperRightButtonTapped), forControlEvents: .TouchDown)
         addButton(upperRightButton)
         upperRightButton.updateState()
         
         //lower buttons
         lowerLeftButton = Left()
+        lowerLeftButton.addTarget(self, action: #selector(Popup.lowerLeftButtonTapped), forControlEvents: .TouchDown)
         addButton(lowerLeftButton)
         lowerLeftButton.updateState()
         
         lowerRightButton = Right()
+        lowerRightButton.addTarget(self, action: #selector(Popup.lowerRightButtonTapped), forControlEvents: .TouchDown)
         addButton(lowerRightButton)
         lowerRightButton.updateState()
         
+        //temp and time signature labels
+        tempoLabel = UILabel()
+        updateTempoString()
+        timeSigLabel = UILabel()
+        updateTimeSigString()
+        addSubview(tempoLabel)
+        addSubview(timeSigLabel)
         
         //button.adjustsImageWhenHighlighted = false
     }
@@ -162,6 +169,65 @@ class Popup: UIView {
     //MARK: Time signature generate text from timeSigNote and timeSigBeats attributes
     func updateTimeSigString(){
         timeSigLabel.text = String(format: "\(timeSigBeats) / \(timeSigNote)")
+    }
+    
+    //MARK: increment / decrement tempo functions
+    func incTempo(){
+        tempo += 1
+    }
+    
+    func decTempo(){
+        tempo -= 1
+        //don't let tempo get below 1 bpm
+        if(tempo < 1){
+            tempo = 1
+        }
+    }
+    
+    //MARK: increment / decrement time signature option
+    func incTimeSignature(){
+        //ex: timeSigNote = 5 then timeSigBeats = 5 so you get 5 / 5
+        timeSigNote += 1
+        timeSigBeats = timeSigNote
+        
+    }
+    
+    func decTimeSignature(){
+        //ex: timeSigNote = 5 then timeSigBeats = 5 so you get 5 / 5
+        timeSigNote -= 1
+        //don't let time signature decrease passed 1 / 1
+        if(timeSigNote < 1){
+            timeSigNote = 1
+        }
+        timeSigBeats = timeSigNote
+        
+    }
+    
+    //MARK: upper buttons tapped functions
+    func upperLeftButtonTapped(){
+        print("upper left button tapped")
+        decTempo()
+        updateTempoString()
+        
+    }
+    
+    func upperRightButtonTapped(){
+        print("upper right button tapped")
+        incTempo()
+        updateTempoString()
+    }
+    
+    //MARK: lower buttons tapped functions
+    func lowerLeftButtonTapped(){
+        print("lower left button tapped")
+        decTimeSignature()
+        updateTimeSigString()
+    }
+    
+    func lowerRightButtonTapped(){
+        print("lower right button tapped")
+        incTimeSignature()
+        updateTimeSigString()
     }
 
     

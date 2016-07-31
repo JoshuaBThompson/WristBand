@@ -1373,7 +1373,7 @@ public class UIGroover : NSObject {
 
     public class func drawLeftCanvas() {
         //// Color Declarations
-        let popupElements = UIColor.redColor()//UIColor(red: 0.800, green: 0.847, blue: 0.890, alpha: 0.698)
+        let popupElements = UIColor(red: 0.800, green: 0.847, blue: 0.890, alpha: 0.698)
 
         //// leftArrow Drawing
         let leftArrowPath = UIBezierPath()

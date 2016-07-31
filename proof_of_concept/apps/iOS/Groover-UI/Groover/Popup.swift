@@ -12,12 +12,12 @@ import UIKit
 
 @IBDesignable
 class Popup: UIView {
-    var popupPath: UIBezierPath!
-    var blurEffect: UIBlurEffect!
-    var blurView: UIVisualEffectView!
-    var mask: CAShapeLayer!
+    //MARK: temp and time signature attributes
+    var tempo = 60.0 //bpm (beats per minute)
+    var timeSigNote = 4
+    var timeSigBeats = 4 //time signature = timeSigBeats / timeSigNote --- example: 4 / 4 time signature
     
-    //buttons / subviews
+    //MARK: buttons / subviews
     var buttons = [UIButton]()
     var upperLeftButton: Left!
     var lowerLeftButton: Left!
@@ -39,7 +39,6 @@ class Popup: UIView {
     }
     
     func initView(){
-        popupPath = UIBezierPath()
         addSubviews()
         hide()
     }
@@ -57,9 +56,9 @@ class Popup: UIView {
     
     func addSubviews(){
         tempoLabel = UILabel()
-        tempoLabel.text = "120 bpm"
+        updateTempoString()
         timeSigLabel = UILabel()
-        timeSigLabel.text = "4 / 4"
+        updateTimeSigString()
         addSubview(tempoLabel)
         addSubview(timeSigLabel)
         popupBlurView = PopupBlur()
@@ -153,6 +152,16 @@ class Popup: UIView {
     
     func updateButtonStates(){
         //TODO: ?
+    }
+    
+    //MARK: Tempo generate text from tempo attribute
+    func updateTempoString(){
+        tempoLabel.text = String(format: "\(tempo) bpm")
+    }
+    
+    //MARK: Time signature generate text from timeSigNote and timeSigBeats attributes
+    func updateTimeSigString(){
+        timeSigLabel.text = String(format: "\(timeSigBeats) / \(timeSigNote)")
     }
 
     

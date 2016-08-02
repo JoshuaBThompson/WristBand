@@ -209,9 +209,7 @@ class Song {
         stop()
         print("update all instruments with tempo \(newBeatsPerMin)")
         clickTrack.tempo.beatsPerMin = newBeatsPerMin
-        let tempo = clickTrack.tempo
-        let timeSig = clickTrack.timeSignature
-        clickTrack.update(tempo, clickTimeSignature:timeSig)
+        clickTrack.update()
         
         for inst in instruments{
             inst.updateTrackTempo()
@@ -224,9 +222,7 @@ class Song {
         print("update all instruments with beats per measure \(newBeatsPerMeasure) and \(newNote) note")
         clickTrack.timeSignature.beatsPerMeasure = newBeatsPerMeasure
         clickTrack.timeSignature.beatUnit = newNote
-        let tempo = clickTrack.tempo
-        let timeSig = clickTrack.timeSignature
-        clickTrack.update(tempo, clickTimeSignature: timeSig)
+        clickTrack.update()
         for inst in instruments{
             inst.updateTrackTimeSignature()
         }

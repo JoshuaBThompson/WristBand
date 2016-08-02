@@ -312,10 +312,10 @@ class ClickTrack: AKVoice{
         track.setBPM(Double(tempo.beatsPerMin))
         track.setLength(secPerMeasure)
         //TODO: update the click track setup - this is only for 4/4 time sig
-        track.tracks[0].addNote(60, velocity: 127, position: secPerClick*1, duration: 0)
+        track.tracks[0].addNote(60, velocity: 127, position: secPerClick*0, duration: 0)
+        track.tracks[0].addNote(60, velocity: 105, position: secPerClick*1, duration: 0)
         track.tracks[0].addNote(60, velocity: 105, position: secPerClick*2, duration: 0)
         track.tracks[0].addNote(60, velocity: 105, position: secPerClick*3, duration: 0)
-        track.tracks[0].addNote(60, velocity: 105, position: secPerClick*4, duration: 0)
         
     }
     
@@ -330,26 +330,23 @@ class ClickTrack: AKVoice{
         starterTrack.setBPM(Double(tempo.beatsPerMin))
         starterTrack.setLength(secPerMeasure)
         //TODO: update the click track setup - this is only for 4/4 time sig
-        starterTrack.tracks[0].addNote(60, velocity: 127, position: secPerClick*1, duration: 0)
+        starterTrack.tracks[0].addNote(60, velocity: 127, position: secPerClick*0, duration: 0)
+        starterTrack.tracks[0].addNote(60, velocity: 105, position: secPerClick*1, duration: 0)
         starterTrack.tracks[0].addNote(60, velocity: 105, position: secPerClick*2, duration: 0)
         starterTrack.tracks[0].addNote(60, velocity: 105, position: secPerClick*3, duration: 0)
-        starterTrack.tracks[0].addNote(60, velocity: 105, position: secPerClick*4, duration: 0)
     }
     
     func startTimerFromPreRecord(){
         startPreRecord() //starts the pre-record track which will start the clickTrack timer once it finishes one loop
     }
     
-    func update(clickTempo: Tempo, clickTimeSignature: TimeSignature){
+    func update(){
         print("update click track")
         //update click track freq data
-        tempo = clickTempo
-        timeSignature = clickTimeSignature
-        stop()
+        //stop()
         track.setBPM(Double(tempo.beatsPerMin))
-        track.setLength(secPerMeasure)
-        start()
-        //TODO: update track
+        print("setting click track bpm to \(tempo.beatsPerMin)")
+        //track.setLength(secPerMeasure)
         
     }
     
@@ -419,9 +416,10 @@ class ClickTrack: AKVoice{
 
     /// Function to stop or bypass the node, both are equivalent
     override func stop() {
+        track.stop()
         track.disableLooping()
         track.rewind()
-        track.stop()
+        
         _running = false
     }
 

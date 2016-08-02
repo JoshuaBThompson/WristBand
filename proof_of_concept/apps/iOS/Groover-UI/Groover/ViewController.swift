@@ -42,7 +42,7 @@ class ViewController: UIViewController {
         knob.addTarget(self, action: #selector(ViewController.hidePositionIndicator), forControlEvents: .EditingDidEnd)
         playRecordControl.addTarget(self, action: #selector(ViewController.playRecordButtonSelected(_:)), forControlEvents: .ValueChanged)
         parametersButton.addTarget(self, action: #selector(ViewController.parametersButtonSelected), forControlEvents: .ValueChanged)
-        
+        popup.addTarget(self, action: #selector(ViewController.popupButtonSelected), forControlEvents: .ValueChanged)
         song = Song()
         positionLabel.text = song.selectedInstrumentName
         song.start()
@@ -86,6 +86,27 @@ class ViewController: UIViewController {
     func hidePositionIndicator(){
         positionIndicator.hide()
         parametersButton.show()
+    }
+    
+    //MARK: popup buttons handler
+    func popupButtonSelected(){
+        var buttonType = PopupButtonTypes.UPPER_LEFT
+        buttonType = popup.currentButton.type
+        
+        switch buttonType {
+        case .UPPER_LEFT:
+            song.setTempo(popup.tempo)
+            print("update tempo dec")
+            break
+        case .UPPER_RIGHT:
+            song.setTempo(popup.tempo)
+            print("update tempo inc")
+            break
+        case .LOWER_LEFT:
+            break
+        case .LOWER_RIGHT:
+            break
+        }
     }
     
     //MARK: play button event handler

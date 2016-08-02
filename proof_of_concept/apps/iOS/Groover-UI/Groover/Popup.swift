@@ -11,14 +11,15 @@ import UIKit
 
 
 @IBDesignable
-class Popup: UIView {
+class Popup: UIControl {
     //MARK: temp and time signature attributes
     var tempo = 60.0 //bpm (beats per minute)
     var timeSigNote = 4
     var timeSigBeats = 4 //time signature = timeSigBeats / timeSigNote --- example: 4 / 4 time signature
     
     //MARK: buttons / subviews
-    var buttons = [UIButton]()
+    var buttons = [PopupButton]()
+    var currentButton: PopupButton!
     var upperLeftButton: Left!
     var lowerLeftButton: Left!
     var upperRightButton: Right!
@@ -47,7 +48,7 @@ class Popup: UIView {
         //TODO: ?
     }
     
-    func addButton(button: UIButton){
+    func addButton(button: PopupButton){
         //button.addTarget(self, action: #selector(PlayRecordControl.playRecordButtonTapped(_:)), forControlEvents: .TouchDown)
         buttons += [button]
         addSubview(button)
@@ -63,22 +64,26 @@ class Popup: UIView {
         
         //upper buttons
         upperLeftButton = Left()
+        upperLeftButton.type = .UPPER_LEFT
         upperLeftButton.addTarget(self, action: #selector(Popup.upperLeftButtonTapped), forControlEvents: .TouchDown)
         addButton(upperLeftButton)
         upperLeftButton.updateState()
         
         upperRightButton = Right()
+        upperRightButton.type = .UPPER_RIGHT
         upperRightButton.addTarget(self, action: #selector(Popup.upperRightButtonTapped), forControlEvents: .TouchDown)
         addButton(upperRightButton)
         upperRightButton.updateState()
         
         //lower buttons
         lowerLeftButton = Left()
+        lowerLeftButton.type = .LOWER_LEFT
         lowerLeftButton.addTarget(self, action: #selector(Popup.lowerLeftButtonTapped), forControlEvents: .TouchDown)
         addButton(lowerLeftButton)
         lowerLeftButton.updateState()
         
         lowerRightButton = Right()
+        lowerRightButton.type = .LOWER_RIGHT
         lowerRightButton.addTarget(self, action: #selector(Popup.lowerRightButtonTapped), forControlEvents: .TouchDown)
         addButton(lowerRightButton)
         lowerRightButton.updateState()
@@ -208,6 +213,8 @@ class Popup: UIView {
         print("upper left button tapped")
         decTempo()
         updateTempoString()
+        currentButton = upperLeftButton
+        sendActionsForControlEvents(.ValueChanged) //this tells view controller that something changed
         
     }
     
@@ -215,6 +222,8 @@ class Popup: UIView {
         print("upper right button tapped")
         incTempo()
         updateTempoString()
+        currentButton = upperRightButton
+        sendActionsForControlEvents(.ValueChanged) //this tells view controller that something changed
     }
     
     //MARK: lower buttons tapped functions
@@ -222,12 +231,16 @@ class Popup: UIView {
         print("lower left button tapped")
         decTimeSignature()
         updateTimeSigString()
+        currentButton = lowerLeftButton
+        sendActionsForControlEvents(.ValueChanged) //this tells view controller that something changed
     }
     
     func lowerRightButtonTapped(){
         print("lower right button tapped")
         incTimeSignature()
         updateTimeSigString()
+        currentButton = lowerRightButton
+        sendActionsForControlEvents(.ValueChanged) //this tells view controller that something changed
     }
 
     

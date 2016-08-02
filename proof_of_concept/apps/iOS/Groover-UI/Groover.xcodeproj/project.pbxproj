@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		4254BC451D4D8366007572B6 /* PopupBlur.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4254BC441D4D8366007572B6 /* PopupBlur.swift */; };
+		4254BC491D4E9DE6007572B6 /* PopupButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4254BC481D4E9DE6007572B6 /* PopupButton.swift */; };
 		429A22A11D338DF70045023F /* AudioKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 429A22A01D338DF70045023F /* AudioKit.framework */; };
 		429A22A21D338DF70045023F /* AudioKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 429A22A01D338DF70045023F /* AudioKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		429A22BA1D338E240045023F /* HatInstrument.swift in Sources */ = {isa = PBXBuildFile; fileRef = 429A22A51D338E240045023F /* HatInstrument.swift */; };
@@ -85,6 +86,7 @@
 /* Begin PBXFileReference section */
 		422D9D361D35525D00E27904 /* Groover.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Groover.entitlements; sourceTree = "<group>"; };
 		4254BC441D4D8366007572B6 /* PopupBlur.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopupBlur.swift; sourceTree = "<group>"; };
+		4254BC481D4E9DE6007572B6 /* PopupButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopupButton.swift; sourceTree = "<group>"; };
 		429A22A01D338DF70045023F /* AudioKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AudioKit.framework; sourceTree = "<group>"; };
 		429A22A51D338E240045023F /* HatInstrument.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HatInstrument.swift; sourceTree = "<group>"; };
 		429A22A61D338E240045023F /* Instruments.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Instruments.swift; sourceTree = "<group>"; };
@@ -251,6 +253,7 @@
 				429A22CF1D354C900045023F /* PlayRecordControl.swift */,
 				429A22D11D354D3D0045023F /* Clear.swift */,
 				4254BC441D4D8366007572B6 /* PopupBlur.swift */,
+				4254BC481D4E9DE6007572B6 /* PopupButton.swift */,
 			);
 			path = Groover;
 			sourceTree = "<group>";
@@ -408,6 +411,7 @@
 				429A22BC1D338E240045023F /* KickInstrument.swift in Sources */,
 				FA50AA951D2B45570035C942 /* Triplet.swift in Sources */,
 				FA908EE11D3F3EB6009FAFA4 /* ParametersPopup.swift in Sources */,
+				4254BC491D4E9DE6007572B6 /* PopupButton.swift in Sources */,
 				42A59FA81D301F8B0070FE46 /* MotionFilter.cpp in Sources */,
 				FA50AA551D2A3FE60035C942 /* ViewController.swift in Sources */,
 				429A22D01D354C900045023F /* PlayRecordControl.swift in Sources */,

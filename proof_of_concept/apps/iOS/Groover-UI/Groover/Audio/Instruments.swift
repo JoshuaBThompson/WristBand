@@ -644,7 +644,6 @@ class InstrumentCollection {
         //tell trackManager to update bpm and length based on measure and clickTrack object data
         for inst in instruments{
             inst.trackManager.updateBPM()
-            inst.trackManager.updateLength()
         }
     }
     

@@ -154,6 +154,8 @@ class ViewController: UIViewController {
         positionIndicator.setPosition(knobControl.detent)
         let position = positionIndicator.currentPos //ex: 0 or 1 or 2 or 3...17
         selectSound(position)
+        song.stop_record()
+        playRecordControl.manualDeselectButton(.RECORD)
         updateButtonStatesAfterKnobTurn()
         
     }

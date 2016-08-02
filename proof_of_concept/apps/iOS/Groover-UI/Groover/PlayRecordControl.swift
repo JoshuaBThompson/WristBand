@@ -147,6 +147,10 @@ class PlayRecordControl: UIControl {
             recordButton.on = false
             recordButton.set = false
             recordButton.updateState()
+            clearButton.selected = false
+            clearButton.on = false
+            clearButton.set = false
+            clearButton.updateState()
         }
         
     }

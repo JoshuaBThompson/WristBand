@@ -159,9 +159,9 @@ class Song {
         }
         print("Recording instrument \(selectedInstrument) note")
         recordEnabled = true
-        clickTrack.stop() //will be started again after pre-record track is finished
-        //clickTrack.timer.start()
-        clickTrack.startTimerFromPreRecord()
+        clickTrack.timer.start()
+        clickTrack.start()
+        
         //recorded all tracks
         for instNum in 0 ..< instruments.count {
             instruments[instNum].record()

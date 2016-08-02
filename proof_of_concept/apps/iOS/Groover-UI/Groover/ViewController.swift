@@ -54,7 +54,7 @@ class ViewController: UIViewController {
             
         }
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -133,6 +133,7 @@ class ViewController: UIViewController {
         case .RECORD:
             //record if on and is playing
             if(playRecordButton.recordButton.on && playRecordButton.playButton.on){
+                eventCount = 0
                 song.record()
                 print("start record and enable clear")
             }
@@ -154,9 +155,15 @@ class ViewController: UIViewController {
         positionIndicator.setPosition(knobControl.detent)
         let position = positionIndicator.currentPos //ex: 0 or 1 or 2 or 3...17
         selectSound(position)
-        song.stop_record()
-        playRecordControl.manualDeselectButton(.RECORD)
-        updateButtonStatesAfterKnobTurn()
+        if(eventCount==0 && song.recordEnabled){
+            song.clickTrack.timer.start() //reset timer when changing to new instrument
+        }
+        else if(eventCount >= 1 && song.recordEnabled){
+            song.stop_record()
+            playRecordControl.manualDeselectButton(.RECORD)
+            updateButtonStatesAfterKnobTurn()
+            eventCount = 0 //reset
+        }
         
     }
     
@@ -235,6 +242,7 @@ class ViewController: UIViewController {
         //temporary hack when not using iPhone (using simulator) to allow for beat generation
         song.addSelectedNote() //Used for testing in sim mode to simulate motion generated beat
         updateButtonStatesAfterNoteAdded()
+        eventCount += 1
         //updateButtonStatesAfterNoteAdded()
     }
     
@@ -247,7 +255,6 @@ class ViewController: UIViewController {
         sensor.updateStateWith(valx, andY: valy, andZ: valz, andMillisElapsed: timeIntervalMillis);
         sensor.handleMidiEvents();
         if(sensor.beat){
-            //let eventNote = Int(sensor.getEventNote())
             let eventStatus = Int(sensor.getEventStatus())
             if eventStatus != 0x80{
                 song.addSelectedNote() //make drum sound and add to track if recording!
@@ -258,7 +265,7 @@ class ViewController: UIViewController {
         }
         
     }
-
-
+    
+    
 }
 

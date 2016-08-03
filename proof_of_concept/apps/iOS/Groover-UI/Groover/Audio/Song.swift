@@ -38,18 +38,19 @@ class Song {
         clickTrack = ClickTrack(clickTempo: tempo, clickTimeSignature: timeSignature)
         mixer.connect(clickTrack)
         
+        
         //instrument 1 - snare
-        snareTracks = InstrumentCollection(globalClickTrack: clickTrack, preset1: SnareInstrument1(voiceCount:1), preset2: SnareInstrument2(voiceCount:1), preset3: SnareInstrument3(voiceCount:1), preset4: SnareInstrument4(voiceCount:1))
+        snareTracks = InstrumentCollection(globalClickTrack: clickTrack, preset1: SnareInstrument1(), preset2: SnareInstrument2(), preset3: SnareInstrument3(), preset4: SnareInstrument4())
         instruments.append(snareTracks)
         mixer.connect(snareTracks.mixer)
         
         //instrument 2 - kick
-        kickTracks = InstrumentCollection(globalClickTrack: clickTrack, preset1: KickInstrument1(voiceCount:1), preset2: KickInstrument2(voiceCount:1), preset3: KickInstrument3(voiceCount:1), preset4: KickInstrument4(voiceCount:1))
+        kickTracks = InstrumentCollection(globalClickTrack: clickTrack, preset1: KickInstrument1(), preset2: KickInstrument2(), preset3: KickInstrument3(), preset4: KickInstrument4())
         instruments.append(kickTracks)
         mixer.connect(kickTracks.mixer)
         
         //instrument 3 - hat
-        hatTracks = InstrumentCollection(globalClickTrack: clickTrack, preset1: HatInstrument1(voiceCount:1), preset2: HatInstrument2(voiceCount:1), preset3: HatInstrument3(voiceCount:1), preset4: HatInstrument4(voiceCount:1))
+        hatTracks = InstrumentCollection(globalClickTrack: clickTrack, preset1: HatInstrument1(), preset2: HatInstrument2(), preset3: HatInstrument3(), preset4: HatInstrument4())
         instruments.append(hatTracks)
         mixer.connect(hatTracks.mixer)
         
@@ -107,8 +108,8 @@ class Song {
         print("Playing instrument  \(selectedInstrument) preset \(presetNumber)")
         if(presetNumber < instrument.instruments.count){
             let note = instrument.instruments[presetNumber].instrument.note;
-            instrument.instruments[presetNumber].instrument.playNote(note, velocity: 127)
-            instrument.instruments[presetNumber].instrument.stopNote(note)
+            instrument.instruments[presetNumber].instrument.play(noteNumber: note, velocity: 127)
+            instrument.instruments[presetNumber].instrument.stop(noteNumber: note)
         }
         
     }

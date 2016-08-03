@@ -13,261 +13,88 @@ import AudioKit
 
 
 /****************Snare Instrument 1
- Desc: This synth drum replicates a snare instrument
+ Desc: This synth drum replicates a Snare instrument
  *****************/
 
 class SnareInstrument1: SynthInstrument{
-    /// Create the synth snare instrument
+    /// Create the synth Snare instrument
     ///
     /// - parameter voiceCount: Number of voices (usually two is plenty for drums)
     ///
     
-    init(voiceCount: Int) {
-        super.init(instrumentVoice: SnareInstrument1Voice(), voiceCount: voiceCount)
+    override init() {
+        super.init()
         note = 60
         name = "Snare Instrument 1"
-        
-    }
-    
-    /// Start playback of a particular voice with MIDI style note and velocity
-    ///
-    /// - parameter voice: Voice to start
-    /// - parameter note: MIDI Note Number
-    /// - parameter velocity: MIDI Velocity (0-127)
-    ///
-    override func playVoice(voice: AKVoice, note: Int, velocity: Int) {
-        print("starting snare voice")
-        voice.start()
-        
-    }
-    
-    /// Stop playback of a particular voice
-    ///
-    /// - parameter voice: Voice to stop
-    /// - parameter note: MIDI Note Number
-    ///
-    override func stopVoice(voice: AKVoice, note: Int) {
-        print("stopping snare voice")
-        voice.stop()
-        
-    }
-    
-}
-
-/// Snare Instrument 1 Voice
-class SnareInstrument1Voice: SynthInstrumentVoice{
-    override init(){
-        
-        //sampler.loadWav("Sounds/cheeb-bd")
-        super.init()
-        sampler = AKSampler()
         sampler.loadWav("Sounds/Snare/snare-1")
         self.avAudioNode = sampler.avAudioNode
     }
     
-    override func start() {
-        sampler.playNote()
-    }
-    
-    override func stop(){
-        //sampler.stopNote()
-    }
-    
-    override func duplicate() -> AKVoice {
-        let copy = SnareInstrument1Voice()
-        return copy
-    }
 }
 
 
 /****************Snare Instrument 2
- Desc: This synth drum replicates a snare instrument
+ Desc: This synth drum replicates a Snare instrument
  *****************/
 
 class SnareInstrument2: SynthInstrument{
-    /// Create the synth snare instrument
+    /// Create the synth Snare instrument
     ///
     /// - parameter voiceCount: Number of voices (usually two is plenty for drums)
     ///
     
-    init(voiceCount: Int) {
-        super.init(instrumentVoice: SnareInstrument2Voice(), voiceCount: voiceCount)
+    override init() {
+        super.init()
         note = 70
         name = "Snare Instrument 2"
-        
-    }
-    
-    /// Start playback of a particular voice with MIDI style note and velocity
-    ///
-    /// - parameter voice: Voice to start
-    /// - parameter note: MIDI Note Number
-    /// - parameter velocity: MIDI Velocity (0-127)
-    ///
-    override func playVoice(voice: AKVoice, note: Int, velocity: Int) {
-        voice.start()
-    }
-    
-    /// Stop playback of a particular voice
-    ///
-    /// - parameter voice: Voice to stop
-    /// - parameter note: MIDI Note Number
-    ///
-    override func stopVoice(voice: AKVoice, note: Int) {
-        voice.stop()
-    }
-    
-}
-
-/// Snare Instrument 2 Voice
-class SnareInstrument2Voice: SynthInstrumentVoice{
-    override init(){
-        
-        //sampler.loadWav("Sounds/cheeb-bd")
-        super.init()
-        sampler = AKSampler()
         sampler.loadWav("Sounds/Snare/snare-2")
         self.avAudioNode = sampler.avAudioNode
+        
     }
     
-    override func start() {
-        sampler.playNote()
-    }
-    
-    override func stop(){
-        //sampler.stopNote()
-    }
-    
-    override func duplicate() -> AKVoice {
-        let copy = SnareInstrument2Voice()
-        return copy
-    }
 }
 
 
 /****************Snare Instrument 3
- Desc: This synth drum replicates a snare instrument
+ Desc: This synth drum replicates a Snare instrument
  *****************/
 
 class SnareInstrument3: SynthInstrument{
-    /// Create the synth snare instrument
+    /// Create the synth Snare instrument
     ///
     /// - parameter voiceCount: Number of voices (usually two is plenty for drums)
     ///
     
-    init(voiceCount: Int) {
-        super.init(instrumentVoice: SnareInstrument3Voice(), voiceCount: voiceCount)
+    override init() {
+        super.init()
         note = 80
         name = "Snare Instrument 3"
-        
-    }
-    
-    /// Start playback of a particular voice with MIDI style note and velocity
-    ///
-    /// - parameter voice: Voice to start
-    /// - parameter note: MIDI Note Number
-    /// - parameter velocity: MIDI Velocity (0-127)
-    ///
-    override func playVoice(voice: AKVoice, note: Int, velocity: Int) {
-        voice.start()
-    }
-    
-    /// Stop playback of a particular voice
-    ///
-    /// - parameter voice: Voice to stop
-    /// - parameter note: MIDI Note Number
-    ///
-    override func stopVoice(voice: AKVoice, note: Int) {
-        voice.stop()
-    }
-    
-}
-
-/// Snare Instrument 3 Voice
-class SnareInstrument3Voice: SynthInstrumentVoice{
-    override init(){
-        
-        super.init()
-        sampler = AKSampler()
         sampler.loadWav("Sounds/Snare/snare-3")
         self.avAudioNode = sampler.avAudioNode
     }
     
-    override func start() {
-        sampler.playNote()
-    }
-    
-    override func stop(){
-        //sampler.stopNote()
-    }
-    
-    override func duplicate() -> AKVoice {
-        let copy = SnareInstrument3Voice()
-        return copy
-    }
 }
 
 
+
 /****************Snare Instrument 4
- Desc: This synth drum replicates a snare instrument
+ Desc: This synth drum replicates a Snare instrument
  *****************/
 
 class SnareInstrument4: SynthInstrument{
-    /// Create the synth snare instrument
+    /// Create the synth Snare instrument
     ///
     /// - parameter voiceCount: Number of voices (usually two is plenty for drums)
     ///
     
-    init(voiceCount: Int) {
-        super.init(instrumentVoice: SnareInstrument4Voice(), voiceCount: voiceCount)
+    override init() {
+        super.init()
         note = 90
         name = "Snare Instrument 4"
-        
-    }
-    
-    /// Start playback of a particular voice with MIDI style note and velocity
-    ///
-    /// - parameter voice: Voice to start
-    /// - parameter note: MIDI Note Number
-    /// - parameter velocity: MIDI Velocity (0-127)
-    ///
-    override func playVoice(voice: AKVoice, note: Int, velocity: Int) {
-        voice.start()
-    }
-    
-    /// Stop playback of a particular voice
-    ///
-    /// - parameter voice: Voice to stop
-    /// - parameter note: MIDI Note Number
-    ///
-    override func stopVoice(voice: AKVoice, note: Int) {
-        voice.stop()
-    }
-    
-}
-
-/// Snare Instrument 4 Voice
-class SnareInstrument4Voice: SynthInstrumentVoice{
-    override init(){
-        
-        super.init()
-        sampler = AKSampler()
         sampler.loadWav("Sounds/Snare/snare-4")
         self.avAudioNode = sampler.avAudioNode
     }
     
-    override func start() {
-        sampler.playNote()
-    }
-    
-    override func stop(){
-        //sampler.stopNote()
-    }
-    
-    override func duplicate() -> AKVoice {
-        let copy = SnareInstrument4Voice()
-        return copy
-    }
 }
-
 
 

@@ -9,6 +9,43 @@
 import Foundation
 import AudioKit
 
+/****************Base class of synth instruments
+ ****************/
+
+class SynthInstrument: AKMIDIInstrument{
+    var note: Int = 0
+    var muted = false
+    var instrumentName = "Synth Instrument"
+    var sampler = AKSampler()
+    var preset = 0
+    /// Create the synth snare instrument
+    ///
+    /// - parameter voiceCount: Number of voices (usually two is plenty for drums)
+    ///
+    override init(){
+        super.init()
+    }
+    
+    /// Start playback of a particular voice with MIDI style note and velocity
+    ///
+    /// - parameter voice: Voice to start
+    /// - parameter note: MIDI Note Number
+    /// - parameter velocity: MIDI Velocity (0-127)
+    ///
+    override func play(noteNumber noteNumber: MIDINoteNumber, velocity: MIDIVelocity) {
+        //do something
+        sampler.play()
+    }
+    
+    /// Stop playback of a particular voice
+    ///
+    /// - parameter voice: Voice to stop
+    /// - parameter note: MIDI Note Number
+    ///
+    override func stop(noteNumber noteNumber: MIDINoteNumber) {
+        //do something
+    }
+}
 
 /****************ClickTrack Instrument
  Desc: This instrument is used by click track
@@ -19,12 +56,12 @@ class ClickTrackInstrument: SynthInstrument{
     ///
     /// - parameter voiceCount: Number of voices (usually two is plenty for drums)
     ///
-    var sampler: AKSampler!
-    
-    init(voiceCount: Int) {
-        super.init(instrumentVoice: ClickTrackInstrumentVoice(), voiceCount: voiceCount)
+    override init() {
+        super.init()
         note = 60
         muted = true
+        sampler.loadWav("Sounds/Hat/hat-3")
+        self.avAudioNode = sampler.avAudioNode
         
     }
     
@@ -34,96 +71,19 @@ class ClickTrackInstrument: SynthInstrument{
     /// - parameter note: MIDI Note Number
     /// - parameter velocity: MIDI Velocity (0-127)
     ///
-    override func playVoice(voice: AKVoice, note: Int, velocity: Int) {
+    override func play(noteNumber noteNumber: MIDINoteNumber, velocity: MIDIVelocity) {
         
-        if(muted){
+        if(self.muted){
             return
         }
-        let volume = velocity/127.0
-        voice.setValue(volume, forKeyPath: "sampler.volume")
-        voice.start()
         
-    }
-    
-    /// Stop playback of a particular voice
-    ///
-    /// - parameter voice: Voice to stop
-    /// - parameter note: MIDI Note Number
-    ///
-    override func stopVoice(voice: AKVoice, note: Int) {
-        //voice.stop()
+        let volume = velocity/127.0
+        sampler.volume = volume
+        sampler.play()
     }
     
 }
 
-/// ClickTrack Instrument Voice
-class ClickTrackInstrumentVoice: SynthInstrumentVoice{
-    
-    override init(){
-        super.init()
-        sampler = AKSampler()
-        sampler.loadWav("Sounds/Hat/hat-1")
-        self.avAudioNode = sampler.avAudioNode
-    }
-    
-    override func start() {
-        sampler.playNote()
-    }
-    
-    override func stop(){
-        //sampler.stopNote()
-    }
-    
-    override func duplicate() -> AKVoice {
-        let copy = ClickTrackInstrumentVoice()
-        return copy
-    }
-}
-
-
-
-/****************Base class of synth instruments
- ****************/
-
-class SynthInstrument: AKPolyphonicInstrument{
-    var note: Int = 0
-    var muted = false
-    var name = "Synth Instrument"
-    /// Create the synth snare instrument
-    ///
-    /// - parameter voiceCount: Number of voices (usually two is plenty for drums)
-    ///
-    init(instrumentVoice: SynthInstrumentVoice, voiceCount: Int){
-        super.init(voice: instrumentVoice, voiceCount: voiceCount)
-    }
-    
-    /// Start playback of a particular voice with MIDI style note and velocity
-    ///
-    /// - parameter voice: Voice to start
-    /// - parameter note: MIDI Note Number
-    /// - parameter velocity: MIDI Velocity (0-127)
-    ///
-    override func playVoice(voice: AKVoice, note: Int, velocity: Int) {
-        voice.start()
-    }
-    
-    /// Stop playback of a particular voice
-    ///
-    /// - parameter voice: Voice to stop
-    /// - parameter note: MIDI Note Number
-    ///
-    override func stopVoice(voice: AKVoice, note: Int) {
-        voice.stop()
-    }
-}
-
-/****************Base class for synth instrument voices
-*****************/
-
-class SynthInstrumentVoice: AKVoice{
-    var preset = 0
-    var sampler: AKSampler!
-}
 
 
 
@@ -173,12 +133,11 @@ struct Tempo {
 
 
 //ClickTrack
-class ClickTrack: AKVoice{
+class ClickTrack: AKNode{
     var timer = Timer()
     var midi: AKMIDI!
     var track: AKSequencer!
     var instrument: SynthInstrument!
-    var instrumentMidi: AKMIDIInstrument!
     var tempo: Tempo!
     var timeSignature: TimeSignature!
     var _enabled = false
@@ -199,7 +158,7 @@ class ClickTrack: AKVoice{
         super.init()
         midi = AKMIDI()
         track = AKSequencer()
-        instrument = ClickTrackInstrument(voiceCount: 1)
+        instrument = ClickTrackInstrument()
         tempo = clickTempo
         timeSignature = clickTimeSignature
         initInstrumentTrack()
@@ -207,32 +166,26 @@ class ClickTrack: AKVoice{
     }
     
     func initInstrumentTrack(){
-        instrumentMidi = AKMIDIInstrument(instrument: instrument)
-        instrumentMidi.enableMIDI(midi.client, name: "ClickTrack MIDI Instrument")
+        instrument.enableMIDI(midi.client, name: "click track midi in")
         
         track.newTrack()
-        track.tracks[0].setMIDIOutput(instrumentMidi.midiIn)
+        track.tracks[0].setMIDIOutput(instrument.midiIn)
         
         
-        track.setBPM(Double(tempo.beatsPerMin))
-        track.setLength(secPerMeasure)
+        track.setTempo(tempo.beatsPerMin)
+        track.setLength(AKDuration(seconds: secPerMeasure))
         //TODO: update the click track setup - this is only for 4/4 time sig
-        track.tracks[0].addNote(60, velocity: 127, position: secPerClick*0, duration: 0)
-        track.tracks[0].addNote(60, velocity: 105, position: secPerClick*1, duration: 0)
-        track.tracks[0].addNote(60, velocity: 105, position: secPerClick*2, duration: 0)
-        track.tracks[0].addNote(60, velocity: 105, position: secPerClick*3, duration: 0)
+        track.tracks[0].add(noteNumber: 60, velocity: 127, position: AKDuration(beats: 0), duration: AKDuration(seconds: 0))
+        track.tracks[0].add(noteNumber: 60, velocity: 105, position: AKDuration(beats: 1), duration: AKDuration(seconds: 0))
+        track.tracks[0].add(noteNumber: 60, velocity: 105, position: AKDuration(beats: 2), duration: AKDuration(seconds: 0))
+        track.tracks[0].add(noteNumber: 60, velocity: 105, position: AKDuration(beats: 3), duration: AKDuration(seconds: 0))
         
     }
 
     
     func update(){
-        print("update click track")
-        //update click track freq data
-        //stop()
-        track.setBPM(Double(tempo.beatsPerMin))
-        print("setting click track bpm to \(tempo.beatsPerMin)")
-        //track.setLength(secPerMeasure)
-        
+        //tempo.beatsPerMin is updated in Song.swift
+        track.setTempo(Double(tempo.beatsPerMin))
     }
     
     func mute(){
@@ -257,20 +210,14 @@ class ClickTrack: AKVoice{
     
     //MARK: overriden functions
 
-    /// Function create an identical new node for use in creating polyphonic instruments
-    override func duplicate() -> AKVoice {
-        let copy = ClickTrack(clickTempo: tempo, clickTimeSignature: timeSignature)
-        return copy
-    }
-
     /// Tells whether the node is processing (ie. started, playing, or active)
-    override var isStarted: Bool {
+    var isStarted: Bool {
         return running
     }
     
 
     /// Function to start, play, or activate the node, all do the same thing
-    override func start() {
+    func start() {
         
         if(_enabled){
             if(!running){
@@ -287,7 +234,7 @@ class ClickTrack: AKVoice{
     
 
     /// Function to stop or bypass the node, both are equivalent
-    override func stop() {
+    func stop() {
         track.stop()
         track.disableLooping()
         track.rewind()
@@ -304,25 +251,15 @@ class ClickTrack: AKVoice{
  */
 
 class InstrumentTrack {
-    var midi: AKMIDI!
     var trackManager: TrackManager!
     var instrument: SynthInstrument!
-    var instrumentMidi: AKMIDIInstrument!
     
     init(clickTrack: ClickTrack, presetInst: SynthInstrument){
-        midi = AKMIDI()
-        
-        trackManager = TrackManager(clickTrackRef: clickTrack)
         instrument = presetInst //custom synth instrument
-        
-        instrumentMidi = AKMIDIInstrument(instrument: instrument)
-        instrumentMidi.enableMIDI(midi.client, name: "Synth inst preset")
-        
-        trackManager.tracks[0].setMIDIOutput(instrumentMidi.midiIn)
-        
+        trackManager = TrackManager(midiInstrument: instrument, clickTrackRef: clickTrack)
     }
     
-    func addNote(velocity: Int, duration: Beat){
+    func addNote(velocity: Int, duration: Double){
         let note = instrument.note
         trackManager.addNote(note, velocity: velocity, duration: duration)
         
@@ -341,7 +278,7 @@ class InstrumentTrack {
     func stop(){
         trackManager.stop()
         trackManager.disableLooping()
-        trackManager.rewind()        
+        trackManager.rewind()
     }
     
     
@@ -351,10 +288,12 @@ class InstrumentTrack {
 /****************Single instrument track manager ********/
 class TrackManager: AKSequencer{
     //MARK: Attributes
+    var midi: AKMIDI!
     var noteCount = 0
     var longestTime: Double = 0.0
-    var measureCount = 1000 //default measure count is high initially but will be changed once user adds beats
+    var measureCount = 10 //default measure count is high initially but will be changed once user adds beats
     var firstInstance = true //informs if this is the first time the track is being filled so we can define the initial measure count / duration
+    var instrument: SynthInstrument!
     var clickTrack: ClickTrack!
     var timer: Timer!
     
@@ -393,27 +332,33 @@ class TrackManager: AKSequencer{
     
     //MARK: Initialize
     
-    init(clickTrackRef: ClickTrack){
+    init(midiInstrument: SynthInstrument, clickTrackRef: ClickTrack){
         super.init()
+        midi = AKMIDI()
+        instrument = midiInstrument
         addNewTrack()
         clickTrack = clickTrackRef
         timer = clickTrack.timer
         //set beats per min and total measure count (duration) initially with default value
-        updateBPM()
         updateLength()
+        updateBPM()
+        instrument.enableMIDI(midi.client, name: "Synth inst preset")
+        
+        tracks[0].setMIDIOutput(instrument.midiIn)
         
     }
     
     //MARK: Functions
     
     func updateBPM(){
-        setBPM(Double(clickTrack.tempo.beatsPerMin))
+        setTempo(Double(clickTrack.tempo.beatsPerMin))
     }
     
     func updateLength(){
         let wasPlaying = isPlaying
         stop()
-        setLength(totalDuration)
+        print("inst total duration updated to \(totalDuration)")
+        setLength(AKDuration(seconds: totalDuration))
         if(wasPlaying){
             print("was playing")
             enableLooping()
@@ -433,13 +378,13 @@ class TrackManager: AKSequencer{
         
     }
     
-    func addNote(note: Int, velocity: Int, duration: Beat){
+    func addNote(note: Int, velocity: Int, duration: Double){
         if(trackCount >= 1){
-            let position = Beat(timeElapsed)
-            self.tracks[0].addNote(note, velocity: velocity, position: position, duration: duration)
+            let position = AKDuration(seconds: timeElapsed)
+            self.tracks[0].add(noteNumber: note, velocity: velocity, position: position, duration: AKDuration(seconds: duration))
             noteCount += 1
             //if current track time less that new then replace with new
-            longestTime = (longestTime > position) ? position: longestTime
+            longestTime = (longestTime > timeElapsed) ? timeElapsed: longestTime
         }
     }
     
@@ -451,6 +396,7 @@ class TrackManager: AKSequencer{
             //for ex: if timeElapsed = 9 sec and sec per measure = 4 then measure count = ceil(9/4) = 2.25 = 3 measure counts
             
             measureCount = Int(ceil(timeElapsed / secPerMeasure))
+            print("inst measure count updated to \(measureCount)")
             updateLength()
             firstInstance = false //first instance measure count update complete
         }
@@ -576,8 +522,8 @@ class InstrumentCollection {
         print("Playing preset \(presetNumber) note")
         if(presetNumber < instruments.count){
             let note = instruments[presetNumber].instrument.note;
-            instruments[presetNumber].instrument.playNote(note, velocity: 127)
-            instruments[presetNumber].instrument.stopNote(note)
+            instruments[presetNumber].instrument.play(noteNumber: note, velocity: 127)
+            instruments[presetNumber].instrument.stop(noteNumber: note)
         }
         
     }

@@ -260,22 +260,30 @@ class InstrumentTrack {
     }
     
     func addNote(velocity: Int, duration: Double){
-        let note = instrument.note
-        trackManager.addNote(note, velocity: velocity, duration: duration)
+        trackManager.addNote(velocity, duration: duration)
         
     }
     
     func deselect(){
         trackManager.deselect() //run deselect routines - for ex: checks if should update measure count (if first time track is recorded)
+        if(!trackManager.isPlaying){
+            play()
+        }
     }
     
     func play(){
+        if(trackManager.firstInstance){
+            return
+        }
         trackManager.rewind()
         trackManager.enableLooping()
         trackManager.play()
     }
     
     func stop(){
+        if(trackManager.firstInstance){
+            return
+        }
         trackManager.stop()
         trackManager.disableLooping()
         trackManager.rewind()
@@ -289,6 +297,9 @@ class InstrumentTrack {
 class TrackManager: AKSequencer{
     //MARK: Attributes
     var midi: AKMIDI!
+    var trackNotes = [AKDuration]()
+    var velNotes = [Int]()
+    var durNotes = [AKDuration]()
     var noteCount = 0
     var longestTime: Double = 0.0
     var measureCount = 10 //default measure count is high initially but will be changed once user adds beats
@@ -336,12 +347,12 @@ class TrackManager: AKSequencer{
         super.init()
         midi = AKMIDI()
         instrument = midiInstrument
-        addNewTrack()
+        newTrack()
         clickTrack = clickTrackRef
         timer = clickTrack.timer
-        //set beats per min and total measure count (duration) initially with default value
-        updateLength()
+        //set beats per min
         updateBPM()
+        //length is set after inital beats are recorded
         instrument.enableMIDI(midi.client, name: "Synth inst preset")
         
         tracks[0].setMIDIOutput(instrument.midiIn)
@@ -368,29 +379,28 @@ class TrackManager: AKSequencer{
         
     }
     
-    func addNewTrack(){
-        if(trackCount > 1){
-            print("ERROR: Instrument track should only containt 1 track")
-        }
-        else{
-            self.newTrack()
-        }
-        
-    }
     
-    func addNote(note: Int, velocity: Int, duration: Double){
-        if(trackCount >= 1){
+    func addNote(velocity: Int, duration: Double){
+        if(trackCount >= 1 && !firstInstance){
             let position = AKDuration(seconds: timeElapsed)
+            let note = instrument.note
             self.tracks[0].add(noteNumber: note, velocity: velocity, position: position, duration: AKDuration(seconds: duration))
             noteCount += 1
             //if current track time less that new then replace with new
             longestTime = (longestTime > timeElapsed) ? timeElapsed: longestTime
         }
+        else if(trackCount >= 1 && firstInstance){
+            print("adding new note to first instance!!!")
+            let position = AKDuration(seconds: timeElapsed)
+            trackNotes.append(position)
+            velNotes.append(velocity)
+            durNotes.append(AKDuration(seconds: duration))
+        }
     }
     
     //MARK: deselect instrument track - do anything that needs to be done after user stops using this track
     func deselect(){
-        if(firstInstance && noteCount >= 1){
+        if(firstInstance &&  trackNotes.count >= 1){
             //If this is the first time the track is being created then update measure count after instrument record stopped / deselected
             //measure count = roundUp(timeElapsed (sec) / secPerMeasure) roundUp = ceil math function
             //for ex: if timeElapsed = 9 sec and sec per measure = 4 then measure count = ceil(9/4) = 2.25 = 3 measure counts
@@ -398,6 +408,14 @@ class TrackManager: AKSequencer{
             measureCount = Int(ceil(timeElapsed / secPerMeasure))
             print("inst measure count updated to \(measureCount)")
             updateLength()
+            for i in 0 ..< trackNotes.count{
+                let position = trackNotes[i]
+                let velocity = velNotes[i]
+                let duration = durNotes[i]
+                
+                self.tracks[0].add(noteNumber: instrument.note, velocity: velocity, position: position, duration: duration)
+            }
+            
             firstInstance = false //first instance measure count update complete
         }
         
@@ -408,6 +426,10 @@ class TrackManager: AKSequencer{
             self.tracks[0].clear()
             longestTime = 0.0
             noteCount = 0
+            trackNotes.removeAll()
+            velNotes.removeAll()
+            durNotes.removeAll()
+            firstInstance = true
         }
     }
     
@@ -456,16 +478,12 @@ class InstrumentCollection {
         
         // Initialize all presets
         instrumentTrack1 = InstrumentTrack(clickTrack: clickTrack, presetInst: preset1)
-        instrumentTrack1.trackManager.addNewTrack()
         instruments.append(instrumentTrack1)
         instrumentTrack2 = InstrumentTrack(clickTrack: clickTrack, presetInst: preset2)
-        instrumentTrack2.trackManager.addNewTrack()
         instruments.append(instrumentTrack2)
         instrumentTrack3 = InstrumentTrack(clickTrack: clickTrack, presetInst: preset3)
-        instrumentTrack3.trackManager.addNewTrack()
         instruments.append(instrumentTrack3)
         instrumentTrack4 = InstrumentTrack(clickTrack: clickTrack, presetInst: preset4)
-        instrumentTrack4.trackManager.addNewTrack()
         instruments.append(instrumentTrack4)
         
         // Connect all instrument sounds in this group of presets to preset mixer
@@ -544,7 +562,7 @@ class InstrumentCollection {
         }
         let velocity = 127
         instruments[instNumber].addNote(velocity, duration: 0) //duration is just how long to hold the beat for if not a pre recorded sample ... I think
-        if !playing { play() }
+        //if !playing { play() }
         
     }
     

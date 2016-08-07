@@ -644,7 +644,9 @@ class InstrumentCollection {
         print("Playing notes in sequence track")
         
         for inst in instruments{
-            inst.play()
+            if(!inst.trackManager.isPlaying){
+                inst.play()
+            }
         }
         playing = true
         

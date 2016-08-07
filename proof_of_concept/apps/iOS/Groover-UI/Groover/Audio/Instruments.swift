@@ -79,7 +79,6 @@ class ClickTrackInstrument: SynthInstrument{
     
     //this tells click track to start pre roll sound and then tell instruments to start recording on last beat
     func set_record(){
-        muted = false
         preRoll = true
     }
     
@@ -105,7 +104,7 @@ class ClickTrackInstrument: SynthInstrument{
             if(beat == 5){
                 clickTrack.song.start_record()
                 preRoll = false
-                sampler.volume = volume
+                sampler.volume = muted ? 0: volume
                 sampler.play()
             }
             else{
@@ -114,7 +113,7 @@ class ClickTrackInstrument: SynthInstrument{
             }
         }
         else if(playTrigger && beat==5){
-            sampler.volume = volume
+            sampler.volume = muted ? 0: volume
             sampler.play()
             clickTrack.song.play()
             playTrigger = false //clear for next use
@@ -124,11 +123,8 @@ class ClickTrackInstrument: SynthInstrument{
             sampler.play()
         }
         if(beat==5){beat=1}
-        
     }
-    
 }
-
 
 
 

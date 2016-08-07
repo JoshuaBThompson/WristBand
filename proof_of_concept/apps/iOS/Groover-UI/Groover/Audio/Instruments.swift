@@ -95,10 +95,7 @@ class ClickTrackInstrument: SynthInstrument{
     /// - parameter velocity: MIDI Velocity (0-127)
     ///
     override func play(noteNumber noteNumber: MIDINoteNumber, velocity: MIDIVelocity) {
-        
-        if(self.muted && false){
-            return
-        }
+
         beat+=1
         
         
@@ -122,7 +119,7 @@ class ClickTrackInstrument: SynthInstrument{
             clickTrack.song.play()
             playTrigger = false //clear for next use
         }
-        else{
+        else if(!self.muted){
             sampler.volume = volume
             sampler.play()
         }

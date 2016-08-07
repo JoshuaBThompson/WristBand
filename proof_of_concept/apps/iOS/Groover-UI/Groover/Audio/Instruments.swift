@@ -56,13 +56,36 @@ class ClickTrackInstrument: SynthInstrument{
     ///
     /// - parameter voiceCount: Number of voices (usually two is plenty for drums)
     ///
-    override init() {
+    var beat = 0
+    var preRoll = false
+    var playTrigger = false
+    var clickTrack: ClickTrack!
+    var preRollSampler = AKSampler()
+    var mixer: AKMixer!
+    
+    init(clickTrackRef: ClickTrack!) {
         super.init()
+        clickTrack = clickTrackRef
         note = 60
         muted = true
+        preRollSampler.loadWav("Sounds/Kick/kick-2")
         sampler.loadWav("Sounds/Hat/hat-3")
-        self.avAudioNode = sampler.avAudioNode
+        mixer = AKMixer()
+        mixer.connect(preRollSampler)
+        mixer.connect(sampler)
+        self.avAudioNode = mixer.avAudioNode //sampler.avAudioNode
         
+    }
+    
+    //this tells click track to start pre roll sound and then tell instruments to start recording on last beat
+    func set_record(){
+        muted = false
+        preRoll = true
+    }
+    
+    //tells click track to start playing instrument from beginning when first beat in click track starts
+    func trigger_play(){
+        playTrigger = true
     }
     
     /// Start playback of a particular voice with MIDI style note and velocity
@@ -73,13 +96,38 @@ class ClickTrackInstrument: SynthInstrument{
     ///
     override func play(noteNumber noteNumber: MIDINoteNumber, velocity: MIDIVelocity) {
         
-        if(self.muted){
+        if(self.muted && false){
             return
         }
+        beat+=1
         
-        let volume = velocity/127.0
-        sampler.volume = volume
-        sampler.play()
+        
+        var volume = velocity/127.0
+        if(preRoll && beat <= 5){
+            volume = 127
+            if(beat == 5){
+                clickTrack.song.start_record()
+                preRoll = false
+                sampler.volume = volume
+                sampler.play()
+            }
+            else{
+            preRollSampler.volume = volume
+            preRollSampler.play()
+            }
+        }
+        else if(playTrigger && beat==5){
+            sampler.volume = volume
+            sampler.play()
+            clickTrack.song.play()
+            playTrigger = false //clear for next use
+        }
+        else{
+            sampler.volume = volume
+            sampler.play()
+        }
+        if(beat==5){beat=1}
+        
     }
     
 }
@@ -137,10 +185,12 @@ class ClickTrack: AKNode{
     var timer = Timer()
     var midi: AKMIDI!
     var track: AKSequencer!
-    var instrument: SynthInstrument!
+    var instrument: ClickTrackInstrument!
     var tempo: Tempo!
     var timeSignature: TimeSignature!
     var _enabled = false
+    var recording = false
+    var song: Song!
     
     //computed
     var secPerMeasure: Double {return (Double(timeSignature.beatsPerMeasure) / tempo.beatsPerSec) * 4/Double(timeSignature.beatUnit) }
@@ -154,11 +204,12 @@ class ClickTrack: AKNode{
     var enabled: Bool { return _enabled }
     var muted: Bool { return instrument.muted}
     
-    init(clickTempo: Tempo, clickTimeSignature: TimeSignature){
+    init(songRef: Song, clickTempo: Tempo, clickTimeSignature: TimeSignature){
         super.init()
+        song = songRef
         midi = AKMIDI()
         track = AKSequencer()
-        instrument = ClickTrackInstrument()
+        instrument = ClickTrackInstrument(clickTrackRef: self)
         tempo = clickTempo
         timeSignature = clickTimeSignature
         initInstrumentTrack()
@@ -174,11 +225,12 @@ class ClickTrack: AKNode{
         
         track.setTempo(tempo.beatsPerMin)
         track.setLength(AKDuration(seconds: secPerMeasure))
+        print("click track secPerMeasure \(secPerMeasure)")
         //TODO: update the click track setup - this is only for 4/4 time sig
-        track.tracks[0].add(noteNumber: 60, velocity: 127, position: AKDuration(beats: 0), duration: AKDuration(seconds: 0))
-        track.tracks[0].add(noteNumber: 60, velocity: 105, position: AKDuration(beats: 1), duration: AKDuration(seconds: 0))
-        track.tracks[0].add(noteNumber: 60, velocity: 105, position: AKDuration(beats: 2), duration: AKDuration(seconds: 0))
-        track.tracks[0].add(noteNumber: 60, velocity: 105, position: AKDuration(beats: 3), duration: AKDuration(seconds: 0))
+        track.tracks[0].add(noteNumber: 60, velocity: 127, position: AKDuration(seconds: 0), duration: AKDuration(seconds: 0))
+        track.tracks[0].add(noteNumber: 60, velocity: 105, position: AKDuration(seconds: 1), duration: AKDuration(seconds: 0))
+        track.tracks[0].add(noteNumber: 60, velocity: 105, position: AKDuration(seconds: 2), duration: AKDuration(seconds: 0))
+        track.tracks[0].add(noteNumber: 60, velocity: 105, position: AKDuration(seconds: 3), duration: AKDuration(seconds: 0))
         
     }
 
@@ -217,8 +269,17 @@ class ClickTrack: AKNode{
     
 
     /// Function to start, play, or activate the node, all do the same thing
+    func start_preroll(){
+        instrument.set_record()
+        enable()
+        start()
+    }
+    
+    func trigger_play(){
+        instrument.trigger_play()
+    }
+    
     func start() {
-        
         if(_enabled){
             if(!running){
                 track.enableLooping()
@@ -253,6 +314,7 @@ class ClickTrack: AKNode{
 class InstrumentTrack {
     var trackManager: TrackManager!
     var instrument: SynthInstrument!
+    var clickTrack: ClickTrack!
     
     init(clickTrack: ClickTrack, presetInst: SynthInstrument){
         instrument = presetInst //custom synth instrument
@@ -267,7 +329,7 @@ class InstrumentTrack {
     func deselect(){
         trackManager.deselect() //run deselect routines - for ex: checks if should update measure count (if first time track is recorded)
         if(!trackManager.isPlaying){
-            play()
+            trackManager.clickTrack.trigger_play()
         }
     }
     

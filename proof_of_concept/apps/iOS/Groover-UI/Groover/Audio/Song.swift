@@ -35,7 +35,7 @@ class Song {
     
     init(){
         mixer = AKMixer()
-        clickTrack = ClickTrack(clickTempo: tempo, clickTimeSignature: timeSignature)
+        clickTrack = ClickTrack(songRef: self, clickTempo: tempo, clickTimeSignature: timeSignature)
         mixer.connect(clickTrack)
         
         
@@ -153,15 +153,9 @@ class Song {
         
     }
     
-    func record(){
-        if !playing {
-            print("record cannot start before play")
-            return
-        }
-        print("Recording instrument \(selectedInstrument) note")
+    func start_record(){
         recordEnabled = true
         clickTrack.timer.start()
-        clickTrack.start()
         
         //recorded all tracks
         for instNum in 0 ..< instruments.count {
@@ -169,6 +163,15 @@ class Song {
         }
         
         //now addNote function will add notes to sequences track
+    }
+    
+    
+    func record(){
+        if !playing {
+            print("record cannot start before play")
+            return
+        }
+        clickTrack.start_preroll()
     }
     
     func stop_record(){

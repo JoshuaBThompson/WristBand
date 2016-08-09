@@ -181,11 +181,6 @@ class ViewController: UIViewController {
         let newSong = (song.selectedInstrument != song.prevSelectedInstrument)
         
         let newPreset = (song.selectedPreset != song.prevSelectedPreset)
-        print("new song \(newSong)")
-        print("new preset \(newPreset)")
-        print("clear active \(playRecordControl.clearButton.active)")
-        print("inst track empty \(song.instrument.trackEmpty)")
-        print("record enabled \(song.recordEnabled)")
         if(song.recordEnabled && noteAdded){
             playRecordControl.manualSelectButton(.CLEAR)
             return
@@ -214,7 +209,7 @@ class ViewController: UIViewController {
         song.toggleClickTrackMute()
         
         //temporary hack when not using iPhone (using simulator) to allow for beat generation
-        song.addSelectedNote() //Used for testing in sim mode to simulate motion generated beat
+        song.addNote() //Used for testing in sim mode to simulate motion generated beat
         updateButtonStatesAfterNoteAdded()
     }
     
@@ -229,7 +224,7 @@ class ViewController: UIViewController {
         if(sensor.beat){
             let eventStatus = Int(sensor.getEventStatus())
             if eventStatus != 0x80{
-                song.addSelectedNote() //make drum sound and add to track if recording!
+                song.addNote() //make drum sound and add to track if recording!
                 updateButtonStatesAfterNoteAdded()
             }
             

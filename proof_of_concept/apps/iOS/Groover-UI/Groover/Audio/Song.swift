@@ -38,6 +38,10 @@ class Song {
         return instruments[selectedInstrument]
     }
     
+    var presetTrack: InstrumentTrack {
+        return instruments[selectedInstrument].instruments[selectedPreset]
+    }
+    
     init(){
         mixer = AKMixer()
         clickTrack = ClickTrack(songRef: self, clickTempo: tempo, clickTimeSignature: timeSignature)
@@ -71,8 +75,6 @@ class Song {
         //stop()
         instruments[selectedInstrument].clearPreset()
     }
-    
-    
     
     func clear(){
         //stop any currently playing tracks first
@@ -139,7 +141,7 @@ class Song {
         prevSelectedPreset = selectedPreset
         selectedPreset = preset
         instruments[selectedInstrument].selectPreset(selectedPreset)
-        if(!noteAdded && recordEnabled && instruments[selectedInstrument].instruments[selectedPreset].trackManager.firstInstance){
+        if(recordEnabled && presetTrack.trackManager.firstInstance && presetTrack.trackManager.noteCount >= 1){
             clickTrack.timer.start() //reset timer when changing to new instrument
         }
         else if(recordEnabled && noteAdded){

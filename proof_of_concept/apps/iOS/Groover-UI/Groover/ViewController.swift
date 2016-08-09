@@ -124,9 +124,7 @@ class ViewController: UIViewController {
             //clear track
             if(song.recordEnabled){
                 print("clear current instrument song")
-                //song.instrument.clear()
                 song.clearPreset()
-                //song.record() //afer clear keep recording
             }
             
         case .RECORD:
@@ -137,7 +135,6 @@ class ViewController: UIViewController {
             }
             else{
                 song.stop_record()
-                //print("stop record and disable clear")
             }
             
         }
@@ -156,6 +153,8 @@ class ViewController: UIViewController {
         selectSound(position)
         if(!song.recordEnabled && wasRecording){
             playRecordControl.manualDeselectButton(.RECORD)
+        }
+        else{
             updateButtonStatesAfterKnobTurn()
         }
         
@@ -178,24 +177,24 @@ class ViewController: UIViewController {
     
     //MARK: Set clear button if appropriate
     func updateClearButton(noteAdded: Bool=false){
-        let newSong = (song.selectedInstrument != song.prevSelectedInstrument)
-        
+        let newInstrument = (song.selectedInstrument != song.prevSelectedInstrument)
         let newPreset = (song.selectedPreset != song.prevSelectedPreset)
+        let empty = song.instrument.trackEmpty
+        let recording = song.recordEnabled
+        let clear = (newInstrument && newPreset && empty && recording)
         if(song.recordEnabled && noteAdded){
             playRecordControl.manualSelectButton(.CLEAR)
             return
         }
-        else if(song.recordEnabled && !playRecordControl.clearButton.active && (newSong || newPreset) && !song.instrument.trackEmpty){
-            print("update after knob turned added")
+        else if(clear){
+            print("manual select clear")
             playRecordControl.manualSelectButton(.CLEAR)
         }
-        else if(song.recordEnabled && playRecordControl.clearButton.active && song.instrument.trackEmpty){
-            print("clear deselected!!!")
+        else{
+            print("manual deselect clear")
             playRecordControl.manualDeselectButton(.CLEAR)
         }
-        else{
-            print("nothing deselected!")
-        }
+
     }
     
     

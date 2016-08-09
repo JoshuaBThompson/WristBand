@@ -13,6 +13,8 @@ import AudioKit
 
 
 class Song {
+    var presetsPerInst = 4
+    var noteAdded = false
     var selectedInstrument = 0
     var prevSelectedInstrument = 0
     var selectedPreset = 0
@@ -25,37 +27,44 @@ class Song {
     var kickTracks: InstrumentCollection!
     var hatTracks: InstrumentCollection!
     var instruments = [InstrumentCollection]()
-    var instrument: InstrumentCollection!
     var timeSignature = TimeSignature()
     var tempo = Tempo()
     var clickTrack: ClickTrack!
     var selectedInstrumentName: String {
-        return instrument.instruments[selectedPreset].instrument.name
+        return instruments[selectedInstrument].instruments[selectedPreset].instrument.name
+    }
+    
+    var instrument: InstrumentCollection {
+        return instruments[selectedInstrument]
+    }
+    
+    var presetTrack: InstrumentTrack {
+        return instruments[selectedInstrument].instruments[selectedPreset]
     }
     
     init(){
         mixer = AKMixer()
-        clickTrack = ClickTrack(clickTempo: tempo, clickTimeSignature: timeSignature)
+        clickTrack = ClickTrack(songRef: self, clickTempo: tempo, clickTimeSignature: timeSignature)
         mixer.connect(clickTrack)
         
+        
         //instrument 1 - snare
-        snareTracks = InstrumentCollection(globalClickTrack: clickTrack, preset1: SnareInstrument1(voiceCount:1), preset2: SnareInstrument2(voiceCount:1), preset3: SnareInstrument3(voiceCount:1), preset4: SnareInstrument4(voiceCount:1))
+        snareTracks = InstrumentCollection(globalClickTrack: clickTrack, preset1: SnareInstrument1(), preset2: SnareInstrument2(), preset3: SnareInstrument3(), preset4: SnareInstrument4())
         instruments.append(snareTracks)
         mixer.connect(snareTracks.mixer)
         
         //instrument 2 - kick
-        kickTracks = InstrumentCollection(globalClickTrack: clickTrack, preset1: KickInstrument1(voiceCount:1), preset2: KickInstrument2(voiceCount:1), preset3: KickInstrument3(voiceCount:1), preset4: KickInstrument4(voiceCount:1))
+        kickTracks = InstrumentCollection(globalClickTrack: clickTrack, preset1: KickInstrument1(), preset2: KickInstrument2(), preset3: KickInstrument3(), preset4: KickInstrument4())
         instruments.append(kickTracks)
         mixer.connect(kickTracks.mixer)
         
         //instrument 3 - hat
-        hatTracks = InstrumentCollection(globalClickTrack: clickTrack, preset1: HatInstrument1(voiceCount:1), preset2: HatInstrument2(voiceCount:1), preset3: HatInstrument3(voiceCount:1), preset4: HatInstrument4(voiceCount:1))
+        hatTracks = InstrumentCollection(globalClickTrack: clickTrack, preset1: HatInstrument1(), preset2: HatInstrument2(), preset3: HatInstrument3(), preset4: HatInstrument4())
         instruments.append(hatTracks)
         mixer.connect(hatTracks.mixer)
         
         //Use click track of inst 1 (doesn't matter which one since they all have same click track)
         AudioKit.output = mixer
-        instrument = snareTracks //just start of with snare instruments as initial collection (we can change this later...)
     }
     
     func start(){
@@ -64,10 +73,8 @@ class Song {
     }
     func clearPreset(){
         //stop()
-        instrument.clearPreset()
+        instruments[selectedInstrument].clearPreset()
     }
-    
-    
     
     func clear(){
         //stop any currently playing tracks first
@@ -102,30 +109,30 @@ class Song {
     }
 
     
-    func playNote(presetNumber: Int){
+    func playNote(){
         //play note based on selected instrument
-        print("Playing instrument  \(selectedInstrument) preset \(presetNumber)")
-        if(presetNumber < instrument.instruments.count){
-            let note = instrument.instruments[presetNumber].instrument.note;
-            instrument.instruments[presetNumber].instrument.playNote(note, velocity: 127)
-            instrument.instruments[presetNumber].instrument.stopNote(note)
-        }
+        let note = instruments[selectedInstrument].instruments[selectedPreset].instrument.note
+        instruments[selectedInstrument].instruments[selectedPreset].instrument.play(noteNumber: note, velocity: 127)
+        instruments[selectedInstrument].instruments[selectedPreset].instrument.stop(noteNumber: note)
+    }
+
+    
+    func selectInstrumentFromPreset(preset: Int){
+        let presetNum = preset % presetsPerInst //ex: if preset = 2 then presetNum = 2%4 = 2
+        let instNum = preset / presetsPerInst  //ex: instNum = 2/4 = 0
         
+        selectPreset(presetNum)
+        selectInstrument(instNum)
     }
-    
-    func addSelectedNote(){
-        addNote(preset: selectedPreset)
-    }
-    
     
     func selectInstrument(number: Int){
         if(number < instruments.count){
             if(recordEnabled){
-                instrument.deselect() //update track measure length of instruments in collection if first recording of a track
+                instruments[selectedInstrument].deselect()
+                //update track measure length of instruments in collection if first recording of a track
             }
             prevSelectedInstrument = selectedInstrument
             selectedInstrument = number
-            instrument = instruments[selectedInstrument]
             
         }
     }
@@ -133,18 +140,25 @@ class Song {
     func selectPreset(preset: Int){
         prevSelectedPreset = selectedPreset
         selectedPreset = preset
-        instrument.selectPreset(selectedPreset)
+        instruments[selectedInstrument].selectPreset(selectedPreset)
+        if(recordEnabled && presetTrack.trackManager.firstInstance && presetTrack.trackManager.noteCount >= 1){
+            clickTrack.timer.start() //reset timer when changing to new instrument
+        }
+        else if(recordEnabled && noteAdded){
+            stop_record()
+        }
     }
     
-    func addNote(preset presetNumber: Int){
+    func addNote(){
         //play note event if not recording
         
-        playNote(presetNumber)
+        playNote()
         if !recordEnabled || !clickTrack.running {
             print("Record not enabled or pre-record not finished, no add note allowed")
             return
         }
-        instrument.addNote(preset: presetNumber)
+        noteAdded = true
+        instruments[selectedInstrument].addNote(preset: selectedPreset)
         if !playing {
             print("record started play")
             play()
@@ -152,15 +166,10 @@ class Song {
         
     }
     
-    func record(){
-        if !playing {
-            print("record cannot start before play")
-            return
-        }
-        print("Recording instrument \(selectedInstrument) note")
+    func start_record(){
         recordEnabled = true
         clickTrack.timer.start()
-        clickTrack.start()
+        noteAdded = false
         
         //recorded all tracks
         for instNum in 0 ..< instruments.count {
@@ -168,6 +177,15 @@ class Song {
         }
         
         //now addNote function will add notes to sequences track
+    }
+    
+    
+    func record(){
+        if !playing {
+            print("record cannot start before play")
+            return
+        }
+        clickTrack.start_preroll()
     }
     
     func stop_record(){

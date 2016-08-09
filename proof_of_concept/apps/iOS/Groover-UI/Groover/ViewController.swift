@@ -17,7 +17,6 @@ class ViewController: UIViewController {
     let motionManager = CMMotionManager()
     let queue = NSOperationQueue.mainQueue()
     var timeIntervalMillis: UInt = 25
-    var eventCount = 0
     
     //MARK: outlets
     
@@ -125,21 +124,17 @@ class ViewController: UIViewController {
             //clear track
             if(song.recordEnabled){
                 print("clear current instrument song")
-                //song.instrument.clear()
                 song.clearPreset()
-                //song.record() //afer clear keep recording
             }
             
         case .RECORD:
             //record if on and is playing
             if(playRecordButton.recordButton.on && playRecordButton.playButton.on){
-                eventCount = 0
                 song.record()
                 print("start record and enable clear")
             }
             else{
                 song.stop_record()
-                //print("stop record and disable clear")
             }
             
         }
@@ -154,15 +149,13 @@ class ViewController: UIViewController {
         print("knob detentNum \(knob.detent)")
         positionIndicator.setPosition(knobControl.detent)
         let position = positionIndicator.currentPos //ex: 0 or 1 or 2 or 3...17
+        let wasRecording = song.recordEnabled
         selectSound(position)
-        if(eventCount==0 && song.recordEnabled){
-            song.clickTrack.timer.start() //reset timer when changing to new instrument
-        }
-        else if(eventCount >= 1 && song.recordEnabled){
-            song.stop_record()
+        if(!song.recordEnabled && wasRecording){
             playRecordControl.manualDeselectButton(.RECORD)
+        }
+        else{
             updateButtonStatesAfterKnobTurn()
-            eventCount = 0 //reset
         }
         
     }
@@ -184,55 +177,30 @@ class ViewController: UIViewController {
     
     //MARK: Set clear button if appropriate
     func updateClearButton(noteAdded: Bool=false){
-        let newSong = (song.selectedInstrument != song.prevSelectedInstrument)
+        let newInstrument = (song.selectedInstrument != song.prevSelectedInstrument)
         let newPreset = (song.selectedPreset != song.prevSelectedPreset)
+        let empty = song.instrument.trackEmpty
+        let recording = song.recordEnabled
+        let clear = (newInstrument && newPreset && empty && recording)
         if(song.recordEnabled && noteAdded){
             playRecordControl.manualSelectButton(.CLEAR)
             return
         }
-        else if(song.recordEnabled && !playRecordControl.clearButton.active && (newSong || newPreset) && !song.instrument.trackEmpty){
-            print("update after knob turned added")
+        else if(clear){
+            print("manual select clear")
             playRecordControl.manualSelectButton(.CLEAR)
         }
-        else if(song.recordEnabled && playRecordControl.clearButton.active && song.instrument.trackEmpty){
-            print("clear deselected!!!")
+        else{
+            print("manual deselect clear")
             playRecordControl.manualDeselectButton(.CLEAR)
         }
-        else{
-            print("nothing deselected!")
-        }
+
     }
     
     
     func selectSound(position: Int){
-        if(position >= 0 && position <= 3){
-            //inst 0
-            song.selectInstrument(0)
-            let preset = position - 0 //this will result in number 0 - 3
-            song.selectPreset(preset)
-            positionLabel.text = song.selectedInstrumentName
-            print("inst 0 with preset \(preset)")
-        }
-        else if(position >= 4 && position <= 7){
-            //inst 1
-            song.selectInstrument(1)
-            let preset = position - 4 //this will result in number 0 - 3
-            song.selectPreset(preset)
-            positionLabel.text = song.selectedInstrumentName
-            print("inst 1 with preset \(preset)")
-        }
-        else if(position >= 8 && position <= 11){
-            //inst 2
-            song.selectInstrument(2)
-            let preset = position - 8 //this will result in number 0 - 3
-            song.selectPreset(preset)
-            positionLabel.text = song.selectedInstrumentName
-            print("inst 2 with preset \(preset)")
-        }
-        else{
-            //only have 3 inst right now, so do nothing if position > 12
-            print("inst not selected")
-        }
+        song.selectInstrumentFromPreset(position)
+        positionLabel.text = song.selectedInstrumentName
     }
     
     func innerKnobTapped(knobControl: Knob){
@@ -240,10 +208,8 @@ class ViewController: UIViewController {
         song.toggleClickTrackMute()
         
         //temporary hack when not using iPhone (using simulator) to allow for beat generation
-        song.addSelectedNote() //Used for testing in sim mode to simulate motion generated beat
+        song.addNote() //Used for testing in sim mode to simulate motion generated beat
         updateButtonStatesAfterNoteAdded()
-        eventCount += 1
-        //updateButtonStatesAfterNoteAdded()
     }
     
     //MARK: Motion Sensor Functions
@@ -257,8 +223,7 @@ class ViewController: UIViewController {
         if(sensor.beat){
             let eventStatus = Int(sensor.getEventStatus())
             if eventStatus != 0x80{
-                song.addSelectedNote() //make drum sound and add to track if recording!
-                eventCount = eventCount + 1
+                song.addNote() //make drum sound and add to track if recording!
                 updateButtonStatesAfterNoteAdded()
             }
             

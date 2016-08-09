@@ -22,58 +22,14 @@ class HatInstrument1: SynthInstrument{
     /// - parameter voiceCount: Number of voices (usually two is plenty for drums)
     ///
     
-    init(voiceCount: Int) {
-        super.init(instrumentVoice: HatInstrument1Voice(), voiceCount: voiceCount)
+    override init() {
+        super.init()
         note = 60
         name = "Hat Instrument 1"
-        
-    }
-    
-    /// Start playback of a particular voice with MIDI style note and velocity
-    ///
-    /// - parameter voice: Voice to start
-    /// - parameter note: MIDI Note Number
-    /// - parameter velocity: MIDI Velocity (0-127)
-    ///
-    override func playVoice(voice: AKVoice, note: Int, velocity: Int) {
-        
-        voice.start()
-        
-    }
-    
-    /// Stop playback of a particular voice
-    ///
-    /// - parameter voice: Voice to stop
-    /// - parameter note: MIDI Note Number
-    ///
-    override func stopVoice(voice: AKVoice, note: Int) {
-        voice.stop()
-    }
-    
-}
-
-/// Hat Instrument 1 Voice
-class HatInstrument1Voice: SynthInstrumentVoice{
-    override init(){
-        
-        super.init()
-        sampler = AKSampler()
         sampler.loadWav("Sounds/Hat/hat-1")
         self.avAudioNode = sampler.avAudioNode
     }
     
-    override func start() {
-        sampler.playNote()
-    }
-    
-    override func stop(){
-        //sampler.stopNote()
-    }
-    
-    override func duplicate() -> AKVoice {
-        let copy = HatInstrument1Voice()
-        return copy
-    }
 }
 
 
@@ -87,56 +43,15 @@ class HatInstrument2: SynthInstrument{
     /// - parameter voiceCount: Number of voices (usually two is plenty for drums)
     ///
     
-    init(voiceCount: Int) {
-        super.init(instrumentVoice: HatInstrument2Voice(), voiceCount: voiceCount)
+    override init() {
+        super.init()
         note = 70
         name = "Hat Instrument 2"
-        
-    }
-    
-    /// Start playback of a particular voice with MIDI style note and velocity
-    ///
-    /// - parameter voice: Voice to start
-    /// - parameter note: MIDI Note Number
-    /// - parameter velocity: MIDI Velocity (0-127)
-    ///
-    override func playVoice(voice: AKVoice, note: Int, velocity: Int) {
-        voice.start()
-    }
-    
-    /// Stop playback of a particular voice
-    ///
-    /// - parameter voice: Voice to stop
-    /// - parameter note: MIDI Note Number
-    ///
-    override func stopVoice(voice: AKVoice, note: Int) {
-        voice.stop()
-    }
-    
-}
-
-/// Hat Instrument 2 Voice
-class HatInstrument2Voice: SynthInstrumentVoice{
-    override init(){
-        
-        super.init()
-        sampler = AKSampler()
         sampler.loadWav("Sounds/Hat/hat-2")
         self.avAudioNode = sampler.avAudioNode
+        
     }
     
-    override func start() {
-        sampler.playNote()
-    }
-    
-    override func stop(){
-        //sampler.stopNote()
-    }
-    
-    override func duplicate() -> AKVoice {
-        let copy = HatInstrument2Voice()
-        return copy
-    }
 }
 
 
@@ -150,57 +65,16 @@ class HatInstrument3: SynthInstrument{
     /// - parameter voiceCount: Number of voices (usually two is plenty for drums)
     ///
     
-    init(voiceCount: Int) {
-        super.init(instrumentVoice: HatInstrument3Voice(), voiceCount: voiceCount)
+    override init() {
+        super.init()
         note = 80
         name = "Hat Instrument 3"
-        
-    }
-    
-    /// Start playback of a particular voice with MIDI style note and velocity
-    ///
-    /// - parameter voice: Voice to start
-    /// - parameter note: MIDI Note Number
-    /// - parameter velocity: MIDI Velocity (0-127)
-    ///
-    override func playVoice(voice: AKVoice, note: Int, velocity: Int) {
-        voice.start()
-    }
-    
-    /// Stop playback of a particular voice
-    ///
-    /// - parameter voice: Voice to stop
-    /// - parameter note: MIDI Note Number
-    ///
-    override func stopVoice(voice: AKVoice, note: Int) {
-        voice.stop()
-    }
-    
-}
-
-/// Hat Instrument 3 Voice
-class HatInstrument3Voice: SynthInstrumentVoice{
-    override init(){
-        
-        super.init()
-        sampler = AKSampler()
         sampler.loadWav("Sounds/Hat/hat-3")
         self.avAudioNode = sampler.avAudioNode
     }
     
-    override func start() {
-        sampler.playNote()
-    }
-    
-    override func stop(){
-        //sampler.stopNote()
-    }
-    
-    override func duplicate() -> AKVoice {
-        let copy = HatInstrument3Voice()
-        return copy
-    }
 }
+
 
 
 /****************Hat Instrument 4
@@ -213,55 +87,14 @@ class HatInstrument4: SynthInstrument{
     /// - parameter voiceCount: Number of voices (usually two is plenty for drums)
     ///
     
-    init(voiceCount: Int) {
-        super.init(instrumentVoice: HatInstrument4Voice(), voiceCount: voiceCount)
+    override init() {
+        super.init()
         note = 90
         name = "Hat Instrument 4"
-        
-    }
-    
-    /// Start playback of a particular voice with MIDI style note and velocity
-    ///
-    /// - parameter voice: Voice to start
-    /// - parameter note: MIDI Note Number
-    /// - parameter velocity: MIDI Velocity (0-127)
-    ///
-    override func playVoice(voice: AKVoice, note: Int, velocity: Int) {
-        voice.start()
-    }
-    
-    /// Stop playback of a particular voice
-    ///
-    /// - parameter voice: Voice to stop
-    /// - parameter note: MIDI Note Number
-    ///
-    override func stopVoice(voice: AKVoice, note: Int) {
-        voice.stop()
-    }
-    
-}
-
-/// Hat Instrument 4 Voice
-class HatInstrument4Voice: SynthInstrumentVoice{
-    override init(){
-        
-        super.init()
-        sampler = AKSampler()
         sampler.loadWav("Sounds/Hat/hat-4")
         self.avAudioNode = sampler.avAudioNode
     }
     
-    override func start() {
-        sampler.playNote()
-    }
-    
-    override func stop(){
-        //sampler.stopNote()
-    }
-    
-    override func duplicate() -> AKVoice {
-        let copy = HatInstrument4Voice()
-        return copy
-    }
 }
+
 

@@ -13,6 +13,8 @@ import AudioKit
 
 
 class Song {
+    var presetsPerInst = 4
+    var noteAdded = false
     var selectedInstrument = 0
     var prevSelectedInstrument = 0
     var selectedPreset = 0
@@ -119,6 +121,14 @@ class Song {
     }
     
     
+    func selectInstrumentFromPreset(preset: Int){
+        let presetNum = preset % presetsPerInst //ex: if preset = 2 then presetNum = 2%4 = 2
+        let instNum = preset / presetsPerInst  //ex: instNum = 2/4 = 0
+        
+        selectPreset(presetNum)
+        selectInstrument(instNum)
+    }
+    
     func selectInstrument(number: Int){
         if(number < instruments.count){
             if(recordEnabled){
@@ -135,6 +145,12 @@ class Song {
         prevSelectedPreset = selectedPreset
         selectedPreset = preset
         instrument.selectPreset(selectedPreset)
+        if(!noteAdded && recordEnabled && instrument.instruments[selectedPreset].trackManager.firstInstance){
+            clickTrack.timer.start() //reset timer when changing to new instrument
+        }
+        else if(recordEnabled && noteAdded){
+            stop_record()
+        }
     }
     
     func addNote(preset presetNumber: Int){
@@ -145,6 +161,7 @@ class Song {
             print("Record not enabled or pre-record not finished, no add note allowed")
             return
         }
+        noteAdded = true
         instrument.addNote(preset: presetNumber)
         if !playing {
             print("record started play")
@@ -156,6 +173,7 @@ class Song {
     func start_record(){
         recordEnabled = true
         clickTrack.timer.start()
+        noteAdded = false
         
         //recorded all tracks
         for instNum in 0 ..< instruments.count {

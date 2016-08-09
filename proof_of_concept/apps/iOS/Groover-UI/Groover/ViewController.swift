@@ -17,7 +17,6 @@ class ViewController: UIViewController {
     let motionManager = CMMotionManager()
     let queue = NSOperationQueue.mainQueue()
     var timeIntervalMillis: UInt = 25
-    var eventCount = 0
     
     //MARK: outlets
     
@@ -133,7 +132,6 @@ class ViewController: UIViewController {
         case .RECORD:
             //record if on and is playing
             if(playRecordButton.recordButton.on && playRecordButton.playButton.on){
-                eventCount = 0
                 song.record()
                 print("start record and enable clear")
             }
@@ -154,15 +152,11 @@ class ViewController: UIViewController {
         print("knob detentNum \(knob.detent)")
         positionIndicator.setPosition(knobControl.detent)
         let position = positionIndicator.currentPos //ex: 0 or 1 or 2 or 3...17
+        let wasRecording = song.recordEnabled
         selectSound(position)
-        if(eventCount==0 && song.recordEnabled){
-            song.clickTrack.timer.start() //reset timer when changing to new instrument
-        }
-        else if(eventCount >= 1 && song.recordEnabled){
-            song.stop_record()
+        if(!song.recordEnabled && wasRecording){
             playRecordControl.manualDeselectButton(.RECORD)
             updateButtonStatesAfterKnobTurn()
-            eventCount = 0 //reset
         }
         
     }
@@ -185,7 +179,13 @@ class ViewController: UIViewController {
     //MARK: Set clear button if appropriate
     func updateClearButton(noteAdded: Bool=false){
         let newSong = (song.selectedInstrument != song.prevSelectedInstrument)
+        
         let newPreset = (song.selectedPreset != song.prevSelectedPreset)
+        print("new song \(newSong)")
+        print("new preset \(newPreset)")
+        print("clear active \(playRecordControl.clearButton.active)")
+        print("inst track empty \(song.instrument.trackEmpty)")
+        print("record enabled \(song.recordEnabled)")
         if(song.recordEnabled && noteAdded){
             playRecordControl.manualSelectButton(.CLEAR)
             return
@@ -205,34 +205,8 @@ class ViewController: UIViewController {
     
     
     func selectSound(position: Int){
-        if(position >= 0 && position <= 3){
-            //inst 0
-            song.selectInstrument(0)
-            let preset = position - 0 //this will result in number 0 - 3
-            song.selectPreset(preset)
-            positionLabel.text = song.selectedInstrumentName
-            print("inst 0 with preset \(preset)")
-        }
-        else if(position >= 4 && position <= 7){
-            //inst 1
-            song.selectInstrument(1)
-            let preset = position - 4 //this will result in number 0 - 3
-            song.selectPreset(preset)
-            positionLabel.text = song.selectedInstrumentName
-            print("inst 1 with preset \(preset)")
-        }
-        else if(position >= 8 && position <= 11){
-            //inst 2
-            song.selectInstrument(2)
-            let preset = position - 8 //this will result in number 0 - 3
-            song.selectPreset(preset)
-            positionLabel.text = song.selectedInstrumentName
-            print("inst 2 with preset \(preset)")
-        }
-        else{
-            //only have 3 inst right now, so do nothing if position > 12
-            print("inst not selected")
-        }
+        song.selectInstrumentFromPreset(position)
+        positionLabel.text = song.selectedInstrumentName
     }
     
     func innerKnobTapped(knobControl: Knob){
@@ -242,8 +216,6 @@ class ViewController: UIViewController {
         //temporary hack when not using iPhone (using simulator) to allow for beat generation
         song.addSelectedNote() //Used for testing in sim mode to simulate motion generated beat
         updateButtonStatesAfterNoteAdded()
-        eventCount += 1
-        //updateButtonStatesAfterNoteAdded()
     }
     
     //MARK: Motion Sensor Functions
@@ -258,7 +230,6 @@ class ViewController: UIViewController {
             let eventStatus = Int(sensor.getEventStatus())
             if eventStatus != 0x80{
                 song.addSelectedNote() //make drum sound and add to track if recording!
-                eventCount = eventCount + 1
                 updateButtonStatesAfterNoteAdded()
             }
             

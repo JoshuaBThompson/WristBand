@@ -446,6 +446,7 @@ class TrackManager: AKSequencer{
         }
         else if(trackCount >= 1 && firstInstance){
             print("adding new note to first instance!!!")
+            noteCount+=1
             let position = AKDuration(seconds: timeElapsed)
             trackNotes.append(position)
             velNotes.append(velocity)
@@ -567,14 +568,10 @@ class InstrumentCollection {
     }
     
     func clearPreset(){
-        //stop any currently playing tracks first
-        stop()
         
-        //clear all recorded tracks
+        //clear preset track
         instruments[selectedInst].trackManager.clear()
         
-        //start record again
-        record()
     }
     func clear(){
         //stop any currently playing tracks first

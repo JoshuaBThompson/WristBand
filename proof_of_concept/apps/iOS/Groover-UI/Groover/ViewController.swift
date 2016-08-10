@@ -41,6 +41,7 @@ class ViewController: UIViewController {
         knob.addTarget(self, action: #selector(ViewController.hidePositionIndicator), forControlEvents: .EditingDidEnd)
         playRecordControl.addTarget(self, action: #selector(ViewController.playRecordButtonSelected(_:)), forControlEvents: .ValueChanged)
         parametersButton.addTarget(self, action: #selector(ViewController.parametersButtonSelected), forControlEvents: .ValueChanged)
+        parametersPopup.addTarget(self, action: #selector(ViewController.parametersOptionSelected(_:)), forControlEvents: .ValueChanged)
         popup.addTarget(self, action: #selector(ViewController.popupButtonSelected), forControlEvents: .ValueChanged)
         song = Song()
         positionLabel.text = song.selectedInstrumentName
@@ -68,6 +69,19 @@ class ViewController: UIViewController {
     func hamburgerButtonSelected(){
         print("hamburger button selected")
         popup.toggleHide()
+    }
+    
+    //MARK: Parameter option selected
+    func parametersOptionSelected(button: ParameterOptionsButton){
+        var buttonType = ParametersButtonTypes.CLEAR
+        buttonType = button.type
+        
+        switch buttonType {
+        case .CLEAR:
+            song.clearPreset()
+            print("song clear preset!")
+            break
+        }
     }
     
     //MARK: Parameter button function
@@ -120,18 +134,11 @@ class ViewController: UIViewController {
                 song.stop()
             }
             
-        case .CLEAR:
-            //clear track
-            if(song.recordEnabled){
-                print("clear current instrument song")
-                song.clearPreset()
-            }
-            
         case .RECORD:
             //record if on and is playing
             if(playRecordButton.recordButton.on && playRecordButton.playButton.on){
                 song.record()
-                print("start record and enable clear")
+                print("start record")
             }
             else{
                 song.stop_record()
@@ -162,40 +169,15 @@ class ViewController: UIViewController {
     
     //MARK: Update button states from knob turn
     func updateButtonStatesAfterKnobTurn(){
-        //knob turned so check if recording
-        //if recording then make the clear button visible again only if turned to diff instrument
-        //to give user chance to clear track again
+        //TODO: ?
         print("update after knob turned called")
-        updateClearButton()
     }
     
     //MARK: Update button after note added
     func updateButtonStatesAfterNoteAdded(){
         print("update after note added called")
-        updateClearButton(true)
     }
     
-    //MARK: Set clear button if appropriate
-    func updateClearButton(noteAdded: Bool=false){
-        let newInstrument = (song.selectedInstrument != song.prevSelectedInstrument)
-        let newPreset = (song.selectedPreset != song.prevSelectedPreset)
-        let empty = song.instrument.trackEmpty
-        let recording = song.recordEnabled
-        let clear = (newInstrument && newPreset && empty && recording)
-        if(song.recordEnabled && noteAdded){
-            playRecordControl.manualSelectButton(.CLEAR)
-            return
-        }
-        else if(clear){
-            print("manual select clear")
-            playRecordControl.manualSelectButton(.CLEAR)
-        }
-        else{
-            print("manual deselect clear")
-            playRecordControl.manualDeselectButton(.CLEAR)
-        }
-
-    }
     
     
     func selectSound(position: Int){

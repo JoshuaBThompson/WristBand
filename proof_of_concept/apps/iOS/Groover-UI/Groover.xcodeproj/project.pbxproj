@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4220581B1D5B942B0018E22D /* ParameterOptionsButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4220581A1D5B942B0018E22D /* ParameterOptionsButton.swift */; };
 		4254BC451D4D8366007572B6 /* PopupBlur.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4254BC441D4D8366007572B6 /* PopupBlur.swift */; };
 		4254BC491D4E9DE6007572B6 /* PopupButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4254BC481D4E9DE6007572B6 /* PopupButton.swift */; };
 		4268BBFB1D51E0E1002C0F2C /* AudioKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4268BBFA1D51E0E1002C0F2C /* AudioKit.framework */; };
@@ -84,6 +85,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		4220581A1D5B942B0018E22D /* ParameterOptionsButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParameterOptionsButton.swift; sourceTree = "<group>"; };
 		422D9D361D35525D00E27904 /* Groover.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Groover.entitlements; sourceTree = "<group>"; };
 		4254BC441D4D8366007572B6 /* PopupBlur.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopupBlur.swift; sourceTree = "<group>"; };
 		4254BC481D4E9DE6007572B6 /* PopupButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopupButton.swift; sourceTree = "<group>"; };
@@ -254,6 +256,7 @@
 				429A22D11D354D3D0045023F /* Clear.swift */,
 				4254BC441D4D8366007572B6 /* PopupBlur.swift */,
 				4254BC481D4E9DE6007572B6 /* PopupButton.swift */,
+				4220581A1D5B942B0018E22D /* ParameterOptionsButton.swift */,
 			);
 			path = Groover;
 			sourceTree = "<group>";
@@ -406,6 +409,7 @@
 				429A22BE1D338E240045023F /* Song.swift in Sources */,
 				FAB995F01D2E2B510002EE38 /* Left.swift in Sources */,
 				42A59FA71D301F8B0070FE46 /* MidiSensor.cpp in Sources */,
+				4220581B1D5B942B0018E22D /* ParameterOptionsButton.swift in Sources */,
 				429A22BD1D338E240045023F /* SnareInstrument.swift in Sources */,
 				FA479EC71D376CB000619BA0 /* Right.swift in Sources */,
 				429A22BC1D338E240045023F /* KickInstrument.swift in Sources */,

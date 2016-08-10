@@ -12,8 +12,7 @@ import UIKit
 
 enum PlayRecordButtonTypes: Int {
     case PLAY = 0
-    case CLEAR = 1
-    case RECORD = 2
+    case RECORD = 1
 }
 
 typealias PlayRecordButtonTypes_t = PlayRecordButtonTypes

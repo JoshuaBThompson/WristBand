@@ -18,7 +18,6 @@ class PlayRecordControl: UIControl {
     var currentButtonNum = 0
     var currentButtonType = PlayRecordButtonTypes_t.PLAY
     var playButton: PlayRecordButton!
-    var clearButton: PlayRecordButton!
     var recordButton: PlayRecordButton!
     
     // MARK: Initialization
@@ -44,10 +43,6 @@ class PlayRecordControl: UIControl {
         playButton = Play()
         playButton.type = .PLAY
         addButton(playButton)
-        
-        clearButton = Clear()
-        clearButton.type = .CLEAR
-        addButton(clearButton)
         
         recordButton = Record()
         recordButton.type = .RECORD
@@ -104,13 +99,6 @@ class PlayRecordControl: UIControl {
             playButton.set = true
             playButton.updateState()
             
-        case .CLEAR:
-            print("clear manually selected")
-            clearButton.selected = true
-            clearButton.on = true
-            clearButton.set = true
-            clearButton.updateState()
-            
         case .RECORD:
             print("record manually selected")
             recordButton.selected = true
@@ -134,23 +122,12 @@ class PlayRecordControl: UIControl {
             playButton.set = false
             playButton.updateState()
             
-        case .CLEAR:
-            print("clear manually deselected")
-            clearButton.selected = false
-            clearButton.on = false
-            clearButton.set = false
-            clearButton.updateState()
-            
         case .RECORD:
             print("record manually deselected")
             recordButton.selected = false
             recordButton.on = false
             recordButton.set = false
             recordButton.updateState()
-            clearButton.selected = false
-            clearButton.on = false
-            clearButton.set = false
-            clearButton.updateState()
         }
         
     }
@@ -165,12 +142,6 @@ class PlayRecordControl: UIControl {
             if(!playButton.selected){
                 recordButton.selected = false
             }
-            clearButton.selected = false
-            changed = true
-            
-        case .CLEAR:
-            print("clear selected")
-            clearButton.selected = false
             changed = true
             
         case .RECORD:
@@ -179,7 +150,6 @@ class PlayRecordControl: UIControl {
             if(playButton.selected){
                 print("record selected")
                 recordButton.selected = !recordButton.selected
-                clearButton.selected = recordButton.selected
                 changed = true
             }
             else{

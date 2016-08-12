@@ -9,8 +9,9 @@
 import UIKit
 
 
-enum ParametersButtonTypes: Int {
-    case CLEAR = 0
+enum ParametersButtonTypes {
+    case CLEAR
+    case SOLO
 }
 
 typealias ParametersButtonTypes_t = ParametersButtonTypes
@@ -18,5 +19,6 @@ typealias ParametersButtonTypes_t = ParametersButtonTypes
 class ParameterOptionsButton: UIButton {
 
     var type: ParametersButtonTypes!
+    var on: Bool!
 
 }

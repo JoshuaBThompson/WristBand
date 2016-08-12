@@ -33,8 +33,10 @@ class SynthInstrument: AKMIDIInstrument{
     /// - parameter velocity: MIDI Velocity (0-127)
     ///
     override func play(noteNumber noteNumber: MIDINoteNumber, velocity: MIDIVelocity) {
-        //do something
-        sampler.play()
+        //if not muted then play
+        if(!muted){
+            sampler.play()
+        }
     }
     
     /// Stop playback of a particular voice
@@ -44,6 +46,15 @@ class SynthInstrument: AKMIDIInstrument{
     ///
     override func stop(noteNumber noteNumber: MIDINoteNumber) {
         //do something
+    }
+    
+    //mute
+    func mute(){
+        muted = true
+    }
+    
+    func unmute(){
+        muted = false
     }
 }
 
@@ -557,6 +568,30 @@ class InstrumentCollection {
         }
     }
     
+    //MARK: mute all instruments but keep them looping
+    func muteAll(){
+        for instNum in 0 ..< instruments.count{
+            instruments[instNum].instrument.mute()
+        }
+    }
+    
+    func unmuteAll(){
+        for instNum in 0 ..< instruments.count{
+            instruments[instNum].instrument.unmute()
+        }
+    }
+    
+    //MARK: solo selected preset and mute all others
+    func soloPreset(){
+        for instNum in 0 ..< instruments.count{
+            if(instNum != selectedInst){
+                instruments[instNum].instrument.mute()
+            }
+            else{
+                instruments[instNum].instrument.unmute()
+            }
+        }
+    }
     
     func selectPreset(preset: Int){
         if(preset < instruments.count){

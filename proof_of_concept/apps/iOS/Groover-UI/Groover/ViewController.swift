@@ -41,7 +41,7 @@ class ViewController: UIViewController {
         knob.addTarget(self, action: #selector(ViewController.hidePositionIndicator), forControlEvents: .EditingDidEnd)
         playRecordControl.addTarget(self, action: #selector(ViewController.playRecordButtonSelected(_:)), forControlEvents: .ValueChanged)
         parametersButton.addTarget(self, action: #selector(ViewController.parametersButtonSelected), forControlEvents: .ValueChanged)
-        parametersPopup.addTarget(self, action: #selector(ViewController.parametersOptionSelected(_:)), forControlEvents: .ValueChanged)
+        parametersPopup.addTarget(self, action: #selector(ViewController.parametersOptionSelected), forControlEvents: .ValueChanged)
         popup.addTarget(self, action: #selector(ViewController.popupButtonSelected), forControlEvents: .ValueChanged)
         song = Song()
         positionLabel.text = song.selectedInstrumentName
@@ -72,15 +72,23 @@ class ViewController: UIViewController {
     }
     
     //MARK: Parameter option selected
-    func parametersOptionSelected(button: ParameterOptionsButton){
+    func parametersOptionSelected(){
         var buttonType = ParametersButtonTypes.CLEAR
-        buttonType = button.type
+        buttonType = parametersPopup.selectedButton.type
+        let selected = parametersPopup.selectedButton.selected
         
         switch buttonType {
         case .CLEAR:
             song.clearPreset()
             print("song clear preset!")
-            break
+        case .SOLO:
+            if(selected){
+                song.enableSoloPreset()
+            }
+            else{
+                song.disableSoloPreset()
+            }
+            print("song solo preset!")
         }
     }
     

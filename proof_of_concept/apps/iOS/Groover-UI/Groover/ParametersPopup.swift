@@ -11,6 +11,9 @@ import UIKit
 //@IBDesignable
 class ParametersPopup: UIControl {
     var clearButton: ParameterOptionsButton!
+    var soloButton: ParameterOptionsButton!
+    var selectedButton: ParameterOptionsButton!
+    var buttons = [ParameterOptionsButton]()
     
     override func drawRect(rect: CGRect) {
         UIGroover.drawParametersPopupCanvas()
@@ -34,31 +37,69 @@ class ParametersPopup: UIControl {
     //MARK: add button views and buttons
     
     func addButton(button: ParameterOptionsButton){
-        button.addTarget(self, action: #selector(ParametersPopup.clearButtonTapped), forControlEvents: .TouchDown)
+        buttons.append(button)
+        button.addTarget(self, action: #selector(ParametersPopup.buttonTapped(_:)), forControlEvents: .TouchDown)
         addSubview(button)
     }
     
     func addSubviews(){
+        //Clear button
         clearButton = ParameterOptionsButton()
         clearButton.type = .CLEAR
         addButton(clearButton)
+        
+        //Solo button
+        soloButton = ParameterOptionsButton()
+        soloButton.type = .SOLO
+        addButton(soloButton)
         
     }
     
     //MARK: override standard swift subview layout method to position buttons correctl in view
     override func layoutSubviews() {
         // Set the button's width and height to a square the size of the frame's height.
-        let buttonFrame = CGRect(x: 225, y: 20, width: 60, height: 60)
+        var buttonFrame = CGRect(x: 225, y: 20, width: 60, height: 60)
         
-        //clear button
+        //set clear button position and text
         clearButton.frame = buttonFrame
-        clearButton.setTitle("Clear", forState: .Normal)
+        clearButton.setTitle("CLEAR", forState: .Normal)
+        
+        //set solo button position and text
+        buttonFrame.origin.x = 100
+        soloButton.frame = buttonFrame
+        soloButton.setTitle("SOLO", forState: .Normal)
     }
     
     //MARK: button tapped handlers
-    func clearButtonTapped(){
-        print("clear button on parameters popup tapped!")
+    func buttonTapped(button: ParameterOptionsButton){
+        selectedButton = button
+        updateButtonSelectionStates()
         sendActionsForControlEvents(.ValueChanged) //this tells view controller that something changed
+    }
+    
+    //MARK: update button states / visuals after taped 
+    func updateButtonSelectionStates() {
+        var num = ParametersButtonTypes.CLEAR
+        num = selectedButton.type
+        
+        var changed = false
+        switch num {
+        case .CLEAR:
+            clearButton.selected = !clearButton.selected
+            changed = true
+            print("clear selected")
+            
+        case .SOLO:
+            soloButton.selected = !soloButton.selected
+            changed = true
+            print("solo selected")
+        }
+        
+        if(changed){
+            for (_, button) in buttons.enumerate(){
+                button.on = button.selected
+            }
+        }
     }
     
     //MARK: Hide popup function

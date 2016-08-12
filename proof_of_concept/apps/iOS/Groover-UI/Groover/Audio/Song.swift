@@ -163,7 +163,27 @@ class Song {
             print("record started play")
             play()
         }
+    }
+    
+    //MARK: set current preset to solo (mute all other preset tracks but keep them looping)
+    func enableSoloPreset(){
         
+        for instNum in 0 ..< instruments.count {
+            if(selectedInstrument == instNum){
+                instruments[selectedInstrument].soloPreset()
+            }
+            else{
+                instruments[instNum].muteAll()
+            }
+        }
+    }
+    
+    //MARK: unmute all presets
+    func disableSoloPreset(){
+        
+        for instNum in 0 ..< instruments.count {
+            instruments[instNum].unmuteAll()
+        }
     }
     
     func start_record(){

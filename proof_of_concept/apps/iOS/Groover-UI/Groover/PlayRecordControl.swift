@@ -157,7 +157,6 @@ class PlayRecordControl: UIControl {
             }
         }
         
-        
         if(changed){
         
             for (_, button) in buttons.enumerate(){
@@ -166,10 +165,6 @@ class PlayRecordControl: UIControl {
                 button.updateState()
             }
         }
-        
-        
-        
-        
         
     }
     

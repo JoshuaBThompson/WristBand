@@ -413,16 +413,19 @@ class TrackManager: AKSequencer{
         super.init()
         midi = AKMIDI()
         instrument = midiInstrument
-        newTrack()
         clickTrack = clickTrackRef
         timer = clickTrack.timer
-        //set beats per min
-        updateBPM()
-        //length is set after inital beats are recorded
         instrument.enableMIDI(midi.client, name: "Synth inst preset")
+        updateBPM()
+        resetTrack() //creates new track and inits beats per min
         
+    }
+    
+    //MARK: init a track
+    func resetTrack(){
+        self.tracks.removeAll()
+        newTrack()
         tracks[0].setMIDIOutput(instrument.midiIn)
-        
     }
     
     //MARK: Functions
@@ -467,13 +470,16 @@ class TrackManager: AKSequencer{
     
     //MARK: deselect instrument track - do anything that needs to be done after user stops using this track
     func deselect(){
-        if(firstInstance &&  trackNotes.count >= 1){
+        if(trackNotes.count >= 1 && firstInstance){
+            //hack - audiokit v3.2 since updating length of track doesn't work correctly, need to make new track each time new recording
+            resetTrack()
+            
             //If this is the first time the track is being created then update measure count after instrument record stopped / deselected
             //measure count = roundUp(timeElapsed (sec) / secPerMeasure) roundUp = ceil math function
             //for ex: if timeElapsed = 9 sec and sec per measure = 4 then measure count = ceil(9/4) = 2.25 = 3 measure counts
             
             measureCount = Int(ceil(timeElapsed / secPerMeasure))
-            print("inst measure count updated to \(measureCount)")
+            print("inst \(instrument.name) measure count updated to \(measureCount)")
             updateLength()
             for i in 0 ..< trackNotes.count{
                 let position = trackNotes[i]

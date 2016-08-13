@@ -89,6 +89,14 @@ class ViewController: UIViewController {
                 song.disableSoloPreset()
             }
             print("song solo preset!")
+        case .MUTE:
+            if(selected){
+                song.mutePreset()
+            }
+            else{
+                song.unmutePreset()
+            }
+            print("mute preset!")
         }
     }
     

@@ -12,6 +12,7 @@ import UIKit
 enum ParametersButtonTypes {
     case CLEAR
     case SOLO
+    case MUTE
 }
 
 typealias ParametersButtonTypes_t = ParametersButtonTypes

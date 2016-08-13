@@ -574,6 +574,15 @@ class InstrumentCollection {
         }
     }
     
+    //MARK: mute preset only
+    func mutePreset(){
+        instruments[selectedInst].instrument.mute()
+    }
+    
+    func unmutePreset(){
+        instruments[selectedInst].instrument.unmute()
+    }
+    
     //MARK: mute all instruments but keep them looping
     func muteAll(){
         for instNum in 0 ..< instruments.count{

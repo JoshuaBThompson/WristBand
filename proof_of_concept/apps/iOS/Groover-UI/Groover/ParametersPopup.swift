@@ -12,6 +12,7 @@ import UIKit
 class ParametersPopup: UIControl {
     var clearButton: ParameterOptionsButton!
     var soloButton: ParameterOptionsButton!
+    var muteButton: ParameterOptionsButton!
     var selectedButton: ParameterOptionsButton!
     var buttons = [ParameterOptionsButton]()
     
@@ -53,6 +54,11 @@ class ParametersPopup: UIControl {
         soloButton.type = .SOLO
         addButton(soloButton)
         
+        //Mute button
+        muteButton = ParameterOptionsButton()
+        muteButton.type = .MUTE
+        addButton(muteButton)
+        
     }
     
     //MARK: override standard swift subview layout method to position buttons correctl in view
@@ -68,6 +74,11 @@ class ParametersPopup: UIControl {
         buttonFrame.origin.x = 100
         soloButton.frame = buttonFrame
         soloButton.setTitle("SOLO", forState: .Normal)
+        
+        //set mute button position and text
+        buttonFrame.origin.x = 20
+        muteButton.frame = buttonFrame
+        muteButton.setTitle("MUTE", forState: .Normal)
     }
     
     //MARK: button tapped handlers
@@ -93,6 +104,11 @@ class ParametersPopup: UIControl {
             soloButton.selected = !soloButton.selected
             changed = true
             print("solo selected")
+            
+        case .MUTE:
+            muteButton.selected = !muteButton.selected
+            changed = true
+            print("mute sselected")
         }
         
         if(changed){

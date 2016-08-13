@@ -389,6 +389,11 @@ class TrackManager: AKSequencer{
 
         return secPerMeasure * Double(measureCount)
     }
+    var timeElapsedAbs: Double {
+        let timeElapsedSec = timer.stop()
+        return timeElapsedSec
+    }
+    
     var timeElapsed: Double {
         //this gets called when a beat is added to the track
         let timeElapsedSec = timer.stop() //gets the global click track time that is shared with the song / all instruments
@@ -435,37 +440,37 @@ class TrackManager: AKSequencer{
     }
     
     func updateLength(){
-        let wasPlaying = isPlaying
-        stop()
         print("inst total duration updated to \(totalDuration)")
         setLength(AKDuration(seconds: totalDuration))
-        if(wasPlaying){
-            print("was playing")
-            enableLooping()
-            play()
-        }
-        
-        
     }
     
     
     func addNote(velocity: Int, duration: Double){
+        let position = AKDuration(seconds: timeElapsed)
+        let note = instrument.note
         if(trackCount >= 1 && !firstInstance){
-            let position = AKDuration(seconds: timeElapsed)
-            let note = instrument.note
-            self.tracks[0].add(noteNumber: note, velocity: velocity, position: position, duration: AKDuration(seconds: duration))
-            noteCount += 1
-            //if current track time less that new then replace with new
-            longestTime = (longestTime > timeElapsed) ? timeElapsed: longestTime
+            print("adding note to track")
+            addNoteToList(velocity, position: position, duration: duration)
+            addNoteToTrack(note, velocity: velocity, position: position, duration: duration)
         }
-        else if(trackCount >= 1 && firstInstance){
+        else if(firstInstance){
             print("adding new note to first instance!!!")
-            noteCount+=1
-            let position = AKDuration(seconds: timeElapsed)
-            trackNotes.append(position)
-            velNotes.append(velocity)
-            durNotes.append(AKDuration(seconds: duration))
+            addNoteToList(velocity, position: position, duration: duration)
         }
+    }
+    
+    func addNoteToList(velocity: Int, position: AKDuration, duration: Double){
+        noteCount += 1
+        trackNotes.append(position)
+        velNotes.append(velocity)
+        durNotes.append(AKDuration(seconds: duration))
+    }
+    
+    func addNoteToTrack(note: Int, velocity: Int, position: AKDuration, duration: Double){
+        addNoteToList(velocity, position: position, duration: duration)
+        self.tracks[0].add(noteNumber: note, velocity: velocity, position: position, duration: AKDuration(seconds: duration))
+        //if current track time less that new then replace with new
+        longestTime = (longestTime > timeElapsed) ? timeElapsed: longestTime
     }
     
     //MARK: deselect instrument track - do anything that needs to be done after user stops using this track
@@ -478,7 +483,7 @@ class TrackManager: AKSequencer{
             //measure count = roundUp(timeElapsed (sec) / secPerMeasure) roundUp = ceil math function
             //for ex: if timeElapsed = 9 sec and sec per measure = 4 then measure count = ceil(9/4) = 2.25 = 3 measure counts
             
-            measureCount = Int(ceil(timeElapsed / secPerMeasure))
+            measureCount = Int(ceil(timeElapsedAbs / secPerMeasure))
             print("inst \(instrument.name) measure count updated to \(measureCount)")
             updateLength()
             for i in 0 ..< trackNotes.count{
@@ -496,7 +501,10 @@ class TrackManager: AKSequencer{
     
     func clear(){
         if(trackCount >= 1){
+            stop()
+            disableLooping()
             self.tracks[0].clear()
+            resetTrack()
             longestTime = 0.0
             noteCount = 0
             trackNotes.removeAll()

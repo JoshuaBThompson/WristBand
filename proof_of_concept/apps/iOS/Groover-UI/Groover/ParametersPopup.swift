@@ -13,6 +13,11 @@ class ParametersPopup: UIControl {
     var clearButton: ParameterOptionsButton!
     var soloButton: ParameterOptionsButton!
     var muteButton: ParameterOptionsButton!
+    var measureRightButton: ParameterOptionsButton!
+    var measureLeftButton: ParameterOptionsButton!
+    var measures = 0
+    var measureTitleLabel: UILabel!
+    var measureLabel: UILabel!
     var selectedButton: ParameterOptionsButton!
     var buttons = [ParameterOptionsButton]()
     
@@ -44,6 +49,21 @@ class ParametersPopup: UIControl {
     }
     
     func addSubviews(){
+        //Measure buttons
+        measureLabel = UILabel()
+        measureTitleLabel = UILabel()
+        addSubview(measureLabel)
+        addSubview(measureTitleLabel)
+        measureLeftButton = ParametersMeasureLeft()
+        measureLeftButton.type = .MEASURE_LEFT
+        measureLeftButton.addTarget(self, action: #selector(ParametersPopup.measureLeftButtonTapped), forControlEvents: .TouchDown)
+        addButton(measureLeftButton)
+        
+        measureRightButton = ParametersMeasureRight()
+        measureRightButton.type = .MEASURE_RIGHT
+        measureRightButton.addTarget(self, action: #selector(ParametersPopup.measureRightButtonTapped), forControlEvents: .TouchDown)
+        addButton(measureRightButton)
+        
         //Clear button
         clearButton = ParameterOptionsButton()
         clearButton.type = .CLEAR
@@ -65,6 +85,32 @@ class ParametersPopup: UIControl {
     override func layoutSubviews() {
         // Set the button's width and height to a square the size of the frame's height.
         var buttonFrame = CGRect(x: 225, y: 20, width: 60, height: 60)
+        
+        //set measure button layout
+        var measureButtonFrame = CGRect(x: 44, y: 44, width: 50, height: 50)
+        var measureLabelFrame = CGRect(x: 110, y: 100, width: 100, height: 40)
+        
+        //measure count label
+        measureLabel.frame = measureLabelFrame
+        measureLabel.textColor = UIColor.whiteColor()
+        measureLabel.textAlignment = .Center
+        measureLabel.text = String(format: "1")
+        
+        //meausure title label
+        measureLabelFrame.origin.y = 150
+        measureTitleLabel.frame = measureLabelFrame
+        measureTitleLabel.textColor = UIColor.whiteColor()
+        measureTitleLabel.textAlignment = .Center
+        measureTitleLabel.text = String(format: "MEASURES")
+        
+        //measure buttons
+        measureButtonFrame.origin.x = CGFloat(44)
+        measureButtonFrame.origin.y = CGFloat(124)
+        measureLeftButton.frame = measureButtonFrame
+        
+        measureButtonFrame.origin.x = CGFloat(260)
+        measureButtonFrame.origin.y = CGFloat(124)
+        measureRightButton.frame = measureButtonFrame
         
         //set clear button position and text
         clearButton.frame = buttonFrame
@@ -109,6 +155,15 @@ class ParametersPopup: UIControl {
             muteButton.selected = !muteButton.selected
             changed = true
             print("mute sselected")
+        case .MEASURE_LEFT:
+            measureLeftButton.selected = !measureLeftButton.selected
+            changed = true
+            print("measure left selected")
+        
+        case .MEASURE_RIGHT:
+            measureRightButton.selected = !measureRightButton.selected
+            changed = true
+            print("measure right selected")
         }
         
         if(changed){
@@ -136,6 +191,44 @@ class ParametersPopup: UIControl {
     //MARK: Update buttons
     
     func updateButtonStates(){
+    }
+    
+    //MARK: update measure count functions
+    func updateMeasureString(){
+        measureLabel.text = String(format: "\(measures)")
+    }
+    
+    
+    //MARK: increment / decrement measure count functions
+    func incMeasure(){
+        measures += 1
+    }
+    
+    func decMeasure(){
+        measures -= 1
+        //don't let measure count get below 1
+        if(measures < 1){
+            measures = 1
+        }
+    }
+    
+    
+    //MARK: measure arrow tapped functions
+    func measureLeftButtonTapped(){
+        print("measure left button tapped")
+        decMeasure()
+        updateMeasureString()
+        selectedButton = measureLeftButton
+        sendActionsForControlEvents(.ValueChanged) //this tells view controller that something changed
+        
+    }
+    
+    func measureRightButtonTapped(){
+        print("measure right button tapped")
+        incMeasure()
+        updateMeasureString()
+        selectedButton = measureRightButton
+        sendActionsForControlEvents(.ValueChanged) //this tells view controller that something changed
     }
     
     

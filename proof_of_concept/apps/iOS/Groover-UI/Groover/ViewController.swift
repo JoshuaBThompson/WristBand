@@ -97,6 +97,11 @@ class ViewController: UIViewController {
                 song.unmutePreset()
             }
             print("mute preset!")
+        case .MEASURE_LEFT:
+            print("measure change decrease!")
+        
+        case .MEASURE_RIGHT:
+            print("measure change increase!")
         }
     }
     

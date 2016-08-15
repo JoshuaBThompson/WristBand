@@ -116,8 +116,10 @@ class ViewController: UIViewController {
             //also see if user updated measure count and if so change preset track measure count
             let currentMeasures = song.presetMeasureCount
             let newMeasures = parametersPopup.measures
-            if(newMeasures != currentMeasures){
+            let updated = parametersPopup.measuresUpdated
+            if(newMeasures != currentMeasures && updated){
                 song.updatePresetMeasureCount(newMeasures)
+                parametersPopup.measuresUpdated = false //clear for next use
             }
             
             

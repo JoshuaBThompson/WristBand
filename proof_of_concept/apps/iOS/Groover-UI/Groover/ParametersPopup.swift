@@ -16,6 +16,7 @@ class ParametersPopup: UIControl {
     var measureRightButton: ParameterOptionsButton!
     var measureLeftButton: ParameterOptionsButton!
     var measures = 1
+    var measuresUpdated = false
     var measureTitleLabel: UILabel!
     var measureLabel: UILabel!
     var selectedButton: ParameterOptionsButton!
@@ -202,6 +203,7 @@ class ParametersPopup: UIControl {
     //MARK: increment / decrement measure count functions
     func incMeasure(){
         measures += 1
+        measuresUpdated = true
     }
     
     func decMeasure(){
@@ -210,6 +212,7 @@ class ParametersPopup: UIControl {
         if(measures < 1){
             measures = 1
         }
+        measuresUpdated = true
     }
     
     

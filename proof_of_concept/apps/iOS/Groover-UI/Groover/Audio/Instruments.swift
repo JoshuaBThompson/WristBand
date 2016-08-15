@@ -368,7 +368,7 @@ class TrackManager: AKSequencer{
     var durNotes = [AKDuration]()
     var noteCount = 0
     var longestTime: Double = 0.0
-    var measureCount = 10 //default measure count is high initially but will be changed once user adds beats
+    var measureCount = 1 //default measure count
     var firstInstance = true //informs if this is the first time the track is being filled so we can define the initial measure count / duration
     var instrument: SynthInstrument!
     var clickTrack: ClickTrack!
@@ -447,6 +447,7 @@ class TrackManager: AKSequencer{
     
     func addNote(velocity: Int, duration: Double){
         let position = AKDuration(seconds: timeElapsed)
+        let absPosition = AKDuration(seconds: timeElapsedAbs)
         let note = instrument.note
         if(trackCount >= 1 && !firstInstance){
             print("adding note to track")
@@ -455,7 +456,7 @@ class TrackManager: AKSequencer{
         }
         else if(firstInstance){
             print("adding new note to first instance!!!")
-            addNoteToList(velocity, position: position, duration: duration)
+            addNoteToList(velocity, position: absPosition, duration: duration)
         }
     }
     
@@ -476,25 +477,43 @@ class TrackManager: AKSequencer{
     //MARK: deselect instrument track - do anything that needs to be done after user stops using this track
     func deselect(){
         if(trackNotes.count >= 1 && firstInstance){
-            //hack - audiokit v3.2 since updating length of track doesn't work correctly, need to make new track each time new recording
-            resetTrack()
             
             //If this is the first time the track is being created then update measure count after instrument record stopped / deselected
             //measure count = roundUp(timeElapsed (sec) / secPerMeasure) roundUp = ceil math function
             //for ex: if timeElapsed = 9 sec and sec per measure = 4 then measure count = ceil(9/4) = 2.25 = 3 measure counts
             
-            measureCount = Int(ceil(timeElapsedAbs / secPerMeasure))
-            print("inst \(instrument.name) measure count updated to \(measureCount)")
-            updateLength()
-            for i in 0 ..< trackNotes.count{
-                let position = trackNotes[i]
-                let velocity = velNotes[i]
-                let duration = durNotes[i]
-                
+            let count = Int(ceil(timeElapsedAbs / secPerMeasure))
+            updateMeasureCount(count)
+        }
+        
+    }
+    
+    func updateMeasureCount(count: Int){
+        let wasPlaying = isPlaying
+        if(isPlaying){
+            stop()
+            disableLooping()
+        }
+        //hack - audiokit v3.2 since updating length of track doesn't work correctly, need to make new track each time new recording
+        print("inst \(instrument.name) measure count updated to \(count)")
+        measureCount = count
+        resetTrack()
+        updateLength()
+        for i in 0 ..< trackNotes.count{
+            let position = trackNotes[i]
+            let velocity = velNotes[i]
+            let duration = durNotes[i]
+            let maxTime = AKDuration(seconds: totalDuration)
+            if(position <= maxTime){
                 self.tracks[0].add(noteNumber: instrument.note, velocity: velocity, position: position, duration: duration)
             }
-            
-            firstInstance = false //first instance measure count update complete
+        }
+        
+        firstInstance = false //first instance measure count update complete
+        
+        if(wasPlaying){
+            enableLooping()
+            play()
         }
         
     }
@@ -511,6 +530,8 @@ class TrackManager: AKSequencer{
             velNotes.removeAll()
             durNotes.removeAll()
             firstInstance = true
+            measureCount = 1
+            setLength(AKDuration(beats: Double(measureCount)))
         }
     }
     
@@ -580,6 +601,11 @@ class InstrumentCollection {
         for inst in instruments{
             inst.deselect()
         }
+    }
+    
+    //MARK: update preset measure count
+    func updatePresetMeasureCount(count: Int){
+        instruments[selectedInst].trackManager.updateMeasureCount(count)
     }
     
     //MARK: mute preset only

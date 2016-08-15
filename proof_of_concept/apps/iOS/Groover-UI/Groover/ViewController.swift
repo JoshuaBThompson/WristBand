@@ -98,10 +98,10 @@ class ViewController: UIViewController {
             }
             print("mute preset!")
         case .MEASURE_LEFT:
-            print("measure change decrease!")
+            print("measure change decrease to \(parametersPopup.measures)!")
         
         case .MEASURE_RIGHT:
-            print("measure change increase!")
+            print("measure change increase to \(parametersPopup.measures)!")
         }
     }
     
@@ -113,6 +113,14 @@ class ViewController: UIViewController {
         }
         else{
             parametersPopup.hide()
+            //also see if user updated measure count and if so change preset track measure count
+            let currentMeasures = song.presetMeasureCount
+            let newMeasures = parametersPopup.measures
+            if(newMeasures != currentMeasures){
+                song.updatePresetMeasureCount(newMeasures)
+            }
+            
+            
         }
     }
     

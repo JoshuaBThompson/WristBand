@@ -30,6 +30,11 @@ class Song {
     var timeSignature = TimeSignature()
     var tempo = Tempo()
     var clickTrack: ClickTrack!
+    
+    //MARK: computed variables
+    var presetMeasureCount: Int {
+        return instruments[selectedPreset].instruments[selectedPreset].trackManager.measureCount
+    }
     var selectedInstrumentName: String {
         return instruments[selectedInstrument].instruments[selectedPreset].instrument.name
     }
@@ -163,6 +168,11 @@ class Song {
             print("record started play")
             play()
         }
+    }
+    
+    //MARK: change measure count of a preset track
+    func updatePresetMeasureCount(count: Int){
+        instruments[selectedInstrument].updatePresetMeasureCount(count)
     }
     
     //MARK: set current preset to mute

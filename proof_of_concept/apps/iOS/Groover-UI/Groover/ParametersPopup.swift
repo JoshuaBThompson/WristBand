@@ -15,7 +15,7 @@ class ParametersPopup: UIControl {
     var muteButton: ParameterOptionsButton!
     var measureRightButton: ParameterOptionsButton!
     var measureLeftButton: ParameterOptionsButton!
-    var measures = 0
+    var measures = 1
     var measureTitleLabel: UILabel!
     var measureLabel: UILabel!
     var selectedButton: ParameterOptionsButton!

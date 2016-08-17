@@ -15,9 +15,13 @@ import AudioKit
 class SynthInstrument: AKMIDIInstrument{
     var note: Int = 0
     var muted = false
+    var volumePercent: Double = 100.0
     var instrumentName = "Synth Instrument"
     var sampler = AKSampler()
     var preset = 0
+    var volumeScale: Double {
+        return volumePercent/100.0
+    }
     /// Create the synth snare instrument
     ///
     /// - parameter voiceCount: Number of voices (usually two is plenty for drums)
@@ -35,6 +39,8 @@ class SynthInstrument: AKMIDIInstrument{
     override func play(noteNumber noteNumber: MIDINoteNumber, velocity: MIDIVelocity) {
         //if not muted then play
         if(!muted){
+            let volume = volumeScale * velocity/127.0
+            sampler.volume = volume
             sampler.play()
         }
     }
@@ -46,6 +52,11 @@ class SynthInstrument: AKMIDIInstrument{
     ///
     override func stop(noteNumber noteNumber: MIDINoteNumber) {
         //do something
+    }
+    
+    //update volume scale: ex real volume = velocity * scale
+    func updateVolume(percent: Double){
+        volumePercent = percent
     }
     
     //mute
@@ -320,6 +331,10 @@ class InstrumentTrack {
     var instrument: SynthInstrument!
     var clickTrack: ClickTrack!
     
+    var volume: Double {
+        return instrument.volumePercent
+    }
+    
     init(clickTrack: ClickTrack, presetInst: SynthInstrument){
         instrument = presetInst //custom synth instrument
         trackManager = TrackManager(midiInstrument: instrument, clickTrackRef: clickTrack)
@@ -355,6 +370,10 @@ class InstrumentTrack {
         trackManager.rewind()
     }
     
+    //MARK: update volume of instrument by changing scale factor 0 - 100%
+    func updateVolume(percent: Double){
+        instrument.updateVolume(percent)
+    }
     
 }
 
@@ -571,6 +590,7 @@ class InstrumentCollection {
         return count == 0
     }
     var trackEmpty: Bool {return instruments[selectedInst].trackManager.noteCount <= 0}
+    var presetVolume: Double {return instruments[selectedInst].volume}
     
     //MARK: Initialization
     init(globalClickTrack: ClickTrack, preset1: SynthInstrument, preset2: SynthInstrument, preset3: SynthInstrument, preset4: SynthInstrument){
@@ -601,6 +621,34 @@ class InstrumentCollection {
         for inst in instruments{
             inst.deselect()
         }
+    }
+    
+    //MARK: update preset volume (percent 0 - 100%)
+    func updatePresetVolume(percent: Double){
+        //select volume 0-100% ( corresponds to midi velocity 0 - 127 )
+        var vol = percent
+        
+        //make sure volume within range
+        if(vol >= 100.0){vol = 100.0}
+        if(vol < 0.0){vol = 0.0}
+        
+        //now all volume of notes heard for preset will be amplified or decreased by scale factor
+        instruments[selectedInst].updateVolume(vol)
+        
+    }
+    
+    func decPresetVolume(){
+        let currentVol = presetVolume
+        
+        //decrease volume by 1% (out of 100%)
+        updatePresetVolume(currentVol-1)
+    }
+    
+    func incPresetVolume(){
+        let currentVol = presetVolume
+        
+        //increase volume by 1% (out of 100%)
+        updatePresetVolume(currentVol+1)
     }
     
     //MARK: update preset measure count

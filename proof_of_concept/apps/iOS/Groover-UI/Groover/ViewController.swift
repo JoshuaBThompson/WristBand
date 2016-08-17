@@ -147,8 +147,12 @@ class ViewController: UIViewController {
             print("update tempo inc")
             break
         case .LOWER_LEFT:
+            song.instruments[song.selectedInstrument].decPresetVolume()
+            print("dec volume to \(song.instruments[song.selectedInstrument].presetVolume)")
             break
         case .LOWER_RIGHT:
+            song.instruments[song.selectedInstrument].incPresetVolume()
+            print("inc volume to \(song.instruments[song.selectedInstrument].presetVolume)")
             break
         }
     }

@@ -19,6 +19,7 @@ class SynthInstrument: AKMIDIInstrument{
     var instrumentName = "Synth Instrument"
     var sampler = AKSampler()
     var preset = 0
+    var panner: AKPanner!
     var volumeScale: Double {
         return volumePercent/100.0
     }
@@ -28,6 +29,7 @@ class SynthInstrument: AKMIDIInstrument{
     ///
     override init(){
         super.init()
+        panner = AKPanner(sampler, pan: 0)
     }
     
     /// Start playback of a particular voice with MIDI style note and velocity
@@ -57,6 +59,17 @@ class SynthInstrument: AKMIDIInstrument{
     //update volume scale: ex real volume = velocity * scale
     func updateVolume(percent: Double){
         volumePercent = percent
+    }
+    
+    func updatePan(pan: Double){
+        //-1 is completely left pan, 0 is center and 1 is compeletely right pan
+        
+        //pan range limits
+        var newPan = pan
+        if(newPan > 1.0){newPan = 1.0}
+        else if(newPan < -1.0){newPan = -1.0}
+        
+        panner.pan = newPan
     }
     
     //mute
@@ -335,6 +348,10 @@ class InstrumentTrack {
         return instrument.volumePercent
     }
     
+    var pan: Double {
+        return instrument.panner.pan
+    }
+    
     init(clickTrack: ClickTrack, presetInst: SynthInstrument){
         instrument = presetInst //custom synth instrument
         trackManager = TrackManager(midiInstrument: instrument, clickTrackRef: clickTrack)
@@ -373,6 +390,11 @@ class InstrumentTrack {
     //MARK: update volume of instrument by changing scale factor 0 - 100%
     func updateVolume(percent: Double){
         instrument.updateVolume(percent)
+    }
+    
+    //MARK: update pan (-1 is all left, 0 is center and 1 is all right)
+    func updatePan(pan: Double){
+        instrument.updatePan(pan)
     }
     
 }
@@ -591,6 +613,7 @@ class InstrumentCollection {
     }
     var trackEmpty: Bool {return instruments[selectedInst].trackManager.noteCount <= 0}
     var presetVolume: Double {return instruments[selectedInst].volume}
+    var presetPan: Double {return instruments[selectedInst].pan}
     
     //MARK: Initialization
     init(globalClickTrack: ClickTrack, preset1: SynthInstrument, preset2: SynthInstrument, preset3: SynthInstrument, preset4: SynthInstrument){
@@ -610,10 +633,10 @@ class InstrumentCollection {
         
         // Connect all instrument sounds in this group of presets to preset mixer
         mixer = AKMixer()
-        mixer.connect(instrumentTrack1.instrument)
-        mixer.connect(instrumentTrack2.instrument)
-        mixer.connect(instrumentTrack3.instrument)
-        mixer.connect(instrumentTrack4.instrument)
+        mixer.connect(instrumentTrack1.instrument.panner)
+        mixer.connect(instrumentTrack2.instrument.panner)
+        mixer.connect(instrumentTrack3.instrument.panner)
+        mixer.connect(instrumentTrack4.instrument.panner)
         
     }
     
@@ -621,6 +644,26 @@ class InstrumentCollection {
         for inst in instruments{
             inst.deselect()
         }
+    }
+    
+    //MARK: update preset pan (-1 left, 0 center, 1 right and everything else in between)
+    func updatePresetPan(pan: Double){
+        instruments[selectedInst].updatePan(pan)
+    }
+    
+    
+    func decPresetPan(){
+        let currentPan = presetPan
+        
+        //decrease volume by 1% (out of 100%)
+        updatePresetPan(currentPan - 0.1)
+    }
+    
+    func incPresetPan(){
+        let currentPan = presetPan
+        
+        //increase volume by 1% (out of 100%)
+        updatePresetPan(currentPan + 0.1)
     }
     
     //MARK: update preset volume (percent 0 - 100%)

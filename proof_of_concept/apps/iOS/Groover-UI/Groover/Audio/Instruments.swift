@@ -471,6 +471,7 @@ class InstrumentTrack {
 /****************Single instrument track manager ********/
 class TrackManager: AKSequencer{
     //MARK: Attributes
+    var quantizer = Quantize()
     var midi: AKMIDI!
     var trackNotes = [AKDuration]()
     var velNotes = [Int]()
@@ -537,6 +538,9 @@ class TrackManager: AKSequencer{
     
     //MARK: init a track
     func resetTrack(){
+        if(trackCount >= 1){
+            self.tracks[0].clear()
+        }
         self.tracks.removeAll()
         newTrack()
         tracks[0].setMIDIOutput(instrument.midiIn)
@@ -606,6 +610,7 @@ class TrackManager: AKSequencer{
         //hack - audiokit v3.2 since updating length of track doesn't work correctly, need to make new track each time new recording
         print("inst \(instrument.name) measure count updated to \(count)")
         measureCount = count
+        
         resetTrack()
         updateLength()
         for i in 0 ..< trackNotes.count{
@@ -642,6 +647,26 @@ class TrackManager: AKSequencer{
             measureCount = 1
             setLength(AKDuration(beats: Double(measureCount)))
         }
+    }
+    
+    //MARK: Quantize beats
+    func quantizeBeats(){
+
+        resetTrack() //current measure count will not be cleared
+        updateLength() //using current measure count
+        
+        for i in 0 ..< trackNotes.count{
+            let position: AKDuration = trackNotes[i]
+            let quantizedPos = AKDuration(seconds: quantizer.quantized(position.seconds))
+            let velocity = velNotes[i]
+            let duration = durNotes[i]
+            let maxTime = AKDuration(seconds: totalDuration)
+            if(position <= maxTime){
+                self.tracks[0].add(noteNumber: instrument.note, velocity: velocity, position: quantizedPos, duration: duration)
+            }
+        }
+        
+        firstInstance = false //first instance measure count update complete
     }
     
 }

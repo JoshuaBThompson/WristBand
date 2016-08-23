@@ -9,7 +9,7 @@
 import UIKit
 
 //@IBDesignable
-class Thirtysecond: UIView {
+class Thirtysecond: QuantizeButton {
     
     override func drawRect(rect: CGRect) {
         UIGroover.drawThirtysecondCanvas()

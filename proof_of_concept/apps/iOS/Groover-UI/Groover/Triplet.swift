@@ -9,7 +9,7 @@
 import UIKit
 
 //@IBDesignable
-class Triplet: UIView {
+class Triplet: QuantizeButton {
     
     override func drawRect(rect: CGRect) {
         UIGroover.drawTripletCanvas()

@@ -9,7 +9,7 @@
 import UIKit
 
 //@IBDesignable
-class Eighth: UIView {
+class Eighth: QuantizeButton {
     
     override func drawRect(rect: CGRect) {
         UIGroover.drawEighthCanvas()

@@ -465,12 +465,27 @@ class InstrumentTrack {
         instrument.updatePan(pan)
     }
     
+    //MARK: update quantized number using resolution of the beat (ex: beat divided into 16 pieces)
+    func updateQuantize(res: Double){
+        //res is the resolution of the beat: ex: 16
+        trackManager.quantizer.update(res)
+    }
+    
+    func enableQuantize(){
+        trackManager.quantizeEnable = true
+    }
+    
+    func disableQuantize(){
+        trackManager.quantizeEnable = false
+    }
+    
 }
 
 
 /****************Single instrument track manager ********/
 class TrackManager: AKSequencer{
     //MARK: Attributes
+    var quantizeEnable = false
     var quantizer = Quantize()
     var midi: AKMIDI!
     var trackNotes = [AKDuration]()
@@ -611,15 +626,20 @@ class TrackManager: AKSequencer{
         print("inst \(instrument.name) measure count updated to \(count)")
         measureCount = count
         
-        resetTrack()
-        updateLength()
-        for i in 0 ..< trackNotes.count{
-            let position = trackNotes[i]
-            let velocity = velNotes[i]
-            let duration = durNotes[i]
-            let maxTime = AKDuration(seconds: totalDuration)
-            if(position <= maxTime){
-                self.tracks[0].add(noteNumber: instrument.note, velocity: velocity, position: position, duration: duration)
+        if(quantizeEnable){
+            quantizeBeats()
+        }
+        else{
+            resetTrack()
+            updateLength()
+            for i in 0 ..< trackNotes.count{
+                let position = trackNotes[i]
+                let velocity = velNotes[i]
+                let duration = durNotes[i]
+                let maxTime = AKDuration(seconds: totalDuration)
+                if(position <= maxTime){
+                    self.tracks[0].add(noteNumber: instrument.note, velocity: velocity, position: position, duration: duration)
+                }
             }
         }
         
@@ -739,7 +759,22 @@ class InstrumentCollection {
         }
     }
     
-    //MARK: update preset pan (-1 left, 0 center, 1 right and everything else in between)
+    //MARK: Quantize - update and enable preset quanitzation functions
+    func updatePresetQuantize(res: Double){
+        //res is beat resolution (ex: 16 divisions of a beat)
+            instruments[selectedInst].updateQuantize(res)
+    }
+    
+    func enablePresetQuantize(){
+        instruments[selectedInst].enableQuantize()
+    }
+    
+    func disablePresetQuantize(){
+        instruments[selectedInst].disableQuantize()
+    }
+    
+    
+    //MARK: Pan - update preset pan (-1 left, 0 center, 1 right and everything else in between)
     func updatePresetPan(pan: Double){
         instruments[selectedInst].updatePan(pan)
     }
@@ -759,7 +794,7 @@ class InstrumentCollection {
         updatePresetPan(currentPan + 0.1)
     }
     
-    //MARK: update preset volume (percent 0 - 100%)
+    //MARK: Volume - update preset volume (percent 0 - 100%)
     func updatePresetVolume(percent: Double){
         //select volume 0-100% ( corresponds to midi velocity 0 - 127 )
         var vol = percent

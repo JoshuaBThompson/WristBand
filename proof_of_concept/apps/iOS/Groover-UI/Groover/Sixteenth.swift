@@ -9,7 +9,7 @@
 import UIKit
 
 //@IBDesignable
-class Sixteenth: UIView {
+class Sixteenth: QuantizeButton {
     
     override func drawRect(rect: CGRect) {
         UIGroover.drawSixteenthCanvas()

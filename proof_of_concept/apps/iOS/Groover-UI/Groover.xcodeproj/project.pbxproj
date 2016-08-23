@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		4220581B1D5B942B0018E22D /* ParameterOptionsButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4220581A1D5B942B0018E22D /* ParameterOptionsButton.swift */; };
+		423174F61D6CAD0F00A97065 /* QuantizeControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 423174F51D6CAD0F00A97065 /* QuantizeControl.swift */; };
+		423174F81D6CAD8D00A97065 /* QuantizeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 423174F71D6CAD8D00A97065 /* QuantizeButton.swift */; };
 		4254BC451D4D8366007572B6 /* PopupBlur.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4254BC441D4D8366007572B6 /* PopupBlur.swift */; };
 		4254BC491D4E9DE6007572B6 /* PopupButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4254BC481D4E9DE6007572B6 /* PopupButton.swift */; };
 		4268BBFB1D51E0E1002C0F2C /* AudioKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4268BBFA1D51E0E1002C0F2C /* AudioKit.framework */; };
@@ -87,6 +89,8 @@
 /* Begin PBXFileReference section */
 		4220581A1D5B942B0018E22D /* ParameterOptionsButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParameterOptionsButton.swift; sourceTree = "<group>"; };
 		422D9D361D35525D00E27904 /* Groover.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Groover.entitlements; sourceTree = "<group>"; };
+		423174F51D6CAD0F00A97065 /* QuantizeControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuantizeControl.swift; sourceTree = "<group>"; };
+		423174F71D6CAD8D00A97065 /* QuantizeButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuantizeButton.swift; sourceTree = "<group>"; };
 		4254BC441D4D8366007572B6 /* PopupBlur.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopupBlur.swift; sourceTree = "<group>"; };
 		4254BC481D4E9DE6007572B6 /* PopupButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopupButton.swift; sourceTree = "<group>"; };
 		4268BBFA1D51E0E1002C0F2C /* AudioKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AudioKit.framework; sourceTree = "<group>"; };
@@ -168,6 +172,73 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		423174F91D6CADB000A97065 /* PlayRecord */ = {
+			isa = PBXGroup;
+			children = (
+				429A22D11D354D3D0045023F /* Clear.swift */,
+				FA50AA881D2B40160035C942 /* Record.swift */,
+				FA50AA861D2B3F9C0035C942 /* Play.swift */,
+				429A22CF1D354C900045023F /* PlayRecordControl.swift */,
+				429A22CD1D354C6E0045023F /* PlayRecordButton.swift */,
+			);
+			name = PlayRecord;
+			sourceTree = "<group>";
+		};
+		423174FA1D6CADF500A97065 /* Parameters */ = {
+			isa = PBXGroup;
+			children = (
+				FA50AA981D2B47DA0035C942 /* SettingsIcon.swift */,
+				4220581A1D5B942B0018E22D /* ParameterOptionsButton.swift */,
+				FA50AA8A1D2B40E40035C942 /* ParametersButton.swift */,
+				FA908EE01D3F3EB6009FAFA4 /* ParametersPopup.swift */,
+			);
+			name = Parameters;
+			sourceTree = "<group>";
+		};
+		423174FB1D6CAE2E00A97065 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				4254BC481D4E9DE6007572B6 /* PopupButton.swift */,
+				4254BC441D4D8366007572B6 /* PopupBlur.swift */,
+				FA820EB31D2E20E800C6FBF4 /* Popup.swift */,
+				FA50AA961D2B472E0035C942 /* HamburgerIcon.swift */,
+			);
+			name = Settings;
+			sourceTree = "<group>";
+		};
+		423174FC1D6CAE5B00A97065 /* MiscButtons */ = {
+			isa = PBXGroup;
+			children = (
+				FA908EE21D3F490A009FAFA4 /* RectBtn.swift */,
+				FA479EC61D376CB000619BA0 /* Right.swift */,
+				FAB995EF1D2E2B510002EE38 /* Left.swift */,
+			);
+			name = MiscButtons;
+			sourceTree = "<group>";
+		};
+		423174FD1D6CAEC800A97065 /* Quantize */ = {
+			isa = PBXGroup;
+			children = (
+				423174F51D6CAD0F00A97065 /* QuantizeControl.swift */,
+				FA50AA921D2B454D0035C942 /* Thirtysecond.swift */,
+				423174F71D6CAD8D00A97065 /* QuantizeButton.swift */,
+				FA50AA901D2B44DD0035C942 /* Sixteenth.swift */,
+				FA50AA941D2B45570035C942 /* Triplet.swift */,
+				FA50AA8C1D2B43620035C942 /* Quarter.swift */,
+				FA50AA8E1D2B44440035C942 /* Eighth.swift */,
+			);
+			name = Quantize;
+			sourceTree = "<group>";
+		};
+		423174FE1D6CAED000A97065 /* Knob */ = {
+			isa = PBXGroup;
+			children = (
+				FA50AA841D2B397F0035C942 /* Knob.swift */,
+				FA50AA9A1D2B496B0035C942 /* PositionIndicator.swift */,
+			);
+			name = Knob;
+			sourceTree = "<group>";
+		};
 		429A22A41D338E240045023F /* Audio */ = {
 			isa = PBXGroup;
 			children = (
@@ -224,39 +295,22 @@
 		FA50AA511D2A3FE60035C942 /* Groover */ = {
 			isa = PBXGroup;
 			children = (
-				422D9D361D35525D00E27904 /* Groover.entitlements */,
 				429A22A41D338E240045023F /* Audio */,
-				FA820EB31D2E20E800C6FBF4 /* Popup.swift */,
+				423174FE1D6CAED000A97065 /* Knob */,
+				423174FD1D6CAEC800A97065 /* Quantize */,
+				423174FC1D6CAE5B00A97065 /* MiscButtons */,
+				423174FB1D6CAE2E00A97065 /* Settings */,
+				423174FA1D6CADF500A97065 /* Parameters */,
+				423174F91D6CADB000A97065 /* PlayRecord */,
 				FA50AA521D2A3FE60035C942 /* AppDelegate.swift */,
 				FA50AA541D2A3FE60035C942 /* ViewController.swift */,
 				FA50AA561D2A3FE60035C942 /* Main.storyboard */,
-				FA908EE01D3F3EB6009FAFA4 /* ParametersPopup.swift */,
-				FA50AA9A1D2B496B0035C942 /* PositionIndicator.swift */,
-				FA50AA961D2B472E0035C942 /* HamburgerIcon.swift */,
-				FA50AA981D2B47DA0035C942 /* SettingsIcon.swift */,
-				FA50AA921D2B454D0035C942 /* Thirtysecond.swift */,
-				FA50AA941D2B45570035C942 /* Triplet.swift */,
-				FA50AA901D2B44DD0035C942 /* Sixteenth.swift */,
-				FA50AA8E1D2B44440035C942 /* Eighth.swift */,
-				FA50AA8C1D2B43620035C942 /* Quarter.swift */,
-				FA50AA8A1D2B40E40035C942 /* ParametersButton.swift */,
-				FA50AA881D2B40160035C942 /* Record.swift */,
-				FA50AA861D2B3F9C0035C942 /* Play.swift */,
-				FA50AA841D2B397F0035C942 /* Knob.swift */,
 				FA50AA801D2A433B0035C942 /* images */,
 				FA50AA811D2A433B0035C942 /* UIGroover.swift */,
-				FA908EE21D3F490A009FAFA4 /* RectBtn.swift */,
-				FAB995EF1D2E2B510002EE38 /* Left.swift */,
-				FA479EC61D376CB000619BA0 /* Right.swift */,
 				FA50AA591D2A3FE60035C942 /* Assets.xcassets */,
 				FA50AA5B1D2A3FE60035C942 /* LaunchScreen.storyboard */,
 				FA50AA5E1D2A3FE60035C942 /* Info.plist */,
-				429A22CD1D354C6E0045023F /* PlayRecordButton.swift */,
-				429A22CF1D354C900045023F /* PlayRecordControl.swift */,
-				429A22D11D354D3D0045023F /* Clear.swift */,
-				4254BC441D4D8366007572B6 /* PopupBlur.swift */,
-				4254BC481D4E9DE6007572B6 /* PopupButton.swift */,
-				4220581A1D5B942B0018E22D /* ParameterOptionsButton.swift */,
+				422D9D361D35525D00E27904 /* Groover.entitlements */,
 			);
 			path = Groover;
 			sourceTree = "<group>";
@@ -414,6 +468,7 @@
 				FA479EC71D376CB000619BA0 /* Right.swift in Sources */,
 				429A22BC1D338E240045023F /* KickInstrument.swift in Sources */,
 				FA50AA951D2B45570035C942 /* Triplet.swift in Sources */,
+				423174F61D6CAD0F00A97065 /* QuantizeControl.swift in Sources */,
 				FA908EE11D3F3EB6009FAFA4 /* ParametersPopup.swift in Sources */,
 				4254BC491D4E9DE6007572B6 /* PopupButton.swift in Sources */,
 				42A59FA81D301F8B0070FE46 /* MotionFilter.cpp in Sources */,
@@ -433,6 +488,7 @@
 				429A22BA1D338E240045023F /* HatInstrument.swift in Sources */,
 				429A22CE1D354C6E0045023F /* PlayRecordButton.swift in Sources */,
 				FA50AA8B1D2B40E40035C942 /* ParametersButton.swift in Sources */,
+				423174F81D6CAD8D00A97065 /* QuantizeButton.swift in Sources */,
 				42A59FA61D301F8B0070FE46 /* IMUFilter.cpp in Sources */,
 				FA50AA8D1D2B43620035C942 /* Quarter.swift in Sources */,
 				FA50AA831D2A433B0035C942 /* UIGroover.swift in Sources */,

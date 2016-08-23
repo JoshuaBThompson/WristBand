@@ -29,26 +29,6 @@
                                 <rect key="frame" x="20" y="228" width="280" height="280"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Dc1-Lj-bwp" customClass="Quarter" customModule="Groover">
-                                <rect key="frame" x="19" y="83" width="54" height="54"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                            </view>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Cn4-uT-6ME" customClass="Eighth" customModule="Groover">
-                                <rect key="frame" x="77" y="83" width="54" height="54"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                            </view>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Rac-dQ-zCS" customClass="Sixteenth" customModule="Groover">
-                                <rect key="frame" x="135" y="83" width="54" height="54"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                            </view>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ald-Lb-Sfm" customClass="Thirtysecond" customModule="Groover">
-                                <rect key="frame" x="193" y="83" width="54" height="54"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                            </view>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2m4-hE-3Vf" customClass="Triplet" customModule="Groover">
-                                <rect key="frame" x="251" y="83" width="54" height="54"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                            </view>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8CQ-3U-35x" customClass="HamburgerIcon" customModule="Groover">
                                 <rect key="frame" x="72" y="538" width="22" height="22"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -77,6 +57,9 @@
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1PT-Gs-BZQ" customClass="ParametersPopup" customModule="Groover">
                                 <rect key="frame" x="0.0" y="200" width="320" height="368"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            </view>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qRU-j6-fXT" customClass="QuantizeControl" customModule="Groover">
+                                <rect key="frame" x="0.0" y="63" width="300" height="90"/>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>

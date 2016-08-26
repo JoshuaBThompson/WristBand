@@ -12,7 +12,7 @@ import UIKit
 class Thirtysecond: QuantizeButton {
     
     override func drawRect(rect: CGRect) {
-        UIGroover.drawThirtysecondCanvas()
+        UIGroover.drawThirtysecondCanvas(thirtysecondSelected: selected, thirtysecondActive: on)
     }
     
 }

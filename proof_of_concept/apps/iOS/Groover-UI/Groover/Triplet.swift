@@ -12,7 +12,7 @@ import UIKit
 class Triplet: QuantizeButton {
     
     override func drawRect(rect: CGRect) {
-        UIGroover.drawTripletCanvas()
+        UIGroover.drawTripletCanvas(tripletSelected: selected, tripletActive: on)
     }
     
 }

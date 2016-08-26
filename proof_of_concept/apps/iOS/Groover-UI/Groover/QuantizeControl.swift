@@ -45,14 +45,19 @@ class QuantizeControl: UIControl {
             switch buttonType {
             case .QUARTER:
                 button = Quarter()
+                button.resolution = 1.0 //resolution used in song to quantize beats in loop
             case .EIGHT:
                 button = Eighth()
+                button.resolution = 8.0
             case .SIXTEENTH:
                 button = Sixteenth()
+                button.resolution = 16.0
             case .THIRTYSEC:
                 button = Thirtysecond()
+                button.resolution = 32.0
             case .TRIPLET:
                 button = Triplet()
+                button.resolution = 64.0
             }
             
             button.type = buttonType //convert number to button type (QUARTER, EIGHTH ..etc)
@@ -101,6 +106,18 @@ class QuantizeControl: UIControl {
     
     func updateButtonSelectionStates() {
         //TODO: ?
+        
+        for (_, button) in buttons.enumerate(){
+            if(button != currentButton){
+                button.selected = false
+            }
+            else{
+                currentButton.selected = !currentButton.selected //toggle selected state
+            }
+            //button.on = button.selected //colors to bright when on and selected are both true
+            //button.set = button.selected
+            button.updateState()
+        }
     }
 
 }

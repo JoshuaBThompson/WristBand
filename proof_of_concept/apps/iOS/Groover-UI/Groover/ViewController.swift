@@ -29,6 +29,8 @@ class ViewController: UIViewController {
     @IBOutlet weak var playRecordControl: PlayRecordControl!
     @IBOutlet weak var positionLabel: UILabel!
     @IBOutlet weak var parametersPopup: ParametersPopup!
+    @IBOutlet weak var quantizeControl: QuantizeControl!
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,6 +45,7 @@ class ViewController: UIViewController {
         parametersButton.addTarget(self, action: #selector(ViewController.parametersButtonSelected), forControlEvents: .ValueChanged)
         parametersPopup.addTarget(self, action: #selector(ViewController.parametersOptionSelected), forControlEvents: .ValueChanged)
         popup.addTarget(self, action: #selector(ViewController.popupButtonSelected), forControlEvents: .ValueChanged)
+        quantizeControl.addTarget(self, action: #selector(ViewController.quantizeButtonSelected), forControlEvents: .ValueChanged)
         song = Song()
         positionLabel.text = song.selectedInstrumentName
         song.start()
@@ -66,9 +69,18 @@ class ViewController: UIViewController {
     
     //MARK: Button event handlers
     
+    
+    //MARK: hamburger / settings button
     func hamburgerButtonSelected(){
         print("hamburger button selected")
         popup.toggleHide()
+    }
+    
+    //MARK: Quantize buttons
+    func quantizeButtonSelected(){
+        let selected = quantizeControl.currentButton.selected
+        let resolution = quantizeControl.currentButton.resolution
+        song.updatePresetQuantize(enabled: selected, resolution: resolution)
     }
     
     //MARK: Parameter option selected

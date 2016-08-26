@@ -12,7 +12,7 @@ import UIKit
 class Quarter: QuantizeButton {
     
     override func drawRect(rect: CGRect) {
-        UIGroover.drawQuarterCanvas()
+        UIGroover.drawQuarterCanvas(quarterSelected: selected, quarterActive: on)
     }
     
 }

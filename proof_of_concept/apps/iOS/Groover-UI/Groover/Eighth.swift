@@ -12,7 +12,7 @@ import UIKit
 class Eighth: QuantizeButton {
     
     override func drawRect(rect: CGRect) {
-        UIGroover.drawEighthCanvas()
+        UIGroover.drawEighthCanvas(eighthSelected: selected, eighthActive: on)
     }
     
 }

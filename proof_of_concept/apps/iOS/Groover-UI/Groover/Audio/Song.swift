@@ -13,6 +13,8 @@ import AudioKit
 
 
 class Song {
+    var quantizeResolution = 1.0
+    var quantizeEnabled = false
     var presetsPerInst = 4
     var noteAdded = false
     var selectedInstrument = 0
@@ -167,6 +169,20 @@ class Song {
         if !playing {
             print("record started play")
             play()
+        }
+    }
+    
+    //MARK: update quantize
+    func updatePresetQuantize(enabled enable: Bool=true, resolution: Double=1.0){
+        if(enable){
+            quantizeEnabled = true
+            quantizeResolution = resolution
+            instruments[selectedInstrument].enablePresetQuantize()
+            instruments[selectedInstrument].updatePresetQuantize(resolution)
+        }
+        else{
+            quantizeEnabled = true
+            instruments[selectedInstrument].disablePresetQuantize()
         }
     }
     

@@ -20,7 +20,7 @@ enum QuantizeButtonTypes: Int {
 typealias QuantizeButtonTypes_t = QuantizeButtonTypes
 
 class QuantizeButton: UIButton {
-    
+    var resolution = 1.0
     var on = false
     var set = false //used for clear button only, for now...
     var type: QuantizeButtonTypes!

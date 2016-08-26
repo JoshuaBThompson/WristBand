@@ -12,7 +12,7 @@ import UIKit
 class Sixteenth: QuantizeButton {
     
     override func drawRect(rect: CGRect) {
-        UIGroover.drawSixteenthCanvas()
+        UIGroover.drawSixteenthCanvas(sixteenthSelected: selected, sixteenthActive: on)
     }
     
 }

@@ -79,6 +79,7 @@
                         <outlet property="popup" destination="9Oa-HM-AtP" id="ZtD-s1-PYu"/>
                         <outlet property="positionIndicator" destination="DKT-hU-eN4" id="Di4-L3-Jk8"/>
                         <outlet property="positionLabel" destination="xTy-PB-cXq" id="Pmh-42-eru"/>
+                        <outlet property="quantizeControl" destination="qRU-j6-fXT" id="icS-AV-YRF"/>
                         <outlet property="settingsButton" destination="2Cl-UT-epf" id="h7H-Uh-uRK"/>
                     </connections>
                 </viewController>

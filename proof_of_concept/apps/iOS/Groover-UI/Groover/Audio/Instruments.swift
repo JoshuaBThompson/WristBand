@@ -161,6 +161,7 @@ class ClickTrackInstrument: SynthInstrument{
     ///
     var beat = 0
     var preRoll = false
+    var preRollEnded = false
     var playTrigger = false
     var clickTrack: ClickTrack!
     var preRollSampler = AKSampler()
@@ -178,6 +179,14 @@ class ClickTrackInstrument: SynthInstrument{
         mixer.connect(sampler)
         self.avAudioNode = mixer.avAudioNode //sampler.avAudioNode
         
+    }
+    
+    
+    func reset(){
+        beat = 0
+        preRollEnded = false
+        preRoll = false
+        playTrigger = false
     }
     
     //this tells click track to start pre roll sound and then tell instruments to start recording on last beat
@@ -202,30 +211,37 @@ class ClickTrackInstrument: SynthInstrument{
         
         
         var volume = velocity/127.0
-        if(preRoll && beat <= 5){
+        if(preRoll && beat <= 4){
             volume = 127
-            if(beat == 5){
-                clickTrack.song.start_record()
+            if(beat == 4){
                 preRoll = false
-                sampler.volume = muted ? 0: volume
-                sampler.play()
+                preRollEnded = true
             }
-            else{
             preRollSampler.volume = volume
             preRollSampler.play()
-            }
+            print("preroll \(beat)")
         }
-        else if(playTrigger && beat==5){
-            sampler.volume = muted ? 0: volume
-            sampler.play()
+        else if(playTrigger && beat==1){
             clickTrack.song.play()
             playTrigger = false //clear for next use
+            sampler.volume = muted ? 0: volume
+            sampler.play()
         }
         else if(!self.muted){
+            if(preRollEnded){
+                clickTrack.song.start_record()
+                preRollEnded = false
+            }
             sampler.volume = volume
             sampler.play()
         }
-        if(beat==5){beat=1}
+        else if(preRollEnded){
+            clickTrack.song.start_record()
+            preRollEnded = false
+        }
+        if(beat==4){
+            beat=0
+        }
     }
 }
 
@@ -395,6 +411,7 @@ class ClickTrack: AKNode{
         track.stop()
         track.disableLooping()
         track.rewind()
+        instrument.reset()
         
         _running = false
     }
@@ -583,7 +600,7 @@ class TrackManager: AKSequencer{
             addNoteToTrack(note, velocity: velocity, position: position, duration: duration)
         }
         else if(firstInstance){
-            print("adding new note to first instance!!!")
+            print("adding new note at \(absPosition.seconds)")
             addNoteToList(velocity, position: absPosition, duration: duration)
         }
     }
@@ -671,7 +688,7 @@ class TrackManager: AKSequencer{
     
     //MARK: Quantize beats
     func quantizeBeats(){
-
+        print("Quantize!!!")
         resetTrack() //current measure count will not be cleared
         updateLength() //using current measure count
         

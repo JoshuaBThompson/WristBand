@@ -336,7 +336,7 @@ class ClickTrack: AKNode{
         
         
         track.setTempo(tempo.beatsPerMin)
-        track.setLength(AKDuration(seconds: secPerMeasure))
+        track.setLength(AKDuration(beats: Double(timeSignature.beatsPerMeasure)))
         print("click track secPerMeasure \(secPerMeasure)")
         //TODO: update the click track setup - this is only for 4/4 time sig
         track.tracks[0].add(noteNumber: 60, velocity: 127, position: AKDuration(seconds: 0), duration: AKDuration(seconds: 0))
@@ -586,7 +586,8 @@ class TrackManager: AKSequencer{
     
     func updateLength(){
         print("inst total duration updated to \(totalDuration)")
-        setLength(AKDuration(seconds: totalDuration))
+        //setLength(AKDuration(seconds: totalDuration))
+        setLength(AKDuration(beats: Double(clickTrack.timeSignature.beatsPerMeasure)))
     }
     
     
@@ -628,6 +629,7 @@ class TrackManager: AKSequencer{
             //for ex: if timeElapsed = 9 sec and sec per measure = 4 then measure count = ceil(9/4) = 2.25 = 3 measure counts
             
             let count = Int(ceil(timeElapsedAbs / secPerMeasure))
+            print("deselect update count \(count) and secPerMeasure \(secPerMeasure)")
             updateMeasureCount(count)
         }
         
@@ -648,6 +650,7 @@ class TrackManager: AKSequencer{
         }
         else{
             resetTrack()
+            updateBPM()
             updateLength()
             for i in 0 ..< trackNotes.count{
                 let position = trackNotes[i]

@@ -34,6 +34,7 @@ class Song {
     var clickTrack: ClickTrack!
     
     //MARK: computed variables
+    
     var presetMeasureCount: Int {
         return instruments[selectedPreset].instruments[selectedPreset].trackManager.measureCount
     }

@@ -344,6 +344,7 @@ class ClickTrack: AKNode{
         track.tracks[0].add(noteNumber: 60, velocity: 105, position: AKDuration(seconds: 2), duration: AKDuration(seconds: 0))
         track.tracks[0].add(noteNumber: 60, velocity: 105, position: AKDuration(seconds: 3), duration: AKDuration(seconds: 0))
         
+        
     }
 
     

@@ -85,6 +85,7 @@ class Song {
     }
     
     func clear(){
+        print("calling collections clear!")
         //stop any currently playing tracks first
         stop()
         //clear all recorded tracks

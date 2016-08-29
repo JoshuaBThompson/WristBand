@@ -232,6 +232,7 @@ class ClickTrackInstrument: SynthInstrument{
                 clickTrack.song.start_record()
                 preRollEnded = false
             }
+            
             sampler.volume = volume
             sampler.play()
         }
@@ -285,7 +286,7 @@ struct TimeSignature {
 
 //Tempo
 struct Tempo {
-    var beatsPerMin = Double(60.0)
+    var beatsPerMin = Double(120.0) //60.0
     let secPerMin = Double(60.0)
     var beatsPerSec: Double { return beatsPerMin / secPerMin }
 }
@@ -350,7 +351,7 @@ class ClickTrack: AKNode{
     
     func update(){
         //tempo.beatsPerMin is updated in Song.swift
-        track.setTempo(Double(tempo.beatsPerMin))
+        track.setTempo(tempo.beatsPerMin)
     }
     
     func mute(){
@@ -450,28 +451,13 @@ class InstrumentTrack {
     
     func deselect(){
         trackManager.deselect() //run deselect routines - for ex: checks if should update measure count (if first time track is recorded)
+        /*
         if(!trackManager.isPlaying){
             trackManager.clickTrack.trigger_play()
         }
+        */
     }
     
-    func play(){
-        if(trackManager.firstInstance){
-            return
-        }
-        trackManager.rewind()
-        trackManager.enableLooping()
-        trackManager.play()
-    }
-    
-    func stop(){
-        if(trackManager.firstInstance){
-            return
-        }
-        trackManager.stop()
-        trackManager.disableLooping()
-        trackManager.rewind()
-    }
     
     //MARK: update volume of instrument by changing scale factor 0 - 100%
     func updateVolume(percent: Double){
@@ -501,14 +487,16 @@ class InstrumentTrack {
 
 
 /****************Single instrument track manager ********/
-class TrackManager: AKSequencer{
+class TrackManager{
     //MARK: Attributes
+    var trackNum: Int!
+    var track: AKSequencer!
     var quantizeEnable = false
     var quantizer = Quantize()
     var midi: AKMIDI!
-    var trackNotes = [AKDuration]()
+    var trackNotes = [Double]()
     var velNotes = [Int]()
-    var durNotes = [AKDuration]()
+    var durNotes = [Double]()
     var noteCount = 0
     var longestTime: Double = 0.0
     var measureCount = 1 //default measure count
@@ -558,65 +546,58 @@ class TrackManager: AKSequencer{
     //MARK: Initialize
     
     init(midiInstrument: SynthInstrument, clickTrackRef: ClickTrack){
-        super.init()
         midi = AKMIDI()
         instrument = midiInstrument
         clickTrack = clickTrackRef
+        track = clickTrack.track
+        trackNum = track.trackCount
         timer = clickTrack.timer
         instrument.enableMIDI(midi.client, name: "Synth inst preset")
-        updateBPM()
-        resetTrack() //creates new track and inits beats per min
+        track.newTrack()
+        track.tracks[trackNum].setMIDIOutput(instrument.midiIn)
         
     }
     
     //MARK: init a track
     func resetTrack(){
-        if(trackCount >= 1){
-            self.tracks[0].clear()
-        }
-        self.tracks.removeAll()
-        newTrack()
-        tracks[0].setMIDIOutput(instrument.midiIn)
+        track.tracks[trackNum].clear()
     }
     
     //MARK: Functions
-    
-    func updateBPM(){
-        setTempo(Double(clickTrack.tempo.beatsPerMin))
-    }
-    
     func updateLength(){
         print("inst total duration updated to \(totalDuration)")
-        //setLength(AKDuration(seconds: totalDuration))
-        setLength(AKDuration(beats: Double(clickTrack.timeSignature.beatsPerMeasure)))
+        let beats = Double(clickTrack.timeSignature.beatsPerMeasure*measureCount)
+        let bpm = Double(clickTrack.tempo.beatsPerMin)
+        track.tracks[trackNum].setLengthSoft(AKDuration(beats: beats, tempo: bpm))
     }
     
     
     func addNote(velocity: Int, duration: Double){
-        let position = AKDuration(seconds: timeElapsed)
-        let absPosition = AKDuration(seconds: timeElapsedAbs)
+        let elapsed = timeElapsed
+        let position = AKDuration(seconds: elapsed)
+        let absElapsed = timeElapsedAbs
         let note = instrument.note
-        if(trackCount >= 1 && !firstInstance){
+        if(!firstInstance){
             print("adding note to track")
-            addNoteToList(velocity, position: position, duration: duration)
+            addNoteToList(velocity, position: elapsed, duration: duration)
             addNoteToTrack(note, velocity: velocity, position: position, duration: duration)
         }
         else if(firstInstance){
-            print("adding new note at \(absPosition.seconds)")
-            addNoteToList(velocity, position: absPosition, duration: duration)
+            print("adding new note at \(absElapsed)")
+            addNoteToList(velocity, position: absElapsed, duration: duration)
         }
     }
     
-    func addNoteToList(velocity: Int, position: AKDuration, duration: Double){
+    func addNoteToList(velocity: Int, position: Double, duration: Double){
         noteCount += 1
         trackNotes.append(position)
         velNotes.append(velocity)
-        durNotes.append(AKDuration(seconds: duration))
+        durNotes.append(duration)
     }
     
     func addNoteToTrack(note: Int, velocity: Int, position: AKDuration, duration: Double){
-        addNoteToList(velocity, position: position, duration: duration)
-        self.tracks[0].add(noteNumber: note, velocity: velocity, position: position, duration: AKDuration(seconds: duration))
+        addNoteToList(velocity, position: position.seconds, duration: duration)
+        track.tracks[trackNum].add(noteNumber: note, velocity: velocity, position: position, duration: AKDuration(seconds: duration))
         //if current track time less that new then replace with new
         longestTime = (longestTime > timeElapsed) ? timeElapsed: longestTime
     }
@@ -637,11 +618,6 @@ class TrackManager: AKSequencer{
     }
     
     func updateMeasureCount(count: Int){
-        let wasPlaying = isPlaying
-        if(isPlaying){
-            stop()
-            disableLooping()
-        }
         //hack - audiokit v3.2 since updating length of track doesn't work correctly, need to make new track each time new recording
         print("inst \(instrument.name) measure count updated to \(count)")
         measureCount = count
@@ -651,33 +627,28 @@ class TrackManager: AKSequencer{
         }
         else{
             resetTrack()
-            updateBPM()
-            updateLength()
+            
             for i in 0 ..< trackNotes.count{
-                let position = trackNotes[i]
+                quantizer.bpm = clickTrack.tempo.beatsPerMin
+                let beatPos = quantizer.getBeatPosFromSec(trackNotes[i])
+                let position = AKDuration(beats: beatPos)//AKDuration(seconds: trackNotes[i])
                 let velocity = velNotes[i]
-                let duration = durNotes[i]
-                let maxTime = AKDuration(seconds: totalDuration)
-                if(position <= maxTime){
-                    self.tracks[0].add(noteNumber: instrument.note, velocity: velocity, position: position, duration: duration)
+                let duration = AKDuration(seconds: durNotes[i])
+                let maxTime = totalDuration
+                print("update track pos \(position.seconds)")
+                if(position.seconds <= maxTime){
+                    track.tracks[trackNum].add(noteNumber: instrument.note, velocity: velocity, position: position, duration: duration)
                 }
             }
+            
+            updateLength()
         }
         
         firstInstance = false //first instance measure count update complete
         
-        if(wasPlaying){
-            enableLooping()
-            play()
-        }
-        
     }
     
     func clear(){
-        if(trackCount >= 1){
-            stop()
-            disableLooping()
-            self.tracks[0].clear()
             resetTrack()
             longestTime = 0.0
             noteCount = 0
@@ -686,8 +657,7 @@ class TrackManager: AKSequencer{
             durNotes.removeAll()
             firstInstance = true
             measureCount = 1
-            setLength(AKDuration(beats: Double(measureCount)))
-        }
+            updateLength()
     }
     
     //MARK: Quantize beats
@@ -697,13 +667,13 @@ class TrackManager: AKSequencer{
         updateLength() //using current measure count
         
         for i in 0 ..< trackNotes.count{
-            let position: AKDuration = trackNotes[i]
+            let position = AKDuration(seconds: trackNotes[i])
             let quantizedPos = AKDuration(seconds: quantizer.quantized(position.seconds))
             let velocity = velNotes[i]
-            let duration = durNotes[i]
+            let duration = AKDuration(seconds: durNotes[i])
             let maxTime = AKDuration(seconds: totalDuration)
             if(position <= maxTime){
-                self.tracks[0].add(noteNumber: instrument.note, velocity: velocity, position: quantizedPos, duration: duration)
+                track.tracks[trackNum].add(noteNumber: instrument.note, velocity: velocity, position: quantizedPos, duration: duration)
             }
         }
         
@@ -930,15 +900,16 @@ class InstrumentCollection {
         //play note event if not recording
         //only add note if record is enabled, otherwise just play it
         selectedInst = instNumber
-        playNote(instNumber)
         
         if !recordEnabled {
             print("Record not enabled, no add note allowed")
+            playNote(instNumber)
             return
         }
         let velocity = 127
         instruments[instNumber].addNote(velocity, duration: 0) //duration is just how long to hold the beat for if not a pre recorded sample ... I think
         //if !playing { play() }
+        playNote(instNumber)
         
     }
     
@@ -956,11 +927,9 @@ class InstrumentCollection {
     
     func play(){
         print("Playing notes in sequence track")
-        
-        for inst in instruments{
-            if(!inst.trackManager.isPlaying){
-                inst.play()
-            }
+        if(!clickTrack.track.isPlaying){
+            clickTrack.track.enableLooping()
+            clickTrack.track.play()
         }
         playing = true
         
@@ -974,19 +943,15 @@ class InstrumentCollection {
             }
         }
         recordEnabled = false
-        //stop playing note in sequence track
-        for inst in instruments{
-            inst.stop()
-        }
+        clickTrack.track.stop()
+        clickTrack.track.disableLooping()
         playing = false
     }
     
     
     func updateTrackTempo(){
         //tell trackManager to update bpm and length based on measure and clickTrack object data
-        for inst in instruments{
-            inst.trackManager.updateBPM()
-        }
+        clickTrack.update() //updates tempo only right now
     }
     
     

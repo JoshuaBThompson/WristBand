@@ -93,11 +93,12 @@ typedef int swift_int4  __attribute__((__ext_vector_type__(4)));
 #endif
 #if defined(__has_feature) && __has_feature(modules)
 @import ObjectiveC;
+@import UIKit;
+@import CoreGraphics;
 @import AVFoundation;
 @import CoreMIDI;
 @import Foundation;
 @import Accelerate;
-@import CoreGraphics;
 #endif
 
 #import <AudioKit/AudioKit.h>
@@ -146,6 +147,36 @@ SWIFT_CLASS("_TtC8AudioKit10AK3DPanner")
 ///
 /// \param z z-axis location in meters
 - (nonnull instancetype)init:(AKNode * _Nonnull)input x:(double)x y:(double)y z:(double)z OBJC_DESIGNATED_INITIALIZER;
+@end
+
+@class UIColor;
+@class UITouch;
+@class UIEvent;
+@class NSCoder;
+
+SWIFT_CLASS("_TtC8AudioKit10AKADSRView")
+@interface AKADSRView : UIView
+@property (nonatomic) double attackDuration;
+@property (nonatomic) double decayDuration;
+@property (nonatomic) double sustainLevel;
+@property (nonatomic) double releaseDuration;
+@property (nonatomic, copy) void (^ _Nullable callback)(double, double, double, double);
+
+/// / Color Declarations
+@property (nonatomic, strong) UIColor * _Nonnull attackColor;
+@property (nonatomic, strong) UIColor * _Nonnull decayColor;
+@property (nonatomic, strong) UIColor * _Nonnull sustainColor;
+@property (nonatomic, strong) UIColor * _Nonnull releaseColor;
+@property (nonatomic) CGFloat curveStrokeWidth;
+- (void)touchesBegan:(NSSet<UITouch *> * _Nonnull)touches withEvent:(UIEvent * _Nullable)event;
+- (void)touchesMoved:(NSSet<UITouch *> * _Nonnull)touches withEvent:(UIEvent * _Nullable)event;
+- (void)prepareForInterfaceBuilder;
+- (CGSize)intrinsicContentSize;
++ (BOOL)requiresConstraintBasedLayout;
+- (nonnull instancetype)initWithCallback:(void (^ _Nullable)(double, double, double, double))callback OBJC_DESIGNATED_INITIALIZER;
+- (nonnull instancetype)initWithFrame:(CGRect)frame OBJC_DESIGNATED_INITIALIZER;
+- (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)aDecoder OBJC_DESIGNATED_INITIALIZER;
+- (void)drawRect:(CGRect)rect;
 @end
 
 
@@ -259,10 +290,10 @@ SWIFT_CLASS("_TtC8AudioKit11AKAudioFile")
 /// true if Audio Samples are interleaved
 @property (nonatomic, readonly) BOOL interleaved;
 
-/// true if file format is "deinterleaved native-endian float (AVAudioPCMFormatFloat32)", otherwise false
+/// true only if file format is "deinterleaved native-endian float (AVAudioPCMFormatFloat32)"
 @property (nonatomic, readonly) BOOL standard;
 
-/// commonFormatString translates commonFormat in an human readable string. enum AVAudioCommonFormat : UInt { case OtherFormat case PCMFormatFloat32 case PCMFormatFloat64 case PCMFormatInt16 case PCMFormatInt32 }
+/// Human-readable version of common format
 @property (nonatomic, readonly, copy) NSString * _Nonnull commonFormatString;
 
 /// the directory path as a NSURL object
@@ -280,7 +311,7 @@ SWIFT_CLASS("_TtC8AudioKit11AKAudioFile")
 /// Returns an AVAsset from the AKAudioFile
 @property (nonatomic, readonly, strong) AVURLAsset * _Nonnull avAsset;
 
-/// As The description doesn't provide so much informations, I appended the fileFormat String. (But may be it is a bad practice... let me know :-)
+/// As The description doesn't provide so much informations, appended the fileFormat.
 @property (nonatomic, readonly, copy) NSString * _Nonnull description;
 
 /// returns audio data as an Array of float Arrays If stereo: - arraysOfFloats[0] will contain an Array of left channel samples as Floats - arraysOfFloats[1] will contains an Array of right channel samples as Floats
@@ -296,8 +327,6 @@ SWIFT_CLASS("_TtC8AudioKit11AKAudioFile")
 ///
 /// \param fileURL NSURL of the file
 ///
-/// \param error NSError if init failed
-///
 /// \returns  An initialized AKAudioFile object for reading, or nil if init failed.
 - (nullable instancetype)initForReading:(NSURL * _Nonnull)fileURL error:(NSError * _Nullable * _Null_unspecified)error OBJC_DESIGNATED_INITIALIZER;
 
@@ -308,8 +337,6 @@ SWIFT_CLASS("_TtC8AudioKit11AKAudioFile")
 /// \param format The processing commonFormat to use when reading from the file.
 ///
 /// \param interleaved Whether to use an interleaved processing format.
-///
-/// \param error NSError if init failed
 ///
 /// \returns  An initialized AKAudioFile object for reading, or nil if init failed.
 - (nullable instancetype)initForReading:(NSURL * _Nonnull)fileURL commonFormat:(AVAudioCommonFormat)format interleaved:(BOOL)interleaved error:(NSError * _Nullable * _Null_unspecified)error OBJC_DESIGNATED_INITIALIZER;
@@ -353,8 +380,6 @@ SWIFT_CLASS("_TtC8AudioKit11AKAudioFile")
 ///
 /// \param settings The settings of the file to create.
 ///
-/// \param error NSError if init failed .
-///
 /// \returns  An initialized AKAudioFile for writing, or nil if init failed.
 - (nullable instancetype)initForWriting:(NSURL * _Nonnull)fileURL settings:(NSDictionary<NSString *, id> * _Nonnull)settings error:(NSError * _Nullable * _Null_unspecified)error OBJC_DESIGNATED_INITIALIZER;
 @end
@@ -369,9 +394,18 @@ SWIFT_CLASS("_TtC8AudioKit11AKAudioFile")
 
 
 @interface AKAudioFile (SWIFT_EXTENSION(AudioKit))
+
+/// returns file Mime Type if exists Otherwise, returns nil (useful when sending an AKAudioFile by email)
+@property (nonatomic, readonly, copy) NSString * _Nullable mimeType;
+
+/// Static function to delete all audiofiles from Temp directory
+///
+/// AKAudioFile.cleanTempDirectory()
++ (void)cleanTempDirectory;
 @end
 
 @class AKSampler;
+@class AKMIDISampler;
 @class AKAudioPlayer;
 
 @interface AKAudioFile (SWIFT_EXTENSION(AudioKit))
@@ -379,12 +413,24 @@ SWIFT_CLASS("_TtC8AudioKit11AKAudioFile")
 /// Create an AKSampler loaded with the current AKAudioFile
 @property (nonatomic, readonly, strong) AKSampler * _Nullable sampler;
 
+/// Create an AKMIDISampler loaded with the current AKAudioFile
+@property (nonatomic, readonly, strong) AKMIDISampler * _Nullable midiSampler;
+
 /// Create an AKAudioPlayer to play the current AKAudioFile
 @property (nonatomic, readonly, strong) AKAudioPlayer * _Nullable player;
 @end
 
 
 @interface AKAudioFile (SWIFT_EXTENSION(AudioKit))
+
+/// Returns the remaining not completed queued Async processes (Int)
++ (NSInteger)queuedAsyncProcessCount;
+
+/// Returns the total scheduled Async processes count (Int)
++ (NSInteger)scheduledAsyncProcessesCount;
+
+/// Returns the completed Async processes count (Int)
++ (NSInteger)completedAsyncProcessesCount;
 @end
 
 
@@ -426,8 +472,24 @@ SWIFT_CLASS("_TtC8AudioKit13AKAudioPlayer")
 /// sets the end time, If it is playing, player will restart playing from the start time each time end time is set
 @property (nonatomic) double endTime;
 
-/// the safest way to proceed is to use an AKAudioFile
-- (nullable instancetype)initWithFile:(AKAudioFile * _Nonnull)file error:(NSError * _Nullable * _Null_unspecified)error completionHandler:(void (^ _Nullable)(void))completionHandler OBJC_DESIGNATED_INITIALIZER;
+/// Initialize the audio player
+///
+/// Notice that completionCallBack will be triggered from a
+/// background thread. Any UI update should be made using:
+///
+/// <code>dispatch_async(dispatch_get_main_queue()) {
+///    // UI updates...
+/// }
+/// 
+/// </code>
+/// \param file the AKAudioFile to play
+///
+/// \param looping will loop play if set to true, or stop when play ends, so it can trig the completionHandler callBack. Default is false (non looping)
+///
+/// \param completionHandler AKCallback that will be triggered when the player end playing (useful for refreshing UI so we're not playing anymore, we stopped playing...
+///
+/// \returns  an AKAudioPlayer if init succeeds, or nil if init fails. If fails, errors may be catched as it is a throwing init.
+- (nullable instancetype)initWithFile:(AKAudioFile * _Nonnull)file looping:(BOOL)looping error:(NSError * _Nullable * _Null_unspecified)error completionHandler:(void (^ _Nullable)(void))completionHandler OBJC_DESIGNATED_INITIALIZER;
 
 /// Start playback
 - (void)start;
@@ -501,7 +563,7 @@ SWIFT_CLASS("_TtC8AudioKit9AKAutoWah")
 
 
 
-/// This operation outputs a version of the audio source, amplitude-modified so that its rms power is equal to that of the comparator audio source. Thus a signal that has suffered loss of power (eg., in passing through a filter bank) can be restored by matching it with, for instance, its own source. It should be noted that this modifies amplitude only; output signal is not altered in any other respect.
+/// This node outputs a version of the audio source, amplitude-modified so that its rms power is equal to that of the comparator audio source. Thus a signal that has suffered loss of power (eg., in passing through a filter bank) can be restored by matching it with, for instance, its own source. It should be noted that this modifies amplitude only; output signal is not altered in any other respect.
 ///
 /// \param input Input node to process
 ///
@@ -688,9 +750,16 @@ SWIFT_CLASS("_TtC8AudioKit12AKBitCrusher")
 
 
 
-/// AudioKit version of Apple's Mixer Node
+/// Stereo Booster
+///
+/// \param input Input node to process
+///
+/// \param gain Boosting multiplier.
 SWIFT_CLASS("_TtC8AudioKit9AKBooster")
 @interface AKBooster : AKNode
+
+/// Ramp Time represents the speed at which parameters are allowed to change
+@property (nonatomic) double rampTime;
 
 /// Amplification Factor
 @property (nonatomic) double gain;
@@ -698,10 +767,10 @@ SWIFT_CLASS("_TtC8AudioKit9AKBooster")
 /// Amplification Factor in db
 @property (nonatomic) double dB;
 
-/// Tells whether or not the booster is actually changing the volume of its source.
+/// Tells whether the node is processing (ie. started, playing, or active)
 @property (nonatomic, readonly) BOOL isStarted;
 
-/// Initialize this amplification node
+/// Initialize this gainner node
 ///
 /// \param input AKNode whose output will be amplified
 ///
@@ -713,6 +782,31 @@ SWIFT_CLASS("_TtC8AudioKit9AKBooster")
 
 /// Function to stop or bypass the node, both are equivalent
 - (void)stop;
+@end
+
+
+SWIFT_CLASS("_TtC8AudioKit8AKButton")
+@interface AKButton : UIView
+@property (nonatomic, copy) NSString * _Nonnull title;
+@property (nonatomic, strong) UIColor * _Nonnull color;
+- (void)touchesBegan:(NSSet<UITouch *> * _Nonnull)touches withEvent:(UIEvent * _Nullable)event;
+- (nonnull instancetype)initWithTitle:(NSString * _Nonnull)title color:(UIColor * _Nonnull)color frame:(CGRect)frame callback:(NSString * _Nonnull (^ _Nonnull)(void))callback OBJC_DESIGNATED_INITIALIZER;
+- (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)aDecoder OBJC_DESIGNATED_INITIALIZER;
+- (void)drawRect:(CGRect)rect;
+@end
+
+
+
+/// Button that just access the start/stop feature of an AKNode, primarily used for playgrounds, but potentially useful in your own code.
+SWIFT_CLASS("_TtC8AudioKit14AKBypassButton")
+@interface AKBypassButton : UIView
+- (void)touchesBegan:(NSSet<UITouch *> * _Nonnull)touches withEvent:(UIEvent * _Nullable)event;
+
+/// Required initializer
+- (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)aDecoder OBJC_DESIGNATED_INITIALIZER;
+
+/// Draw the button
+- (void)drawRect:(CGRect)rect;
 @end
 
 
@@ -762,6 +856,15 @@ SWIFT_CLASS("_TtC8AudioKit16AKMIDIInstrument")
 ///
 /// \param channel MIDI channel
 - (void)receivedMIDINoteOn:(NSInteger)noteNumber velocity:(NSInteger)velocity channel:(NSInteger)channel;
+
+/// Handle MIDI commands that come in externally
+///
+/// \param noteNumber MIDI Note number
+///
+/// \param velocity MIDI velocity
+///
+/// \param channel MIDI channel
+- (void)receivedMIDINoteOffWithNoteNumber:(NSInteger)noteNumber velocity:(NSInteger)velocity channel:(NSInteger)channel;
 
 /// Start a note
 ///
@@ -966,12 +1069,6 @@ SWIFT_CLASS("_TtC8AudioKit12AKCompressor")
 /// \param releaseTime Release Time (secs) ranges from 0.01 to 3 (Default: 0.05)
 ///
 /// \param masterGain Master Gain (dB) ranges from -40 to 40 (Default: 0)
-///
-/// \param compressionAmount Compression Amount (dB) ranges from -40 to 40 (read only)
-///
-/// \param inputAmplitude Input Amplitude (dB) ranges from -40 to 40 (read only)
-///
-/// \param outputAmplitude Output Amplitude (dB) ranges from -40 to 40 (read only)
 - (nonnull instancetype)init:(AKNode * _Nonnull)input threshold:(double)threshold headRoom:(double)headRoom attackTime:(double)attackTime releaseTime:(double)releaseTime masterGain:(double)masterGain OBJC_DESIGNATED_INITIALIZER;
 
 /// Function to start, play, or activate the node, all do the same thing
@@ -1060,6 +1157,9 @@ SWIFT_CLASS("_TtC8AudioKit16AKCostelloReverb")
 
 /// Low Ringing Long Tail Reverb
 - (void)presetLowRingingLongTailCostelloReverb;
+
+/// Print out current values in case you want to save it as a preset
+- (void)printCurrentValuesAsPreset;
 @end
 
 
@@ -1191,6 +1291,9 @@ SWIFT_CLASS("_TtC8AudioKit7AKDelay")
 
 /// Electrical Circuits, Robotic Delay Effect
 - (void)presetElectricCircuitsDelay;
+
+/// Print out current values in case you want to save it as a preset
+- (void)printCurrentValuesAsPreset;
 @end
 
 
@@ -1356,6 +1459,9 @@ SWIFT_CLASS("_TtC8AudioKit12AKDistortion")
 
 /// Massive Distortion
 - (void)presetInfiniteDistortionWall;
+
+/// Print out current values in case you want to save it as a preset
+- (void)printCurrentValuesAsPreset;
 @end
 
 
@@ -1562,7 +1668,7 @@ SWIFT_CLASS("_TtC8AudioKit19AKDynamicsProcessor")
 ///
 /// \param input Input node to process
 ///
-/// \param centerFrequency Center frequency. (in Hertz)
+/// \param centerFrequency Center frequency in Hertz
 ///
 /// \param bandwidth The peak/notch bandwidth in Hertz
 ///
@@ -1589,7 +1695,7 @@ SWIFT_CLASS("_TtC8AudioKit17AKEqualizerFilter")
 ///
 /// \param input Input node to process
 ///
-/// \param centerFrequency Center frequency. (in Hertz)
+/// \param centerFrequency Center frequency in Hertz
 ///
 /// \param bandwidth The peak/notch bandwidth in Hertz
 ///
@@ -1670,12 +1776,6 @@ SWIFT_CLASS("_TtC8AudioKit10AKExpander")
 /// \param releaseTime Release Time (secs) ranges from 0.01 to 3 (Default: 0.05)
 ///
 /// \param masterGain Master Gain (dB) ranges from -40 to 40 (Default: 0)
-///
-/// \param compressionAmount Compression Amount (dB) ranges from -40 to 40 (read only)
-///
-/// \param inputAmplitude Input Amplitude (dB) ranges from -40 to 40 (read only)
-///
-/// \param outputAmplitude Output Amplitude (dB) ranges from -40 to 40 (read only)
 - (nonnull instancetype)init:(AKNode * _Nonnull)input threshold:(double)threshold headRoom:(double)headRoom expansionRatio:(double)expansionRatio expansionThreshold:(double)expansionThreshold attackTime:(double)attackTime releaseTime:(double)releaseTime masterGain:(double)masterGain compressionAmount:(double)compressionAmount inputAmplitude:(double)inputAmplitude outputAmplitude:(double)outputAmplitude OBJC_DESIGNATED_INITIALIZER;
 
 /// Function to start, play, or activate the node, all do the same thing
@@ -2086,7 +2186,7 @@ SWIFT_CLASS("_TtC8AudioKit17AKHighShelfFilter")
 @interface AKHighShelfFilter : AKNode
 
 /// Cut Off Frequency (Hz) ranges from 10000 to 22050 (Default: 10000)
-@property (nonatomic) double cutOffFrequency;
+@property (nonatomic) double cutoffFrequency;
 
 /// Gain (dB) ranges from -40 to 40 (Default: 0)
 @property (nonatomic) double gain;
@@ -2152,6 +2252,66 @@ SWIFT_CLASS("_TtC8AudioKit36AKHighShelfParametricEqualizerFilter")
 ///
 /// \param q Q of the filter. sqrt(0.5) is no resonance.
 - (nonnull instancetype)init:(AKNode * _Nonnull)input centerFrequency:(double)centerFrequency gain:(double)gain q:(double)q OBJC_DESIGNATED_INITIALIZER;
+
+/// Function to start, play, or activate the node, all do the same thing
+- (void)start;
+
+/// Function to stop or bypass the node, both are equivalent
+- (void)stop;
+@end
+
+
+SWIFT_CLASS("_TtC8AudioKit14AKKeyboardView")
+@interface AKKeyboardView : UIView
+@property (nonatomic) BOOL polyphonicMode;
+- (void)drawRect:(CGRect)rect;
+- (nonnull instancetype)initWithWidth:(NSInteger)width height:(NSInteger)height firstOctave:(NSInteger)firstOctave octaveCount:(NSInteger)octaveCount polyphonic:(BOOL)polyphonic OBJC_DESIGNATED_INITIALIZER;
+- (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)aDecoder OBJC_DESIGNATED_INITIALIZER;
+- (NSString * _Nonnull)GetNoteName:(NSInteger)note;
+- (void)touchesBegan:(NSSet<UITouch *> * _Nonnull)touches withEvent:(UIEvent * _Nullable)event;
+- (void)touchesEnded:(NSSet<UITouch *> * _Nonnull)touches withEvent:(UIEvent * _Nullable)event;
+- (void)touchesMoved:(NSSet<UITouch *> * _Nonnull)touches withEvent:(UIEvent * _Nullable)event;
+@end
+
+
+
+/// Analogue model of the Korg 35 Lowpass Filter
+///
+/// \param input Input node to process
+///
+/// \param cutoffFrequency Filter cutoff
+///
+/// \param resonance Filter resonance (should be between 0-2)
+///
+/// \param saturation Filter saturation.
+SWIFT_CLASS("_TtC8AudioKit19AKKorgLowPassFilter")
+@interface AKKorgLowPassFilter : AKNode
+
+/// Ramp Time represents the speed at which parameters are allowed to change
+@property (nonatomic) double rampTime;
+
+/// Filter cutoff
+@property (nonatomic) double cutoffFrequency;
+
+/// Filter resonance (should be between 0-2)
+@property (nonatomic) double resonance;
+
+/// Filter saturation.
+@property (nonatomic) double saturation;
+
+/// Tells whether the node is processing (ie. started, playing, or active)
+@property (nonatomic, readonly) BOOL isStarted;
+
+/// Initialize this filter node
+///
+/// \param input Input node to process
+///
+/// \param cutoffFrequency Filter cutoff
+///
+/// \param resonance Filter resonance (should be between 0-2)
+///
+/// \param saturation Filter saturation.
+- (nonnull instancetype)init:(AKNode * _Nonnull)input cutoffFrequency:(double)cutoffFrequency resonance:(double)resonance saturation:(double)saturation OBJC_DESIGNATED_INITIALIZER;
 
 /// Function to start, play, or activate the node, all do the same thing
 - (void)start;
@@ -2367,6 +2527,9 @@ SWIFT_CLASS("_TtC8AudioKit9AKSampler")
 /// Sampler AV Audio Unit
 @property (nonatomic, strong) AVAudioUnitSampler * _Nonnull samplerUnit;
 
+/// Transposition amount in semitones, from -24 to 24, Default: 0
+@property (nonatomic) double tuning;
+
 /// Initialize the sampler node
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 
@@ -2384,6 +2547,15 @@ SWIFT_CLASS("_TtC8AudioKit9AKSampler")
 ///
 /// \param file an AKAudioFile
 - (BOOL)loadAudioFile:(AKAudioFile * _Nonnull)file error:(NSError * _Nullable * _Null_unspecified)error;
+
+/// Load an array of AKAudioFiles
+///
+/// If a file name ends with a note name (ex: "violinC3.wav")
+/// The file will be set to this note
+/// Handy to set multi-sampled instruments or a drum kit...
+///
+/// \param file an array of AKAudioFile
+- (BOOL)loadAudioFiles:(NSArray<AKAudioFile *> * _Nonnull)files error:(NSError * _Nullable * _Null_unspecified)error;
 
 /// Load a Melodic SoundFont SF2 sample data file
 ///
@@ -2434,7 +2606,7 @@ SWIFT_CLASS("_TtC8AudioKit9AKSampler")
 
 /// MIDI receiving Sampler
 ///
-/// be sure to enableMIDI if you want to receive messages
+/// Be sure to enableMIDI if you want to receive messages
 SWIFT_CLASS("_TtC8AudioKit13AKMIDISampler")
 @interface AKMIDISampler : AKSampler
 
@@ -2555,6 +2727,9 @@ SWIFT_CLASS("_TtC8AudioKit10AKMandolin")
 
 /// A strangly tuned, psychedelic mandolin
 - (void)presetAcidMandolin;
+
+/// Print out current values in case you want to save it as a preset
+- (void)printCurrentValuesAsPreset;
 @end
 
 
@@ -2671,6 +2846,11 @@ SWIFT_CLASS("_TtC8AudioKit7AKMixer")
 /// Determine if the mixer is serving any output or if it is stopped.
 @property (nonatomic, readonly) BOOL isStarted;
 
+/// Initialize the mixer node with no inputs, to be connected later
+///
+/// \param inputs A varaiadic list of AKNodes
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+
 /// Connnect another input after initialization
 ///
 /// \param input AKNode to connect
@@ -2771,6 +2951,9 @@ SWIFT_CLASS("_TtC8AudioKit12AKMoogLadder")
 
 /// Dull noise filter
 - (void)presetDullNoiseMoogLadder;
+
+/// Print out current values in case you want to save it as a preset
+- (void)printCurrentValuesAsPreset;
 @end
 
 
@@ -2881,7 +3064,6 @@ SWIFT_CLASS("_TtC8AudioKit24AKMorphingOscillatorBank")
 @end
 
 
-@class NSCoder;
 
 
 /// Plot the FFT output from any node in an signal processing graph
@@ -2987,6 +3169,7 @@ SWIFT_CLASS("_TtC8AudioKit20AKOperationGenerator")
 
 /// Tells whether the node is processing (ie. started, playing, or active)
 @property (nonatomic, readonly) BOOL isStarted;
+@property (nonatomic, copy) NSString * _Nonnull sporth;
 
 /// Parameters for changing internal operations
 @property (nonatomic, copy) NSArray<NSNumber *> * _Nonnull parameters;
@@ -2994,7 +3177,7 @@ SWIFT_CLASS("_TtC8AudioKit20AKOperationGenerator")
 /// Initialize this generator node with a generic sporth stack and a triggering flag
 ///
 /// \param sporth String of valid Sporth code
-- (nonnull instancetype)init:(NSString * _Nonnull)sporth OBJC_DESIGNATED_INITIALIZER;
+- (nonnull instancetype)initWithSporth:(NSString * _Nonnull)sporth OBJC_DESIGNATED_INITIALIZER;
 
 /// Trigger the sound with current parameters
 - (void)trigger:(NSInteger)triggerNumber;
@@ -3099,7 +3282,6 @@ SWIFT_CLASS("_TtC8AudioKit16AKOscillatorBank")
 - (void)stopWithNoteNumber:(NSInteger)noteNumber;
 @end
 
-@class UIView;
 
 
 /// Wrapper class for plotting audio from the final mix in a waveform plot
@@ -3128,7 +3310,7 @@ SWIFT_CLASS("_TtC8AudioKit20AKOutputWaveformPlot")
 /// \param width Width of the view
 ///
 /// \param height Height of the view
-+ (UIView * _Nonnull)createView:(CGFloat)width height:(CGFloat)height;
++ (UIView * _Nonnull)createViewWithWidth:(CGFloat)width height:(CGFloat)height;
 @end
 
 
@@ -3512,7 +3694,7 @@ SWIFT_CLASS("_TtC8AudioKit31AKPhaseDistortionOscillatorBank")
 /// Ramp Time represents the speed at which parameters are allowed to change
 @property (nonatomic) double rampTime;
 
-/// Duty cycle width (range -1 - -1).
+/// Duty cycle width (range -1 - 1).
 @property (nonatomic) double phaseDistortion;
 
 /// Attack time
@@ -3666,6 +3848,22 @@ SWIFT_CLASS("_TtC8AudioKit14AKPitchShifter")
 - (void)stop;
 @end
 
+@class UILabel;
+
+SWIFT_CLASS("_TtC8AudioKit16AKPlaygroundView")
+@interface AKPlaygroundView : UIView
+@property (nonatomic) CGFloat elementHeight;
+@property (nonatomic) NSInteger yPosition;
+@property (nonatomic) NSInteger spacing;
+- (nonnull instancetype)initWithFrame:(CGRect)frameRect OBJC_DESIGNATED_INITIALIZER;
+- (nonnull instancetype)init;
+- (void)setup;
+- (UILabel * _Nonnull)addTitle:(NSString * _Nonnull)text;
+- (UILabel * _Nonnull)addLabel:(NSString * _Nonnull)text;
+- (void)addSubview:(UIView * _Nonnull)view;
+- (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)coder OBJC_DESIGNATED_INITIALIZER;
+@end
+
 
 
 /// Karplus-Strong plucked string instrument.
@@ -3713,6 +3911,31 @@ SWIFT_CLASS("_TtC8AudioKit15AKPluckedString")
 
 
 
+SWIFT_CLASS("_TtC8AudioKit18AKPresetLoaderView")
+@interface AKPresetLoaderView : UIView
+- (void)touchesBegan:(NSSet<UITouch *> * _Nonnull)touches withEvent:(UIEvent * _Nullable)event;
+- (nonnull instancetype)initWithPresets:(NSArray<NSString *> * _Nonnull)presets frame:(CGRect)frame callback:(void (^ _Nonnull)(NSString * _Nonnull))callback OBJC_DESIGNATED_INITIALIZER;
+- (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)aDecoder OBJC_DESIGNATED_INITIALIZER;
+- (void)drawRect:(CGRect)rect;
+@end
+
+
+SWIFT_CLASS("_TtC8AudioKit16AKPropertySlider")
+@interface AKPropertySlider : UIView
+@property (nonatomic) double value;
+@property (nonatomic) double minimum;
+@property (nonatomic) double maximum;
+@property (nonatomic, copy) NSString * _Nonnull property;
+@property (nonatomic) CGPoint lastTouch;
+- (nonnull instancetype)initWithProperty:(NSString * _Nonnull)property format:(NSString * _Nonnull)format value:(double)value minimum:(double)minimum maximum:(double)maximum color:(UIColor * _Nonnull)color frame:(CGRect)frame callback:(void (^ _Nonnull)(double x))callback OBJC_DESIGNATED_INITIALIZER;
+- (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)coder OBJC_DESIGNATED_INITIALIZER;
+- (void)touchesBegan:(NSSet<UITouch *> * _Nonnull)touches withEvent:(UIEvent * _Nullable)event;
+- (void)touchesMoved:(NSSet<UITouch *> * _Nonnull)touches withEvent:(UIEvent * _Nullable)event;
+- (double)randomize;
+- (void)drawRect:(CGRect)rect;
+@end
+
+
 
 /// The output for reson appears to be very hot, so take caution when using this module.
 ///
@@ -3750,6 +3973,16 @@ SWIFT_CLASS("_TtC8AudioKit16AKResonantFilter")
 
 /// Function to stop or bypass the node, both are equivalent
 - (void)stop;
+@end
+
+
+SWIFT_CLASS("_TtC8AudioKit30AKResourcesAudioFileLoaderView")
+@interface AKResourcesAudioFileLoaderView : UIView
+- (void)touchesBegan:(NSSet<UITouch *> * _Nonnull)touches withEvent:(UIEvent * _Nullable)event;
+- (nonnull instancetype)initWithPlayer:(AKAudioPlayer * _Nonnull)player filenames:(NSArray<NSString *> * _Nonnull)filenames frame:(CGRect)frame;
+- (void)drawRect:(CGRect)rect;
+- (nonnull instancetype)initWithFrame:(CGRect)frame OBJC_DESIGNATED_INITIALIZER;
+- (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)aDecoder OBJC_DESIGNATED_INITIALIZER;
 @end
 
 
@@ -3990,7 +4223,7 @@ SWIFT_CLASS("_TtC8AudioKit19AKRollingOutputPlot")
 /// \param width Width of the view
 ///
 /// \param height Height of the view
-+ (UIView * _Nonnull)createView:(CGFloat)width height:(CGFloat)height;
++ (UIView * _Nonnull)createViewWithWidth:(CGFloat)width height:(CGFloat)height;
 @end
 
 
@@ -4032,6 +4265,10 @@ SWIFT_CLASS("_TtC8AudioKit10AKSettings")
 /// Allows AudioKit to send Notifications
 + (BOOL)notificationsEnabled;
 + (void)setNotificationsEnabled:(BOOL)value;
+
+/// If set to true, Recording will stop after some delay to compensate latency between time recording is stopped and time it is written to file If set to false (the default value) , stopping record will be immediate, even if the last audio frames haven't been recorded to file yet.
++ (BOOL)fixTruncatedRecordings;
++ (void)setFixTruncatedRecordings:(BOOL)value;
 
 /// Enable AudioKit AVAudioSession Category Management
 + (BOOL)disableAVAudioSessionCategoryManagement;
@@ -4169,6 +4406,20 @@ SWIFT_CLASS("_TtC8AudioKit16AKTanhDistortion")
 
 /// Function to stop or bypass the node, both are equivalent
 - (void)stop;
+@end
+
+
+
+/// This is primarily for the telephone page in the Synthesis playground
+SWIFT_CLASS("_TtC8AudioKit15AKTelephoneView")
+@interface AKTelephoneView : UIView
+- (void)touchesBegan:(NSSet<UITouch *> * _Nonnull)touches withEvent:(UIEvent * _Nullable)event;
+- (void)touchesEnded:(NSSet<UITouch *> * _Nonnull)touches withEvent:(UIEvent * _Nullable)event;
+- (nonnull instancetype)initWithFrame:(CGRect)frame callback:(void (^ _Nonnull)(NSString * _Nonnull, NSString * _Nonnull))callback OBJC_DESIGNATED_INITIALIZER;
+- (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)aDecoder OBJC_DESIGNATED_INITIALIZER;
+- (void)drawRect:(CGRect)rect;
++ (void)drawKeyWithText:(NSString * _Nonnull)text numeral:(NSString * _Nonnull)numeral isPressed:(BOOL)isPressed;
++ (void)drawCenteredKeyWithNumeral:(NSString * _Nonnull)numeral isPressed:(BOOL)isPressed;
 @end
 
 
@@ -4497,6 +4748,7 @@ SWIFT_CLASS("_TtC8AudioKit8AudioKit")
 
 /// Format of AudioKit Nodes
 + (AVAudioFormat * _Nonnull)format;
++ (void)setFormat:(AVAudioFormat * _Nonnull)value;
 
 /// Reference to the AV Audio Engine
 + (AVAudioEngine * _Nonnull)engine;
@@ -4534,8 +4786,15 @@ SWIFT_CLASS("_TtC8AudioKit8AudioKit")
 ///
 /// \param node AKNode to test
 ///
-/// \param samples Number of samples to generate in the test
-+ (void)testOutput:(AKNode * _Nonnull)node samples:(NSInteger)samples;
+/// \param duration Number of seconds to test (accurate to the sample)
++ (void)testWithNode:(AKNode * _Nonnull)node duration:(double)duration;
+
+/// Audition the test to hear what it sounds like
+///
+/// \param node AKNode to test
+///
+/// \param duration Number of seconds to test (accurate to the sample)
++ (void)auditionTestWithNode:(AKNode * _Nonnull)node duration:(double)duration;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 

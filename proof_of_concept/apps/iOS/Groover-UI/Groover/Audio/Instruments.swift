@@ -166,6 +166,8 @@ class ClickTrackInstrument: SynthInstrument{
     var clickTrack: ClickTrack!
     var preRollSampler = AKSampler()
     var mixer: AKMixer!
+    var track: AKSequencer!
+    var pos: Double = 0
     
     init(clickTrackRef: ClickTrack!) {
         super.init()
@@ -208,7 +210,12 @@ class ClickTrackInstrument: SynthInstrument{
     override func play(noteNumber noteNumber: MIDINoteNumber, velocity: MIDIVelocity) {
 
         beat+=1
-        
+        pos += 1
+        var vel = 100
+        if(pos % 4 == 0){
+            vel = 127
+        }
+        track.tracks[0].add(noteNumber: 60, velocity: vel, position: AKDuration(beats: pos), duration: AKDuration(seconds: 0))
         
         var volume = velocity/127.0
         if(preRoll && beat <= 4){
@@ -331,21 +338,22 @@ class ClickTrack: AKNode{
     
     func initInstrumentTrack(){
         instrument.enableMIDI(midi.client, name: "click track midi in")
-        
+        init_track_notes()
+    }
+    
+    func init_track_notes(){
+        if(track.trackCount != 0){
+            //this will erase all the other instrument tracks as well
+            track.tracks.removeAll()
+        }
         track.newTrack()
         track.tracks[0].setMIDIOutput(instrument.midiIn)
-        
-        
         track.setTempo(tempo.beatsPerMin)
-        track.setLength(AKDuration(beats: Double(timeSignature.beatsPerMeasure)))
+        //track.tracks[0].setLength(AKDuration(beats: Double(timeSignature.beatsPerMeasure), tempo: tempo.beatsPerMin))
         print("click track secPerMeasure \(secPerMeasure)")
-        //TODO: update the click track setup - this is only for 4/4 time sig
+        instrument.track = track
         track.tracks[0].add(noteNumber: 60, velocity: 127, position: AKDuration(seconds: 0), duration: AKDuration(seconds: 0))
-        track.tracks[0].add(noteNumber: 60, velocity: 105, position: AKDuration(seconds: 1), duration: AKDuration(seconds: 0))
-        track.tracks[0].add(noteNumber: 60, velocity: 105, position: AKDuration(seconds: 2), duration: AKDuration(seconds: 0))
-        track.tracks[0].add(noteNumber: 60, velocity: 105, position: AKDuration(seconds: 3), duration: AKDuration(seconds: 0))
-        
-        
+
     }
 
     
@@ -451,11 +459,11 @@ class InstrumentTrack {
     
     func deselect(){
         trackManager.deselect() //run deselect routines - for ex: checks if should update measure count (if first time track is recorded)
-        /*
-        if(!trackManager.isPlaying){
+        
+        if(!trackManager.track.isPlaying){
             trackManager.clickTrack.trigger_play()
         }
-        */
+        
     }
     
     
@@ -567,8 +575,16 @@ class TrackManager{
     func updateLength(){
         print("inst total duration updated to \(totalDuration)")
         let beats = Double(clickTrack.timeSignature.beatsPerMeasure*measureCount)
-        let bpm = Double(clickTrack.tempo.beatsPerMin)
-        track.tracks[trackNum].setLengthSoft(AKDuration(beats: beats, tempo: bpm))
+        let bpm = clickTrack.tempo.beatsPerMin
+        //track.tracks[trackNum].setLength(AKDuration(beats: beats, tempo: bpm))
+        let currentLen = track.length
+        
+        //for now only update length (measure count) of global track loop if it's greater than current length
+        //right now there will be one global measure count since there are problem with audiokit being able to set different track lengths
+        if(beats > currentLen.beats){
+            //track.tracks[trackNum].setLengthSoft(AKDuration(beats: beats, tempo: bpm))
+            print("updating length from \(currentLen.beats) to \(beats)")
+        }
     }
     
     
@@ -621,16 +637,19 @@ class TrackManager{
         //hack - audiokit v3.2 since updating length of track doesn't work correctly, need to make new track each time new recording
         print("inst \(instrument.name) measure count updated to \(count)")
         measureCount = count
-        
+        updateNotePositions()
+    }
+    
+    func updateNotePositions(){
         if(quantizeEnable){
             quantizeBeats()
         }
         else{
             resetTrack()
-            
             for i in 0 ..< trackNotes.count{
                 quantizer.bpm = clickTrack.tempo.beatsPerMin
                 let beatPos = quantizer.getBeatPosFromSec(trackNotes[i])
+                print("got \(beatPos) beat pos from \(trackNotes[i]) sec")
                 let position = AKDuration(beats: beatPos)//AKDuration(seconds: trackNotes[i])
                 let velocity = velNotes[i]
                 let duration = AKDuration(seconds: durNotes[i])
@@ -645,7 +664,6 @@ class TrackManager{
         }
         
         firstInstance = false //first instance measure count update complete
-        
     }
     
     func clear(){

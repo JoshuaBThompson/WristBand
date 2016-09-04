@@ -87,7 +87,19 @@ class SynthInstrument: AKMIDIInstrument{
     var instrumentName = "Synth Instrument"
     var sampler = AKSampler()
     var preset = 0
+    var instTrack: InstrumentTrack!
     var panner: AKPanner!
+    
+    //looping
+    var pos: Double = 0
+    var real_pos: Double = 0
+    var note_num: Int = 0
+    var loop_count: Int = 0
+    var total_dur: Double {
+        return instTrack.trackManager.totalDuration
+    }
+    
+    
     var volumeScale: Double {
         return volumePercent/100.0
     }
@@ -100,6 +112,54 @@ class SynthInstrument: AKMIDIInstrument{
         panner = AKPanner(sampler, pan: 0)
     }
     
+    func addNote(){
+        if(instTrack.trackManager.trackNotes.count==0 || instTrack.trackManager.firstInstance){
+            return
+        }
+        /*
+         Play note
+         Note_num++
+         
+         if(note_pos >= track.notes.count)
+         {
+         note_num = 0
+         Measure ++
+         }
+         
+         note_pos = track.notes[note_num]
+         real_pos = (measure*measure_len) + note_pos
+         
+         track.add(real_pos)
+        */
+        
+        //get next note position
+        
+        
+        //increment note index
+        note_num += 1
+        print("note_num set to \(note_num)")
+        if(note_num >= instTrack.trackManager.trackNotes.count){
+            note_num = 0
+            loop_count += 1
+            print("reset note add")
+        }
+        
+        pos = instTrack.trackManager.trackNotes[note_num]
+        real_pos = (loop_count * total_dur) + pos
+        
+        print("pos \(pos) and real_pos \(real_pos)")
+        
+        instTrack.trackManager.insertNote(127, position: AKDuration(seconds: real_pos), duration: 0)
+    }
+    
+    func rawPlay(noteNumber noteNumber: MIDINoteNumber, velocity: MIDIVelocity){
+        if(!muted){
+            let volume = volumeScale * velocity/127.0
+            sampler.volume = volume
+            sampler.play()
+        }
+        
+    }
     /// Start playback of a particular voice with MIDI style note and velocity
     ///
     /// - parameter voice: Voice to start
@@ -107,7 +167,7 @@ class SynthInstrument: AKMIDIInstrument{
     /// - parameter velocity: MIDI Velocity (0-127)
     ///
     override func play(noteNumber noteNumber: MIDINoteNumber, velocity: MIDIVelocity) {
-        //if not muted then play
+        addNote()
         if(!muted){
             let volume = volumeScale * velocity/127.0
             sampler.volume = volume
@@ -167,7 +227,7 @@ class ClickTrackInstrument: SynthInstrument{
     var preRollSampler = AKSampler()
     var mixer: AKMixer!
     var track: AKSequencer!
-    var pos: Double = 0
+    
     
     init(clickTrackRef: ClickTrack!) {
         super.init()
@@ -215,7 +275,7 @@ class ClickTrackInstrument: SynthInstrument{
         if(pos % 4 == 0){
             vel = 127
         }
-        track.tracks[0].add(noteNumber: 60, velocity: vel, position: AKDuration(beats: pos), duration: AKDuration(seconds: 0))
+        track.tracks[0].add(noteNumber: 60, velocity: vel, position: AKDuration(beats: Double(pos)), duration: AKDuration(seconds: 0))
         
         var volume = velocity/127.0
         if(preRoll && beat <= 4){
@@ -334,6 +394,8 @@ class ClickTrack: AKNode{
         timeSignature = clickTimeSignature
         initInstrumentTrack()
         self.avAudioNode = instrument.avAudioNode
+    
+        
     }
     
     func initInstrumentTrack(){
@@ -438,6 +500,7 @@ class InstrumentTrack {
     var trackManager: TrackManager!
     var instrument: SynthInstrument!
     var clickTrack: ClickTrack!
+    var recording = false
     
     var volume: Double {
         return instrument.volumePercent
@@ -449,12 +512,12 @@ class InstrumentTrack {
     
     init(clickTrack: ClickTrack, presetInst: SynthInstrument){
         instrument = presetInst //custom synth instrument
+        instrument.instTrack = self
         trackManager = TrackManager(midiInstrument: instrument, clickTrackRef: clickTrack)
     }
     
     func addNote(velocity: Int, duration: Double){
         trackManager.addNote(velocity, duration: duration)
-        
     }
     
     func deselect(){
@@ -573,20 +636,14 @@ class TrackManager{
     
     //MARK: Functions
     func updateLength(){
-        print("inst total duration updated to \(totalDuration)")
-        let beats = Double(clickTrack.timeSignature.beatsPerMeasure*measureCount)
-        let bpm = clickTrack.tempo.beatsPerMin
-        //track.tracks[trackNum].setLength(AKDuration(beats: beats, tempo: bpm))
-        let currentLen = track.length
-        
-        //for now only update length (measure count) of global track loop if it's greater than current length
-        //right now there will be one global measure count since there are problem with audiokit being able to set different track lengths
-        if(beats > currentLen.beats){
-            //track.tracks[trackNum].setLengthSoft(AKDuration(beats: beats, tempo: bpm))
-            print("updating length from \(currentLen.beats) to \(beats)")
-        }
     }
     
+    func insertNote(velocity: Int, position: AKDuration, duration: Double){
+        let beatPos = quantizer.getBeatPosFromSec(position.seconds)
+        let pos = AKDuration(beats: beatPos)
+        let note = instrument.note
+        track.tracks[trackNum].add(noteNumber: note, velocity: velocity, position: pos, duration: AKDuration(seconds: duration))
+    }
     
     func addNote(velocity: Int, duration: Double){
         let elapsed = timeElapsed
@@ -613,7 +670,7 @@ class TrackManager{
     
     func addNoteToTrack(note: Int, velocity: Int, position: AKDuration, duration: Double){
         addNoteToList(velocity, position: position.seconds, duration: duration)
-        track.tracks[trackNum].add(noteNumber: note, velocity: velocity, position: position, duration: AKDuration(seconds: duration))
+        //insertNote(note, velocity: velocity, position: position, duration: duration)
         //if current track time less that new then replace with new
         longestTime = (longestTime > timeElapsed) ? timeElapsed: longestTime
     }
@@ -655,7 +712,7 @@ class TrackManager{
                 let duration = AKDuration(seconds: durNotes[i])
                 let maxTime = totalDuration
                 print("update track pos \(position.seconds)")
-                if(position.seconds <= maxTime){
+                if(position.seconds <= maxTime && i == 0){
                     track.tracks[trackNum].add(noteNumber: instrument.note, velocity: velocity, position: position, duration: duration)
                 }
             }
@@ -690,7 +747,7 @@ class TrackManager{
             let velocity = velNotes[i]
             let duration = AKDuration(seconds: durNotes[i])
             let maxTime = AKDuration(seconds: totalDuration)
-            if(position <= maxTime){
+            if(position <= maxTime && i == 0){
                 track.tracks[trackNum].add(noteNumber: instrument.note, velocity: velocity, position: quantizedPos, duration: duration)
             }
         }
@@ -904,7 +961,7 @@ class InstrumentCollection {
         print("Playing preset \(presetNumber) note")
         if(presetNumber < instruments.count){
             let note = instruments[presetNumber].instrument.note;
-            instruments[presetNumber].instrument.play(noteNumber: note, velocity: 127)
+            instruments[presetNumber].instrument.rawPlay(noteNumber: note, velocity: 127)
             instruments[presetNumber].instrument.stop(noteNumber: note)
         }
         
@@ -934,11 +991,16 @@ class InstrumentCollection {
     func record(){
         print("Recording note")
         recordEnabled = true
+        for inst in instruments{
+            inst.recording = true
+        }
+        
     }
     
     func stop_record(){
         recordEnabled = false
         for inst in instruments{
+            inst.recording = false
             inst.deselect()
         }
     }

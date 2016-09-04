@@ -96,7 +96,7 @@ class SynthInstrument: AKMIDIInstrument{
     var note_num: Int = 0
     var loop_count: Int = 0
     var total_dur: Double {
-        return instTrack.trackManager.totalDuration
+        return instTrack.trackManager.measureCount*4
     }
     
     
@@ -116,25 +116,8 @@ class SynthInstrument: AKMIDIInstrument{
         if(instTrack.trackManager.trackNotes.count==0 || instTrack.trackManager.firstInstance){
             return
         }
-        /*
-         Play note
-         Note_num++
-         
-         if(note_pos >= track.notes.count)
-         {
-         note_num = 0
-         Measure ++
-         }
-         
-         note_pos = track.notes[note_num]
-         real_pos = (measure*measure_len) + note_pos
-         
-         track.add(real_pos)
-        */
         
         //get next note position
-        
-        
         //increment note index
         note_num += 1
         print("note_num set to \(note_num)")
@@ -353,7 +336,7 @@ struct TimeSignature {
 
 //Tempo
 struct Tempo {
-    var beatsPerMin = Double(120.0) //60.0
+    var beatsPerMin = Double(60.0) //60.0
     let secPerMin = Double(60.0)
     var beatsPerSec: Double { return beatsPerMin / secPerMin }
 }
@@ -653,7 +636,7 @@ class TrackManager{
         if(!firstInstance){
             print("adding note to track")
             addNoteToList(velocity, position: elapsed, duration: duration)
-            addNoteToTrack(note, velocity: velocity, position: position, duration: duration)
+            //addNoteToTrack(note, velocity: velocity, position: position, duration: duration)
         }
         else if(firstInstance){
             print("adding new note at \(absElapsed)")
@@ -686,6 +669,7 @@ class TrackManager{
             let count = Int(ceil(timeElapsedAbs / secPerMeasure))
             print("deselect update count \(count) and secPerMeasure \(secPerMeasure)")
             updateMeasureCount(count)
+            updateNotePositions()
         }
         
     }
@@ -694,7 +678,6 @@ class TrackManager{
         //hack - audiokit v3.2 since updating length of track doesn't work correctly, need to make new track each time new recording
         print("inst \(instrument.name) measure count updated to \(count)")
         measureCount = count
-        updateNotePositions()
     }
     
     func updateNotePositions(){

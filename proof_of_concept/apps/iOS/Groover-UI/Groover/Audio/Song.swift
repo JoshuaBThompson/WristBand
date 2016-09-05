@@ -287,9 +287,6 @@ class Song {
         clickTrack.tempo.beatsPerMin = newBeatsPerMin
         clickTrack.update()
         
-        for inst in instruments{
-            inst.updateTrackTempo()
-        }
     }
     
     

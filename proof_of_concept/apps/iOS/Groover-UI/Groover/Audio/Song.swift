@@ -252,6 +252,7 @@ class Song {
         for instNum in 0 ..< instruments.count {
             instruments[instNum].stop_record()
         }
+        clickTrack.trigger_play()
         
     }
     
@@ -262,11 +263,12 @@ class Song {
         if(!clickTrack.enabled){
             clickTrack.enable() //run click track but mute it
         }
-        clickTrack.start()
+        
         for instNum in 0 ..< instruments.count {
             instruments[instNum].play()
         }
         playing = true
+        clickTrack.start() //start global multitrack
         
     }
     

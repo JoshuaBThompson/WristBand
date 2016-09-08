@@ -45,7 +45,7 @@ class QuantizeControl: UIControl {
             switch buttonType {
             case .QUARTER:
                 button = Quarter()
-                button.resolution = 1.0 //resolution used in song to quantize beats in loop
+                button.resolution = 4.0 //resolution used in song to quantize beats in loop
             case .EIGHT:
                 button = Eighth()
                 button.resolution = 8.0

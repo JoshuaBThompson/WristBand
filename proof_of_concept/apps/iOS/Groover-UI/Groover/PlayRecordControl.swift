@@ -54,9 +54,9 @@ class PlayRecordControl: UIControl {
     
     override func layoutSubviews() {
         // Set the button's width and height to a square the size of the frame's height.
-        let buttonSize = Int(frame.size.height)
-        let buttonSpacing = Int(frame.size.width) / count
-        var buttonFrame = CGRect(x: 0, y: 0, width: buttonSize, height: buttonSize)
+        let buttonSize = 44
+        let buttonSpacing = 128 / count
+        var buttonFrame = CGRect(x:0, y: 5, width: buttonSize, height: buttonSize)
         
         // Offset each button's origin by the length of the button plus spacing.
         for (index, button) in buttons.enumerate() {
@@ -84,8 +84,8 @@ class PlayRecordControl: UIControl {
         print("Play or Record button tapped")
         updateButtonSelectionStates()
         sendActionsForControlEvents(.ValueChanged) //this tells view controller that something changed
-        
     }
+    
     func manualSelectButton(buttonType: PlayRecordButtonTypes_t){
         currentButtonType = buttonType
         let num = currentButtonType

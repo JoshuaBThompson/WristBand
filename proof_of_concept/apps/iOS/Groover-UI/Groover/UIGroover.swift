@@ -1243,10 +1243,10 @@ public class UIGroover : NSObject {
 
         //// playButton Drawing
         let playButtonPath = UIBezierPath()
-        playButtonPath.moveToPoint(CGPointMake(0, 22))
-        playButtonPath.addLineToPoint(CGPointMake(0, 0))
-        playButtonPath.addLineToPoint(CGPointMake(22, 11))
-        playButtonPath.addLineToPoint(CGPointMake(0, 22))
+        playButtonPath.moveToPoint(CGPointMake(11, 33))
+        playButtonPath.addLineToPoint(CGPointMake(11, 11))
+        playButtonPath.addLineToPoint(CGPointMake(33, 22))
+        playButtonPath.addLineToPoint(CGPointMake(11, 33))
         playButtonPath.closePath()
         playButtonPath.miterLimit = 4;
 
@@ -1280,7 +1280,7 @@ public class UIGroover : NSObject {
         let recordColor = recordSelected ? transportRed : transportDark
 
         //// recordButton Drawing
-        let recordButtonPath = UIBezierPath(ovalInRect: CGRectMake(0, 0, 22, 22))
+        let recordButtonPath = UIBezierPath(ovalInRect: CGRectMake(11, 11, 22, 22))
         recordColor.setFill()
         recordButtonPath.fill()
     }

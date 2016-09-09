@@ -122,7 +122,7 @@ class SynthInstrument: AKMIDIInstrument{
     }
     
     func addNote(){
-        print("synt inst track length \(instTrack.trackManager.track.tracks[5].length)")
+        print("adding note kick 1!!!!")
         if(instTrack.trackManager.trackNotes.count==0 || instTrack.trackManager.firstInstance){
             return
         }
@@ -602,19 +602,13 @@ class TrackManager{
     var instrument: SynthInstrument!
     var clickTrack: ClickTrack!
     var timer: Timer!
+    var new = false
     
     //MARK: Computed
     var secPerMeasure: Double { return clickTrack.secPerMeasure }
     var beatsPerMeasure: Int { return clickTrack.timeSignature.beatsPerMeasure }
     var totalBeats: Int { return measureCount * beatsPerMeasure}
     var totalDuration: Double {
-        if (longestTime > secPerMeasure*Double(measureCount)){
-            //round up to nearest integer to get number of measures
-            //if longest time recorded is greater then secPerMeasure then make more measures
-            //this might happen if user changes time sig or tempo which may compress or stretch out the track so we need to compensate
-            //so we don't lose beats that were made while recording
-            measureCount = Int(ceil(Double(longestTime)/Double(secPerMeasure)))
-        }
 
         return secPerMeasure * Double(measureCount)
     }
@@ -684,7 +678,7 @@ class TrackManager{
         let absElapsed = timeElapsedAbs
         let absPosition = AKDuration(seconds: absElapsed, tempo: clickTrack.tempo.beatsPerMin)
         if(!firstInstance){
-            print("adding note to track")
+            print("adding note to track at \(elapsed)")
             addNoteToList(velocity, position: position, duration: duration)
             //addNoteToTrack(note, velocity: velocity, position: position, duration: duration)
         }
@@ -699,6 +693,11 @@ class TrackManager{
         trackNotes.append(position)
         velNotes.append(velocity)
         durNotes.append(duration)
+        let sortedNotes = trackNotes.sort {
+            return $0.beats < $1.beats
+        }
+        //now updates notes list
+        trackNotes = sortedNotes
     }
     
     func addNoteToTrack(note: Int, velocity: Int, position: AKDuration, duration: Double){
@@ -711,6 +710,7 @@ class TrackManager{
     //MARK: deselect instrument track - do anything that needs to be done after user stops using this track
     func deselect(){
         if(trackNotes.count >= 1 && firstInstance){
+            new = true
             
             //If this is the first time the track is being created then update measure count after instrument record stopped / deselected
             //measure count = roundUp(timeElapsed (sec) / secPerMeasure) roundUp = ceil math function
@@ -720,6 +720,9 @@ class TrackManager{
             print("deselect update count \(count) and secPerMeasure \(secPerMeasure)")
             updateMeasureCount(count)
             updateNotePositions()
+        }
+        else{
+            new = false
         }
         
     }
@@ -754,6 +757,7 @@ class TrackManager{
         
         firstInstance = false //first instance measure count update complete
     }
+    
     
     func clear(){
             longestTime = 0.0
@@ -826,6 +830,14 @@ class InstrumentCollection {
     var trackEmpty: Bool {return instruments[selectedInst].trackManager.noteCount <= 0}
     var presetVolume: Double {return instruments[selectedInst].volume}
     var presetPan: Double {return instruments[selectedInst].pan}
+    var new: Bool {
+        for inst in instruments{
+            if(inst.trackManager.new){
+                return true
+            }
+        }
+        return false
+    }
     
     //MARK: Initialization
     init(globalClickTrack: ClickTrack, preset1: SynthInstrument, preset2: SynthInstrument, preset3: SynthInstrument, preset4: SynthInstrument){
@@ -975,6 +987,14 @@ class InstrumentCollection {
         instruments[selectedInst].trackManager.clear()
         
     }
+    
+    //removes notes from sequence track, but don't remove notes from instrument list
+    func resetTracks(){
+        for inst in instruments{
+            inst.trackManager.resetTrack()
+        }
+    }
+    
     func clear(){
         //stop any currently playing tracks first
         stop()
@@ -1027,8 +1047,8 @@ class InstrumentCollection {
         for inst in instruments{
             inst.recording = true
         }
-        
     }
+    
     
     func stop_record(){
         recordEnabled = false

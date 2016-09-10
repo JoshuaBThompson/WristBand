@@ -662,12 +662,9 @@ class TrackManager{
     }
     
     //MARK: Functions
-    func updateLength(){
-    }
     
     func insertNote(velocity: Int, position: AKDuration, duration: Double){
-        //quantizer.bpm = 60.0//clickTrack.tempo.beatsPerMin
-        let pos = position//AKDuration(beats: beatPos)
+        let pos = position
         let note = instrument.note
         track.tracks[trackNum].add(noteNumber: note, velocity: velocity, position: pos, duration: AKDuration(seconds: duration))
     }
@@ -700,13 +697,6 @@ class TrackManager{
         trackNotes = sortedNotes
     }
     
-    func addNoteToTrack(note: Int, velocity: Int, position: AKDuration, duration: Double){
-        addNoteToList(velocity, position: position, duration: duration)
-        //insertNote(note, velocity: velocity, position: position, duration: duration)
-        //if current track time less that new then replace with new
-        longestTime = (longestTime > timeElapsed) ? timeElapsed: longestTime
-    }
-    
     //MARK: deselect instrument track - do anything that needs to be done after user stops using this track
     func deselect(){
         if(trackNotes.count >= 1 && firstInstance){
@@ -735,11 +725,7 @@ class TrackManager{
     
     func updateNotePositions(){
         if(trackNotes.count==0){return}
-        
-        if(quantizeEnable){
-            quantizeBeats()
-        }
-        else{
+
             resetTrack()
                 //quantizer.bpm = 60.0//clickTrack.tempo.beatsPerMin
                 let position = trackNotes[0]
@@ -750,10 +736,6 @@ class TrackManager{
                 if(position.seconds <= maxTime){
                     track.tracks[trackNum].add(noteNumber: instrument.note, velocity: velocity, position: position, duration: duration)
                 }
-            
-            
-            updateLength()
-        }
         
         firstInstance = false //first instance measure count update complete
     }
@@ -767,29 +749,8 @@ class TrackManager{
             durNotes.removeAll()
             firstInstance = true
             measureCount = 1
-            updateLength()
             resetTrack()
             instrument.reset()
-    }
-    
-    //MARK: Quantize beats
-    func quantizeBeats(){
-        print("Quantize!!!")
-        resetTrack() //current measure count will not be cleared
-        updateLength() //using current measure count
-        
-        for i in 0 ..< trackNotes.count{
-            let position = trackNotes[i]
-            let quantizedPos = AKDuration(seconds: quantizer.quantized(position.seconds))
-            let velocity = velNotes[i]
-            let duration = AKDuration(seconds: durNotes[i])
-            let maxTime = AKDuration(seconds: totalDuration)
-            if(position <= maxTime && i == 0){
-                track.tracks[trackNum].add(noteNumber: instrument.note, velocity: velocity, position: quantizedPos, duration: duration)
-            }
-        }
-        
-        firstInstance = false //first instance measure count update complete
     }
     
 }
@@ -1036,7 +997,6 @@ class InstrumentCollection {
         }
         let velocity = 127
         instruments[instNumber].addNote(velocity, duration: 0) //duration is just how long to hold the beat for if not a pre recorded sample ... I think
-        //if !playing { play() }
         playNote(instNumber)
         
     }
@@ -1064,12 +1024,6 @@ class InstrumentCollection {
             inst.instrument.reset()
             inst.trackManager.updateNotePositions() //reset aksequence track and set first note, if any
         }
-        /*
-        if(!clickTrack.track.isPlaying){
-            clickTrack.track.enableLooping()
-            clickTrack.track.play()
-        }
-         */
         playing = true
         
     }
@@ -1086,21 +1040,6 @@ class InstrumentCollection {
         clickTrack.track.disableLooping()
         playing = false
     }
-    
-    
-    func updateTrackTempo(){
-        //tell trackManager to update bpm and length based on measure and clickTrack object data
-        clickTrack.update() //updates tempo only right now
-    }
-    
-    
-    func updateTrackTimeSignature(){
-        //tell trackManager to update length based on time signature defined by measure and clickTrack object data
-        for inst in instruments{
-            inst.trackManager.updateLength()
-        }
-    }
-    
     
 }
 

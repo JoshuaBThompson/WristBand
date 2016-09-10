@@ -318,9 +318,6 @@ class Song {
         clickTrack.timeSignature.beatsPerMeasure = newBeatsPerMeasure
         clickTrack.timeSignature.beatUnit = newNote
         clickTrack.update()
-        for inst in instruments{
-            inst.updateTrackTimeSignature()
-        }
         
     }
     

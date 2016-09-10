@@ -12,52 +12,19 @@ import AudioKit
 /****************Quantize*******************/
 class Quantize {
     var divPerBeat = 1.0 //divisions per beat (beat resolution, ex: 64 divisions would be highest resolution and 1 is lowest)
-    var bpm = 60.0
-    var secPerMin = 60.0
     let maxDivisions = 64.0
     let minDivisions = 1.0
     
-    //MARK: computed variables
-    var beatPerSec: Double {
-        return bpm / secPerMin
-    }
-    
-    //MARK: get beat position from time in sec
-    func getBeatPosFromSec(sec: Double)->Double{
-        let beatPos = sec * beatPerSec
-        return beatPos
-    }
-    
-    //MARK: get beat position in beat divisions (ex: beat pos of 2 would be 2*16 if beat resolution = 16 divisions)
-    func getDivPosFromSec(sec: Double)->Double{
-        let beatPos = getBeatPosFromSec(sec)
-        let divPos = beatPos * divPerBeat //position in beat divisions
-        return divPos
-    }
-    
-    //MARK: get quantized division (round up or down to neart division)
-    func getQuantizedDivPosFromSec(sec: Double)->Double{
-        let divPosRaw = getDivPosFromSec(sec)
-        let divPosQuantized = round(divPosRaw)
-        return divPosQuantized
-    }
-    
-    //MARK: convert quantized divisions to beat position
-    func getBeatPosFromDiv(divPos: Double)->Double{
-        let beatPos = divPos / divPerBeat
-        return beatPos
-    }
-    
-    func getSecPosBeatPos(beatPos: Double)->Double{
-        return beatPos / beatPerSec
-    }
-    
-    //MARK: get quantized position from time pos in seconds
-    func quantized(sec: Double)->Double{
-        let quantizedDivPos = getQuantizedDivPosFromSec(sec)
-        let quantizedBeatPos = getBeatPosFromDiv(quantizedDivPos)
-        let quantizedSecPos = getSecPosBeatPos(quantizedBeatPos)
-        return quantizedSecPos
+    //MARK: quantize a beat pos
+    func quantizedBeat(beat: AKDuration)->AKDuration{
+        let beats = beat.beats
+        let divPos = beats * divPerBeat //position in beat divisions (based on quantized number / resolution set by user in UI: ex: 4 or 32)
+        let divPosQuantized = round(divPos) //round to nearest division
+        let beatsQuantized = divPosQuantized / divPerBeat //get beat position quantized
+        
+        let posQuantized = AKDuration(beats: beatsQuantized, tempo: beat.tempo)
+        return posQuantized
+        
     }
     
     //MARK: update the quantization beat divisions
@@ -664,8 +631,14 @@ class TrackManager{
     //MARK: Functions
     
     func insertNote(velocity: Int, position: AKDuration, duration: Double){
-        let pos = position
+        var pos = position
         let note = instrument.note
+        if(quantizeEnable){
+            print("quantizing pos \(pos.beats)")
+            pos = quantizer.quantizedBeat(pos)
+            print("...to new pos \(pos.beats)")
+            
+        }
         track.tracks[trackNum].add(noteNumber: note, velocity: velocity, position: pos, duration: AKDuration(seconds: duration))
     }
     
@@ -727,14 +700,13 @@ class TrackManager{
         if(trackNotes.count==0){return}
 
             resetTrack()
-                //quantizer.bpm = 60.0//clickTrack.tempo.beatsPerMin
                 let position = trackNotes[0]
                 let velocity = velNotes[0]
-                let duration = AKDuration(seconds: durNotes[0])
+                let duration = durNotes[0]
                 let maxTime = totalDuration
                 print("update track pos \(position.seconds)")
                 if(position.seconds <= maxTime){
-                    track.tracks[trackNum].add(noteNumber: instrument.note, velocity: velocity, position: position, duration: duration)
+                    insertNote(velocity, position: position, duration: duration)
                 }
         
         firstInstance = false //first instance measure count update complete

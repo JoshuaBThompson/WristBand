@@ -226,18 +226,15 @@ class Song {
     
     func start_record(){
         
-        
-        //recorded all tracks
-        for instNum in 0 ..< instruments.count {
-            instruments[instNum].record()
-        }
-        
-        recordEnabled = true
-        noteAdded = false
-        if(instruments[selectedInstrument].instruments[selectedPreset].trackManager.firstInstance){
+        if(instruments[selectedInstrument].presetUnrecorded){
             //only restart timer if new track otherwise timer should have already been started in the play function
             clickTrack.timer.start()
         }
+        instruments[selectedInstrument].record_preset()
+        recordEnabled = true
+        noteAdded = false
+        
+        
         
         //now addNote function will add notes to sequences track
     }
@@ -248,11 +245,8 @@ class Song {
             print("record cannot start before play")
             return
         }
-        if(instruments[selectedInstrument].instruments[selectedPreset].trackManager.firstInstance){
+        if(instruments[selectedInstrument].presetUnrecorded){
             //only start preroll if selected preset is empty / has not been recorded
-            for inst in instruments{
-                inst.resetTracks()
-            }
             clickTrack.start_preroll()
         }
         else{
@@ -264,13 +258,8 @@ class Song {
     func stop_record(){
         recordEnabled = false
         clickTrack.timer.stop()
-        var new = false
         for instNum in 0 ..< instruments.count {
             instruments[instNum].stop_record()
-            new = (new || instruments[instNum].new)
-        }
-        if(new){
-            clickTrack.trigger_play()
         }
         
     }

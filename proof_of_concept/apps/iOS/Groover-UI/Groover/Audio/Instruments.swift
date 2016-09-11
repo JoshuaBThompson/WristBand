@@ -58,6 +58,7 @@ class SynthInstrument: AKMIDIInstrument{
     var instTrack: InstrumentTrack!
     var panner: AKPanner!
     var currentNote: AKDuration!
+    var beatOffset: Double = 0
     
     //looping
     var pos: Double = 0
@@ -86,6 +87,7 @@ class SynthInstrument: AKMIDIInstrument{
         pos = 0
         note_num = 0
         loop_count = 0
+        beatOffset = 0
     }
     
     func addNote(){
@@ -110,7 +112,7 @@ class SynthInstrument: AKMIDIInstrument{
         
         print("pos \(pos) and real_pos \(real_pos)")
         let tempo = instTrack.trackManager.trackNotes[note_num].tempo
-        currentNote = AKDuration(beats: real_pos, tempo: tempo)
+        currentNote = AKDuration(beats: real_pos + beatOffset, tempo: tempo)
         instTrack.trackManager.insertNote(127, position: currentNote, duration: 0)
     }
     
@@ -184,11 +186,11 @@ class ClickTrackInstrument: SynthInstrument{
     var beat = 0
     var preRoll = false
     var preRollEnded = false
-    var playTrigger = false
     var clickTrack: ClickTrack!
     var preRollSampler = AKSampler()
     var mixer: AKMixer!
     var track: AKSequencer!
+    var totalBeats: Double = 0
     
     
     init(clickTrackRef: ClickTrack!) {
@@ -210,17 +212,13 @@ class ClickTrackInstrument: SynthInstrument{
         beat = 0
         preRollEnded = false
         preRoll = false
-        playTrigger = false
+        loop_count = 0
+        totalBeats = 0
     }
     
     //this tells click track to start pre roll sound and then tell instruments to start recording on last beat
     func set_record(){
         preRoll = true
-    }
-    
-    //tells click track to start playing instrument from beginning when first beat in click track starts
-    func trigger_play(){
-        playTrigger = true
     }
     
     /// Start playback of a particular voice with MIDI style note and velocity
@@ -230,7 +228,6 @@ class ClickTrackInstrument: SynthInstrument{
     /// - parameter velocity: MIDI Velocity (0-127)
     ///
     override func play(noteNumber noteNumber: MIDINoteNumber, velocity: MIDIVelocity) {
-        var reset = false
         beat+=1
         pos += 1
         var vel = 100
@@ -250,17 +247,6 @@ class ClickTrackInstrument: SynthInstrument{
             preRollSampler.play()
             print("preroll \(beat)")
         }
-        else if(playTrigger && beat == 1){
-            
-            playTrigger = false //clear for next use
-            //sampler.volume = muted ? 0: volume
-            //sampler.play()
-            pos = 0
-            reset = true
-            clickTrack.reset()
-            
-            
-        }
         else if(!self.muted){
             if(preRollEnded){
                 clickTrack.song.start_record()
@@ -276,11 +262,11 @@ class ClickTrackInstrument: SynthInstrument{
         }
         if(beat==4){
             beat=0
+            loop_count += 1
         }
         
-        if(!reset){
-            track.tracks[0].add(noteNumber: 60, velocity: vel, position: AKDuration(beats: Double(pos)), duration: AKDuration(seconds: 0))
-        }
+        track.tracks[0].add(noteNumber: 60, velocity: vel, position: AKDuration(beats: Double(pos)), duration: AKDuration(seconds: 0))
+        
     }
 }
 
@@ -451,10 +437,6 @@ class ClickTrack: AKNode{
         start()
     }
     
-    func trigger_play(){
-        instrument.trigger_play()
-    }
-    
     func start() {
         if(_enabled){
             if(!running){
@@ -548,6 +530,10 @@ class InstrumentTrack {
         trackManager.quantizeEnable = false
     }
     
+    func record(){
+        recording = true
+    }
+    
 }
 
 
@@ -639,6 +625,7 @@ class TrackManager{
             print("...to new pos \(pos.beats)")
             
         }
+        print("insert track note at \(position.seconds)")
         track.tracks[trackNum].add(noteNumber: note, velocity: velocity, position: pos, duration: AKDuration(seconds: duration))
     }
     
@@ -682,7 +669,7 @@ class TrackManager{
             let count = Int(ceil(timeElapsedAbs / secPerMeasure))
             print("deselect update count \(count) and secPerMeasure \(secPerMeasure)")
             updateMeasureCount(count)
-            updateNotePositions()
+            updateNotePositions(true)
         }
         else{
             new = false
@@ -696,20 +683,24 @@ class TrackManager{
         measureCount = count
     }
     
-    func updateNotePositions(){
+    func updateNotePositions(newRecord: Bool = false){
         if(trackNotes.count==0){return}
-
+            firstInstance = false //first instance measure count update complete
             resetTrack()
-                let position = trackNotes[0]
+                var position = trackNotes[0]
                 let velocity = velNotes[0]
                 let duration = durNotes[0]
-                let maxTime = totalDuration
                 print("update track pos \(position.seconds)")
-                if(position.seconds <= maxTime){
-                    insertNote(velocity, position: position, duration: duration)
-                }
+            if(newRecord){
+                print("new record note")
+                let beatOffset = Double((clickTrack.instrument.loop_count+1.0)*clickTrack.timeSignature.beatsPerMeasure)// + Double(measureCount*beatsPerMeasure)
+                position = AKDuration(beats: position.beats + beatOffset, tempo: position.tempo)
+                instrument.beatOffset = Double(beatOffset)
+            }
+            print("insert new note at \(position.seconds)")
+            insertNote(velocity, position: position, duration: duration)
         
-        firstInstance = false //first instance measure count update complete
+        
     }
     
     
@@ -763,6 +754,7 @@ class InstrumentCollection {
     var trackEmpty: Bool {return instruments[selectedInst].trackManager.noteCount <= 0}
     var presetVolume: Double {return instruments[selectedInst].volume}
     var presetPan: Double {return instruments[selectedInst].pan}
+    var presetUnrecorded: Bool { return instruments[selectedInst].trackManager.firstInstance}
     var new: Bool {
         for inst in instruments{
             if(inst.trackManager.new){
@@ -936,10 +928,6 @@ class InstrumentCollection {
         for inst in instruments{
             inst.trackManager.clear()
         }
-        
-        //start record again
-        record()
-        
     }
     
     func playNote(presetNumber: Int){
@@ -973,12 +961,9 @@ class InstrumentCollection {
         
     }
     
-    func record(){
-        print("Recording note")
+    func record_preset(){
         recordEnabled = true
-        for inst in instruments{
-            inst.recording = true
-        }
+        instruments[selectedInst].record()
     }
     
     

@@ -48,16 +48,16 @@ class QuantizeControl: UIControl {
                 button.resolution = 1.0 //resolution used in song to quantize beats in loop
             case .EIGHT:
                 button = Eighth()
-                button.resolution = 8.0
+                button.resolution = 2.0
             case .SIXTEENTH:
                 button = Sixteenth()
-                button.resolution = 16.0
+                button.resolution = 4.0
             case .THIRTYSEC:
                 button = Thirtysecond()
-                button.resolution = 32.0
+                button.resolution = 8.0
             case .TRIPLET:
                 button = Triplet()
-                button.resolution = 64.0
+                button.resolution = 3.0
             }
             
             button.type = buttonType //convert number to button type (QUARTER, EIGHTH ..etc)

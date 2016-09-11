@@ -104,11 +104,13 @@ class ViewController: UIViewController {
         case .MUTE:
             if(selected){
                 song.mutePreset()
+                print("mute preset!")
             }
             else{
                 song.unmutePreset()
+                print("unmute preset!")
             }
-            print("mute preset!")
+            
         case .MEASURE_LEFT:
             print("measure change decrease to \(parametersPopup.measures)!")
         

@@ -10,25 +10,17 @@ import Foundation
 import CoreFoundation
 import AudioKit
 
-
-
 class Song {
     var quantizeResolution = 1.0
     var quantizeEnabled = false
-    var presetsPerInst = 4
     var noteAdded = false
     var selectedInstrument = 0
     var prevSelectedInstrument = 0
-    var selectedPreset = 0
-    var prevSelectedPreset = 0
     var mixer: AKMixer!
     var notePosition: Double = 1
     var recordEnabled = false
     var playing = false
-    var snareTracks: InstrumentCollection!
-    var kickTracks: InstrumentCollection!
-    var hatTracks: InstrumentCollection!
-    var instruments = [InstrumentCollection]()
+    var instruments = [InstrumentTrack]()
     var timeSignature = TimeSignature()
     var tempo = Tempo()
     var clickTrack: ClickTrack!
@@ -36,18 +28,14 @@ class Song {
     //MARK: computed variables
     
     var presetMeasureCount: Int {
-        return instruments[selectedPreset].instruments[selectedPreset].trackManager.measureCount
+        return instruments[selectedInstrument].trackManager.measureCount
     }
     var selectedInstrumentName: String {
-        return instruments[selectedInstrument].instruments[selectedPreset].instrument.name
+        return instruments[selectedInstrument].instrument.name
     }
     
-    var instrument: InstrumentCollection {
+    var instrument: InstrumentTrack {
         return instruments[selectedInstrument]
-    }
-    
-    var presetTrack: InstrumentTrack {
-        return instruments[selectedInstrument].instruments[selectedPreset]
     }
     
     init(){
@@ -56,22 +44,61 @@ class Song {
         mixer.connect(clickTrack)
         
         
-        //instrument 1 - snare
-        snareTracks = InstrumentCollection(globalClickTrack: clickTrack, preset1: SnareInstrument1(), preset2: SnareInstrument2(), preset3: SnareInstrument3(), preset4: SnareInstrument4())
-        instruments.append(snareTracks)
-        mixer.connect(snareTracks.mixer)
+        //snare instruments
+
+        let instrument1Track = InstrumentTrack(clickTrack: clickTrack, presetInst: SnareInstrument1())
+        instruments.append(instrument1Track)
+        mixer.connect(instrument1Track.instrument.panner)
         
-        //instrument 2 - kick
-        kickTracks = InstrumentCollection(globalClickTrack: clickTrack, preset1: KickInstrument1(), preset2: KickInstrument2(), preset3: KickInstrument3(), preset4: KickInstrument4())
-        instruments.append(kickTracks)
-        mixer.connect(kickTracks.mixer)
+        let instrument2Track = InstrumentTrack(clickTrack: clickTrack, presetInst: SnareInstrument2())
+        instruments.append(instrument2Track)
+        mixer.connect(instrument2Track.instrument.panner)
         
-        //instrument 3 - hat
-        hatTracks = InstrumentCollection(globalClickTrack: clickTrack, preset1: HatInstrument1(), preset2: HatInstrument2(), preset3: HatInstrument3(), preset4: HatInstrument4())
-        instruments.append(hatTracks)
-        mixer.connect(hatTracks.mixer)
+        let instrument3Track = InstrumentTrack(clickTrack: clickTrack, presetInst: SnareInstrument3())
+        instruments.append(instrument3Track)
+        mixer.connect(instrument3Track.instrument.panner)
         
-        //Use click track of inst 1 (doesn't matter which one since they all have same click track)
+        let instrument4Track = InstrumentTrack(clickTrack: clickTrack, presetInst: SnareInstrument4())
+        instruments.append(instrument4Track)
+        mixer.connect(instrument4Track.instrument.panner)
+        
+        //kick instruments
+        
+        let instrument5Track = InstrumentTrack(clickTrack: clickTrack, presetInst: KickInstrument1())
+        instruments.append(instrument5Track)
+        mixer.connect(instrument5Track.instrument.panner)
+        
+        let instrument6Track = InstrumentTrack(clickTrack: clickTrack, presetInst: KickInstrument2())
+        instruments.append(instrument6Track)
+        mixer.connect(instrument6Track.instrument.panner)
+        
+        let instrument7Track = InstrumentTrack(clickTrack: clickTrack, presetInst: KickInstrument3())
+        instruments.append(instrument7Track)
+        mixer.connect(instrument7Track.instrument.panner)
+        
+        let instrument8Track = InstrumentTrack(clickTrack: clickTrack, presetInst: KickInstrument4())
+        instruments.append(instrument8Track)
+        mixer.connect(instrument8Track.instrument.panner)
+        
+        //hat instruments
+        
+        let instrument9Track = InstrumentTrack(clickTrack: clickTrack, presetInst: HatInstrument1())
+        instruments.append(instrument9Track)
+        mixer.connect(instrument9Track.instrument.panner)
+        
+        let instrument10Track = InstrumentTrack(clickTrack: clickTrack, presetInst: HatInstrument2())
+        instruments.append(instrument10Track)
+        mixer.connect(instrument10Track.instrument.panner)
+        
+        let instrument11Track = InstrumentTrack(clickTrack: clickTrack, presetInst: HatInstrument3())
+        instruments.append(instrument11Track)
+        mixer.connect(instrument11Track.instrument.panner)
+        
+        let instrument12Track = InstrumentTrack(clickTrack: clickTrack, presetInst: HatInstrument4())
+        instruments.append(instrument12Track)
+        mixer.connect(instrument12Track.instrument.panner)
+        
+        //connect all instrument outputs to Audiokit output
         AudioKit.output = mixer
     }
     
@@ -81,7 +108,7 @@ class Song {
     }
     func clearPreset(){
         //stop()
-        instruments[selectedInstrument].clearPreset()
+        instruments[selectedInstrument].trackManager.clear()
     }
     
     func clear(){
@@ -91,7 +118,7 @@ class Song {
         //clear all recorded tracks
         for instTracks in instruments {
             //clear all recorded tracks
-            instTracks.clear()
+            instTracks.trackManager.clear()
         }        
         
     }
@@ -120,18 +147,9 @@ class Song {
     
     func playNote(){
         //play note based on selected instrument
-        let note = instruments[selectedInstrument].instruments[selectedPreset].instrument.note
-        instruments[selectedInstrument].instruments[selectedPreset].instrument.play(noteNumber: note, velocity: 127)
-        instruments[selectedInstrument].instruments[selectedPreset].instrument.stop(noteNumber: note)
-    }
-
-    
-    func selectInstrumentFromPreset(preset: Int){
-        let presetNum = preset % presetsPerInst //ex: if preset = 2 then presetNum = 2%4 = 2
-        let instNum = preset / presetsPerInst  //ex: instNum = 2/4 = 0
-        
-        selectPreset(presetNum)
-        selectInstrument(instNum)
+        let note = instruments[selectedInstrument].instrument.note
+        instruments[selectedInstrument].instrument.play(noteNumber: note, velocity: 127)
+        instruments[selectedInstrument].instrument.stop(noteNumber: note)
     }
     
     func selectInstrument(number: Int){
@@ -146,18 +164,6 @@ class Song {
         }
     }
     
-    func selectPreset(preset: Int){
-        prevSelectedPreset = selectedPreset
-        selectedPreset = preset
-        instruments[selectedInstrument].selectPreset(selectedPreset)
-        if(recordEnabled && presetTrack.trackManager.firstInstance && presetTrack.trackManager.noteCount >= 1){
-            clickTrack.timer.start() //reset timer when changing to new instrument
-        }
-        else if(recordEnabled && noteAdded){
-            stop_record()
-        }
-    }
-    
     func addNote(){
         //play note event if not recording
         
@@ -167,7 +173,7 @@ class Song {
             return
         }
         noteAdded = true
-        instruments[selectedInstrument].addNote(preset: selectedPreset)
+        instruments[selectedInstrument].addNote(127, duration: 0)
         if !playing {
             print("record started play")
             play()
@@ -179,39 +185,39 @@ class Song {
         if(enable){
             quantizeEnabled = true
             quantizeResolution = resolution
-            instruments[selectedInstrument].enablePresetQuantize()
-            instruments[selectedInstrument].updatePresetQuantize(resolution)
+            instruments[selectedInstrument].enableQuantize()
+            instruments[selectedInstrument].updateQuantize(resolution)
         }
         else{
             quantizeEnabled = true
-            instruments[selectedInstrument].disablePresetQuantize()
+            instruments[selectedInstrument].disableQuantize()
         }
     }
     
     //MARK: change measure count of a preset track
     func updatePresetMeasureCount(count: Int){
-        instruments[selectedInstrument].updatePresetMeasureCount(count)
+        instruments[selectedInstrument].trackManager.updateMeasureCount(count)
     }
     
     //MARK: set current preset to mute
     func mutePreset(){
         
-        instruments[selectedInstrument].mutePreset()
+        instruments[selectedInstrument].instrument.mute()
     }
     
     func unmutePreset(){
-        instruments[selectedInstrument].unmutePreset()
+        instruments[selectedInstrument].instrument.unmute()
     }
     
     
     //MARK: set current preset to solo (mute all other preset tracks but keep them looping)
     func enableSoloPreset(){
-        instruments[selectedInstrument].soloPreset()
-        
-        for instNum in 0 ..< instruments.count {
-            //mute all others
+        for instNum in 0 ..< instruments.count{
             if(instNum != selectedInstrument){
-                instruments[instNum].muteAll()
+                instruments[instNum].instrument.mute()
+            }
+            else{
+                instruments[instNum].instrument.unmute()
             }
         }
     }
@@ -219,18 +225,18 @@ class Song {
     //MARK: unmute all presets
     func disableSoloPreset(){
         
-        for instNum in 0 ..< instruments.count {
-            instruments[instNum].unmuteAll()
+        for instNum in 0 ..< instruments.count{
+            instruments[instNum].instrument.unmute()
         }
     }
     
     func start_record(){
         
-        if(instruments[selectedInstrument].presetUnrecorded){
+        if(instruments[selectedInstrument].trackManager.firstInstance){
             //only restart timer if new track otherwise timer should have already been started in the play function
             clickTrack.timer.start()
         }
-        instruments[selectedInstrument].record_preset()
+        instruments[selectedInstrument].record()
         recordEnabled = true
         noteAdded = false
         
@@ -245,7 +251,7 @@ class Song {
             print("record cannot start before play")
             return
         }
-        if(instruments[selectedInstrument].presetUnrecorded){
+        if(instruments[selectedInstrument].trackManager.firstInstance){
             //only start preroll if selected preset is empty / has not been recorded
             clickTrack.start_preroll()
         }
@@ -258,8 +264,9 @@ class Song {
     func stop_record(){
         recordEnabled = false
         clickTrack.timer.stop()
-        for instNum in 0 ..< instruments.count {
-            instruments[instNum].stop_record()
+        for inst in instruments{
+            inst.recording = false
+            inst.deselect()
         }
         
     }
@@ -272,8 +279,9 @@ class Song {
             clickTrack.enable() //run click track but mute it
         }
         
-        for instNum in 0 ..< instruments.count {
-            instruments[instNum].play()
+        for inst in instruments{
+            inst.instrument.reset()
+            inst.trackManager.updateNotePositions() //reset aksequence track and set first note, if any
         }
         playing = true
         clickTrack.timer.start()
@@ -286,8 +294,10 @@ class Song {
         recordEnabled = false
         //stop all recorded tracks
         clickTrack.stop()
-        for instNum in 0 ..< instruments.count {
-            instruments[instNum].stop()
+        if(recordEnabled){
+            for inst in instruments{
+                inst.deselect()
+            }
         }
         playing = false
     }

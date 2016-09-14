@@ -79,7 +79,11 @@ class ViewController: UIViewController {
     //MARK: Quantize buttons
     func quantizeButtonSelected(){
         let selected = quantizeControl.currentButton.selected
-        let resolution = quantizeControl.currentButton.resolution
+        var resolution = quantizeControl.currentButton.resolution
+        if(quantizeControl.tripletButton.selected){
+            resolution = resolution * quantizeControl.tripletButton.resolution //ex: if quarter not selected and triplet then resolution = 1*3
+            print("resolution \(resolution)")
+        }
         song.updatePresetQuantize(enabled: selected, resolution: resolution)
     }
     

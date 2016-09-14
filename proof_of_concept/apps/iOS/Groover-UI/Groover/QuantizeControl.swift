@@ -15,7 +15,8 @@ class QuantizeControl: UIControl {
     var spacing: CGFloat = 15
     var count = 5
     var currentButtonNum = 0
-    var currentButton: QuantizeButton!
+    var currentButton = QuantizeButton()
+    var tripletButton: QuantizeButton!
     
     // MARK: Initialization
     
@@ -58,6 +59,7 @@ class QuantizeControl: UIControl {
             case .TRIPLET:
                 button = Triplet()
                 button.resolution = 3.0
+                tripletButton = button
             }
             
             button.type = buttonType //convert number to button type (QUARTER, EIGHTH ..etc)
@@ -96,26 +98,40 @@ class QuantizeControl: UIControl {
     // MARK: Button Action
     
     func quantizeButtonTapped(button: QuantizeButton) {
-        currentButtonNum = buttons.indexOf(button)!
-        currentButton = buttons[currentButtonNum]
-        print("Quantized button tapped")
-        updateButtonSelectionStates()
-        sendActionsForControlEvents(.ValueChanged) //this tells view controller that something changed
+        if(button == tripletButton){
+            tripletButton.selected = !tripletButton.selected
+            tripletButton.updateState()
+            sendActionsForControlEvents(.ValueChanged) //this tells view controller that something changed
+            print("triplet!")
+        }
+        else{
+            currentButtonNum = buttons.indexOf(button)!
+            currentButton = buttons[currentButtonNum]
+            print("Quantized button tapped")
+            updateButtonSelectionStates()
+            sendActionsForControlEvents(.ValueChanged) //this tells view controller that something changed
+        }
         
     }
     
     func updateButtonSelectionStates() {
         //TODO: ?
-        
+        var c = 0
+        var sel = false
         for (_, button) in buttons.enumerate(){
-            if(button != currentButton){
+            c += 1
+            if(button != currentButton && button != tripletButton){
                 button.selected = false
+                
+                print("button num \(c)")
             }
-            else{
+            else if(currentButton == button){
+                
                 currentButton.selected = !currentButton.selected //toggle selected state
+                sel = currentButton.selected
+                print("selected \(sel)")
             }
-            //button.on = button.selected //colors to bright when on and selected are both true
-            //button.set = button.selected
+
             button.updateState()
         }
     }

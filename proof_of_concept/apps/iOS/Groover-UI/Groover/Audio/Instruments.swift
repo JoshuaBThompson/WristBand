@@ -228,13 +228,15 @@ class ClickTrackInstrument: SynthInstrument{
     /// - parameter velocity: MIDI Velocity (0-127)
     ///
     override func play(noteNumber noteNumber: MIDINoteNumber, velocity: MIDIVelocity) {
+        if(beat == 0){
+            loop_count += 1
+        }
         beat+=1
         pos += 1
         var vel = 100
         if(pos % 4 == 0){
             vel = 127
         }
-        //track.tracks[0].add(noteNumber: 60, velocity: vel, position: AKDuration(beats: Double(pos)), duration: AKDuration(seconds: 0))
         
         var volume = velocity/127.0
         if(preRoll && beat <= 4){
@@ -262,7 +264,6 @@ class ClickTrackInstrument: SynthInstrument{
         }
         if(beat==4){
             beat=0
-            loop_count += 1
         }
         
         track.tracks[0].add(noteNumber: 60, velocity: vel, position: AKDuration(beats: Double(pos)), duration: AKDuration(seconds: 0))
@@ -686,7 +687,7 @@ class TrackManager{
                 print("update track pos \(position.seconds)")
             if(newRecord){
                 print("new record note")
-                let beatOffset = Double((clickTrack.instrument.loop_count+1.0)*clickTrack.timeSignature.beatsPerMeasure)// + Double(measureCount*beatsPerMeasure)
+                let beatOffset = Double((clickTrack.instrument.loop_count)*clickTrack.timeSignature.beatsPerMeasure)// + Double(measureCount*beatsPerMeasure)
                 position = AKDuration(beats: position.beats + beatOffset, tempo: position.tempo)
                 instrument.beatOffset = Double(beatOffset)
             }

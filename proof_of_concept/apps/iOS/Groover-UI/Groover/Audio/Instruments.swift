@@ -451,7 +451,6 @@ class ClickTrack: AKNode{
         }
     }
     
-
     /// Function to stop or bypass the node, both are equivalent
     func stop() {
         track.stop()
@@ -496,13 +495,6 @@ class InstrumentTrack {
     
     func deselect(){
         trackManager.deselect() //run deselect routines - for ex: checks if should update measure count (if first time track is recorded)
-        
-        /*
-        if(trackManager.track.isPlaying){
-            trackManager.clickTrack.trigger_play()
-        }
-        */
-        
     }
     
     
@@ -635,11 +627,12 @@ class TrackManager{
         let absElapsed = timeElapsedAbs
         let absPosition = AKDuration(seconds: absElapsed, tempo: clickTrack.tempo.beatsPerMin)
         if(!firstInstance){
+            //use relative position
             print("adding note to track at \(elapsed)")
             addNoteToList(velocity, position: position, duration: duration)
-            //addNoteToTrack(note, velocity: velocity, position: position, duration: duration)
         }
         else if(firstInstance){
+            //use absolute position
             print("adding new note at \(absElapsed)")
             addNoteToList(velocity, position: absPosition, duration: duration)
         }
@@ -719,286 +712,6 @@ class TrackManager{
 }
 
 
-
-/* InstrumentCollection
- * Desc:
- *     - Contains group of similar instruments (all Snare presets for example)
- *     - Song class deals with this class to record, play and add notes to instrument within a group
- */
-
-class InstrumentCollection {
-    //MARK: Attributes
-    var instruments = [InstrumentTrack]()
-    var midi: AKMIDI!
-    var mixer: AKMixer!
-    var clickTrack: ClickTrack!
-    var instrumentTrack1: InstrumentTrack!
-    var instrumentTrack2: InstrumentTrack!
-    var instrumentTrack3: InstrumentTrack!
-    var instrumentTrack4: InstrumentTrack!
-    
-    var selectedInst = 0
-    var notePosition: Double = 1
-    var recordEnabled = false
-    var playing = false
-    
-    //MARK: Computed attributes
-    var clickTrackRunning: Bool { return clickTrack.running;}
-    var empty: Bool {
-        var count = 0
-        for inst in instruments{
-            count += inst.trackManager.noteCount
-        }
-        return count == 0
-    }
-    var trackEmpty: Bool {return instruments[selectedInst].trackManager.noteCount <= 0}
-    var presetVolume: Double {return instruments[selectedInst].volume}
-    var presetPan: Double {return instruments[selectedInst].pan}
-    var presetUnrecorded: Bool { return instruments[selectedInst].trackManager.firstInstance}
-    var new: Bool {
-        for inst in instruments{
-            if(inst.trackManager.new){
-                return true
-            }
-        }
-        return false
-    }
-    
-    //MARK: Initialization
-    init(globalClickTrack: ClickTrack, preset1: SynthInstrument, preset2: SynthInstrument, preset3: SynthInstrument, preset4: SynthInstrument){
-        
-        // Global click track provided by Song class (which calls this InstrumentPresetTracks class)
-        clickTrack = globalClickTrack
-        
-        // Initialize all presets
-        instrumentTrack1 = InstrumentTrack(clickTrack: clickTrack, presetInst: preset1)
-        instruments.append(instrumentTrack1)
-        instrumentTrack2 = InstrumentTrack(clickTrack: clickTrack, presetInst: preset2)
-        instruments.append(instrumentTrack2)
-        instrumentTrack3 = InstrumentTrack(clickTrack: clickTrack, presetInst: preset3)
-        instruments.append(instrumentTrack3)
-        instrumentTrack4 = InstrumentTrack(clickTrack: clickTrack, presetInst: preset4)
-        instruments.append(instrumentTrack4)
-        
-        // Connect all instrument sounds in this group of presets to preset mixer
-        mixer = AKMixer()
-        mixer.connect(instrumentTrack1.instrument.panner)
-        mixer.connect(instrumentTrack2.instrument.panner)
-        mixer.connect(instrumentTrack3.instrument.panner)
-        mixer.connect(instrumentTrack4.instrument.panner)
-        
-    }
-    
-    func deselect(){
-        for inst in instruments{
-            inst.deselect()
-        }
-    }
-    
-    //MARK: Quantize - update and enable preset quanitzation functions
-    func updatePresetQuantize(res: Double){
-        //res is beat resolution (ex: 16 divisions of a beat)
-            instruments[selectedInst].updateQuantize(res)
-    }
-    
-    func enablePresetQuantize(){
-        instruments[selectedInst].enableQuantize()
-    }
-    
-    func disablePresetQuantize(){
-        instruments[selectedInst].disableQuantize()
-    }
-    
-    
-    //MARK: Pan - update preset pan (-1 left, 0 center, 1 right and everything else in between)
-    func updatePresetPan(pan: Double){
-        instruments[selectedInst].updatePan(pan)
-    }
-    
-    
-    func decPresetPan(){
-        let currentPan = presetPan
-        
-        //decrease volume by 1% (out of 100%)
-        updatePresetPan(currentPan - 0.1)
-    }
-    
-    func incPresetPan(){
-        let currentPan = presetPan
-        
-        //increase volume by 1% (out of 100%)
-        updatePresetPan(currentPan + 0.1)
-    }
-    
-    //MARK: Volume - update preset volume (percent 0 - 100%)
-    func updatePresetVolume(percent: Double){
-        //select volume 0-100% ( corresponds to midi velocity 0 - 127 )
-        var vol = percent
-        
-        //make sure volume within range
-        if(vol >= 100.0){vol = 100.0}
-        if(vol < 0.0){vol = 0.0}
-        
-        //now all volume of notes heard for preset will be amplified or decreased by scale factor
-        instruments[selectedInst].updateVolume(vol)
-        
-    }
-    
-    func decPresetVolume(){
-        let currentVol = presetVolume
-        
-        //decrease volume by 1% (out of 100%)
-        updatePresetVolume(currentVol-1)
-    }
-    
-    func incPresetVolume(){
-        let currentVol = presetVolume
-        
-        //increase volume by 1% (out of 100%)
-        updatePresetVolume(currentVol+1)
-    }
-    
-    //MARK: update preset measure count
-    func updatePresetMeasureCount(count: Int){
-        instruments[selectedInst].trackManager.updateMeasureCount(count)
-    }
-    
-    //MARK: mute preset only
-    func mutePreset(){
-        instruments[selectedInst].instrument.mute()
-    }
-    
-    func unmutePreset(){
-        instruments[selectedInst].instrument.unmute()
-    }
-    
-    //MARK: mute all instruments but keep them looping
-    func muteAll(){
-        for instNum in 0 ..< instruments.count{
-            instruments[instNum].instrument.mute()
-        }
-    }
-    
-    func unmuteAll(){
-        for instNum in 0 ..< instruments.count{
-            instruments[instNum].instrument.unmute()
-        }
-    }
-    
-    //MARK: solo selected preset and mute all others
-    func soloPreset(){
-        for instNum in 0 ..< instruments.count{
-            if(instNum != selectedInst){
-                instruments[instNum].instrument.mute()
-            }
-            else{
-                instruments[instNum].instrument.unmute()
-            }
-        }
-    }
-    
-    func selectPreset(preset: Int){
-        if(preset < instruments.count){
-            if(recordEnabled){
-                instruments[selectedInst].deselect() //run previous instrument deselect routine if recording
-            }
-            selectedInst = preset
-        }
-    }
-    
-    func clearPreset(){
-        
-        //clear preset track
-        instruments[selectedInst].trackManager.clear()
-        
-    }
-    
-    //removes notes from sequence track, but don't remove notes from instrument list
-    func resetTracks(){
-        for inst in instruments{
-            inst.trackManager.resetTrack()
-        }
-    }
-    
-    func clear(){
-        //stop any currently playing tracks first
-        stop()
-        
-        //clear all recorded tracks
-        for inst in instruments{
-            inst.trackManager.clear()
-        }
-    }
-    
-    func playNote(presetNumber: Int){
-        //play note based on selected instrument preset
-        print("Playing preset \(presetNumber) note")
-        if(presetNumber < instruments.count){
-            let note = instruments[presetNumber].instrument.note;
-            instruments[presetNumber].instrument.rawPlay(noteNumber: note, velocity: 127)
-            instruments[presetNumber].instrument.stop(noteNumber: note)
-        }
-        
-    }
-    
-    func addSelectedNote(){
-        addNote(preset: selectedInst)
-    }
-    
-    func addNote(preset instNumber: Int){
-        //play note event if not recording
-        //only add note if record is enabled, otherwise just play it
-        selectedInst = instNumber
-        
-        if !recordEnabled {
-            print("Record not enabled, no add note allowed")
-            playNote(instNumber)
-            return
-        }
-        let velocity = 127
-        instruments[instNumber].addNote(velocity, duration: 0) //duration is just how long to hold the beat for if not a pre recorded sample ... I think
-        playNote(instNumber)
-        
-    }
-    
-    func record_preset(){
-        recordEnabled = true
-        instruments[selectedInst].record()
-    }
-    
-    
-    func stop_record(){
-        recordEnabled = false
-        for inst in instruments{
-            inst.recording = false
-            inst.deselect()
-        }
-    }
-    
-    func play(){
-        print("Playing notes in sequence track")
-        for inst in instruments{
-            inst.instrument.reset()
-            inst.trackManager.updateNotePositions() //reset aksequence track and set first note, if any
-        }
-        playing = true
-        
-    }
-    
-    func stop(){
-        print("Stop playing notes in sequence track")
-        if(recordEnabled){
-            for inst in instruments{
-                inst.deselect()
-            }
-        }
-        recordEnabled = false
-        clickTrack.track.stop()
-        clickTrack.track.disableLooping()
-        playing = false
-    }
-    
-}
 
 
 

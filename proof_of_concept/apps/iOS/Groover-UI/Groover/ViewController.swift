@@ -163,14 +163,14 @@ class ViewController: UIViewController {
         case .LOWER_LEFT:
             //song.instruments[song.selectedInstrument].decPresetVolume()
             //print("dec volume to \(song.instruments[song.selectedInstrument].presetVolume)")
-            song.instruments[song.selectedInstrument].decPresetPan()
-            print("dec Pan to \(song.instruments[song.selectedInstrument].presetPan)")
+            song.decPresetPan()
+            print("dec Pan to \(song.instruments[song.selectedInstrument].pan)")
             break
         case .LOWER_RIGHT:
             //song.instruments[song.selectedInstrument].incPresetVolume()
             //print("inc volume to \(song.instruments[song.selectedInstrument].presetVolume)")
-            song.instruments[song.selectedInstrument].incPresetPan()
-            print("inc Pan to \(song.instruments[song.selectedInstrument].presetPan)")
+            song.incPresetPan()
+            print("inc Pan to \(song.instruments[song.selectedInstrument].pan)")
             break
         }
     }
@@ -234,7 +234,7 @@ class ViewController: UIViewController {
     
     
     func selectSound(position: Int){
-        song.selectInstrumentFromPreset(position)
+        song.selectInstrument(position)
         positionLabel.text = song.selectedInstrumentName
     }
     

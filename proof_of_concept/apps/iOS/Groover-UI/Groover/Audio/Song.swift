@@ -156,6 +156,7 @@ class Song {
         if(number < instruments.count){
             if(recordEnabled){
                 instruments[selectedInstrument].deselect()
+                stop_record()
                 //update track measure length of instruments in collection if first recording of a track
             }
             prevSelectedInstrument = selectedInstrument
@@ -207,6 +208,55 @@ class Song {
     
     func unmutePreset(){
         instruments[selectedInstrument].instrument.unmute()
+    }
+    
+    //MARK: Volume - update preset volume (percent 0 - 100%)
+    func updatePresetVolume(percent: Double){
+        //select volume 0-100% ( corresponds to midi velocity 0 - 127 )
+        var vol = percent
+        
+        //make sure volume within range
+        if(vol >= 100.0){vol = 100.0}
+        if(vol < 0.0){vol = 0.0}
+        
+        //now all volume of notes heard for preset will be amplified or decreased by scale factor
+        instruments[selectedInstrument].updateVolume(vol)
+        
+    }
+    
+    //MARK: Pan - update preset pan (-1 left, 0 center, 1 right and everything else in between)
+    func updatePresetPan(pan: Double){
+        instruments[selectedInstrument].updatePan(pan)
+    }
+    
+    
+    func decPresetPan(){
+        let currentPan = instruments[selectedInstrument].pan
+        
+        //decrease volume by 1% (out of 100%)
+        updatePresetPan(currentPan - 0.1)
+    }
+    
+    func incPresetPan(){
+        let currentPan = instruments[selectedInstrument].pan
+        
+        //increase volume by 1% (out of 100%)
+        updatePresetPan(currentPan + 0.1)
+    }
+    
+    //MARK: Instrument volume updates
+    func decPresetVolume(){
+        let currentVol = instruments[selectedInstrument].volume
+        
+        //decrease volume by 1% (out of 100%)
+        updatePresetVolume(currentVol-1)
+    }
+    
+    func incPresetVolume(){
+        let currentVol = instruments[selectedInstrument].volume
+        
+        //increase volume by 1% (out of 100%)
+        updatePresetVolume(currentVol+1)
     }
     
     

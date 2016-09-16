@@ -65,9 +65,17 @@ class SynthInstrument: AKMIDIInstrument{
     var real_pos: Double = 0
     var note_num: Int = 0
     var loop_count: Int = 0
+    var _total_dur: Double = 0
+    var measureUpdateReady = false
 
     var total_dur: Double {
-        return instTrack.trackManager.measureCount * instTrack.trackManager.beatsPerMeasure
+        if(!measureUpdateReady){
+            _total_dur = instTrack.trackManager.measureCount * instTrack.trackManager.beatsPerMeasure
+        return _total_dur
+        }
+        else{
+            return _total_dur
+        }
     }
     
     
@@ -105,6 +113,9 @@ class SynthInstrument: AKMIDIInstrument{
             note_num = 0
             loop_count += 1
             print("reset note add")
+            if(measureUpdateReady){
+                measureUpdateReady = false //now it's ok to update measure count in looping
+            }
         }
         print("note_num set to \(note_num)")
         pos = instTrack.trackManager.trackNotes[note_num].beats
@@ -525,6 +536,11 @@ class InstrumentTrack {
     
     func record(){
         recording = true
+    }
+    
+    func updateMeasureCount(count: Int){
+        trackManager.updateMeasureCount(count)
+        instrument.measureUpdateReady = true //tells instrument to update measure count in looping after next loop is ready, but not during current loop
     }
     
 }

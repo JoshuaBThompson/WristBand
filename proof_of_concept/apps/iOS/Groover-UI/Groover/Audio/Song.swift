@@ -197,7 +197,8 @@ class Song {
     
     //MARK: change measure count of a preset track
     func updatePresetMeasureCount(count: Int){
-        instruments[selectedInstrument].trackManager.updateMeasureCount(count)
+        print("updated inst \(selectedInstrument) measure count to \(count)")
+        instruments[selectedInstrument].updateMeasureCount(count)
     }
     
     //MARK: set current preset to mute

@@ -195,6 +195,12 @@ class ParametersPopup: UIControl {
     }
     
     //MARK: update measure count functions
+    
+    func setMeasure(measureCount: Int){
+        measures = measureCount
+        updateMeasureString()
+    }
+    
     func updateMeasureString(){
         measureLabel.text = String(format: "\(measures)")
     }

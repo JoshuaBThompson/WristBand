@@ -128,6 +128,8 @@ class ViewController: UIViewController {
         //hide or show popup
         if(parametersPopup.hidden){
             parametersPopup.show()
+            //update measure count based on selected instrument
+            parametersPopup.setMeasure(song.presetMeasureCount)
         }
         else{
             parametersPopup.hide()

@@ -152,7 +152,7 @@ class Song {
         instruments[selectedInstrument].instrument.stop(noteNumber: note)
     }
     
-    func selectInstrument(number: Int){
+    func selectInstrument(_ number: Int){
         if(number < instruments.count){
             if(recordEnabled){
                 instruments[selectedInstrument].deselect()
@@ -196,7 +196,7 @@ class Song {
     }
     
     //MARK: change measure count of a preset track
-    func updatePresetMeasureCount(count: Int){
+    func updatePresetMeasureCount(_ count: Int){
         print("updated inst \(selectedInstrument) measure count to \(count)")
         instruments[selectedInstrument].updateMeasureCount(count)
     }
@@ -212,7 +212,7 @@ class Song {
     }
     
     //MARK: Volume - update preset volume (percent 0 - 100%)
-    func updatePresetVolume(percent: Double){
+    func updatePresetVolume(_ percent: Double){
         //select volume 0-100% ( corresponds to midi velocity 0 - 127 )
         var vol = percent
         
@@ -226,7 +226,7 @@ class Song {
     }
     
     //MARK: Pan - update preset pan (-1 left, 0 center, 1 right and everything else in between)
-    func updatePresetPan(pan: Double){
+    func updatePresetPan(_ pan: Double){
         instruments[selectedInstrument].updatePan(pan)
     }
     
@@ -353,7 +353,7 @@ class Song {
         playing = false
     }
     
-    func setTempo(newBeatsPerMin: Double){
+    func setTempo(_ newBeatsPerMin: Double){
         stop()
         print("update all instruments with tempo \(newBeatsPerMin)")
         clickTrack.tempo.beatsPerMin = newBeatsPerMin
@@ -362,7 +362,7 @@ class Song {
     }
     
     
-    func setTimeSignature(newBeatsPerMeasure: Int, newNote: Int){
+    func setTimeSignature(_ newBeatsPerMeasure: Int, newNote: Int){
         stop()
         print("update all instruments with beats per measure \(newBeatsPerMeasure) and \(newNote) note")
         clickTrack.timeSignature.beatsPerMeasure = newBeatsPerMeasure

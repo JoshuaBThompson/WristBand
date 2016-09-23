@@ -11,8 +11,8 @@ import UIKit
 //@IBDesignable
 class Quarter: QuantizeButton {
     
-    override func drawRect(rect: CGRect) {
-        UIGroover.drawQuarterCanvas(quarterSelected: selected, quarterActive: on)
+    override func draw(_ rect: CGRect) {
+        UIGroover.drawQuarterCanvas(quarterSelected: isSelected, quarterActive: on)
     }
     
 }

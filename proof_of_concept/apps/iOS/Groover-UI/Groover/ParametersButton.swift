@@ -10,7 +10,7 @@ import UIKit
 
 //@IBDesignable
 class ParametersButton: UIButton {
-    override func drawRect(rect: CGRect) {
+    override func draw(_ rect: CGRect) {
         UIGroover.drawSoundParametersCanvas()
     }
     
@@ -18,22 +18,22 @@ class ParametersButton: UIButton {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        self.addTarget(self, action: #selector(ParametersButton.buttonTapped(_:)), forControlEvents: .TouchDown)
+        self.addTarget(self, action: #selector(ParametersButton.buttonTapped(_:)), for: .touchDown)
     }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        self.addTarget(self, action: #selector(ParametersButton.buttonTapped(_:)), forControlEvents: .TouchDown)
+        self.addTarget(self, action: #selector(ParametersButton.buttonTapped(_:)), for: .touchDown)
         
     }
     
     
     // MARK: Button Action
     
-    func buttonTapped(button: UIButton) {
+    func buttonTapped(_ button: UIButton) {
         print("Parameters button tapped")
-        selected = !selected //toggle selected
-        sendActionsForControlEvents(.ValueChanged) //this tells view controller that something changed
+        isSelected = !isSelected //toggle selected
+        sendActions(for: .valueChanged) //this tells view controller that something changed
         updateState()
     }
     
@@ -43,11 +43,11 @@ class ParametersButton: UIButton {
     
     //MARK: show / hide functions
     func show(){
-        hidden = false
+        isHidden = false
     }
     
     func hide(){
-        hidden = true
+        isHidden = true
     }
     
 }

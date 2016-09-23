@@ -22,7 +22,7 @@ class ParametersPopup: UIControl {
     var selectedButton: ParameterOptionsButton!
     var buttons = [ParameterOptionsButton]()
     
-    override func drawRect(rect: CGRect) {
+    override func draw(_ rect: CGRect) {
         UIGroover.drawParametersPopupCanvas()
     }
     
@@ -37,15 +37,15 @@ class ParametersPopup: UIControl {
     }
     
     func initView(){
-        hidden = true
+        isHidden = true
         addSubviews()
     }
     
     //MARK: add button views and buttons
     
-    func addButton(button: ParameterOptionsButton){
+    func addButton(_ button: ParameterOptionsButton){
         buttons.append(button)
-        button.addTarget(self, action: #selector(ParametersPopup.buttonTapped(_:)), forControlEvents: .TouchDown)
+        button.addTarget(self, action: #selector(ParametersPopup.buttonTapped(_:)), for: .touchDown)
         addSubview(button)
     }
     
@@ -56,28 +56,28 @@ class ParametersPopup: UIControl {
         addSubview(measureLabel)
         addSubview(measureTitleLabel)
         measureLeftButton = ParametersMeasureLeft()
-        measureLeftButton.type = .MEASURE_LEFT
-        measureLeftButton.addTarget(self, action: #selector(ParametersPopup.measureLeftButtonTapped), forControlEvents: .TouchDown)
+        measureLeftButton.type = .measure_LEFT
+        measureLeftButton.addTarget(self, action: #selector(ParametersPopup.measureLeftButtonTapped), for: .touchDown)
         addButton(measureLeftButton)
         
         measureRightButton = ParametersMeasureRight()
-        measureRightButton.type = .MEASURE_RIGHT
-        measureRightButton.addTarget(self, action: #selector(ParametersPopup.measureRightButtonTapped), forControlEvents: .TouchDown)
+        measureRightButton.type = .measure_RIGHT
+        measureRightButton.addTarget(self, action: #selector(ParametersPopup.measureRightButtonTapped), for: .touchDown)
         addButton(measureRightButton)
         
         //Clear button
         clearButton = ParameterOptionsButton()
-        clearButton.type = .CLEAR
+        clearButton.type = .clear
         addButton(clearButton)
         
         //Solo button
         soloButton = ParameterOptionsButton()
-        soloButton.type = .SOLO
+        soloButton.type = .solo
         addButton(soloButton)
         
         //Mute button
         muteButton = ParameterOptionsButton()
-        muteButton.type = .MUTE
+        muteButton.type = .mute
         addButton(muteButton)
         
     }
@@ -93,15 +93,15 @@ class ParametersPopup: UIControl {
         
         //measure count label
         measureLabel.frame = measureLabelFrame
-        measureLabel.textColor = UIColor.whiteColor()
-        measureLabel.textAlignment = .Center
+        measureLabel.textColor = UIColor.white
+        measureLabel.textAlignment = .center
         measureLabel.text = String(format: "1")
         
         //meausure title label
         measureLabelFrame.origin.y = 150
         measureTitleLabel.frame = measureLabelFrame
-        measureTitleLabel.textColor = UIColor.whiteColor()
-        measureTitleLabel.textAlignment = .Center
+        measureTitleLabel.textColor = UIColor.white
+        measureTitleLabel.textAlignment = .center
         measureTitleLabel.text = String(format: "MEASURES")
         
         //measure buttons
@@ -115,78 +115,78 @@ class ParametersPopup: UIControl {
         
         //set clear button position and text
         clearButton.frame = buttonFrame
-        clearButton.setTitle("CLEAR", forState: .Normal)
+        clearButton.setTitle("CLEAR", for: UIControlState())
         
         //set solo button position and text
         buttonFrame.origin.x = 100
         soloButton.frame = buttonFrame
-        soloButton.setTitle("SOLO", forState: .Normal)
+        soloButton.setTitle("SOLO", for: UIControlState())
         
         //set mute button position and text
         buttonFrame.origin.x = 20
         muteButton.frame = buttonFrame
-        muteButton.setTitle("MUTE", forState: .Normal)
+        muteButton.setTitle("MUTE", for: UIControlState())
     }
     
     //MARK: button tapped handlers
-    func buttonTapped(button: ParameterOptionsButton){
+    func buttonTapped(_ button: ParameterOptionsButton){
         selectedButton = button
         updateButtonSelectionStates()
-        sendActionsForControlEvents(.ValueChanged) //this tells view controller that something changed
+        sendActions(for: .valueChanged) //this tells view controller that something changed
     }
     
     //MARK: update button states / visuals after taped 
     func updateButtonSelectionStates() {
-        var num = ParametersButtonTypes.CLEAR
+        var num = ParametersButtonTypes.clear
         num = selectedButton.type
         
         var changed = false
         switch num {
-        case .CLEAR:
-            clearButton.selected = !clearButton.selected
+        case .clear:
+            clearButton.isSelected = !clearButton.isSelected
             changed = true
             print("clear selected")
             
-        case .SOLO:
-            soloButton.selected = !soloButton.selected
+        case .solo:
+            soloButton.isSelected = !soloButton.isSelected
             changed = true
             print("solo selected")
             
-        case .MUTE:
-            muteButton.selected = !muteButton.selected
+        case .mute:
+            muteButton.isSelected = !muteButton.isSelected
             changed = true
             print("mute sselected")
-        case .MEASURE_LEFT:
-            measureLeftButton.selected = !measureLeftButton.selected
+        case .measure_LEFT:
+            measureLeftButton.isSelected = !measureLeftButton.isSelected
             changed = true
             print("measure left selected")
         
-        case .MEASURE_RIGHT:
-            measureRightButton.selected = !measureRightButton.selected
+        case .measure_RIGHT:
+            measureRightButton.isSelected = !measureRightButton.isSelected
             changed = true
             print("measure right selected")
         }
         
         if(changed){
-            for (_, button) in buttons.enumerate(){
-                button.on = button.selected
+            for (_, button) in buttons.enumerated(){
+                button.on = button.isSelected
             }
         }
     }
     
     //MARK: Hide popup function
     func toggleHide(){
-        hidden = !hidden //toggle true / false
+        isHidden = !isHidden //toggle true / false
         updateButtonStates()
     }
     
     func hide(){
-        hidden = true
+        isHidden = true
         updateButtonStates()
     }
     
     func show(){
-        hidden = false
+        isHidden = false
     }
     
     //MARK: Update buttons
@@ -196,7 +196,7 @@ class ParametersPopup: UIControl {
     
     //MARK: update measure count functions
     
-    func setMeasure(measureCount: Int){
+    func setMeasure(_ measureCount: Int){
         measures = measureCount
         updateMeasureString()
     }
@@ -228,7 +228,7 @@ class ParametersPopup: UIControl {
         decMeasure()
         updateMeasureString()
         selectedButton = measureLeftButton
-        sendActionsForControlEvents(.ValueChanged) //this tells view controller that something changed
+        sendActions(for: .valueChanged) //this tells view controller that something changed
         
     }
     
@@ -237,7 +237,7 @@ class ParametersPopup: UIControl {
         incMeasure()
         updateMeasureString()
         selectedButton = measureRightButton
-        sendActionsForControlEvents(.ValueChanged) //this tells view controller that something changed
+        sendActions(for: .valueChanged) //this tells view controller that something changed
     }
     
     

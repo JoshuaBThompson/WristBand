@@ -31,32 +31,32 @@ class QuantizeControl: UIControl {
         
     }
     
-    func addButton(button: QuantizeButton){
-        button.addTarget(self, action: #selector(QuantizeControl.quantizeButtonTapped(_:)), forControlEvents: .TouchDown)
+    func addButton(_ button: QuantizeButton){
+        button.addTarget(self, action: #selector(QuantizeControl.quantizeButtonTapped(_:)), for: .touchDown)
         buttons += [button]
         addSubview(button)
     }
     
     func addSubviews(){
         for i in 0 ..< count {
-            var buttonType = QuantizeButtonTypes_t.QUARTER //QuantizeButtonTypes_t(rawValue: i)
+            var buttonType = QuantizeButtonTypes_t.quarter //QuantizeButtonTypes_t(rawValue: i)
             buttonType = QuantizeButtonTypes_t(rawValue: i)!
             var button: QuantizeButton!
             
             switch buttonType {
-            case .QUARTER:
+            case .quarter:
                 button = Quarter()
                 button.resolution = 1.0 //resolution used in song to quantize beats in loop
-            case .EIGHT:
+            case .eight:
                 button = Eighth()
                 button.resolution = 2.0
-            case .SIXTEENTH:
+            case .sixteenth:
                 button = Sixteenth()
                 button.resolution = 4.0
-            case .THIRTYSEC:
+            case .thirtysec:
                 button = Thirtysecond()
                 button.resolution = 8.0
-            case .TRIPLET:
+            case .triplet:
                 button = Triplet()
                 button.resolution = 3.0
                 tripletButton = button
@@ -78,7 +78,7 @@ class QuantizeControl: UIControl {
         var buttonFrame = CGRect(x: 0, y: 20, width: buttonSize, height: buttonSize)
         
         // Offset each button's origin by the length of the button plus spacing.
-        for (index, button) in buttons.enumerate() {
+        for (index, button) in buttons.enumerated() {
             //buttonFrame.origin.x = CGFloat(index * (buttonSize + spacing))
             buttonFrame.origin.x = CGFloat(CGFloat(index) * (buttonSpacing) + spacing)
             //buttonFrame.size.width = buttonFrame.size.width
@@ -88,7 +88,7 @@ class QuantizeControl: UIControl {
         updateButtonSelectionStates()
     }
     
-    override func intrinsicContentSize() -> CGSize {
+    override var intrinsicContentSize : CGSize {
         let buttonSize = CGFloat(frame.size.height)
         let width = (buttonSize + spacing) * CGFloat(count)
         
@@ -97,19 +97,19 @@ class QuantizeControl: UIControl {
     
     // MARK: Button Action
     
-    func quantizeButtonTapped(button: QuantizeButton) {
+    func quantizeButtonTapped(_ button: QuantizeButton) {
         if(button == tripletButton){
-            tripletButton.selected = !tripletButton.selected
+            tripletButton.isSelected = !tripletButton.isSelected
             tripletButton.updateState()
-            sendActionsForControlEvents(.ValueChanged) //this tells view controller that something changed
+            sendActions(for: .valueChanged) //this tells view controller that something changed
             print("triplet!")
         }
         else{
-            currentButtonNum = buttons.indexOf(button)!
+            currentButtonNum = buttons.index(of: button)!
             currentButton = buttons[currentButtonNum]
             print("Quantized button tapped")
             updateButtonSelectionStates()
-            sendActionsForControlEvents(.ValueChanged) //this tells view controller that something changed
+            sendActions(for: .valueChanged) //this tells view controller that something changed
         }
         
     }
@@ -118,17 +118,17 @@ class QuantizeControl: UIControl {
         //TODO: ?
         var c = 0
         var sel = false
-        for (_, button) in buttons.enumerate(){
+        for (_, button) in buttons.enumerated(){
             c += 1
             if(button != currentButton && button != tripletButton){
-                button.selected = false
+                button.isSelected = false
                 
                 print("button num \(c)")
             }
             else if(currentButton == button){
                 
-                currentButton.selected = !currentButton.selected //toggle selected state
-                sel = currentButton.selected
+                currentButton.isSelected = !currentButton.isSelected //toggle selected state
+                sel = currentButton.isSelected
                 print("selected \(sel)")
             }
 

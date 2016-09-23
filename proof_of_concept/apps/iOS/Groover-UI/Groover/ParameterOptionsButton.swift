@@ -10,11 +10,11 @@ import UIKit
 
 
 enum ParametersButtonTypes {
-    case CLEAR
-    case SOLO
-    case MUTE
-    case MEASURE_LEFT
-    case MEASURE_RIGHT
+    case clear
+    case solo
+    case mute
+    case measure_LEFT
+    case measure_RIGHT
 }
 
 typealias ParametersButtonTypes_t = ParametersButtonTypes
@@ -28,7 +28,7 @@ class ParameterOptionsButton: UIButton {
 
 class ParametersMeasureLeft: ParameterOptionsButton {
     
-    override func drawRect(rect: CGRect) {
+    override func draw(_ rect: CGRect) {
         UIGroover.drawLeftCanvas()
         print("left displaying!")
     }
@@ -42,7 +42,7 @@ class ParametersMeasureLeft: ParameterOptionsButton {
 
 class ParametersMeasureRight: ParameterOptionsButton {
     
-    override func drawRect(rect: CGRect) {
+    override func draw(_ rect: CGRect) {
         UIGroover.drawRightCanvas()
         print("right displaying!")
     }

@@ -11,7 +11,7 @@ import UIKit
 //@IBDesignable
 class Left: PopupButton {
     
-    override func drawRect(rect: CGRect) {
+    override func draw(_ rect: CGRect) {
         UIGroover.drawLeftCanvas()
         print("left displaying!")
     }

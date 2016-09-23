@@ -13,9 +13,9 @@ class PopupBlur: UIView {
     var popupPath: UIBezierPath!
     var blurEffect: UIBlurEffect!
     var blurView: UIVisualEffectView!
-    var mask: CAShapeLayer!
+    var popupMask: CAShapeLayer!
     
-    override func drawRect(rect: CGRect) {
+    override func draw(_ rect: CGRect) {
         popupPath = UIBezierPath()
         initBlurEffect()
         UIGroover.drawPopupCanvas(popupPath)
@@ -32,27 +32,27 @@ class PopupBlur: UIView {
     
     func addPopupBlurMask(){
         
-        mask = CAShapeLayer()
-        mask.path = popupPath.CGPath
-        blurView.layer.mask = mask
+        popupMask = CAShapeLayer()
+        popupMask.path = popupPath.cgPath
+        blurView.layer.mask = popupMask
         
     }
     
     func initBlurEffect(){
         //Create the visual effect
         //You can choose between ExtraLight, Light and Dark
-        blurEffect = UIBlurEffect(style: .Dark)
+        blurEffect = UIBlurEffect(style: .dark)
         
         blurView = UIVisualEffectView(effect: blurEffect)
         blurView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(blurView)
         //AutoLayout code
         //Size
-        blurView.addConstraint(NSLayoutConstraint(item: blurView, attribute: .Width, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1.0, constant: bounds.width))
-        blurView.addConstraint(NSLayoutConstraint(item: blurView, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1.0, constant: bounds.height))
+        blurView.addConstraint(NSLayoutConstraint(item: blurView, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: bounds.width))
+        blurView.addConstraint(NSLayoutConstraint(item: blurView, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: bounds.height))
         //Center
-        addConstraint(NSLayoutConstraint(item: blurView, attribute: .CenterX, relatedBy: .Equal, toItem: self, attribute: .CenterX, multiplier: 1.0, constant: 0))
-        addConstraint(NSLayoutConstraint(item: blurView, attribute: .CenterY, relatedBy: .Equal, toItem: self, attribute: .CenterY, multiplier: 1.0, constant: 0))
+        addConstraint(NSLayoutConstraint(item: blurView, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX, multiplier: 1.0, constant: 0))
+        addConstraint(NSLayoutConstraint(item: blurView, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1.0, constant: 0))
     }
     
 }

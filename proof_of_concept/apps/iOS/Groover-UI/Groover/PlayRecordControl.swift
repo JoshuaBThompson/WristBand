@@ -16,7 +16,7 @@ class PlayRecordControl: UIControl {
     var spacing = 15
     var count = 3
     var currentButtonNum = 0
-    var currentButtonType = PlayRecordButtonTypes_t.PLAY
+    var currentButtonType = PlayRecordButtonTypes_t.play
     var playButton: PlayRecordButton!
     var recordButton: PlayRecordButton!
     
@@ -33,19 +33,19 @@ class PlayRecordControl: UIControl {
         
     }
     
-    func addButton(button: PlayRecordButton){
-        button.addTarget(self, action: #selector(PlayRecordControl.playRecordButtonTapped(_:)), forControlEvents: .TouchDown)
+    func addButton(_ button: PlayRecordButton){
+        button.addTarget(self, action: #selector(PlayRecordControl.playRecordButtonTapped(_:)), for: .touchDown)
         buttons += [button]
         addSubview(button)
     }
     
     func addSubviews(){
         playButton = Play()
-        playButton.type = .PLAY
+        playButton.type = .play
         addButton(playButton)
         
         recordButton = Record()
-        recordButton.type = .RECORD
+        recordButton.type = .record
         addButton(recordButton)
         
         //button.adjustsImageWhenHighlighted = false
@@ -59,17 +59,17 @@ class PlayRecordControl: UIControl {
         var buttonFrame = CGRect(x:0, y: 5, width: buttonSize, height: buttonSize)
         
         // Offset each button's origin by the length of the button plus spacing.
-        for (index, button) in buttons.enumerate() {
+        for (index, button) in buttons.enumerated() {
             //buttonFrame.origin.x = CGFloat(index * (buttonSize + spacing))
             buttonFrame.origin.x = CGFloat(index * (buttonSpacing) + spacing)
             //buttonFrame.size.width = buttonFrame.size.width
             //buttonFrame.size.height = buttonFrame.size.height
             button.frame = buttonFrame
         }
-        updateButtonSelectionStates()
+        //updateButtonSelectionStates()
     }
     
-    override func intrinsicContentSize() -> CGSize {
+    override var intrinsicContentSize : CGSize {
         let buttonSize = Int(frame.size.height)
         let width = (buttonSize + spacing) * count
         
@@ -78,30 +78,30 @@ class PlayRecordControl: UIControl {
     
     // MARK: Button Action
     
-    func playRecordButtonTapped(button: PlayRecordButton) {
-        currentButtonNum = buttons.indexOf(button)!
+    func playRecordButtonTapped(_ button: PlayRecordButton) {
+        currentButtonNum = buttons.index(of: button)!
         currentButtonType = PlayRecordButtonTypes_t(rawValue: currentButtonNum)!
         print("Play or Record button tapped")
         updateButtonSelectionStates()
-        sendActionsForControlEvents(.ValueChanged) //this tells view controller that something changed
+        sendActions(for: .valueChanged) //this tells view controller that something changed
     }
     
-    func manualSelectButton(buttonType: PlayRecordButtonTypes_t){
+    func manualSelectButton(_ buttonType: PlayRecordButtonTypes_t){
         currentButtonType = buttonType
         let num = currentButtonType
         
         //just select button, don't deselect others
         switch num {
-        case .PLAY:
+        case .play:
             print("play manually selected")
-            playButton.selected = true
+            playButton.isSelected = true
             playButton.on = true
             playButton.set = true
             playButton.updateState()
             
-        case .RECORD:
+        case .record:
             print("record manually selected")
-            recordButton.selected = true
+            recordButton.isSelected = true
             recordButton.on = true
             recordButton.set = true
             recordButton.updateState()
@@ -109,22 +109,22 @@ class PlayRecordControl: UIControl {
         
     }
     
-    func manualDeselectButton(buttonType: PlayRecordButtonTypes_t){
+    func manualDeselectButton(_ buttonType: PlayRecordButtonTypes_t){
         currentButtonType = buttonType
         let num = currentButtonType
         
         //just select button, don't deselect others
         switch num {
-        case .PLAY:
+        case .play:
             print("play manually deselected")
-            playButton.selected = false
+            playButton.isSelected = false
             playButton.on = false
             playButton.set = false
             playButton.updateState()
             
-        case .RECORD:
+        case .record:
             print("record manually deselected")
-            recordButton.selected = false
+            recordButton.isSelected = false
             recordButton.on = false
             recordButton.set = false
             recordButton.updateState()
@@ -136,20 +136,20 @@ class PlayRecordControl: UIControl {
         let num = currentButtonType
         var changed = false
         switch num {
-        case .PLAY:
+        case .play:
             print("play selected")
-            playButton.selected = !playButton.selected
-            if(!playButton.selected){
-                recordButton.selected = false
+            playButton.isSelected = !playButton.isSelected
+            if(!playButton.isSelected){
+                recordButton.isSelected = false
             }
             changed = true
             
-        case .RECORD:
+        case .record:
             
             //only change record button if play button is already selected
-            if(playButton.selected){
+            if(playButton.isSelected){
                 print("record selected")
-                recordButton.selected = !recordButton.selected
+                recordButton.isSelected = !recordButton.isSelected
                 changed = true
             }
             else{
@@ -159,9 +159,9 @@ class PlayRecordControl: UIControl {
         
         if(changed){
         
-            for (_, button) in buttons.enumerate(){
-                button.on = button.selected
-                button.set = button.selected
+            for (_, button) in buttons.enumerated(){
+                button.on = button.isSelected
+                button.set = button.isSelected
                 button.updateState()
             }
         }

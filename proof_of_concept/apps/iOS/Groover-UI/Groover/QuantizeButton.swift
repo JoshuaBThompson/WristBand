@@ -10,11 +10,11 @@ import UIKit
 
 
 enum QuantizeButtonTypes: Int {
-    case QUARTER = 0
-    case EIGHT = 1
-    case SIXTEENTH = 2
-    case THIRTYSEC = 3
-    case TRIPLET = 4
+    case quarter = 0
+    case eight = 1
+    case sixteenth = 2
+    case thirtysec = 3
+    case triplet = 4
 }
 
 typealias QuantizeButtonTypes_t = QuantizeButtonTypes
@@ -25,7 +25,7 @@ class QuantizeButton: UIButton {
     var set = false //used for clear button only, for now...
     var type: QuantizeButtonTypes!
     var active: Bool {
-        return on && set && selected
+        return on && set && isSelected
     }
     
     /*

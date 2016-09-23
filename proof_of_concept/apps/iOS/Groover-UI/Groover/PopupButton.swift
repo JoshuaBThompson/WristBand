@@ -9,10 +9,10 @@
 import UIKit
 
 enum PopupButtonTypes: Int {
-    case UPPER_LEFT = 0
-    case UPPER_RIGHT = 1
-    case LOWER_LEFT = 2
-    case LOWER_RIGHT = 3
+    case upper_LEFT = 0
+    case upper_RIGHT = 1
+    case lower_LEFT = 2
+    case lower_RIGHT = 3
 }
 typealias PopupButtonTypes_t = PopupButtonTypes
 

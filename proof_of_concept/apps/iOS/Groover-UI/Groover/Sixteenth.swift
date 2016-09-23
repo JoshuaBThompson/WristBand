@@ -11,8 +11,8 @@ import UIKit
 //@IBDesignable
 class Sixteenth: QuantizeButton {
     
-    override func drawRect(rect: CGRect) {
-        UIGroover.drawSixteenthCanvas(sixteenthSelected: selected, sixteenthActive: on)
+    override func draw(_ rect: CGRect) {
+        UIGroover.drawSixteenthCanvas(sixteenthSelected: isSelected, sixteenthActive: on)
     }
     
 }

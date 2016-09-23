@@ -44,7 +44,7 @@ class Knob: UIControl {
     
     
     
-    override func drawRect(rect: CGRect) {
+    override func draw(_ rect: CGRect) {
         UIGroover.drawKnobCanvas(rotation: drawAngle, clickSelected: clickActive, clickRingActive: clickRingActive)
     }
     
@@ -68,7 +68,7 @@ class Knob: UIControl {
     }
     
     //MARK: get distance from center of knob and see if within inner knob
-    func isWithinInnerKnob(loc: CGPoint)->Bool{
+    func isWithinInnerKnob(_ loc: CGPoint)->Bool{
         let dx = loc.x - frame.size.width/2.0
         let dy = loc.y - frame.size.height/2.0
         
@@ -77,7 +77,7 @@ class Knob: UIControl {
     }
     
     //MARK: get angle displaced function (degrees)
-    func getAngleChangeFromPositionChange(currentLoc: CGPoint, prevLoc: CGPoint) -> CGFloat{
+    func getAngleChangeFromPositionChange(_ currentLoc: CGPoint, prevLoc: CGPoint) -> CGFloat{
         //cosin(deltaAngle) = r1*r2/||r1||*||r2|| --- where currentLoc = r2 and prevLoc = r1
         //so deltaAngle = arccosin( r1 * r2 / ||r1|| * ||r2|| )
         let r1 = [prevLoc.x - frame.size.width/2.0, -(prevLoc.y - frame.size.height/2.0)] //-y to fix iOS weird coords
@@ -101,7 +101,7 @@ class Knob: UIControl {
         return deltaAngleDeg
     }
     
-    func incrementAngle(deltaAngle: CGFloat){
+    func incrementAngle(_ deltaAngle: CGFloat){
         angle += angleRate*deltaAngle
         if(angleRangeEn){
             enforceAngleRange()
@@ -120,7 +120,7 @@ class Knob: UIControl {
         }
     }
     
-    func updateRotDirection(currentLoc: CGPoint, prevLoc: CGPoint){
+    func updateRotDirection(_ currentLoc: CGPoint, prevLoc: CGPoint){
         //direction = sign of unit angular momentum (L) resulting from cross product of velocity x r
         //velcity = r2 - r1 (current - prev location vector)
         //r = r1 (prev location)
@@ -145,26 +145,26 @@ class Knob: UIControl {
     }
     
     //MARK: touch tracking functions
-    override func beginTrackingWithTouch(touch: UITouch, withEvent event: UIEvent?) -> Bool {
+    override func beginTracking(_ touch: UITouch, with event: UIEvent?) -> Bool {
         previousTimestamp = event!.timestamp //need initial timestamp for continue tracking with touch calculations
-        previousLocation = touch.previousLocationInView(self)
+        previousLocation = touch.previousLocation(in: self)
         print("started touch at x \(previousLocation.x) and y \(previousLocation.y)")
         if(isWithinInnerKnob(previousLocation)){
             clickActive = !clickActive
-            sendActionsForControlEvents(.EditingChanged)
+            sendActions(for: .editingChanged)
             setNeedsDisplay()
         }
         return true
     }
     
-    override func continueTrackingWithTouch(touch: UITouch, withEvent event: UIEvent?) -> Bool {
+    override func continueTracking(_ touch: UITouch, with event: UIEvent?) -> Bool {
         print("continue tracking with touch")
         
         let timeSincePrevious = event!.timestamp - previousTimestamp
         
         //only calc angle after 1 sec since delta angles are too small if calc every time continue tracking is called
         if(timeSincePrevious >= angleUpdatePeriod){
-            let location = touch.locationInView(self)
+            let location = touch.location(in: self)
             let dltaAngle = getAngleChangeFromPositionChange(location, prevLoc: previousLocation)
             updateRotDirection(location, prevLoc: previousLocation)
             
@@ -177,16 +177,16 @@ class Knob: UIControl {
             turnKnob()
             print("new angle \(angle)")
             print("abs angle \(absAngle)")
-            sendActionsForControlEvents(.ValueChanged) //this tells view controller that something changed
+            sendActions(for: .valueChanged) //this tells view controller that something changed
         }
         
         return true
     }
     
-    override func endTrackingWithTouch(touch: UITouch?, withEvent event: UIEvent?) {
+    override func endTracking(_ touch: UITouch?, with event: UIEvent?) {
         clickRingActive = true  //TODO: should we set back to false?
         setNeedsDisplay()
-        sendActionsForControlEvents(.EditingDidEnd)
+        sendActions(for: .editingDidEnd)
     }
     
     
@@ -235,14 +235,14 @@ class SnapFilter {
     }
     
     //MARK: Get detent from angle
-    func getDetent(angle: CGFloat)->Int{
+    func getDetent(_ angle: CGFloat)->Int{
         let detent = abs(Int((angle-offset)/apd))
         return detent
         
     }
     
     //MARK: Get detent angle
-    func getDetentAngle(detent: Int)->CGFloat{
+    func getDetentAngle(_ detent: Int)->CGFloat{
         if(detent < angles.count){
             return angles[detent]
         }

@@ -11,8 +11,8 @@ import Foundation
 import UIKit
 
 enum PlayRecordButtonTypes: Int {
-    case PLAY = 0
-    case RECORD = 1
+    case play = 0
+    case record = 1
 }
 
 typealias PlayRecordButtonTypes_t = PlayRecordButtonTypes
@@ -23,7 +23,7 @@ class PlayRecordButton: UIButton {
     var set = false //used for clear button only, for now...
     var type: PlayRecordButtonTypes!
     var active: Bool {
-        return on && set && selected
+        return on && set && isSelected
     }
     
     /*

@@ -11,8 +11,8 @@ import UIKit
 //@IBDesignable
 class Triplet: QuantizeButton {
     
-    override func drawRect(rect: CGRect) {
-        UIGroover.drawTripletCanvas(tripletSelected: selected, tripletActive: on)
+    override func draw(_ rect: CGRect) {
+        UIGroover.drawTripletCanvas(tripletSelected: isSelected, tripletActive: on)
     }
     
 }

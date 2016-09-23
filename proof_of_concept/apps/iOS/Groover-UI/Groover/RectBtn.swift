@@ -11,7 +11,7 @@ import UIKit
 //@IBDesignable
 class RectBtn: UIView {
     
-    override func drawRect(rect: CGRect) {
+    override func draw(_ rect: CGRect) {
         UIGroover.drawQuarterCanvas()
     }
     

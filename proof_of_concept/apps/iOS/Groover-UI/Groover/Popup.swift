@@ -44,11 +44,11 @@ class Popup: UIControl {
         hide()
     }
     
-    override func drawRect(rect: CGRect) {
+    override func draw(_ rect: CGRect) {
         //TODO: ?
     }
     
-    func addButton(button: PopupButton){
+    func addButton(_ button: PopupButton){
         //button.addTarget(self, action: #selector(PlayRecordControl.playRecordButtonTapped(_:)), forControlEvents: .TouchDown)
         buttons += [button]
         addSubview(button)
@@ -64,27 +64,27 @@ class Popup: UIControl {
         
         //upper buttons
         upperLeftButton = Left()
-        upperLeftButton.type = .UPPER_LEFT
-        upperLeftButton.addTarget(self, action: #selector(Popup.upperLeftButtonTapped), forControlEvents: .TouchDown)
+        upperLeftButton.type = .upper_LEFT
+        upperLeftButton.addTarget(self, action: #selector(Popup.upperLeftButtonTapped), for: .touchDown)
         addButton(upperLeftButton)
         upperLeftButton.updateState()
         
         upperRightButton = Right()
-        upperRightButton.type = .UPPER_RIGHT
-        upperRightButton.addTarget(self, action: #selector(Popup.upperRightButtonTapped), forControlEvents: .TouchDown)
+        upperRightButton.type = .upper_RIGHT
+        upperRightButton.addTarget(self, action: #selector(Popup.upperRightButtonTapped), for: .touchDown)
         addButton(upperRightButton)
         upperRightButton.updateState()
         
         //lower buttons
         lowerLeftButton = Left()
-        lowerLeftButton.type = .LOWER_LEFT
-        lowerLeftButton.addTarget(self, action: #selector(Popup.lowerLeftButtonTapped), forControlEvents: .TouchDown)
+        lowerLeftButton.type = .lower_LEFT
+        lowerLeftButton.addTarget(self, action: #selector(Popup.lowerLeftButtonTapped), for: .touchDown)
         addButton(lowerLeftButton)
         lowerLeftButton.updateState()
         
         lowerRightButton = Right()
-        lowerRightButton.type = .LOWER_RIGHT
-        lowerRightButton.addTarget(self, action: #selector(Popup.lowerRightButtonTapped), forControlEvents: .TouchDown)
+        lowerRightButton.type = .lower_RIGHT
+        lowerRightButton.addTarget(self, action: #selector(Popup.lowerRightButtonTapped), for: .touchDown)
         addButton(lowerRightButton)
         lowerRightButton.updateState()
         
@@ -108,11 +108,11 @@ class Popup: UIControl {
         
         //labels
         tempoLabel.frame = tempoLabelFrame
-        tempoLabel.textColor = UIColor.whiteColor()
-        tempoLabel.textAlignment = .Center
+        tempoLabel.textColor = UIColor.white
+        tempoLabel.textAlignment = .center
         timeSigLabel.frame = timeSigLabelFrame
-        timeSigLabel.textColor = UIColor.whiteColor()
-        timeSigLabel.textAlignment = .Center
+        timeSigLabel.textColor = UIColor.white
+        timeSigLabel.textAlignment = .center
         
         //upper buttons
         buttonFrame.origin.x = CGFloat(34)
@@ -140,24 +140,24 @@ class Popup: UIControl {
         
         let popupFrame = CGRect(x: 0, y: 0, width: frame.width, height: frame.height)//frame
         popupBlurView.frame = popupFrame
-        popupBlurView.backgroundColor = UIColor.clearColor()
+        popupBlurView.backgroundColor = UIColor.clear
         popupBlurView.updateState()
     }
     
     
     //MARK: Hide popup function
     func toggleHide(){
-        hidden = !hidden //toggle true / false
+        isHidden = !isHidden //toggle true / false
         updateButtonStates()
     }
     
     func hide(){
-        hidden = true
+        isHidden = true
         updateButtonStates()
     }
     
     func show(){
-        hidden = false
+        isHidden = false
     }
     
     //MARK: Update buttons
@@ -214,7 +214,7 @@ class Popup: UIControl {
         decTempo()
         updateTempoString()
         currentButton = upperLeftButton
-        sendActionsForControlEvents(.ValueChanged) //this tells view controller that something changed
+        sendActions(for: .valueChanged) //this tells view controller that something changed
         
     }
     
@@ -223,7 +223,7 @@ class Popup: UIControl {
         incTempo()
         updateTempoString()
         currentButton = upperRightButton
-        sendActionsForControlEvents(.ValueChanged) //this tells view controller that something changed
+        sendActions(for: .valueChanged) //this tells view controller that something changed
     }
     
     //MARK: lower buttons tapped functions
@@ -232,7 +232,7 @@ class Popup: UIControl {
         decTimeSignature()
         updateTimeSigString()
         currentButton = lowerLeftButton
-        sendActionsForControlEvents(.ValueChanged) //this tells view controller that something changed
+        sendActions(for: .valueChanged) //this tells view controller that something changed
     }
     
     func lowerRightButtonTapped(){
@@ -240,7 +240,7 @@ class Popup: UIControl {
         incTimeSignature()
         updateTimeSigString()
         currentButton = lowerRightButton
-        sendActionsForControlEvents(.ValueChanged) //this tells view controller that something changed
+        sendActions(for: .valueChanged) //this tells view controller that something changed
     }
 
     

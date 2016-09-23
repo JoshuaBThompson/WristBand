@@ -16,7 +16,7 @@ class Quantize {
     let minDivisions = 1.0
     
     //MARK: quantize a beat pos
-    func quantizedBeat(beat: AKDuration)->AKDuration{
+    func quantizedBeat(_ beat: AKDuration)->AKDuration{
         let beats = beat.beats
         let divPos = beats * divPerBeat //position in beat divisions (based on quantized number / resolution set by user in UI: ex: 4 or 32)
         let divPosQuantized = round(divPos) //round to nearest division
@@ -28,7 +28,7 @@ class Quantize {
     }
     
     //MARK: update the quantization beat divisions
-    func update(newBeatDivision: Double){
+    func update(_ newBeatDivision: Double){
         var div = newBeatDivision
         
         //enforce max and min beat resolution
@@ -66,7 +66,9 @@ class SynthInstrument: AKMIDIInstrument{
     var note_num: Int = 0
     var loop_count: Int = 0
     var _total_dur: Double = 0
+    var total_dur_offset: Double = 0
     var measureUpdateReady = false
+    var measureUpdateEn = false
 
     var total_dur: Double {
         if(!measureUpdateReady){
@@ -95,11 +97,11 @@ class SynthInstrument: AKMIDIInstrument{
         pos = 0
         note_num = 0
         loop_count = 0
+        total_dur_offset = 0
         beatOffset = 0
     }
     
     func addNote(){
-        print("adding note kick 1!!!!")
         if(instTrack.trackManager.trackNotes.count==0 || instTrack.trackManager.firstInstance){
             return
         }
@@ -110,16 +112,31 @@ class SynthInstrument: AKMIDIInstrument{
         note_num += 1
         
         if(note_num >= instTrack.trackManager.trackNotes.count){
-            note_num = 0
+            /* note_num = 0
             loop_count += 1
             print("reset note add")
             if(measureUpdateReady){
                 measureUpdateReady = false //now it's ok to update measure count in looping
             }
+            */
+            
+            
+             note_num = 0
+             if(measureUpdateReady && !measureUpdateEn){
+                measureUpdateEn = true
+             }
+             else if(measureUpdateEn){
+                measureUpdateReady = false
+                measureUpdateEn = false
+                print("total dur updated to \(total_dur)")
+             }
+
+            total_dur_offset = total_dur_offset + total_dur
         }
+        
         print("note_num set to \(note_num)")
         pos = instTrack.trackManager.trackNotes[note_num].beats
-        real_pos = (loop_count * total_dur) + pos
+        real_pos = total_dur_offset + pos //(loop_count * total_dur) + pos
         
         print("pos \(pos) and real_pos \(real_pos)")
         let tempo = instTrack.trackManager.trackNotes[note_num].tempo
@@ -127,7 +144,7 @@ class SynthInstrument: AKMIDIInstrument{
         instTrack.trackManager.insertNote(127, position: currentNote, duration: 0)
     }
     
-    func rawPlay(noteNumber noteNumber: MIDINoteNumber, velocity: MIDIVelocity){
+    func rawPlay(_ noteNumber: MIDINoteNumber, velocity: MIDIVelocity){
         if(!muted){
             let volume = volumeScale * velocity/127.0
             sampler.volume = volume
@@ -141,7 +158,7 @@ class SynthInstrument: AKMIDIInstrument{
     /// - parameter note: MIDI Note Number
     /// - parameter velocity: MIDI Velocity (0-127)
     ///
-    override func play(noteNumber noteNumber: MIDINoteNumber, velocity: MIDIVelocity) {
+    override func play(noteNumber: MIDINoteNumber, velocity: MIDIVelocity) {
         addNote()
         if(!muted){
             let volume = volumeScale * velocity/127.0
@@ -155,16 +172,16 @@ class SynthInstrument: AKMIDIInstrument{
     /// - parameter voice: Voice to stop
     /// - parameter note: MIDI Note Number
     ///
-    override func stop(noteNumber noteNumber: MIDINoteNumber) {
+    override func stop(noteNumber: MIDINoteNumber) {
         //do something
     }
     
     //update volume scale: ex real volume = velocity * scale
-    func updateVolume(percent: Double){
+    func updateVolume(_ percent: Double){
         volumePercent = percent
     }
     
-    func updatePan(pan: Double){
+    func updatePan(_ pan: Double){
         //-1 is completely left pan, 0 is center and 1 is compeletely right pan
         
         //pan range limits
@@ -238,14 +255,14 @@ class ClickTrackInstrument: SynthInstrument{
     /// - parameter note: MIDI Note Number
     /// - parameter velocity: MIDI Velocity (0-127)
     ///
-    override func play(noteNumber noteNumber: MIDINoteNumber, velocity: MIDIVelocity) {
+    override func play(noteNumber: MIDINoteNumber, velocity: MIDIVelocity) {
         if(beat == 0){
             loop_count += 1
         }
         beat+=1
         pos += 1
         var vel = 100
-        if(pos % 4 == 0){
+        if(pos.truncatingRemainder(dividingBy: 4) == 0){
             vel = 127
         }
         
@@ -501,7 +518,7 @@ class InstrumentTrack {
         trackManager = TrackManager(midiInstrument: instrument, clickTrackRef: clickTrack)
     }
     
-    func addNote(velocity: Int, duration: Double){
+    func addNote(_ velocity: Int, duration: Double){
         trackManager.addNote(velocity, duration: duration)
     }
     
@@ -511,17 +528,17 @@ class InstrumentTrack {
     
     
     //MARK: update volume of instrument by changing scale factor 0 - 100%
-    func updateVolume(percent: Double){
+    func updateVolume(_ percent: Double){
         instrument.updateVolume(percent)
     }
     
     //MARK: update pan (-1 is all left, 0 is center and 1 is all right)
-    func updatePan(pan: Double){
+    func updatePan(_ pan: Double){
         instrument.updatePan(pan)
     }
     
     //MARK: update quantized number using resolution of the beat (ex: beat divided into 16 pieces)
-    func updateQuantize(res: Double){
+    func updateQuantize(_ res: Double){
         //res is the resolution of the beat: ex: 16
         trackManager.quantizer.update(res)
     }
@@ -538,9 +555,13 @@ class InstrumentTrack {
         recording = true
     }
     
-    func updateMeasureCount(count: Int){
+    func updateMeasureCount(_ count: Int){
         trackManager.updateMeasureCount(count)
-        instrument.measureUpdateReady = true //tells instrument to update measure count in looping after next loop is ready, but not during current loop
+        
+        //if playing tell track to wait unitl loop finishes before updating measure count
+        if(trackManager.track.isPlaying){
+            instrument.measureUpdateReady = true //tells instrument to update measure count in looping after next loop is ready, but not during current loop
+        }
     }
     
 }
@@ -625,7 +646,7 @@ class TrackManager{
     
     //MARK: Functions
     
-    func insertNote(velocity: Int, position: AKDuration, duration: Double){
+    func insertNote(_ velocity: Int, position: AKDuration, duration: Double){
         var pos = position
         let note = instrument.note
         if(quantizeEnable){
@@ -638,7 +659,7 @@ class TrackManager{
         track.tracks[trackNum].add(noteNumber: note, velocity: velocity, position: pos, duration: AKDuration(seconds: duration))
     }
     
-    func addNote(velocity: Int, duration: Double){
+    func addNote(_ velocity: Int, duration: Double){
         let elapsed = timeElapsed
         let position = AKDuration(seconds: elapsed, tempo: clickTrack.tempo.beatsPerMin)
         let absElapsed = timeElapsedAbs
@@ -655,12 +676,14 @@ class TrackManager{
         }
     }
     
-    func addNoteToList(velocity: Int, position: AKDuration, duration: Double){
+    func addNoteToList(_ velocity: Int, position: AKDuration, duration: Double){
         noteCount += 1
         trackNotes.append(position)
         velNotes.append(velocity)
         durNotes.append(duration)
-        let sortedNotes = trackNotes.sort {
+        var sortedNotes = [AKDuration]()
+        
+        sortedNotes = trackNotes.sorted {
             return $0.beats < $1.beats
         }
         //now updates notes list
@@ -687,13 +710,13 @@ class TrackManager{
         
     }
     
-    func updateMeasureCount(count: Int){
+    func updateMeasureCount(_ count: Int){
         //hack - audiokit v3.2 since updating length of track doesn't work correctly, need to make new track each time new recording
         print("inst \(instrument.name) measure count updated to \(count)")
         measureCount = count
     }
     
-    func updateNotePositions(newRecord: Bool = false){
+    func updateNotePositions(_ newRecord: Bool = false){
         if(trackNotes.count==0){return}
             firstInstance = false //first instance measure count update complete
             resetTrack()

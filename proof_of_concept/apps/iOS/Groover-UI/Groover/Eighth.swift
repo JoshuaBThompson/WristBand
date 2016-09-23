@@ -11,8 +11,8 @@ import UIKit
 //@IBDesignable
 class Eighth: QuantizeButton {
     
-    override func drawRect(rect: CGRect) {
-        UIGroover.drawEighthCanvas(eighthSelected: selected, eighthActive: on)
+    override func draw(_ rect: CGRect) {
+        UIGroover.drawEighthCanvas(eighthSelected: isSelected, eighthActive: on)
     }
     
 }

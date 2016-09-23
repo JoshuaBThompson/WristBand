@@ -10,7 +10,7 @@ import UIKit
 
 class Clear: PlayRecordButton {
     
-    override func drawRect(rect: CGRect) {
+    override func draw(_ rect: CGRect) {
         print("clear!")
         let clearOn = (on && set) //must make set = true after user hits record
         //only allow clear after record has been turned on

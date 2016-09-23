@@ -12,30 +12,30 @@ import UIKit
 class HamburgerIcon: UIButton {
     
     // MARK: Draw
-    override func drawRect(rect: CGRect) {
-        UIGroover.drawHamburgerCanvas(hamburgerSelected: selected)
+    override func draw(_ rect: CGRect) {
+        UIGroover.drawHamburgerCanvas(hamburgerSelected: isSelected)
     }
     
     // MARK: Initialization
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        self.addTarget(self, action: #selector(HamburgerIcon.buttonTapped(_:)), forControlEvents: .TouchDown)
+        self.addTarget(self, action: #selector(HamburgerIcon.buttonTapped(_:)), for: .touchDown)
     }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        self.addTarget(self, action: #selector(HamburgerIcon.buttonTapped(_:)), forControlEvents: .TouchDown)
+        self.addTarget(self, action: #selector(HamburgerIcon.buttonTapped(_:)), for: .touchDown)
         
     }
     
     
     // MARK: Button Action
     
-    func buttonTapped(button: UIButton) {
+    func buttonTapped(_ button: UIButton) {
         print("Setting button tapped")
-        selected = !selected //toggle selected
-        sendActionsForControlEvents(.ValueChanged) //this tells view controller that something changed
+        isSelected = !isSelected //toggle selected
+        sendActions(for: .valueChanged) //this tells view controller that something changed
         updateState()
     }
     

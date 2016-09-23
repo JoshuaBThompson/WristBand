@@ -15,7 +15,7 @@ class ViewController: UIViewController {
     var audioMidiSetupEn = true
     let sensor = MidiSensorWrapper()
     let motionManager = CMMotionManager()
-    let queue = NSOperationQueue.mainQueue()
+    let queue = OperationQueue.main
     var timeIntervalMillis: UInt = 25
     
     //MARK: outlets
@@ -37,23 +37,23 @@ class ViewController: UIViewController {
         // Do any additional setup after loading the view, typically from a nib.
         
         //Connect view controller functions to buttons events
-        hamburgerButton.addTarget(self, action: #selector(ViewController.hamburgerButtonSelected), forControlEvents: .ValueChanged)
-        knob.addTarget(self, action: #selector(ViewController.knobAngleChanged(_:)), forControlEvents: .ValueChanged)
-        knob.addTarget(self, action: #selector(ViewController.innerKnobTapped(_:)), forControlEvents: .EditingChanged)
-        knob.addTarget(self, action: #selector(ViewController.hidePositionIndicator), forControlEvents: .EditingDidEnd)
-        playRecordControl.addTarget(self, action: #selector(ViewController.playRecordButtonSelected(_:)), forControlEvents: .ValueChanged)
-        parametersButton.addTarget(self, action: #selector(ViewController.parametersButtonSelected), forControlEvents: .ValueChanged)
-        parametersPopup.addTarget(self, action: #selector(ViewController.parametersOptionSelected), forControlEvents: .ValueChanged)
-        popup.addTarget(self, action: #selector(ViewController.popupButtonSelected), forControlEvents: .ValueChanged)
-        quantizeControl.addTarget(self, action: #selector(ViewController.quantizeButtonSelected), forControlEvents: .ValueChanged)
+        hamburgerButton.addTarget(self, action: #selector(ViewController.hamburgerButtonSelected), for: .valueChanged)
+        knob.addTarget(self, action: #selector(ViewController.knobAngleChanged(_:)), for: .valueChanged)
+        knob.addTarget(self, action: #selector(ViewController.innerKnobTapped(_:)), for: .editingChanged)
+        knob.addTarget(self, action: #selector(ViewController.hidePositionIndicator), for: .editingDidEnd)
+        playRecordControl.addTarget(self, action: #selector(ViewController.playRecordButtonSelected(_:)), for: .valueChanged)
+        parametersButton.addTarget(self, action: #selector(ViewController.parametersButtonSelected), for: .valueChanged)
+        parametersPopup.addTarget(self, action: #selector(ViewController.parametersOptionSelected), for: .valueChanged)
+        popup.addTarget(self, action: #selector(ViewController.popupButtonSelected), for: .valueChanged)
+        quantizeControl.addTarget(self, action: #selector(ViewController.quantizeButtonSelected), for: .valueChanged)
         song = Song()
         positionLabel.text = song.selectedInstrumentName
         song.start()
         
         motionManager.startAccelerometerUpdates()
-        if motionManager.accelerometerAvailable {
-            motionManager.accelerometerUpdateInterval = NSTimeInterval(Double(timeIntervalMillis)/1000.0)
-            motionManager.startAccelerometerUpdatesToQueue(queue, withHandler: beatHandler)
+        if motionManager.isAccelerometerAvailable {
+            motionManager.accelerometerUpdateInterval = TimeInterval(Double(timeIntervalMillis)/1000.0)
+            motionManager.startAccelerometerUpdates(to: queue, withHandler: beatHandler as! CMAccelerometerHandler)
             
         }
     }
@@ -63,7 +63,7 @@ class ViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    override func prefersStatusBarHidden() -> Bool {
+    override var prefersStatusBarHidden : Bool {
         return true
     }
     
@@ -78,9 +78,9 @@ class ViewController: UIViewController {
     
     //MARK: Quantize buttons
     func quantizeButtonSelected(){
-        let selected = quantizeControl.currentButton.selected
+        let selected = quantizeControl.currentButton.isSelected
         var resolution = quantizeControl.currentButton.resolution
-        if(quantizeControl.tripletButton.selected){
+        if(quantizeControl.tripletButton.isSelected){
             resolution = resolution * quantizeControl.tripletButton.resolution //ex: if quarter not selected and triplet then resolution = 1*3
             print("resolution \(resolution)")
         }
@@ -89,15 +89,15 @@ class ViewController: UIViewController {
     
     //MARK: Parameter option selected
     func parametersOptionSelected(){
-        var buttonType = ParametersButtonTypes.CLEAR
+        var buttonType = ParametersButtonTypes.clear
         buttonType = parametersPopup.selectedButton.type
-        let selected = parametersPopup.selectedButton.selected
+        let selected = parametersPopup.selectedButton.isSelected
         
         switch buttonType {
-        case .CLEAR:
+        case .clear:
             song.clearPreset()
             print("song clear preset!")
-        case .SOLO:
+        case .solo:
             if(selected){
                 song.enableSoloPreset()
             }
@@ -105,7 +105,7 @@ class ViewController: UIViewController {
                 song.disableSoloPreset()
             }
             print("song solo preset!")
-        case .MUTE:
+        case .mute:
             if(selected){
                 song.mutePreset()
                 print("mute preset!")
@@ -115,10 +115,10 @@ class ViewController: UIViewController {
                 print("unmute preset!")
             }
             
-        case .MEASURE_LEFT:
+        case .measure_LEFT:
             print("measure change decrease to \(parametersPopup.measures)!")
         
-        case .MEASURE_RIGHT:
+        case .measure_RIGHT:
             print("measure change increase to \(parametersPopup.measures)!")
         }
     }
@@ -126,7 +126,7 @@ class ViewController: UIViewController {
     //MARK: Parameter button function
     func parametersButtonSelected(){
         //hide or show popup
-        if(parametersPopup.hidden){
+        if(parametersPopup.isHidden){
             parametersPopup.show()
             //update measure count based on selected instrument
             parametersPopup.setMeasure(song.presetMeasureCount)
@@ -154,25 +154,25 @@ class ViewController: UIViewController {
     
     //MARK: popup buttons handler
     func popupButtonSelected(){
-        var buttonType = PopupButtonTypes.UPPER_LEFT
+        var buttonType = PopupButtonTypes.upper_LEFT
         buttonType = popup.currentButton.type
         
         switch buttonType {
-        case .UPPER_LEFT:
+        case .upper_LEFT:
             song.setTempo(popup.tempo)
             print("update tempo dec")
             break
-        case .UPPER_RIGHT:
+        case .upper_RIGHT:
             song.setTempo(popup.tempo)
             print("update tempo inc")
             break
-        case .LOWER_LEFT:
+        case .lower_LEFT:
             //song.instruments[song.selectedInstrument].decPresetVolume()
             //print("dec volume to \(song.instruments[song.selectedInstrument].presetVolume)")
             song.decPresetPan()
             print("dec Pan to \(song.instruments[song.selectedInstrument].pan)")
             break
-        case .LOWER_RIGHT:
+        case .lower_RIGHT:
             //song.instruments[song.selectedInstrument].incPresetVolume()
             //print("inc volume to \(song.instruments[song.selectedInstrument].presetVolume)")
             song.incPresetPan()
@@ -182,9 +182,9 @@ class ViewController: UIViewController {
     }
     
     //MARK: play button event handler
-    func playRecordButtonSelected(playRecordButton: PlayRecordControl){
+    func playRecordButtonSelected(_ playRecordButton: PlayRecordControl){
         switch playRecordButton.currentButtonType {
-        case .PLAY:
+        case .play:
             if(playRecordButton.playButton.on){
                 song.stop() //disable recording first
                 song.play()
@@ -193,7 +193,7 @@ class ViewController: UIViewController {
                 song.stop()
             }
             
-        case .RECORD:
+        case .record:
             //record if on and is playing
             if(playRecordButton.recordButton.on && playRecordButton.playButton.on){
                 song.record()
@@ -208,7 +208,7 @@ class ViewController: UIViewController {
     }
     
     //MARK: Knob event handlers
-    func knobAngleChanged(knobControl: Knob){
+    func knobAngleChanged(_ knobControl: Knob){
         positionIndicator.show()
         parametersButton.hide()
         print("knob angle changed to \(knobControl.angle)!")
@@ -218,7 +218,7 @@ class ViewController: UIViewController {
         let wasRecording = song.recordEnabled
         selectSound(position)
         if(!song.recordEnabled && wasRecording){
-            playRecordControl.manualDeselectButton(.RECORD)
+            playRecordControl.manualDeselectButton(.record)
         }
         else{
             updateButtonStatesAfterKnobTurn()
@@ -239,12 +239,12 @@ class ViewController: UIViewController {
     
     
     
-    func selectSound(position: Int){
+    func selectSound(_ position: Int){
         song.selectInstrument(position)
         positionLabel.text = song.selectedInstrumentName
     }
     
-    func innerKnobTapped(knobControl: Knob){
+    func innerKnobTapped(_ knobControl: Knob){
         print("Inner knob tapped")
         song.toggleClickTrackMute()
         
@@ -254,15 +254,15 @@ class ViewController: UIViewController {
     }
     
     //MARK: Motion Sensor Functions
-    func beatHandler(data: CMAccelerometerData?, error: NSError?){
+    func beatHandler(_ data: CMAccelerometerData?, error: NSError?){
         let valx = Int32(16383.0 * (data!.acceleration.x))
         let valy = Int32(16383.0 * (data!.acceleration.y))
         let valz = Int32(16383.0 * (data!.acceleration.z))
         
-        sensor.updateStateWith(valx, andY: valy, andZ: valz, andMillisElapsed: timeIntervalMillis);
-        sensor.handleMidiEvents();
-        if(sensor.beat){
-            let eventStatus = Int(sensor.getEventStatus())
+        sensor?.updateState(with: valx, andY: valy, andZ: valz, andMillisElapsed: timeIntervalMillis);
+        sensor?.handleMidiEvents();
+        if(sensor?.beat)!{
+            let eventStatus = Int((sensor?.getEventStatus())!)
             if eventStatus != 0x80{
                 song.addNote() //make drum sound and add to track if recording!
                 updateButtonStatesAfterNoteAdded()

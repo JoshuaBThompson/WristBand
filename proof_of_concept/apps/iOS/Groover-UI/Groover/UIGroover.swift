@@ -12,11 +12,11 @@
 
 import UIKit
 
-public class UIGroover : NSObject {
+open class UIGroover : NSObject {
 
     //// Cache
 
-    private struct Cache {
+    fileprivate struct Cache {
         static var fullBackground: UIImage?
         static var knobBG: UIImage?
         static var rotationBG: UIImage?
@@ -25,21 +25,21 @@ public class UIGroover : NSObject {
 
     //// Images
 
-    public class var fullBackground: UIImage {
+    open class var fullBackground: UIImage {
         if Cache.fullBackground == nil {
             Cache.fullBackground = UIImage(named: "fullBackground.png")!
         }
         return Cache.fullBackground!
     }
 
-    public class var knobBG: UIImage {
+    open class var knobBG: UIImage {
         if Cache.knobBG == nil {
             Cache.knobBG = UIImage(named: "knobBG.png")!
         }
         return Cache.knobBG!
     }
 
-    public class var rotationBG: UIImage {
+    open class var rotationBG: UIImage {
         if Cache.rotationBG == nil {
             Cache.rotationBG = UIImage(named: "rotationBG.png")!
         }
@@ -48,7 +48,7 @@ public class UIGroover : NSObject {
 
     //// Drawing Methods
 
-    public class func drawQuarterCanvas(quarterSelected quarterSelected: Bool = false, quarterActive: Bool = false) {
+    open class func drawQuarterCanvas(quarterSelected: Bool = false, quarterActive: Bool = false) {
         //// Color Declarations
         let black = UIColor(red: 0.000, green: 0.000, blue: 0.000, alpha: 1.000)
         let lightBlue = UIColor(red: 0.349, green: 0.733, blue: 0.961, alpha: 1.000)
@@ -60,7 +60,7 @@ public class UIGroover : NSObject {
 
         if (quarterActive) {
             //// buttonBlue Drawing
-            let buttonBluePath = UIBezierPath(roundedRect: CGRectMake(0, 0, 54, 54), cornerRadius: 6)
+            let buttonBluePath = UIBezierPath(roundedRect: CGRect(x: 0, y: 0, width: 54, height: 54), cornerRadius: 6)
             lightBlue.setFill()
             buttonBluePath.fill()
         }
@@ -68,7 +68,7 @@ public class UIGroover : NSObject {
 
         if (quarterSelected) {
             //// buttonOutline Drawing
-            let buttonOutlinePath = UIBezierPath(roundedRect: CGRectMake(0, 0, 54, 54), cornerRadius: 6)
+            let buttonOutlinePath = UIBezierPath(roundedRect: CGRect(x: 0, y: 0, width: 54, height: 54), cornerRadius: 6)
             lightBlue.setStroke()
             buttonOutlinePath.lineWidth = 2
             buttonOutlinePath.stroke()
@@ -77,24 +77,24 @@ public class UIGroover : NSObject {
 
         if (quarterDeselected) {
             //// buttonBlack Drawing
-            let buttonBlackPath = UIBezierPath(roundedRect: CGRectMake(5, 5, 44, 44), cornerRadius: 6)
+            let buttonBlackPath = UIBezierPath(roundedRect: CGRect(x: 5, y: 5, width: 44, height: 44), cornerRadius: 6)
             black.setFill()
             buttonBlackPath.fill()
 
 
             //// quarterLight Drawing
             let quarterLightPath = UIBezierPath()
-            quarterLightPath.moveToPoint(CGPointMake(31.46, 34))
-            quarterLightPath.addCurveToPoint(CGPointMake(26.55, 37.86), controlPoint1: CGPointMake(31.36, 35.27), controlPoint2: CGPointMake(29.33, 36.9))
-            quarterLightPath.addCurveToPoint(CGPointMake(20.06, 37.45), controlPoint1: CGPointMake(23.41, 38.94), controlPoint2: CGPointMake(20.51, 38.76))
-            quarterLightPath.addCurveToPoint(CGPointMake(24.92, 33.14), controlPoint1: CGPointMake(19.61, 36.15), controlPoint2: CGPointMake(21.78, 34.22))
-            quarterLightPath.addCurveToPoint(CGPointMake(29.48, 32.48), controlPoint1: CGPointMake(26.63, 32.55), controlPoint2: CGPointMake(28.27, 32.33))
-            quarterLightPath.addLineToPoint(CGPointMake(29.48, 14))
-            quarterLightPath.addLineToPoint(CGPointMake(31.48, 14))
-            quarterLightPath.addLineToPoint(CGPointMake(31.48, 34))
-            quarterLightPath.addLineToPoint(CGPointMake(31.46, 34))
-            quarterLightPath.addLineToPoint(CGPointMake(31.46, 34))
-            quarterLightPath.closePath()
+            quarterLightPath.move(to: CGPoint(x: 31.46, y: 34))
+            quarterLightPath.addCurve(to: CGPoint(x: 26.55, y: 37.86), controlPoint1: CGPoint(x: 31.36, y: 35.27), controlPoint2: CGPoint(x: 29.33, y: 36.9))
+            quarterLightPath.addCurve(to: CGPoint(x: 20.06, y: 37.45), controlPoint1: CGPoint(x: 23.41, y: 38.94), controlPoint2: CGPoint(x: 20.51, y: 38.76))
+            quarterLightPath.addCurve(to: CGPoint(x: 24.92, y: 33.14), controlPoint1: CGPoint(x: 19.61, y: 36.15), controlPoint2: CGPoint(x: 21.78, y: 34.22))
+            quarterLightPath.addCurve(to: CGPoint(x: 29.48, y: 32.48), controlPoint1: CGPoint(x: 26.63, y: 32.55), controlPoint2: CGPoint(x: 28.27, y: 32.33))
+            quarterLightPath.addLine(to: CGPoint(x: 29.48, y: 14))
+            quarterLightPath.addLine(to: CGPoint(x: 31.48, y: 14))
+            quarterLightPath.addLine(to: CGPoint(x: 31.48, y: 34))
+            quarterLightPath.addLine(to: CGPoint(x: 31.46, y: 34))
+            quarterLightPath.addLine(to: CGPoint(x: 31.46, y: 34))
+            quarterLightPath.close()
             quarterLightPath.miterLimit = 4;
 
             quarterLightPath.usesEvenOddFillRule = true;
@@ -107,17 +107,17 @@ public class UIGroover : NSObject {
         if (quarterActive) {
             //// quarterDark Drawing
             let quarterDarkPath = UIBezierPath()
-            quarterDarkPath.moveToPoint(CGPointMake(31.46, 34))
-            quarterDarkPath.addCurveToPoint(CGPointMake(26.55, 37.86), controlPoint1: CGPointMake(31.36, 35.27), controlPoint2: CGPointMake(29.33, 36.9))
-            quarterDarkPath.addCurveToPoint(CGPointMake(20.06, 37.45), controlPoint1: CGPointMake(23.41, 38.94), controlPoint2: CGPointMake(20.51, 38.76))
-            quarterDarkPath.addCurveToPoint(CGPointMake(24.92, 33.14), controlPoint1: CGPointMake(19.61, 36.15), controlPoint2: CGPointMake(21.78, 34.22))
-            quarterDarkPath.addCurveToPoint(CGPointMake(29.48, 32.48), controlPoint1: CGPointMake(26.63, 32.55), controlPoint2: CGPointMake(28.27, 32.33))
-            quarterDarkPath.addLineToPoint(CGPointMake(29.48, 14))
-            quarterDarkPath.addLineToPoint(CGPointMake(31.48, 14))
-            quarterDarkPath.addLineToPoint(CGPointMake(31.48, 34))
-            quarterDarkPath.addLineToPoint(CGPointMake(31.46, 34))
-            quarterDarkPath.addLineToPoint(CGPointMake(31.46, 34))
-            quarterDarkPath.closePath()
+            quarterDarkPath.move(to: CGPoint(x: 31.46, y: 34))
+            quarterDarkPath.addCurve(to: CGPoint(x: 26.55, y: 37.86), controlPoint1: CGPoint(x: 31.36, y: 35.27), controlPoint2: CGPoint(x: 29.33, y: 36.9))
+            quarterDarkPath.addCurve(to: CGPoint(x: 20.06, y: 37.45), controlPoint1: CGPoint(x: 23.41, y: 38.94), controlPoint2: CGPoint(x: 20.51, y: 38.76))
+            quarterDarkPath.addCurve(to: CGPoint(x: 24.92, y: 33.14), controlPoint1: CGPoint(x: 19.61, y: 36.15), controlPoint2: CGPoint(x: 21.78, y: 34.22))
+            quarterDarkPath.addCurve(to: CGPoint(x: 29.48, y: 32.48), controlPoint1: CGPoint(x: 26.63, y: 32.55), controlPoint2: CGPoint(x: 28.27, y: 32.33))
+            quarterDarkPath.addLine(to: CGPoint(x: 29.48, y: 14))
+            quarterDarkPath.addLine(to: CGPoint(x: 31.48, y: 14))
+            quarterDarkPath.addLine(to: CGPoint(x: 31.48, y: 34))
+            quarterDarkPath.addLine(to: CGPoint(x: 31.46, y: 34))
+            quarterDarkPath.addLine(to: CGPoint(x: 31.46, y: 34))
+            quarterDarkPath.close()
             quarterDarkPath.miterLimit = 4;
 
             quarterDarkPath.usesEvenOddFillRule = true;
@@ -130,17 +130,17 @@ public class UIGroover : NSObject {
         if (quarterSelected) {
             //// quarterBlue Drawing
             let quarterBluePath = UIBezierPath()
-            quarterBluePath.moveToPoint(CGPointMake(31.46, 34))
-            quarterBluePath.addCurveToPoint(CGPointMake(26.55, 37.86), controlPoint1: CGPointMake(31.36, 35.27), controlPoint2: CGPointMake(29.33, 36.9))
-            quarterBluePath.addCurveToPoint(CGPointMake(20.06, 37.45), controlPoint1: CGPointMake(23.41, 38.94), controlPoint2: CGPointMake(20.51, 38.76))
-            quarterBluePath.addCurveToPoint(CGPointMake(24.92, 33.14), controlPoint1: CGPointMake(19.61, 36.15), controlPoint2: CGPointMake(21.78, 34.22))
-            quarterBluePath.addCurveToPoint(CGPointMake(29.48, 32.48), controlPoint1: CGPointMake(26.63, 32.55), controlPoint2: CGPointMake(28.27, 32.33))
-            quarterBluePath.addLineToPoint(CGPointMake(29.48, 14))
-            quarterBluePath.addLineToPoint(CGPointMake(31.48, 14))
-            quarterBluePath.addLineToPoint(CGPointMake(31.48, 34))
-            quarterBluePath.addLineToPoint(CGPointMake(31.46, 34))
-            quarterBluePath.addLineToPoint(CGPointMake(31.46, 34))
-            quarterBluePath.closePath()
+            quarterBluePath.move(to: CGPoint(x: 31.46, y: 34))
+            quarterBluePath.addCurve(to: CGPoint(x: 26.55, y: 37.86), controlPoint1: CGPoint(x: 31.36, y: 35.27), controlPoint2: CGPoint(x: 29.33, y: 36.9))
+            quarterBluePath.addCurve(to: CGPoint(x: 20.06, y: 37.45), controlPoint1: CGPoint(x: 23.41, y: 38.94), controlPoint2: CGPoint(x: 20.51, y: 38.76))
+            quarterBluePath.addCurve(to: CGPoint(x: 24.92, y: 33.14), controlPoint1: CGPoint(x: 19.61, y: 36.15), controlPoint2: CGPoint(x: 21.78, y: 34.22))
+            quarterBluePath.addCurve(to: CGPoint(x: 29.48, y: 32.48), controlPoint1: CGPoint(x: 26.63, y: 32.55), controlPoint2: CGPoint(x: 28.27, y: 32.33))
+            quarterBluePath.addLine(to: CGPoint(x: 29.48, y: 14))
+            quarterBluePath.addLine(to: CGPoint(x: 31.48, y: 14))
+            quarterBluePath.addLine(to: CGPoint(x: 31.48, y: 34))
+            quarterBluePath.addLine(to: CGPoint(x: 31.46, y: 34))
+            quarterBluePath.addLine(to: CGPoint(x: 31.46, y: 34))
+            quarterBluePath.close()
             quarterBluePath.miterLimit = 4;
 
             quarterBluePath.usesEvenOddFillRule = true;
@@ -150,7 +150,7 @@ public class UIGroover : NSObject {
         }
     }
 
-    public class func drawEighthCanvas(eighthSelected eighthSelected: Bool = false, eighthActive: Bool = false) {
+    open class func drawEighthCanvas(eighthSelected: Bool = false, eighthActive: Bool = false) {
         //// Color Declarations
         let black = UIColor(red: 0.000, green: 0.000, blue: 0.000, alpha: 1.000)
         let lightBlue = UIColor(red: 0.349, green: 0.733, blue: 0.961, alpha: 1.000)
@@ -162,7 +162,7 @@ public class UIGroover : NSObject {
 
         if (eighthActive) {
             //// buttonBlue Drawing
-            let buttonBluePath = UIBezierPath(roundedRect: CGRectMake(0, 0, 54, 54), cornerRadius: 6)
+            let buttonBluePath = UIBezierPath(roundedRect: CGRect(x: 0, y: 0, width: 54, height: 54), cornerRadius: 6)
             lightBlue.setFill()
             buttonBluePath.fill()
         }
@@ -170,7 +170,7 @@ public class UIGroover : NSObject {
 
         if (eighthSelected) {
             //// buttonOutline Drawing
-            let buttonOutlinePath = UIBezierPath(roundedRect: CGRectMake(0, 0, 54, 54), cornerRadius: 6)
+            let buttonOutlinePath = UIBezierPath(roundedRect: CGRect(x: 0, y: 0, width: 54, height: 54), cornerRadius: 6)
             lightBlue.setStroke()
             buttonOutlinePath.lineWidth = 2
             buttonOutlinePath.stroke()
@@ -179,28 +179,28 @@ public class UIGroover : NSObject {
 
         if (eighthDeselected) {
             //// buttonBlack Drawing
-            let buttonBlackPath = UIBezierPath(roundedRect: CGRectMake(5, 5, 44, 44), cornerRadius: 6)
+            let buttonBlackPath = UIBezierPath(roundedRect: CGRect(x: 5, y: 5, width: 44, height: 44), cornerRadius: 6)
             black.setFill()
             buttonBlackPath.fill()
 
 
             //// eighthLight Drawing
             let eighthLightPath = UIBezierPath()
-            eighthLightPath.moveToPoint(CGPointMake(30.61, 14))
-            eighthLightPath.addLineToPoint(CGPointMake(29.48, 14))
-            eighthLightPath.addLineToPoint(CGPointMake(29.48, 32.48))
-            eighthLightPath.addCurveToPoint(CGPointMake(24.92, 33.14), controlPoint1: CGPointMake(28.27, 32.33), controlPoint2: CGPointMake(26.63, 32.55))
-            eighthLightPath.addCurveToPoint(CGPointMake(20.06, 37.45), controlPoint1: CGPointMake(21.78, 34.22), controlPoint2: CGPointMake(19.61, 36.15))
-            eighthLightPath.addCurveToPoint(CGPointMake(26.55, 37.86), controlPoint1: CGPointMake(20.51, 38.76), controlPoint2: CGPointMake(23.41, 38.94))
-            eighthLightPath.addCurveToPoint(CGPointMake(31.46, 34), controlPoint1: CGPointMake(29.33, 36.9), controlPoint2: CGPointMake(31.36, 35.27))
-            eighthLightPath.addLineToPoint(CGPointMake(31.46, 34))
-            eighthLightPath.addLineToPoint(CGPointMake(31.48, 34))
-            eighthLightPath.addLineToPoint(CGPointMake(31.48, 18))
-            eighthLightPath.addLineToPoint(CGPointMake(37.73, 18))
-            eighthLightPath.addLineToPoint(CGPointMake(37.73, 14))
-            eighthLightPath.addLineToPoint(CGPointMake(30.61, 14))
-            eighthLightPath.addLineToPoint(CGPointMake(30.61, 14))
-            eighthLightPath.closePath()
+            eighthLightPath.move(to: CGPoint(x: 30.61, y: 14))
+            eighthLightPath.addLine(to: CGPoint(x: 29.48, y: 14))
+            eighthLightPath.addLine(to: CGPoint(x: 29.48, y: 32.48))
+            eighthLightPath.addCurve(to: CGPoint(x: 24.92, y: 33.14), controlPoint1: CGPoint(x: 28.27, y: 32.33), controlPoint2: CGPoint(x: 26.63, y: 32.55))
+            eighthLightPath.addCurve(to: CGPoint(x: 20.06, y: 37.45), controlPoint1: CGPoint(x: 21.78, y: 34.22), controlPoint2: CGPoint(x: 19.61, y: 36.15))
+            eighthLightPath.addCurve(to: CGPoint(x: 26.55, y: 37.86), controlPoint1: CGPoint(x: 20.51, y: 38.76), controlPoint2: CGPoint(x: 23.41, y: 38.94))
+            eighthLightPath.addCurve(to: CGPoint(x: 31.46, y: 34), controlPoint1: CGPoint(x: 29.33, y: 36.9), controlPoint2: CGPoint(x: 31.36, y: 35.27))
+            eighthLightPath.addLine(to: CGPoint(x: 31.46, y: 34))
+            eighthLightPath.addLine(to: CGPoint(x: 31.48, y: 34))
+            eighthLightPath.addLine(to: CGPoint(x: 31.48, y: 18))
+            eighthLightPath.addLine(to: CGPoint(x: 37.73, y: 18))
+            eighthLightPath.addLine(to: CGPoint(x: 37.73, y: 14))
+            eighthLightPath.addLine(to: CGPoint(x: 30.61, y: 14))
+            eighthLightPath.addLine(to: CGPoint(x: 30.61, y: 14))
+            eighthLightPath.close()
             eighthLightPath.miterLimit = 4;
 
             eighthLightPath.usesEvenOddFillRule = true;
@@ -213,21 +213,21 @@ public class UIGroover : NSObject {
         if (eighthActive) {
             //// eighthDark Drawing
             let eighthDarkPath = UIBezierPath()
-            eighthDarkPath.moveToPoint(CGPointMake(30.61, 14))
-            eighthDarkPath.addLineToPoint(CGPointMake(29.48, 14))
-            eighthDarkPath.addLineToPoint(CGPointMake(29.48, 32.48))
-            eighthDarkPath.addCurveToPoint(CGPointMake(24.92, 33.14), controlPoint1: CGPointMake(28.27, 32.33), controlPoint2: CGPointMake(26.63, 32.55))
-            eighthDarkPath.addCurveToPoint(CGPointMake(20.06, 37.45), controlPoint1: CGPointMake(21.78, 34.22), controlPoint2: CGPointMake(19.61, 36.15))
-            eighthDarkPath.addCurveToPoint(CGPointMake(26.55, 37.86), controlPoint1: CGPointMake(20.51, 38.76), controlPoint2: CGPointMake(23.41, 38.94))
-            eighthDarkPath.addCurveToPoint(CGPointMake(31.46, 34), controlPoint1: CGPointMake(29.33, 36.9), controlPoint2: CGPointMake(31.36, 35.27))
-            eighthDarkPath.addLineToPoint(CGPointMake(31.46, 34))
-            eighthDarkPath.addLineToPoint(CGPointMake(31.48, 34))
-            eighthDarkPath.addLineToPoint(CGPointMake(31.48, 18))
-            eighthDarkPath.addLineToPoint(CGPointMake(37.73, 18))
-            eighthDarkPath.addLineToPoint(CGPointMake(37.73, 14))
-            eighthDarkPath.addLineToPoint(CGPointMake(30.61, 14))
-            eighthDarkPath.addLineToPoint(CGPointMake(30.61, 14))
-            eighthDarkPath.closePath()
+            eighthDarkPath.move(to: CGPoint(x: 30.61, y: 14))
+            eighthDarkPath.addLine(to: CGPoint(x: 29.48, y: 14))
+            eighthDarkPath.addLine(to: CGPoint(x: 29.48, y: 32.48))
+            eighthDarkPath.addCurve(to: CGPoint(x: 24.92, y: 33.14), controlPoint1: CGPoint(x: 28.27, y: 32.33), controlPoint2: CGPoint(x: 26.63, y: 32.55))
+            eighthDarkPath.addCurve(to: CGPoint(x: 20.06, y: 37.45), controlPoint1: CGPoint(x: 21.78, y: 34.22), controlPoint2: CGPoint(x: 19.61, y: 36.15))
+            eighthDarkPath.addCurve(to: CGPoint(x: 26.55, y: 37.86), controlPoint1: CGPoint(x: 20.51, y: 38.76), controlPoint2: CGPoint(x: 23.41, y: 38.94))
+            eighthDarkPath.addCurve(to: CGPoint(x: 31.46, y: 34), controlPoint1: CGPoint(x: 29.33, y: 36.9), controlPoint2: CGPoint(x: 31.36, y: 35.27))
+            eighthDarkPath.addLine(to: CGPoint(x: 31.46, y: 34))
+            eighthDarkPath.addLine(to: CGPoint(x: 31.48, y: 34))
+            eighthDarkPath.addLine(to: CGPoint(x: 31.48, y: 18))
+            eighthDarkPath.addLine(to: CGPoint(x: 37.73, y: 18))
+            eighthDarkPath.addLine(to: CGPoint(x: 37.73, y: 14))
+            eighthDarkPath.addLine(to: CGPoint(x: 30.61, y: 14))
+            eighthDarkPath.addLine(to: CGPoint(x: 30.61, y: 14))
+            eighthDarkPath.close()
             eighthDarkPath.miterLimit = 4;
 
             eighthDarkPath.usesEvenOddFillRule = true;
@@ -240,21 +240,21 @@ public class UIGroover : NSObject {
         if (eighthSelected) {
             //// eighthBlue Drawing
             let eighthBluePath = UIBezierPath()
-            eighthBluePath.moveToPoint(CGPointMake(30.61, 14))
-            eighthBluePath.addLineToPoint(CGPointMake(29.48, 14))
-            eighthBluePath.addLineToPoint(CGPointMake(29.48, 32.48))
-            eighthBluePath.addCurveToPoint(CGPointMake(24.92, 33.14), controlPoint1: CGPointMake(28.27, 32.33), controlPoint2: CGPointMake(26.63, 32.55))
-            eighthBluePath.addCurveToPoint(CGPointMake(20.06, 37.45), controlPoint1: CGPointMake(21.78, 34.22), controlPoint2: CGPointMake(19.61, 36.15))
-            eighthBluePath.addCurveToPoint(CGPointMake(26.55, 37.86), controlPoint1: CGPointMake(20.51, 38.76), controlPoint2: CGPointMake(23.41, 38.94))
-            eighthBluePath.addCurveToPoint(CGPointMake(31.46, 34), controlPoint1: CGPointMake(29.33, 36.9), controlPoint2: CGPointMake(31.36, 35.27))
-            eighthBluePath.addLineToPoint(CGPointMake(31.46, 34))
-            eighthBluePath.addLineToPoint(CGPointMake(31.48, 34))
-            eighthBluePath.addLineToPoint(CGPointMake(31.48, 18))
-            eighthBluePath.addLineToPoint(CGPointMake(37.73, 18))
-            eighthBluePath.addLineToPoint(CGPointMake(37.73, 14))
-            eighthBluePath.addLineToPoint(CGPointMake(30.61, 14))
-            eighthBluePath.addLineToPoint(CGPointMake(30.61, 14))
-            eighthBluePath.closePath()
+            eighthBluePath.move(to: CGPoint(x: 30.61, y: 14))
+            eighthBluePath.addLine(to: CGPoint(x: 29.48, y: 14))
+            eighthBluePath.addLine(to: CGPoint(x: 29.48, y: 32.48))
+            eighthBluePath.addCurve(to: CGPoint(x: 24.92, y: 33.14), controlPoint1: CGPoint(x: 28.27, y: 32.33), controlPoint2: CGPoint(x: 26.63, y: 32.55))
+            eighthBluePath.addCurve(to: CGPoint(x: 20.06, y: 37.45), controlPoint1: CGPoint(x: 21.78, y: 34.22), controlPoint2: CGPoint(x: 19.61, y: 36.15))
+            eighthBluePath.addCurve(to: CGPoint(x: 26.55, y: 37.86), controlPoint1: CGPoint(x: 20.51, y: 38.76), controlPoint2: CGPoint(x: 23.41, y: 38.94))
+            eighthBluePath.addCurve(to: CGPoint(x: 31.46, y: 34), controlPoint1: CGPoint(x: 29.33, y: 36.9), controlPoint2: CGPoint(x: 31.36, y: 35.27))
+            eighthBluePath.addLine(to: CGPoint(x: 31.46, y: 34))
+            eighthBluePath.addLine(to: CGPoint(x: 31.48, y: 34))
+            eighthBluePath.addLine(to: CGPoint(x: 31.48, y: 18))
+            eighthBluePath.addLine(to: CGPoint(x: 37.73, y: 18))
+            eighthBluePath.addLine(to: CGPoint(x: 37.73, y: 14))
+            eighthBluePath.addLine(to: CGPoint(x: 30.61, y: 14))
+            eighthBluePath.addLine(to: CGPoint(x: 30.61, y: 14))
+            eighthBluePath.close()
             eighthBluePath.miterLimit = 4;
 
             eighthBluePath.usesEvenOddFillRule = true;
@@ -264,7 +264,7 @@ public class UIGroover : NSObject {
         }
     }
 
-    public class func drawSixteenthCanvas(sixteenthSelected sixteenthSelected: Bool = false, sixteenthActive: Bool = false) {
+    open class func drawSixteenthCanvas(sixteenthSelected: Bool = false, sixteenthActive: Bool = false) {
         //// Color Declarations
         let black = UIColor(red: 0.000, green: 0.000, blue: 0.000, alpha: 1.000)
         let lightBlue = UIColor(red: 0.349, green: 0.733, blue: 0.961, alpha: 1.000)
@@ -276,7 +276,7 @@ public class UIGroover : NSObject {
 
         if (sixteenthActive) {
             //// buttonBlue Drawing
-            let buttonBluePath = UIBezierPath(roundedRect: CGRectMake(0, 0, 54, 54), cornerRadius: 6)
+            let buttonBluePath = UIBezierPath(roundedRect: CGRect(x: 0, y: 0, width: 54, height: 54), cornerRadius: 6)
             lightBlue.setFill()
             buttonBluePath.fill()
         }
@@ -284,7 +284,7 @@ public class UIGroover : NSObject {
 
         if (sixteenthSelected) {
             //// buttonOutline Drawing
-            let buttonOutlinePath = UIBezierPath(roundedRect: CGRectMake(0, 0, 54, 54), cornerRadius: 6)
+            let buttonOutlinePath = UIBezierPath(roundedRect: CGRect(x: 0, y: 0, width: 54, height: 54), cornerRadius: 6)
             lightBlue.setStroke()
             buttonOutlinePath.lineWidth = 2
             buttonOutlinePath.stroke()
@@ -293,33 +293,33 @@ public class UIGroover : NSObject {
 
         if (sixteenthDeselected) {
             //// buttonBlack Drawing
-            let buttonBlackPath = UIBezierPath(roundedRect: CGRectMake(5, 5, 44, 44), cornerRadius: 6)
+            let buttonBlackPath = UIBezierPath(roundedRect: CGRect(x: 5, y: 5, width: 44, height: 44), cornerRadius: 6)
             black.setFill()
             buttonBlackPath.fill()
 
 
             //// sixteenthLight Drawing
             let sixteenthLightPath = UIBezierPath()
-            sixteenthLightPath.moveToPoint(CGPointMake(31.48, 25))
-            sixteenthLightPath.addLineToPoint(CGPointMake(31.48, 34))
-            sixteenthLightPath.addLineToPoint(CGPointMake(31.46, 34))
-            sixteenthLightPath.addLineToPoint(CGPointMake(31.46, 34))
-            sixteenthLightPath.addCurveToPoint(CGPointMake(26.55, 37.86), controlPoint1: CGPointMake(31.36, 35.27), controlPoint2: CGPointMake(29.33, 36.9))
-            sixteenthLightPath.addCurveToPoint(CGPointMake(20.06, 37.45), controlPoint1: CGPointMake(23.41, 38.94), controlPoint2: CGPointMake(20.51, 38.76))
-            sixteenthLightPath.addCurveToPoint(CGPointMake(24.92, 33.14), controlPoint1: CGPointMake(19.61, 36.15), controlPoint2: CGPointMake(21.78, 34.22))
-            sixteenthLightPath.addCurveToPoint(CGPointMake(29.48, 32.48), controlPoint1: CGPointMake(26.63, 32.55), controlPoint2: CGPointMake(28.27, 32.33))
-            sixteenthLightPath.addLineToPoint(CGPointMake(29.48, 14))
-            sixteenthLightPath.addLineToPoint(CGPointMake(30.61, 14))
-            sixteenthLightPath.addLineToPoint(CGPointMake(30.61, 14))
-            sixteenthLightPath.addLineToPoint(CGPointMake(37.73, 14))
-            sixteenthLightPath.addLineToPoint(CGPointMake(37.73, 18))
-            sixteenthLightPath.addLineToPoint(CGPointMake(31.48, 18))
-            sixteenthLightPath.addLineToPoint(CGPointMake(31.48, 21))
-            sixteenthLightPath.addLineToPoint(CGPointMake(37.73, 21))
-            sixteenthLightPath.addLineToPoint(CGPointMake(37.73, 25))
-            sixteenthLightPath.addLineToPoint(CGPointMake(31.48, 25))
-            sixteenthLightPath.addLineToPoint(CGPointMake(31.48, 25))
-            sixteenthLightPath.closePath()
+            sixteenthLightPath.move(to: CGPoint(x: 31.48, y: 25))
+            sixteenthLightPath.addLine(to: CGPoint(x: 31.48, y: 34))
+            sixteenthLightPath.addLine(to: CGPoint(x: 31.46, y: 34))
+            sixteenthLightPath.addLine(to: CGPoint(x: 31.46, y: 34))
+            sixteenthLightPath.addCurve(to: CGPoint(x: 26.55, y: 37.86), controlPoint1: CGPoint(x: 31.36, y: 35.27), controlPoint2: CGPoint(x: 29.33, y: 36.9))
+            sixteenthLightPath.addCurve(to: CGPoint(x: 20.06, y: 37.45), controlPoint1: CGPoint(x: 23.41, y: 38.94), controlPoint2: CGPoint(x: 20.51, y: 38.76))
+            sixteenthLightPath.addCurve(to: CGPoint(x: 24.92, y: 33.14), controlPoint1: CGPoint(x: 19.61, y: 36.15), controlPoint2: CGPoint(x: 21.78, y: 34.22))
+            sixteenthLightPath.addCurve(to: CGPoint(x: 29.48, y: 32.48), controlPoint1: CGPoint(x: 26.63, y: 32.55), controlPoint2: CGPoint(x: 28.27, y: 32.33))
+            sixteenthLightPath.addLine(to: CGPoint(x: 29.48, y: 14))
+            sixteenthLightPath.addLine(to: CGPoint(x: 30.61, y: 14))
+            sixteenthLightPath.addLine(to: CGPoint(x: 30.61, y: 14))
+            sixteenthLightPath.addLine(to: CGPoint(x: 37.73, y: 14))
+            sixteenthLightPath.addLine(to: CGPoint(x: 37.73, y: 18))
+            sixteenthLightPath.addLine(to: CGPoint(x: 31.48, y: 18))
+            sixteenthLightPath.addLine(to: CGPoint(x: 31.48, y: 21))
+            sixteenthLightPath.addLine(to: CGPoint(x: 37.73, y: 21))
+            sixteenthLightPath.addLine(to: CGPoint(x: 37.73, y: 25))
+            sixteenthLightPath.addLine(to: CGPoint(x: 31.48, y: 25))
+            sixteenthLightPath.addLine(to: CGPoint(x: 31.48, y: 25))
+            sixteenthLightPath.close()
             sixteenthLightPath.miterLimit = 4;
 
             sixteenthLightPath.usesEvenOddFillRule = true;
@@ -332,26 +332,26 @@ public class UIGroover : NSObject {
         if (sixteenthActive) {
             //// sixteenthDark Drawing
             let sixteenthDarkPath = UIBezierPath()
-            sixteenthDarkPath.moveToPoint(CGPointMake(31.48, 25))
-            sixteenthDarkPath.addLineToPoint(CGPointMake(31.48, 34))
-            sixteenthDarkPath.addLineToPoint(CGPointMake(31.46, 34))
-            sixteenthDarkPath.addLineToPoint(CGPointMake(31.46, 34))
-            sixteenthDarkPath.addCurveToPoint(CGPointMake(26.55, 37.86), controlPoint1: CGPointMake(31.36, 35.27), controlPoint2: CGPointMake(29.33, 36.9))
-            sixteenthDarkPath.addCurveToPoint(CGPointMake(20.06, 37.45), controlPoint1: CGPointMake(23.41, 38.94), controlPoint2: CGPointMake(20.51, 38.76))
-            sixteenthDarkPath.addCurveToPoint(CGPointMake(24.92, 33.14), controlPoint1: CGPointMake(19.61, 36.15), controlPoint2: CGPointMake(21.78, 34.22))
-            sixteenthDarkPath.addCurveToPoint(CGPointMake(29.48, 32.48), controlPoint1: CGPointMake(26.63, 32.55), controlPoint2: CGPointMake(28.27, 32.33))
-            sixteenthDarkPath.addLineToPoint(CGPointMake(29.48, 14))
-            sixteenthDarkPath.addLineToPoint(CGPointMake(30.61, 14))
-            sixteenthDarkPath.addLineToPoint(CGPointMake(30.61, 14))
-            sixteenthDarkPath.addLineToPoint(CGPointMake(37.73, 14))
-            sixteenthDarkPath.addLineToPoint(CGPointMake(37.73, 18))
-            sixteenthDarkPath.addLineToPoint(CGPointMake(31.48, 18))
-            sixteenthDarkPath.addLineToPoint(CGPointMake(31.48, 21))
-            sixteenthDarkPath.addLineToPoint(CGPointMake(37.73, 21))
-            sixteenthDarkPath.addLineToPoint(CGPointMake(37.73, 25))
-            sixteenthDarkPath.addLineToPoint(CGPointMake(31.48, 25))
-            sixteenthDarkPath.addLineToPoint(CGPointMake(31.48, 25))
-            sixteenthDarkPath.closePath()
+            sixteenthDarkPath.move(to: CGPoint(x: 31.48, y: 25))
+            sixteenthDarkPath.addLine(to: CGPoint(x: 31.48, y: 34))
+            sixteenthDarkPath.addLine(to: CGPoint(x: 31.46, y: 34))
+            sixteenthDarkPath.addLine(to: CGPoint(x: 31.46, y: 34))
+            sixteenthDarkPath.addCurve(to: CGPoint(x: 26.55, y: 37.86), controlPoint1: CGPoint(x: 31.36, y: 35.27), controlPoint2: CGPoint(x: 29.33, y: 36.9))
+            sixteenthDarkPath.addCurve(to: CGPoint(x: 20.06, y: 37.45), controlPoint1: CGPoint(x: 23.41, y: 38.94), controlPoint2: CGPoint(x: 20.51, y: 38.76))
+            sixteenthDarkPath.addCurve(to: CGPoint(x: 24.92, y: 33.14), controlPoint1: CGPoint(x: 19.61, y: 36.15), controlPoint2: CGPoint(x: 21.78, y: 34.22))
+            sixteenthDarkPath.addCurve(to: CGPoint(x: 29.48, y: 32.48), controlPoint1: CGPoint(x: 26.63, y: 32.55), controlPoint2: CGPoint(x: 28.27, y: 32.33))
+            sixteenthDarkPath.addLine(to: CGPoint(x: 29.48, y: 14))
+            sixteenthDarkPath.addLine(to: CGPoint(x: 30.61, y: 14))
+            sixteenthDarkPath.addLine(to: CGPoint(x: 30.61, y: 14))
+            sixteenthDarkPath.addLine(to: CGPoint(x: 37.73, y: 14))
+            sixteenthDarkPath.addLine(to: CGPoint(x: 37.73, y: 18))
+            sixteenthDarkPath.addLine(to: CGPoint(x: 31.48, y: 18))
+            sixteenthDarkPath.addLine(to: CGPoint(x: 31.48, y: 21))
+            sixteenthDarkPath.addLine(to: CGPoint(x: 37.73, y: 21))
+            sixteenthDarkPath.addLine(to: CGPoint(x: 37.73, y: 25))
+            sixteenthDarkPath.addLine(to: CGPoint(x: 31.48, y: 25))
+            sixteenthDarkPath.addLine(to: CGPoint(x: 31.48, y: 25))
+            sixteenthDarkPath.close()
             sixteenthDarkPath.miterLimit = 4;
 
             sixteenthDarkPath.usesEvenOddFillRule = true;
@@ -364,26 +364,26 @@ public class UIGroover : NSObject {
         if (sixteenthSelected) {
             //// sixteenthBlue Drawing
             let sixteenthBluePath = UIBezierPath()
-            sixteenthBluePath.moveToPoint(CGPointMake(31.48, 25))
-            sixteenthBluePath.addLineToPoint(CGPointMake(31.48, 34))
-            sixteenthBluePath.addLineToPoint(CGPointMake(31.46, 34))
-            sixteenthBluePath.addLineToPoint(CGPointMake(31.46, 34))
-            sixteenthBluePath.addCurveToPoint(CGPointMake(26.55, 37.86), controlPoint1: CGPointMake(31.36, 35.27), controlPoint2: CGPointMake(29.33, 36.9))
-            sixteenthBluePath.addCurveToPoint(CGPointMake(20.06, 37.45), controlPoint1: CGPointMake(23.41, 38.94), controlPoint2: CGPointMake(20.51, 38.76))
-            sixteenthBluePath.addCurveToPoint(CGPointMake(24.92, 33.14), controlPoint1: CGPointMake(19.61, 36.15), controlPoint2: CGPointMake(21.78, 34.22))
-            sixteenthBluePath.addCurveToPoint(CGPointMake(29.48, 32.48), controlPoint1: CGPointMake(26.63, 32.55), controlPoint2: CGPointMake(28.27, 32.33))
-            sixteenthBluePath.addLineToPoint(CGPointMake(29.48, 14))
-            sixteenthBluePath.addLineToPoint(CGPointMake(30.61, 14))
-            sixteenthBluePath.addLineToPoint(CGPointMake(30.61, 14))
-            sixteenthBluePath.addLineToPoint(CGPointMake(37.73, 14))
-            sixteenthBluePath.addLineToPoint(CGPointMake(37.73, 18))
-            sixteenthBluePath.addLineToPoint(CGPointMake(31.48, 18))
-            sixteenthBluePath.addLineToPoint(CGPointMake(31.48, 21))
-            sixteenthBluePath.addLineToPoint(CGPointMake(37.73, 21))
-            sixteenthBluePath.addLineToPoint(CGPointMake(37.73, 25))
-            sixteenthBluePath.addLineToPoint(CGPointMake(31.48, 25))
-            sixteenthBluePath.addLineToPoint(CGPointMake(31.48, 25))
-            sixteenthBluePath.closePath()
+            sixteenthBluePath.move(to: CGPoint(x: 31.48, y: 25))
+            sixteenthBluePath.addLine(to: CGPoint(x: 31.48, y: 34))
+            sixteenthBluePath.addLine(to: CGPoint(x: 31.46, y: 34))
+            sixteenthBluePath.addLine(to: CGPoint(x: 31.46, y: 34))
+            sixteenthBluePath.addCurve(to: CGPoint(x: 26.55, y: 37.86), controlPoint1: CGPoint(x: 31.36, y: 35.27), controlPoint2: CGPoint(x: 29.33, y: 36.9))
+            sixteenthBluePath.addCurve(to: CGPoint(x: 20.06, y: 37.45), controlPoint1: CGPoint(x: 23.41, y: 38.94), controlPoint2: CGPoint(x: 20.51, y: 38.76))
+            sixteenthBluePath.addCurve(to: CGPoint(x: 24.92, y: 33.14), controlPoint1: CGPoint(x: 19.61, y: 36.15), controlPoint2: CGPoint(x: 21.78, y: 34.22))
+            sixteenthBluePath.addCurve(to: CGPoint(x: 29.48, y: 32.48), controlPoint1: CGPoint(x: 26.63, y: 32.55), controlPoint2: CGPoint(x: 28.27, y: 32.33))
+            sixteenthBluePath.addLine(to: CGPoint(x: 29.48, y: 14))
+            sixteenthBluePath.addLine(to: CGPoint(x: 30.61, y: 14))
+            sixteenthBluePath.addLine(to: CGPoint(x: 30.61, y: 14))
+            sixteenthBluePath.addLine(to: CGPoint(x: 37.73, y: 14))
+            sixteenthBluePath.addLine(to: CGPoint(x: 37.73, y: 18))
+            sixteenthBluePath.addLine(to: CGPoint(x: 31.48, y: 18))
+            sixteenthBluePath.addLine(to: CGPoint(x: 31.48, y: 21))
+            sixteenthBluePath.addLine(to: CGPoint(x: 37.73, y: 21))
+            sixteenthBluePath.addLine(to: CGPoint(x: 37.73, y: 25))
+            sixteenthBluePath.addLine(to: CGPoint(x: 31.48, y: 25))
+            sixteenthBluePath.addLine(to: CGPoint(x: 31.48, y: 25))
+            sixteenthBluePath.close()
             sixteenthBluePath.miterLimit = 4;
 
             sixteenthBluePath.usesEvenOddFillRule = true;
@@ -393,7 +393,7 @@ public class UIGroover : NSObject {
         }
     }
 
-    public class func drawThirtysecondCanvas(thirtysecondSelected thirtysecondSelected: Bool = false, thirtysecondActive: Bool = false) {
+    open class func drawThirtysecondCanvas(thirtysecondSelected: Bool = false, thirtysecondActive: Bool = false) {
         //// Color Declarations
         let black = UIColor(red: 0.000, green: 0.000, blue: 0.000, alpha: 1.000)
         let lightBlue = UIColor(red: 0.349, green: 0.733, blue: 0.961, alpha: 1.000)
@@ -405,7 +405,7 @@ public class UIGroover : NSObject {
 
         if (thirtysecondActive) {
             //// buttonBlue Drawing
-            let buttonBluePath = UIBezierPath(roundedRect: CGRectMake(0, 0, 54, 54), cornerRadius: 6)
+            let buttonBluePath = UIBezierPath(roundedRect: CGRect(x: 0, y: 0, width: 54, height: 54), cornerRadius: 6)
             lightBlue.setFill()
             buttonBluePath.fill()
         }
@@ -413,7 +413,7 @@ public class UIGroover : NSObject {
 
         if (thirtysecondSelected) {
             //// buttonOutline Drawing
-            let buttonOutlinePath = UIBezierPath(roundedRect: CGRectMake(0, 0, 54, 54), cornerRadius: 6)
+            let buttonOutlinePath = UIBezierPath(roundedRect: CGRect(x: 0, y: 0, width: 54, height: 54), cornerRadius: 6)
             lightBlue.setStroke()
             buttonOutlinePath.lineWidth = 2
             buttonOutlinePath.stroke()
@@ -422,40 +422,40 @@ public class UIGroover : NSObject {
 
         if (thirtysecondDeselected) {
             //// buttonBlack Drawing
-            let buttonBlackPath = UIBezierPath(roundedRect: CGRectMake(5, 5, 44, 44), cornerRadius: 6)
+            let buttonBlackPath = UIBezierPath(roundedRect: CGRect(x: 5, y: 5, width: 44, height: 44), cornerRadius: 6)
             black.setFill()
             buttonBlackPath.fill()
 
 
             //// thirtysecondLight Drawing
             let thirtysecondLightPath = UIBezierPath()
-            thirtysecondLightPath.moveToPoint(CGPointMake(31.5, 24))
-            thirtysecondLightPath.addLineToPoint(CGPointMake(31.5, 22))
-            thirtysecondLightPath.addLineToPoint(CGPointMake(37.5, 22))
-            thirtysecondLightPath.addLineToPoint(CGPointMake(37.5, 19))
-            thirtysecondLightPath.addLineToPoint(CGPointMake(31.48, 19))
-            thirtysecondLightPath.addLineToPoint(CGPointMake(31.48, 18))
-            thirtysecondLightPath.addLineToPoint(CGPointMake(31.5, 18))
-            thirtysecondLightPath.addLineToPoint(CGPointMake(31.5, 17))
-            thirtysecondLightPath.addLineToPoint(CGPointMake(37.5, 17))
-            thirtysecondLightPath.addLineToPoint(CGPointMake(37.5, 14))
-            thirtysecondLightPath.addLineToPoint(CGPointMake(31.05, 14))
-            thirtysecondLightPath.addLineToPoint(CGPointMake(30.61, 14))
-            thirtysecondLightPath.addLineToPoint(CGPointMake(30.61, 14))
-            thirtysecondLightPath.addLineToPoint(CGPointMake(29.48, 14))
-            thirtysecondLightPath.addLineToPoint(CGPointMake(29.48, 32.48))
-            thirtysecondLightPath.addCurveToPoint(CGPointMake(24.92, 33.14), controlPoint1: CGPointMake(28.27, 32.33), controlPoint2: CGPointMake(26.63, 32.55))
-            thirtysecondLightPath.addCurveToPoint(CGPointMake(20.06, 37.45), controlPoint1: CGPointMake(21.78, 34.22), controlPoint2: CGPointMake(19.61, 36.15))
-            thirtysecondLightPath.addCurveToPoint(CGPointMake(26.55, 37.86), controlPoint1: CGPointMake(20.51, 38.76), controlPoint2: CGPointMake(23.41, 38.94))
-            thirtysecondLightPath.addCurveToPoint(CGPointMake(31.46, 34), controlPoint1: CGPointMake(29.33, 36.9), controlPoint2: CGPointMake(31.36, 35.27))
-            thirtysecondLightPath.addLineToPoint(CGPointMake(31.46, 34))
-            thirtysecondLightPath.addLineToPoint(CGPointMake(31.48, 34))
-            thirtysecondLightPath.addLineToPoint(CGPointMake(31.48, 27))
-            thirtysecondLightPath.addLineToPoint(CGPointMake(37.5, 27))
-            thirtysecondLightPath.addLineToPoint(CGPointMake(37.5, 24))
-            thirtysecondLightPath.addLineToPoint(CGPointMake(31.5, 24))
-            thirtysecondLightPath.addLineToPoint(CGPointMake(31.5, 24))
-            thirtysecondLightPath.closePath()
+            thirtysecondLightPath.move(to: CGPoint(x: 31.5, y: 24))
+            thirtysecondLightPath.addLine(to: CGPoint(x: 31.5, y: 22))
+            thirtysecondLightPath.addLine(to: CGPoint(x: 37.5, y: 22))
+            thirtysecondLightPath.addLine(to: CGPoint(x: 37.5, y: 19))
+            thirtysecondLightPath.addLine(to: CGPoint(x: 31.48, y: 19))
+            thirtysecondLightPath.addLine(to: CGPoint(x: 31.48, y: 18))
+            thirtysecondLightPath.addLine(to: CGPoint(x: 31.5, y: 18))
+            thirtysecondLightPath.addLine(to: CGPoint(x: 31.5, y: 17))
+            thirtysecondLightPath.addLine(to: CGPoint(x: 37.5, y: 17))
+            thirtysecondLightPath.addLine(to: CGPoint(x: 37.5, y: 14))
+            thirtysecondLightPath.addLine(to: CGPoint(x: 31.05, y: 14))
+            thirtysecondLightPath.addLine(to: CGPoint(x: 30.61, y: 14))
+            thirtysecondLightPath.addLine(to: CGPoint(x: 30.61, y: 14))
+            thirtysecondLightPath.addLine(to: CGPoint(x: 29.48, y: 14))
+            thirtysecondLightPath.addLine(to: CGPoint(x: 29.48, y: 32.48))
+            thirtysecondLightPath.addCurve(to: CGPoint(x: 24.92, y: 33.14), controlPoint1: CGPoint(x: 28.27, y: 32.33), controlPoint2: CGPoint(x: 26.63, y: 32.55))
+            thirtysecondLightPath.addCurve(to: CGPoint(x: 20.06, y: 37.45), controlPoint1: CGPoint(x: 21.78, y: 34.22), controlPoint2: CGPoint(x: 19.61, y: 36.15))
+            thirtysecondLightPath.addCurve(to: CGPoint(x: 26.55, y: 37.86), controlPoint1: CGPoint(x: 20.51, y: 38.76), controlPoint2: CGPoint(x: 23.41, y: 38.94))
+            thirtysecondLightPath.addCurve(to: CGPoint(x: 31.46, y: 34), controlPoint1: CGPoint(x: 29.33, y: 36.9), controlPoint2: CGPoint(x: 31.36, y: 35.27))
+            thirtysecondLightPath.addLine(to: CGPoint(x: 31.46, y: 34))
+            thirtysecondLightPath.addLine(to: CGPoint(x: 31.48, y: 34))
+            thirtysecondLightPath.addLine(to: CGPoint(x: 31.48, y: 27))
+            thirtysecondLightPath.addLine(to: CGPoint(x: 37.5, y: 27))
+            thirtysecondLightPath.addLine(to: CGPoint(x: 37.5, y: 24))
+            thirtysecondLightPath.addLine(to: CGPoint(x: 31.5, y: 24))
+            thirtysecondLightPath.addLine(to: CGPoint(x: 31.5, y: 24))
+            thirtysecondLightPath.close()
             thirtysecondLightPath.miterLimit = 4;
 
             thirtysecondLightPath.usesEvenOddFillRule = true;
@@ -468,33 +468,33 @@ public class UIGroover : NSObject {
         if (thirtysecondActive) {
             //// thirtysecondDark Drawing
             let thirtysecondDarkPath = UIBezierPath()
-            thirtysecondDarkPath.moveToPoint(CGPointMake(31.5, 24))
-            thirtysecondDarkPath.addLineToPoint(CGPointMake(31.5, 22))
-            thirtysecondDarkPath.addLineToPoint(CGPointMake(37.5, 22))
-            thirtysecondDarkPath.addLineToPoint(CGPointMake(37.5, 19))
-            thirtysecondDarkPath.addLineToPoint(CGPointMake(31.48, 19))
-            thirtysecondDarkPath.addLineToPoint(CGPointMake(31.48, 18))
-            thirtysecondDarkPath.addLineToPoint(CGPointMake(31.5, 18))
-            thirtysecondDarkPath.addLineToPoint(CGPointMake(31.5, 17))
-            thirtysecondDarkPath.addLineToPoint(CGPointMake(37.5, 17))
-            thirtysecondDarkPath.addLineToPoint(CGPointMake(37.5, 14))
-            thirtysecondDarkPath.addLineToPoint(CGPointMake(31.05, 14))
-            thirtysecondDarkPath.addLineToPoint(CGPointMake(30.61, 14))
-            thirtysecondDarkPath.addLineToPoint(CGPointMake(30.61, 14))
-            thirtysecondDarkPath.addLineToPoint(CGPointMake(29.48, 14))
-            thirtysecondDarkPath.addLineToPoint(CGPointMake(29.48, 32.48))
-            thirtysecondDarkPath.addCurveToPoint(CGPointMake(24.92, 33.14), controlPoint1: CGPointMake(28.27, 32.33), controlPoint2: CGPointMake(26.63, 32.55))
-            thirtysecondDarkPath.addCurveToPoint(CGPointMake(20.06, 37.45), controlPoint1: CGPointMake(21.78, 34.22), controlPoint2: CGPointMake(19.61, 36.15))
-            thirtysecondDarkPath.addCurveToPoint(CGPointMake(26.55, 37.86), controlPoint1: CGPointMake(20.51, 38.76), controlPoint2: CGPointMake(23.41, 38.94))
-            thirtysecondDarkPath.addCurveToPoint(CGPointMake(31.46, 34), controlPoint1: CGPointMake(29.33, 36.9), controlPoint2: CGPointMake(31.36, 35.27))
-            thirtysecondDarkPath.addLineToPoint(CGPointMake(31.46, 34))
-            thirtysecondDarkPath.addLineToPoint(CGPointMake(31.48, 34))
-            thirtysecondDarkPath.addLineToPoint(CGPointMake(31.48, 27))
-            thirtysecondDarkPath.addLineToPoint(CGPointMake(37.5, 27))
-            thirtysecondDarkPath.addLineToPoint(CGPointMake(37.5, 24))
-            thirtysecondDarkPath.addLineToPoint(CGPointMake(31.5, 24))
-            thirtysecondDarkPath.addLineToPoint(CGPointMake(31.5, 24))
-            thirtysecondDarkPath.closePath()
+            thirtysecondDarkPath.move(to: CGPoint(x: 31.5, y: 24))
+            thirtysecondDarkPath.addLine(to: CGPoint(x: 31.5, y: 22))
+            thirtysecondDarkPath.addLine(to: CGPoint(x: 37.5, y: 22))
+            thirtysecondDarkPath.addLine(to: CGPoint(x: 37.5, y: 19))
+            thirtysecondDarkPath.addLine(to: CGPoint(x: 31.48, y: 19))
+            thirtysecondDarkPath.addLine(to: CGPoint(x: 31.48, y: 18))
+            thirtysecondDarkPath.addLine(to: CGPoint(x: 31.5, y: 18))
+            thirtysecondDarkPath.addLine(to: CGPoint(x: 31.5, y: 17))
+            thirtysecondDarkPath.addLine(to: CGPoint(x: 37.5, y: 17))
+            thirtysecondDarkPath.addLine(to: CGPoint(x: 37.5, y: 14))
+            thirtysecondDarkPath.addLine(to: CGPoint(x: 31.05, y: 14))
+            thirtysecondDarkPath.addLine(to: CGPoint(x: 30.61, y: 14))
+            thirtysecondDarkPath.addLine(to: CGPoint(x: 30.61, y: 14))
+            thirtysecondDarkPath.addLine(to: CGPoint(x: 29.48, y: 14))
+            thirtysecondDarkPath.addLine(to: CGPoint(x: 29.48, y: 32.48))
+            thirtysecondDarkPath.addCurve(to: CGPoint(x: 24.92, y: 33.14), controlPoint1: CGPoint(x: 28.27, y: 32.33), controlPoint2: CGPoint(x: 26.63, y: 32.55))
+            thirtysecondDarkPath.addCurve(to: CGPoint(x: 20.06, y: 37.45), controlPoint1: CGPoint(x: 21.78, y: 34.22), controlPoint2: CGPoint(x: 19.61, y: 36.15))
+            thirtysecondDarkPath.addCurve(to: CGPoint(x: 26.55, y: 37.86), controlPoint1: CGPoint(x: 20.51, y: 38.76), controlPoint2: CGPoint(x: 23.41, y: 38.94))
+            thirtysecondDarkPath.addCurve(to: CGPoint(x: 31.46, y: 34), controlPoint1: CGPoint(x: 29.33, y: 36.9), controlPoint2: CGPoint(x: 31.36, y: 35.27))
+            thirtysecondDarkPath.addLine(to: CGPoint(x: 31.46, y: 34))
+            thirtysecondDarkPath.addLine(to: CGPoint(x: 31.48, y: 34))
+            thirtysecondDarkPath.addLine(to: CGPoint(x: 31.48, y: 27))
+            thirtysecondDarkPath.addLine(to: CGPoint(x: 37.5, y: 27))
+            thirtysecondDarkPath.addLine(to: CGPoint(x: 37.5, y: 24))
+            thirtysecondDarkPath.addLine(to: CGPoint(x: 31.5, y: 24))
+            thirtysecondDarkPath.addLine(to: CGPoint(x: 31.5, y: 24))
+            thirtysecondDarkPath.close()
             thirtysecondDarkPath.miterLimit = 4;
 
             thirtysecondDarkPath.usesEvenOddFillRule = true;
@@ -507,33 +507,33 @@ public class UIGroover : NSObject {
         if (thirtysecondSelected) {
             //// thirtysecondBlue Drawing
             let thirtysecondBluePath = UIBezierPath()
-            thirtysecondBluePath.moveToPoint(CGPointMake(31.5, 24))
-            thirtysecondBluePath.addLineToPoint(CGPointMake(31.5, 22))
-            thirtysecondBluePath.addLineToPoint(CGPointMake(37.5, 22))
-            thirtysecondBluePath.addLineToPoint(CGPointMake(37.5, 19))
-            thirtysecondBluePath.addLineToPoint(CGPointMake(31.48, 19))
-            thirtysecondBluePath.addLineToPoint(CGPointMake(31.48, 18))
-            thirtysecondBluePath.addLineToPoint(CGPointMake(31.5, 18))
-            thirtysecondBluePath.addLineToPoint(CGPointMake(31.5, 17))
-            thirtysecondBluePath.addLineToPoint(CGPointMake(37.5, 17))
-            thirtysecondBluePath.addLineToPoint(CGPointMake(37.5, 14))
-            thirtysecondBluePath.addLineToPoint(CGPointMake(31.05, 14))
-            thirtysecondBluePath.addLineToPoint(CGPointMake(30.61, 14))
-            thirtysecondBluePath.addLineToPoint(CGPointMake(30.61, 14))
-            thirtysecondBluePath.addLineToPoint(CGPointMake(29.48, 14))
-            thirtysecondBluePath.addLineToPoint(CGPointMake(29.48, 32.48))
-            thirtysecondBluePath.addCurveToPoint(CGPointMake(24.92, 33.14), controlPoint1: CGPointMake(28.27, 32.33), controlPoint2: CGPointMake(26.63, 32.55))
-            thirtysecondBluePath.addCurveToPoint(CGPointMake(20.06, 37.45), controlPoint1: CGPointMake(21.78, 34.22), controlPoint2: CGPointMake(19.61, 36.15))
-            thirtysecondBluePath.addCurveToPoint(CGPointMake(26.55, 37.86), controlPoint1: CGPointMake(20.51, 38.76), controlPoint2: CGPointMake(23.41, 38.94))
-            thirtysecondBluePath.addCurveToPoint(CGPointMake(31.46, 34), controlPoint1: CGPointMake(29.33, 36.9), controlPoint2: CGPointMake(31.36, 35.27))
-            thirtysecondBluePath.addLineToPoint(CGPointMake(31.46, 34))
-            thirtysecondBluePath.addLineToPoint(CGPointMake(31.48, 34))
-            thirtysecondBluePath.addLineToPoint(CGPointMake(31.48, 27))
-            thirtysecondBluePath.addLineToPoint(CGPointMake(37.5, 27))
-            thirtysecondBluePath.addLineToPoint(CGPointMake(37.5, 24))
-            thirtysecondBluePath.addLineToPoint(CGPointMake(31.5, 24))
-            thirtysecondBluePath.addLineToPoint(CGPointMake(31.5, 24))
-            thirtysecondBluePath.closePath()
+            thirtysecondBluePath.move(to: CGPoint(x: 31.5, y: 24))
+            thirtysecondBluePath.addLine(to: CGPoint(x: 31.5, y: 22))
+            thirtysecondBluePath.addLine(to: CGPoint(x: 37.5, y: 22))
+            thirtysecondBluePath.addLine(to: CGPoint(x: 37.5, y: 19))
+            thirtysecondBluePath.addLine(to: CGPoint(x: 31.48, y: 19))
+            thirtysecondBluePath.addLine(to: CGPoint(x: 31.48, y: 18))
+            thirtysecondBluePath.addLine(to: CGPoint(x: 31.5, y: 18))
+            thirtysecondBluePath.addLine(to: CGPoint(x: 31.5, y: 17))
+            thirtysecondBluePath.addLine(to: CGPoint(x: 37.5, y: 17))
+            thirtysecondBluePath.addLine(to: CGPoint(x: 37.5, y: 14))
+            thirtysecondBluePath.addLine(to: CGPoint(x: 31.05, y: 14))
+            thirtysecondBluePath.addLine(to: CGPoint(x: 30.61, y: 14))
+            thirtysecondBluePath.addLine(to: CGPoint(x: 30.61, y: 14))
+            thirtysecondBluePath.addLine(to: CGPoint(x: 29.48, y: 14))
+            thirtysecondBluePath.addLine(to: CGPoint(x: 29.48, y: 32.48))
+            thirtysecondBluePath.addCurve(to: CGPoint(x: 24.92, y: 33.14), controlPoint1: CGPoint(x: 28.27, y: 32.33), controlPoint2: CGPoint(x: 26.63, y: 32.55))
+            thirtysecondBluePath.addCurve(to: CGPoint(x: 20.06, y: 37.45), controlPoint1: CGPoint(x: 21.78, y: 34.22), controlPoint2: CGPoint(x: 19.61, y: 36.15))
+            thirtysecondBluePath.addCurve(to: CGPoint(x: 26.55, y: 37.86), controlPoint1: CGPoint(x: 20.51, y: 38.76), controlPoint2: CGPoint(x: 23.41, y: 38.94))
+            thirtysecondBluePath.addCurve(to: CGPoint(x: 31.46, y: 34), controlPoint1: CGPoint(x: 29.33, y: 36.9), controlPoint2: CGPoint(x: 31.36, y: 35.27))
+            thirtysecondBluePath.addLine(to: CGPoint(x: 31.46, y: 34))
+            thirtysecondBluePath.addLine(to: CGPoint(x: 31.48, y: 34))
+            thirtysecondBluePath.addLine(to: CGPoint(x: 31.48, y: 27))
+            thirtysecondBluePath.addLine(to: CGPoint(x: 37.5, y: 27))
+            thirtysecondBluePath.addLine(to: CGPoint(x: 37.5, y: 24))
+            thirtysecondBluePath.addLine(to: CGPoint(x: 31.5, y: 24))
+            thirtysecondBluePath.addLine(to: CGPoint(x: 31.5, y: 24))
+            thirtysecondBluePath.close()
             thirtysecondBluePath.miterLimit = 4;
 
             thirtysecondBluePath.usesEvenOddFillRule = true;
@@ -543,7 +543,7 @@ public class UIGroover : NSObject {
         }
     }
 
-    public class func drawTripletCanvas(tripletSelected tripletSelected: Bool = false, tripletActive: Bool = false) {
+    open class func drawTripletCanvas(tripletSelected: Bool = false, tripletActive: Bool = false) {
         //// Color Declarations
         let black = UIColor(red: 0.000, green: 0.000, blue: 0.000, alpha: 1.000)
         let lightBlue = UIColor(red: 0.349, green: 0.733, blue: 0.961, alpha: 1.000)
@@ -555,7 +555,7 @@ public class UIGroover : NSObject {
 
         if (tripletActive) {
             //// buttonBlue Drawing
-            let buttonBluePath = UIBezierPath(roundedRect: CGRectMake(0, 0, 54, 54), cornerRadius: 6)
+            let buttonBluePath = UIBezierPath(roundedRect: CGRect(x: 0, y: 0, width: 54, height: 54), cornerRadius: 6)
             lightBlue.setFill()
             buttonBluePath.fill()
         }
@@ -563,7 +563,7 @@ public class UIGroover : NSObject {
 
         if (tripletSelected) {
             //// buttonOutline Drawing
-            let buttonOutlinePath = UIBezierPath(roundedRect: CGRectMake(0, 0, 54, 54), cornerRadius: 6)
+            let buttonOutlinePath = UIBezierPath(roundedRect: CGRect(x: 0, y: 0, width: 54, height: 54), cornerRadius: 6)
             lightBlue.setStroke()
             buttonOutlinePath.lineWidth = 2
             buttonOutlinePath.stroke()
@@ -572,23 +572,23 @@ public class UIGroover : NSObject {
 
         if (tripletDeselected) {
             //// buttonBlack Drawing
-            let buttonBlackPath = UIBezierPath(roundedRect: CGRectMake(5, 5, 44, 44), cornerRadius: 6)
+            let buttonBlackPath = UIBezierPath(roundedRect: CGRect(x: 5, y: 5, width: 44, height: 44), cornerRadius: 6)
             black.setFill()
             buttonBlackPath.fill()
 
 
             //// tripletLight Drawing
             let tripletLightPath = UIBezierPath()
-            tripletLightPath.moveToPoint(CGPointMake(25.53, 34.5))
-            tripletLightPath.addLineToPoint(CGPointMake(25.53, 21.67))
-            tripletLightPath.addLineToPoint(CGPointMake(21, 21.67))
-            tripletLightPath.addLineToPoint(CGPointMake(21, 19))
-            tripletLightPath.addLineToPoint(CGPointMake(33.32, 19))
-            tripletLightPath.addLineToPoint(CGPointMake(33.32, 21.67))
-            tripletLightPath.addLineToPoint(CGPointMake(28.78, 21.67))
-            tripletLightPath.addLineToPoint(CGPointMake(28.78, 34.5))
-            tripletLightPath.addLineToPoint(CGPointMake(25.53, 34.5))
-            tripletLightPath.closePath()
+            tripletLightPath.move(to: CGPoint(x: 25.53, y: 34.5))
+            tripletLightPath.addLine(to: CGPoint(x: 25.53, y: 21.67))
+            tripletLightPath.addLine(to: CGPoint(x: 21, y: 21.67))
+            tripletLightPath.addLine(to: CGPoint(x: 21, y: 19))
+            tripletLightPath.addLine(to: CGPoint(x: 33.32, y: 19))
+            tripletLightPath.addLine(to: CGPoint(x: 33.32, y: 21.67))
+            tripletLightPath.addLine(to: CGPoint(x: 28.78, y: 21.67))
+            tripletLightPath.addLine(to: CGPoint(x: 28.78, y: 34.5))
+            tripletLightPath.addLine(to: CGPoint(x: 25.53, y: 34.5))
+            tripletLightPath.close()
             tripletLightPath.miterLimit = 4;
 
             tripletLightPath.usesEvenOddFillRule = true;
@@ -601,16 +601,16 @@ public class UIGroover : NSObject {
         if (tripletActive) {
             //// tripletDark Drawing
             let tripletDarkPath = UIBezierPath()
-            tripletDarkPath.moveToPoint(CGPointMake(25.53, 34.5))
-            tripletDarkPath.addLineToPoint(CGPointMake(25.53, 21.67))
-            tripletDarkPath.addLineToPoint(CGPointMake(21, 21.67))
-            tripletDarkPath.addLineToPoint(CGPointMake(21, 19))
-            tripletDarkPath.addLineToPoint(CGPointMake(33.32, 19))
-            tripletDarkPath.addLineToPoint(CGPointMake(33.32, 21.67))
-            tripletDarkPath.addLineToPoint(CGPointMake(28.78, 21.67))
-            tripletDarkPath.addLineToPoint(CGPointMake(28.78, 34.5))
-            tripletDarkPath.addLineToPoint(CGPointMake(25.53, 34.5))
-            tripletDarkPath.closePath()
+            tripletDarkPath.move(to: CGPoint(x: 25.53, y: 34.5))
+            tripletDarkPath.addLine(to: CGPoint(x: 25.53, y: 21.67))
+            tripletDarkPath.addLine(to: CGPoint(x: 21, y: 21.67))
+            tripletDarkPath.addLine(to: CGPoint(x: 21, y: 19))
+            tripletDarkPath.addLine(to: CGPoint(x: 33.32, y: 19))
+            tripletDarkPath.addLine(to: CGPoint(x: 33.32, y: 21.67))
+            tripletDarkPath.addLine(to: CGPoint(x: 28.78, y: 21.67))
+            tripletDarkPath.addLine(to: CGPoint(x: 28.78, y: 34.5))
+            tripletDarkPath.addLine(to: CGPoint(x: 25.53, y: 34.5))
+            tripletDarkPath.close()
             tripletDarkPath.miterLimit = 4;
 
             tripletDarkPath.usesEvenOddFillRule = true;
@@ -623,16 +623,16 @@ public class UIGroover : NSObject {
         if (tripletSelected) {
             //// tripletBlue Drawing
             let tripletBluePath = UIBezierPath()
-            tripletBluePath.moveToPoint(CGPointMake(25.53, 34.5))
-            tripletBluePath.addLineToPoint(CGPointMake(25.53, 21.67))
-            tripletBluePath.addLineToPoint(CGPointMake(21, 21.67))
-            tripletBluePath.addLineToPoint(CGPointMake(21, 19))
-            tripletBluePath.addLineToPoint(CGPointMake(33.32, 19))
-            tripletBluePath.addLineToPoint(CGPointMake(33.32, 21.67))
-            tripletBluePath.addLineToPoint(CGPointMake(28.78, 21.67))
-            tripletBluePath.addLineToPoint(CGPointMake(28.78, 34.5))
-            tripletBluePath.addLineToPoint(CGPointMake(25.53, 34.5))
-            tripletBluePath.closePath()
+            tripletBluePath.move(to: CGPoint(x: 25.53, y: 34.5))
+            tripletBluePath.addLine(to: CGPoint(x: 25.53, y: 21.67))
+            tripletBluePath.addLine(to: CGPoint(x: 21, y: 21.67))
+            tripletBluePath.addLine(to: CGPoint(x: 21, y: 19))
+            tripletBluePath.addLine(to: CGPoint(x: 33.32, y: 19))
+            tripletBluePath.addLine(to: CGPoint(x: 33.32, y: 21.67))
+            tripletBluePath.addLine(to: CGPoint(x: 28.78, y: 21.67))
+            tripletBluePath.addLine(to: CGPoint(x: 28.78, y: 34.5))
+            tripletBluePath.addLine(to: CGPoint(x: 25.53, y: 34.5))
+            tripletBluePath.close()
             tripletBluePath.miterLimit = 4;
 
             tripletBluePath.usesEvenOddFillRule = true;
@@ -642,7 +642,7 @@ public class UIGroover : NSObject {
         }
     }
 
-    public class func drawSoundParametersCanvas(soundParametersSelected soundParametersSelected: Bool = false) {
+    open class func drawSoundParametersCanvas(soundParametersSelected: Bool = false) {
         //// Color Declarations
         let black = UIColor(red: 0.000, green: 0.000, blue: 0.000, alpha: 1.000)
         let lightBlue = UIColor(red: 0.349, green: 0.733, blue: 0.961, alpha: 1.000)
@@ -650,40 +650,40 @@ public class UIGroover : NSObject {
         let buttonsBGLight = UIColor(red: 0.173, green: 0.220, blue: 0.263, alpha: 1.000)
 
         //// soundParametersBase Drawing
-        let soundParametersBasePath = UIBezierPath(ovalInRect: CGRectMake(1, 1, 40, 40))
+        let soundParametersBasePath = UIBezierPath(ovalIn: CGRect(x: 1, y: 1, width: 40, height: 40))
         soundParamtersBG.setFill()
         soundParametersBasePath.fill()
 
 
         //// soundParametersOutline Drawing
-        let soundParametersOutlinePath = UIBezierPath(ovalInRect: CGRectMake(3, 3, 36, 36))
+        let soundParametersOutlinePath = UIBezierPath(ovalIn: CGRect(x: 3, y: 3, width: 36, height: 36))
         black.setStroke()
         soundParametersOutlinePath.lineWidth = 5
         soundParametersOutlinePath.stroke()
 
 
         //// soundParametersLight Drawing
-        let soundParametersLightPath = UIBezierPath(ovalInRect: CGRectMake(11, 11, 20, 20))
+        let soundParametersLightPath = UIBezierPath(ovalIn: CGRect(x: 11, y: 11, width: 20, height: 20))
         buttonsBGLight.setFill()
         soundParametersLightPath.fill()
 
 
         //// soundParametersBlue Drawing
-        let soundParametersBluePath = UIBezierPath(roundedRect: CGRectMake(17, 17, 8, 8), cornerRadius: 2)
+        let soundParametersBluePath = UIBezierPath(roundedRect: CGRect(x: 17, y: 17, width: 8, height: 8), cornerRadius: 2)
         lightBlue.setFill()
         soundParametersBluePath.fill()
 
 
         if (soundParametersSelected) {
             //// soundParametersBlueOutline Drawing
-            let soundParametersBlueOutlinePath = UIBezierPath(ovalInRect: CGRectMake(11, 11, 20, 20))
+            let soundParametersBlueOutlinePath = UIBezierPath(ovalIn: CGRect(x: 11, y: 11, width: 20, height: 20))
             lightBlue.setStroke()
             soundParametersBlueOutlinePath.lineWidth = 2
             soundParametersBlueOutlinePath.stroke()
         }
     }
 
-    public class func drawKnobCanvas(frame frame: CGRect = CGRectMake(1, 0, 280, 280), rotation: CGFloat = 0, clickSelected: Bool = false, clickRingActive: Bool = false) {
+    open class func drawKnobCanvas(frame: CGRect = CGRect(x: 1, y: 0, width: 280, height: 280), rotation: CGFloat = 0, clickSelected: Bool = false, clickRingActive: Bool = false) {
         //// General Declarations
         let context = UIGraphicsGetCurrentContext()
 
@@ -697,341 +697,342 @@ public class UIGroover : NSObject {
         let knobGradientColor3 = UIColor(red: 0.104, green: 0.140, blue: 0.202, alpha: 1.000)
 
         //// Gradient Declarations
-        let linearGradient1 = CGGradientCreateWithColors(CGColorSpaceCreateDeviceRGB(), [knobGradientColor1.CGColor, knobGradientColor2.CGColor, knobGradientColor3.CGColor], [0, 0.51, 1])!
+        let gradientColors = [knobGradientColor1.cgColor, knobGradientColor2.cgColor, knobGradientColor3.cgColor]
+        let linearGradient1 = CGGradient(colorsSpace: CGColorSpaceCreateDeviceRGB(), colors: gradientColors as CFArray, locations: [0, 0.51, 1])!
 
         //// Variable Declarations
         let clickColor = clickSelected ? lightBlue : clickGray
 
 
         //// Subframes
-        let knobRotation: CGRect = CGRectMake(frame.minX + floor((frame.width - 270) * 0.40000 + 0.5), frame.minY + floor((frame.height - 270) * 0.50000 + 0.5), 270, 270)
-        let clickButton: CGRect = CGRectMake(frame.minX + floor((frame.width - 24) * 0.49609 + 0.5), frame.minY + floor((frame.height - 24) * 0.50000 + 0.5), 24, 24)
+        let knobRotation: CGRect = CGRect(x: frame.minX + floor((frame.width - 270) * 0.40000 + 0.5), y: frame.minY + floor((frame.height - 270) * 0.50000 + 0.5), width: 270, height: 270)
+        let clickButton: CGRect = CGRect(x: frame.minX + floor((frame.width - 24) * 0.49609 + 0.5), y: frame.minY + floor((frame.height - 24) * 0.50000 + 0.5), width: 24, height: 24)
 
 
         //// knobBGFrame Drawing
-        let knobBGFrameRect = CGRectMake(frame.minX + floor(frame.width * -0.00357 + 0.5), frame.minY + floor(frame.height * 0.00000 + 0.5), floor(frame.width * 1.00000 + 0.5) - floor(frame.width * -0.00357 + 0.5), floor(frame.height * 1.00000 + 0.5) - floor(frame.height * 0.00000 + 0.5))
+        let knobBGFrameRect = CGRect(x: frame.minX + floor(frame.width * -0.00357 + 0.5), y: frame.minY + floor(frame.height * 0.00000 + 0.5), width: floor(frame.width * 1.00000 + 0.5) - floor(frame.width * -0.00357 + 0.5), height: floor(frame.height * 1.00000 + 0.5) - floor(frame.height * 0.00000 + 0.5))
         let knobBGFramePath = UIBezierPath(rect: knobBGFrameRect)
-        CGContextSaveGState(context)
+        context!.saveGState()
         knobBGFramePath.addClip()
-        UIGroover.knobBG.drawInRect(CGRectMake(floor(knobBGFrameRect.minX + 0.5), floor(knobBGFrameRect.minY + 0.5), UIGroover.knobBG.size.width, UIGroover.knobBG.size.height))
-        CGContextRestoreGState(context)
+        UIGroover.knobBG.draw(in: CGRect(x: floor(knobBGFrameRect.minX + 0.5), y: floor(knobBGFrameRect.minY + 0.5), width: UIGroover.knobBG.size.width, height: UIGroover.knobBG.size.height))
+        context!.restoreGState()
 
 
         //// knobRotation
-        CGContextSaveGState(context)
-        CGContextBeginTransparencyLayer(context, nil)
+        context!.saveGState()
+        context!.beginTransparencyLayer(auxiliaryInfo: nil)
 
         //// Clip knob-rotation-mask
         let knobrotationmaskPath = UIBezierPath()
-        knobrotationmaskPath.moveToPoint(CGPointMake(0, 135))
-        knobrotationmaskPath.addCurveToPoint(CGPointMake(135, 0), controlPoint1: CGPointMake(74.56, 135), controlPoint2: CGPointMake(135, 74.56))
-        knobrotationmaskPath.addCurveToPoint(CGPointMake(0, -135), controlPoint1: CGPointMake(135, -74.56), controlPoint2: CGPointMake(74.56, -135))
-        knobrotationmaskPath.addCurveToPoint(CGPointMake(-135, 0), controlPoint1: CGPointMake(-74.56, -135), controlPoint2: CGPointMake(-135, -74.56))
-        knobrotationmaskPath.addCurveToPoint(CGPointMake(0, 135), controlPoint1: CGPointMake(-135, 74.56), controlPoint2: CGPointMake(-74.56, 135))
-        knobrotationmaskPath.addLineToPoint(CGPointMake(0, 135))
-        knobrotationmaskPath.addLineToPoint(CGPointMake(0, 135))
-        knobrotationmaskPath.addLineToPoint(CGPointMake(0, 135))
-        knobrotationmaskPath.closePath()
-        knobrotationmaskPath.moveToPoint(CGPointMake(-57.9, -120))
-        knobrotationmaskPath.addCurveToPoint(CGPointMake(-71.76, -112.26), controlPoint1: CGPointMake(-62.69, -117.69), controlPoint2: CGPointMake(-67.31, -115.1))
-        knobrotationmaskPath.addCurveToPoint(CGPointMake(-92.52, -89.22), controlPoint1: CGPointMake(-78.21, -104.31), controlPoint2: CGPointMake(-85.13, -96.62))
-        knobrotationmaskPath.addCurveToPoint(CGPointMake(-113.11, -70.42), controlPoint1: CGPointMake(-99.16, -82.58), controlPoint2: CGPointMake(-106.03, -76.31))
-        knobrotationmaskPath.addLineToPoint(CGPointMake(-113.11, -70.42))
-        knobrotationmaskPath.addCurveToPoint(CGPointMake(-118.92, -60.12), controlPoint1: CGPointMake(-115.19, -67.08), controlPoint2: CGPointMake(-117.13, -63.65))
-        knobrotationmaskPath.addLineToPoint(CGPointMake(-118.92, -60.12))
-        knobrotationmaskPath.addCurveToPoint(CGPointMake(-118.52, -58.65), controlPoint1: CGPointMake(-118.46, -59.79), controlPoint2: CGPointMake(-118.29, -59.18))
-        knobrotationmaskPath.addLineToPoint(CGPointMake(-123.37, -47.75))
-        knobrotationmaskPath.addCurveToPoint(CGPointMake(-124.67, -47.05), controlPoint1: CGPointMake(-123.6, -47.23), controlPoint2: CGPointMake(-124.14, -46.95))
-        knobrotationmaskPath.addCurveToPoint(CGPointMake(-130, -29.26), controlPoint1: CGPointMake(-126.85, -41.3), controlPoint2: CGPointMake(-128.63, -35.36))
-        knobrotationmaskPath.addLineToPoint(CGPointMake(-130, -29.26))
-        knobrotationmaskPath.addCurveToPoint(CGPointMake(-128.32, 2.65), controlPoint1: CGPointMake(-128.89, -18.78), controlPoint2: CGPointMake(-128.32, -8.13))
-        knobrotationmaskPath.addCurveToPoint(CGPointMake(-129.64, 30.94), controlPoint1: CGPointMake(-128.32, 12.19), controlPoint2: CGPointMake(-128.76, 21.62))
-        knobrotationmaskPath.addCurveToPoint(CGPointMake(-125.46, 45.03), controlPoint1: CGPointMake(-128.5, 35.74), controlPoint2: CGPointMake(-127.1, 40.44))
-        knobrotationmaskPath.addCurveToPoint(CGPointMake(-124.18, 45.72), controlPoint1: CGPointMake(-124.94, 44.95), controlPoint2: CGPointMake(-124.4, 45.22))
-        knobrotationmaskPath.addLineToPoint(CGPointMake(-119.33, 56.63))
-        knobrotationmaskPath.addCurveToPoint(CGPointMake(-119.92, 58.21), controlPoint1: CGPointMake(-119.06, 57.23), controlPoint2: CGPointMake(-119.32, 57.93))
-        knobrotationmaskPath.addLineToPoint(CGPointMake(-119.92, 58.21))
-        knobrotationmaskPath.addCurveToPoint(CGPointMake(-112.01, 72.26), controlPoint1: CGPointMake(-117.56, 63.06), controlPoint2: CGPointMake(-114.92, 67.75))
-        knobrotationmaskPath.addCurveToPoint(CGPointMake(-89.66, 92.52), controlPoint1: CGPointMake(-104.31, 78.57), controlPoint2: CGPointMake(-96.84, 85.32))
-        knobrotationmaskPath.addCurveToPoint(CGPointMake(-71.24, 112.69), controlPoint1: CGPointMake(-83.15, 99.02), controlPoint2: CGPointMake(-77.02, 105.76))
-        knobrotationmaskPath.addLineToPoint(CGPointMake(-71.24, 112.69))
-        knobrotationmaskPath.addCurveToPoint(CGPointMake(-58.76, 119.69), controlPoint1: CGPointMake(-67.22, 115.24), controlPoint2: CGPointMake(-63.06, 117.58))
-        knobrotationmaskPath.addLineToPoint(CGPointMake(-58.76, 119.69))
-        knobrotationmaskPath.addCurveToPoint(CGPointMake(-57.42, 119.41), controlPoint1: CGPointMake(-58.43, 119.34), controlPoint2: CGPointMake(-57.89, 119.21))
-        knobrotationmaskPath.addLineToPoint(CGPointMake(-46.44, 124.08))
-        knobrotationmaskPath.addCurveToPoint(CGPointMake(-45.72, 125.26), controlPoint1: CGPointMake(-45.96, 124.28), controlPoint2: CGPointMake(-45.68, 124.76))
-        knobrotationmaskPath.addCurveToPoint(CGPointMake(-29.58, 130), controlPoint1: CGPointMake(-40.48, 127.17), controlPoint2: CGPointMake(-35.1, 128.75))
-        knobrotationmaskPath.addLineToPoint(CGPointMake(-29.58, 130))
-        knobrotationmaskPath.addCurveToPoint(CGPointMake(0.69, 128.48), controlPoint1: CGPointMake(-19.63, 129), controlPoint2: CGPointMake(-9.53, 128.48))
-        knobrotationmaskPath.addCurveToPoint(CGPointMake(29.73, 129.88), controlPoint1: CGPointMake(10.49, 128.48), controlPoint2: CGPointMake(20.17, 128.95))
-        knobrotationmaskPath.addCurveToPoint(CGPointMake(44.43, 125.58), controlPoint1: CGPointMake(34.74, 128.72), controlPoint2: CGPointMake(39.65, 127.29))
-        knobrotationmaskPath.addLineToPoint(CGPointMake(44.36, 125.4))
-        knobrotationmaskPath.addCurveToPoint(CGPointMake(44.99, 123.84), controlPoint1: CGPointMake(44.1, 124.8), controlPoint2: CGPointMake(44.39, 124.09))
-        knobrotationmaskPath.addLineToPoint(CGPointMake(55.97, 119.17))
-        knobrotationmaskPath.addCurveToPoint(CGPointMake(57.54, 119.8), controlPoint1: CGPointMake(56.58, 118.91), controlPoint2: CGPointMake(57.28, 119.19))
-        knobrotationmaskPath.addLineToPoint(CGPointMake(57.64, 120.05))
-        knobrotationmaskPath.addLineToPoint(CGPointMake(57.64, 120.05))
-        knobrotationmaskPath.addCurveToPoint(CGPointMake(70.27, 113.06), controlPoint1: CGPointMake(61.99, 117.95), controlPoint2: CGPointMake(66.21, 115.61))
-        knobrotationmaskPath.addCurveToPoint(CGPointMake(91.05, 90.02), controlPoint1: CGPointMake(76.73, 105.11), controlPoint2: CGPointMake(83.65, 97.42))
-        knobrotationmaskPath.addCurveToPoint(CGPointMake(113, 70.09), controlPoint1: CGPointMake(98.11, 82.95), controlPoint2: CGPointMake(105.44, 76.3))
-        knobrotationmaskPath.addLineToPoint(CGPointMake(113, 70.09))
-        knobrotationmaskPath.addCurveToPoint(CGPointMake(119.1, 59.1), controlPoint1: CGPointMake(115.2, 66.54), controlPoint2: CGPointMake(117.23, 62.87))
-        knobrotationmaskPath.addLineToPoint(CGPointMake(119.1, 59.1))
-        knobrotationmaskPath.addCurveToPoint(CGPointMake(118.56, 57.58), controlPoint1: CGPointMake(118.55, 58.82), controlPoint2: CGPointMake(118.31, 58.15))
-        knobrotationmaskPath.addLineToPoint(CGPointMake(123.22, 46.59))
-        knobrotationmaskPath.addCurveToPoint(CGPointMake(124.75, 45.94), controlPoint1: CGPointMake(123.47, 45.99), controlPoint2: CGPointMake(124.15, 45.7))
-        knobrotationmaskPath.addCurveToPoint(CGPointMake(130, 27.61), controlPoint1: CGPointMake(126.92, 40.01), controlPoint2: CGPointMake(128.68, 33.9))
-        knobrotationmaskPath.addCurveToPoint(CGPointMake(128.71, -0.32), controlPoint1: CGPointMake(129.15, 18.42), controlPoint2: CGPointMake(128.71, 9.1))
-        knobrotationmaskPath.addCurveToPoint(CGPointMake(129.95, -27.73), controlPoint1: CGPointMake(128.71, -9.56), controlPoint2: CGPointMake(129.13, -18.71))
-        knobrotationmaskPath.addCurveToPoint(CGPointMake(125.08, -44.9), controlPoint1: CGPointMake(128.71, -33.61), controlPoint2: CGPointMake(127.08, -39.34))
-        knobrotationmaskPath.addCurveToPoint(CGPointMake(123.68, -45.59), controlPoint1: CGPointMake(124.52, -44.75), controlPoint2: CGPointMake(123.91, -45.04))
-        knobrotationmaskPath.addLineToPoint(CGPointMake(119.02, -56.58))
-        knobrotationmaskPath.addCurveToPoint(CGPointMake(119.54, -58.1), controlPoint1: CGPointMake(118.78, -57.15), controlPoint2: CGPointMake(119.01, -57.8))
-        knobrotationmaskPath.addLineToPoint(CGPointMake(119.54, -58.1))
-        knobrotationmaskPath.addCurveToPoint(CGPointMake(111.59, -72.21), controlPoint1: CGPointMake(117.17, -62.97), controlPoint2: CGPointMake(114.52, -67.68))
-        knobrotationmaskPath.addCurveToPoint(CGPointMake(90.54, -91.39), controlPoint1: CGPointMake(104.35, -78.2), controlPoint2: CGPointMake(97.33, -84.6))
-        knobrotationmaskPath.addCurveToPoint(CGPointMake(71.76, -112.01), controlPoint1: CGPointMake(83.9, -98.04), controlPoint2: CGPointMake(77.64, -104.92))
-        knobrotationmaskPath.addLineToPoint(CGPointMake(71.76, -112.01))
-        knobrotationmaskPath.addCurveToPoint(CGPointMake(60.41, -118.56), controlPoint1: CGPointMake(68.1, -114.37), controlPoint2: CGPointMake(64.31, -116.56))
-        knobrotationmaskPath.addCurveToPoint(CGPointMake(59.06, -118.3), controlPoint1: CGPointMake(60.07, -118.21), controlPoint2: CGPointMake(59.53, -118.09))
-        knobrotationmaskPath.addLineToPoint(CGPointMake(48.17, -123.16))
-        knobrotationmaskPath.addCurveToPoint(CGPointMake(47.46, -124.35), controlPoint1: CGPointMake(47.69, -123.37), controlPoint2: CGPointMake(47.41, -123.86))
-        knobrotationmaskPath.addCurveToPoint(CGPointMake(28.72, -130), controlPoint1: CGPointMake(41.41, -126.68), controlPoint2: CGPointMake(35.15, -128.57))
-        knobrotationmaskPath.addLineToPoint(CGPointMake(28.72, -130))
-        knobrotationmaskPath.addCurveToPoint(CGPointMake(-0.26, -128.61), controlPoint1: CGPointMake(19.18, -129.08), controlPoint2: CGPointMake(9.52, -128.61))
-        knobrotationmaskPath.addCurveToPoint(CGPointMake(-29.14, -129.99), controlPoint1: CGPointMake(-10, -128.61), controlPoint2: CGPointMake(-19.64, -129.08))
-        knobrotationmaskPath.addCurveToPoint(CGPointMake(-44.69, -125.52), controlPoint1: CGPointMake(-34.45, -128.81), controlPoint2: CGPointMake(-39.64, -127.31))
-        knobrotationmaskPath.addLineToPoint(CGPointMake(-44.58, -125.26))
-        knobrotationmaskPath.addCurveToPoint(CGPointMake(-45.23, -123.7), controlPoint1: CGPointMake(-44.33, -124.65), controlPoint2: CGPointMake(-44.62, -123.95))
-        knobrotationmaskPath.addLineToPoint(CGPointMake(-56.25, -119.13))
-        knobrotationmaskPath.addCurveToPoint(CGPointMake(-57.81, -119.77), controlPoint1: CGPointMake(-56.86, -118.87), controlPoint2: CGPointMake(-57.55, -119.16))
-        knobrotationmaskPath.addLineToPoint(CGPointMake(-57.9, -120))
-        knobrotationmaskPath.addLineToPoint(CGPointMake(-57.9, -120))
-        knobrotationmaskPath.addLineToPoint(CGPointMake(-57.9, -120))
-        knobrotationmaskPath.addLineToPoint(CGPointMake(-57.9, -120))
-        knobrotationmaskPath.addLineToPoint(CGPointMake(-57.9, -120))
-        knobrotationmaskPath.closePath()
+        knobrotationmaskPath.move(to: CGPoint(x: 0, y: 135))
+        knobrotationmaskPath.addCurve(to: CGPoint(x: 135, y: 0), controlPoint1: CGPoint(x: 74.56, y: 135), controlPoint2: CGPoint(x: 135, y: 74.56))
+        knobrotationmaskPath.addCurve(to: CGPoint(x: 0, y: -135), controlPoint1: CGPoint(x: 135, y: -74.56), controlPoint2: CGPoint(x: 74.56, y: -135))
+        knobrotationmaskPath.addCurve(to: CGPoint(x: -135, y: 0), controlPoint1: CGPoint(x: -74.56, y: -135), controlPoint2: CGPoint(x: -135, y: -74.56))
+        knobrotationmaskPath.addCurve(to: CGPoint(x: 0, y: 135), controlPoint1: CGPoint(x: -135, y: 74.56), controlPoint2: CGPoint(x: -74.56, y: 135))
+        knobrotationmaskPath.addLine(to: CGPoint(x: 0, y: 135))
+        knobrotationmaskPath.addLine(to: CGPoint(x: 0, y: 135))
+        knobrotationmaskPath.addLine(to: CGPoint(x: 0, y: 135))
+        knobrotationmaskPath.close()
+        knobrotationmaskPath.move(to: CGPoint(x: -57.9, y: -120))
+        knobrotationmaskPath.addCurve(to: CGPoint(x: -71.76, y: -112.26), controlPoint1: CGPoint(x: -62.69, y: -117.69), controlPoint2: CGPoint(x: -67.31, y: -115.1))
+        knobrotationmaskPath.addCurve(to: CGPoint(x: -92.52, y: -89.22), controlPoint1: CGPoint(x: -78.21, y: -104.31), controlPoint2: CGPoint(x: -85.13, y: -96.62))
+        knobrotationmaskPath.addCurve(to: CGPoint(x: -113.11, y: -70.42), controlPoint1: CGPoint(x: -99.16, y: -82.58), controlPoint2: CGPoint(x: -106.03, y: -76.31))
+        knobrotationmaskPath.addLine(to: CGPoint(x: -113.11, y: -70.42))
+        knobrotationmaskPath.addCurve(to: CGPoint(x: -118.92, y: -60.12), controlPoint1: CGPoint(x: -115.19, y: -67.08), controlPoint2: CGPoint(x: -117.13, y: -63.65))
+        knobrotationmaskPath.addLine(to: CGPoint(x: -118.92, y: -60.12))
+        knobrotationmaskPath.addCurve(to: CGPoint(x: -118.52, y: -58.65), controlPoint1: CGPoint(x: -118.46, y: -59.79), controlPoint2: CGPoint(x: -118.29, y: -59.18))
+        knobrotationmaskPath.addLine(to: CGPoint(x: -123.37, y: -47.75))
+        knobrotationmaskPath.addCurve(to: CGPoint(x: -124.67, y: -47.05), controlPoint1: CGPoint(x: -123.6, y: -47.23), controlPoint2: CGPoint(x: -124.14, y: -46.95))
+        knobrotationmaskPath.addCurve(to: CGPoint(x: -130, y: -29.26), controlPoint1: CGPoint(x: -126.85, y: -41.3), controlPoint2: CGPoint(x: -128.63, y: -35.36))
+        knobrotationmaskPath.addLine(to: CGPoint(x: -130, y: -29.26))
+        knobrotationmaskPath.addCurve(to: CGPoint(x: -128.32, y: 2.65), controlPoint1: CGPoint(x: -128.89, y: -18.78), controlPoint2: CGPoint(x: -128.32, y: -8.13))
+        knobrotationmaskPath.addCurve(to: CGPoint(x: -129.64, y: 30.94), controlPoint1: CGPoint(x: -128.32, y: 12.19), controlPoint2: CGPoint(x: -128.76, y: 21.62))
+        knobrotationmaskPath.addCurve(to: CGPoint(x: -125.46, y: 45.03), controlPoint1: CGPoint(x: -128.5, y: 35.74), controlPoint2: CGPoint(x: -127.1, y: 40.44))
+        knobrotationmaskPath.addCurve(to: CGPoint(x: -124.18, y: 45.72), controlPoint1: CGPoint(x: -124.94, y: 44.95), controlPoint2: CGPoint(x: -124.4, y: 45.22))
+        knobrotationmaskPath.addLine(to: CGPoint(x: -119.33, y: 56.63))
+        knobrotationmaskPath.addCurve(to: CGPoint(x: -119.92, y: 58.21), controlPoint1: CGPoint(x: -119.06, y: 57.23), controlPoint2: CGPoint(x: -119.32, y: 57.93))
+        knobrotationmaskPath.addLine(to: CGPoint(x: -119.92, y: 58.21))
+        knobrotationmaskPath.addCurve(to: CGPoint(x: -112.01, y: 72.26), controlPoint1: CGPoint(x: -117.56, y: 63.06), controlPoint2: CGPoint(x: -114.92, y: 67.75))
+        knobrotationmaskPath.addCurve(to: CGPoint(x: -89.66, y: 92.52), controlPoint1: CGPoint(x: -104.31, y: 78.57), controlPoint2: CGPoint(x: -96.84, y: 85.32))
+        knobrotationmaskPath.addCurve(to: CGPoint(x: -71.24, y: 112.69), controlPoint1: CGPoint(x: -83.15, y: 99.02), controlPoint2: CGPoint(x: -77.02, y: 105.76))
+        knobrotationmaskPath.addLine(to: CGPoint(x: -71.24, y: 112.69))
+        knobrotationmaskPath.addCurve(to: CGPoint(x: -58.76, y: 119.69), controlPoint1: CGPoint(x: -67.22, y: 115.24), controlPoint2: CGPoint(x: -63.06, y: 117.58))
+        knobrotationmaskPath.addLine(to: CGPoint(x: -58.76, y: 119.69))
+        knobrotationmaskPath.addCurve(to: CGPoint(x: -57.42, y: 119.41), controlPoint1: CGPoint(x: -58.43, y: 119.34), controlPoint2: CGPoint(x: -57.89, y: 119.21))
+        knobrotationmaskPath.addLine(to: CGPoint(x: -46.44, y: 124.08))
+        knobrotationmaskPath.addCurve(to: CGPoint(x: -45.72, y: 125.26), controlPoint1: CGPoint(x: -45.96, y: 124.28), controlPoint2: CGPoint(x: -45.68, y: 124.76))
+        knobrotationmaskPath.addCurve(to: CGPoint(x: -29.58, y: 130), controlPoint1: CGPoint(x: -40.48, y: 127.17), controlPoint2: CGPoint(x: -35.1, y: 128.75))
+        knobrotationmaskPath.addLine(to: CGPoint(x: -29.58, y: 130))
+        knobrotationmaskPath.addCurve(to: CGPoint(x: 0.69, y: 128.48), controlPoint1: CGPoint(x: -19.63, y: 129), controlPoint2: CGPoint(x: -9.53, y: 128.48))
+        knobrotationmaskPath.addCurve(to: CGPoint(x: 29.73, y: 129.88), controlPoint1: CGPoint(x: 10.49, y: 128.48), controlPoint2: CGPoint(x: 20.17, y: 128.95))
+        knobrotationmaskPath.addCurve(to: CGPoint(x: 44.43, y: 125.58), controlPoint1: CGPoint(x: 34.74, y: 128.72), controlPoint2: CGPoint(x: 39.65, y: 127.29))
+        knobrotationmaskPath.addLine(to: CGPoint(x: 44.36, y: 125.4))
+        knobrotationmaskPath.addCurve(to: CGPoint(x: 44.99, y: 123.84), controlPoint1: CGPoint(x: 44.1, y: 124.8), controlPoint2: CGPoint(x: 44.39, y: 124.09))
+        knobrotationmaskPath.addLine(to: CGPoint(x: 55.97, y: 119.17))
+        knobrotationmaskPath.addCurve(to: CGPoint(x: 57.54, y: 119.8), controlPoint1: CGPoint(x: 56.58, y: 118.91), controlPoint2: CGPoint(x: 57.28, y: 119.19))
+        knobrotationmaskPath.addLine(to: CGPoint(x: 57.64, y: 120.05))
+        knobrotationmaskPath.addLine(to: CGPoint(x: 57.64, y: 120.05))
+        knobrotationmaskPath.addCurve(to: CGPoint(x: 70.27, y: 113.06), controlPoint1: CGPoint(x: 61.99, y: 117.95), controlPoint2: CGPoint(x: 66.21, y: 115.61))
+        knobrotationmaskPath.addCurve(to: CGPoint(x: 91.05, y: 90.02), controlPoint1: CGPoint(x: 76.73, y: 105.11), controlPoint2: CGPoint(x: 83.65, y: 97.42))
+        knobrotationmaskPath.addCurve(to: CGPoint(x: 113, y: 70.09), controlPoint1: CGPoint(x: 98.11, y: 82.95), controlPoint2: CGPoint(x: 105.44, y: 76.3))
+        knobrotationmaskPath.addLine(to: CGPoint(x: 113, y: 70.09))
+        knobrotationmaskPath.addCurve(to: CGPoint(x: 119.1, y: 59.1), controlPoint1: CGPoint(x: 115.2, y: 66.54), controlPoint2: CGPoint(x: 117.23, y: 62.87))
+        knobrotationmaskPath.addLine(to: CGPoint(x: 119.1, y: 59.1))
+        knobrotationmaskPath.addCurve(to: CGPoint(x: 118.56, y: 57.58), controlPoint1: CGPoint(x: 118.55, y: 58.82), controlPoint2: CGPoint(x: 118.31, y: 58.15))
+        knobrotationmaskPath.addLine(to: CGPoint(x: 123.22, y: 46.59))
+        knobrotationmaskPath.addCurve(to: CGPoint(x: 124.75, y: 45.94), controlPoint1: CGPoint(x: 123.47, y: 45.99), controlPoint2: CGPoint(x: 124.15, y: 45.7))
+        knobrotationmaskPath.addCurve(to: CGPoint(x: 130, y: 27.61), controlPoint1: CGPoint(x: 126.92, y: 40.01), controlPoint2: CGPoint(x: 128.68, y: 33.9))
+        knobrotationmaskPath.addCurve(to: CGPoint(x: 128.71, y: -0.32), controlPoint1: CGPoint(x: 129.15, y: 18.42), controlPoint2: CGPoint(x: 128.71, y: 9.1))
+        knobrotationmaskPath.addCurve(to: CGPoint(x: 129.95, y: -27.73), controlPoint1: CGPoint(x: 128.71, y: -9.56), controlPoint2: CGPoint(x: 129.13, y: -18.71))
+        knobrotationmaskPath.addCurve(to: CGPoint(x: 125.08, y: -44.9), controlPoint1: CGPoint(x: 128.71, y: -33.61), controlPoint2: CGPoint(x: 127.08, y: -39.34))
+        knobrotationmaskPath.addCurve(to: CGPoint(x: 123.68, y: -45.59), controlPoint1: CGPoint(x: 124.52, y: -44.75), controlPoint2: CGPoint(x: 123.91, y: -45.04))
+        knobrotationmaskPath.addLine(to: CGPoint(x: 119.02, y: -56.58))
+        knobrotationmaskPath.addCurve(to: CGPoint(x: 119.54, y: -58.1), controlPoint1: CGPoint(x: 118.78, y: -57.15), controlPoint2: CGPoint(x: 119.01, y: -57.8))
+        knobrotationmaskPath.addLine(to: CGPoint(x: 119.54, y: -58.1))
+        knobrotationmaskPath.addCurve(to: CGPoint(x: 111.59, y: -72.21), controlPoint1: CGPoint(x: 117.17, y: -62.97), controlPoint2: CGPoint(x: 114.52, y: -67.68))
+        knobrotationmaskPath.addCurve(to: CGPoint(x: 90.54, y: -91.39), controlPoint1: CGPoint(x: 104.35, y: -78.2), controlPoint2: CGPoint(x: 97.33, y: -84.6))
+        knobrotationmaskPath.addCurve(to: CGPoint(x: 71.76, y: -112.01), controlPoint1: CGPoint(x: 83.9, y: -98.04), controlPoint2: CGPoint(x: 77.64, y: -104.92))
+        knobrotationmaskPath.addLine(to: CGPoint(x: 71.76, y: -112.01))
+        knobrotationmaskPath.addCurve(to: CGPoint(x: 60.41, y: -118.56), controlPoint1: CGPoint(x: 68.1, y: -114.37), controlPoint2: CGPoint(x: 64.31, y: -116.56))
+        knobrotationmaskPath.addCurve(to: CGPoint(x: 59.06, y: -118.3), controlPoint1: CGPoint(x: 60.07, y: -118.21), controlPoint2: CGPoint(x: 59.53, y: -118.09))
+        knobrotationmaskPath.addLine(to: CGPoint(x: 48.17, y: -123.16))
+        knobrotationmaskPath.addCurve(to: CGPoint(x: 47.46, y: -124.35), controlPoint1: CGPoint(x: 47.69, y: -123.37), controlPoint2: CGPoint(x: 47.41, y: -123.86))
+        knobrotationmaskPath.addCurve(to: CGPoint(x: 28.72, y: -130), controlPoint1: CGPoint(x: 41.41, y: -126.68), controlPoint2: CGPoint(x: 35.15, y: -128.57))
+        knobrotationmaskPath.addLine(to: CGPoint(x: 28.72, y: -130))
+        knobrotationmaskPath.addCurve(to: CGPoint(x: -0.26, y: -128.61), controlPoint1: CGPoint(x: 19.18, y: -129.08), controlPoint2: CGPoint(x: 9.52, y: -128.61))
+        knobrotationmaskPath.addCurve(to: CGPoint(x: -29.14, y: -129.99), controlPoint1: CGPoint(x: -10, y: -128.61), controlPoint2: CGPoint(x: -19.64, y: -129.08))
+        knobrotationmaskPath.addCurve(to: CGPoint(x: -44.69, y: -125.52), controlPoint1: CGPoint(x: -34.45, y: -128.81), controlPoint2: CGPoint(x: -39.64, y: -127.31))
+        knobrotationmaskPath.addLine(to: CGPoint(x: -44.58, y: -125.26))
+        knobrotationmaskPath.addCurve(to: CGPoint(x: -45.23, y: -123.7), controlPoint1: CGPoint(x: -44.33, y: -124.65), controlPoint2: CGPoint(x: -44.62, y: -123.95))
+        knobrotationmaskPath.addLine(to: CGPoint(x: -56.25, y: -119.13))
+        knobrotationmaskPath.addCurve(to: CGPoint(x: -57.81, y: -119.77), controlPoint1: CGPoint(x: -56.86, y: -118.87), controlPoint2: CGPoint(x: -57.55, y: -119.16))
+        knobrotationmaskPath.addLine(to: CGPoint(x: -57.9, y: -120))
+        knobrotationmaskPath.addLine(to: CGPoint(x: -57.9, y: -120))
+        knobrotationmaskPath.addLine(to: CGPoint(x: -57.9, y: -120))
+        knobrotationmaskPath.addLine(to: CGPoint(x: -57.9, y: -120))
+        knobrotationmaskPath.addLine(to: CGPoint(x: -57.9, y: -120))
+        knobrotationmaskPath.close()
         knobrotationmaskPath.miterLimit = 4;
 
         knobrotationmaskPath.usesEvenOddFillRule = true;
 
-                var knobrotationmaskTransformation = CGAffineTransformIdentity
-        knobrotationmaskTransformation = CGAffineTransformTranslate(knobrotationmaskTransformation, knobRotation.minX + 135, knobRotation.minY + 135)
-        knobrotationmaskTransformation = CGAffineTransformRotate(knobrotationmaskTransformation, -rotation * CGFloat(M_PI) / 180)
+                var knobrotationmaskTransformation = CGAffineTransform.identity
+        knobrotationmaskTransformation = knobrotationmaskTransformation.translatedBy(x: knobRotation.minX + 135, y: knobRotation.minY + 135)
+        knobrotationmaskTransformation = knobrotationmaskTransformation.rotated(by: -rotation * CGFloat(M_PI) / 180)
 
-        knobrotationmaskPath.applyTransform(knobrotationmaskTransformation)
+        knobrotationmaskPath.apply(knobrotationmaskTransformation)
         knobrotationmaskPath.addClip()
 
 
         //// rotationBGFrame Drawing
-        let rotationBGFrameRect = CGRectMake(knobRotation.minX - 5, knobRotation.minY - 5, 280, 280)
+        let rotationBGFrameRect = CGRect(x: knobRotation.minX - 5, y: knobRotation.minY - 5, width: 280, height: 280)
         let rotationBGFramePath = UIBezierPath(rect: rotationBGFrameRect)
-        CGContextSaveGState(context)
+        context!.saveGState()
         rotationBGFramePath.addClip()
-        UIGroover.rotationBG.drawInRect(CGRectMake(floor(rotationBGFrameRect.minX + 0.5), floor(rotationBGFrameRect.minY + 0.5), UIGroover.rotationBG.size.width, UIGroover.rotationBG.size.height))
-        CGContextRestoreGState(context)
+        UIGroover.rotationBG.draw(in: CGRect(x: floor(rotationBGFrameRect.minX + 0.5), y: floor(rotationBGFrameRect.minY + 0.5), width: UIGroover.rotationBG.size.width, height: UIGroover.rotationBG.size.height))
+        context!.restoreGState()
 
 
-        CGContextEndTransparencyLayer(context)
-        CGContextRestoreGState(context)
+        context!.endTransparencyLayer()
+        context!.restoreGState()
 
 
         //// rotationBevels
-        CGContextSaveGState(context)
-        CGContextTranslateCTM(context, frame.minX + 0.49643 * frame.width, frame.minY + 0.50000 * frame.height)
-        CGContextRotateCTM(context, -rotation * CGFloat(M_PI) / 180)
+        context!.saveGState()
+        context!.translateBy(x: frame.minX + 0.49643 * frame.width, y: frame.minY + 0.50000 * frame.height)
+        context!.rotate(by: -rotation * CGFloat(M_PI) / 180)
 
 
 
         //// bevel-8 Drawing
         let bevel8Path = UIBezierPath()
-        bevel8Path.moveToPoint(CGPointMake(-73.06, -111.29))
-        bevel8Path.addCurveToPoint(CGPointMake(-114.39, -69.98), controlPoint1: CGPointMake(-87.25, -94.4), controlPoint2: CGPointMake(-94.31, -86.86))
-        bevel8Path.addLineToPoint(CGPointMake(-111.8, -73.66))
-        bevel8Path.addCurveToPoint(CGPointMake(-77.22, -108.29), controlPoint1: CGPointMake(-96.51, -88.32), controlPoint2: CGPointMake(-89.79, -94.22))
-        bevel8Path.addLineToPoint(CGPointMake(-73.06, -111.29))
-        bevel8Path.closePath()
+        bevel8Path.move(to: CGPoint(x: -73.06, y: -111.29))
+        bevel8Path.addCurve(to: CGPoint(x: -114.39, y: -69.98), controlPoint1: CGPoint(x: -87.25, y: -94.4), controlPoint2: CGPoint(x: -94.31, y: -86.86))
+        bevel8Path.addLine(to: CGPoint(x: -111.8, y: -73.66))
+        bevel8Path.addCurve(to: CGPoint(x: -77.22, y: -108.29), controlPoint1: CGPoint(x: -96.51, y: -88.32), controlPoint2: CGPoint(x: -89.79, y: -94.22))
+        bevel8Path.addLine(to: CGPoint(x: -73.06, y: -111.29))
+        bevel8Path.close()
         bevel8Path.miterLimit = 4;
 
         bevel8Path.usesEvenOddFillRule = true;
 
-        CGContextSaveGState(context)
+        context!.saveGState()
         bevel8Path.addClip()
-        CGContextDrawLinearGradient(context, linearGradient1,
-            CGPointMake(-74.67, -111.32),
-            CGPointMake(-112.97, -73.1),
-            [CGGradientDrawingOptions.DrawsBeforeStartLocation, CGGradientDrawingOptions.DrawsAfterEndLocation])
-        CGContextRestoreGState(context)
+        context!.drawLinearGradient(linearGradient1,
+            start: CGPoint(x: -74.67, y: -111.32),
+            end: CGPoint(x: -112.97, y: -73.1),
+            options: [CGGradientDrawingOptions.drawsBeforeStartLocation, CGGradientDrawingOptions.drawsAfterEndLocation])
+        context!.restoreGState()
 
 
         //// bevel-7 Drawing
         let bevel7Path = UIBezierPath()
-        bevel7Path.moveToPoint(CGPointMake(-130.18, -29))
-        bevel7Path.addCurveToPoint(CGPointMake(-130.2, 29.44), controlPoint1: CGPointMake(-128.27, -7.02), controlPoint2: CGPointMake(-127.93, 3.31))
-        bevel7Path.addLineToPoint(CGPointMake(-130.97, 25))
-        bevel7Path.addCurveToPoint(CGPointMake(-131, -23.93), controlPoint1: CGPointMake(-130.52, 3.82), controlPoint2: CGPointMake(-129.95, -5.1))
-        bevel7Path.addLineToPoint(CGPointMake(-130.18, -29))
-        bevel7Path.closePath()
+        bevel7Path.move(to: CGPoint(x: -130.18, y: -29))
+        bevel7Path.addCurve(to: CGPoint(x: -130.2, y: 29.44), controlPoint1: CGPoint(x: -128.27, y: -7.02), controlPoint2: CGPoint(x: -127.93, y: 3.31))
+        bevel7Path.addLine(to: CGPoint(x: -130.97, y: 25))
+        bevel7Path.addCurve(to: CGPoint(x: -131, y: -23.93), controlPoint1: CGPoint(x: -130.52, y: 3.82), controlPoint2: CGPoint(x: -129.95, y: -5.1))
+        bevel7Path.addLine(to: CGPoint(x: -130.18, y: -29))
+        bevel7Path.close()
         bevel7Path.miterLimit = 4;
 
         bevel7Path.usesEvenOddFillRule = true;
 
-        CGContextSaveGState(context)
+        context!.saveGState()
         bevel7Path.addClip()
-        CGContextDrawLinearGradient(context, linearGradient1,
-            CGPointMake(-131.34, -27.88),
-            CGPointMake(-131.4, 26.23),
-            [CGGradientDrawingOptions.DrawsBeforeStartLocation, CGGradientDrawingOptions.DrawsAfterEndLocation])
-        CGContextRestoreGState(context)
+        context!.drawLinearGradient(linearGradient1,
+            start: CGPoint(x: -131.34, y: -27.88),
+            end: CGPoint(x: -131.4, y: 26.23),
+            options: [CGGradientDrawingOptions.drawsBeforeStartLocation, CGGradientDrawingOptions.drawsAfterEndLocation])
+        context!.restoreGState()
 
 
         //// bevel-6 Drawing
         let bevel6Path = UIBezierPath()
-        bevel6Path.moveToPoint(CGPointMake(-111.68, 73))
-        bevel6Path.addCurveToPoint(CGPointMake(-70.37, 114.33), controlPoint1: CGPointMake(-94.79, 87.19), controlPoint2: CGPointMake(-87.24, 94.25))
-        bevel6Path.addLineToPoint(CGPointMake(-74.05, 111.75))
-        bevel6Path.addCurveToPoint(CGPointMake(-108.68, 77.16), controlPoint1: CGPointMake(-88.71, 96.45), controlPoint2: CGPointMake(-94.61, 89.74))
-        bevel6Path.addLineToPoint(CGPointMake(-111.68, 73))
-        bevel6Path.closePath()
+        bevel6Path.move(to: CGPoint(x: -111.68, y: 73))
+        bevel6Path.addCurve(to: CGPoint(x: -70.37, y: 114.33), controlPoint1: CGPoint(x: -94.79, y: 87.19), controlPoint2: CGPoint(x: -87.24, y: 94.25))
+        bevel6Path.addLine(to: CGPoint(x: -74.05, y: 111.75))
+        bevel6Path.addCurve(to: CGPoint(x: -108.68, y: 77.16), controlPoint1: CGPoint(x: -88.71, y: 96.45), controlPoint2: CGPoint(x: -94.61, y: 89.74))
+        bevel6Path.addLine(to: CGPoint(x: -111.68, y: 73))
+        bevel6Path.close()
         bevel6Path.miterLimit = 4;
 
         bevel6Path.usesEvenOddFillRule = true;
 
-        CGContextSaveGState(context)
+        context!.saveGState()
         bevel6Path.addClip()
-        CGContextDrawLinearGradient(context, linearGradient1,
-            CGPointMake(-111.71, 74.61),
-            CGPointMake(-73.49, 112.91),
-            [CGGradientDrawingOptions.DrawsBeforeStartLocation, CGGradientDrawingOptions.DrawsAfterEndLocation])
-        CGContextRestoreGState(context)
+        context!.drawLinearGradient(linearGradient1,
+            start: CGPoint(x: -111.71, y: 74.61),
+            end: CGPoint(x: -73.49, y: 112.91),
+            options: [CGGradientDrawingOptions.drawsBeforeStartLocation, CGGradientDrawingOptions.drawsAfterEndLocation])
+        context!.restoreGState()
 
 
         //// bevel-5 Drawing
         let bevel5Path = UIBezierPath()
-        bevel5Path.moveToPoint(CGPointMake(-29.39, 130.19))
-        bevel5Path.addCurveToPoint(CGPointMake(29.05, 130.21), controlPoint1: CGPointMake(-7.41, 128.28), controlPoint2: CGPointMake(2.92, 127.94))
-        bevel5Path.addLineToPoint(CGPointMake(24.62, 130.98))
-        bevel5Path.addCurveToPoint(CGPointMake(-24.32, 131.01), controlPoint1: CGPointMake(3.43, 130.53), controlPoint2: CGPointMake(-5.49, 129.96))
-        bevel5Path.addLineToPoint(CGPointMake(-29.39, 130.19))
-        bevel5Path.closePath()
+        bevel5Path.move(to: CGPoint(x: -29.39, y: 130.19))
+        bevel5Path.addCurve(to: CGPoint(x: 29.05, y: 130.21), controlPoint1: CGPoint(x: -7.41, y: 128.28), controlPoint2: CGPoint(x: 2.92, y: 127.94))
+        bevel5Path.addLine(to: CGPoint(x: 24.62, y: 130.98))
+        bevel5Path.addCurve(to: CGPoint(x: -24.32, y: 131.01), controlPoint1: CGPoint(x: 3.43, y: 130.53), controlPoint2: CGPoint(x: -5.49, y: 129.96))
+        bevel5Path.addLine(to: CGPoint(x: -29.39, y: 130.19))
+        bevel5Path.close()
         bevel5Path.miterLimit = 4;
 
         bevel5Path.usesEvenOddFillRule = true;
 
-        CGContextSaveGState(context)
+        context!.saveGState()
         bevel5Path.addClip()
-        CGContextDrawLinearGradient(context, linearGradient1,
-            CGPointMake(-28.27, 131.35),
-            CGPointMake(25.84, 131.41),
-            [CGGradientDrawingOptions.DrawsBeforeStartLocation, CGGradientDrawingOptions.DrawsAfterEndLocation])
-        CGContextRestoreGState(context)
+        context!.drawLinearGradient(linearGradient1,
+            start: CGPoint(x: -28.27, y: 131.35),
+            end: CGPoint(x: 25.84, y: 131.41),
+            options: [CGGradientDrawingOptions.drawsBeforeStartLocation, CGGradientDrawingOptions.drawsAfterEndLocation])
+        context!.restoreGState()
 
 
         //// bevel-4 Drawing
         let bevel4Path = UIBezierPath()
-        bevel4Path.moveToPoint(CGPointMake(70.11, 112.52))
-        bevel4Path.addCurveToPoint(CGPointMake(111.44, 71.21), controlPoint1: CGPointMake(84.3, 95.63), controlPoint2: CGPointMake(91.36, 88.08))
-        bevel4Path.addLineToPoint(CGPointMake(108.86, 74.89))
-        bevel4Path.addCurveToPoint(CGPointMake(74.27, 109.51), controlPoint1: CGPointMake(93.56, 89.55), controlPoint2: CGPointMake(86.85, 95.45))
-        bevel4Path.addLineToPoint(CGPointMake(70.11, 112.52))
-        bevel4Path.closePath()
+        bevel4Path.move(to: CGPoint(x: 70.11, y: 112.52))
+        bevel4Path.addCurve(to: CGPoint(x: 111.44, y: 71.21), controlPoint1: CGPoint(x: 84.3, y: 95.63), controlPoint2: CGPoint(x: 91.36, y: 88.08))
+        bevel4Path.addLine(to: CGPoint(x: 108.86, y: 74.89))
+        bevel4Path.addCurve(to: CGPoint(x: 74.27, y: 109.51), controlPoint1: CGPoint(x: 93.56, y: 89.55), controlPoint2: CGPoint(x: 86.85, y: 95.45))
+        bevel4Path.addLine(to: CGPoint(x: 70.11, y: 112.52))
+        bevel4Path.close()
         bevel4Path.miterLimit = 4;
 
         bevel4Path.usesEvenOddFillRule = true;
 
-        CGContextSaveGState(context)
+        context!.saveGState()
         bevel4Path.addClip()
-        CGContextDrawLinearGradient(context, linearGradient1,
-            CGPointMake(71.73, 112.55),
-            CGPointMake(110.02, 74.33),
-            [CGGradientDrawingOptions.DrawsBeforeStartLocation, CGGradientDrawingOptions.DrawsAfterEndLocation])
-        CGContextRestoreGState(context)
+        context!.drawLinearGradient(linearGradient1,
+            start: CGPoint(x: 71.73, y: 112.55),
+            end: CGPoint(x: 110.02, y: 74.33),
+            options: [CGGradientDrawingOptions.drawsBeforeStartLocation, CGGradientDrawingOptions.drawsAfterEndLocation])
+        context!.restoreGState()
 
 
         //// bevel-3 Drawing
         let bevel3Path = UIBezierPath()
-        bevel3Path.moveToPoint(CGPointMake(129.79, 29.69))
-        bevel3Path.addCurveToPoint(CGPointMake(130.1, -29), controlPoint1: CGPointMake(127.98, 7.63), controlPoint2: CGPointMake(127.69, -2.74))
-        bevel3Path.addLineToPoint(CGPointMake(130.86, -24.55))
-        bevel3Path.addCurveToPoint(CGPointMake(130.64, 24.6), controlPoint1: CGPointMake(130.3, -3.27), controlPoint2: CGPointMake(129.67, 5.69))
-        bevel3Path.addLineToPoint(CGPointMake(129.79, 29.69))
-        bevel3Path.closePath()
+        bevel3Path.move(to: CGPoint(x: 129.79, y: 29.69))
+        bevel3Path.addCurve(to: CGPoint(x: 130.1, y: -29), controlPoint1: CGPoint(x: 127.98, y: 7.63), controlPoint2: CGPoint(x: 127.69, y: -2.74))
+        bevel3Path.addLine(to: CGPoint(x: 130.86, y: -24.55))
+        bevel3Path.addCurve(to: CGPoint(x: 130.64, y: 24.6), controlPoint1: CGPoint(x: 130.3, y: -3.27), controlPoint2: CGPoint(x: 129.67, y: 5.69))
+        bevel3Path.addLine(to: CGPoint(x: 129.79, y: 29.69))
+        bevel3Path.close()
         bevel3Path.miterLimit = 4;
 
         bevel3Path.usesEvenOddFillRule = true;
 
-        CGContextSaveGState(context)
+        context!.saveGState()
         bevel3Path.addClip()
-        CGContextDrawLinearGradient(context, linearGradient1,
-            CGPointMake(130.96, 28.56),
-            CGPointMake(131.29, -25.78),
-            [CGGradientDrawingOptions.DrawsBeforeStartLocation, CGGradientDrawingOptions.DrawsAfterEndLocation])
-        CGContextRestoreGState(context)
+        context!.drawLinearGradient(linearGradient1,
+            start: CGPoint(x: 130.96, y: 28.56),
+            end: CGPoint(x: 131.29, y: -25.78),
+            options: [CGGradientDrawingOptions.drawsBeforeStartLocation, CGGradientDrawingOptions.drawsAfterEndLocation])
+        context!.restoreGState()
 
 
         //// bevel-2 Drawing
         let bevel2Path = UIBezierPath()
-        bevel2Path.moveToPoint(CGPointMake(111.7, -71.97))
-        bevel2Path.addCurveToPoint(CGPointMake(71.34, -112.35), controlPoint1: CGPointMake(95.19, -85.84), controlPoint2: CGPointMake(87.82, -92.73))
-        bevel2Path.addLineToPoint(CGPointMake(74.93, -109.82))
-        bevel2Path.addCurveToPoint(CGPointMake(108.76, -76.04), controlPoint1: CGPointMake(89.26, -94.88), controlPoint2: CGPointMake(95.02, -88.32))
-        bevel2Path.addLineToPoint(CGPointMake(111.7, -71.97))
-        bevel2Path.closePath()
+        bevel2Path.move(to: CGPoint(x: 111.7, y: -71.97))
+        bevel2Path.addCurve(to: CGPoint(x: 71.34, y: -112.35), controlPoint1: CGPoint(x: 95.19, y: -85.84), controlPoint2: CGPoint(x: 87.82, y: -92.73))
+        bevel2Path.addLine(to: CGPoint(x: 74.93, y: -109.82))
+        bevel2Path.addCurve(to: CGPoint(x: 108.76, y: -76.04), controlPoint1: CGPoint(x: 89.26, y: -94.88), controlPoint2: CGPoint(x: 95.02, y: -88.32))
+        bevel2Path.addLine(to: CGPoint(x: 111.7, y: -71.97))
+        bevel2Path.close()
         bevel2Path.miterLimit = 4;
 
         bevel2Path.usesEvenOddFillRule = true;
 
-        CGContextSaveGState(context)
+        context!.saveGState()
         bevel2Path.addClip()
-        CGContextDrawLinearGradient(context, linearGradient1,
-            CGPointMake(111.72, -73.55),
-            CGPointMake(74.38, -110.96),
-            [CGGradientDrawingOptions.DrawsBeforeStartLocation, CGGradientDrawingOptions.DrawsAfterEndLocation])
-        CGContextRestoreGState(context)
+        context!.drawLinearGradient(linearGradient1,
+            start: CGPoint(x: 111.72, y: -73.55),
+            end: CGPoint(x: 74.38, y: -110.96),
+            options: [CGGradientDrawingOptions.drawsBeforeStartLocation, CGGradientDrawingOptions.drawsAfterEndLocation])
+        context!.restoreGState()
 
 
         //// bevel-1 Drawing
         let bevel1Path = UIBezierPath()
-        bevel1Path.moveToPoint(CGPointMake(29.38, -129.89))
-        bevel1Path.addCurveToPoint(CGPointMake(-29.05, -129.9), controlPoint1: CGPointMake(7.4, -127.98), controlPoint2: CGPointMake(-2.92, -127.64))
-        bevel1Path.addLineToPoint(CGPointMake(-24.62, -130.68))
-        bevel1Path.addCurveToPoint(CGPointMake(24.31, -130.71), controlPoint1: CGPointMake(-3.44, -130.23), controlPoint2: CGPointMake(5.48, -129.65))
-        bevel1Path.addLineToPoint(CGPointMake(29.38, -129.89))
-        bevel1Path.closePath()
+        bevel1Path.move(to: CGPoint(x: 29.38, y: -129.89))
+        bevel1Path.addCurve(to: CGPoint(x: -29.05, y: -129.9), controlPoint1: CGPoint(x: 7.4, y: -127.98), controlPoint2: CGPoint(x: -2.92, y: -127.64))
+        bevel1Path.addLine(to: CGPoint(x: -24.62, y: -130.68))
+        bevel1Path.addCurve(to: CGPoint(x: 24.31, y: -130.71), controlPoint1: CGPoint(x: -3.44, y: -130.23), controlPoint2: CGPoint(x: 5.48, y: -129.65))
+        bevel1Path.addLine(to: CGPoint(x: 29.38, y: -129.89))
+        bevel1Path.close()
         bevel1Path.miterLimit = 4;
 
         bevel1Path.usesEvenOddFillRule = true;
 
-        CGContextSaveGState(context)
+        context!.saveGState()
         bevel1Path.addClip()
-        CGContextDrawLinearGradient(context, linearGradient1,
-            CGPointMake(28.26, -131.05),
-            CGPointMake(-25.84, -131.1),
-            [CGGradientDrawingOptions.DrawsBeforeStartLocation, CGGradientDrawingOptions.DrawsAfterEndLocation])
-        CGContextRestoreGState(context)
+        context!.drawLinearGradient(linearGradient1,
+            start: CGPoint(x: 28.26, y: -131.05),
+            end: CGPoint(x: -25.84, y: -131.1),
+            options: [CGGradientDrawingOptions.drawsBeforeStartLocation, CGGradientDrawingOptions.drawsAfterEndLocation])
+        context!.restoreGState()
 
 
 
-        CGContextRestoreGState(context)
+        context!.restoreGState()
 
 
         //// clickButton
         //// clickOval7 Drawing
-        CGContextSaveGState(context)
-        CGContextTranslateCTM(context, clickButton.minX + 12, clickButton.minY + 21)
+        context!.saveGState()
+        context!.translateBy(x: clickButton.minX + 12, y: clickButton.minY + 21)
 
-        let clickOval7Path = UIBezierPath(ovalInRect: CGRectMake(-3, -3, 6, 6))
+        let clickOval7Path = UIBezierPath(ovalIn: CGRect(x: -3, y: -3, width: 6, height: 6))
         clickColor.setFill()
         clickOval7Path.fill()
         clickDarkGray.setStroke()
         clickOval7Path.lineWidth = 1
         clickOval7Path.stroke()
 
-        CGContextRestoreGState(context)
+        context!.restoreGState()
 
 
         //// clickOval6 Drawing
-        let clickOval6Path = UIBezierPath(ovalInRect: CGRectMake(clickButton.minX, clickButton.minY + 18, 6, 6))
+        let clickOval6Path = UIBezierPath(ovalIn: CGRect(x: clickButton.minX, y: clickButton.minY + 18, width: 6, height: 6))
         clickColor.setFill()
         clickOval6Path.fill()
         clickDarkGray.setStroke()
@@ -1040,7 +1041,7 @@ public class UIGroover : NSObject {
 
 
         //// clickOval5 Drawing
-        let clickOval5Path = UIBezierPath(ovalInRect: CGRectMake(clickButton.minX + 18, clickButton.minY + 9, 6, 6))
+        let clickOval5Path = UIBezierPath(ovalIn: CGRect(x: clickButton.minX + 18, y: clickButton.minY + 9, width: 6, height: 6))
         clickColor.setFill()
         clickOval5Path.fill()
         clickDarkGray.setStroke()
@@ -1049,7 +1050,7 @@ public class UIGroover : NSObject {
 
 
         //// clickOval4 Drawing
-        let clickOval4Path = UIBezierPath(ovalInRect: CGRectMake(clickButton.minX + 9, clickButton.minY + 9, 6, 6))
+        let clickOval4Path = UIBezierPath(ovalIn: CGRect(x: clickButton.minX + 9, y: clickButton.minY + 9, width: 6, height: 6))
         clickColor.setFill()
         clickOval4Path.fill()
         clickDarkGray.setStroke()
@@ -1058,7 +1059,7 @@ public class UIGroover : NSObject {
 
 
         //// clickOval3 Drawing
-        let clickOval3Path = UIBezierPath(ovalInRect: CGRectMake(clickButton.minX, clickButton.minY + 9, 6, 6))
+        let clickOval3Path = UIBezierPath(ovalIn: CGRect(x: clickButton.minX, y: clickButton.minY + 9, width: 6, height: 6))
         clickColor.setFill()
         clickOval3Path.fill()
         clickDarkGray.setStroke()
@@ -1067,7 +1068,7 @@ public class UIGroover : NSObject {
 
 
         //// clickOval2 Drawing
-        let clickOval2Path = UIBezierPath(ovalInRect: CGRectMake(clickButton.minX + 18, clickButton.minY, 6, 6))
+        let clickOval2Path = UIBezierPath(ovalIn: CGRect(x: clickButton.minX + 18, y: clickButton.minY, width: 6, height: 6))
         clickColor.setFill()
         clickOval2Path.fill()
         clickDarkGray.setStroke()
@@ -1076,31 +1077,31 @@ public class UIGroover : NSObject {
 
 
         //// clickOval1 Drawing
-        CGContextSaveGState(context)
-        CGContextTranslateCTM(context, clickButton.minX + 12, clickButton.minY + 3)
+        context!.saveGState()
+        context!.translateBy(x: clickButton.minX + 12, y: clickButton.minY + 3)
 
-        let clickOval1Path = UIBezierPath(ovalInRect: CGRectMake(-3, -3, 6, 6))
+        let clickOval1Path = UIBezierPath(ovalIn: CGRect(x: -3, y: -3, width: 6, height: 6))
         clickColor.setFill()
         clickOval1Path.fill()
         clickDarkGray.setStroke()
         clickOval1Path.lineWidth = 1
         clickOval1Path.stroke()
 
-        CGContextRestoreGState(context)
+        context!.restoreGState()
 
 
 
 
         if (clickRingActive) {
             //// clickRing Drawing
-            let clickRingPath = UIBezierPath(ovalInRect: CGRectMake(frame.minX + floor(frame.width * 0.28571 + 0.5), frame.minY + floor((frame.height - 118) * 0.50000 + 0.5), floor(frame.width * 0.70714 + 0.5) - floor(frame.width * 0.28571 + 0.5), 118))
+            let clickRingPath = UIBezierPath(ovalIn: CGRect(x: frame.minX + floor(frame.width * 0.28571 + 0.5), y: frame.minY + floor((frame.height - 118) * 0.50000 + 0.5), width: floor(frame.width * 0.70714 + 0.5) - floor(frame.width * 0.28571 + 0.5), height: 118))
             strokeColor2.setStroke()
             clickRingPath.lineWidth = 2
             clickRingPath.stroke()
         }
     }
 
-    public class func drawPositionsCanvas(position1Selected position1Selected: Bool = false, position2Selected: Bool = false, position3Selected: Bool = false, position4Selected: Bool = false, position5Selected: Bool = false, position6Selected: Bool = false, position7Selected: Bool = false, position8Selected: Bool = false, position9Selected: Bool = false, position10Selected: Bool = false, position11Selected: Bool = false, position12Selected: Bool = false, position13Selected: Bool = false, position14Selected: Bool = false, position15Selected: Bool = false, position16Selected: Bool = false, position17Selected: Bool = false, position18Selected: Bool = false) {
+    open class func drawPositionsCanvas(position1Selected: Bool = false, position2Selected: Bool = false, position3Selected: Bool = false, position4Selected: Bool = false, position5Selected: Bool = false, position6Selected: Bool = false, position7Selected: Bool = false, position8Selected: Bool = false, position9Selected: Bool = false, position10Selected: Bool = false, position11Selected: Bool = false, position12Selected: Bool = false, position13Selected: Bool = false, position14Selected: Bool = false, position15Selected: Bool = false, position16Selected: Bool = false, position17Selected: Bool = false, position18Selected: Bool = false) {
         //// Color Declarations
         let lightBlue = UIColor(red: 0.349, green: 0.733, blue: 0.961, alpha: 1.000)
         let buttonsBGLight = UIColor(red: 0.173, green: 0.220, blue: 0.263, alpha: 1.000)
@@ -1126,114 +1127,114 @@ public class UIGroover : NSObject {
         let position18Color = position18Selected ? lightBlue : buttonsBGLight
 
         //// position1 Drawing
-        let position1Path = UIBezierPath(roundedRect: CGRectMake(26, 0, 13, 13), cornerRadius: 2)
+        let position1Path = UIBezierPath(roundedRect: CGRect(x: 26, y: 0, width: 13, height: 13), cornerRadius: 2)
         position1Color.setFill()
         position1Path.fill()
 
 
         //// position2 Drawing
-        let position2Path = UIBezierPath(roundedRect: CGRectMake(41, 0, 13, 13), cornerRadius: 2)
+        let position2Path = UIBezierPath(roundedRect: CGRect(x: 41, y: 0, width: 13, height: 13), cornerRadius: 2)
         position2Color.setFill()
         position2Path.fill()
 
 
         //// position3 Drawing
-        let position3Path = UIBezierPath(roundedRect: CGRectMake(56, 0, 13, 13), cornerRadius: 2)
+        let position3Path = UIBezierPath(roundedRect: CGRect(x: 56, y: 0, width: 13, height: 13), cornerRadius: 2)
         position3Color.setFill()
         position3Path.fill()
 
 
         //// position4 Drawing
-        let position4Path = UIBezierPath(roundedRect: CGRectMake(71, 0, 13, 13), cornerRadius: 2)
+        let position4Path = UIBezierPath(roundedRect: CGRect(x: 71, y: 0, width: 13, height: 13), cornerRadius: 2)
         position4Color.setFill()
         position4Path.fill()
 
 
         //// position5 Drawing
-        let position5Path = UIBezierPath(roundedRect: CGRectMake(86, 0, 13, 13), cornerRadius: 2)
+        let position5Path = UIBezierPath(roundedRect: CGRect(x: 86, y: 0, width: 13, height: 13), cornerRadius: 2)
         position5Color.setFill()
         position5Path.fill()
 
 
         //// position6 Drawing
-        let position6Path = UIBezierPath(roundedRect: CGRectMake(101, 0, 13, 13), cornerRadius: 2)
+        let position6Path = UIBezierPath(roundedRect: CGRect(x: 101, y: 0, width: 13, height: 13), cornerRadius: 2)
         position6Color.setFill()
         position6Path.fill()
 
 
         //// position7 Drawing
-        let position7Path = UIBezierPath(roundedRect: CGRectMake(116, 0, 13, 13), cornerRadius: 2)
+        let position7Path = UIBezierPath(roundedRect: CGRect(x: 116, y: 0, width: 13, height: 13), cornerRadius: 2)
         position7Color.setFill()
         position7Path.fill()
 
 
         //// position8 Drawing
-        let position8Path = UIBezierPath(roundedRect: CGRectMake(131, 0, 13, 13), cornerRadius: 2)
+        let position8Path = UIBezierPath(roundedRect: CGRect(x: 131, y: 0, width: 13, height: 13), cornerRadius: 2)
         position8Color.setFill()
         position8Path.fill()
 
 
         //// position9 Drawing
-        let position9Path = UIBezierPath(roundedRect: CGRectMake(146, 0, 13, 13), cornerRadius: 2)
+        let position9Path = UIBezierPath(roundedRect: CGRect(x: 146, y: 0, width: 13, height: 13), cornerRadius: 2)
         position9Color.setFill()
         position9Path.fill()
 
 
         //// position10 Drawing
-        let position10Path = UIBezierPath(roundedRect: CGRectMake(161, 0, 13, 13), cornerRadius: 2)
+        let position10Path = UIBezierPath(roundedRect: CGRect(x: 161, y: 0, width: 13, height: 13), cornerRadius: 2)
         position10Color.setFill()
         position10Path.fill()
 
 
         //// position11 Drawing
-        let position11Path = UIBezierPath(roundedRect: CGRectMake(176, 0, 13, 13), cornerRadius: 2)
+        let position11Path = UIBezierPath(roundedRect: CGRect(x: 176, y: 0, width: 13, height: 13), cornerRadius: 2)
         position11Color.setFill()
         position11Path.fill()
 
 
         //// position12 Drawing
-        let position12Path = UIBezierPath(roundedRect: CGRectMake(191, 0, 13, 13), cornerRadius: 2)
+        let position12Path = UIBezierPath(roundedRect: CGRect(x: 191, y: 0, width: 13, height: 13), cornerRadius: 2)
         position12Color.setFill()
         position12Path.fill()
 
 
         //// position13 Drawing
-        let position13Path = UIBezierPath(roundedRect: CGRectMake(206, 0, 13, 13), cornerRadius: 2)
+        let position13Path = UIBezierPath(roundedRect: CGRect(x: 206, y: 0, width: 13, height: 13), cornerRadius: 2)
         position13Color.setFill()
         position13Path.fill()
 
 
         //// position14 Drawing
-        let position14Path = UIBezierPath(roundedRect: CGRectMake(221, 0, 13, 13), cornerRadius: 2)
+        let position14Path = UIBezierPath(roundedRect: CGRect(x: 221, y: 0, width: 13, height: 13), cornerRadius: 2)
         position14Color.setFill()
         position14Path.fill()
 
 
         //// position15 Drawing
-        let position15Path = UIBezierPath(roundedRect: CGRectMake(236, 0, 13, 13), cornerRadius: 2)
+        let position15Path = UIBezierPath(roundedRect: CGRect(x: 236, y: 0, width: 13, height: 13), cornerRadius: 2)
         position15Color.setFill()
         position15Path.fill()
 
 
         //// position16 Drawing
-        let position16Path = UIBezierPath(roundedRect: CGRectMake(251, 0, 13, 13), cornerRadius: 2)
+        let position16Path = UIBezierPath(roundedRect: CGRect(x: 251, y: 0, width: 13, height: 13), cornerRadius: 2)
         position16Color.setFill()
         position16Path.fill()
 
 
         //// position17 Drawing
-        let position17Path = UIBezierPath(roundedRect: CGRectMake(266, 0, 13, 13), cornerRadius: 2)
+        let position17Path = UIBezierPath(roundedRect: CGRect(x: 266, y: 0, width: 13, height: 13), cornerRadius: 2)
         position17Color.setFill()
         position17Path.fill()
 
 
         //// position18 Drawing
-        let position18Path = UIBezierPath(roundedRect: CGRectMake(281, 0, 13, 13), cornerRadius: 2)
+        let position18Path = UIBezierPath(roundedRect: CGRect(x: 281, y: 0, width: 13, height: 13), cornerRadius: 2)
         position18Color.setFill()
         position18Path.fill()
     }
 
-    public class func drawPlayCanvas(playSelected playSelected: Bool = false) {
+    open class func drawPlayCanvas(playSelected: Bool = false) {
         //// Color Declarations
         let transportDark = UIColor(red: 0.043, green: 0.082, blue: 0.157, alpha: 1.000)
         let transportGreen = UIColor(red: 0.078, green: 0.576, blue: 0.059, alpha: 1.000)
@@ -1243,11 +1244,11 @@ public class UIGroover : NSObject {
 
         //// playButton Drawing
         let playButtonPath = UIBezierPath()
-        playButtonPath.moveToPoint(CGPointMake(11, 33))
-        playButtonPath.addLineToPoint(CGPointMake(11, 11))
-        playButtonPath.addLineToPoint(CGPointMake(33, 22))
-        playButtonPath.addLineToPoint(CGPointMake(11, 33))
-        playButtonPath.closePath()
+        playButtonPath.move(to: CGPoint(x: 11, y: 33))
+        playButtonPath.addLine(to: CGPoint(x: 11, y: 11))
+        playButtonPath.addLine(to: CGPoint(x: 33, y: 22))
+        playButtonPath.addLine(to: CGPoint(x: 11, y: 33))
+        playButtonPath.close()
         playButtonPath.miterLimit = 4;
 
         playButtonPath.usesEvenOddFillRule = true;
@@ -1256,7 +1257,7 @@ public class UIGroover : NSObject {
         playButtonPath.fill()
     }
     
-    public class func drawClearCanvas(clearSelected clearSelected: Bool = false) {
+    open class func drawClearCanvas(clearSelected: Bool = false) {
         //// Color Declarations
         let transportDark = UIColor(red: 0.043, green: 0.082, blue: 0.157, alpha: 1.000)
         let transportPurple = UIColor(red: 0.79, green: 0.48, blue: 0.90, alpha: 1.000)
@@ -1265,13 +1266,13 @@ public class UIGroover : NSObject {
         let clearColor = clearSelected ? transportPurple : transportDark
         
         //// recordButton Drawing
-        let clearButtonPath = UIBezierPath(ovalInRect: CGRectMake(0, 0, 22, 22))
+        let clearButtonPath = UIBezierPath(ovalIn: CGRect(x: 0, y: 0, width: 22, height: 22))
         clearColor.setFill()
         clearButtonPath.fill()
         
     }
 
-    public class func drawRecordCanvas(recordSelected recordSelected: Bool = false) {
+    open class func drawRecordCanvas(recordSelected: Bool = false) {
         //// Color Declarations
         let transportDark = UIColor(red: 0.043, green: 0.082, blue: 0.157, alpha: 1.000)
         let transportRed = UIColor(red: 0.616, green: 0.141, blue: 0.157, alpha: 1.000)
@@ -1280,12 +1281,12 @@ public class UIGroover : NSObject {
         let recordColor = recordSelected ? transportRed : transportDark
 
         //// recordButton Drawing
-        let recordButtonPath = UIBezierPath(ovalInRect: CGRectMake(11, 11, 22, 22))
+        let recordButtonPath = UIBezierPath(ovalIn: CGRect(x: 11, y: 11, width: 22, height: 22))
         recordColor.setFill()
         recordButtonPath.fill()
     }
 
-    public class func drawHamburgerCanvas(hamburgerSelected hamburgerSelected: Bool = false) {
+    open class func drawHamburgerCanvas(hamburgerSelected: Bool = false) {
         //// Color Declarations
         let lightBlue = UIColor(red: 0.349, green: 0.733, blue: 0.961, alpha: 1.000)
         let menuGray = UIColor(red: 0.800, green: 0.847, blue: 0.890, alpha: 1.000)
@@ -1294,24 +1295,24 @@ public class UIGroover : NSObject {
         let hamburgerColor = hamburgerSelected ? lightBlue : menuGray
 
         //// hamburgerBottom Drawing
-        let hamburgerBottomPath = UIBezierPath(roundedRect: CGRectMake(0, 12, 22, 3), cornerRadius: 1)
+        let hamburgerBottomPath = UIBezierPath(roundedRect: CGRect(x: 0, y: 12, width: 22, height: 3), cornerRadius: 1)
         hamburgerColor.setFill()
         hamburgerBottomPath.fill()
 
 
         //// hamburgerMiddle Drawing
-        let hamburgerMiddlePath = UIBezierPath(roundedRect: CGRectMake(0, 6, 22, 3), cornerRadius: 1)
+        let hamburgerMiddlePath = UIBezierPath(roundedRect: CGRect(x: 0, y: 6, width: 22, height: 3), cornerRadius: 1)
         hamburgerColor.setFill()
         hamburgerMiddlePath.fill()
 
 
         //// hamburgerTop Drawing
-        let hamburgerTopPath = UIBezierPath(roundedRect: CGRectMake(0, 0, 22, 3), cornerRadius: 1)
+        let hamburgerTopPath = UIBezierPath(roundedRect: CGRect(x: 0, y: 0, width: 22, height: 3), cornerRadius: 1)
         hamburgerColor.setFill()
         hamburgerTopPath.fill()
     }
 
-    public class func drawSettingsIconCanvas(settingsSelected settingsSelected: Bool = false) {
+    open class func drawSettingsIconCanvas(settingsSelected: Bool = false) {
         //// Color Declarations
         let lightBlue = UIColor(red: 0.349, green: 0.733, blue: 0.961, alpha: 1.000)
         let menuGray = UIColor(red: 0.800, green: 0.847, blue: 0.890, alpha: 1.000)
@@ -1321,48 +1322,48 @@ public class UIGroover : NSObject {
 
         //// settingsButton Drawing
         let settingsButtonPath = UIBezierPath()
-        settingsButtonPath.moveToPoint(CGPointMake(22, 12.35))
-        settingsButtonPath.addLineToPoint(CGPointMake(22, 9.6))
-        settingsButtonPath.addLineToPoint(CGPointMake(18.73, 9.07))
-        settingsButtonPath.addCurveToPoint(CGPointMake(17.83, 6.9), controlPoint1: CGPointMake(18.53, 8.29), controlPoint2: CGPointMake(18.23, 7.56))
-        settingsButtonPath.addLineToPoint(CGPointMake(19.74, 4.18))
-        settingsButtonPath.addLineToPoint(CGPointMake(17.79, 2.24))
-        settingsButtonPath.addLineToPoint(CGPointMake(15.11, 4.17))
-        settingsButtonPath.addCurveToPoint(CGPointMake(12.92, 3.26), controlPoint1: CGPointMake(14.44, 3.76), controlPoint2: CGPointMake(13.7, 3.45))
-        settingsButtonPath.addLineToPoint(CGPointMake(12.35, 0))
-        settingsButtonPath.addLineToPoint(CGPointMake(9.6, 0))
-        settingsButtonPath.addLineToPoint(CGPointMake(9.07, 3.25))
-        settingsButtonPath.addCurveToPoint(CGPointMake(6.88, 4.15), controlPoint1: CGPointMake(8.29, 3.44), controlPoint2: CGPointMake(7.56, 3.74))
-        settingsButtonPath.addLineToPoint(CGPointMake(4.21, 2.23))
-        settingsButtonPath.addLineToPoint(CGPointMake(2.26, 4.18))
-        settingsButtonPath.addLineToPoint(CGPointMake(4.15, 6.87))
-        settingsButtonPath.addCurveToPoint(CGPointMake(3.23, 9.07), controlPoint1: CGPointMake(3.74, 7.54), controlPoint2: CGPointMake(3.43, 8.28))
-        settingsButtonPath.addLineToPoint(CGPointMake(0, 9.6))
-        settingsButtonPath.addLineToPoint(CGPointMake(0, 12.35))
-        settingsButtonPath.addLineToPoint(CGPointMake(3.23, 12.93))
-        settingsButtonPath.addCurveToPoint(CGPointMake(4.14, 15.12), controlPoint1: CGPointMake(3.42, 13.71), controlPoint2: CGPointMake(3.73, 14.45))
-        settingsButtonPath.addLineToPoint(CGPointMake(2.23, 17.79))
-        settingsButtonPath.addLineToPoint(CGPointMake(4.18, 19.73))
-        settingsButtonPath.addLineToPoint(CGPointMake(6.87, 17.85))
-        settingsButtonPath.addCurveToPoint(CGPointMake(9.06, 18.75), controlPoint1: CGPointMake(7.55, 18.25), controlPoint2: CGPointMake(8.28, 18.56))
-        settingsButtonPath.addLineToPoint(CGPointMake(9.6, 22))
-        settingsButtonPath.addLineToPoint(CGPointMake(12.35, 22))
-        settingsButtonPath.addLineToPoint(CGPointMake(12.93, 18.74))
-        settingsButtonPath.addCurveToPoint(CGPointMake(15.11, 17.83), controlPoint1: CGPointMake(13.71, 18.55), controlPoint2: CGPointMake(14.44, 18.24))
-        settingsButtonPath.addLineToPoint(CGPointMake(17.82, 19.73))
-        settingsButtonPath.addLineToPoint(CGPointMake(19.77, 17.79))
-        settingsButtonPath.addLineToPoint(CGPointMake(17.83, 15.1))
-        settingsButtonPath.addCurveToPoint(CGPointMake(18.73, 12.93), controlPoint1: CGPointMake(18.23, 14.43), controlPoint2: CGPointMake(18.54, 13.7))
-        settingsButtonPath.addLineToPoint(CGPointMake(22, 12.35))
-        settingsButtonPath.addLineToPoint(CGPointMake(22, 12.35))
-        settingsButtonPath.closePath()
-        settingsButtonPath.moveToPoint(CGPointMake(11, 14.67))
-        settingsButtonPath.addCurveToPoint(CGPointMake(7.33, 11), controlPoint1: CGPointMake(8.98, 14.67), controlPoint2: CGPointMake(7.33, 13.02))
-        settingsButtonPath.addCurveToPoint(CGPointMake(11, 7.33), controlPoint1: CGPointMake(7.33, 8.98), controlPoint2: CGPointMake(8.98, 7.33))
-        settingsButtonPath.addCurveToPoint(CGPointMake(14.67, 11), controlPoint1: CGPointMake(13.02, 7.33), controlPoint2: CGPointMake(14.67, 8.98))
-        settingsButtonPath.addCurveToPoint(CGPointMake(11, 14.67), controlPoint1: CGPointMake(14.67, 13.02), controlPoint2: CGPointMake(13.02, 14.67))
-        settingsButtonPath.addLineToPoint(CGPointMake(11, 14.67))
-        settingsButtonPath.closePath()
+        settingsButtonPath.move(to: CGPoint(x: 22, y: 12.35))
+        settingsButtonPath.addLine(to: CGPoint(x: 22, y: 9.6))
+        settingsButtonPath.addLine(to: CGPoint(x: 18.73, y: 9.07))
+        settingsButtonPath.addCurve(to: CGPoint(x: 17.83, y: 6.9), controlPoint1: CGPoint(x: 18.53, y: 8.29), controlPoint2: CGPoint(x: 18.23, y: 7.56))
+        settingsButtonPath.addLine(to: CGPoint(x: 19.74, y: 4.18))
+        settingsButtonPath.addLine(to: CGPoint(x: 17.79, y: 2.24))
+        settingsButtonPath.addLine(to: CGPoint(x: 15.11, y: 4.17))
+        settingsButtonPath.addCurve(to: CGPoint(x: 12.92, y: 3.26), controlPoint1: CGPoint(x: 14.44, y: 3.76), controlPoint2: CGPoint(x: 13.7, y: 3.45))
+        settingsButtonPath.addLine(to: CGPoint(x: 12.35, y: 0))
+        settingsButtonPath.addLine(to: CGPoint(x: 9.6, y: 0))
+        settingsButtonPath.addLine(to: CGPoint(x: 9.07, y: 3.25))
+        settingsButtonPath.addCurve(to: CGPoint(x: 6.88, y: 4.15), controlPoint1: CGPoint(x: 8.29, y: 3.44), controlPoint2: CGPoint(x: 7.56, y: 3.74))
+        settingsButtonPath.addLine(to: CGPoint(x: 4.21, y: 2.23))
+        settingsButtonPath.addLine(to: CGPoint(x: 2.26, y: 4.18))
+        settingsButtonPath.addLine(to: CGPoint(x: 4.15, y: 6.87))
+        settingsButtonPath.addCurve(to: CGPoint(x: 3.23, y: 9.07), controlPoint1: CGPoint(x: 3.74, y: 7.54), controlPoint2: CGPoint(x: 3.43, y: 8.28))
+        settingsButtonPath.addLine(to: CGPoint(x: 0, y: 9.6))
+        settingsButtonPath.addLine(to: CGPoint(x: 0, y: 12.35))
+        settingsButtonPath.addLine(to: CGPoint(x: 3.23, y: 12.93))
+        settingsButtonPath.addCurve(to: CGPoint(x: 4.14, y: 15.12), controlPoint1: CGPoint(x: 3.42, y: 13.71), controlPoint2: CGPoint(x: 3.73, y: 14.45))
+        settingsButtonPath.addLine(to: CGPoint(x: 2.23, y: 17.79))
+        settingsButtonPath.addLine(to: CGPoint(x: 4.18, y: 19.73))
+        settingsButtonPath.addLine(to: CGPoint(x: 6.87, y: 17.85))
+        settingsButtonPath.addCurve(to: CGPoint(x: 9.06, y: 18.75), controlPoint1: CGPoint(x: 7.55, y: 18.25), controlPoint2: CGPoint(x: 8.28, y: 18.56))
+        settingsButtonPath.addLine(to: CGPoint(x: 9.6, y: 22))
+        settingsButtonPath.addLine(to: CGPoint(x: 12.35, y: 22))
+        settingsButtonPath.addLine(to: CGPoint(x: 12.93, y: 18.74))
+        settingsButtonPath.addCurve(to: CGPoint(x: 15.11, y: 17.83), controlPoint1: CGPoint(x: 13.71, y: 18.55), controlPoint2: CGPoint(x: 14.44, y: 18.24))
+        settingsButtonPath.addLine(to: CGPoint(x: 17.82, y: 19.73))
+        settingsButtonPath.addLine(to: CGPoint(x: 19.77, y: 17.79))
+        settingsButtonPath.addLine(to: CGPoint(x: 17.83, y: 15.1))
+        settingsButtonPath.addCurve(to: CGPoint(x: 18.73, y: 12.93), controlPoint1: CGPoint(x: 18.23, y: 14.43), controlPoint2: CGPoint(x: 18.54, y: 13.7))
+        settingsButtonPath.addLine(to: CGPoint(x: 22, y: 12.35))
+        settingsButtonPath.addLine(to: CGPoint(x: 22, y: 12.35))
+        settingsButtonPath.close()
+        settingsButtonPath.move(to: CGPoint(x: 11, y: 14.67))
+        settingsButtonPath.addCurve(to: CGPoint(x: 7.33, y: 11), controlPoint1: CGPoint(x: 8.98, y: 14.67), controlPoint2: CGPoint(x: 7.33, y: 13.02))
+        settingsButtonPath.addCurve(to: CGPoint(x: 11, y: 7.33), controlPoint1: CGPoint(x: 7.33, y: 8.98), controlPoint2: CGPoint(x: 8.98, y: 7.33))
+        settingsButtonPath.addCurve(to: CGPoint(x: 14.67, y: 11), controlPoint1: CGPoint(x: 13.02, y: 7.33), controlPoint2: CGPoint(x: 14.67, y: 8.98))
+        settingsButtonPath.addCurve(to: CGPoint(x: 11, y: 14.67), controlPoint1: CGPoint(x: 14.67, y: 13.02), controlPoint2: CGPoint(x: 13.02, y: 14.67))
+        settingsButtonPath.addLine(to: CGPoint(x: 11, y: 14.67))
+        settingsButtonPath.close()
         settingsButtonPath.miterLimit = 4;
 
         settingsButtonPath.usesEvenOddFillRule = true;
@@ -1371,17 +1372,17 @@ public class UIGroover : NSObject {
         settingsButtonPath.fill()
     }
 
-    public class func drawLeftCanvas() {
+    open class func drawLeftCanvas() {
         //// Color Declarations
         let popupElements = UIColor(red: 0.800, green: 0.847, blue: 0.890, alpha: 0.698)
 
         //// leftArrow Drawing
         let leftArrowPath = UIBezierPath()
-        leftArrowPath.moveToPoint(CGPointMake(0, 6))
-        leftArrowPath.addLineToPoint(CGPointMake(12, 12))
-        leftArrowPath.addLineToPoint(CGPointMake(12, 0))
-        leftArrowPath.addLineToPoint(CGPointMake(0, 6))
-        leftArrowPath.closePath()
+        leftArrowPath.move(to: CGPoint(x: 0, y: 6))
+        leftArrowPath.addLine(to: CGPoint(x: 12, y: 12))
+        leftArrowPath.addLine(to: CGPoint(x: 12, y: 0))
+        leftArrowPath.addLine(to: CGPoint(x: 0, y: 6))
+        leftArrowPath.close()
         leftArrowPath.miterLimit = 4;
 
         leftArrowPath.usesEvenOddFillRule = true;
@@ -1390,17 +1391,17 @@ public class UIGroover : NSObject {
         leftArrowPath.fill()
     }
 
-    public class func drawRightCanvas() {
+    open class func drawRightCanvas() {
         //// Color Declarations
         let popupElements = UIColor(red: 0.800, green: 0.847, blue: 0.890, alpha: 0.698)
 
         //// rightButton Drawing
         let rightButtonPath = UIBezierPath()
-        rightButtonPath.moveToPoint(CGPointMake(12, 6))
-        rightButtonPath.addLineToPoint(CGPointMake(0, 12))
-        rightButtonPath.addLineToPoint(CGPointMake(0, 0))
-        rightButtonPath.addLineToPoint(CGPointMake(12, 6))
-        rightButtonPath.closePath()
+        rightButtonPath.move(to: CGPoint(x: 12, y: 6))
+        rightButtonPath.addLine(to: CGPoint(x: 0, y: 12))
+        rightButtonPath.addLine(to: CGPoint(x: 0, y: 0))
+        rightButtonPath.addLine(to: CGPoint(x: 12, y: 6))
+        rightButtonPath.close()
         rightButtonPath.miterLimit = 4;
 
         rightButtonPath.usesEvenOddFillRule = true;
@@ -1409,63 +1410,63 @@ public class UIGroover : NSObject {
         rightButtonPath.fill()
     }
     
-    public class func drawPopupCanvas(popupPath: UIBezierPath){
-        popupPath.moveToPoint(CGPointMake(36.27, 302))
-        popupPath.addLineToPoint(CGPointMake(59.54, 302))
-        popupPath.addLineToPoint(CGPointMake(71.33, 313.79))
-        popupPath.addCurveToPoint(CGPointMake(75.58, 313.79), controlPoint1: CGPointMake(72.5, 314.96), controlPoint2: CGPointMake(74.41, 314.96))
-        popupPath.addLineToPoint(CGPointMake(87.37, 302))
-        popupPath.addLineToPoint(CGPointMake(87.37, 302))
-        popupPath.addLineToPoint(CGPointMake(187.18, 302))
-        popupPath.addLineToPoint(CGPointMake(297.01, 302))
-        popupPath.addCurveToPoint(CGPointMake(300, 299), controlPoint1: CGPointMake(298.66, 302), controlPoint2: CGPointMake(300, 300.66))
-        popupPath.addLineToPoint(CGPointMake(300, 3))
-        popupPath.addCurveToPoint(CGPointMake(297.01, 0), controlPoint1: CGPointMake(300, 1.35), controlPoint2: CGPointMake(298.66, 0))
-        popupPath.addLineToPoint(CGPointMake(2.99, 0))
-        popupPath.addCurveToPoint(CGPointMake(0, 3), controlPoint1: CGPointMake(1.34, 0), controlPoint2: CGPointMake(0, 1.34))
-        popupPath.addLineToPoint(CGPointMake(0, 299))
-        popupPath.addCurveToPoint(CGPointMake(2.99, 302), controlPoint1: CGPointMake(0, 300.65), controlPoint2: CGPointMake(1.34, 302))
-        popupPath.addLineToPoint(CGPointMake(36.27, 302))
-        popupPath.closePath()
+    open class func drawPopupCanvas(_ popupPath: UIBezierPath){
+        popupPath.move(to: CGPoint(x: 36.27, y: 302))
+        popupPath.addLine(to: CGPoint(x: 59.54, y: 302))
+        popupPath.addLine(to: CGPoint(x: 71.33, y: 313.79))
+        popupPath.addCurve(to: CGPoint(x: 75.58, y: 313.79), controlPoint1: CGPoint(x: 72.5, y: 314.96), controlPoint2: CGPoint(x: 74.41, y: 314.96))
+        popupPath.addLine(to: CGPoint(x: 87.37, y: 302))
+        popupPath.addLine(to: CGPoint(x: 87.37, y: 302))
+        popupPath.addLine(to: CGPoint(x: 187.18, y: 302))
+        popupPath.addLine(to: CGPoint(x: 297.01, y: 302))
+        popupPath.addCurve(to: CGPoint(x: 300, y: 299), controlPoint1: CGPoint(x: 298.66, y: 302), controlPoint2: CGPoint(x: 300, y: 300.66))
+        popupPath.addLine(to: CGPoint(x: 300, y: 3))
+        popupPath.addCurve(to: CGPoint(x: 297.01, y: 0), controlPoint1: CGPoint(x: 300, y: 1.35), controlPoint2: CGPoint(x: 298.66, y: 0))
+        popupPath.addLine(to: CGPoint(x: 2.99, y: 0))
+        popupPath.addCurve(to: CGPoint(x: 0, y: 3), controlPoint1: CGPoint(x: 1.34, y: 0), controlPoint2: CGPoint(x: 0, y: 1.34))
+        popupPath.addLine(to: CGPoint(x: 0, y: 299))
+        popupPath.addCurve(to: CGPoint(x: 2.99, y: 302), controlPoint1: CGPoint(x: 0, y: 300.65), controlPoint2: CGPoint(x: 1.34, y: 302))
+        popupPath.addLine(to: CGPoint(x: 36.27, y: 302))
+        popupPath.close()
         popupPath.usesEvenOddFillRule = true
         
     }
 
-    public class func drawParametersPopupCanvas(largePopupFrame largePopupFrame: CGRect = CGRectMake(10, 11, 300, 345)) {
+    open class func drawParametersPopupCanvas(largePopupFrame: CGRect = CGRect(x: 10, y: 11, width: 300, height: 345)) {
         //// Color Declarations
         let black = UIColor(red: 0.000, green: 0.000, blue: 0.000, alpha: 1.000)
 
 
         //// Subframes
-        let smallPopupFrame = CGRectMake(largePopupFrame.minX + floor((largePopupFrame.width - 50) * 1.00000 + 0.5), largePopupFrame.minY - 13, 50, 42)
+        let smallPopupFrame = CGRect(x: largePopupFrame.minX + floor((largePopupFrame.width - 50) * 1.00000 + 0.5), y: largePopupFrame.minY - 13, width: 50, height: 42)
 
 
         //// popupBody Drawing
-        let popupBodyPath = UIBezierPath(roundedRect: CGRectMake(smallPopupFrame.minX - 250, smallPopupFrame.minY + 13, smallPopupFrame.width + 250, smallPopupFrame.height + 303), cornerRadius: 3)
+        let popupBodyPath = UIBezierPath(roundedRect: CGRect(x: smallPopupFrame.minX - 250, y: smallPopupFrame.minY + 13, width: smallPopupFrame.width + 250, height: smallPopupFrame.height + 303), cornerRadius: 3)
         black.setFill()
         popupBodyPath.fill()
 
 
         //// popupPointer Drawing
         let popupPointerPath = UIBezierPath()
-        popupPointerPath.moveToPoint(CGPointMake(smallPopupFrame.minX + 25.29, smallPopupFrame.minY + 1.5))
-        popupPointerPath.addCurveToPoint(CGPointMake(smallPopupFrame.minX + 26.66, smallPopupFrame.minY + 2.66), controlPoint1: CGPointMake(smallPopupFrame.minX + 25.73, smallPopupFrame.minY + 1.73), controlPoint2: CGPointMake(smallPopupFrame.minX + 26.04, smallPopupFrame.minY + 2.04))
-        popupPointerPath.addCurveToPoint(CGPointMake(smallPopupFrame.minX + 46, smallPopupFrame.minY + 22), controlPoint1: CGPointMake(smallPopupFrame.minX + 26.66, smallPopupFrame.minY + 2.66), controlPoint2: CGPointMake(smallPopupFrame.minX + 36.21, smallPopupFrame.minY + 12.21))
-        popupPointerPath.addLineToPoint(CGPointMake(smallPopupFrame.minX + 3, smallPopupFrame.minY + 22))
-        popupPointerPath.addCurveToPoint(CGPointMake(smallPopupFrame.minX + 22.34, smallPopupFrame.minY + 2.66), controlPoint1: CGPointMake(smallPopupFrame.minX + 12.79, smallPopupFrame.minY + 12.21), controlPoint2: CGPointMake(smallPopupFrame.minX + 22.34, smallPopupFrame.minY + 2.66))
-        popupPointerPath.addCurveToPoint(CGPointMake(smallPopupFrame.minX + 23.65, smallPopupFrame.minY + 1.54), controlPoint1: CGPointMake(smallPopupFrame.minX + 22.96, smallPopupFrame.minY + 2.04), controlPoint2: CGPointMake(smallPopupFrame.minX + 23.27, smallPopupFrame.minY + 1.73))
-        popupPointerPath.addCurveToPoint(CGPointMake(smallPopupFrame.minX + 25.29, smallPopupFrame.minY + 1.5), controlPoint1: CGPointMake(smallPopupFrame.minX + 24.21, smallPopupFrame.minY + 1.27), controlPoint2: CGPointMake(smallPopupFrame.minX + 24.79, smallPopupFrame.minY + 1.27))
-        popupPointerPath.closePath()
+        popupPointerPath.move(to: CGPoint(x: smallPopupFrame.minX + 25.29, y: smallPopupFrame.minY + 1.5))
+        popupPointerPath.addCurve(to: CGPoint(x: smallPopupFrame.minX + 26.66, y: smallPopupFrame.minY + 2.66), controlPoint1: CGPoint(x: smallPopupFrame.minX + 25.73, y: smallPopupFrame.minY + 1.73), controlPoint2: CGPoint(x: smallPopupFrame.minX + 26.04, y: smallPopupFrame.minY + 2.04))
+        popupPointerPath.addCurve(to: CGPoint(x: smallPopupFrame.minX + 46, y: smallPopupFrame.minY + 22), controlPoint1: CGPoint(x: smallPopupFrame.minX + 26.66, y: smallPopupFrame.minY + 2.66), controlPoint2: CGPoint(x: smallPopupFrame.minX + 36.21, y: smallPopupFrame.minY + 12.21))
+        popupPointerPath.addLine(to: CGPoint(x: smallPopupFrame.minX + 3, y: smallPopupFrame.minY + 22))
+        popupPointerPath.addCurve(to: CGPoint(x: smallPopupFrame.minX + 22.34, y: smallPopupFrame.minY + 2.66), controlPoint1: CGPoint(x: smallPopupFrame.minX + 12.79, y: smallPopupFrame.minY + 12.21), controlPoint2: CGPoint(x: smallPopupFrame.minX + 22.34, y: smallPopupFrame.minY + 2.66))
+        popupPointerPath.addCurve(to: CGPoint(x: smallPopupFrame.minX + 23.65, y: smallPopupFrame.minY + 1.54), controlPoint1: CGPoint(x: smallPopupFrame.minX + 22.96, y: smallPopupFrame.minY + 2.04), controlPoint2: CGPoint(x: smallPopupFrame.minX + 23.27, y: smallPopupFrame.minY + 1.73))
+        popupPointerPath.addCurve(to: CGPoint(x: smallPopupFrame.minX + 25.29, y: smallPopupFrame.minY + 1.5), controlPoint1: CGPoint(x: smallPopupFrame.minX + 24.21, y: smallPopupFrame.minY + 1.27), controlPoint2: CGPoint(x: smallPopupFrame.minX + 24.79, y: smallPopupFrame.minY + 1.27))
+        popupPointerPath.close()
         black.setFill()
         popupPointerPath.fill()
     }
 
-    public class func drawPopupButtonCanvas() {
+    open class func drawPopupButtonCanvas() {
         //// Color Declarations
         let black = UIColor(red: 0.000, green: 0.000, blue: 0.000, alpha: 1.000)
 
         //// Button Drawing
-        let buttonPath = UIBezierPath(roundedRect: CGRectMake(0, 0, 114, 44), cornerRadius: 6)
+        let buttonPath = UIBezierPath(roundedRect: CGRect(x: 0, y: 0, width: 114, height: 44), cornerRadius: 6)
         black.setFill()
         buttonPath.fill()
     }

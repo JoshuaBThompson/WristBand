@@ -11,8 +11,8 @@ import UIKit
 //@IBDesignable
 class Thirtysecond: QuantizeButton {
     
-    override func drawRect(rect: CGRect) {
-        UIGroover.drawThirtysecondCanvas(thirtysecondSelected: selected, thirtysecondActive: on)
+    override func draw(_ rect: CGRect) {
+        UIGroover.drawThirtysecondCanvas(thirtysecondSelected: isSelected, thirtysecondActive: on)
     }
     
 }

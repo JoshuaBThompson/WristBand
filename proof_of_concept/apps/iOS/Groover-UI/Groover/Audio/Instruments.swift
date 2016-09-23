@@ -66,18 +66,30 @@ class SynthInstrument: AKMIDIInstrument{
     var note_num: Int = 0
     var loop_count: Int = 0
     var _total_dur: Double = 0
+    var _maxNoteCount: Int = 0
     var total_dur_offset: Double = 0
     var measureUpdateReady = false
     var measureUpdateEn = false
 
     var total_dur: Double {
         if(!measureUpdateReady){
-            _total_dur = instTrack.trackManager.measureCount * instTrack.trackManager.beatsPerMeasure
+            _total_dur = Double(instTrack.loopLength)
         return _total_dur
         }
         else{
             return _total_dur
         }
+    }
+    
+    var maxNoteCount: Int {
+        if(!measureUpdateReady){
+            _maxNoteCount = instTrack.maxNoteCount
+            return _maxNoteCount
+        }
+        else{
+            return _maxNoteCount
+        }
+        
     }
     
     
@@ -111,7 +123,7 @@ class SynthInstrument: AKMIDIInstrument{
         
         note_num += 1
         
-        if(note_num >= instTrack.trackManager.trackNotes.count){
+        if(note_num >= maxNoteCount){
             /* note_num = 0
             loop_count += 1
             print("reset note add")
@@ -136,6 +148,8 @@ class SynthInstrument: AKMIDIInstrument{
         
         print("note_num set to \(note_num)")
         pos = instTrack.trackManager.trackNotes[note_num].beats
+        //make sure pos not greater that total beats of loop (for example if you reduce the measure count, you might cutoff some beats)
+        
         real_pos = total_dur_offset + pos //(loop_count * total_dur) + pos
         
         print("pos \(pos) and real_pos \(real_pos)")
@@ -501,15 +515,34 @@ class ClickTrack: AKNode{
 class InstrumentTrack {
     var trackManager: TrackManager!
     var instrument: SynthInstrument!
+    var _maxNoteCount: Int = 0
     var clickTrack: ClickTrack!
     var recording = false
-    
+    var loopLength: Int {
+        return trackManager.measureCount * trackManager.beatsPerMeasure
+    }
     var volume: Double {
         return instrument.volumePercent
     }
     
     var pan: Double {
         return instrument.panner.pan
+    }
+    
+    var maxNoteCount: Int {
+        let beatCount = trackManager.trackNotes.count
+        
+        if(beatCount==0){
+            _maxNoteCount = 0
+        }
+        else if(trackManager.trackNotes[beatCount-1].beats > Double(loopLength)){
+            _maxNoteCount =  getMaxNoteNum()
+        }
+        else{
+            _maxNoteCount = beatCount
+        }
+
+        return _maxNoteCount
     }
     
     init(clickTrack: ClickTrack, presetInst: SynthInstrument){
@@ -555,7 +588,21 @@ class InstrumentTrack {
         recording = true
     }
     
+    func getMaxNoteNum()->Int{
+        var maxNum = trackManager.trackNotes.count-1
+        let maxBeatLength = Double(loopLength)
+        for noteNum in 0 ..< trackManager.trackNotes.count{
+            if(trackManager.trackNotes[noteNum].beats > maxBeatLength){
+                maxNum = noteNum
+                return maxNum
+            }
+        }
+        
+        return maxNum
+    }
+    
     func updateMeasureCount(_ count: Int){
+        
         trackManager.updateMeasureCount(count)
         
         //if playing tell track to wait unitl loop finishes before updating measure count

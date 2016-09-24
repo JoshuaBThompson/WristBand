@@ -148,7 +148,6 @@ class KnobCtrl: Knob {
     override func beginTracking(_ touch: UITouch, with event: UIEvent?) -> Bool {
         previousTimestamp = event!.timestamp //need initial timestamp for continue tracking with touch calculations
         previousLocation = touch.previousLocation(in: self)
-        print("JOSHJOSH!!!")
         print("started touch at x \(previousLocation.x) and y \(previousLocation.y)")
         if(isWithinInnerKnob(previousLocation)){
             clickActive = !clickActive

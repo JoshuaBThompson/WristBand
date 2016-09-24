@@ -8,11 +8,11 @@
 
 import UIKit
 
-//@IBDesignable
-class Record: PlayRecordButton {
+@IBDesignable
+class Record: UIButton {
     
     override func draw(_ rect: CGRect) {
-        UIGroover.drawRecordCanvas(recordSelected: on)
+        UIGroover.drawRecordCanvas()
     }
     
 }

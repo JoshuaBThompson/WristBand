@@ -26,10 +26,11 @@ class ViewController: UIViewController {
     @IBOutlet weak var popup: Popup!
     @IBOutlet weak var positionIndicator: PositionIndicator!
     @IBOutlet weak var knob: KnobCtrl!
-    @IBOutlet weak var playRecordControl: PlayRecordControl!
     @IBOutlet weak var positionLabel: UILabel!
     @IBOutlet weak var parametersPopup: ParametersPopup!
     @IBOutlet weak var quantizeControl: QuantizeControl!
+    @IBOutlet weak var playButton: PlayCtrl!
+    @IBOutlet weak var recordButton: RecordCtrl!
     
     
     override func viewDidLoad() {
@@ -37,11 +38,12 @@ class ViewController: UIViewController {
         // Do any additional setup after loading the view, typically from a nib.
         
         //Connect view controller functions to buttons events
+        playButton.addTarget(self, action: #selector(ViewController.playRecordButtonSelected(_:)), for: .valueChanged)
+        recordButton.addTarget(self, action: #selector(ViewController.playRecordButtonSelected(_:)), for: .valueChanged)
         hamburgerButton.addTarget(self, action: #selector(ViewController.hamburgerButtonSelected), for: .valueChanged)
         knob.addTarget(self, action: #selector(ViewController.knobAngleChanged(_:)), for: .valueChanged)
         knob.addTarget(self, action: #selector(ViewController.innerKnobTapped(_:)), for: .editingChanged)
         knob.addTarget(self, action: #selector(ViewController.hidePositionIndicator), for: .editingDidEnd)
-        playRecordControl.addTarget(self, action: #selector(ViewController.playRecordButtonSelected(_:)), for: .valueChanged)
         parametersButton.addTarget(self, action: #selector(ViewController.parametersButtonSelected), for: .valueChanged)
         parametersPopup.addTarget(self, action: #selector(ViewController.parametersOptionSelected), for: .valueChanged)
         popup.addTarget(self, action: #selector(ViewController.popupButtonSelected), for: .valueChanged)
@@ -182,27 +184,29 @@ class ViewController: UIViewController {
     }
     
     //MARK: play button event handler
-    func playRecordButtonSelected(_ playRecordButton: PlayRecordControl){
-        switch playRecordButton.currentButtonType {
-        case .play:
-            if(playRecordButton.playButton.on){
+    func playRecordButtonSelected(_ playRecordButton: UIButton){
+        if(playRecordButton == playButton){
+            playButton.isSelected = !playButton.isSelected
+            if(playButton.isSelected){
                 song.stop() //disable recording first
                 song.play()
             }
             else{
                 song.stop()
             }
-            
-        case .record:
+        }
+        else if(playRecordButton == recordButton){
+            if(playButton.isSelected){
+                recordButton.isSelected = !recordButton.isSelected
+            }
             //record if on and is playing
-            if(playRecordButton.recordButton.on && playRecordButton.playButton.on){
+            if(recordButton.isSelected && playButton.isSelected){
                 song.record()
                 print("start record")
             }
             else{
                 song.stop_record()
             }
-            
         }
         
     }
@@ -218,7 +222,7 @@ class ViewController: UIViewController {
         let wasRecording = song.recordEnabled
         selectSound(position)
         if(!song.recordEnabled && wasRecording){
-            playRecordControl.manualDeselectButton(.record)
+            recordButton.isSelected = false
         }
         else{
             updateButtonStatesAfterKnobTurn()

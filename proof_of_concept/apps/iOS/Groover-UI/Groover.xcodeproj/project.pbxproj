@@ -20,9 +20,6 @@
 		429A22BD1D338E240045023F /* SnareInstrument.swift in Sources */ = {isa = PBXBuildFile; fileRef = 429A22A81D338E240045023F /* SnareInstrument.swift */; };
 		429A22BE1D338E240045023F /* Song.swift in Sources */ = {isa = PBXBuildFile; fileRef = 429A22A91D338E240045023F /* Song.swift */; };
 		429A22CC1D338E400045023F /* Sounds in Resources */ = {isa = PBXBuildFile; fileRef = 429A22CB1D338E400045023F /* Sounds */; };
-		429A22CE1D354C6E0045023F /* PlayRecordButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 429A22CD1D354C6E0045023F /* PlayRecordButton.swift */; };
-		429A22D01D354C900045023F /* PlayRecordControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 429A22CF1D354C900045023F /* PlayRecordControl.swift */; };
-		429A22D21D354D3D0045023F /* Clear.swift in Sources */ = {isa = PBXBuildFile; fileRef = 429A22D11D354D3D0045023F /* Clear.swift */; };
 		42A59FA41D301F8B0070FE46 /* BeatFilter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42A59F9A1D301F8B0070FE46 /* BeatFilter.cpp */; };
 		42A59FA51D301F8B0070FE46 /* Common.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42A59F9C1D301F8B0070FE46 /* Common.cpp */; };
 		42A59FA61D301F8B0070FE46 /* IMUFilter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42A59F9E1D301F8B0070FE46 /* IMUFilter.cpp */; };
@@ -30,6 +27,9 @@
 		42A59FA81D301F8B0070FE46 /* MotionFilter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42A59FA21D301F8B0070FE46 /* MotionFilter.cpp */; };
 		42A59FAB1D301FA60070FE46 /* MidiSensorWrapper.mm in Sources */ = {isa = PBXBuildFile; fileRef = 42A59FAA1D301FA60070FE46 /* MidiSensorWrapper.mm */; };
 		42C8A3CF1D9721D4004BDD58 /* KnobCtrl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42C8A3CE1D9721D4004BDD58 /* KnobCtrl.swift */; };
+		42C8A3D11D972845004BDD58 /* RecordCtrl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42C8A3D01D972845004BDD58 /* RecordCtrl.swift */; };
+		42C8A3D31D97285A004BDD58 /* PlayCtrl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42C8A3D21D97285A004BDD58 /* PlayCtrl.swift */; };
+		42C8A3D51D972F12004BDD58 /* PlayRecordProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42C8A3D41D972F12004BDD58 /* PlayRecordProtocol.swift */; };
 		FA479EC71D376CB000619BA0 /* Right.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA479EC61D376CB000619BA0 /* Right.swift */; };
 		FA50AA531D2A3FE60035C942 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA50AA521D2A3FE60035C942 /* AppDelegate.swift */; };
 		FA50AA551D2A3FE60035C942 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA50AA541D2A3FE60035C942 /* ViewController.swift */; };
@@ -101,9 +101,6 @@
 		429A22A81D338E240045023F /* SnareInstrument.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SnareInstrument.swift; sourceTree = "<group>"; };
 		429A22A91D338E240045023F /* Song.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Song.swift; sourceTree = "<group>"; };
 		429A22CB1D338E400045023F /* Sounds */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Sounds; sourceTree = "<group>"; };
-		429A22CD1D354C6E0045023F /* PlayRecordButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayRecordButton.swift; sourceTree = "<group>"; };
-		429A22CF1D354C900045023F /* PlayRecordControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayRecordControl.swift; sourceTree = "<group>"; };
-		429A22D11D354D3D0045023F /* Clear.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Clear.swift; sourceTree = "<group>"; };
 		42A59F9A1D301F8B0070FE46 /* BeatFilter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BeatFilter.cpp; sourceTree = "<group>"; };
 		42A59F9B1D301F8B0070FE46 /* BeatFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BeatFilter.h; sourceTree = "<group>"; };
 		42A59F9C1D301F8B0070FE46 /* Common.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Common.cpp; sourceTree = "<group>"; };
@@ -118,6 +115,9 @@
 		42A59FAA1D301FA60070FE46 /* MidiSensorWrapper.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MidiSensorWrapper.mm; sourceTree = "<group>"; };
 		42A59FAC1D301FAD0070FE46 /* Groover-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Groover-Bridging-Header.h"; sourceTree = "<group>"; };
 		42C8A3CE1D9721D4004BDD58 /* KnobCtrl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KnobCtrl.swift; sourceTree = "<group>"; };
+		42C8A3D01D972845004BDD58 /* RecordCtrl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecordCtrl.swift; sourceTree = "<group>"; };
+		42C8A3D21D97285A004BDD58 /* PlayCtrl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayCtrl.swift; sourceTree = "<group>"; };
+		42C8A3D41D972F12004BDD58 /* PlayRecordProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayRecordProtocol.swift; sourceTree = "<group>"; };
 		FA479EC61D376CB000619BA0 /* Right.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Right.swift; sourceTree = "<group>"; };
 		FA50AA4F1D2A3FE60035C942 /* Groover.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Groover.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA50AA521D2A3FE60035C942 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -177,11 +177,11 @@
 		423174F91D6CADB000A97065 /* PlayRecord */ = {
 			isa = PBXGroup;
 			children = (
-				429A22D11D354D3D0045023F /* Clear.swift */,
 				FA50AA881D2B40160035C942 /* Record.swift */,
 				FA50AA861D2B3F9C0035C942 /* Play.swift */,
-				429A22CF1D354C900045023F /* PlayRecordControl.swift */,
-				429A22CD1D354C6E0045023F /* PlayRecordButton.swift */,
+				42C8A3D01D972845004BDD58 /* RecordCtrl.swift */,
+				42C8A3D21D97285A004BDD58 /* PlayCtrl.swift */,
+				42C8A3D41D972F12004BDD58 /* PlayRecordProtocol.swift */,
 			);
 			name = PlayRecord;
 			sourceTree = "<group>";
@@ -471,17 +471,18 @@
 				429A22BD1D338E240045023F /* SnareInstrument.swift in Sources */,
 				FA479EC71D376CB000619BA0 /* Right.swift in Sources */,
 				429A22BC1D338E240045023F /* KickInstrument.swift in Sources */,
+				42C8A3D11D972845004BDD58 /* RecordCtrl.swift in Sources */,
 				FA50AA951D2B45570035C942 /* Triplet.swift in Sources */,
 				423174F61D6CAD0F00A97065 /* QuantizeControl.swift in Sources */,
 				FA908EE11D3F3EB6009FAFA4 /* ParametersPopup.swift in Sources */,
 				4254BC491D4E9DE6007572B6 /* PopupButton.swift in Sources */,
 				42A59FA81D301F8B0070FE46 /* MotionFilter.cpp in Sources */,
 				FA50AA551D2A3FE60035C942 /* ViewController.swift in Sources */,
-				429A22D01D354C900045023F /* PlayRecordControl.swift in Sources */,
 				42A59FA51D301F8B0070FE46 /* Common.cpp in Sources */,
 				FA50AA8F1D2B44440035C942 /* Eighth.swift in Sources */,
-				429A22D21D354D3D0045023F /* Clear.swift in Sources */,
+				42C8A3D31D97285A004BDD58 /* PlayCtrl.swift in Sources */,
 				FA50AA531D2A3FE60035C942 /* AppDelegate.swift in Sources */,
+				42C8A3D51D972F12004BDD58 /* PlayRecordProtocol.swift in Sources */,
 				429A22BB1D338E240045023F /* Instruments.swift in Sources */,
 				42A59FA41D301F8B0070FE46 /* BeatFilter.cpp in Sources */,
 				FA50AA971D2B472E0035C942 /* HamburgerIcon.swift in Sources */,
@@ -490,7 +491,6 @@
 				FA50AA911D2B44DD0035C942 /* Sixteenth.swift in Sources */,
 				4254BC451D4D8366007572B6 /* PopupBlur.swift in Sources */,
 				429A22BA1D338E240045023F /* HatInstrument.swift in Sources */,
-				429A22CE1D354C6E0045023F /* PlayRecordButton.swift in Sources */,
 				FA50AA8B1D2B40E40035C942 /* ParametersButton.swift in Sources */,
 				423174F81D6CAD8D00A97065 /* QuantizeButton.swift in Sources */,
 				42A59FA61D301F8B0070FE46 /* IMUFilter.cpp in Sources */,

@@ -68,9 +68,15 @@
                                 <frame key="frameInset" minY="63" width="300" height="90"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </view>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0JK-5c-46q" customClass="PlayRecordControl" customModule="Groover">
-                                <frame key="frameInset" minX="200" width="108" height="55"/>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fGd-Jm-f7v" customClass="PlayCtrl" customModule="Groover" customModuleProvider="target">
+                                <frame key="frameInset" minX="199" minY="9" width="47" height="35"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            </view>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6Ob-qz-zOY" customClass="RecordCtrl" customModule="Groover" customModuleProvider="target">
+                                <frame key="frameInset" minX="253" minY="9" width="47" height="35"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -86,17 +92,18 @@
                         <outlet property="knob" destination="VOG-gV-ZKn" id="R4P-TT-b9y"/>
                         <outlet property="parametersButton" destination="QiK-DN-jXn" id="a1I-Ou-qEt"/>
                         <outlet property="parametersPopup" destination="1PT-Gs-BZQ" id="4QW-zc-bbI"/>
-                        <outlet property="playRecordControl" destination="0JK-5c-46q" id="ObG-bV-Mqw"/>
+                        <outlet property="playButton" destination="fGd-Jm-f7v" id="lMt-DR-vk8"/>
                         <outlet property="popup" destination="9Oa-HM-AtP" id="ZtD-s1-PYu"/>
                         <outlet property="positionIndicator" destination="DKT-hU-eN4" id="Di4-L3-Jk8"/>
                         <outlet property="positionLabel" destination="xTy-PB-cXq" id="Pmh-42-eru"/>
                         <outlet property="quantizeControl" destination="qRU-j6-fXT" id="icS-AV-YRF"/>
+                        <outlet property="recordButton" destination="6Ob-qz-zOY" id="hF5-Vu-JN8"/>
                         <outlet property="settingsButton" destination="2Cl-UT-epf" id="h7H-Uh-uRK"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="305" y="387"/>
+            <point key="canvasLocation" x="304.80000000000001" y="386.35682158920542"/>
         </scene>
     </scenes>
     <resources>

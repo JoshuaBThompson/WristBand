@@ -29,6 +29,7 @@
 		42A59FA71D301F8B0070FE46 /* MidiSensor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42A59FA01D301F8B0070FE46 /* MidiSensor.cpp */; };
 		42A59FA81D301F8B0070FE46 /* MotionFilter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42A59FA21D301F8B0070FE46 /* MotionFilter.cpp */; };
 		42A59FAB1D301FA60070FE46 /* MidiSensorWrapper.mm in Sources */ = {isa = PBXBuildFile; fileRef = 42A59FAA1D301FA60070FE46 /* MidiSensorWrapper.mm */; };
+		42C8A3CF1D9721D4004BDD58 /* KnobCtrl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42C8A3CE1D9721D4004BDD58 /* KnobCtrl.swift */; };
 		FA479EC71D376CB000619BA0 /* Right.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA479EC61D376CB000619BA0 /* Right.swift */; };
 		FA50AA531D2A3FE60035C942 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA50AA521D2A3FE60035C942 /* AppDelegate.swift */; };
 		FA50AA551D2A3FE60035C942 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA50AA541D2A3FE60035C942 /* ViewController.swift */; };
@@ -116,6 +117,7 @@
 		42A59FA91D301F9D0070FE46 /* MidiSensorWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MidiSensorWrapper.h; sourceTree = "<group>"; };
 		42A59FAA1D301FA60070FE46 /* MidiSensorWrapper.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MidiSensorWrapper.mm; sourceTree = "<group>"; };
 		42A59FAC1D301FAD0070FE46 /* Groover-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Groover-Bridging-Header.h"; sourceTree = "<group>"; };
+		42C8A3CE1D9721D4004BDD58 /* KnobCtrl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KnobCtrl.swift; sourceTree = "<group>"; };
 		FA479EC61D376CB000619BA0 /* Right.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Right.swift; sourceTree = "<group>"; };
 		FA50AA4F1D2A3FE60035C942 /* Groover.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Groover.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA50AA521D2A3FE60035C942 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -235,6 +237,7 @@
 			children = (
 				FA50AA841D2B397F0035C942 /* Knob.swift */,
 				FA50AA9A1D2B496B0035C942 /* PositionIndicator.swift */,
+				42C8A3CE1D9721D4004BDD58 /* KnobCtrl.swift */,
 			);
 			name = Knob;
 			sourceTree = "<group>";
@@ -493,6 +496,7 @@
 				42A59FA61D301F8B0070FE46 /* IMUFilter.cpp in Sources */,
 				FA50AA8D1D2B43620035C942 /* Quarter.swift in Sources */,
 				FA50AA831D2A433B0035C942 /* UIGroover.swift in Sources */,
+				42C8A3CF1D9721D4004BDD58 /* KnobCtrl.swift in Sources */,
 				42A59FAB1D301FA60070FE46 /* MidiSensorWrapper.mm in Sources */,
 				FA820EB41D2E20E800C6FBF4 /* Popup.swift in Sources */,
 				FA50AA931D2B454D0035C942 /* Thirtysecond.swift in Sources */,

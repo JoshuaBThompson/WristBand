@@ -25,7 +25,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var parametersButton: ParametersButton!
     @IBOutlet weak var popup: Popup!
     @IBOutlet weak var positionIndicator: PositionIndicator!
-    @IBOutlet weak var knob: Knob!
+    @IBOutlet weak var knob: KnobCtrl!
     @IBOutlet weak var playRecordControl: PlayRecordControl!
     @IBOutlet weak var positionLabel: UILabel!
     @IBOutlet weak var parametersPopup: ParametersPopup!
@@ -208,7 +208,7 @@ class ViewController: UIViewController {
     }
     
     //MARK: Knob event handlers
-    func knobAngleChanged(_ knobControl: Knob){
+    func knobAngleChanged(_ knobControl: KnobCtrl){
         positionIndicator.show()
         parametersButton.hide()
         print("knob angle changed to \(knobControl.angle)!")

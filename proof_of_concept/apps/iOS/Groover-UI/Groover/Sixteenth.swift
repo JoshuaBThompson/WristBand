@@ -8,11 +8,11 @@
 
 import UIKit
 
-//@IBDesignable
-class Sixteenth: QuantizeButton {
+@IBDesignable
+class Sixteenth: UIButton {
     
     override func draw(_ rect: CGRect) {
-        UIGroover.drawSixteenthCanvas(sixteenthSelected: isSelected, sixteenthActive: on)
+        UIGroover.drawSixteenthCanvas()
     }
     
 }

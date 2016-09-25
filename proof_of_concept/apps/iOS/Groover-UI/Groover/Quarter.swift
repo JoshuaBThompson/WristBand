@@ -8,11 +8,11 @@
 
 import UIKit
 
-//@IBDesignable
-class Quarter: QuantizeButton {
+@IBDesignable
+class Quarter: UIButton {
     
     override func draw(_ rect: CGRect) {
-        UIGroover.drawQuarterCanvas(quarterSelected: isSelected, quarterActive: on)
+        UIGroover.drawQuarterCanvas()
     }
     
 }

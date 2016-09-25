@@ -17,6 +17,7 @@ class ViewController: UIViewController {
     let motionManager = CMMotionManager()
     let queue = OperationQueue.main
     var timeIntervalMillis: UInt = 25
+    var quantizeButtons = [QuantizeButtonProtocol]()
     
     //MARK: outlets
     
@@ -28,9 +29,15 @@ class ViewController: UIViewController {
     @IBOutlet weak var knob: KnobCtrl!
     @IBOutlet weak var positionLabel: UILabel!
     @IBOutlet weak var parametersPopup: ParametersPopup!
-    @IBOutlet weak var quantizeControl: QuantizeControl!
     @IBOutlet weak var playButton: PlayCtrl!
     @IBOutlet weak var recordButton: RecordCtrl!
+    @IBOutlet weak var quarterQuantizeButton: QuarterCtrl!
+    @IBOutlet weak var eighthQuantizeButton: EighthCtrl!
+    @IBOutlet weak var sixteenthQuantizeButton: SixteenthCtrl!
+    @IBOutlet weak var thirtysecondQuantizeButton: ThirtysecondCtrl!
+    @IBOutlet weak var tripletQuantizeButton: TripletCtrl!
+    
+    
     
     
     override func viewDidLoad() {
@@ -47,7 +54,18 @@ class ViewController: UIViewController {
         parametersButton.addTarget(self, action: #selector(ViewController.parametersButtonSelected), for: .valueChanged)
         parametersPopup.addTarget(self, action: #selector(ViewController.parametersOptionSelected), for: .valueChanged)
         popup.addTarget(self, action: #selector(ViewController.popupButtonSelected), for: .valueChanged)
-        quantizeControl.addTarget(self, action: #selector(ViewController.quantizeButtonSelected), for: .valueChanged)
+        quarterQuantizeButton.addTarget(self, action: #selector(ViewController.quantizeButtonSelected(_:)), for: .valueChanged)
+        eighthQuantizeButton.addTarget(self, action: #selector(ViewController.quantizeButtonSelected(_:)), for: .valueChanged)
+        sixteenthQuantizeButton.addTarget(self, action: #selector(ViewController.quantizeButtonSelected(_:)), for: .valueChanged)
+        thirtysecondQuantizeButton.addTarget(self, action: #selector(ViewController.quantizeButtonSelected(_:)), for: .valueChanged)
+        tripletQuantizeButton.addTarget(self, action: #selector(ViewController.quantizeButtonSelected(_:)), for: .valueChanged)
+        
+        quantizeButtons.append(quarterQuantizeButton)
+        quantizeButtons.append(eighthQuantizeButton)
+        quantizeButtons.append(sixteenthQuantizeButton)
+        quantizeButtons.append(thirtysecondQuantizeButton)
+        quantizeButtons.append(tripletQuantizeButton)
+        
         song = Song()
         positionLabel.text = song.selectedInstrumentName
         song.start()
@@ -79,14 +97,25 @@ class ViewController: UIViewController {
     }
     
     //MARK: Quantize buttons
-    func quantizeButtonSelected(){
-        let selected = quantizeControl.currentButton.isSelected
-        var resolution = quantizeControl.currentButton.resolution
-        if(quantizeControl.tripletButton.isSelected){
-            resolution = resolution * quantizeControl.tripletButton.resolution //ex: if quarter not selected and triplet then resolution = 1*3
+    func quantizeButtonSelected(_ quantizeButton: QuantizeButtonProtocol){
+        print("quantizebuttonselected")
+        var selected: Bool = false
+        var resolution: Double = 0
+        for button in quantizeButtons {
+            if(button.resolution != quantizeButton.resolution && quantizeButton.resolution != TripletResolution && button.resolution != TripletResolution){
+                button.on = false
+            }
+            else if(button.resolution != TripletResolution){
+                resolution = button.resolution
+                selected = quantizeButton.on
+            }
+        }
+        if(tripletQuantizeButton.isSelected && quantizeButton.resolution != TripletResolution){
+            resolution = resolution * tripletQuantizeButton.resolution //ex: if quarter not selected and triplet then resolution = 1*3
             print("resolution \(resolution)")
         }
         song.updatePresetQuantize(enabled: selected, resolution: resolution)
+        
     }
     
     //MARK: Parameter option selected

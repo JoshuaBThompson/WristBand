@@ -34,6 +34,8 @@
 		42C8A3DF1D974298004BDD58 /* SixteenthCtrl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42C8A3DE1D974298004BDD58 /* SixteenthCtrl.swift */; };
 		42C8A3E11D9742CA004BDD58 /* TripletCtrl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42C8A3E01D9742CA004BDD58 /* TripletCtrl.swift */; };
 		42C8A3E31D974457004BDD58 /* QuantizeButtonProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42C8A3E21D974457004BDD58 /* QuantizeButtonProtocol.swift */; };
+		42C8A3E51D9C1554004BDD58 /* ParametersButtonCtrl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42C8A3E41D9C1554004BDD58 /* ParametersButtonCtrl.swift */; };
+		42C8A3E71D9C1859004BDD58 /* ParametersPopupCtrl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42C8A3E61D9C1859004BDD58 /* ParametersPopupCtrl.swift */; };
 		FA479EC71D376CB000619BA0 /* Right.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA479EC61D376CB000619BA0 /* Right.swift */; };
 		FA50AA531D2A3FE60035C942 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA50AA521D2A3FE60035C942 /* AppDelegate.swift */; };
 		FA50AA551D2A3FE60035C942 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA50AA541D2A3FE60035C942 /* ViewController.swift */; };
@@ -126,6 +128,8 @@
 		42C8A3DE1D974298004BDD58 /* SixteenthCtrl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SixteenthCtrl.swift; sourceTree = "<group>"; };
 		42C8A3E01D9742CA004BDD58 /* TripletCtrl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TripletCtrl.swift; sourceTree = "<group>"; };
 		42C8A3E21D974457004BDD58 /* QuantizeButtonProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuantizeButtonProtocol.swift; sourceTree = "<group>"; };
+		42C8A3E41D9C1554004BDD58 /* ParametersButtonCtrl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParametersButtonCtrl.swift; sourceTree = "<group>"; };
+		42C8A3E61D9C1859004BDD58 /* ParametersPopupCtrl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParametersPopupCtrl.swift; sourceTree = "<group>"; };
 		FA479EC61D376CB000619BA0 /* Right.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Right.swift; sourceTree = "<group>"; };
 		FA50AA4F1D2A3FE60035C942 /* Groover.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Groover.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA50AA521D2A3FE60035C942 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -201,6 +205,8 @@
 				4220581A1D5B942B0018E22D /* ParameterOptionsButton.swift */,
 				FA50AA8A1D2B40E40035C942 /* ParametersButton.swift */,
 				FA908EE01D3F3EB6009FAFA4 /* ParametersPopup.swift */,
+				42C8A3E41D9C1554004BDD58 /* ParametersButtonCtrl.swift */,
+				42C8A3E61D9C1859004BDD58 /* ParametersPopupCtrl.swift */,
 			);
 			name = Parameters;
 			sourceTree = "<group>";
@@ -499,6 +505,7 @@
 				42C8A3E11D9742CA004BDD58 /* TripletCtrl.swift in Sources */,
 				429A22BB1D338E240045023F /* Instruments.swift in Sources */,
 				42A59FA41D301F8B0070FE46 /* BeatFilter.cpp in Sources */,
+				42C8A3E51D9C1554004BDD58 /* ParametersButtonCtrl.swift in Sources */,
 				FA50AA971D2B472E0035C942 /* HamburgerIcon.swift in Sources */,
 				42C8A3DB1D97422F004BDD58 /* EighthCtrl.swift in Sources */,
 				FA908EE31D3F490A009FAFA4 /* RectBtn.swift in Sources */,
@@ -514,6 +521,7 @@
 				42C8A3CF1D9721D4004BDD58 /* KnobCtrl.swift in Sources */,
 				42A59FAB1D301FA60070FE46 /* MidiSensorWrapper.mm in Sources */,
 				FA820EB41D2E20E800C6FBF4 /* Popup.swift in Sources */,
+				42C8A3E71D9C1859004BDD58 /* ParametersPopupCtrl.swift in Sources */,
 				42C8A3E31D974457004BDD58 /* QuantizeButtonProtocol.swift in Sources */,
 				FA50AA931D2B454D0035C942 /* Thirtysecond.swift in Sources */,
 				FA50AA851D2B397F0035C942 /* Knob.swift in Sources */,

@@ -23,7 +23,7 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var hamburgerButton: HamburgerIcon!
     @IBOutlet weak var settingsButton: SettingsIcon!
-    @IBOutlet weak var parametersButton: ParametersButton!
+    @IBOutlet weak var parametersButton: ParametersButtonCtrl!
     @IBOutlet weak var popup: Popup!
     @IBOutlet weak var positionIndicator: PositionIndicator!
     @IBOutlet weak var knob: KnobCtrl!

@@ -13,12 +13,6 @@ class Right: PopupButton {
     
     override func draw(_ rect: CGRect) {
         UIGroover.drawRightCanvas()
-        print("right displaying!")
-    }
-    
-    func updateState(){
-        setNeedsDisplay()
-        print("right arrow needs display")
     }
     
 }

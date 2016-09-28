@@ -16,9 +16,4 @@ class Left: PopupButton {
         print("left displaying!")
     }
     
-    func updateState(){
-        setNeedsDisplay()
-        print("left arrow needs display")
-    }
-    
 }

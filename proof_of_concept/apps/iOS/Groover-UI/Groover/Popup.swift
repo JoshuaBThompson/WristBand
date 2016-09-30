@@ -67,26 +67,26 @@ class Popup: UIControl {
         upperLeftButton.type = .upper_LEFT
         upperLeftButton.addTarget(self, action: #selector(Popup.upperLeftButtonTapped), for: .touchDown)
         addButton(upperLeftButton)
-        upperLeftButton.updateState()
+        //upperLeftButton.updateState()
         
         upperRightButton = Right()
         upperRightButton.type = .upper_RIGHT
         upperRightButton.addTarget(self, action: #selector(Popup.upperRightButtonTapped), for: .touchDown)
         addButton(upperRightButton)
-        upperRightButton.updateState()
+        //upperRightButton.updateState()
         
         //lower buttons
         lowerLeftButton = Left()
         lowerLeftButton.type = .lower_LEFT
         lowerLeftButton.addTarget(self, action: #selector(Popup.lowerLeftButtonTapped), for: .touchDown)
         addButton(lowerLeftButton)
-        lowerLeftButton.updateState()
+        //lowerLeftButton.updateState()
         
         lowerRightButton = Right()
         lowerRightButton.type = .lower_RIGHT
         lowerRightButton.addTarget(self, action: #selector(Popup.lowerRightButtonTapped), for: .touchDown)
         addButton(lowerRightButton)
-        lowerRightButton.updateState()
+        //lowerRightButton.updateState()
         
         //temp and time signature labels
         tempoLabel = UILabel()
@@ -118,24 +118,24 @@ class Popup: UIControl {
         buttonFrame.origin.x = CGFloat(34)
         buttonFrame.origin.y = CGFloat(124)
         upperLeftButton.frame = buttonFrame
-        upperLeftButton.updateState()
+        //upperLeftButton.updateState()
         
         buttonFrame.origin.x = CGFloat(250)
         buttonFrame.origin.y = CGFloat(124)
         upperRightButton.frame = buttonFrame
-        upperRightButton.updateState()
+        //upperRightButton.updateState()
         
         
         //lower buttons
         buttonFrame.origin.x = CGFloat(34)
         buttonFrame.origin.y = CGFloat(250)
         lowerLeftButton.frame = buttonFrame
-        lowerLeftButton.updateState()
+        //lowerLeftButton.updateState()
         
         buttonFrame.origin.x = CGFloat(250)
         buttonFrame.origin.y = CGFloat(250)
         lowerRightButton.frame = buttonFrame
-        lowerRightButton.updateState()
+        //lowerRightButton.updateState()
         
         
         let popupFrame = CGRect(x: 0, y: 0, width: frame.width, height: frame.height)//frame

@@ -37,7 +37,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                             </view>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2Cl-UT-epf" customClass="SettingsIcon" customModule="Groover">
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2Cl-UT-epf" customClass="SettingsIconCtrl" customModule="Groover">
                                 <frame key="frameInset" minX="226" minY="534" width="22" height="22"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
@@ -59,9 +59,48 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                             </view>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1PT-Gs-BZQ" customClass="ParametersPopup" customModule="Groover">
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1PT-Gs-BZQ" customClass="ParametersPopupCtrl" customModule="Groover">
                                 <frame key="frameInset" minY="200" width="320" height="368"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jUT-rJ-Baq">
+                                        <frame key="frameInset" minX="129" minY="26" width="40" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" title="SOLO"/>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1eC-nC-GDd">
+                                        <frame key="frameInset" minX="217" minY="26" width="47" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" title="CLEAR"/>
+                                    </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="30a-lU-8Ol">
+                                        <frame key="frameInset" minX="144" minY="106" width="31" height="21"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="x6c-uW-0hA">
+                                        <frame key="frameInset" minX="50" minY="26" width="42" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" title="MUTE"/>
+                                    </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Measures" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9nA-cV-dMC">
+                                        <frame key="frameInset" minX="122" minY="135" width="75" height="21"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mGX-3b-sAw" customClass="MeasureLeftButton" customModule="Groover" customModuleProvider="target">
+                                        <frame key="frameInset" minX="33" minY="130" width="46" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="13U-wa-ICx" customClass="MeasureRightButton" customModule="Groover" customModuleProvider="target">
+                                        <frame key="frameInset" minX="261" minY="130" width="46" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    </button>
+                                </subviews>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                             </view>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fGd-Jm-f7v" customClass="PlayCtrl" customModule="Groover" customModuleProvider="target">
@@ -109,9 +148,14 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="clearButton" destination="1eC-nC-GDd" id="Tbl-1u-IJt"/>
                         <outlet property="eighthQuantizeButton" destination="aGc-X4-3X1" id="KnD-zw-DJ9"/>
                         <outlet property="hamburgerButton" destination="8CQ-3U-35x" id="S0S-1K-vL5"/>
                         <outlet property="knob" destination="VOG-gV-ZKn" id="R4P-TT-b9y"/>
+                        <outlet property="leftMeasureButton" destination="mGX-3b-sAw" id="9tU-J9-Jfd"/>
+                        <outlet property="measureCountLabel" destination="30a-lU-8Ol" id="a6U-H7-72v"/>
+                        <outlet property="measuresLabel" destination="9nA-cV-dMC" id="adK-NT-61v"/>
+                        <outlet property="muteButton" destination="x6c-uW-0hA" id="sXn-ZV-Evb"/>
                         <outlet property="parametersButton" destination="QiK-DN-jXn" id="a1I-Ou-qEt"/>
                         <outlet property="parametersPopup" destination="1PT-Gs-BZQ" id="4QW-zc-bbI"/>
                         <outlet property="playButton" destination="fGd-Jm-f7v" id="lMt-DR-vk8"/>
@@ -120,8 +164,10 @@
                         <outlet property="positionLabel" destination="xTy-PB-cXq" id="Pmh-42-eru"/>
                         <outlet property="quarterQuantizeButton" destination="RHG-dX-Wd5" id="UZH-8R-moc"/>
                         <outlet property="recordButton" destination="6Ob-qz-zOY" id="hF5-Vu-JN8"/>
+                        <outlet property="rightMeasureButton" destination="13U-wa-ICx" id="hkK-co-uiL"/>
                         <outlet property="settingsButton" destination="2Cl-UT-epf" id="h7H-Uh-uRK"/>
                         <outlet property="sixteenthQuantizeButton" destination="Rkt-VQ-pDp" id="7GA-6r-zFI"/>
+                        <outlet property="soloButton" destination="jUT-rJ-Baq" id="sSW-w4-XGO"/>
                         <outlet property="thirtysecondQuantizeButton" destination="Ahu-b4-WfW" id="nXg-iz-qhq"/>
                         <outlet property="tripletQuantizeButton" destination="oMp-bZ-gaf" id="IxU-kh-yV1"/>
                     </connections>

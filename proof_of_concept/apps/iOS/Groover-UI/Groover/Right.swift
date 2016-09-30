@@ -8,11 +8,13 @@
 
 import UIKit
 
-//@IBDesignable
+@IBDesignable
 class Right: PopupButton {
     
     override func draw(_ rect: CGRect) {
         UIGroover.drawRightCanvas()
+        print("right displaying!")
     }
+
     
 }

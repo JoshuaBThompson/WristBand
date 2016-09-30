@@ -22,13 +22,13 @@ class ViewController: UIViewController {
     //MARK: outlets
     
     @IBOutlet weak var hamburgerButton: HamburgerIcon!
-    @IBOutlet weak var settingsButton: SettingsIcon!
+    @IBOutlet weak var settingsButton: SettingsIconCtrl!
     @IBOutlet weak var parametersButton: ParametersButtonCtrl!
     @IBOutlet weak var popup: Popup!
     @IBOutlet weak var positionIndicator: PositionIndicator!
     @IBOutlet weak var knob: KnobCtrl!
     @IBOutlet weak var positionLabel: UILabel!
-    @IBOutlet weak var parametersPopup: ParametersPopup!
+    @IBOutlet weak var parametersPopup: ParametersPopupCtrl!
     @IBOutlet weak var playButton: PlayCtrl!
     @IBOutlet weak var recordButton: RecordCtrl!
     @IBOutlet weak var quarterQuantizeButton: QuarterCtrl!
@@ -37,12 +37,23 @@ class ViewController: UIViewController {
     @IBOutlet weak var thirtysecondQuantizeButton: ThirtysecondCtrl!
     @IBOutlet weak var tripletQuantizeButton: TripletCtrl!
     
-    
+    //MARK: parameters popup elements
+    @IBOutlet weak var muteButton: UIButton!
+    @IBOutlet weak var clearButton: UIButton!
+    @IBOutlet weak var soloButton: UIButton!
+    @IBOutlet weak var measureCountLabel: UILabel!
+    @IBOutlet weak var measuresLabel: UILabel!
+    @IBOutlet weak var rightMeasureButton: MeasureRightButton!
+    @IBOutlet weak var leftMeasureButton: MeasureLeftButton!
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        
+        
+        //Init parameters popup with buttons from main storyboard
+        parametersPopup.initButtonsAndLabels(clearButtonRef: clearButton, soloButtonRef: soloButton, muteButtonRef: muteButton, rightButtonRef: rightMeasureButton, leftButtonRef: leftMeasureButton, measureTitleRef: measuresLabel, measureLabelRef: measureCountLabel)
         
         //Connect view controller functions to buttons events
         playButton.addTarget(self, action: #selector(ViewController.playRecordButtonSelected(_:)), for: .valueChanged)
@@ -120,24 +131,23 @@ class ViewController: UIViewController {
     
     //MARK: Parameter option selected
     func parametersOptionSelected(){
-        var buttonType = ParametersButtonTypes.clear
-        buttonType = parametersPopup.selectedButton.type
-        let selected = parametersPopup.selectedButton.isSelected
+        var buttonType = ParametersButtonTypes.CLEAR
+        buttonType = parametersPopup.buttonTypeSelected
         
         switch buttonType {
-        case .clear:
+        case .CLEAR:
             song.clearPreset()
             print("song clear preset!")
-        case .solo:
-            if(selected){
+        case .SOLO:
+            if(parametersPopup.soloButton.isSelected){
                 song.enableSoloPreset()
             }
             else{
                 song.disableSoloPreset()
             }
             print("song solo preset!")
-        case .mute:
-            if(selected){
+        case .MUTE:
+            if(parametersPopup.muteButton.isSelected){
                 song.mutePreset()
                 print("mute preset!")
             }
@@ -146,10 +156,10 @@ class ViewController: UIViewController {
                 print("unmute preset!")
             }
             
-        case .measure_LEFT:
+        case .MEASURE_LEFT:
             print("measure change decrease to \(parametersPopup.measures)!")
         
-        case .measure_RIGHT:
+        case .MEASURE_RIGHT:
             print("measure change increase to \(parametersPopup.measures)!")
         }
     }

@@ -8,7 +8,7 @@
 
 import UIKit
 
-//@IBDesignable
+@IBDesignable
 class Left: PopupButton {
     
     override func draw(_ rect: CGRect) {

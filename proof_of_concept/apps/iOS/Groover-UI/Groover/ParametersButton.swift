@@ -8,7 +8,7 @@
 
 import UIKit
 
-//@IBDesignable
+@IBDesignable
 class ParametersButton: UIButton {
     override func draw(_ rect: CGRect) {
         UIGroover.drawSoundParametersCanvas()

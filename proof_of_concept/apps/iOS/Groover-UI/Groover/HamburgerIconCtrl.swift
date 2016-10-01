@@ -1,29 +1,30 @@
 //
-//  ParametersButtonCtrl.swift
+//  HamburgerIconCtrl.swift
 //  Groover
 //
-//  Created by Joshua Thompson on 9/28/16.
+//  Created by Joshua Thompson on 10/1/16.
 //  Copyright © 2016 TCM. All rights reserved.
 //
 
 import UIKit
 
-//@IBDesignable
-class ParametersButtonCtrl: ParametersButton {
+class HamburgerIconCtrl: HamburgerIcon {
+
+    // MARK: Draw
     override func draw(_ rect: CGRect) {
-        UIGroover.drawSoundParametersCanvas()
+        UIGroover.drawHamburgerCanvas(hamburgerSelected: isSelected)
     }
     
     // MARK: Initialization
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        self.addTarget(self, action: #selector(ParametersButtonCtrl.buttonTapped(_:)), for: .touchDown)
+        self.addTarget(self, action: #selector(HamburgerIconCtrl.buttonTapped(_:)), for: .touchDown)
     }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        self.addTarget(self, action: #selector(ParametersButtonCtrl.buttonTapped(_:)), for: .touchDown)
+        self.addTarget(self, action: #selector(HamburgerIconCtrl.buttonTapped(_:)), for: .touchDown)
         
     }
     
@@ -31,7 +32,7 @@ class ParametersButtonCtrl: ParametersButton {
     // MARK: Button Action
     
     func buttonTapped(_ button: UIButton) {
-        print("Parameters button tapped")
+        print("Setting button tapped")
         isSelected = !isSelected //toggle selected
         sendActions(for: .valueChanged) //this tells view controller that something changed
         updateState()
@@ -40,14 +41,5 @@ class ParametersButtonCtrl: ParametersButton {
     func updateState(){
         setNeedsDisplay()
     }
-    
-    //MARK: show / hide functions
-    func show(){
-        isHidden = false
-    }
-    
-    func hide(){
-        isHidden = true
-    }
-    
+
 }

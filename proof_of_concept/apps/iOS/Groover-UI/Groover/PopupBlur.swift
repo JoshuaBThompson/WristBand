@@ -9,7 +9,7 @@
 import UIKit
 
 //@IBDesignable
-class PopupBlur: UIView {
+class PopupBlur: PopupCtrl {
     var popupPath: UIBezierPath!
     var blurEffect: UIBlurEffect!
     var blurView: UIVisualEffectView!

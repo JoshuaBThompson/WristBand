@@ -21,10 +21,10 @@ class ViewController: UIViewController {
     
     //MARK: outlets
     
-    @IBOutlet weak var hamburgerButton: HamburgerIcon!
+    @IBOutlet weak var hamburgerButton: HamburgerIconCtrl!
     @IBOutlet weak var settingsButton: SettingsIconCtrl!
     @IBOutlet weak var parametersButton: ParametersButtonCtrl!
-    @IBOutlet weak var popup: Popup!
+    @IBOutlet weak var popup: PopupCtrl!
     @IBOutlet weak var positionIndicator: PositionIndicator!
     @IBOutlet weak var knob: KnobCtrl!
     @IBOutlet weak var positionLabel: UILabel!
@@ -46,13 +46,22 @@ class ViewController: UIViewController {
     @IBOutlet weak var rightMeasureButton: MeasureRightButton!
     @IBOutlet weak var leftMeasureButton: MeasureLeftButton!
     
+    //MARK: settings popup elements
+    
+    @IBOutlet weak var tempoRightButton: TempoRightButton!
+    @IBOutlet weak var tempoLeftButton: TempoLeftButton!
+    @IBOutlet weak var timesigRightButton: TimeSigRightButton!
+    @IBOutlet weak var timesigLeftButton: TimeSigLeftButton!
+    @IBOutlet weak var tempoLabel: UILabel!
+    @IBOutlet weak var timesigLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-        
-        //Init parameters popup with buttons from main storyboard
+        //Init settings popup with buttons and labels from main storyboard
+        popup.initButtonsAndLabels(tempoRightButtonRef: tempoRightButton, tempoLeftButtonRef: tempoLeftButton, timesigRightButtonRef: timesigRightButton, timesigLeftButtonRef: timesigLeftButton, tempoLabelRef: tempoLabel, timesigLabelRef: timesigLabel)
+        //Init parameters popup with buttons and labels from main storyboard
         parametersPopup.initButtonsAndLabels(clearButtonRef: clearButton, soloButtonRef: soloButton, muteButtonRef: muteButton, rightButtonRef: rightMeasureButton, leftButtonRef: leftMeasureButton, measureTitleRef: measuresLabel, measureLabelRef: measureCountLabel)
         
         //Connect view controller functions to buttons events
@@ -195,25 +204,25 @@ class ViewController: UIViewController {
     
     //MARK: popup buttons handler
     func popupButtonSelected(){
-        var buttonType = PopupButtonTypes.upper_LEFT
-        buttonType = popup.currentButton.type
+        var buttonType = SettingsButtonTypes.TEMPO_LEFT
+        buttonType = popup.buttonTypeSelected
         
         switch buttonType {
-        case .upper_LEFT:
+        case .TEMPO_LEFT:
             song.setTempo(popup.tempo)
             print("update tempo dec")
             break
-        case .upper_RIGHT:
+        case .TEMPO_RIGHT:
             song.setTempo(popup.tempo)
             print("update tempo inc")
             break
-        case .lower_LEFT:
+        case .TIMESIG_LEFT:
             //song.instruments[song.selectedInstrument].decPresetVolume()
             //print("dec volume to \(song.instruments[song.selectedInstrument].presetVolume)")
             song.decPresetPan()
             print("dec Pan to \(song.instruments[song.selectedInstrument].pan)")
             break
-        case .lower_RIGHT:
+        case .TIMESIG_RIGHT:
             //song.instruments[song.selectedInstrument].incPresetVolume()
             //print("inc volume to \(song.instruments[song.selectedInstrument].presetVolume)")
             song.incPresetPan()

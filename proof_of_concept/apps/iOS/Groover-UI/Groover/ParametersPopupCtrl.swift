@@ -80,7 +80,7 @@ class MuteButton: UIButton {
     }
 }
 
-@IBDesignable
+//@IBDesignable
 class ParametersPopupCtrl: ParametersPopup, ParametersHandlerDelegate {
     
     var clearButton: ClearButton!

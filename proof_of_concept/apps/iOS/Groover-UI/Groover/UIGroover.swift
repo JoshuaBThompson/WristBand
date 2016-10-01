@@ -1410,7 +1410,7 @@ open class UIGroover : NSObject {
         rightButtonPath.fill()
     }
     
-    open class func drawPopupCanvas(_ popupPath: UIBezierPath){
+    open class func drawPopupCanvas(_ popupPath: UIBezierPath = UIBezierPath()){
         popupPath.move(to: CGPoint(x: 36.27, y: 302))
         popupPath.addLine(to: CGPoint(x: 59.54, y: 302))
         popupPath.addLine(to: CGPoint(x: 71.33, y: 313.79))

@@ -39,6 +39,7 @@ class MeasureRightButton: Right {
     weak var delegate: ParametersHandlerDelegate?
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        isSelected = !isSelected
         delegate?.measureRightButtonTapped()
     }
 }
@@ -47,6 +48,7 @@ class MeasureLeftButton: Left {
     weak var delegate: ParametersHandlerDelegate?
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        isSelected = !isSelected
         delegate?.measureLeftButtonTapped()
     }
 }
@@ -55,6 +57,7 @@ class SoloButton: UIButton {
     weak var delegate: ParametersHandlerDelegate?
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        isSelected = !isSelected
         delegate?.soloButtonTapped()
     }
 }
@@ -63,6 +66,7 @@ class ClearButton: UIButton {
     weak var delegate: ParametersHandlerDelegate?
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        isSelected = !isSelected
         delegate?.clearButtonTapped()
     }
 }
@@ -71,6 +75,7 @@ class MuteButton: UIButton {
     weak var delegate: ParametersHandlerDelegate?
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        isSelected = !isSelected
         delegate?.muteButtonTapped()
     }
 }
@@ -78,9 +83,9 @@ class MuteButton: UIButton {
 @IBDesignable
 class ParametersPopupCtrl: ParametersPopup, ParametersHandlerDelegate {
     
-    var clearButton: UIButton!
-    var soloButton: UIButton!
-    var muteButton: UIButton!
+    var clearButton: ClearButton!
+    var soloButton: SoloButton!
+    var muteButton: MuteButton!
     var measureRightButton: MeasureRightButton!
     var measureLeftButton: MeasureLeftButton!
     var measures = 1
@@ -103,10 +108,13 @@ class ParametersPopupCtrl: ParametersPopup, ParametersHandlerDelegate {
         isHidden = true
     }
     
-    func initButtonsAndLabels(clearButtonRef: UIButton, soloButtonRef: UIButton, muteButtonRef: UIButton, rightButtonRef: MeasureRightButton, leftButtonRef: MeasureLeftButton, measureTitleRef: UILabel, measureLabelRef: UILabel){
+    func initButtonsAndLabels(clearButtonRef: ClearButton, soloButtonRef: SoloButton, muteButtonRef: MuteButton, rightButtonRef: MeasureRightButton, leftButtonRef: MeasureLeftButton, measureTitleRef: UILabel, measureLabelRef: UILabel){
         clearButton = clearButtonRef
+        
         soloButton = soloButtonRef
+        soloButton.delegate = self
         muteButton = muteButtonRef
+        muteButton.delegate = self
         measureRightButton = rightButtonRef
         measureRightButton.delegate = self
         measureLeftButton = leftButtonRef
@@ -199,17 +207,20 @@ class ParametersPopupCtrl: ParametersPopup, ParametersHandlerDelegate {
     // Solo button pressed
     func soloButtonTapped(){
         buttonTypeSelected = .SOLO
+        sendActions(for: .valueChanged) //this tells view controller that something changed
     }
     
     // Clear button pressed
     func clearButtonTapped(){
         buttonTypeSelected = .CLEAR
+        sendActions(for: .valueChanged) //this tells view controller that something changed
         
     }
     
     // Mute button pressed
     func muteButtonTapped(){
         buttonTypeSelected = .MUTE
+        sendActions(for: .valueChanged) //this tells view controller that something changed
         
     }
 

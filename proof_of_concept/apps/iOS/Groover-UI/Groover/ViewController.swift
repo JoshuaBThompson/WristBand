@@ -38,9 +38,9 @@ class ViewController: UIViewController {
     @IBOutlet weak var tripletQuantizeButton: TripletCtrl!
     
     //MARK: parameters popup elements
-    @IBOutlet weak var muteButton: UIButton!
-    @IBOutlet weak var clearButton: UIButton!
-    @IBOutlet weak var soloButton: UIButton!
+    @IBOutlet weak var muteButton: MuteButton!
+    @IBOutlet weak var clearButton: ClearButton!
+    @IBOutlet weak var soloButton: SoloButton!
     @IBOutlet weak var measureCountLabel: UILabel!
     @IBOutlet weak var measuresLabel: UILabel!
     @IBOutlet weak var rightMeasureButton: MeasureRightButton!

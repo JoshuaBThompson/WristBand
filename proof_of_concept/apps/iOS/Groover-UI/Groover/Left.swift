@@ -14,6 +14,7 @@ class Left: PopupButton {
     override func draw(_ rect: CGRect) {
         UIGroover.drawLeftCanvas()
         print("left displaying!")
+        
     }
     
 }

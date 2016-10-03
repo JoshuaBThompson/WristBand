@@ -163,7 +163,8 @@ class PopupCtrl: Popup, SettingsHandlerDelegate {
     
     //MARK: Tempo generate text from tempo attribute
     func updateTempoString(){
-        tempoLabel.text = String(format: "\(tempo) bpm")
+        let tempoText = Int(tempo)
+        tempoLabel.text = String(format: "\(tempoText) BPM")
     }
     
     //MARK: Time signature generate text from timeSigNote and timeSigBeats attributes

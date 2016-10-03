@@ -35,6 +35,8 @@ class PopupBlur: PopupCtrl {
         popupMask = CAShapeLayer()
         popupMask.path = popupPath.cgPath
         blurView.layer.mask = popupMask
+        self.sendSubview(toBack: blurView)
+        
         
     }
     

@@ -36,8 +36,9 @@ class TripletCtrl: Triplet, QuantizeButtonProtocol {
     }
     
     func buttonTapped(){
-        print("triplet selected!")
+        
         isSelected = !isSelected
+        print("triplet selected to \(isSelected)")
         sendActions(for: .valueChanged) //this tells view controller that something changed
     }
 }

@@ -121,19 +121,32 @@ class ViewController: UIViewController {
         print("quantizebuttonselected")
         var selected: Bool = false
         var resolution: Double = 0
+        
+        if(quantizeButton.resolution != TripletResolution){
+            resolution = quantizeButton.resolution
+            selected = quantizeButton.on
+        }
+        
         for button in quantizeButtons {
             if(button.resolution != quantizeButton.resolution && quantizeButton.resolution != TripletResolution && button.resolution != TripletResolution){
                 button.on = false
             }
-            else if(button.resolution != TripletResolution){
-                resolution = button.resolution
-                selected = quantizeButton.on
+            
+            else if(button.resolution != TripletResolution && quantizeButton.resolution == TripletResolution){
+                if(button.on){
+                    selected = true
+                    resolution = button.resolution
+                    print("quantize test for \(resolution)")
+                }
             }
         }
-        if(tripletQuantizeButton.isSelected && quantizeButton.resolution != TripletResolution){
+        
+        print("Triplet Quantize is \(tripletQuantizeButton.isSelected)")
+        if(tripletQuantizeButton.isSelected){
             resolution = resolution * tripletQuantizeButton.resolution //ex: if quarter not selected and triplet then resolution = 1*3
             print("resolution \(resolution)")
         }
+        print("updated quantize sel \(selected) res \(resolution)")
         song.updatePresetQuantize(enabled: selected, resolution: resolution)
         
     }

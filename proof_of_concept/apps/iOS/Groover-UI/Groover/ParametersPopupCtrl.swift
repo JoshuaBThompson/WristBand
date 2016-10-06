@@ -110,7 +110,7 @@ class ParametersPopupCtrl: ParametersPopup, ParametersHandlerDelegate {
     
     func initButtonsAndLabels(clearButtonRef: ClearButton, soloButtonRef: SoloButton, muteButtonRef: MuteButton, rightButtonRef: MeasureRightButton, leftButtonRef: MeasureLeftButton, measureTitleRef: UILabel, measureLabelRef: UILabel){
         clearButton = clearButtonRef
-        
+        clearButton.delegate = self
         soloButton = soloButtonRef
         soloButton.delegate = self
         muteButton = muteButtonRef
@@ -212,6 +212,7 @@ class ParametersPopupCtrl: ParametersPopup, ParametersHandlerDelegate {
     
     // Clear button pressed
     func clearButtonTapped(){
+        print("clear tapped")
         buttonTypeSelected = .CLEAR
         sendActions(for: .valueChanged) //this tells view controller that something changed
         

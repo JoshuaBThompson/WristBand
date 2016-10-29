@@ -6,7 +6,7 @@
 //  Copyright © 2016 TCM. All rights reserved.
 //
 
-import UIKit
+/*import UIKit
 
 
 
@@ -17,4 +17,4 @@ class Popup: UIControl {
         UIGroover.drawPopupCanvas()
     }
     
-}
+}*/

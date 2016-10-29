@@ -6,7 +6,7 @@
 //  Copyright © 2016 TCM. All rights reserved.
 //
 
-import UIKit
+/*import UIKit
 
 class ThirtysecondCtrl: Thirtysecond, QuantizeButtonProtocol {
     var resolution = ThirtysecondResolution
@@ -42,4 +42,4 @@ class ThirtysecondCtrl: Thirtysecond, QuantizeButtonProtocol {
         sendActions(for: .valueChanged) //this tells view controller that something changed
     }
 
-}
+}*/

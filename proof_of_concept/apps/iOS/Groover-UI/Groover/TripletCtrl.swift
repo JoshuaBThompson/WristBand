@@ -6,7 +6,7 @@
 //  Copyright © 2016 TCM. All rights reserved.
 //
 
-import UIKit
+/*import UIKit
 
 class TripletCtrl: Triplet, QuantizeButtonProtocol {
     var resolution = TripletResolution
@@ -41,4 +41,4 @@ class TripletCtrl: Triplet, QuantizeButtonProtocol {
         print("triplet selected to \(isSelected)")
         sendActions(for: .valueChanged) //this tells view controller that something changed
     }
-}
+}*/

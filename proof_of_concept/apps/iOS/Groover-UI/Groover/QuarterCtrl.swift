@@ -6,7 +6,7 @@
 //  Copyright © 2016 TCM. All rights reserved.
 //
 
-import UIKit
+/*import UIKit
 
 class QuarterCtrl: Quarter, QuantizeButtonProtocol {
     var resolution = QuarterResolution
@@ -42,4 +42,4 @@ class QuarterCtrl: Quarter, QuantizeButtonProtocol {
     }
     
 
-}
+}*/

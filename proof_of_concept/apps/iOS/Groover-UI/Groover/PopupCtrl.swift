@@ -6,7 +6,7 @@
 //  Copyright © 2016 TCM. All rights reserved.
 //
 
-import UIKit
+/*import UIKit
 
 //
 //  ParametersPopupCtrl.swift
@@ -240,4 +240,4 @@ class PopupCtrl: Popup, SettingsHandlerDelegate {
         
     }
     
-}
+}*/

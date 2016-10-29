@@ -6,7 +6,7 @@
 //  Copyright © 2016 TCM. All rights reserved.
 //
 
-import UIKit
+/*import UIKit
 
 @IBDesignable
 class SettingsIconCtrl: SettingsIcon {
@@ -23,4 +23,4 @@ class SettingsIconCtrl: SettingsIcon {
         isHidden = false
     }
     
-}
+}*/

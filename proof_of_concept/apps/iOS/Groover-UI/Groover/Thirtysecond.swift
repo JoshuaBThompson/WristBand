@@ -6,7 +6,7 @@
 //  Copyright © 2016 TCM. All rights reserved.
 //
 
-import UIKit
+/*import UIKit
 
 @IBDesignable
 class Thirtysecond: UIButton {
@@ -15,4 +15,4 @@ class Thirtysecond: UIButton {
         UIGroover.drawThirtysecondCanvas()
     }
     
-}
+}*/

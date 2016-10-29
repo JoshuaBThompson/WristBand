@@ -6,13 +6,13 @@
 //  Copyright © 2016 TCM. All rights reserved.
 //
 
-import UIKit
+//import UIKit
 
-@IBDesignable
-class Play: UIButton {
+//@IBDesignable
+//class Play: UIButton {
     
-    override func draw(_ rect: CGRect) {
-        UIGroover.drawPlayCanvas()
-    }
+//    override func draw(_ rect: CGRect) {
+//       UIGroover.drawPlayCanvas()
+//    }
     
-}
+//}

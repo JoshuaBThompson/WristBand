@@ -6,13 +6,13 @@
 //  Copyright © 2016 TCM. All rights reserved.
 //
 
-import UIKit
+/*import UIKit
 
 @IBDesignable
 class Sixteenth: UIButton {
     
     override func draw(_ rect: CGRect) {
-        UIGroover.drawSixteenthCanvas()
+       UIGroover.drawSixteenthCanvas()
     }
     
-}
+}*/

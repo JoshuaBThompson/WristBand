@@ -6,7 +6,7 @@
 //  Copyright © 2016 TCM. All rights reserved.
 //
 
-import UIKit
+/*import UIKit
 
 class EighthCtrl: Eighth, QuantizeButtonProtocol {
     var resolution = EighthResolution
@@ -41,4 +41,4 @@ class EighthCtrl: Eighth, QuantizeButtonProtocol {
         sendActions(for: .valueChanged) //this tells view controller that something changed
     }
 
-}
+}*/

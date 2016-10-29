@@ -6,7 +6,7 @@
 //  Copyright © 2016 TCM. All rights reserved.
 //
 
-import UIKit
+/*import UIKit
 
 class RecordCtrl: Record, PlayRecordProtocol {
     //MARK: properties
@@ -32,4 +32,4 @@ class RecordCtrl: Record, PlayRecordProtocol {
         sendActions(for: .valueChanged) //this tells view controller that something changed
     }
 
-}
+}*/

@@ -6,7 +6,7 @@
 //  Copyright © 2016 TCM. All rights reserved.
 //
 
-import UIKit
+/*import UIKit
 
 //@IBDesignable
 class ParametersButtonCtrl: ParametersButton {
@@ -50,4 +50,4 @@ class ParametersButtonCtrl: ParametersButton {
         isHidden = true
     }
     
-}
+}*/

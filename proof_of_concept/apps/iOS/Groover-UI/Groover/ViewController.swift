@@ -8,6 +8,23 @@
 
 import UIKit
 import CoreMotion
+class ViewController: UIViewController {
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        // Do any additional setup after loading the view, typically from a nib.
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    
+    
+}
+
+/*import UIKit
+import CoreMotion
 
 class ViewController: UIViewController {
     //MARK: properties
@@ -54,7 +71,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var timesigLeftButton: TimeSigLeftButton!
     @IBOutlet weak var tempoLabel: UILabel!
     @IBOutlet weak var timesigLabel: UILabel!
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -85,7 +102,6 @@ class ViewController: UIViewController {
         quantizeButtons.append(sixteenthQuantizeButton)
         quantizeButtons.append(thirtysecondQuantizeButton)
         quantizeButtons.append(tripletQuantizeButton)
-        
         song = Song()
         positionLabel.text = song.selectedInstrumentName
         song.start()
@@ -317,7 +333,7 @@ class ViewController: UIViewController {
         song.addNote() //Used for testing in sim mode to simulate motion generated beat
         updateButtonStatesAfterNoteAdded()
     }
-    
+
     //MARK: Motion Sensor Functions
     func beatHandler(_ data: CMAccelerometerData?, error: NSError?){
         let valx = Int32(16383.0 * (data!.acceleration.x))
@@ -330,7 +346,7 @@ class ViewController: UIViewController {
             let eventStatus = Int((sensor?.getEventStatus())!)
             if eventStatus != 0x80{
                 song.addNote() //make drum sound and add to track if recording!
-                updateButtonStatesAfterNoteAdded()
+//                updateButtonStatesAfterNoteAdded()
             }
             
         }
@@ -338,5 +354,5 @@ class ViewController: UIViewController {
     }
     
     
-}
+}*/
 

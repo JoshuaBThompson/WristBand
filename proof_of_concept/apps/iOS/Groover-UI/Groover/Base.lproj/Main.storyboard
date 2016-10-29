@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11201" systemVersion="15G1004" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11201" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
@@ -15,164 +15,66 @@
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="fullBackground" translatesAutoresizingMaskIntoConstraints="NO" id="job-r8-sjF">
                                 <frame key="frameInset" width="320" height="568"/>
                                 <edgeInsets key="layoutMargins" top="8" left="8" bottom="8" right="8"/>
                             </imageView>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="QiK-DN-jXn" customClass="ParametersButtonCtrl" customModule="Groover">
-                                <frame key="frameInset" minX="264" minY="156" width="42" height="42"/>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jgg-Ln-GPQ" customClass="Transports" customModule="Groover" customModuleProvider="target">
+                                <frame key="frameInset" minX="143" width="176" height="56"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VOG-gV-ZKn" customClass="KnobCtrl" customModule="Groover">
-                                <frame key="frameInset" minX="20" minY="228" width="280" height="280"/>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="S98-Ey-tnx" customClass="Measures" customModule="Groover" customModuleProvider="target">
+                                <frame key="frameInset" minX="1" minY="59" width="81" height="28"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TrB-Uy-skK">
+                                        <frame key="frameInset" minY="4" width="81" height="21"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8CQ-3U-35x" customClass="HamburgerIconCtrl" customModule="Groover">
-                                <frame key="frameInset" minX="72" minY="538" width="22" height="22"/>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hOy-Xa-zgd" customClass="QuantizeButtons" customModule="Groover" customModuleProvider="target">
+                                <frame key="frameInset" minY="95" width="320" height="54"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2Cl-UT-epf" customClass="SettingsIconCtrl" customModule="Groover">
-                                <frame key="frameInset" minX="226" minY="534" width="22" height="22"/>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lMS-QB-pRY" customClass="ParametersButton" customModule="Groover" customModuleProvider="target">
+                                <frame key="frameInset" minX="251" minY="156" width="42" height="42"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="DKT-hU-eN4" customClass="PositionIndicator" customModule="Groover">
-                                <frame key="frameInset" minY="194" width="320" height="20"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            </view>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Kick / Snare : Distorted" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xTy-PB-cXq">
-                                <frame key="frameInset" minX="24" minY="167" width="240" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Kick: Distorted" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RZc-8d-lHq">
+                                <frame key="frameInset" minX="16" minY="167" width="113" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="0.34901960784313724" green="0.73333333333333328" blue="0.96078431372549022" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="textColor" red="0.34901960780000002" green="0.73333333329999995" blue="0.96078431369999995" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1PT-Gs-BZQ" customClass="ParametersPopupCtrl" customModule="Groover">
-                                <frame key="frameInset" minY="200" width="320" height="368"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jUT-rJ-Baq" customClass="SoloButton" customModule="Groover" customModuleProvider="target">
-                                        <frame key="frameInset" minX="129" minY="26" width="40" height="30"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <state key="normal" title="SOLO"/>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1eC-nC-GDd" customClass="ClearButton" customModule="Groover" customModuleProvider="target">
-                                        <frame key="frameInset" minX="217" minY="26" width="47" height="30"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <state key="normal" title="CLEAR"/>
-                                    </button>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="30a-lU-8Ol">
-                                        <frame key="frameInset" minX="144" minY="106" width="31" height="21"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="x6c-uW-0hA" customClass="MuteButton" customModule="Groover" customModuleProvider="target">
-                                        <frame key="frameInset" minX="50" minY="26" width="42" height="30"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <state key="normal" title="MUTE"/>
-                                    </button>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Measures" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9nA-cV-dMC">
-                                        <frame key="frameInset" minX="122" minY="135" width="75" height="21"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="13U-wa-ICx" customClass="MeasureRightButton" customModule="Groover" customModuleProvider="target">
-                                        <frame key="frameInset" minX="261" minY="130" width="46" height="30"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mGX-3b-sAw" customClass="MeasureLeftButton" customModule="Groover" customModuleProvider="target">
-                                        <frame key="frameInset" minX="33" minY="130" width="46" height="30"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                    </button>
-                                </subviews>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                            </view>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9Oa-HM-AtP" customClass="PopupBlur" customModule="Groover">
-                                <frame key="frameInset" minX="10" minY="218" width="300" height="315"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="60 BPM" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="y6t-ZX-9M5">
-                                        <frame key="frameInset" minX="100" minY="140" width="102" height="21"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="4/4" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Eud-jb-CeQ">
-                                        <frame key="frameInset" minX="136" minY="223" width="27" height="21"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TLr-JF-V2L" customClass="TempoRightButton" customModule="Groover" customModuleProvider="target">
-                                        <frame key="frameInset" minX="250" minY="143" width="46" height="30"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XW1-Y0-hlb" customClass="TimeSigRightButton" customModule="Groover" customModuleProvider="target">
-                                        <frame key="frameInset" minX="250" minY="229" width="46" height="30"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QGi-3l-Y95" customClass="TempoLeftButton" customModule="Groover" customModuleProvider="target">
-                                        <frame key="frameInset" minX="23" minY="143" width="46" height="30"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yU2-Jo-duV" customClass="TimeSigLeftButton" customModule="Groover" customModuleProvider="target">
-                                        <frame key="frameInset" minX="24" minY="221" width="46" height="30"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                    </button>
-                                </subviews>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                            </view>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fGd-Jm-f7v" customClass="PlayCtrl" customModule="Groover" customModuleProvider="target">
-                                <frame key="frameInset" minX="199" minY="9" width="47" height="35"/>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8Oz-o8-occ" customClass="Knob" customModule="Groover" customModuleProvider="target">
+                                <frame key="frameInset" minX="20" minY="220" width="280" height="280"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6Ob-qz-zOY" customClass="RecordCtrl" customModule="Groover" customModuleProvider="target">
-                                <frame key="frameInset" minX="253" minY="9" width="47" height="35"/>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6bt-lZ-R0k" customClass="PositionIndicator" customModule="Groover" customModuleProvider="target">
+                                <frame key="frameInset" minY="194" width="320" height="13"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="RHG-dX-Wd5" customClass="QuarterCtrl" customModule="Groover" customModuleProvider="target">
-                                <frame key="frameInset" minX="19" minY="81" width="56" height="54"/>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HSN-aF-XAV" customClass="SettingsIcon" customModule="Groover" customModuleProvider="target">
+                                <frame key="frameInset" minX="224" minY="524" width="44" height="44"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="aGc-X4-3X1" customClass="EighthCtrl" customModule="Groover" customModuleProvider="target">
-                                <frame key="frameInset" minX="75" minY="81" width="56" height="54"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                            </view>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Rkt-VQ-pDp" customClass="SixteenthCtrl" customModule="Groover" customModuleProvider="target">
-                                <frame key="frameInset" minX="131" minY="81" width="56" height="54"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                            </view>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ahu-b4-WfW" customClass="ThirtysecondCtrl" customModule="Groover" customModuleProvider="target">
-                                <frame key="frameInset" minX="188" minY="81" width="56" height="54"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                            </view>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="oMp-bZ-gaf" customClass="TripletCtrl" customModule="Groover" customModuleProvider="target">
-                                <frame key="frameInset" minX="246" minY="81" width="56" height="54"/>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yMv-lD-cH4" customClass="HamburgerIcon" customModule="Groover" customModuleProvider="target">
+                                <frame key="frameInset" minX="64" minY="524" width="44" height="44"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
@@ -185,40 +87,10 @@
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="job-r8-sjF" secondAttribute="bottom" id="jPR-4y-32z"/>
                         </constraints>
                     </view>
-                    <connections>
-                        <outlet property="clearButton" destination="1eC-nC-GDd" id="Tbl-1u-IJt"/>
-                        <outlet property="eighthQuantizeButton" destination="aGc-X4-3X1" id="KnD-zw-DJ9"/>
-                        <outlet property="hamburgerButton" destination="8CQ-3U-35x" id="S0S-1K-vL5"/>
-                        <outlet property="knob" destination="VOG-gV-ZKn" id="R4P-TT-b9y"/>
-                        <outlet property="leftMeasureButton" destination="mGX-3b-sAw" id="9tU-J9-Jfd"/>
-                        <outlet property="measureCountLabel" destination="30a-lU-8Ol" id="a6U-H7-72v"/>
-                        <outlet property="measuresLabel" destination="9nA-cV-dMC" id="adK-NT-61v"/>
-                        <outlet property="muteButton" destination="x6c-uW-0hA" id="sXn-ZV-Evb"/>
-                        <outlet property="parametersButton" destination="QiK-DN-jXn" id="a1I-Ou-qEt"/>
-                        <outlet property="parametersPopup" destination="1PT-Gs-BZQ" id="4QW-zc-bbI"/>
-                        <outlet property="playButton" destination="fGd-Jm-f7v" id="lMt-DR-vk8"/>
-                        <outlet property="popup" destination="9Oa-HM-AtP" id="ZtD-s1-PYu"/>
-                        <outlet property="positionIndicator" destination="DKT-hU-eN4" id="Di4-L3-Jk8"/>
-                        <outlet property="positionLabel" destination="xTy-PB-cXq" id="Pmh-42-eru"/>
-                        <outlet property="quarterQuantizeButton" destination="RHG-dX-Wd5" id="UZH-8R-moc"/>
-                        <outlet property="recordButton" destination="6Ob-qz-zOY" id="hF5-Vu-JN8"/>
-                        <outlet property="rightMeasureButton" destination="13U-wa-ICx" id="hkK-co-uiL"/>
-                        <outlet property="settingsButton" destination="2Cl-UT-epf" id="h7H-Uh-uRK"/>
-                        <outlet property="sixteenthQuantizeButton" destination="Rkt-VQ-pDp" id="7GA-6r-zFI"/>
-                        <outlet property="soloButton" destination="jUT-rJ-Baq" id="sSW-w4-XGO"/>
-                        <outlet property="tempoLabel" destination="y6t-ZX-9M5" id="Dzi-tz-6cE"/>
-                        <outlet property="tempoLeftButton" destination="QGi-3l-Y95" id="6zI-i5-EPd"/>
-                        <outlet property="tempoRightButton" destination="TLr-JF-V2L" id="FLc-fF-dWh"/>
-                        <outlet property="thirtysecondQuantizeButton" destination="Ahu-b4-WfW" id="nXg-iz-qhq"/>
-                        <outlet property="timesigLabel" destination="Eud-jb-CeQ" id="Ib9-MF-7Te"/>
-                        <outlet property="timesigLeftButton" destination="yU2-Jo-duV" id="Tzz-Z6-0qP"/>
-                        <outlet property="timesigRightButton" destination="XW1-Y0-hlb" id="awF-dm-eR5"/>
-                        <outlet property="tripletQuantizeButton" destination="oMp-bZ-gaf" id="IxU-kh-yV1"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="304.80000000000001" y="386.35682158920542"/>
+            <point key="canvasLocation" x="303.19999999999999" y="385.45727136431788"/>
         </scene>
     </scenes>
     <resources>

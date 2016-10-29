@@ -6,15 +6,15 @@
 //  Copyright © 2016 TCM. All rights reserved.
 //
 
-import UIKit
+/*import UIKit
 
 @IBDesignable
 class Left: PopupButton {
     
     override func draw(_ rect: CGRect) {
         UIGroover.drawLeftCanvas()
-        print("left displaying!")
+         print("left displaying!")
         
-    }
+   }
     
-}
+}*/

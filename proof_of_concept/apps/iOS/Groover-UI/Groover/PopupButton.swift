@@ -6,7 +6,7 @@
 //  Copyright © 2016 TCM. All rights reserved.
 //
 
-import UIKit
+/*import UIKit
 
 enum PopupButtonTypes: Int {
     case upper_LEFT = 0
@@ -20,4 +20,4 @@ class PopupButton: UIButton {
     var type: PopupButtonTypes!
     
 
-}
+}*/

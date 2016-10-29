@@ -6,7 +6,7 @@
 //  Copyright © 2016 TCM. All rights reserved.
 //
 
-import UIKit
+/*import UIKit
 
 class HamburgerIconCtrl: HamburgerIcon {
 
@@ -42,4 +42,4 @@ class HamburgerIconCtrl: HamburgerIcon {
         setNeedsDisplay()
     }
 
-}
+}*/

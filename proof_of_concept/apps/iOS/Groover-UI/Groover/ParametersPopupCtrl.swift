@@ -6,7 +6,7 @@
 //  Copyright © 2016 TCM. All rights reserved.
 //
 
-import UIKit
+/*import UIKit
 
 enum ParametersButtonTypes {
     case CLEAR
@@ -225,4 +225,4 @@ class ParametersPopupCtrl: ParametersPopup, ParametersHandlerDelegate {
         
     }
 
-}
+}*/

@@ -6,13 +6,13 @@
 //  Copyright © 2016 TCM. All rights reserved.
 //
 
-//import UIKit
+import UIKit
 
-//@IBDesignable
-//class Record: UIButton {
+@IBDesignable
+class Record: UIButton {
     
-//    override func draw(_ rect: CGRect) {
-//        UIGroover.drawRecordCanvas()
-//    }
+    override func draw(_ rect: CGRect) {
+        UIGroover.drawRecordCanvas()
+    }
     
-//}
+}

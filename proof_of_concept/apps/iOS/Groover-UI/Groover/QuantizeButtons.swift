@@ -10,9 +10,9 @@ import UIKit
 
 @IBDesignable
 class QuantizeButtons: UIButton {
-    
+/*
     override func draw(_ rect: CGRect) {
         UIGroover.drawQuantizationCanvas()
     }
-    
+  */  
 }

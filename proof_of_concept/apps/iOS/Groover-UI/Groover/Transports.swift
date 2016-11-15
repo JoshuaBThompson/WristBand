@@ -11,8 +11,8 @@ import UIKit
 @IBDesignable
 class Transports: UIView {
     
-    override func draw(_ rect: CGRect) {
+/*    override func draw(_ rect: CGRect) {
         UIGroover.drawTransportCanvas()
     }
-    
+  */  
 }

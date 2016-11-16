@@ -12,7 +12,7 @@ import UIKit
 class Play: UIButton {
     
     override func draw(_ rect: CGRect) {
-       UIGroover.drawPlayCanvas()
+       UIGroover.drawPlayCanvas(playFrame: self.bounds)
     }
     
 }

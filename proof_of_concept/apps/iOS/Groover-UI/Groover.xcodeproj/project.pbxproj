@@ -64,8 +64,9 @@
 		FA820EB41D2E20E800C6FBF4 /* Popup.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA820EB31D2E20E800C6FBF4 /* Popup.swift */; };
 		FA908EE11D3F3EB6009FAFA4 /* ParametersPopup.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA908EE01D3F3EB6009FAFA4 /* ParametersPopup.swift */; };
 		FA908EE31D3F490A009FAFA4 /* RectBtn.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA908EE21D3F490A009FAFA4 /* RectBtn.swift */; };
+		FA9FBB011DDC12EE00706200 /* GrooveViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA9FBB001DDC12EE00706200 /* GrooveViewController.swift */; };
 		FAB995F01D2E2B510002EE38 /* Left.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB995EF1D2E2B510002EE38 /* Left.swift */; };
-		FAC61A641DC520360012A93D /* Measures.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC61A631DC520360012A93D /* Measures.swift */; };
+		FAC61A641DC520360012A93D /* Measure.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC61A631DC520360012A93D /* Measure.swift */; };
 		FAC61A661DC524EB0012A93D /* QuantizeButtons.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC61A651DC524EA0012A93D /* QuantizeButtons.swift */; };
 		FAC61A681DC52D1D0012A93D /* TestButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC61A671DC52D1D0012A93D /* TestButton.swift */; };
 /* End PBXBuildFile section */
@@ -170,8 +171,9 @@
 		FA820EB31D2E20E800C6FBF4 /* Popup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Popup.swift; sourceTree = "<group>"; };
 		FA908EE01D3F3EB6009FAFA4 /* ParametersPopup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParametersPopup.swift; sourceTree = "<group>"; };
 		FA908EE21D3F490A009FAFA4 /* RectBtn.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RectBtn.swift; sourceTree = "<group>"; };
+		FA9FBB001DDC12EE00706200 /* GrooveViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GrooveViewController.swift; sourceTree = "<group>"; };
 		FAB995EF1D2E2B510002EE38 /* Left.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Left.swift; sourceTree = "<group>"; };
-		FAC61A631DC520360012A93D /* Measures.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Measures.swift; sourceTree = "<group>"; };
+		FAC61A631DC520360012A93D /* Measure.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Measure.swift; sourceTree = "<group>"; };
 		FAC61A651DC524EA0012A93D /* QuantizeButtons.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuantizeButtons.swift; sourceTree = "<group>"; };
 		FAC61A671DC52D1D0012A93D /* TestButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -350,6 +352,7 @@
 				FA50AA521D2A3FE60035C942 /* AppDelegate.swift */,
 				FA50AA541D2A3FE60035C942 /* ViewController.swift */,
 				FA50AA561D2A3FE60035C942 /* Main.storyboard */,
+				FA9FBB001DDC12EE00706200 /* GrooveViewController.swift */,
 				FA50AA801D2A433B0035C942 /* images */,
 				FA50AA811D2A433B0035C942 /* UIGroover.swift */,
 				FA50AA591D2A3FE60035C942 /* Assets.xcassets */,
@@ -363,7 +366,7 @@
 		FAC61A621DC51F5E0012A93D /* Measures */ = {
 			isa = PBXGroup;
 			children = (
-				FAC61A631DC520360012A93D /* Measures.swift */,
+				FAC61A631DC520360012A93D /* Measure.swift */,
 			);
 			name = Measures;
 			sourceTree = "<group>";
@@ -514,9 +517,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FA9FBB011DDC12EE00706200 /* GrooveViewController.swift in Sources */,
 				429A22BE1D338E240045023F /* Song.swift in Sources */,
 				FAB995F01D2E2B510002EE38 /* Left.swift in Sources */,
-				FAC61A641DC520360012A93D /* Measures.swift in Sources */,
+				FAC61A641DC520360012A93D /* Measure.swift in Sources */,
 				42A59FA71D301F8B0070FE46 /* MidiSensor.cpp in Sources */,
 				429A22BD1D338E240045023F /* SnareInstrument.swift in Sources */,
 				FA479EC71D376CB000619BA0 /* Right.swift in Sources */,

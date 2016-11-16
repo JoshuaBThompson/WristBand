@@ -12,7 +12,7 @@ import UIKit
 class Eighth: UIButton {
     
     override func draw(_ rect: CGRect) {
-        UIGroover.drawEighthCanvas()
+        UIGroover.drawEighthCanvas(eighthFrame: self.bounds)
     }
     
 }

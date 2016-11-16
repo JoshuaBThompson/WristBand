@@ -12,7 +12,7 @@ import UIKit
 class Thirtysecond: UIButton {
     
     override func draw(_ rect: CGRect) {
-        UIGroover.drawThirtysecondCanvas()
+        UIGroover.drawThirtysecondCanvas(thirtySecondFrame: self.bounds)
     }
     
 }

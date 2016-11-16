@@ -12,7 +12,7 @@ import UIKit
 class Record: UIButton {
     
     override func draw(_ rect: CGRect) {
-        UIGroover.drawRecordCanvas()
+        UIGroover.drawRecordCanvas(recordFrame: self.bounds)
     }
     
 }

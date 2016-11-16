@@ -9,10 +9,10 @@
 import UIKit
  
  @IBDesignable
- class Measures: UIButton {
+ class Measure: UIButton {
  
- override func draw(_ rect: CGRect) {
- UIGroover.drawMeasureCanvas()
- }
+     override func draw(_ rect: CGRect) {
+         UIGroover.drawMeasureCanvas(measureFrame: self.bounds)
+     }
  
  }

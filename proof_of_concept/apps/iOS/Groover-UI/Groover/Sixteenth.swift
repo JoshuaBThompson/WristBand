@@ -12,7 +12,7 @@ import UIKit
 class Sixteenth: UIButton {
     
     override func draw(_ rect: CGRect) {
-       UIGroover.drawSixteenthCanvas()
+       UIGroover.drawSixteenthCanvas(sixteenthFrame: self.bounds)
     }
     
 }

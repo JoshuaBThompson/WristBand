@@ -12,7 +12,7 @@ import UIKit
 class Triplet: UIButton {
     
     override func draw(_ rect: CGRect) {
-        UIGroover.drawTripletCanvas()
+        UIGroover.drawTripletCanvas(tripletFrame: self.bounds)
     }
     
 }

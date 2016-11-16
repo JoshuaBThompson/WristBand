@@ -12,7 +12,7 @@ import UIKit
 class Quarter: UIButton {
     
     override func draw(_ rect: CGRect) {
-        UIGroover.drawQuarterCanvas()
+        UIGroover.drawQuarterCanvas(quarterFrame: self.bounds)
     }
     
 }

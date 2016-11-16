@@ -46,7 +46,6 @@ public class UIGroover : NSObject {
         static var hamburgerIconImage: UIImage?
         static var settingsIconImage: UIImage?
         static var fullBackgroundBlur: UIImage?
-        static var headerBG: UIImage?
 
     }
 
@@ -117,13 +116,6 @@ public class UIGroover : NSObject {
             Cache.fullBackgroundBlur = UIImage(named: "fullBackgroundBlur.png")!
         }
         return Cache.fullBackgroundBlur!
-    }
-
-    public dynamic class var headerBG: UIImage {
-        if Cache.headerBG == nil {
-            Cache.headerBG = UIImage(named: "headerBG.png")!
-        }
-        return Cache.headerBG!
     }
 
     //// Drawing Methods

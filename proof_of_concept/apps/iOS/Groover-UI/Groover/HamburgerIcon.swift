@@ -10,10 +10,10 @@ import UIKit
 
 @IBDesignable
 class HamburgerIcon: UIButton {
-    
+ /*
     // MARK: Draw
     override func draw(_ rect: CGRect) {
         UIGroover.drawHamburgerCanvas()
     }
-    
+    */
 }

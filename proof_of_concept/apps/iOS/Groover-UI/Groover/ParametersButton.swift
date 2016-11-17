@@ -11,7 +11,7 @@ import UIKit
 @IBDesignable
 class ParametersButton: UIButton {
     override func draw(_ rect: CGRect) {
-        UIGroover.drawSoundParametersCanvas()
+        UIGroover.drawSoundParametersCanvas(soundParamteresFrame: self.bounds)
     }
     
 }

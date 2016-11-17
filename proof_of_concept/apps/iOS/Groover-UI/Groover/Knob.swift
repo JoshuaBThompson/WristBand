@@ -11,7 +11,7 @@ import UIKit
 //@IBDesignable
 class Knob: UIControl {
     override func draw(_ rect: CGRect) {
-        UIGroover.drawKnobCanvas()
+        UIGroover.drawKnobCanvas(knobFrame: self.bounds)
     }
 }
 

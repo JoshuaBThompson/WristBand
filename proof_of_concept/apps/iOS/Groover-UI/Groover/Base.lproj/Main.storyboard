@@ -5,7 +5,9 @@
     </device>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
+        <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -246,7 +248,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                             </imageView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="bottom" translatesAutoresizingMaskIntoConstraints="NO" id="0Gu-Ph-4xS" userLabel="Upper Content Stack">
-                                <rect key="frame" x="0.0" y="20" width="320" height="206"/>
+                                <rect key="frame" x="0.0" y="20" width="320" height="170"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YpV-ty-RB3" userLabel="Transport Stack View">
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="56"/>
@@ -287,10 +289,10 @@
                                         </constraints>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0sH-pS-3Wj" userLabel="Measures Stack View">
-                                        <rect key="frame" x="0.0" y="56" width="320" height="30"/>
+                                        <rect key="frame" x="0.0" y="56" width="320" height="28"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="S98-Ey-tnx" customClass="Measure" customModule="Groover" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="0.0" width="320" height="30"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="320" height="28"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TrB-Uy-skK">
                                                         <rect key="frame" x="0.0" y="4" width="81" height="21"/>
@@ -307,11 +309,11 @@
                                             </view>
                                         </subviews>
                                         <constraints>
-                                            <constraint firstAttribute="width" secondItem="0sH-pS-3Wj" secondAttribute="height" multiplier="320:30" id="wTm-bT-9VF"/>
+                                            <constraint firstAttribute="width" secondItem="0sH-pS-3Wj" secondAttribute="height" multiplier="320:28" id="wTm-bT-9VF"/>
                                         </constraints>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="18" translatesAutoresizingMaskIntoConstraints="NO" id="7hE-vJ-xJ6" userLabel="Quantize Stack View">
-                                        <rect key="frame" x="0.0" y="86" width="320" height="86"/>
+                                        <rect key="frame" x="0.0" y="84" width="320" height="86"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="R8q-yn-x6r" userLabel="Leading Spacer Quantize">
                                                 <rect key="frame" x="0.0" y="0.0" width="15.5" height="86"/>
@@ -328,35 +330,35 @@
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4hs-Qx-hNS" customClass="Eighth" customModule="Groover" customModuleProvider="target">
-                                                <rect key="frame" x="109.5" y="0.0" width="57.5" height="86"/>
+                                                <rect key="frame" x="109.5" y="0.0" width="58" height="86"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" secondItem="4hs-Qx-hNS" secondAttribute="height" multiplier="58:86" id="J3k-jU-RDg"/>
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MfR-jC-DKD" customClass="Sixteenth" customModule="Groover" customModuleProvider="target">
-                                                <rect key="frame" x="185" y="0.0" width="58" height="86"/>
+                                                <rect key="frame" x="185.5" y="0.0" width="58" height="86"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" secondItem="MfR-jC-DKD" secondAttribute="height" multiplier="58:86" id="x7u-1N-23F"/>
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8Ug-2W-6CL" customClass="Thirtysecond" customModule="Groover" customModuleProvider="target">
-                                                <rect key="frame" x="261" y="0.0" width="0.0" height="86"/>
+                                                <rect key="frame" x="261.5" y="0.0" width="0.0" height="86"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" secondItem="8Ug-2W-6CL" secondAttribute="height" multiplier="58:86" id="1lN-hg-HNf"/>
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gnb-Bh-s7R" customClass="Triplet" customModule="Groover" customModuleProvider="target">
-                                                <rect key="frame" x="279" y="0.0" width="0.0" height="86"/>
+                                                <rect key="frame" x="279.5" y="0.0" width="0.0" height="86"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" secondItem="gnb-Bh-s7R" secondAttribute="height" multiplier="58:86" id="rD2-4S-Fu2"/>
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="q3H-4s-jX5" userLabel="Trailing Spacer Quantize">
-                                                <rect key="frame" x="297" y="0.0" width="23" height="86"/>
+                                                <rect key="frame" x="297.5" y="0.0" width="22.5" height="86"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" secondItem="q3H-4s-jX5" secondAttribute="height" multiplier="15:43" id="WA8-um-q98"/>
@@ -375,53 +377,129 @@
                                             <constraint firstAttribute="trailing" secondItem="q3H-4s-jX5" secondAttribute="trailing" id="xc0-cZ-cCA"/>
                                         </constraints>
                                     </stackView>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Qo8-gY-rUp" userLabel="Position Indicator Wrapper">
+                                        <rect key="frame" x="320" y="170" width="0.0" height="0.0"/>
+                                        <subviews>
+                                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6bt-lZ-R0k" customClass="PositionIndicator" customModule="Groover" customModuleProvider="target">
+                                                <rect key="frame" x="-40" y="57" width="320" height="13"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                            </view>
+                                        </subviews>
+                                        <color key="backgroundColor" red="1" green="0.43924394449999998" blue="0.96424501529999995" alpha="1" colorSpace="calibratedRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="Qo8-gY-rUp" secondAttribute="height" multiplier="320:41" id="lZ2-QM-jOv"/>
+                                        </constraints>
+                                    </view>
                                     <stackView opaque="NO" contentMode="scaleToFill" alignment="bottom" translatesAutoresizingMaskIntoConstraints="NO" id="dkQ-2c-P3T" userLabel="Instrument Stack View">
-                                        <rect key="frame" x="177" y="172" width="143" height="34"/>
+                                        <rect key="frame" x="320" y="170" width="0.0" height="0.0"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Kick: Distorted" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RZc-8d-lHq">
-                                                <rect key="frame" x="0.0" y="13.5" width="113" height="20.5"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" secondItem="RZc-8d-lHq" secondAttribute="height" multiplier="268:42" id="Rw0-qS-BIw"/>
+                                                </constraints>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <color key="textColor" red="0.34901960780000002" green="0.73333333329999995" blue="0.96078431369999995" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lMS-QB-pRY" customClass="ParametersButton" customModule="Groover" customModuleProvider="target">
-                                                <rect key="frame" x="113" y="0.0" width="30" height="34"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" secondItem="lMS-QB-pRY" secondAttribute="height" multiplier="42:42" id="TZ2-D9-ciT"/>
+                                                </constraints>
+                                            </view>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4pY-TO-wQB" userLabel="Trailing Space Parameters">
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" secondItem="4pY-TO-wQB" secondAttribute="height" multiplier="10:42" id="9yN-BA-XRW"/>
+                                                </constraints>
                                             </view>
                                         </subviews>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="dkQ-2c-P3T" secondAttribute="height" multiplier="320:42" id="68r-56-Zg2"/>
+                                            <constraint firstItem="lMS-QB-pRY" firstAttribute="leading" secondItem="RZc-8d-lHq" secondAttribute="trailing" id="K6i-8W-tPu"/>
+                                            <constraint firstItem="RZc-8d-lHq" firstAttribute="leading" secondItem="dkQ-2c-P3T" secondAttribute="leading" id="mg8-5o-LAh"/>
+                                            <constraint firstItem="RZc-8d-lHq" firstAttribute="top" secondItem="dkQ-2c-P3T" secondAttribute="top" id="sNr-U7-OWS"/>
+                                            <constraint firstItem="4pY-TO-wQB" firstAttribute="leading" secondItem="lMS-QB-pRY" secondAttribute="trailing" id="xUo-eO-Y7F"/>
+                                        </constraints>
                                     </stackView>
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="YpV-ty-RB3" firstAttribute="leading" secondItem="0Gu-Ph-4xS" secondAttribute="leading" id="1ys-O9-gO5"/>
+                                    <constraint firstAttribute="trailing" secondItem="dkQ-2c-P3T" secondAttribute="trailing" id="AMp-BS-VqT"/>
                                     <constraint firstItem="0sH-pS-3Wj" firstAttribute="leading" secondItem="0Gu-Ph-4xS" secondAttribute="leading" id="E5D-YJ-g0q"/>
                                     <constraint firstAttribute="trailing" secondItem="0sH-pS-3Wj" secondAttribute="trailing" id="Ebe-mS-uOI"/>
                                     <constraint firstAttribute="trailing" secondItem="7hE-vJ-xJ6" secondAttribute="trailing" id="LeA-cj-QeN"/>
                                     <constraint firstItem="7hE-vJ-xJ6" firstAttribute="leading" secondItem="0Gu-Ph-4xS" secondAttribute="leading" id="UR3-wq-zjZ"/>
+                                    <constraint firstItem="dkQ-2c-P3T" firstAttribute="top" secondItem="7hE-vJ-xJ6" secondAttribute="bottom" id="VY1-on-lLK"/>
+                                    <constraint firstItem="Qo8-gY-rUp" firstAttribute="leading" secondItem="0Gu-Ph-4xS" secondAttribute="leading" id="Wd1-Pe-Rtb"/>
+                                    <constraint firstItem="dkQ-2c-P3T" firstAttribute="leading" secondItem="0Gu-Ph-4xS" secondAttribute="leading" id="a34-M8-NRl"/>
                                     <constraint firstItem="7hE-vJ-xJ6" firstAttribute="top" secondItem="0sH-pS-3Wj" secondAttribute="bottom" id="hRy-B5-aJd"/>
                                     <constraint firstAttribute="trailing" secondItem="YpV-ty-RB3" secondAttribute="trailing" id="hWn-l8-eBo"/>
+                                    <constraint firstAttribute="trailing" secondItem="Qo8-gY-rUp" secondAttribute="trailing" id="jpS-pS-mTU"/>
+                                    <constraint firstItem="Qo8-gY-rUp" firstAttribute="top" secondItem="dkQ-2c-P3T" secondAttribute="centerY" id="vBO-th-Pya"/>
                                     <constraint firstItem="YpV-ty-RB3" firstAttribute="top" secondItem="0Gu-Ph-4xS" secondAttribute="top" id="xwI-CC-F4A"/>
                                 </constraints>
                             </stackView>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8Oz-o8-occ" customClass="Knob" customModule="Groover" customModuleProvider="target">
-                                <rect key="frame" x="47" y="193" width="280" height="280"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Yc0-XL-d0x" userLabel="Top Spacer Knob">
+                                <rect key="frame" x="40" y="220" width="240" height="128"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="Yc0-XL-d0x" secondAttribute="height" multiplier="320:25" id="k9B-IZ-0cG"/>
+                                </constraints>
                             </view>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6bt-lZ-R0k" customClass="PositionIndicator" customModule="Groover" customModuleProvider="target">
-                                <rect key="frame" x="27" y="327" width="320" height="13"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                            </view>
+                            <stackView opaque="NO" contentMode="scaleToFill" misplaced="YES" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="Rtg-EK-VJJ" userLabel="Knob Stack View">
+                                <rect key="frame" x="47" y="193" width="320" height="280"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fxE-vj-MRh" userLabel="Leading Spacer Knob">
+                                        <rect key="frame" x="0.0" y="0.0" width="20" height="280"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="fxE-vj-MRh" secondAttribute="height" multiplier="20:280" id="ZgD-ap-gb0"/>
+                                        </constraints>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8Oz-o8-occ" customClass="Knob" customModule="Groover" customModuleProvider="target">
+                                        <rect key="frame" x="20" y="0.0" width="280" height="280"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="8Oz-o8-occ" secondAttribute="height" multiplier="280:280" id="oE3-q5-zqe"/>
+                                        </constraints>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="M6a-rI-UDh" userLabel="Trailing Spacer Knob">
+                                        <rect key="frame" x="300" y="0.0" width="20" height="280"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="M6a-rI-UDh" secondAttribute="height" multiplier="20:280" id="KRc-NM-AZb"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="8Oz-o8-occ" firstAttribute="leading" secondItem="fxE-vj-MRh" secondAttribute="trailing" id="13O-w6-r3r"/>
+                                    <constraint firstItem="M6a-rI-UDh" firstAttribute="leading" secondItem="8Oz-o8-occ" secondAttribute="trailing" id="GLC-T7-LzW"/>
+                                    <constraint firstItem="fxE-vj-MRh" firstAttribute="leading" secondItem="Rtg-EK-VJJ" secondAttribute="leading" id="HIZ-fs-nLh"/>
+                                    <constraint firstItem="fxE-vj-MRh" firstAttribute="top" secondItem="Rtg-EK-VJJ" secondAttribute="top" id="QCa-XK-vcm"/>
+                                    <constraint firstItem="M6a-rI-UDh" firstAttribute="top" secondItem="Rtg-EK-VJJ" secondAttribute="top" id="gSm-K9-kpM"/>
+                                    <constraint firstAttribute="trailing" secondItem="M6a-rI-UDh" secondAttribute="trailing" id="h0Z-sP-FGA"/>
+                                    <constraint firstAttribute="width" secondItem="Rtg-EK-VJJ" secondAttribute="height" multiplier="320:280" id="hlw-jE-Tu0"/>
+                                    <constraint firstItem="8Oz-o8-occ" firstAttribute="top" secondItem="Rtg-EK-VJJ" secondAttribute="top" id="v0f-8p-aPv"/>
+                                </constraints>
+                            </stackView>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="26f-2P-704" secondAttribute="trailing" id="1sL-jV-p5X"/>
                             <constraint firstAttribute="trailing" secondItem="0Gu-Ph-4xS" secondAttribute="trailing" id="C06-N0-wiq"/>
+                            <constraint firstItem="Yc0-XL-d0x" firstAttribute="leading" secondItem="7lf-uO-Jpk" secondAttribute="leadingMargin" id="Ik4-W3-vMa"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="Yc0-XL-d0x" secondAttribute="trailing" id="JCF-GI-q4o"/>
+                            <constraint firstAttribute="trailing" secondItem="Rtg-EK-VJJ" secondAttribute="trailing" id="JsJ-Jl-vbe"/>
                             <constraint firstAttribute="bottom" secondItem="26f-2P-704" secondAttribute="bottom" id="Mmd-bQ-afX"/>
                             <constraint firstItem="26f-2P-704" firstAttribute="top" secondItem="7lf-uO-Jpk" secondAttribute="top" id="QrQ-pq-WDY"/>
                             <constraint firstItem="0Gu-Ph-4xS" firstAttribute="top" secondItem="kuw-NJ-44t" secondAttribute="bottom" id="ZI7-o3-DMT"/>
+                            <constraint firstItem="Rtg-EK-VJJ" firstAttribute="top" secondItem="Yc0-XL-d0x" secondAttribute="bottom" id="duZ-ou-iEX"/>
                             <constraint firstItem="0Gu-Ph-4xS" firstAttribute="leading" secondItem="7lf-uO-Jpk" secondAttribute="leading" id="qzl-6N-Vof"/>
+                            <constraint firstItem="Yc0-XL-d0x" firstAttribute="top" secondItem="dkQ-2c-P3T" secondAttribute="bottom" id="sbm-UX-KSg"/>
+                            <constraint firstItem="Rtg-EK-VJJ" firstAttribute="leading" secondItem="7lf-uO-Jpk" secondAttribute="leading" id="vxb-Xv-j0n"/>
                             <constraint firstItem="26f-2P-704" firstAttribute="leading" secondItem="7lf-uO-Jpk" secondAttribute="leading" id="wAX-VF-Hat"/>
                         </constraints>
                     </view>

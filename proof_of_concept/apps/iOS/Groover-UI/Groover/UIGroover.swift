@@ -127,9 +127,9 @@ public class UIGroover : NSObject {
 
 
         //// Subframes
-        let soundParametersBlueOutlineFrame = CGRect(x: soundParamteresFrame.minX + 10, y: soundParamteresFrame.minY + 10, width: soundParamteresFrame.width - 20, height: soundParamteresFrame.height - 20)
+        let soundParametersBlueOutlineFrame = CGRect(x: soundParamteresFrame.minX + fastFloor((soundParamteresFrame.width - 22) * 0.50000 + 0.5), y: soundParamteresFrame.minY + fastFloor((soundParamteresFrame.height - 22) * 0.50000 + 0.5), width: 22, height: 22)
         let soundParametersLightFrame = CGRect(x: soundParametersBlueOutlineFrame.minX + fastFloor((soundParametersBlueOutlineFrame.width - 20) * 0.50000 + 0.5), y: soundParametersBlueOutlineFrame.minY + fastFloor((soundParametersBlueOutlineFrame.height - 20) * 0.50000 + 0.5), width: 20, height: 20)
-        let soundParametersBlueFrame = CGRect(x: soundParametersLightFrame.minX + 6, y: soundParametersLightFrame.minY + 6, width: soundParametersLightFrame.width - 12, height: soundParametersLightFrame.height - 12)
+        let soundParametersBlueFrame = CGRect(x: soundParametersLightFrame.minX + fastFloor((soundParametersLightFrame.width - 8) * 0.50000 + 0.5), y: soundParametersLightFrame.minY + fastFloor((soundParametersLightFrame.height - 8) * 0.50000 + 0.5), width: 8, height: 8)
 
 
         //// soundParametersBase Drawing

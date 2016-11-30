@@ -2,16 +2,25 @@
 //  SongSettingsTableViewController.swift
 //  Groover
 //
-//  Created by Alex Crane on 11/5/16.
+//  Created by Alex Crane on 11/29/16.
 //  Copyright © 2016 TCM. All rights reserved.
 //
 
 import UIKit
 
-class SongSettingsTableViewController: UITableViewController {
+class SongTableViewController: UITableViewController {
+    
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        
+        // Add a background view to the table view
+        let backgroundImage = UIImage(named: "fullBackgroundBlur")
+        let imageView = UIImageView(image: backgroundImage)
+        self.tableView.backgroundView = imageView
+
 
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -28,13 +37,15 @@ class SongSettingsTableViewController: UITableViewController {
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 0
+        return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return 0
+        return 3
+    }
+    
+    override var prefersStatusBarHidden: Bool {
+        return true
     }
 
     /*

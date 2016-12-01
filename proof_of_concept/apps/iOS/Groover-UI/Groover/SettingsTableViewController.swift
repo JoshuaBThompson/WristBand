@@ -13,6 +13,9 @@ class SettingsTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // Hide nav bar
+        self.navigationController?.isNavigationBarHidden = true
+        
         // Add a background view to the table view
         let backgroundImage = UIImage(named: "fullBackgroundBlur")
         let imageView = UIImageView(image: backgroundImage)

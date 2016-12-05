@@ -1,19 +1,18 @@
 //
-//  GrooveViewController.swift
+//  ParametersModalViewController.swift
 //  Groover
 //
-//  Created by Alex Crane on 11/15/16.
+//  Created by Alex Crane on 12/4/16.
 //  Copyright © 2016 TCM. All rights reserved.
 //
 
 import UIKit
 
-class GrooveViewController: UIViewController {    
-    
+class ParametersModalViewController: UIViewController {
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
     }
 
     override func didReceiveMemoryWarning() {
@@ -24,8 +23,6 @@ class GrooveViewController: UIViewController {
     override var prefersStatusBarHidden: Bool {
         return true
     }
-    
-    @IBAction func unwindToGroove(segue: UIStoryboardSegue) {}
     
 
     /*

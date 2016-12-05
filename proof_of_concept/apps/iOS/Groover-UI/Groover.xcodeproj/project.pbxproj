@@ -72,6 +72,9 @@
 		FA9A2ED81DF133EB003A5B7A /* CurrentSongTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA9A2ED71DF133EB003A5B7A /* CurrentSongTableViewCell.swift */; };
 		FA9FBB011DDC12EE00706200 /* GrooveViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA9FBB001DDC12EE00706200 /* GrooveViewController.swift */; };
 		FAB995F01D2E2B510002EE38 /* Left.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB995EF1D2E2B510002EE38 /* Left.swift */; };
+		FAC132C71DF5248A007E6EC1 /* SongListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC132C61DF5248A007E6EC1 /* SongListTableViewController.swift */; };
+		FAC132C91DF52577007E6EC1 /* SongViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC132C81DF52577007E6EC1 /* SongViewController.swift */; };
+		FAC132CB1DF547AD007E6EC1 /* ParametersModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC132CA1DF547AD007E6EC1 /* ParametersModalViewController.swift */; };
 		FAC61A641DC520360012A93D /* Measure.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC61A631DC520360012A93D /* Measure.swift */; };
 		FAC61A661DC524EB0012A93D /* QuantizeButtons.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC61A651DC524EA0012A93D /* QuantizeButtons.swift */; };
 		FAC61A681DC52D1D0012A93D /* TestButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC61A671DC52D1D0012A93D /* TestButton.swift */; };
@@ -185,6 +188,9 @@
 		FA9A2ED71DF133EB003A5B7A /* CurrentSongTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurrentSongTableViewCell.swift; sourceTree = "<group>"; };
 		FA9FBB001DDC12EE00706200 /* GrooveViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GrooveViewController.swift; sourceTree = "<group>"; };
 		FAB995EF1D2E2B510002EE38 /* Left.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Left.swift; sourceTree = "<group>"; };
+		FAC132C61DF5248A007E6EC1 /* SongListTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SongListTableViewController.swift; sourceTree = "<group>"; };
+		FAC132C81DF52577007E6EC1 /* SongViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SongViewController.swift; sourceTree = "<group>"; };
+		FAC132CA1DF547AD007E6EC1 /* ParametersModalViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParametersModalViewController.swift; sourceTree = "<group>"; };
 		FAC61A631DC520360012A93D /* Measure.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Measure.swift; sourceTree = "<group>"; };
 		FAC61A651DC524EA0012A93D /* QuantizeButtons.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuantizeButtons.swift; sourceTree = "<group>"; };
 		FAC61A671DC52D1D0012A93D /* TestButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestButton.swift; sourceTree = "<group>"; };
@@ -365,9 +371,12 @@
 				FA50AA521D2A3FE60035C942 /* AppDelegate.swift */,
 				FA50AA541D2A3FE60035C942 /* ViewController.swift */,
 				FA50AA561D2A3FE60035C942 /* Main.storyboard */,
+				FAC132CA1DF547AD007E6EC1 /* ParametersModalViewController.swift */,
+				FAC132C81DF52577007E6EC1 /* SongViewController.swift */,
 				FA56CA421DEEA57F00738409 /* SettingsTableViewController.swift */,
 				FA9A2ED31DF1329D003A5B7A /* DummySongData.swift */,
 				FA56CA401DEE8A4B00738409 /* SongTableViewController.swift */,
+				FAC132C61DF5248A007E6EC1 /* SongListTableViewController.swift */,
 				FA9FBB001DDC12EE00706200 /* GrooveViewController.swift */,
 				FA50AA801D2A433B0035C942 /* images */,
 				FA50AA811D2A433B0035C942 /* UIGroover.swift */,
@@ -549,6 +558,7 @@
 				FAC61A641DC520360012A93D /* Measure.swift in Sources */,
 				42A59FA71D301F8B0070FE46 /* MidiSensor.cpp in Sources */,
 				429A22BD1D338E240045023F /* SnareInstrument.swift in Sources */,
+				FAC132C91DF52577007E6EC1 /* SongViewController.swift in Sources */,
 				FA479EC71D376CB000619BA0 /* Right.swift in Sources */,
 				429A22BC1D338E240045023F /* KickInstrument.swift in Sources */,
 				42C8A3DF1D974298004BDD58 /* SixteenthCtrl.swift in Sources */,
@@ -585,8 +595,10 @@
 				4254BC451D4D8366007572B6 /* PopupBlur.swift in Sources */,
 				429A22BA1D338E240045023F /* HatInstrument.swift in Sources */,
 				42C8A3F51DA05D81004BDD58 /* PopupCtrl.swift in Sources */,
+				FAC132C71DF5248A007E6EC1 /* SongListTableViewController.swift in Sources */,
 				42C8A3EF1D9EC78F004BDD58 /* RightCtrl.swift in Sources */,
 				FA50AA8B1D2B40E40035C942 /* ParametersButton.swift in Sources */,
+				FAC132CB1DF547AD007E6EC1 /* ParametersModalViewController.swift in Sources */,
 				42C8A3DD1D97425C004BDD58 /* QuarterCtrl.swift in Sources */,
 				42A59FA61D301F8B0070FE46 /* IMUFilter.cpp in Sources */,
 				FAC61A681DC52D1D0012A93D /* TestButton.swift in Sources */,

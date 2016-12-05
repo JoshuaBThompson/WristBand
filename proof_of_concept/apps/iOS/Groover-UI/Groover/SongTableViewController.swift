@@ -10,6 +10,8 @@ import UIKit
 
 class SongTableViewController: UITableViewController {
     
+    @IBAction func buttonTest(_ sender: Any) {
+    }
     
 
     override func viewDidLoad() {
@@ -50,6 +52,8 @@ class SongTableViewController: UITableViewController {
     override var prefersStatusBarHidden: Bool {
         return true
     }
+    
+    @IBAction func unwindToSong(segue: UIStoryboardSegue) {}
 
     /*
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

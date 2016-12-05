@@ -1,15 +1,15 @@
 //
-//  GrooveViewController.swift
+//  SongViewController.swift
 //  Groover
 //
-//  Created by Alex Crane on 11/15/16.
+//  Created by Alex Crane on 12/4/16.
 //  Copyright © 2016 TCM. All rights reserved.
 //
 
 import UIKit
 
-class GrooveViewController: UIViewController {    
-    
+class SongViewController: UINavigationController {
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -20,13 +20,6 @@ class GrooveViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
-    override var prefersStatusBarHidden: Bool {
-        return true
-    }
-    
-    @IBAction func unwindToGroove(segue: UIStoryboardSegue) {}
-    
 
     /*
     // MARK: - Navigation

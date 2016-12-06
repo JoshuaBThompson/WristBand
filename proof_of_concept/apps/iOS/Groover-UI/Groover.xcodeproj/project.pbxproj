@@ -42,7 +42,8 @@
 		42C8A3F51DA05D81004BDD58 /* PopupCtrl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42C8A3F41DA05D81004BDD58 /* PopupCtrl.swift */; };
 		FA0CCAD81DF69E3800EC3F6A /* SongViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0CCAD71DF69E3800EC3F6A /* SongViewController.swift */; };
 		FA0CCADC1DF6A26E00EC3F6A /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0CCADB1DF6A26E00EC3F6A /* SettingsViewController.swift */; };
-		FA0CCADF1DF6A43E00EC3F6A /* SoundListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0CCADE1DF6A43E00EC3F6A /* SoundListTableViewController.swift */; };
+		FA0CCAE31DF6B2E900EC3F6A /* SoundListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0CCAE21DF6B2E900EC3F6A /* SoundListViewController.swift */; };
+		FA0CCAE51DF6B55B00EC3F6A /* SongListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0CCAE41DF6B55B00EC3F6A /* SongListViewController.swift */; };
 		FA3E2E2E1DBF007800DBCA24 /* Transports.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA3E2E2D1DBF007800DBCA24 /* Transports.swift */; };
 		FA479EC71D376CB000619BA0 /* Right.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA479EC61D376CB000619BA0 /* Right.swift */; };
 		FA50AA531D2A3FE60035C942 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA50AA521D2A3FE60035C942 /* AppDelegate.swift */; };
@@ -72,7 +73,6 @@
 		FA9A2ED41DF1329D003A5B7A /* DummySongData.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA9A2ED31DF1329D003A5B7A /* DummySongData.swift */; };
 		FA9FBB011DDC12EE00706200 /* GrooveViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA9FBB001DDC12EE00706200 /* GrooveViewController.swift */; };
 		FAB995F01D2E2B510002EE38 /* Left.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB995EF1D2E2B510002EE38 /* Left.swift */; };
-		FAC132C71DF5248A007E6EC1 /* SongListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC132C61DF5248A007E6EC1 /* SongListTableViewController.swift */; };
 		FAC132CB1DF547AD007E6EC1 /* ParametersModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC132CA1DF547AD007E6EC1 /* ParametersModalViewController.swift */; };
 		FAC61A641DC520360012A93D /* Measure.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC61A631DC520360012A93D /* Measure.swift */; };
 		FAC61A661DC524EB0012A93D /* QuantizeButtons.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC61A651DC524EA0012A93D /* QuantizeButtons.swift */; };
@@ -153,7 +153,8 @@
 		42C8A3F41DA05D81004BDD58 /* PopupCtrl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopupCtrl.swift; sourceTree = "<group>"; };
 		FA0CCAD71DF69E3800EC3F6A /* SongViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SongViewController.swift; sourceTree = "<group>"; };
 		FA0CCADB1DF6A26E00EC3F6A /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
-		FA0CCADE1DF6A43E00EC3F6A /* SoundListTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SoundListTableViewController.swift; sourceTree = "<group>"; };
+		FA0CCAE21DF6B2E900EC3F6A /* SoundListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SoundListViewController.swift; sourceTree = "<group>"; };
+		FA0CCAE41DF6B55B00EC3F6A /* SongListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SongListViewController.swift; sourceTree = "<group>"; };
 		FA3E2E2D1DBF007800DBCA24 /* Transports.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Transports.swift; sourceTree = "<group>"; };
 		FA479EC61D376CB000619BA0 /* Right.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Right.swift; sourceTree = "<group>"; };
 		FA50AA4F1D2A3FE60035C942 /* Groover.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Groover.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -187,7 +188,6 @@
 		FA9A2ED31DF1329D003A5B7A /* DummySongData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DummySongData.swift; path = Audio/DummySongData.swift; sourceTree = "<group>"; };
 		FA9FBB001DDC12EE00706200 /* GrooveViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GrooveViewController.swift; sourceTree = "<group>"; };
 		FAB995EF1D2E2B510002EE38 /* Left.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Left.swift; sourceTree = "<group>"; };
-		FAC132C61DF5248A007E6EC1 /* SongListTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SongListTableViewController.swift; sourceTree = "<group>"; };
 		FAC132CA1DF547AD007E6EC1 /* ParametersModalViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParametersModalViewController.swift; sourceTree = "<group>"; };
 		FAC61A631DC520360012A93D /* Measure.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Measure.swift; sourceTree = "<group>"; };
 		FAC61A651DC524EA0012A93D /* QuantizeButtons.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuantizeButtons.swift; sourceTree = "<group>"; };
@@ -335,7 +335,7 @@
 			isa = PBXGroup;
 			children = (
 				FA0CCAD71DF69E3800EC3F6A /* SongViewController.swift */,
-				FAC132C61DF5248A007E6EC1 /* SongListTableViewController.swift */,
+				FA0CCAE41DF6B55B00EC3F6A /* SongListViewController.swift */,
 			);
 			name = SongTab;
 			sourceTree = "<group>";
@@ -353,7 +353,7 @@
 			isa = PBXGroup;
 			children = (
 				FA0CCADB1DF6A26E00EC3F6A /* SettingsViewController.swift */,
-				FA0CCADE1DF6A43E00EC3F6A /* SoundListTableViewController.swift */,
+				FA0CCAE21DF6B2E900EC3F6A /* SoundListViewController.swift */,
 			);
 			name = SettingsTab;
 			sourceTree = "<group>";
@@ -579,7 +579,6 @@
 				FAC61A641DC520360012A93D /* Measure.swift in Sources */,
 				42A59FA71D301F8B0070FE46 /* MidiSensor.cpp in Sources */,
 				429A22BD1D338E240045023F /* SnareInstrument.swift in Sources */,
-				FA0CCADF1DF6A43E00EC3F6A /* SoundListTableViewController.swift in Sources */,
 				FA0CCAD81DF69E3800EC3F6A /* SongViewController.swift in Sources */,
 				FA479EC71D376CB000619BA0 /* Right.swift in Sources */,
 				429A22BC1D338E240045023F /* KickInstrument.swift in Sources */,
@@ -615,8 +614,8 @@
 				4254BC451D4D8366007572B6 /* PopupBlur.swift in Sources */,
 				429A22BA1D338E240045023F /* HatInstrument.swift in Sources */,
 				42C8A3F51DA05D81004BDD58 /* PopupCtrl.swift in Sources */,
-				FAC132C71DF5248A007E6EC1 /* SongListTableViewController.swift in Sources */,
 				42C8A3EF1D9EC78F004BDD58 /* RightCtrl.swift in Sources */,
+				FA0CCAE31DF6B2E900EC3F6A /* SoundListViewController.swift in Sources */,
 				FA50AA8B1D2B40E40035C942 /* ParametersButton.swift in Sources */,
 				FAC132CB1DF547AD007E6EC1 /* ParametersModalViewController.swift in Sources */,
 				42C8A3DD1D97425C004BDD58 /* QuarterCtrl.swift in Sources */,
@@ -630,6 +629,7 @@
 				42A59FAB1D301FA60070FE46 /* MidiSensorWrapper.mm in Sources */,
 				FA820EB41D2E20E800C6FBF4 /* Popup.swift in Sources */,
 				42C8A3E71D9C1859004BDD58 /* ParametersPopupCtrl.swift in Sources */,
+				FA0CCAE51DF6B55B00EC3F6A /* SongListViewController.swift in Sources */,
 				42C8A3E31D974457004BDD58 /* QuantizeButtonProtocol.swift in Sources */,
 				FA50AA931D2B454D0035C942 /* Thirtysecond.swift in Sources */,
 				FA50AA851D2B397F0035C942 /* Knob.swift in Sources */,

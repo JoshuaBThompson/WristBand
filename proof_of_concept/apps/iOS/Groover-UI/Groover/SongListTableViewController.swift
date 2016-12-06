@@ -12,12 +12,14 @@ class SongListTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // Hide nav bar
+        self.navigationController?.isNavigationBarHidden = true
 
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+        // Add a background view to the table view
+        let backgroundImage = UIImage(named: "fullBackgroundBlur")
+        let imageView = UIImageView(image: backgroundImage)
+        self.tableView.backgroundView = imageView
     }
 
     override func didReceiveMemoryWarning() {

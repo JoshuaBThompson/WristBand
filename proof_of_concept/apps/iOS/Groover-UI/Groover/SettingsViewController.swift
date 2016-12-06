@@ -1,5 +1,5 @@
 //
-//  SongViewController.swift
+//  SettingsViewController.swift
 //  Groover
 //
 //  Created by Alex Crane on 12/5/16.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SongViewController: UIViewController {
+class SettingsViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,7 +25,9 @@ class SongViewController: UIViewController {
         return true
     }
     
-    @IBAction func unwindToSong(segue: UIStoryboardSegue) {}
+    @IBAction func unwindToSettings(segue: UIStoryboardSegue) {}
+    
+    
 
     /*
     // MARK: - Navigation

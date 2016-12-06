@@ -21,11 +21,6 @@ class SongViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    override var prefersStatusBarHidden: Bool {
-        return true
-    }
-    
-    @IBAction func unwindToSong(segue: UIStoryboardSegue) {}
 
     /*
     // MARK: - Navigation

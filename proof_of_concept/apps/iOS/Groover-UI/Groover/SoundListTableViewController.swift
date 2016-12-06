@@ -1,18 +1,14 @@
 //
-//  SongSettingsTableViewController.swift
+//  SoundListTableViewController.swift
 //  Groover
 //
-//  Created by Alex Crane on 11/29/16.
+//  Created by Alex Crane on 12/5/16.
 //  Copyright © 2016 TCM. All rights reserved.
 //
 
 import UIKit
 
-class SongTableViewController: UITableViewController {
-    
-    @IBAction func buttonTest(_ sender: Any) {
-    }
-    
+class SoundListTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,14 +20,6 @@ class SongTableViewController: UITableViewController {
         let backgroundImage = UIImage(named: "fullBackgroundBlur")
         let imageView = UIImageView(image: backgroundImage)
         self.tableView.backgroundView = imageView
-        
-
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
     }
 
     override func didReceiveMemoryWarning() {
@@ -42,18 +30,18 @@ class SongTableViewController: UITableViewController {
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        // #warning Incomplete implementation, return the number of sections
+        return 0
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3
+        // #warning Incomplete implementation, return the number of rows
+        return 0
     }
     
     override var prefersStatusBarHidden: Bool {
         return true
     }
-    
-    @IBAction func unwindToSong(segue: UIStoryboardSegue) {}
 
     /*
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

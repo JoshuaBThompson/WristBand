@@ -40,6 +40,7 @@
 		42C8A3F11D9EC799004BDD58 /* LeftCtrl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42C8A3F01D9EC799004BDD58 /* LeftCtrl.swift */; };
 		42C8A3F31DA05AB6004BDD58 /* HamburgerIconCtrl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42C8A3F21DA05AB6004BDD58 /* HamburgerIconCtrl.swift */; };
 		42C8A3F51DA05D81004BDD58 /* PopupCtrl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42C8A3F41DA05D81004BDD58 /* PopupCtrl.swift */; };
+		947E19E41DFBF7E400443F7E /* NewSongViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 947E19E31DFBF7E400443F7E /* NewSongViewController.swift */; };
 		FA0CCAD81DF69E3800EC3F6A /* SongViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0CCAD71DF69E3800EC3F6A /* SongViewController.swift */; };
 		FA0CCADC1DF6A26E00EC3F6A /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0CCADB1DF6A26E00EC3F6A /* SettingsViewController.swift */; };
 		FA0CCAE31DF6B2E900EC3F6A /* SoundListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0CCAE21DF6B2E900EC3F6A /* SoundListViewController.swift */; };
@@ -151,6 +152,7 @@
 		42C8A3F01D9EC799004BDD58 /* LeftCtrl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeftCtrl.swift; sourceTree = "<group>"; };
 		42C8A3F21DA05AB6004BDD58 /* HamburgerIconCtrl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HamburgerIconCtrl.swift; sourceTree = "<group>"; };
 		42C8A3F41DA05D81004BDD58 /* PopupCtrl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopupCtrl.swift; sourceTree = "<group>"; };
+		947E19E31DFBF7E400443F7E /* NewSongViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewSongViewController.swift; sourceTree = "<group>"; };
 		FA0CCAD71DF69E3800EC3F6A /* SongViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SongViewController.swift; sourceTree = "<group>"; };
 		FA0CCADB1DF6A26E00EC3F6A /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		FA0CCAE21DF6B2E900EC3F6A /* SoundListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SoundListViewController.swift; sourceTree = "<group>"; };
@@ -336,6 +338,7 @@
 			children = (
 				FA0CCAD71DF69E3800EC3F6A /* SongViewController.swift */,
 				FA0CCAE41DF6B55B00EC3F6A /* SongListViewController.swift */,
+				947E19E31DFBF7E400443F7E /* NewSongViewController.swift */,
 			);
 			name = SongTab;
 			sourceTree = "<group>";
@@ -627,6 +630,7 @@
 				FA0CCADC1DF6A26E00EC3F6A /* SettingsViewController.swift in Sources */,
 				42C8A3CF1D9721D4004BDD58 /* KnobCtrl.swift in Sources */,
 				42A59FAB1D301FA60070FE46 /* MidiSensorWrapper.mm in Sources */,
+				947E19E41DFBF7E400443F7E /* NewSongViewController.swift in Sources */,
 				FA820EB41D2E20E800C6FBF4 /* Popup.swift in Sources */,
 				42C8A3E71D9C1859004BDD58 /* ParametersPopupCtrl.swift in Sources */,
 				FA0CCAE51DF6B55B00EC3F6A /* SongListViewController.swift in Sources */,

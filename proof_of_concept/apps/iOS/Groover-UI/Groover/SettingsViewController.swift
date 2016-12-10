@@ -13,7 +13,11 @@ class SettingsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        self.navigationController?.navigationBar.shadowImage =  UIImage()
+        self.navigationController?.navigationBar.isTranslucent = true
+        
+        self.navigationItem.title = "Current Sound Set"
     }
 
     override func didReceiveMemoryWarning() {

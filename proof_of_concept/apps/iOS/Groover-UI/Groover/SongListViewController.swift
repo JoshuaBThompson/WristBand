@@ -13,7 +13,9 @@ class SongListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        self.navigationController?.navigationBar.shadowImage =  UIImage()
+        self.navigationController?.navigationBar.isTranslucent = true
     }
 
     override func didReceiveMemoryWarning() {

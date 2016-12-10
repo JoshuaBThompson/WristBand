@@ -1,14 +1,14 @@
 //
-//  SoundListViewController.swift
+//  NewSongViewController.swift
 //  Groover
 //
-//  Created by Alex Crane on 12/6/16.
+//  Created by Alex Crane on 12/10/16.
 //  Copyright © 2016 TCM. All rights reserved.
 //
 
 import UIKit
 
-class SoundListViewController: UIViewController {
+class NewSongViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()

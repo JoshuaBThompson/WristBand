@@ -37,7 +37,6 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var knob: KnobCtrl!
     
-    @IBOutlet weak var instrumentNameLabel: UILabel!
     //@IBOutlet weak var parametersPopup: ParametersPopupCtrl!
     
     @IBOutlet weak var playButton: PlayCtrl!
@@ -45,7 +44,7 @@ class ViewController: UIViewController {
     
 
     @IBOutlet weak var quarterQuantizeButton: QuarterCtrl!
-    @IBOutlet weak var eightQuantizeButton: EighthCtrl!
+    @IBOutlet weak var eighthQuantizeButton: EighthCtrl!
     @IBOutlet weak var sixteenthQuantizeButton: SixteenthCtrl!
     @IBOutlet weak var thirtysecondQuantizeButton: ThirtysecondCtrl!
     @IBOutlet weak var tripletQuantizeButton: TripletCtrl!
@@ -93,12 +92,12 @@ class ViewController: UIViewController {
         
         //Quantize
         quarterQuantizeButton.addTarget(self, action: #selector(ViewController.quantizeButtonSelected(_:)), for: .valueChanged)
-        eightQuantizeButton.addTarget(self, action: #selector(ViewController.quantizeButtonSelected(_:)), for: .valueChanged)
+        eighthQuantizeButton.addTarget(self, action: #selector(ViewController.quantizeButtonSelected(_:)), for: .valueChanged)
         sixteenthQuantizeButton.addTarget(self, action: #selector(ViewController.quantizeButtonSelected(_:)), for: .valueChanged)
         thirtysecondQuantizeButton.addTarget(self, action: #selector(ViewController.quantizeButtonSelected(_:)), for: .valueChanged)
         tripletQuantizeButton.addTarget(self, action: #selector(ViewController.quantizeButtonSelected(_:)), for: .valueChanged)
         quantizeButtons.append(quarterQuantizeButton)
-        quantizeButtons.append(eightQuantizeButton)
+        quantizeButtons.append(eighthQuantizeButton)
         quantizeButtons.append(sixteenthQuantizeButton)
         quantizeButtons.append(thirtysecondQuantizeButton)
         quantizeButtons.append(tripletQuantizeButton)
@@ -349,7 +348,7 @@ class ViewController: UIViewController {
     
     func selectSound(_ position: Int){
         song.selectInstrument(position)
-        instrumentNameLabel.text = song.selectedInstrumentName
+        //instrumentNameLabel.text = song.selectedInstrumentName
     }
     
     func innerKnobTapped(_ knobControl: Knob){

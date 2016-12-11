@@ -409,7 +409,7 @@
         <!--Groove-->
         <scene sceneID="joH-Ct-SfY">
             <objects>
-                <viewController id="Nhe-2a-XLP" userLabel="Groove" customClass="GrooveViewController" customModule="Groover" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="Nhe-2a-XLP" userLabel="Groove" customClass="ViewController" customModule="Groover" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="kuw-NJ-44t"/>
                         <viewControllerLayoutGuide type="bottom" id="CnU-Mo-i1E"/>
@@ -433,14 +433,14 @@
                                                     <constraint firstAttribute="width" secondItem="f9L-uH-Kpy" secondAttribute="height" multiplier="146:56" id="z6n-Qs-6Cy"/>
                                                 </constraints>
                                             </imageView>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8US-pO-suU" customClass="Play" customModule="Groover" customModuleProvider="target">
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8US-pO-suU" customClass="PlayCtrl" customModule="Groover" customModuleProvider="target">
                                                 <rect key="frame" x="146" y="0.0" width="87" height="56"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" secondItem="8US-pO-suU" secondAttribute="height" multiplier="87:56" id="FJp-8Y-7gp"/>
                                                 </constraints>
                                             </view>
-                                            <view alpha="0.5" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Vd0-sl-YT1" customClass="Record" customModule="Groover" customModuleProvider="target">
+                                            <view alpha="0.5" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Vd0-sl-YT1" customClass="RecordCtrl" customModule="Groover" customModuleProvider="target">
                                                 <rect key="frame" x="233" y="0.0" width="87" height="56"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 <constraints>
@@ -486,35 +486,35 @@
                                                     <constraint firstAttribute="width" secondItem="R8q-yn-x6r" secondAttribute="height" multiplier="15:86" id="95H-Gq-ehn"/>
                                                 </constraints>
                                             </view>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Lfp-TH-OXm" customClass="Quarter" customModule="Groover" customModuleProvider="target">
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Lfp-TH-OXm" customClass="QuarterCtrl" customModule="Groover" customModuleProvider="target">
                                                 <rect key="frame" x="15" y="0.0" width="58" height="86"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" secondItem="Lfp-TH-OXm" secondAttribute="height" multiplier="58:86" id="HeY-bq-Azy"/>
                                                 </constraints>
                                             </view>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4hs-Qx-hNS" customClass="Eighth" customModule="Groover" customModuleProvider="target">
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4hs-Qx-hNS" customClass="EighthCtrl" customModule="Groover" customModuleProvider="target">
                                                 <rect key="frame" x="73" y="0.0" width="58" height="86"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" secondItem="4hs-Qx-hNS" secondAttribute="height" multiplier="58:86" id="J3k-jU-RDg"/>
                                                 </constraints>
                                             </view>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MfR-jC-DKD" customClass="Sixteenth" customModule="Groover" customModuleProvider="target">
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MfR-jC-DKD" customClass="SixteenthCtrl" customModule="Groover" customModuleProvider="target">
                                                 <rect key="frame" x="131" y="0.0" width="58" height="86"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" secondItem="MfR-jC-DKD" secondAttribute="height" multiplier="58:86" id="x7u-1N-23F"/>
                                                 </constraints>
                                             </view>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8Ug-2W-6CL" customClass="Thirtysecond" customModule="Groover" customModuleProvider="target">
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8Ug-2W-6CL" customClass="ThirtysecondCtrl" customModule="Groover" customModuleProvider="target">
                                                 <rect key="frame" x="189" y="0.0" width="58" height="86"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" secondItem="8Ug-2W-6CL" secondAttribute="height" multiplier="58:86" id="1lN-hg-HNf"/>
                                                 </constraints>
                                             </view>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gnb-Bh-s7R" customClass="Triplet" customModule="Groover" customModuleProvider="target">
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gnb-Bh-s7R" customClass="TripletCtrl" customModule="Groover" customModuleProvider="target">
                                                 <rect key="frame" x="247" y="0.0" width="58" height="86"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 <constraints>
@@ -586,7 +586,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SYe-EJ-EJD" userLabel="knobWrapper">
                                 <rect key="frame" x="0.0" y="242" width="320" height="270"/>
                                 <subviews>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="D5w-T1-I82" customClass="Knob" customModule="Groover" customModuleProvider="target">
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="D5w-T1-I82" customClass="KnobCtrl" customModule="Groover" customModuleProvider="target">
                                         <rect key="frame" x="25" y="0.0" width="270" height="270"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <constraints>
@@ -623,6 +623,16 @@
                     </view>
                     <tabBarItem key="tabBarItem" title="Item" id="YhD-nd-f24"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics" translucent="NO"/>
+                    <connections>
+                        <outlet property="eighthQuantizeButton" destination="4hs-Qx-hNS" id="hcA-r3-hDG"/>
+                        <outlet property="knob" destination="D5w-T1-I82" id="VF2-uZ-jWQ"/>
+                        <outlet property="playButton" destination="8US-pO-suU" id="fNq-xQ-uA3"/>
+                        <outlet property="quarterQuantizeButton" destination="Lfp-TH-OXm" id="fdk-RP-qsL"/>
+                        <outlet property="recordButton" destination="Vd0-sl-YT1" id="uX8-Rj-UYi"/>
+                        <outlet property="sixteenthQuantizeButton" destination="MfR-jC-DKD" id="0w5-Wn-3P8"/>
+                        <outlet property="thirtysecondQuantizeButton" destination="8Ug-2W-6CL" id="1A5-LC-uLz"/>
+                        <outlet property="tripletQuantizeButton" destination="gnb-Bh-s7R" id="BCO-O3-dkp"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qeK-Zb-u43" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

@@ -6,7 +6,7 @@
 //  Copyright © 2016 TCM. All rights reserved.
 //
 
-/*import UIKit
+import UIKit
 
 class ThirtysecondCtrl: Thirtysecond, QuantizeButtonProtocol {
     var resolution = ThirtysecondResolution
@@ -21,7 +21,7 @@ class ThirtysecondCtrl: Thirtysecond, QuantizeButtonProtocol {
     
     var button: UIButton!
     override func draw(_ rect: CGRect) {
-        UIGroover.drawThirtysecondCanvas(thirtysecondSelected: isSelected)
+        UIGroover.drawThirtysecondCanvas(thirtySecondFrame: self.bounds, thirtysecondSelected: isSelected)
     }
     
     // MARK: Initialization
@@ -41,5 +41,5 @@ class ThirtysecondCtrl: Thirtysecond, QuantizeButtonProtocol {
         isSelected = !isSelected
         sendActions(for: .valueChanged) //this tells view controller that something changed
     }
-
-}*/
+    
+}

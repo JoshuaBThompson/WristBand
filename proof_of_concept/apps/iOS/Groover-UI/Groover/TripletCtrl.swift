@@ -6,7 +6,7 @@
 //  Copyright © 2016 TCM. All rights reserved.
 //
 
-/*import UIKit
+import UIKit
 
 class TripletCtrl: Triplet, QuantizeButtonProtocol {
     var resolution = TripletResolution
@@ -20,7 +20,7 @@ class TripletCtrl: Triplet, QuantizeButtonProtocol {
     }
     
     override func draw(_ rect: CGRect) {
-        UIGroover.drawTripletCanvas(tripletSelected: isSelected)
+        UIGroover.drawTripletCanvas(tripletFrame: self.bounds, tripletSelected: isSelected)
     }
     
     // MARK: Initialization
@@ -41,4 +41,4 @@ class TripletCtrl: Triplet, QuantizeButtonProtocol {
         print("triplet selected to \(isSelected)")
         sendActions(for: .valueChanged) //this tells view controller that something changed
     }
-}*/
+}

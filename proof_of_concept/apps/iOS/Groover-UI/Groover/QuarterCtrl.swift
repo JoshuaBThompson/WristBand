@@ -6,7 +6,7 @@
 //  Copyright © 2016 TCM. All rights reserved.
 //
 
-/*import UIKit
+import UIKit
 
 class QuarterCtrl: Quarter, QuantizeButtonProtocol {
     var resolution = QuarterResolution
@@ -20,7 +20,7 @@ class QuarterCtrl: Quarter, QuantizeButtonProtocol {
     }
     
     override func draw(_ rect: CGRect) {
-        UIGroover.drawQuarterCanvas(quarterSelected: isSelected)
+        UIGroover.drawQuarterCanvas(quarterFrame: self.bounds, quarterSelected: isSelected)
     }
     
     // MARK: Initialization
@@ -41,5 +41,5 @@ class QuarterCtrl: Quarter, QuantizeButtonProtocol {
         sendActions(for: .valueChanged) //this tells view controller that something changed
     }
     
-
-}*/
+    
+}

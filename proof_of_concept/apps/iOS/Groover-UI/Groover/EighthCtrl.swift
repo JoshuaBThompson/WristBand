@@ -6,7 +6,7 @@
 //  Copyright © 2016 TCM. All rights reserved.
 //
 
-/*import UIKit
+import UIKit
 
 class EighthCtrl: Eighth, QuantizeButtonProtocol {
     var resolution = EighthResolution
@@ -20,7 +20,7 @@ class EighthCtrl: Eighth, QuantizeButtonProtocol {
     }
     
     override func draw(_ rect: CGRect) {
-        UIGroover.drawEighthCanvas(eighthSelected: isSelected)
+        UIGroover.drawEighthCanvas(eighthFrame: self.bounds, eighthSelected: isSelected)
     }
     
     // MARK: Initialization
@@ -40,5 +40,5 @@ class EighthCtrl: Eighth, QuantizeButtonProtocol {
         isSelected = !isSelected
         sendActions(for: .valueChanged) //this tells view controller that something changed
     }
-
-}*/
+    
+}

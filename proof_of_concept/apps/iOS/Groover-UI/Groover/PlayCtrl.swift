@@ -6,7 +6,7 @@
 //  Copyright © 2016 TCM. All rights reserved.
 //
 
-/*import UIKit
+import UIKit
 
 class PlayCtrl: Play, PlayRecordProtocol {
     //MARK: properties
@@ -31,4 +31,4 @@ class PlayCtrl: Play, PlayRecordProtocol {
         print("play button tapped")
         sendActions(for: .valueChanged) //this tells view controller that something changed
     }
-}*/
+}

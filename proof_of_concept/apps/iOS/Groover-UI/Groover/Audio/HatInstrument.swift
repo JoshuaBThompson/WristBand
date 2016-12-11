@@ -22,7 +22,7 @@ class HatInstrument1: SynthInstrument{
     /// - parameter voiceCount: Number of voices (usually two is plenty for drums)
     ///
     
-    override init() {
+    init(library_num: Int = 0) {
         super.init()
         note = 60
         name = "Hat Instrument 1"
@@ -43,7 +43,7 @@ class HatInstrument2: SynthInstrument{
     /// - parameter voiceCount: Number of voices (usually two is plenty for drums)
     ///
     
-    override init() {
+    init(library_num: Int = 0) {
         super.init()
         note = 70
         name = "Hat Instrument 2"
@@ -65,7 +65,7 @@ class HatInstrument3: SynthInstrument{
     /// - parameter voiceCount: Number of voices (usually two is plenty for drums)
     ///
     
-    override init() {
+    init(library_num: Int = 0) {
         super.init()
         note = 80
         name = "Hat Instrument 3"
@@ -87,7 +87,7 @@ class HatInstrument4: SynthInstrument{
     /// - parameter voiceCount: Number of voices (usually two is plenty for drums)
     ///
     
-    override init() {
+    init(library_num: Int = 0) {
         super.init()
         note = 90
         name = "Hat Instrument 4"

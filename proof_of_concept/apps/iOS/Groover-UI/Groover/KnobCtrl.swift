@@ -9,7 +9,7 @@
 import UIKit
 
 class KnobCtrl: Knob {
-
+    
     //MARK: properties
     var instSnap: SnapFilter!
     var clickRingActive = true
@@ -45,7 +45,7 @@ class KnobCtrl: Knob {
     
     
     override func draw(_ rect: CGRect) {
-        UIGroover.drawKnobCanvas(rotation: drawAngle, clickSelected: clickActive, clickRingActive: clickRingActive)
+        UIGroover.drawKnobCanvas(knobFrame: self.bounds, rotation: drawAngle, clickSelected: clickActive, clickRingActive: clickRingActive)
     }
     
     override init(frame: CGRect) {
@@ -189,7 +189,7 @@ class KnobCtrl: Knob {
         sendActions(for: .editingDidEnd)
     }
     
-
+    
 }
 
 

@@ -24,6 +24,9 @@ class Song {
     var timeSignature = TimeSignature()
     var tempo = Tempo()
     var clickTrack: ClickTrack!
+    var songsDatabase: [SongDatabase]!
+    var loadSavedSongs = true
+    var songNum = 0 //song number in database that is currently being run
     
     //MARK: computed variables
     
@@ -38,14 +41,110 @@ class Song {
         return instruments[selectedInstrument]
     }
     
+    var currentPan: Double {
+        return instruments[selectedInstrument].pan
+    }
+    
+    var currentPanPercent: Double {
+        return instruments[selectedInstrument].pan * 100.0
+    }
+    
     init(){
         mixer = AKMixer()
         clickTrack = ClickTrack(songRef: self, clickTempo: tempo, clickTimeSignature: timeSignature)
         mixer.connect(clickTrack)
         
+        loadNewSong()
         
-        //snare instruments
+        //connect all instrument outputs to Audiokit output
+        AudioKit.output = mixer
 
+    }
+    
+    func getSavedSongs() -> [SongDatabase]? {
+        print("Song database file path: \(SongDatabase.ArchiveURL.path)")
+        return NSKeyedUnarchiver.unarchiveObject(withFile: SongDatabase.ArchiveURL.path) as? [SongDatabase]
+    }
+    
+    func loadSong(song_num: Int){
+        if let savedSongs = getSavedSongs(){
+            songsDatabase = savedSongs
+            if(song_num < songsDatabase.count){
+                //now stop current song and clear track notes in cache
+                clear()
+                
+                //now load saved song track data
+                loadInstruments(song_num: song_num)
+            }
+        }
+        else{
+            print("loadSong Error: Song \(song_num) not available in songs database")
+        }
+    }
+    
+    func loadNewSong(){
+        if(loadSavedSongs){
+            if let savedSongs = getSavedSongs(){
+                songsDatabase = savedSongs
+                
+                songsDatabase.append(SongDatabase())
+                songNum = songsDatabase.count-1 //increment song num
+            }
+        }
+        if((songsDatabase) == nil){
+            print("Could not load saved song")
+            songsDatabase = [SongDatabase]()
+            songsDatabase.append(SongDatabase())
+        }
+        loadInstruments(song_num: songNum)
+    }
+    
+    func loadTrack(track: TrackManager, num: Int){
+        
+        if(songsDatabase == nil){
+            return
+        }
+        if(num < songsDatabase[songNum].tracks.count){
+            songsDatabase[songNum].tracks[num].loadSavedTrack()
+            track.trackNotes = songsDatabase[songNum].tracks[num].track
+            track.velNotes = songsDatabase[songNum].tracks[num].velocity
+            track.durNotes = songsDatabase[songNum].tracks[num].duration
+            track.firstInstance = (track.trackNotes.count > 0) ? false : true
+            track.updateMeasureCount(songsDatabase[songNum].tracks[num].measures)
+            track.instrument.updatePan(songsDatabase[songNum].tracks[num].pan)
+            track.instrument.updateVolume(songsDatabase[songNum].tracks[num].volume)
+            print("loaded saved track \(num)")
+        }
+        else{
+            let count = songsDatabase[songNum].tracks.count
+            let newSongTrack = SongTrack()
+            newSongTrack.loadNewTrack(trackManager: track)
+            track.trackNotes = newSongTrack.track
+            songsDatabase[songNum].tracks.append(newSongTrack)
+            print("loaded new track \(count)")
+        }
+    }
+    
+    func saveSong(){
+        if(songsDatabase == nil){
+            return
+        }
+        for i in 0 ..< songsDatabase[songNum].tracks.count {
+            songsDatabase[songNum].tracks[i].loadNewTrack(trackManager: instruments[i].trackManager)
+            
+        }
+        
+        //songDatabase.saveSong()
+        print("Song database file path: \(SongDatabase.ArchiveURL.path)")
+        let isSuccessfulSave = NSKeyedArchiver.archiveRootObject(songsDatabase, toFile: SongDatabase.ArchiveURL.path)
+        if !isSuccessfulSave {
+            print("Failed to save song...")
+        }
+    }
+    
+    
+    func initInstruments(){
+        //snare instruments
         let instrument1Track = InstrumentTrack(clickTrack: clickTrack, presetInst: SnareInstrument1())
         instruments.append(instrument1Track)
         mixer.connect(instrument1Track.instrument.panner)
@@ -62,6 +161,7 @@ class Song {
         instruments.append(instrument4Track)
         mixer.connect(instrument4Track.instrument.panner)
         
+        
         //kick instruments
         
         let instrument5Track = InstrumentTrack(clickTrack: clickTrack, presetInst: KickInstrument1())
@@ -72,9 +172,11 @@ class Song {
         instruments.append(instrument6Track)
         mixer.connect(instrument6Track.instrument.panner)
         
+        
         let instrument7Track = InstrumentTrack(clickTrack: clickTrack, presetInst: KickInstrument3())
         instruments.append(instrument7Track)
         mixer.connect(instrument7Track.instrument.panner)
+        
         
         let instrument8Track = InstrumentTrack(clickTrack: clickTrack, presetInst: KickInstrument4())
         instruments.append(instrument8Track)
@@ -86,20 +188,45 @@ class Song {
         instruments.append(instrument9Track)
         mixer.connect(instrument9Track.instrument.panner)
         
+        
         let instrument10Track = InstrumentTrack(clickTrack: clickTrack, presetInst: HatInstrument2())
         instruments.append(instrument10Track)
         mixer.connect(instrument10Track.instrument.panner)
+        
         
         let instrument11Track = InstrumentTrack(clickTrack: clickTrack, presetInst: HatInstrument3())
         instruments.append(instrument11Track)
         mixer.connect(instrument11Track.instrument.panner)
         
+        
         let instrument12Track = InstrumentTrack(clickTrack: clickTrack, presetInst: HatInstrument4())
         instruments.append(instrument12Track)
         mixer.connect(instrument12Track.instrument.panner)
         
-        //connect all instrument outputs to Audiokit output
-        AudioKit.output = mixer
+    }
+    
+    func loadInstruments(song_num: Int){
+        
+        //set the song number to get the correct saved song in the database
+        if(song_num >= songsDatabase.count){
+            print("Error: song_num \(song_num) exceeds number of songs in database")
+            return
+        }
+        
+        songNum = song_num
+        
+        if(instruments.count == 0){
+            initInstruments() //create instruments with blank tracks
+        }
+        
+        
+        //now load saved track data from database
+        for instNum in 0 ..< instruments.count {
+            loadTrack(track: instruments[instNum].trackManager, num: instNum)
+        }
+        
+        saveSong()
+        
     }
     
     func start(){
@@ -119,7 +246,7 @@ class Song {
         for instTracks in instruments {
             //clear all recorded tracks
             instTracks.trackManager.clear()
-        }        
+        }
         
     }
     
@@ -143,7 +270,7 @@ class Song {
         }
         
     }
-
+    
     
     func playNote(){
         //play note based on selected instrument
@@ -170,7 +297,7 @@ class Song {
         
         playNote()
         if !recordEnabled || !clickTrack.running {
-            print("Record not enabled or pre-record not finished, no add note allowed")
+            //print("Record not enabled or pre-record not finished, no add note allowed")
             return
         }
         noteAdded = true
@@ -227,22 +354,39 @@ class Song {
     
     //MARK: Pan - update preset pan (-1 left, 0 center, 1 right and everything else in between)
     func updatePresetPan(_ pan: Double){
-        instruments[selectedInstrument].updatePan(pan)
+        if(pan != self.currentPan){
+            instruments[selectedInstrument].updatePan(pan)
+        }
+    }
+    
+    //like updatePresetPan but use % instead of actual decimal value: ex 0.01 is the same as 1% so input 1, 1 is the same as 100% so input 100
+    func updatePresetPanPercent(_ panPercent: Double){
+        var pan = panPercent/100.0
+        if panPercent > 100.0 {
+            pan = 1.0
+        }
+        else if panPercent < -100.0 {
+            pan = -1.0
+        }
+        if(pan != self.currentPan){
+            print("pan percent \(pan)")
+            instruments[selectedInstrument].updatePan(pan)
+        }
     }
     
     
     func decPresetPan(){
-        let currentPan = instruments[selectedInstrument].pan
+        let currentPan = self.currentPan
         
-        //decrease volume by 1% (out of 100%)
-        updatePresetPan(currentPan - 0.1)
+        //decrease volume by 0.01 (out of 1)
+        updatePresetPan(currentPan - 0.01)
     }
     
     func incPresetPan(){
-        let currentPan = instruments[selectedInstrument].pan
+        let currentPan = self.currentPan
         
-        //increase volume by 1% (out of 100%)
-        updatePresetPan(currentPan + 0.1)
+        //increase volume by 0.01 (out of 1)
+        updatePresetPan(currentPan + 0.01)
     }
     
     //MARK: Instrument volume updates
@@ -320,6 +464,8 @@ class Song {
             inst.deselect()
         }
         
+        saveSong()
+        
     }
     
     func play(){
@@ -351,6 +497,7 @@ class Song {
             }
         }
         playing = false
+        saveSong()
     }
     
     func setTempo(_ newBeatsPerMin: Double){
@@ -370,8 +517,6 @@ class Song {
         clickTrack.update()
         
     }
-    
-
     
     
 }

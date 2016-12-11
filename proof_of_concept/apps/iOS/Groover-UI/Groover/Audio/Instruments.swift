@@ -73,11 +73,11 @@ class SynthInstrument: AKMIDIInstrument{
     var measureUpdateReady = false
     var measureUpdateEn = false
     var quantizeEnabled = false
-
+    
     var total_dur: Double {
         if(!measureUpdateReady){
             _total_dur = Double(instTrack.loopLength)
-        return _total_dur
+            return _total_dur
         }
         else{
             return _total_dur
@@ -129,17 +129,17 @@ class SynthInstrument: AKMIDIInstrument{
         note_num += 1
         
         if(note_num >= maxNoteCount){
-
-             note_num = 0
-             if(measureUpdateReady && !measureUpdateEn){
+            
+            note_num = 0
+            if(measureUpdateReady && !measureUpdateEn){
                 measureUpdateEn = true
-             }
-             else if(measureUpdateEn){
+            }
+            else if(measureUpdateEn){
                 measureUpdateReady = false
                 measureUpdateEn = false
                 print("total dur updated to \(total_dur)")
-             }
-
+            }
+            
             total_dur_offset = total_dur_offset + total_dur
         }
         
@@ -417,7 +417,7 @@ class ClickTrack: AKNode{
         timeSignature = clickTimeSignature
         initInstrumentTrack()
         self.avAudioNode = instrument.avAudioNode
-    
+        
         
     }
     
@@ -438,7 +438,7 @@ class ClickTrack: AKNode{
         print("click track secPerMeasure \(secPerMeasure)")
         instrument.track = track
         resetTrack()
-
+        
     }
     
     func reset(){
@@ -460,7 +460,7 @@ class ClickTrack: AKNode{
         track.tracks[0].clear()
         track.tracks[0].add(noteNumber: 60, velocity: 127, position: AKDuration(seconds: 0), duration: AKDuration(seconds: 0))
     }
-
+    
     
     func update(){
         //tempo.beatsPerMin is updated in Song.swift
@@ -488,13 +488,13 @@ class ClickTrack: AKNode{
     
     
     //MARK: overriden functions
-
+    
     /// Tells whether the node is processing (ie. started, playing, or active)
     var isStarted: Bool {
         return running
     }
     
-
+    
     /// Function to start, play, or activate the node, all do the same thing
     func start_preroll(){
         instrument.set_record()
@@ -509,7 +509,7 @@ class ClickTrack: AKNode{
                 track.play()
                 _running = true
             }
-
+            
         }
         else{
             stop()
@@ -525,7 +525,7 @@ class ClickTrack: AKNode{
         
         _running = false
     }
-
+    
 }
 
 /* InstrumentTrack
@@ -563,7 +563,7 @@ class InstrumentTrack {
         else{
             _maxNoteCount = beatCount
         }
-
+        
         return _maxNoteCount
     }
     
@@ -663,7 +663,7 @@ class TrackManager{
     var beatsPerMeasure: Int { return clickTrack.timeSignature.beatsPerMeasure }
     var totalBeats: Int { return measureCount * beatsPerMeasure}
     var totalDuration: Double {
-
+        
         return secPerMeasure * Double(measureCount)
     }
     var timeElapsedAbs: Double {
@@ -729,14 +729,14 @@ class TrackManager{
             print("...to new pos \(pos.beats)")
         }
         /*
-        if(quantizeEnable && pos.beats < prevPos.beats){
-            pos = position //if new quantized pos get moved back before prev beat then ignore quantize
-        }
-        else if(quantizeEnable && pos.beats == prevPos.beats){
-            instrument.ignore = true
-        }
-        prevPos = pos
-        */
+         if(quantizeEnable && pos.beats < prevPos.beats){
+         pos = position //if new quantized pos get moved back before prev beat then ignore quantize
+         }
+         else if(quantizeEnable && pos.beats == prevPos.beats){
+         instrument.ignore = true
+         }
+         prevPos = pos
+         */
         
         
         print("insert track note at \(position.seconds)")
@@ -802,36 +802,36 @@ class TrackManager{
     
     func updateNotePositions(_ newRecord: Bool = false){
         if(trackNotes.count==0){return}
-            firstInstance = false //first instance measure count update complete
-            resetTrack()
-                var position = trackNotes[0]
-                let velocity = velNotes[0]
-                let duration = durNotes[0]
-                print("update track pos \(position.seconds)")
-            if(newRecord){
-                print("new record note")
-                let beatOffset = Double((clickTrack.instrument.loop_count)*clickTrack.timeSignature.beatsPerMeasure)// + Double(measureCount*beatsPerMeasure)
-                position = AKDuration(beats: position.beats + beatOffset, tempo: position.tempo)
-                instrument.beatOffset = Double(beatOffset)
-            }
-            print("insert new note at \(position.seconds)")
-            insertNote(velocity, position: position, duration: duration)
+        firstInstance = false //first instance measure count update complete
+        resetTrack()
+        var position = trackNotes[0]
+        let velocity = velNotes[0]
+        let duration = durNotes[0]
+        print("update track pos \(position.seconds)")
+        if(newRecord){
+            print("new record note")
+            let beatOffset = Double((clickTrack.instrument.loop_count)*clickTrack.timeSignature.beatsPerMeasure)// + Double(measureCount*beatsPerMeasure)
+            position = AKDuration(beats: position.beats + beatOffset, tempo: position.tempo)
+            instrument.beatOffset = Double(beatOffset)
+        }
+        print("insert new note at \(position.seconds)")
+        insertNote(velocity, position: position, duration: duration)
         
         
     }
     
     
     func clear(){
-            longestTime = 0.0
-            noteCount = 0
-            trackNotes.removeAll()
-            velNotes.removeAll()
-            durNotes.removeAll()
-            firstInstance = true
-            measureCount = 1
-            resetTrack()
-            instrument.reset()
-            prevPos = AKDuration(beats: 0)
+        longestTime = 0.0
+        noteCount = 0
+        trackNotes.removeAll()
+        velNotes.removeAll()
+        durNotes.removeAll()
+        firstInstance = true
+        measureCount = 1
+        resetTrack()
+        instrument.reset()
+        prevPos = AKDuration(beats: 0)
     }
     
 }

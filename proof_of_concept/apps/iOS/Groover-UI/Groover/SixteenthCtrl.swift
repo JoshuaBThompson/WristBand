@@ -6,7 +6,7 @@
 //  Copyright © 2016 TCM. All rights reserved.
 //
 
-/*import UIKit
+import UIKit
 
 class SixteenthCtrl: Sixteenth, QuantizeButtonProtocol {
     var resolution = SixteenthResolution
@@ -20,7 +20,7 @@ class SixteenthCtrl: Sixteenth, QuantizeButtonProtocol {
     }
     
     override func draw(_ rect: CGRect) {
-        UIGroover.drawSixteenthCanvas(sixteenthSelected: isSelected)
+        UIGroover.drawSixteenthCanvas(sixteenthFrame: self.bounds, sixteenthSelected: isSelected)
     }
     
     // MARK: Initialization
@@ -40,4 +40,4 @@ class SixteenthCtrl: Sixteenth, QuantizeButtonProtocol {
         isSelected = !isSelected
         sendActions(for: .valueChanged) //this tells view controller that something changed
     }
-}*/
+}

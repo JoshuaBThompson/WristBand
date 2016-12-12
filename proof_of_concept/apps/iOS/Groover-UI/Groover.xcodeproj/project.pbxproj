@@ -117,8 +117,8 @@
 
 /* Begin PBXFileReference section */
 		421425E91DFCDB510092BCB4 /* BeatFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BeatFilter.swift; sourceTree = "<group>"; };
-		421425EB1DFCDC040092BCB4 /* SongDatabase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SongDatabase.swift; sourceTree = "<group>"; };
-		421425EC1DFCDC040092BCB4 /* SongLibraryLists.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SongLibraryLists.swift; sourceTree = "<group>"; };
+		421425EB1DFCDC040092BCB4 /* SongDatabase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SongDatabase.swift; path = Audio/SongDatabase.swift; sourceTree = "<group>"; };
+		421425EC1DFCDC040092BCB4 /* SongLibraryLists.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SongLibraryLists.swift; path = Audio/SongLibraryLists.swift; sourceTree = "<group>"; };
 		421425EF1DFCDC130092BCB4 /* Sounds_Extra */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Sounds_Extra; sourceTree = "<group>"; };
 		422D9D361D35525D00E27904 /* Groover.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Groover.entitlements; sourceTree = "<group>"; };
 		42456FA61D73B583005D83A5 /* AudioKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AudioKit.framework; sourceTree = "<group>"; };
@@ -258,6 +258,7 @@
 		423174FB1D6CAE2E00A97065 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				FA56CA421DEEA57F00738409 /* SettingsTableViewController.swift */,
 				42C8A3EC1D9EC09F004BDD58 /* SettingsIconCtrl.swift */,
 				FA50AA981D2B47DA0035C942 /* SettingsIcon.swift */,
 				4254BC441D4D8366007572B6 /* PopupBlur.swift */,
@@ -315,8 +316,6 @@
 			isa = PBXGroup;
 			children = (
 				421425EF1DFCDC130092BCB4 /* Sounds_Extra */,
-				421425EB1DFCDC040092BCB4 /* SongDatabase.swift */,
-				421425EC1DFCDC040092BCB4 /* SongLibraryLists.swift */,
 				429A22CB1D338E400045023F /* Sounds */,
 				429A22A51D338E240045023F /* HatInstrument.swift */,
 				429A22A61D338E240045023F /* Instruments.swift */,
@@ -413,8 +412,6 @@
 				FA50AA561D2A3FE60035C942 /* Main.storyboard */,
 				FA0CCADD1DF6A27D00EC3F6A /* SettingsTab */,
 				FA0CCADA1DF6A01700EC3F6A /* GrooveTab */,
-				FA56CA421DEEA57F00738409 /* SettingsTableViewController.swift */,
-				FA9A2ED31DF1329D003A5B7A /* DummySongData.swift */,
 				FA0CCAD91DF69FD700EC3F6A /* SongTab */,
 				FA50AA801D2A433B0035C942 /* images */,
 				FA50AA811D2A433B0035C942 /* UIGroover.swift */,
@@ -429,6 +426,9 @@
 		FA56CA461DEEA7A800738409 /* Song */ = {
 			isa = PBXGroup;
 			children = (
+				421425EC1DFCDC040092BCB4 /* SongLibraryLists.swift */,
+				FA9A2ED31DF1329D003A5B7A /* DummySongData.swift */,
+				421425EB1DFCDC040092BCB4 /* SongDatabase.swift */,
 				FA56CA441DEEA7A000738409 /* TempoSlider.swift */,
 			);
 			name = Song;

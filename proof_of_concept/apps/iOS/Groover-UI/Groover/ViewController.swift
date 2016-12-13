@@ -114,7 +114,7 @@ class ViewController: UIViewController {
         quantizeButtons.append(thirtysecondQuantizeButton)
         quantizeButtons.append(tripletQuantizeButton)
         */
-        song = Song()
+        song = GlobalAttributes.song//Song()
         //instrumentNameLabel.text = song.selectedInstrumentName
         song.start()
         

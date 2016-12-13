@@ -796,6 +796,9 @@ class TrackManager{
     
     func updateMeasureCount(_ count: Int){
         //hack - audiokit v3.2 since updating length of track doesn't work correctly, need to make new track each time new recording
+        if(count < 1){
+            return
+        }
         print("inst \(instrument.name) measure count updated to \(count)")
         measureCount = count
     }

@@ -10,7 +10,7 @@ import UIKit
 
 class SongViewController: UIViewController {
     //MARK: Properties
-    
+    var song: Song!
     
     //MARK: UI Element Controls
     
@@ -19,6 +19,7 @@ class SongViewController: UIViewController {
     @IBAction func tempoSliderValueChanged(_ sender: UISlider) {
         let value = Int(sender.value)
         tempoSliderLabel.text = "\(value)"
+        self.song.setTempo(Double(value))
         
     }
     @IBOutlet weak var tempoSlider: UISlider!
@@ -42,6 +43,7 @@ class SongViewController: UIViewController {
     @IBAction func measureSliderValueChanged(_ sender: UISlider) {
         let value = Int(sender.value)
         measureSliderLabel.text = "\(value)"
+        self.song.updatePresetMeasureCount(value)
     }
     @IBOutlet weak var measureSlider: UISlider!
     @IBOutlet weak var measureSliderLabel: UITextField!
@@ -50,7 +52,7 @@ class SongViewController: UIViewController {
     //MARK: Functions
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.song = GlobalAttributes.song
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         self.navigationController?.navigationBar.shadowImage =  UIImage()
         self.navigationController?.navigationBar.isTranslucent = true

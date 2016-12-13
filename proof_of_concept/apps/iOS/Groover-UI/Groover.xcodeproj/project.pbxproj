@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4201FDD81E006C1B00101870 /* GlobalAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4201FDD71E006C1B00101870 /* GlobalAttributes.swift */; };
 		421425EA1DFCDB510092BCB4 /* BeatFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 421425E91DFCDB510092BCB4 /* BeatFilter.swift */; };
 		421425ED1DFCDC040092BCB4 /* SongDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 421425EB1DFCDC040092BCB4 /* SongDatabase.swift */; };
 		421425EE1DFCDC040092BCB4 /* SongLibraryLists.swift in Sources */ = {isa = PBXBuildFile; fileRef = 421425EC1DFCDC040092BCB4 /* SongLibraryLists.swift */; };
@@ -116,6 +117,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		4201FDD71E006C1B00101870 /* GlobalAttributes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GlobalAttributes.swift; sourceTree = "<group>"; };
 		421425E91DFCDB510092BCB4 /* BeatFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BeatFilter.swift; sourceTree = "<group>"; };
 		421425EB1DFCDC040092BCB4 /* SongDatabase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SongDatabase.swift; path = Audio/SongDatabase.swift; sourceTree = "<group>"; };
 		421425EC1DFCDC040092BCB4 /* SongLibraryLists.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SongLibraryLists.swift; path = Audio/SongLibraryLists.swift; sourceTree = "<group>"; };
@@ -419,6 +421,7 @@
 				FA50AA5B1D2A3FE60035C942 /* LaunchScreen.storyboard */,
 				FA50AA5E1D2A3FE60035C942 /* Info.plist */,
 				422D9D361D35525D00E27904 /* Groover.entitlements */,
+				4201FDD71E006C1B00101870 /* GlobalAttributes.swift */,
 			);
 			path = Groover;
 			sourceTree = "<group>";
@@ -594,6 +597,7 @@
 				FAB995F01D2E2B510002EE38 /* Left.swift in Sources */,
 				FAC61A641DC520360012A93D /* Measure.swift in Sources */,
 				945BD38C1DFFBC8A002A70E9 /* SongViewController.swift in Sources */,
+				4201FDD81E006C1B00101870 /* GlobalAttributes.swift in Sources */,
 				42A59FA71D301F8B0070FE46 /* MidiSensor.cpp in Sources */,
 				429A22BD1D338E240045023F /* SnareInstrument.swift in Sources */,
 				FA479EC71D376CB000619BA0 /* Right.swift in Sources */,

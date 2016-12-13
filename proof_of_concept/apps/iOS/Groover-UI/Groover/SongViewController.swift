@@ -9,7 +9,45 @@
 import UIKit
 
 class SongViewController: UIViewController {
+    //MARK: Properties
+    
+    
+    //MARK: UI Element Controls
+    
+    //MARK: tempo
 
+    @IBAction func tempoSliderValueChanged(_ sender: UISlider) {
+        let value = Int(sender.value)
+        tempoSliderLabel.text = "\(value)"
+        
+    }
+    @IBOutlet weak var tempoSlider: UISlider!
+    @IBOutlet weak var tempoSliderLabel: UITextField!
+   
+    
+    
+    //MARK: Time Signature
+
+    
+    @IBAction func timeSignatureValueChanged(_ sender: UISlider) {
+        let value = sender.value
+        print("Time Signature \(value)")
+    }
+    
+    @IBOutlet weak var timeSignatureSlider: UISlider!
+    @IBOutlet weak var timeSigBeatsLabel: UITextField!
+    @IBOutlet weak var timeSigDivisionsLabel: UITextField!
+    
+    //MARK: Measure
+    @IBAction func measureSliderValueChanged(_ sender: UISlider) {
+        let value = Int(sender.value)
+        measureSliderLabel.text = "\(value)"
+    }
+    @IBOutlet weak var measureSlider: UISlider!
+    @IBOutlet weak var measureSliderLabel: UITextField!
+    
+    
+    //MARK: Functions
     override func viewDidLoad() {
         super.viewDidLoad()
         

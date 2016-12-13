@@ -56,12 +56,15 @@
                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="32"/>
                                                 <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                                             </textField>
-                                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="f3B-6N-IBS">
+                                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="400" translatesAutoresizingMaskIntoConstraints="NO" id="f3B-6N-IBS">
                                                 <rect key="frame" x="-2" y="40" width="218" height="45"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="214" id="c7s-dP-CvF"/>
                                                     <constraint firstAttribute="height" constant="44" id="ehp-MK-fRE"/>
                                                 </constraints>
+                                                <connections>
+                                                    <action selector="tempoSliderValueChanged:" destination="3mG-4z-8DT" eventType="valueChanged" id="zjf-Lm-70C"/>
+                                                </connections>
                                             </slider>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tempo" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="402-U1-S9Q">
                                                 <rect key="frame" x="0.0" y="84" width="214" height="24"/>
@@ -105,7 +108,7 @@
                                                         <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                                                     </textField>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="/" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="J2V-ab-Chs">
-                                                        <rect key="frame" x="60" y="1" width="20" height="38.5"/>
+                                                        <rect key="frame" x="60" y="1" width="20" height="39"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="20" id="5IU-w2-ZYE"/>
                                                         </constraints>
@@ -134,12 +137,15 @@
                                                     </view>
                                                 </subviews>
                                             </stackView>
-                                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="oJf-IU-5ln">
+                                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="oJf-IU-5ln">
                                                 <rect key="frame" x="-2" y="40" width="218" height="45"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="214" id="3T6-tJ-91X"/>
                                                     <constraint firstAttribute="height" constant="44" id="kp1-Rb-6me"/>
                                                 </constraints>
+                                                <connections>
+                                                    <action selector="timeSignatureValueChanged:" destination="3mG-4z-8DT" eventType="valueChanged" id="nwl-1x-NII"/>
+                                                </connections>
                                             </slider>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Time Signature" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JCB-yU-6nc">
                                                 <rect key="frame" x="0.0" y="84" width="214" height="24"/>
@@ -179,12 +185,15 @@
                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="32"/>
                                                 <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                                             </textField>
-                                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="UZH-JO-cVI">
+                                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="UZH-JO-cVI">
                                                 <rect key="frame" x="-2" y="40" width="218" height="45"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="214" id="Mp0-Se-MIT"/>
                                                     <constraint firstAttribute="height" constant="44" id="ZoJ-yi-dvt"/>
                                                 </constraints>
+                                                <connections>
+                                                    <action selector="measureSliderValueChanged:" destination="3mG-4z-8DT" eventType="valueChanged" id="2Kx-jv-3D6"/>
+                                                </connections>
                                             </slider>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Measures" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6Kd-AC-zEn">
                                                 <rect key="frame" x="0.0" y="84" width="214" height="24"/>
@@ -241,6 +250,15 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="measureSlider" destination="UZH-JO-cVI" id="XHG-uY-wem"/>
+                        <outlet property="measureSliderLabel" destination="JRt-11-WFg" id="Noi-58-svd"/>
+                        <outlet property="tempoSlider" destination="f3B-6N-IBS" id="58c-rw-Scx"/>
+                        <outlet property="tempoSliderLabel" destination="bGD-uO-Cub" id="R5U-v7-dOp"/>
+                        <outlet property="timeSigBeatsLabel" destination="2mG-UH-Czj" id="7tz-lB-71z"/>
+                        <outlet property="timeSigDivisionsLabel" destination="nF3-AV-3VS" id="rb1-yY-fnx"/>
+                        <outlet property="timeSignatureSlider" destination="oJf-IU-5ln" id="clj-ot-m4M"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Gjh-FG-PzZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -265,18 +283,18 @@
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" selectionStyle="default" indentationWidth="10" textLabel="I8c-wO-idY" detailTextLabel="0eN-cH-Qz4" rowHeight="71" style="IBUITableViewCellStyleValue2" translatesAutoresizingMaskIntoConstraints="NO" id="pRi-3P-Igs">
                                 <rect key="frame" x="0.0" y="64" width="320" height="71"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="pRi-3P-Igs" id="V6n-wa-RMq">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="70"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="71"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="I8c-wO-idY">
-                                            <rect key="frame" x="15" y="27" width="91" height="16"/>
+                                            <rect key="frame" x="15" y="28" width="91" height="16"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Detail" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="0eN-cH-Qz4">
-                                            <rect key="frame" x="112" y="27" width="35" height="16"/>
+                                            <rect key="frame" x="112" y="28" width="35" height="16"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                             <nil key="textColor"/>
@@ -891,7 +909,7 @@
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="New Song Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="G0j-gx-oGb">
-                                        <rect key="frame" x="0.0" y="43" width="128" height="20.5"/>
+                                        <rect key="frame" x="0.0" y="43" width="128" height="21"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>

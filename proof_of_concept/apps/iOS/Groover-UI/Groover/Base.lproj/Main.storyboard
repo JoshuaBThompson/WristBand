@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11542" systemVersion="15G1004" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="9I9-je-0iQ">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2659" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="9I9-je-0iQ">
     <device id="retina4_0" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -108,7 +108,7 @@
                                                         <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                                                     </textField>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="/" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="J2V-ab-Chs">
-                                                        <rect key="frame" x="60" y="1" width="20" height="39"/>
+                                                        <rect key="frame" x="60" y="1" width="20" height="38.5"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="20" id="5IU-w2-ZYE"/>
                                                         </constraints>
@@ -264,68 +264,6 @@
             </objects>
             <point key="canvasLocation" x="892.5" y="595.77464788732391"/>
         </scene>
-        <!--Song-->
-        <scene sceneID="tqx-fM-iF0">
-            <objects>
-                <viewController id="QOY-tJ-oRl" userLabel="Song" customClass="SongListViewController" customModule="Groover" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="WWy-iH-dJT"/>
-                        <viewControllerLayoutGuide type="bottom" id="9co-Qj-hlZ"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="Pgt-ZJ-b79">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="fullBackgroundBlur" translatesAutoresizingMaskIntoConstraints="NO" id="g2O-RO-NaA">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </imageView>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" selectionStyle="default" indentationWidth="10" textLabel="I8c-wO-idY" detailTextLabel="0eN-cH-Qz4" rowHeight="71" style="IBUITableViewCellStyleValue2" translatesAutoresizingMaskIntoConstraints="NO" id="pRi-3P-Igs">
-                                <rect key="frame" x="0.0" y="64" width="320" height="71"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="pRi-3P-Igs" id="V6n-wa-RMq">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="70"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <subviews>
-                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="I8c-wO-idY">
-                                            <rect key="frame" x="15" y="27" width="91" height="16"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                            <nil key="textColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Detail" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="0eN-cH-Qz4">
-                                            <rect key="frame" x="112" y="27" width="35" height="16"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                            <nil key="textColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                    </subviews>
-                                </tableViewCellContentView>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                            </tableViewCell>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="pRi-3P-Igs" firstAttribute="leading" secondItem="Pgt-ZJ-b79" secondAttribute="leading" id="FRZ-P6-5su"/>
-                            <constraint firstItem="pRi-3P-Igs" firstAttribute="top" secondItem="WWy-iH-dJT" secondAttribute="bottom" id="Vty-sk-8cD"/>
-                            <constraint firstAttribute="trailing" secondItem="pRi-3P-Igs" secondAttribute="trailing" id="ujI-Q5-0H1"/>
-                        </constraints>
-                    </view>
-                    <navigationItem key="navigationItem" id="pXM-cM-EZi">
-                        <barButtonItem key="rightBarButtonItem" style="plain" systemItem="cancel" id="tEF-ey-OPQ">
-                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            <connections>
-                                <segue destination="q0p-90-Nvz" kind="unwind" unwindAction="unwindToSongWithSegue:" id="4Kr-Dy-fDP"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="bgb-NV-vgh" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <exit id="q0p-90-Nvz" userLabel="Exit" sceneMemberID="exit"/>
-            </objects>
-            <point key="canvasLocation" x="2507" y="596"/>
-        </scene>
         <!--Settings-->
         <scene sceneID="ogK-tV-15l">
             <objects>
@@ -361,7 +299,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XVV-Ks-lXA" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4961" y="596"/>
+            <point key="canvasLocation" x="4515" y="596"/>
         </scene>
         <!--Sound List Table View Controller-->
         <scene sceneID="BXr-bx-7F7">
@@ -377,7 +315,7 @@
                                 <rect key="frame" x="0.0" y="28" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" tableViewCell="RgZ-2U-aj3" id="X4V-pE-ha7">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Sond Library In List" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yPp-xe-W80">
@@ -408,7 +346,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="93l-Av-3KH" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="fHk-04-XjU" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="6864.375" y="595.77464788732391"/>
+            <point key="canvasLocation" x="6420" y="596"/>
         </scene>
         <!--Main Tab Bar Controller-->
         <scene sceneID="iaQ-Sk-9aU">
@@ -745,10 +683,10 @@
                                         <rect key="frame" x="0.0" y="228" width="320" height="340"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="AMh-EY-n9V">
-                                                <rect key="frame" x="0.0" y="0.0" width="320" height="308"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="320" height="302"/>
                                                 <subviews>
                                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="qng-Va-FYb" userLabel="Tempo Stack View">
-                                                        <rect key="frame" x="53" y="0.0" width="214" height="112"/>
+                                                        <rect key="frame" x="53" y="0.0" width="214" height="110"/>
                                                         <subviews>
                                                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="4" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="O7c-fe-L8b">
                                                                 <rect key="frame" x="0.0" y="0.0" width="214" height="44"/>
@@ -769,9 +707,9 @@
                                                                 </constraints>
                                                             </slider>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Measures" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="V4Q-hs-Cqe">
-                                                                <rect key="frame" x="0.0" y="88" width="214" height="24"/>
+                                                                <rect key="frame" x="0.0" y="88" width="214" height="22"/>
                                                                 <constraints>
-                                                                    <constraint firstAttribute="height" constant="24" id="6ui-M0-bLx"/>
+                                                                    <constraint firstAttribute="height" constant="22" id="6ui-M0-bLx"/>
                                                                     <constraint firstAttribute="width" constant="214" id="oMb-oB-2CA"/>
                                                                 </constraints>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -784,28 +722,29 @@
                                                         </constraints>
                                                     </stackView>
                                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="k5D-Yg-DCc" userLabel="TimeSig Stack View">
-                                                        <rect key="frame" x="53" y="112" width="214" height="98"/>
+                                                        <rect key="frame" x="53" y="110" width="214" height="96"/>
                                                         <subviews>
                                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YHJ-lw-cgA" userLabel="Spacer View">
-                                                                <rect key="frame" x="0.0" y="0.0" width="214" height="30"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="214" height="40"/>
                                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="width" constant="214" id="T1x-47-caU"/>
-                                                                    <constraint firstAttribute="height" constant="30" id="pVO-Gc-6DX"/>
+                                                                    <constraint firstAttribute="height" constant="40" id="pVO-Gc-6DX"/>
                                                                 </constraints>
                                                             </view>
-                                                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="Cie-ij-TT4">
-                                                                <rect key="frame" x="-2" y="30" width="218" height="45"/>
+                                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Dmd-B3-g2R" customClass="PanSlider" customModule="Groover" customModuleProvider="target">
+                                                                <rect key="frame" x="0.0" y="40" width="214" height="26"/>
+                                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                                 <constraints>
-                                                                    <constraint firstAttribute="height" constant="44" id="fOe-t5-qng"/>
-                                                                    <constraint firstAttribute="width" constant="214" id="wSa-Jq-qdY"/>
+                                                                    <constraint firstAttribute="width" constant="214" id="dG5-I8-YAH"/>
+                                                                    <constraint firstAttribute="height" constant="26" id="jIr-mu-gst"/>
                                                                 </constraints>
-                                                            </slider>
+                                                            </view>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pan" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tng-AQ-u2P">
-                                                                <rect key="frame" x="0.0" y="74" width="214" height="24"/>
+                                                                <rect key="frame" x="0.0" y="66" width="214" height="30"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="width" constant="214" id="Znh-pW-WO7"/>
-                                                                    <constraint firstAttribute="height" constant="24" id="v7L-Ox-N4C"/>
+                                                                    <constraint firstAttribute="height" constant="30" id="v7L-Ox-N4C"/>
                                                                 </constraints>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                 <color key="textColor" red="0.34509803919999998" green="0.3921568627" blue="0.43921568630000002" alpha="1" colorSpace="calibratedRGB"/>
@@ -817,28 +756,29 @@
                                                         </constraints>
                                                     </stackView>
                                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="cWL-Rr-fYj" userLabel="Measures Stack View">
-                                                        <rect key="frame" x="53" y="210" width="214" height="98"/>
+                                                        <rect key="frame" x="53" y="206" width="214" height="96"/>
                                                         <subviews>
                                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VBq-sc-bsE" userLabel="Spacer View">
-                                                                <rect key="frame" x="0.0" y="0.0" width="214" height="30"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="214" height="40"/>
                                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                                 <constraints>
-                                                                    <constraint firstAttribute="height" constant="30" id="2ah-wu-iOK"/>
+                                                                    <constraint firstAttribute="height" constant="40" id="2ah-wu-iOK"/>
                                                                     <constraint firstAttribute="width" constant="214" id="pr8-AH-Jja"/>
                                                                 </constraints>
                                                             </view>
-                                                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="kTe-Yz-3cT">
-                                                                <rect key="frame" x="-2" y="30" width="218" height="45"/>
+                                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lJB-HP-Plr" customClass="VolumeSlider" customModule="Groover" customModuleProvider="target">
+                                                                <rect key="frame" x="0.0" y="40" width="214" height="26"/>
+                                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                                 <constraints>
-                                                                    <constraint firstAttribute="height" constant="44" id="Q3R-UV-01h"/>
-                                                                    <constraint firstAttribute="width" constant="214" id="bmd-g2-hlb"/>
+                                                                    <constraint firstAttribute="width" constant="214" id="Hei-Pi-txH"/>
+                                                                    <constraint firstAttribute="height" constant="26" id="bNJ-FO-mjm"/>
                                                                 </constraints>
-                                                            </slider>
+                                                            </view>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Volume" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="H8x-hx-CT1">
-                                                                <rect key="frame" x="0.0" y="74" width="214" height="24"/>
+                                                                <rect key="frame" x="0.0" y="66" width="214" height="30"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="width" constant="214" id="LJo-7H-Rhh"/>
-                                                                    <constraint firstAttribute="height" constant="24" id="PiG-sG-9Od"/>
+                                                                    <constraint firstAttribute="height" constant="30" id="PiG-sG-9Od"/>
                                                                 </constraints>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                 <color key="textColor" red="0.34509803919999998" green="0.3921568627" blue="0.43921568630000002" alpha="1" colorSpace="calibratedRGB"/>
@@ -918,7 +858,7 @@
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="New Song Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="G0j-gx-oGb">
-                                        <rect key="frame" x="0.0" y="43" width="128" height="21"/>
+                                        <rect key="frame" x="0.0" y="43" width="128" height="20.5"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
@@ -1002,12 +942,13 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="G4l-DB-33N">
                                 <rect key="frame" x="0.0" y="28" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="G4l-DB-33N" id="4Pf-7z-Df8">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Song Name In List" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iKj-21-mpS">
@@ -1037,7 +978,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uzB-3A-pJ7" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="VMw-iS-gE5" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="3304" y="606"/>
+            <point key="canvasLocation" x="2604" y="596"/>
         </scene>
         <!--Item-->
         <scene sceneID="MWa-fB-uv2">
@@ -1060,7 +1001,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2a9-3d-3wc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4039" y="596"/>
+            <point key="canvasLocation" x="3594" y="596"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="zTc-gR-Ipx">
@@ -1096,7 +1037,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="W6G-TD-r45" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5869" y="596"/>
+            <point key="canvasLocation" x="5424" y="596"/>
         </scene>
     </scenes>
     <resources>

@@ -46,6 +46,7 @@ public class UIGroover : NSObject {
         static var hamburgerIconImage: UIImage?
         static var settingsIconImage: UIImage?
         static var fullBackgroundBlur: UIImage?
+        static var fullPopupBackgroundBlur: UIImage?
 
     }
 
@@ -116,6 +117,13 @@ public class UIGroover : NSObject {
             Cache.fullBackgroundBlur = UIImage(named: "fullBackgroundBlur.png")!
         }
         return Cache.fullBackgroundBlur!
+    }
+
+    public dynamic class var fullPopupBackgroundBlur: UIImage {
+        if Cache.fullPopupBackgroundBlur == nil {
+            Cache.fullPopupBackgroundBlur = UIImage(named: "fullPopupBackgroundBlur.png")!
+        }
+        return Cache.fullPopupBackgroundBlur!
     }
 
     //// Drawing Methods
@@ -638,45 +646,7 @@ public class UIGroover : NSObject {
         }
     }
 
-    public dynamic class func drawSliderCanvas(sliderBasicBGFrame: CGRect = CGRect(x: 0, y: 9, width: 214, height: 8), sliderPosition: CGFloat = 0) {
-        //// General Declarations
-        let context = UIGraphicsGetCurrentContext()!
-
-        //// Color Declarations
-        let color = UIColor(red: 1.000, green: 1.000, blue: 1.000, alpha: 1.000)
-
-        //// Frames
-        let sliderHandleFrame = CGRect(x: sliderPosition, y: 0, width: 26, height: 26)
-
-
-        //// sliderBasicBG Drawing
-        let sliderBasicBGPath = UIBezierPath(roundedRect: CGRect(x: sliderBasicBGFrame.minX, y: sliderBasicBGFrame.minY, width: 214, height: 8), cornerRadius: 2)
-        UIGroover.popupContentLight.setFill()
-        sliderBasicBGPath.fill()
-
-
-        //// sliderBlue Drawing
-        context.saveGState()
-        context.translateBy(x: sliderHandleFrame.minX, y: sliderHandleFrame.minY + 9)
-        context.scaleBy(x: sliderPosition, y: 1)
-
-        let sliderBluePath = UIBezierPath(rect: CGRect(x: -1, y: 0, width: 1, height: 8))
-        UIGroover.lightBlue.setFill()
-        sliderBluePath.fill()
-
-        context.restoreGState()
-
-
-        //// Rectangle 2 Drawing
-        let rectangle2Path = UIBezierPath(roundedRect: CGRect(x: sliderHandleFrame.minX + 1, y: sliderHandleFrame.minY + 1, width: 24, height: 24), cornerRadius: 6)
-        color.setFill()
-        rectangle2Path.fill()
-        UIGroover.popupContentDark.setStroke()
-        rectangle2Path.lineWidth = 2
-        rectangle2Path.stroke()
-    }
-
-    public dynamic class func drawPanSliderCanvas(sliderBasicBGFrame: CGRect = CGRect(x: 0, y: 9, width: 214, height: 8), panSliderPosition: CGFloat = 0) {
+    public dynamic class func drawSliderCanvas(sliderPosition: CGFloat = 0) {
         //// General Declarations
         let context = UIGraphicsGetCurrentContext()!
 
@@ -684,33 +654,66 @@ public class UIGroover : NSObject {
         let color = UIColor(red: 1.000, green: 1.000, blue: 1.000, alpha: 1.000)
 
         //// Variable Declarations
-        let panSliderPositionOffset: CGFloat = panSliderPosition + 125
+        let sliderPositionOffset: CGFloat = sliderPosition + 1
 
-        //// Frames
-        let sliderHandleFrame = CGRect(x: (panSliderPositionOffset - 31), y: 0, width: 26, height: 26)
+        //// sliderBasicBG Drawing
+        let sliderBasicBGPath = UIBezierPath(roundedRect: CGRect(x: 0, y: 9, width: 214, height: 8), cornerRadius: 2)
+        UIGroover.popupContentLight.setFill()
+        sliderBasicBGPath.fill()
 
+
+        //// sliderBlue Drawing
+        context.saveGState()
+        context.translateBy(x: 0, y: 9)
+        context.scaleBy(x: sliderPosition, y: 1)
+
+        let sliderBluePath = UIBezierPath(roundedRect: CGRect(x: 0, y: 0, width: 1, height: 8), cornerRadius: 0.5)
+        UIGroover.lightBlue.setFill()
+        sliderBluePath.fill()
+
+        context.restoreGState()
+
+
+        //// Rectangle 2 Drawing
+        let rectangle2Path = UIBezierPath(roundedRect: CGRect(x: sliderPositionOffset, y: 1, width: 24, height: 24), cornerRadius: 6)
+        color.setFill()
+        rectangle2Path.fill()
+        UIGroover.popupContentDark.setStroke()
+        rectangle2Path.lineWidth = 2
+        rectangle2Path.stroke()
+    }
+
+    public dynamic class func drawPanSliderCanvas(panSliderPosition: CGFloat = 0) {
+        //// General Declarations
+        let context = UIGraphicsGetCurrentContext()!
+
+        //// Color Declarations
+        let color = UIColor(red: 1.000, green: 1.000, blue: 1.000, alpha: 1.000)
+
+        //// Variable Declarations
+        let panSliderPositionOffset: CGFloat = panSliderPosition + 95
 
         //// panSliderBasicBG Drawing
-        let panSliderBasicBGPath = UIBezierPath(roundedRect: CGRect(x: sliderBasicBGFrame.minX, y: sliderBasicBGFrame.minY, width: 214, height: 8), cornerRadius: 2)
+        let panSliderBasicBGPath = UIBezierPath(roundedRect: CGRect(x: 0, y: 9, width: 214, height: 8), cornerRadius: 2)
         UIGroover.popupContentLight.setFill()
         panSliderBasicBGPath.fill()
 
 
         //// sliderPanBlue Drawing
         context.saveGState()
-        context.translateBy(x: sliderHandleFrame.minX + 13, y: sliderHandleFrame.minY + 9)
+        context.translateBy(x: 107, y: 9)
         context.scaleBy(x: panSliderPosition, y: 1)
 
         let sliderPanBluePath = UIBezierPath()
-        sliderPanBluePath.move(to: CGPoint(x: -1, y: 2))
-        sliderPanBluePath.addCurve(to: CGPoint(x: -0.99, y: 0), controlPoint1: CGPoint(x: -1, y: 0.89), controlPoint2: CGPoint(x: -1, y: 0))
-        sliderPanBluePath.addLine(to: CGPoint(x: -0.01, y: 0))
-        sliderPanBluePath.addCurve(to: CGPoint(x: 0, y: 2), controlPoint1: CGPoint(x: -0, y: 0), controlPoint2: CGPoint(x: 0, y: 0.89))
-        sliderPanBluePath.addLine(to: CGPoint(x: 0, y: 6))
-        sliderPanBluePath.addCurve(to: CGPoint(x: -0.01, y: 8), controlPoint1: CGPoint(x: 0, y: 7.11), controlPoint2: CGPoint(x: -0, y: 8))
-        sliderPanBluePath.addLine(to: CGPoint(x: -0.99, y: 8))
-        sliderPanBluePath.addCurve(to: CGPoint(x: -1, y: 6), controlPoint1: CGPoint(x: -1, y: 8), controlPoint2: CGPoint(x: -1, y: 7.11))
-        sliderPanBluePath.addLine(to: CGPoint(x: -1, y: 2))
+        sliderPanBluePath.move(to: CGPoint(x: 0, y: 2))
+        sliderPanBluePath.addCurve(to: CGPoint(x: 0.01, y: 0), controlPoint1: CGPoint(x: 0, y: 0.89), controlPoint2: CGPoint(x: 0, y: 0))
+        sliderPanBluePath.addLine(to: CGPoint(x: 0.99, y: 0))
+        sliderPanBluePath.addCurve(to: CGPoint(x: 1, y: 2), controlPoint1: CGPoint(x: 1, y: 0), controlPoint2: CGPoint(x: 1, y: 0.89))
+        sliderPanBluePath.addLine(to: CGPoint(x: 1, y: 6))
+        sliderPanBluePath.addCurve(to: CGPoint(x: 0.99, y: 8), controlPoint1: CGPoint(x: 1, y: 7.11), controlPoint2: CGPoint(x: 1, y: 8))
+        sliderPanBluePath.addLine(to: CGPoint(x: 0.01, y: 8))
+        sliderPanBluePath.addCurve(to: CGPoint(x: 0, y: 6), controlPoint1: CGPoint(x: 0, y: 8), controlPoint2: CGPoint(x: 0, y: 7.11))
+        sliderPanBluePath.addLine(to: CGPoint(x: 0, y: 2))
         sliderPanBluePath.close()
         UIGroover.lightBlue.setFill()
         sliderPanBluePath.fill()
@@ -719,7 +722,7 @@ public class UIGroover : NSObject {
 
 
         //// Rectangle 2 Drawing
-        let rectangle2Path = UIBezierPath(roundedRect: CGRect(x: sliderHandleFrame.minX + 1, y: sliderHandleFrame.minY + 1, width: 24, height: 24), cornerRadius: 6)
+        let rectangle2Path = UIBezierPath(roundedRect: CGRect(x: panSliderPositionOffset, y: 1, width: 24, height: 24), cornerRadius: 6)
         color.setFill()
         rectangle2Path.fill()
         UIGroover.popupContentDark.setStroke()

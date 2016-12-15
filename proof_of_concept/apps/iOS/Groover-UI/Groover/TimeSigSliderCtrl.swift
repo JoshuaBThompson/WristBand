@@ -1,16 +1,15 @@
 //
-//  VolumeSliderCtrl.swift
+//  TimeSigSliderCtrl.swift
 //  Groover
 //
-//  Created by Joshua Thompson on 12/14/16.
+//  Created by Joshua Thompson on 12/15/16.
 //  Copyright © 2016 TCM. All rights reserved.
 //
 
 import Foundation
 import UIKit
 
-
-class VolumeSliderCtrl: SliderCtrl{
+class TimeSigSliderCtrl: SliderCtrl{
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -25,6 +24,7 @@ class VolumeSliderCtrl: SliderCtrl{
         self.minPosX = 5.0
     }
     
+    
     //MARK: Draw
     override func draw(_ rect: CGRect) {
         if(self.position == nil){
@@ -34,5 +34,4 @@ class VolumeSliderCtrl: SliderCtrl{
             UIGroover.drawSliderCanvas(sliderPosition: self.position.x)
         }
     }
-    
 }

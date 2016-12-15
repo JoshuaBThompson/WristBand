@@ -14,8 +14,8 @@ class SliderCtrl: UIControl{
     var previousLocation: CGPoint!
     var previousTimestamp = 0.0
     var minPosUpdateTime = 0.025 //25ms
-    var maxPosX: CGFloat = 100.0
-    var minPosX: CGFloat = -100.0
+    var maxPosX: CGFloat = 95
+    var minPosX: CGFloat = -95.0
     var position: CGPoint!
     
     

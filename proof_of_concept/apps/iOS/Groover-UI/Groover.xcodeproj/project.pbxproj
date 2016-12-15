@@ -19,6 +19,10 @@
 		4254BC491D4E9DE6007572B6 /* PopupButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4254BC481D4E9DE6007572B6 /* PopupButton.swift */; };
 		4254DD941E01C1EE005EFDFF /* SliderCtrl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4254DD931E01C1EE005EFDFF /* SliderCtrl.swift */; };
 		4254DD961E01C26B005EFDFF /* VolumeSliderCtrl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4254DD951E01C26B005EFDFF /* VolumeSliderCtrl.swift */; };
+		42986EA71E03048D0020F028 /* TackMeasuresSliderCtrl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42986EA61E03048D0020F028 /* TackMeasuresSliderCtrl.swift */; };
+		42986EAA1E0306960020F028 /* TempoSliderCtrl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42986EA91E0306960020F028 /* TempoSliderCtrl.swift */; };
+		42986EAC1E0306FB0020F028 /* TimeSigSliderCtrl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42986EAB1E0306FB0020F028 /* TimeSigSliderCtrl.swift */; };
+		42986EAE1E0307180020F028 /* GlobalMeasuresCtrl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42986EAD1E0307180020F028 /* GlobalMeasuresCtrl.swift */; };
 		429A22BA1D338E240045023F /* HatInstrument.swift in Sources */ = {isa = PBXBuildFile; fileRef = 429A22A51D338E240045023F /* HatInstrument.swift */; };
 		429A22BB1D338E240045023F /* Instruments.swift in Sources */ = {isa = PBXBuildFile; fileRef = 429A22A61D338E240045023F /* Instruments.swift */; };
 		429A22BC1D338E240045023F /* KickInstrument.swift in Sources */ = {isa = PBXBuildFile; fileRef = 429A22A71D338E240045023F /* KickInstrument.swift */; };
@@ -137,6 +141,10 @@
 		4254BC481D4E9DE6007572B6 /* PopupButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopupButton.swift; sourceTree = "<group>"; };
 		4254DD931E01C1EE005EFDFF /* SliderCtrl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SliderCtrl.swift; sourceTree = "<group>"; };
 		4254DD951E01C26B005EFDFF /* VolumeSliderCtrl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VolumeSliderCtrl.swift; sourceTree = "<group>"; };
+		42986EA61E03048D0020F028 /* TackMeasuresSliderCtrl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TackMeasuresSliderCtrl.swift; sourceTree = "<group>"; };
+		42986EA91E0306960020F028 /* TempoSliderCtrl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TempoSliderCtrl.swift; sourceTree = "<group>"; };
+		42986EAB1E0306FB0020F028 /* TimeSigSliderCtrl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimeSigSliderCtrl.swift; sourceTree = "<group>"; };
+		42986EAD1E0307180020F028 /* GlobalMeasuresCtrl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GlobalMeasuresCtrl.swift; sourceTree = "<group>"; };
 		429A22A51D338E240045023F /* HatInstrument.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HatInstrument.swift; sourceTree = "<group>"; };
 		429A22A61D338E240045023F /* Instruments.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Instruments.swift; sourceTree = "<group>"; };
 		429A22A71D338E240045023F /* KickInstrument.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KickInstrument.swift; sourceTree = "<group>"; };
@@ -272,9 +280,9 @@
 				42C8A3E61D9C1859004BDD58 /* ParametersPopupCtrl.swift */,
 				94D83CD71E01301200EEBAC2 /* VolumeSlider.swift */,
 				4201FDD91E01ACEE00101870 /* PanSliderCtrl.swift */,
-				4254DD931E01C1EE005EFDFF /* SliderCtrl.swift */,
 				4254DD951E01C26B005EFDFF /* VolumeSliderCtrl.swift */,
 				945EF80E1E026B2B00A92E73 /* TackMeasuresSlider.swift */,
+				42986EA61E03048D0020F028 /* TackMeasuresSliderCtrl.swift */,
 			);
 			name = Parameters;
 			sourceTree = "<group>";
@@ -334,6 +342,14 @@
 				42C8A3CE1D9721D4004BDD58 /* KnobCtrl.swift */,
 			);
 			name = Knob;
+			sourceTree = "<group>";
+		};
+		42986EA81E03066D0020F028 /* Slider */ = {
+			isa = PBXGroup;
+			children = (
+				4254DD931E01C1EE005EFDFF /* SliderCtrl.swift */,
+			);
+			name = Slider;
 			sourceTree = "<group>";
 		};
 		429A22A41D338E240045023F /* Audio */ = {
@@ -422,6 +438,7 @@
 		FA50AA511D2A3FE60035C942 /* Groover */ = {
 			isa = PBXGroup;
 			children = (
+				42986EA81E03066D0020F028 /* Slider */,
 				FAC61A621DC51F5E0012A93D /* Measures */,
 				429A22A41D338E240045023F /* Audio */,
 				FA56CA461DEEA7A800738409 /* Song */,
@@ -457,6 +474,9 @@
 				FA56CA441DEEA7A000738409 /* TempoSlider.swift */,
 				945EF8101E026D3300A92E73 /* TimeSigSlider.swift */,
 				945EF8121E026D8200A92E73 /* GlobalMeasures.swift */,
+				42986EA91E0306960020F028 /* TempoSliderCtrl.swift */,
+				42986EAB1E0306FB0020F028 /* TimeSigSliderCtrl.swift */,
+				42986EAD1E0307180020F028 /* GlobalMeasuresCtrl.swift */,
 			);
 			name = Song;
 			sourceTree = "<group>";
@@ -630,9 +650,11 @@
 				42C8A3DF1D974298004BDD58 /* SixteenthCtrl.swift in Sources */,
 				945BD38A1DFFBBB9002A70E9 /* SongListTableViewController.swift in Sources */,
 				42C8A3D11D972845004BDD58 /* RecordCtrl.swift in Sources */,
+				42986EAE1E0307180020F028 /* GlobalMeasuresCtrl.swift in Sources */,
 				FA50AA951D2B45570035C942 /* Triplet.swift in Sources */,
 				FAC61A661DC524EB0012A93D /* QuantizeButtons.swift in Sources */,
 				42C8A3F11D9EC799004BDD58 /* LeftCtrl.swift in Sources */,
+				42986EA71E03048D0020F028 /* TackMeasuresSliderCtrl.swift in Sources */,
 				FA908EE11D3F3EB6009FAFA4 /* ParametersPopup.swift in Sources */,
 				4254BC491D4E9DE6007572B6 /* PopupButton.swift in Sources */,
 				94D83CD61E012F1200EEBAC2 /* PanSlider.swift in Sources */,
@@ -644,6 +666,7 @@
 				FA50AA8F1D2B44440035C942 /* Eighth.swift in Sources */,
 				FA3E2E2E1DBF007800DBCA24 /* Transports.swift in Sources */,
 				4254DD941E01C1EE005EFDFF /* SliderCtrl.swift in Sources */,
+				42986EAA1E0306960020F028 /* TempoSliderCtrl.swift in Sources */,
 				4201FDDA1E01ACEE00101870 /* PanSliderCtrl.swift in Sources */,
 				42C8A3D31D97285A004BDD58 /* PlayCtrl.swift in Sources */,
 				FA50AA531D2A3FE60035C942 /* AppDelegate.swift in Sources */,
@@ -656,6 +679,7 @@
 				945EF8111E026D3300A92E73 /* TimeSigSlider.swift in Sources */,
 				FA50AA971D2B472E0035C942 /* HamburgerIcon.swift in Sources */,
 				42C8A3F31DA05AB6004BDD58 /* HamburgerIconCtrl.swift in Sources */,
+				42986EAC1E0306FB0020F028 /* TimeSigSliderCtrl.swift in Sources */,
 				42C8A3ED1D9EC09F004BDD58 /* SettingsIconCtrl.swift in Sources */,
 				42C8A3DB1D97422F004BDD58 /* EighthCtrl.swift in Sources */,
 				FA908EE31D3F490A009FAFA4 /* RectBtn.swift in Sources */,

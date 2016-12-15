@@ -10,6 +10,22 @@ import Foundation
 import UIKit
 
 class TempoSliderCtrl: SliderCtrl{
+    //MARK: Computed properties
+    let max_tempo_bpm: Int = 200
+    var tempo: Int {
+        if(self.position==nil){
+            return 1
+        }
+        var tempo_bpm = Int(self.position.x * (CGFloat(self.max_tempo_bpm)/(self.maxPosX - self.minPosX)))
+        if(tempo_bpm < 1){
+            tempo_bpm = 1
+        }
+        else if(tempo_bpm > self.max_tempo_bpm){
+            tempo_bpm = self.max_tempo_bpm
+        }
+        
+        return tempo_bpm
+    }
     
      override init(frame: CGRect) {
      super.init(frame: frame)

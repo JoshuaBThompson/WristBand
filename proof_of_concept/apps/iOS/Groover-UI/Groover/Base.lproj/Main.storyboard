@@ -65,6 +65,9 @@
                                                     <constraint firstAttribute="width" constant="214" id="5jt-x5-bbZ"/>
                                                     <constraint firstAttribute="height" constant="26" id="ggc-7b-Bl0"/>
                                                 </constraints>
+                                                <connections>
+                                                    <action selector="tempoSliderValueChanged:" destination="3mG-4z-8DT" eventType="valueChanged" id="ytI-bw-Dov"/>
+                                                </connections>
                                             </view>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tempo" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="402-U1-S9Q">
                                                 <rect key="frame" x="0.0" y="70" width="214" height="30"/>
@@ -135,6 +138,9 @@
                                                     <constraint firstAttribute="height" constant="26" id="UZR-bR-pfl"/>
                                                     <constraint firstAttribute="width" constant="214" id="bB5-lp-mGt"/>
                                                 </constraints>
+                                                <connections>
+                                                    <action selector="timeSignatureValueChanged:" destination="3mG-4z-8DT" eventType="valueChanged" id="jks-Qn-ovy"/>
+                                                </connections>
                                             </view>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Time Signature" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JCB-yU-6nc">
                                                 <rect key="frame" x="0.0" y="70" width="214" height="30"/>
@@ -181,6 +187,9 @@
                                                     <constraint firstAttribute="height" constant="26" id="swU-Bt-DXY"/>
                                                     <constraint firstAttribute="width" constant="214" id="zz2-c5-1uo"/>
                                                 </constraints>
+                                                <connections>
+                                                    <action selector="measureSliderValueChanged:" destination="3mG-4z-8DT" eventType="valueChanged" id="5QM-a3-3Le"/>
+                                                </connections>
                                             </view>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Measures" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6Kd-AC-zEn">
                                                 <rect key="frame" x="0.0" y="70" width="214" height="30"/>
@@ -238,10 +247,13 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="measureSlider" destination="aAi-WU-2ta" id="egC-Zz-dAB"/>
                         <outlet property="measureSliderLabel" destination="JRt-11-WFg" id="Noi-58-svd"/>
+                        <outlet property="tempoSlider" destination="uil-2E-b0F" id="0pg-pm-zhM"/>
                         <outlet property="tempoSliderLabel" destination="bGD-uO-Cub" id="R5U-v7-dOp"/>
                         <outlet property="timeSigBeatsLabel" destination="2mG-UH-Czj" id="7tz-lB-71z"/>
                         <outlet property="timeSigDivisionsLabel" destination="nF3-AV-3VS" id="rb1-yY-fnx"/>
+                        <outlet property="timeSignatureSlider" destination="vO7-Dw-q0U" id="zMa-qy-o3N"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Gjh-FG-PzZ" userLabel="First Responder" sceneMemberID="firstResponder"/>

@@ -27,7 +27,8 @@ class SliderCtrl: UIControl{
         updateBeginPosition(self.previousLocation)
         print("begin tracking pan at \(self.previousLocation.x)")
         
-        //setNeedsDisplay()
+        setNeedsDisplay()
+        sendActions(for: .valueChanged) //this tells view controller that something changed
         return true
     }
     
@@ -41,8 +42,8 @@ class SliderCtrl: UIControl{
             updatePosition(location, prevLoc: self.previousLocation)
             self.previousTimestamp = event!.timestamp //update prev timestamp
             print("continue tracking pan with touch at \(location.x)")
-            //sendActions(for: .valueChanged) //this tells view controller that something changed
             setNeedsDisplay()
+            sendActions(for: .valueChanged) //this tells view controller that something changed
         }
         
         return true
@@ -52,6 +53,7 @@ class SliderCtrl: UIControl{
         let endLocation = touch?.location(in: self)
         print("end tracking pan at \(endLocation?.x)")
         setNeedsDisplay()
+        sendActions(for: .valueChanged)
     }
     
     //MARK: Position calculation methods

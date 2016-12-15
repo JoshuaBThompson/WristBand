@@ -15,14 +15,13 @@ class SongViewController: UIViewController {
     //MARK: UI Element Controls
     
     //MARK: tempo
-
-    @IBAction func tempoSliderValueChanged(_ sender: UISlider) {
-        let value = Int(sender.value)
+    @IBAction func tempoSliderValueChanged(_ sender: TempoSliderCtrl) {
+        let value = Int(sender.tempo)
         tempoSliderLabel.text = "\(value)"
         self.song.setTempo(Double(value))
-        
     }
-    @IBOutlet weak var tempoSlider: UISlider!
+    
+    @IBOutlet weak var tempoSlider: TempoSliderCtrl!
     @IBOutlet weak var tempoSliderLabel: UITextField!
    
     
@@ -30,22 +29,26 @@ class SongViewController: UIViewController {
     //MARK: Time Signature
 
     
-    @IBAction func timeSignatureValueChanged(_ sender: UISlider) {
-        let value = sender.value
+    @IBAction func timeSignatureValueChanged(_ sender: SliderCtrl) {
+        let value = Int(sender.position.x)
         print("Time Signature \(value)")
     }
     
-    @IBOutlet weak var timeSignatureSlider: UISlider!
+    @IBOutlet weak var timeSignatureSlider: TimeSigSliderCtrl!
     @IBOutlet weak var timeSigBeatsLabel: UITextField!
     @IBOutlet weak var timeSigDivisionsLabel: UITextField!
     
     //MARK: Measure
-    @IBAction func measureSliderValueChanged(_ sender: UISlider) {
-        let value = Int(sender.value)
+    
+    @IBAction func measureSliderValueChanged(_ sender: GlobalMeasuresCtrl) {
+        print("MEASURE CHANGED")
+        let value = Int(sender.measures)
         measureSliderLabel.text = "\(value)"
         self.song.updatePresetMeasureCount(value)
     }
-    @IBOutlet weak var measureSlider: UISlider!
+    
+    
+    @IBOutlet weak var measureSlider: GlobalMeasuresCtrl!
     @IBOutlet weak var measureSliderLabel: UITextField!
     
     

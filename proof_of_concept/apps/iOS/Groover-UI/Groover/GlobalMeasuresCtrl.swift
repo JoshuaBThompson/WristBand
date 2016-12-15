@@ -10,6 +10,22 @@ import Foundation
 import UIKit
 
 class GlobalMeasuresCtrl: SliderCtrl{
+    //MARK: Computed properties
+    let max_measures: Int = 15
+    var measures: Int {
+        if(self.position==nil){
+            return 1
+        }
+        var measure_count = Int(self.position.x * (CGFloat(self.max_measures)/(self.maxPosX - self.minPosX)))
+        if(measure_count < 1){
+            measure_count = 1
+        }
+        else if(measure_count > max_measures){
+            measure_count = max_measures
+        }
+        
+        return measure_count
+    }
     
     override init(frame: CGRect) {
         super.init(frame: frame)

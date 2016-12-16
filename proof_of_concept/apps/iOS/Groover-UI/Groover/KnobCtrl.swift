@@ -9,7 +9,7 @@
 import UIKit
 
 class KnobCtrl: Knob {
-    
+   
     //MARK: properties
     var instSnap: SnapFilter!
     var clickRingActive = true
@@ -250,6 +250,5 @@ class SnapFilter {
             return 0
         }
     }
-    
 }
 

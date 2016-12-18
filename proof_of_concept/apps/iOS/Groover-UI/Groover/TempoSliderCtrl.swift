@@ -11,38 +11,7 @@ import UIKit
 
 class TempoSliderCtrl: SliderCtrl{
     
-    //MARK: Properties
-    let max_tempo_bpm: Int = 200
-    let min_tempo_bpm: Int = 1
-    let default_tempo_bpm: Int = 60
-    
-    //MARK: Computed properties
-    var pos_to_tempo_scale: CGFloat {
-        return CGFloat(self.max_tempo_bpm - self.min_tempo_bpm)/(self.maxPosX - self.minPosX)
-    }
-    
-    var tempo_offset: CGFloat {
-        /*
-         y = mx + b -> t = m*p + offset
-         offset = t - m*p when t = 1 p = 5
-         offset = t - m*5
-         m = max_temp - min_temp / maxPos - minPos
-         */
-        let offset = CGFloat(self.min_tempo_bpm) - (self.pos_to_tempo_scale*self.minPosX)
-        return offset
-    }
-    
-    var pos_offset: CGFloat {
-        /*
-         y = mx + b -> p = m*t + offset
-         offset = p - m*t when p = 5 t = 1
-         offset = p - m*1
-         m = max_pos - min_pos / max_tempo - min_tempo
-        */
-        let offset = self.minPosX - (CGFloat(self.min_tempo_bpm)/(self.pos_to_tempo_scale))
-        return offset
-    }
-    
+    //MARK: Computed variables
     var tempo: Int {
         if(self.position==nil){
             return 1
@@ -53,8 +22,8 @@ class TempoSliderCtrl: SliderCtrl{
         if(tempo_bpm < 1){
             tempo_bpm = 1
         }
-        else if(tempo_bpm > self.max_tempo_bpm){
-            tempo_bpm = self.max_tempo_bpm
+        else if(tempo_bpm > self.max_value){
+            tempo_bpm = self.max_value
         }
         
         
@@ -62,10 +31,14 @@ class TempoSliderCtrl: SliderCtrl{
     }
     
     func init_vars(){
+        self.max_value = 200
+        self.min_value = 1
+        self.default_value = 60
         self.maxPosX = 190.0
         self.minPosX = 5.0
         self.snapFilter = SliderSnapFilter(detentCount: 40, posOffset: self.minPosX, posRange: self.maxPosX)
         self.snapFilter.scale = 5.0 /* tempo is updated by 5 pbm at a time using the slider */
+        self.snapFilter.scale_offset = 5.0
         
     }
     
@@ -86,7 +59,7 @@ class TempoSliderCtrl: SliderCtrl{
     override func draw(_ rect: CGRect) {
         if(self.position == nil){
             self.position = CGPoint(x: 0, y: 0)
-            self.update_pos_from_tempo(new_tempo: self.default_tempo_bpm)
+            self.update_pos_from_value(new_value: self.default_value)
             UIGroover.drawSliderCanvas(sliderPosition: self.position.x)
             
         }
@@ -97,12 +70,4 @@ class TempoSliderCtrl: SliderCtrl{
         }
     }
     
-    //MARK: Update position x from tempo
-    func update_pos_from_tempo(new_tempo: Int){
-        
-        var new_pos = CGFloat(new_tempo) * (self.maxPosX - self.minPosX) / CGFloat(self.max_tempo_bpm - self.min_tempo_bpm)
-        new_pos = new_pos + self.pos_offset
-        self.position.x = new_pos
-        print("Init temp is \(self.tempo)")
-    }
 }

@@ -10,7 +10,12 @@ import Foundation
 import UIKit
 
 class SliderCtrl: UIControl{
+    
     //MARK: Properties
+    var max_value: Int = 200
+    var min_value: Int = 1
+    var default_value: Int = 60
+    
     var previousLocation: CGPoint!
     var previousTimestamp = 0.0
     var minPosUpdateTime = 0.025 //25ms
@@ -19,7 +24,33 @@ class SliderCtrl: UIControl{
     var position: CGPoint!
     var snapFilter = SliderSnapFilter()
     
-    //MARK: Computed variables
+    //MARK: Computed properties
+    var pos_to_value_scale: CGFloat {
+        return CGFloat(self.max_value - self.min_value)/(self.maxPosX - self.minPosX)
+    }
+    
+    var value_offset: CGFloat {
+        /*
+         y = mx + b -> t = m*p + offset
+         offset = t - m*p when t = 1 p = 5
+         offset = t - m*5
+         m = max_temp - min_temp / maxPos - minPos
+         */
+        let offset = CGFloat(self.min_value) - (self.pos_to_value_scale*self.minPosX)
+        return offset
+    }
+    
+    var pos_offset: CGFloat {
+        /*
+         y = mx + b -> p = m*t + offset
+         offset = p - m*t when p = 5 t = 1
+         offset = p - m*1
+         m = max_pos - min_pos / max_tempo - min_tempo
+         */
+        let offset = self.minPosX - (CGFloat(self.min_value)/(self.pos_to_value_scale))
+        return offset
+    }
+    
     var detent: Int {
         return snapFilter.getDetent(self.position.x)
     }
@@ -31,6 +62,26 @@ class SliderCtrl: UIControl{
     var pos_from_detent: CGFloat {
         let d = self.detent
         return self.snapFilter.getDetentPos(d)
+    }
+    
+    //MARK: Update position x from value
+    func update_pos_from_value(new_value: Int){
+        
+        var new_pos = CGFloat(new_value) * (self.maxPosX - self.minPosX) / CGFloat(self.max_value - self.min_value)
+        new_pos = new_pos + self.pos_offset
+        self.position.x = new_pos
+    }
+    
+    //MARK: Update current position x from detent value
+    func update_pos_from_detent(new_detent: Int){
+        var new_pos = self.snapFilter.getDetentPos(new_detent)
+        if(new_pos >= self.maxPosX){
+            new_pos = self.maxPosX
+        }
+        else if(new_pos < self.minPosX){
+            new_pos = self.minPosX
+        }
+        self.position.x = new_pos
     }
     
     //MARK: touch tracking functions

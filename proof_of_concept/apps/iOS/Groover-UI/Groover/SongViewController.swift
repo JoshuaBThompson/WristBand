@@ -29,9 +29,9 @@ class SongViewController: UIViewController {
     //MARK: Time Signature
 
     
-    @IBAction func timeSignatureValueChanged(_ sender: SliderCtrl) {
-        let value = Int(sender.position.x)
-        print("Time Signature \(value)")
+    @IBAction func timeSignatureValueChanged(_ sender: TimeSigSliderCtrl) {
+        timeSigBeatsLabel.text = "\(sender.time_sig_gen.current_time_sig.beat)"
+        timeSigDivisionsLabel.text = "\(sender.time_sig_gen.current_time_sig.division)"
     }
     
     @IBOutlet weak var timeSignatureSlider: TimeSigSliderCtrl!

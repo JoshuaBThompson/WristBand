@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SongViewController: UIViewController {
+class SongViewController: UIViewController, UITextFieldDelegate {
     //MARK: Properties
     var song: Song!
     
@@ -18,7 +18,7 @@ class SongViewController: UIViewController {
     @IBAction func tempoSliderValueChanged(_ sender: TempoSliderCtrl) {
         let value = Int(sender.tempo)
         tempoSliderTextField.text = "\(value)"
-        self.song.setTempo(Double(value))
+        self.updateTempo(value: Double(value))
     }
     
     @IBOutlet weak var tempoSlider: TempoSliderCtrl!
@@ -54,6 +54,10 @@ class SongViewController: UIViewController {
     //MARK: Functions
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.measuresSliderTextField.delegate = self
+        self.timeSigBeatsTextField.delegate = self
+        self.timeSigDivisionsTextField.delegate = self
+        self.tempoSliderTextField.delegate = self
         self.song = GlobalAttributes.song
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         self.navigationController?.navigationBar.shadowImage =  UIImage()
@@ -84,5 +88,79 @@ class SongViewController: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
+    
+    //MARK: Update song tempo
+    func updateTempo(value: Double){
+        self.song.setTempo(value)
+    }
+    
+    func updateTempoFromTextField(){
+        let tempo_bpm: String? = self.tempoSliderTextField.text
+        if(tempo_bpm != nil){
+            let current_tempo_double: Double? =  self.song.tempo.beatsPerMin
+            print("tempo bpm from text = \(tempo_bpm!)")
+            let tempo_bpm_double: Double? = Double(tempo_bpm!)
+            if(tempo_bpm_double != nil){
+                self.updateTempo(value: tempo_bpm_double!)
+            }
+            else{
+                self.tempoSliderTextField.text = "\(Int(current_tempo_double!))"
+            }
+        }
+    }
+    
+    //MARK: Update time signature
+    func updateTimeSignature(value: Double){
+    }
+    
+    func updateTimeSignatureFromTextField(){
+    }
+    
+    //MARK: Update global measures
+    func updateGlobalMeasures(value: Double){
+    }
+    
+    func updateGlobalMeasuresFromTextField(){
+    }
+    
+    
+    //MARK: UITextField Delegates
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        print("TextField did begin editing method called")
+    }
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        print("TextField did end editing method called")
+    }
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        print("TextField should begin editing method called")
+        return true;
+    }
+    func textFieldShouldClear(_ textField: UITextField) -> Bool {
+        print("TextField should clear method called")
+        return true;
+    }
+    func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
+        print("TextField should snd editing method called")
+        return true;
+    }
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        print("While entering the characters this method gets called")
+        return true;
+    }
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if(textField == self.tempoSliderTextField){
+            updateTempoFromTextField()
+        }
+        else if(textField == self.timeSigDivisionsTextField || textField == self.timeSigBeatsTextField){
+            self.updateTimeSignatureFromTextField()
+        }
+        else if(textField == self.measuresSliderTextField){
+            self.updateGlobalMeasuresFromTextField()
+        }
+        
+        print("TextField should return method called")
+        textField.resignFirstResponder();
+        return true;
+    }
 
 }

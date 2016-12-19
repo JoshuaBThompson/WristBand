@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ParametersModalViewController: UIViewController {
+class ParametersModalViewController: UIViewController, UITextFieldDelegate {
     
     //MARK: Properties
     //MARK: Properties
@@ -48,6 +48,7 @@ class ParametersModalViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.trackMeasuresSliderValueTextField.delegate = self
         self.song = GlobalAttributes.song
 
     }
@@ -71,5 +72,59 @@ class ParametersModalViewController: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
+    
+    //MARK: Update song track measure
+    func updateTrackMeasure(value: Int){
+        self.song.updatePresetMeasureCount(value)
+    }
+    
+    func updateTrackMeasuresFromTextField(){
+        let measure_string: String? = self.trackMeasuresSliderValueTextField.text
+        if(measure_string != nil){
+            let current_preset_meausure: Int =  self.song.presetMeasureCount
+            print("track measures from text = \(measure_string!)")
+            let preset_measures: Int? = Int(measure_string!)
+            if(preset_measures != nil){
+                self.updateTrackMeasure(value: preset_measures!)
+            }
+            else{
+                self.trackMeasuresSliderValueTextField.text = "\(Int(current_preset_meausure))"
+            }
+        }
+    }
+    
+    
+    //MARK: UITextField Delegates
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        print("TextField did begin editing method called")
+    }
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        print("TextField did end editing method called")
+    }
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        print("TextField should begin editing method called")
+        return true;
+    }
+    func textFieldShouldClear(_ textField: UITextField) -> Bool {
+        print("TextField should clear method called")
+        return true;
+    }
+    func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
+        print("TextField should snd editing method called")
+        return true;
+    }
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        print("While entering the characters this method gets called")
+        return true;
+    }
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if(textField == self.trackMeasuresSliderValueTextField){
+            self.updateTrackMeasuresFromTextField()
+        }
+        
+        print("TextField should return method called")
+        textField.resignFirstResponder();
+        return true;
+    }
 
 }

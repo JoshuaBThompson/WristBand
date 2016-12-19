@@ -1,5 +1,5 @@
 //
-//  TackMeasuresSlider.swift
+//  TrackMeasuresSlider.swift
 //  Groover
 //
 //  Created by Alex Crane on 12/14/16.
@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class TackMeasuresSlider: UIControl {
+class TrackMeasuresSlider: UIControl {
 
     //MARK: Draw
     override func draw(_ rect: CGRect) {

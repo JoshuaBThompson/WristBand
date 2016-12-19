@@ -44,7 +44,7 @@ class SongViewController: UIViewController {
         print("MEASURE CHANGED")
         let value = Int(sender.measures)
         measureSliderLabel.text = "\(value)"
-        self.song.updatePresetMeasureCount(value)
+        /* update global measure count ? */
     }
     
     

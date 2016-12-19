@@ -311,7 +311,7 @@
                                 <rect key="frame" x="0.0" y="28" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" tableViewCell="RgZ-2U-aj3" id="X4V-pE-ha7">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Sond Library In List" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yPp-xe-W80">
@@ -706,7 +706,7 @@
                                                                     <constraint firstAttribute="width" constant="214" id="s6Y-ie-sSX"/>
                                                                 </constraints>
                                                             </view>
-                                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="4" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="O7c-fe-L8b">
+                                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="1" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="O7c-fe-L8b">
                                                                 <rect key="frame" x="0.0" y="20" width="214" height="44"/>
                                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                                 <constraints>
@@ -717,13 +717,16 @@
                                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="32"/>
                                                                 <textInputTraits key="textInputTraits"/>
                                                             </textField>
-                                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gtp-Wc-IXU" customClass="TackMeasuresSliderCtrl" customModule="Groover" customModuleProvider="target">
+                                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gtp-Wc-IXU" customClass="TrackMeasuresSliderCtrl" customModule="Groover" customModuleProvider="target">
                                                                 <rect key="frame" x="0.0" y="64" width="214" height="26"/>
                                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="width" constant="214" id="FpS-Hk-875"/>
                                                                     <constraint firstAttribute="height" constant="26" id="sYs-xf-ipN"/>
                                                                 </constraints>
+                                                                <connections>
+                                                                    <action selector="trackMeasuresSliderValueChanged:" destination="WdA-DP-BGW" eventType="valueChanged" id="eTl-3p-yXg"/>
+                                                                </connections>
                                                             </view>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Measures" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="V4Q-hs-Cqe">
                                                                 <rect key="frame" x="0.0" y="90" width="214" height="30"/>
@@ -758,6 +761,9 @@
                                                                     <constraint firstAttribute="width" constant="214" id="dG5-I8-YAH"/>
                                                                     <constraint firstAttribute="height" constant="26" id="jIr-mu-gst"/>
                                                                 </constraints>
+                                                                <connections>
+                                                                    <action selector="panSliderValueChanged:" destination="WdA-DP-BGW" eventType="valueChanged" id="F6D-Gu-ZBl"/>
+                                                                </connections>
                                                             </view>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pan" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tng-AQ-u2P">
                                                                 <rect key="frame" x="0.0" y="66" width="214" height="30"/>
@@ -792,6 +798,9 @@
                                                                     <constraint firstAttribute="width" constant="214" id="Hei-Pi-txH"/>
                                                                     <constraint firstAttribute="height" constant="26" id="bNJ-FO-mjm"/>
                                                                 </constraints>
+                                                                <connections>
+                                                                    <action selector="volumeSliderValueChanged:" destination="WdA-DP-BGW" eventType="valueChanged" id="JRl-IJ-ubM"/>
+                                                                </connections>
                                                             </view>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Volume" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="H8x-hx-CT1">
                                                                 <rect key="frame" x="0.0" y="66" width="214" height="30"/>
@@ -839,6 +848,12 @@
                             <constraint firstItem="j3I-Bc-xaB" firstAttribute="top" secondItem="qbi-J2-9LL" secondAttribute="bottom" id="xnN-Pi-Bz7"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="panSlider" destination="Dmd-B3-g2R" id="eQ7-bz-ggH"/>
+                        <outlet property="trackMeasuresSlider" destination="gtp-Wc-IXU" id="qEh-r4-hFC"/>
+                        <outlet property="trackMeasuresSliderValueLabel" destination="O7c-fe-L8b" id="Xfd-SN-Mia"/>
+                        <outlet property="volumeSlider" destination="lJB-HP-Plr" id="b3R-Tg-d9q"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LtJ-Pv-GFc" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="5Gl-LY-Jda" userLabel="Exit" sceneMemberID="exit"/>
@@ -967,7 +982,7 @@
                                 <rect key="frame" x="0.0" y="28" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="G4l-DB-33N" id="4Pf-7z-Df8">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Song Name In List" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iKj-21-mpS">

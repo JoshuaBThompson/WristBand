@@ -10,44 +10,64 @@ import Foundation
 import UIKit
 
 class TempoSliderCtrl: SliderCtrl{
-    //MARK: Computed properties
-    let max_tempo_bpm: Int = 200
+    
+    //MARK: Computed variables
     var tempo: Int {
         if(self.position==nil){
             return 1
         }
-        var tempo_bpm = Int(self.position.x * (CGFloat(self.max_tempo_bpm)/(self.maxPosX - self.minPosX)))
+        
+        var tempo_bpm = Int(self.scaled_detent)
+
         if(tempo_bpm < 1){
             tempo_bpm = 1
         }
-        else if(tempo_bpm > self.max_tempo_bpm){
-            tempo_bpm = self.max_tempo_bpm
+        else if(tempo_bpm > self.max_value){
+            tempo_bpm = self.max_value
         }
+        
         
         return tempo_bpm
     }
     
+    func init_vars(){
+        self.max_value = 200
+        self.min_value = 1
+        self.default_value = 60
+        self.maxPosX = 190.0
+        self.minPosX = 5.0
+        self.snapFilter = SliderSnapFilter(detentCount: 40, posOffset: self.minPosX, posRange: self.maxPosX)
+        self.snapFilter.scale = 5.0 /* tempo is updated by 5 pbm at a time using the slider */
+        self.snapFilter.scale_offset = 5.0
+        
+    }
+    
      override init(frame: CGRect) {
      super.init(frame: frame)
-     self.maxPosX = 190.0
-     self.minPosX = 5.0
+        init_vars()
+     
      }
      
      
      required init?(coder aDecoder: NSCoder) {
      super.init(coder: aDecoder)
-     self.maxPosX = 190.0
-     self.minPosX = 5.0
+        init_vars()
      }
     
     
     //MARK: Draw
     override func draw(_ rect: CGRect) {
         if(self.position == nil){
-            UIGroover.drawSliderCanvas()
+            self.position = CGPoint(x: 0, y: 0)
+            self.update_pos_from_value(new_value: self.default_value)
+            UIGroover.drawSliderCanvas(sliderPosition: self.position.x)
+            
         }
         else{
             UIGroover.drawSliderCanvas(sliderPosition: self.position.x)
+            print("detent is \(self.detent)")
+            print("scaled detent is \(self.scaled_detent)")
         }
     }
+    
 }

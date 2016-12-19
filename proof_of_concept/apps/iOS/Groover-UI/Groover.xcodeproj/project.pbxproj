@@ -19,7 +19,7 @@
 		4254BC491D4E9DE6007572B6 /* PopupButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4254BC481D4E9DE6007572B6 /* PopupButton.swift */; };
 		4254DD941E01C1EE005EFDFF /* SliderCtrl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4254DD931E01C1EE005EFDFF /* SliderCtrl.swift */; };
 		4254DD961E01C26B005EFDFF /* VolumeSliderCtrl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4254DD951E01C26B005EFDFF /* VolumeSliderCtrl.swift */; };
-		42986EA71E03048D0020F028 /* TackMeasuresSliderCtrl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42986EA61E03048D0020F028 /* TackMeasuresSliderCtrl.swift */; };
+		42986EA71E03048D0020F028 /* TrackMeasuresSliderCtrl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42986EA61E03048D0020F028 /* TrackMeasuresSliderCtrl.swift */; };
 		42986EAA1E0306960020F028 /* TempoSliderCtrl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42986EA91E0306960020F028 /* TempoSliderCtrl.swift */; };
 		42986EAC1E0306FB0020F028 /* TimeSigSliderCtrl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42986EAB1E0306FB0020F028 /* TimeSigSliderCtrl.swift */; };
 		42986EAE1E0307180020F028 /* GlobalMeasuresCtrl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42986EAD1E0307180020F028 /* GlobalMeasuresCtrl.swift */; };
@@ -54,7 +54,7 @@
 		42C8A3F51DA05D81004BDD58 /* PopupCtrl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42C8A3F41DA05D81004BDD58 /* PopupCtrl.swift */; };
 		945BD38A1DFFBBB9002A70E9 /* SongListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 945BD3891DFFBBB9002A70E9 /* SongListTableViewController.swift */; };
 		945BD38C1DFFBC8A002A70E9 /* SongViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 945BD38B1DFFBC8A002A70E9 /* SongViewController.swift */; };
-		945EF80F1E026B2B00A92E73 /* TackMeasuresSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 945EF80E1E026B2B00A92E73 /* TackMeasuresSlider.swift */; };
+		945EF80F1E026B2B00A92E73 /* TrackMeasuresSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 945EF80E1E026B2B00A92E73 /* TrackMeasuresSlider.swift */; };
 		945EF8111E026D3300A92E73 /* TimeSigSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 945EF8101E026D3300A92E73 /* TimeSigSlider.swift */; };
 		945EF8131E026D8200A92E73 /* GlobalMeasures.swift in Sources */ = {isa = PBXBuildFile; fileRef = 945EF8121E026D8200A92E73 /* GlobalMeasures.swift */; };
 		947E19E41DFBF7E400443F7E /* NewSongViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 947E19E31DFBF7E400443F7E /* NewSongViewController.swift */; };
@@ -141,7 +141,7 @@
 		4254BC481D4E9DE6007572B6 /* PopupButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopupButton.swift; sourceTree = "<group>"; };
 		4254DD931E01C1EE005EFDFF /* SliderCtrl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SliderCtrl.swift; sourceTree = "<group>"; };
 		4254DD951E01C26B005EFDFF /* VolumeSliderCtrl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VolumeSliderCtrl.swift; sourceTree = "<group>"; };
-		42986EA61E03048D0020F028 /* TackMeasuresSliderCtrl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TackMeasuresSliderCtrl.swift; sourceTree = "<group>"; };
+		42986EA61E03048D0020F028 /* TrackMeasuresSliderCtrl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackMeasuresSliderCtrl.swift; sourceTree = "<group>"; };
 		42986EA91E0306960020F028 /* TempoSliderCtrl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TempoSliderCtrl.swift; sourceTree = "<group>"; };
 		42986EAB1E0306FB0020F028 /* TimeSigSliderCtrl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimeSigSliderCtrl.swift; sourceTree = "<group>"; };
 		42986EAD1E0307180020F028 /* GlobalMeasuresCtrl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GlobalMeasuresCtrl.swift; sourceTree = "<group>"; };
@@ -183,7 +183,7 @@
 		42C8A3F41DA05D81004BDD58 /* PopupCtrl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopupCtrl.swift; sourceTree = "<group>"; };
 		945BD3891DFFBBB9002A70E9 /* SongListTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SongListTableViewController.swift; sourceTree = "<group>"; };
 		945BD38B1DFFBC8A002A70E9 /* SongViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SongViewController.swift; sourceTree = "<group>"; };
-		945EF80E1E026B2B00A92E73 /* TackMeasuresSlider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TackMeasuresSlider.swift; sourceTree = "<group>"; };
+		945EF80E1E026B2B00A92E73 /* TrackMeasuresSlider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackMeasuresSlider.swift; sourceTree = "<group>"; };
 		945EF8101E026D3300A92E73 /* TimeSigSlider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimeSigSlider.swift; sourceTree = "<group>"; };
 		945EF8121E026D8200A92E73 /* GlobalMeasures.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GlobalMeasures.swift; sourceTree = "<group>"; };
 		947E19E31DFBF7E400443F7E /* NewSongViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewSongViewController.swift; sourceTree = "<group>"; };
@@ -281,8 +281,8 @@
 				94D83CD71E01301200EEBAC2 /* VolumeSlider.swift */,
 				4201FDD91E01ACEE00101870 /* PanSliderCtrl.swift */,
 				4254DD951E01C26B005EFDFF /* VolumeSliderCtrl.swift */,
-				945EF80E1E026B2B00A92E73 /* TackMeasuresSlider.swift */,
-				42986EA61E03048D0020F028 /* TackMeasuresSliderCtrl.swift */,
+				945EF80E1E026B2B00A92E73 /* TrackMeasuresSlider.swift */,
+				42986EA61E03048D0020F028 /* TrackMeasuresSliderCtrl.swift */,
 			);
 			name = Parameters;
 			sourceTree = "<group>";
@@ -654,7 +654,7 @@
 				FA50AA951D2B45570035C942 /* Triplet.swift in Sources */,
 				FAC61A661DC524EB0012A93D /* QuantizeButtons.swift in Sources */,
 				42C8A3F11D9EC799004BDD58 /* LeftCtrl.swift in Sources */,
-				42986EA71E03048D0020F028 /* TackMeasuresSliderCtrl.swift in Sources */,
+				42986EA71E03048D0020F028 /* TrackMeasuresSliderCtrl.swift in Sources */,
 				FA908EE11D3F3EB6009FAFA4 /* ParametersPopup.swift in Sources */,
 				4254BC491D4E9DE6007572B6 /* PopupButton.swift in Sources */,
 				94D83CD61E012F1200EEBAC2 /* PanSlider.swift in Sources */,
@@ -689,7 +689,7 @@
 				FA50AA911D2B44DD0035C942 /* Sixteenth.swift in Sources */,
 				4254BC451D4D8366007572B6 /* PopupBlur.swift in Sources */,
 				429A22BA1D338E240045023F /* HatInstrument.swift in Sources */,
-				945EF80F1E026B2B00A92E73 /* TackMeasuresSlider.swift in Sources */,
+				945EF80F1E026B2B00A92E73 /* TrackMeasuresSlider.swift in Sources */,
 				42C8A3F51DA05D81004BDD58 /* PopupCtrl.swift in Sources */,
 				42C8A3EF1D9EC78F004BDD58 /* RightCtrl.swift in Sources */,
 				FA50AA8B1D2B40E40035C942 /* ParametersButton.swift in Sources */,

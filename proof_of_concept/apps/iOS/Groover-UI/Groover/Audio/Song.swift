@@ -503,7 +503,7 @@ class Song {
     func setTempo(_ newBeatsPerMin: Double){
         stop()
         print("update all instruments with tempo \(newBeatsPerMin)")
-        clickTrack.tempo.beatsPerMin = newBeatsPerMin
+        clickTrack.tempo.set_tempo(bpm: newBeatsPerMin)
         clickTrack.update()
         
     }

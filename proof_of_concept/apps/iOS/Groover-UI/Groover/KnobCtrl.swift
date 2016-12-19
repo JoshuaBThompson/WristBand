@@ -224,6 +224,7 @@ class SnapFilter {
         //calculate angle per detents using count and range
         //ex: if range = 360 deg and count = 10 then angle per detent = 36 deg
         apd = abs(range / CGFloat(count))
+        initAngles()
     }
     
     //MARK: Initialize angle list

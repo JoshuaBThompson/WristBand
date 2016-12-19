@@ -248,11 +248,11 @@
                     </navigationItem>
                     <connections>
                         <outlet property="measureSlider" destination="aAi-WU-2ta" id="egC-Zz-dAB"/>
-                        <outlet property="measureSliderLabel" destination="JRt-11-WFg" id="Noi-58-svd"/>
+                        <outlet property="measuresSliderTextField" destination="JRt-11-WFg" id="1gX-pe-PK3"/>
                         <outlet property="tempoSlider" destination="uil-2E-b0F" id="0pg-pm-zhM"/>
-                        <outlet property="tempoSliderLabel" destination="bGD-uO-Cub" id="R5U-v7-dOp"/>
-                        <outlet property="timeSigBeatsLabel" destination="2mG-UH-Czj" id="7tz-lB-71z"/>
-                        <outlet property="timeSigDivisionsLabel" destination="nF3-AV-3VS" id="rb1-yY-fnx"/>
+                        <outlet property="tempoSliderTextField" destination="bGD-uO-Cub" id="zzF-Da-WNX"/>
+                        <outlet property="timeSigBeatsTextField" destination="2mG-UH-Czj" id="8n9-da-30j"/>
+                        <outlet property="timeSigDivisionsTextField" destination="nF3-AV-3VS" id="sit-Re-UJY"/>
                         <outlet property="timeSignatureSlider" destination="vO7-Dw-q0U" id="zMa-qy-o3N"/>
                     </connections>
                 </viewController>
@@ -851,7 +851,7 @@
                     <connections>
                         <outlet property="panSlider" destination="Dmd-B3-g2R" id="eQ7-bz-ggH"/>
                         <outlet property="trackMeasuresSlider" destination="gtp-Wc-IXU" id="qEh-r4-hFC"/>
-                        <outlet property="trackMeasuresSliderValueLabel" destination="O7c-fe-L8b" id="Xfd-SN-Mia"/>
+                        <outlet property="trackMeasuresSliderValueTextField" destination="O7c-fe-L8b" id="viW-oS-HDZ"/>
                         <outlet property="volumeSlider" destination="lJB-HP-Plr" id="b3R-Tg-d9q"/>
                     </connections>
                 </viewController>

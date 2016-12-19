@@ -18,14 +18,14 @@ class ParametersModalViewController: UIViewController {
     //Measures
     @IBAction func trackMeasuresSliderValueChanged(_ sender: TrackMeasuresSliderCtrl) {
         let new_measures = trackMeasuresSlider.measures
-        trackMeasuresSliderValueLabel.text = "\(new_measures)"
+        trackMeasuresSliderValueTextField.text = "\(new_measures)"
         self.song.updatePresetMeasureCount(new_measures)
         print("updated track measures to \(new_measures)")
     }
     @IBOutlet weak var trackMeasuresSlider: TrackMeasuresSliderCtrl!
     
-    @IBOutlet weak var trackMeasuresSliderValueLabel: UITextField!
     
+    @IBOutlet weak var trackMeasuresSliderValueTextField: UITextField!
     //Pan
     @IBAction func panSliderValueChanged(_ sender: PanSliderCtrl) {
         let new_pan = panSlider.pan

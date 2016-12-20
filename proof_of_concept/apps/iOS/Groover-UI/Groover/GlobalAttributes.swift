@@ -10,4 +10,5 @@ import Foundation
 
 class GlobalAttributes {
     static let song = Song()
+    static var songViewController: SongViewController!
 }

@@ -987,18 +987,18 @@
         <!--Song List Table View Controller-->
         <scene sceneID="Hsj-BN-8kt">
             <objects>
-                <tableViewController id="Dfj-Ze-YPB" userLabel="Song List Table View Controller" customClass="SongListTableViewController" customModule="Groover" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="KGG-Yd-ZwJ">
+                <tableViewController title="Song List Table View Controller" id="Dfj-Ze-YPB" userLabel="Song List Table View Controller" customClass="SongListTableViewController" customModule="Groover" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="76" sectionHeaderHeight="28" sectionFooterHeight="28" id="KGG-Yd-ZwJ">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="G4l-DB-33N">
-                                <rect key="frame" x="0.0" y="28" width="320" height="44"/>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="SongListTableViewCell" rowHeight="76" id="G4l-DB-33N" customClass="SongListTableViewCell" customModule="Groover" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="28" width="320" height="76"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="G4l-DB-33N" id="4Pf-7z-Df8">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="75"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Song Name In List" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iKj-21-mpS">
@@ -1007,8 +1007,19 @@
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="highlightedColor"/>
                                         </label>
+                                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ic1-fT-KLP">
+                                            <rect key="frame" x="51" y="37" width="44" height="30"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <state key="normal" title="Select"/>
+                                            <connections>
+                                                <action selector="selectSongButton:" destination="G4l-DB-33N" eventType="touchUpInside" id="9hb-4Z-SYL"/>
+                                            </connections>
+                                        </button>
                                     </subviews>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="songNameLabel" destination="iKj-21-mpS" id="Tc6-Xq-yuE"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -1028,7 +1039,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uzB-3A-pJ7" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="VMw-iS-gE5" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="2604" y="596"/>
+            <point key="canvasLocation" x="2602.5" y="595.77464788732391"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="MWa-fB-uv2">

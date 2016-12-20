@@ -59,6 +59,7 @@ class SongViewController: UIViewController, UITextFieldDelegate {
         self.timeSigDivisionsTextField.delegate = self
         self.tempoSliderTextField.delegate = self
         self.song = GlobalAttributes.song
+        GlobalAttributes.songViewController = self
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         self.navigationController?.navigationBar.shadowImage =  UIImage()
         self.navigationController?.navigationBar.isTranslucent = true
@@ -88,6 +89,11 @@ class SongViewController: UIViewController, UITextFieldDelegate {
         // Pass the selected object to the new view controller.
     }
     */
+    
+    //Update Title
+    func setSongName(title: String){
+        self.navigationItem.title = title
+    }
     
     //MARK: Update song tempo
     func updateTempo(value: Double){

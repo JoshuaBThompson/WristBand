@@ -35,6 +35,8 @@
 		42A59FA71D301F8B0070FE46 /* MidiSensor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42A59FA01D301F8B0070FE46 /* MidiSensor.cpp */; };
 		42A59FA81D301F8B0070FE46 /* MotionFilter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42A59FA21D301F8B0070FE46 /* MotionFilter.cpp */; };
 		42A59FAB1D301FA60070FE46 /* MidiSensorWrapper.mm in Sources */ = {isa = PBXBuildFile; fileRef = 42A59FAA1D301FA60070FE46 /* MidiSensorWrapper.mm */; };
+		42BA35191E099BB400338990 /* SongTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42BA35181E099BB400338990 /* SongTemplate.swift */; };
+		42BA351B1E099BEB00338990 /* SongListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42BA351A1E099BEB00338990 /* SongListTableViewCell.swift */; };
 		42C8A3CF1D9721D4004BDD58 /* KnobCtrl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42C8A3CE1D9721D4004BDD58 /* KnobCtrl.swift */; };
 		42C8A3D11D972845004BDD58 /* RecordCtrl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42C8A3D01D972845004BDD58 /* RecordCtrl.swift */; };
 		42C8A3D31D97285A004BDD58 /* PlayCtrl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42C8A3D21D97285A004BDD58 /* PlayCtrl.swift */; };
@@ -164,6 +166,8 @@
 		42A59FA91D301F9D0070FE46 /* MidiSensorWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MidiSensorWrapper.h; sourceTree = "<group>"; };
 		42A59FAA1D301FA60070FE46 /* MidiSensorWrapper.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MidiSensorWrapper.mm; sourceTree = "<group>"; };
 		42A59FAC1D301FAD0070FE46 /* Groover-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Groover-Bridging-Header.h"; sourceTree = "<group>"; };
+		42BA35181E099BB400338990 /* SongTemplate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SongTemplate.swift; sourceTree = "<group>"; };
+		42BA351A1E099BEB00338990 /* SongListTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SongListTableViewCell.swift; sourceTree = "<group>"; };
 		42C8A3CE1D9721D4004BDD58 /* KnobCtrl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KnobCtrl.swift; sourceTree = "<group>"; };
 		42C8A3D01D972845004BDD58 /* RecordCtrl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecordCtrl.swift; sourceTree = "<group>"; };
 		42C8A3D21D97285A004BDD58 /* PlayCtrl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayCtrl.swift; sourceTree = "<group>"; };
@@ -390,6 +394,8 @@
 				945BD38B1DFFBC8A002A70E9 /* SongViewController.swift */,
 				945BD3891DFFBBB9002A70E9 /* SongListTableViewController.swift */,
 				947E19E31DFBF7E400443F7E /* NewSongViewController.swift */,
+				42BA35181E099BB400338990 /* SongTemplate.swift */,
+				42BA351A1E099BEB00338990 /* SongListTableViewCell.swift */,
 			);
 			name = SongTab;
 			sourceTree = "<group>";
@@ -642,6 +648,7 @@
 				FAC61A641DC520360012A93D /* Measure.swift in Sources */,
 				945BD38C1DFFBC8A002A70E9 /* SongViewController.swift in Sources */,
 				4201FDD81E006C1B00101870 /* GlobalAttributes.swift in Sources */,
+				42BA351B1E099BEB00338990 /* SongListTableViewCell.swift in Sources */,
 				42A59FA71D301F8B0070FE46 /* MidiSensor.cpp in Sources */,
 				429A22BD1D338E240045023F /* SnareInstrument.swift in Sources */,
 				FA479EC71D376CB000619BA0 /* Right.swift in Sources */,
@@ -681,6 +688,7 @@
 				42C8A3F31DA05AB6004BDD58 /* HamburgerIconCtrl.swift in Sources */,
 				42986EAC1E0306FB0020F028 /* TimeSigSliderCtrl.swift in Sources */,
 				42C8A3ED1D9EC09F004BDD58 /* SettingsIconCtrl.swift in Sources */,
+				42BA35191E099BB400338990 /* SongTemplate.swift in Sources */,
 				42C8A3DB1D97422F004BDD58 /* EighthCtrl.swift in Sources */,
 				FA908EE31D3F490A009FAFA4 /* RectBtn.swift in Sources */,
 				FA50AA891D2B40160035C942 /* Record.swift in Sources */,

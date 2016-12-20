@@ -601,6 +601,7 @@
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics" translucent="NO"/>
                     <connections>
                         <outlet property="eighthQuantizeButton" destination="4hs-Qx-hNS" id="hcA-r3-hDG"/>
+                        <outlet property="instrumentNameLabel" destination="RZc-8d-lHq" id="Wxx-x6-vnc"/>
                         <outlet property="knob" destination="D5w-T1-I82" id="VF2-uZ-jWQ"/>
                         <outlet property="playButton" destination="8US-pO-suU" id="fNq-xQ-uA3"/>
                         <outlet property="quarterQuantizeButton" destination="Lfp-TH-OXm" id="fdk-RP-qsL"/>

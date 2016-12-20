@@ -34,6 +34,7 @@ class ViewController: UIViewController {
     //@IBOutlet weak var parametersButton: ParametersButtonCtrl!
     //@IBOutlet weak var popup: PopupCtrl!
     //@IBOutlet weak var positionIndicator: PositionIndicator!
+    @IBOutlet weak var instrumentNameLabel: UILabel!
     
     @IBOutlet weak var knob: KnobCtrl!
     
@@ -115,7 +116,7 @@ class ViewController: UIViewController {
         quantizeButtons.append(tripletQuantizeButton)
         */
         song = GlobalAttributes.song//Song()
-        //instrumentNameLabel.text = song.selectedInstrumentName
+        instrumentNameLabel.text = song.selectedInstrumentName
         song.start()
         
         motionManager.startAccelerometerUpdates()
@@ -349,7 +350,7 @@ class ViewController: UIViewController {
     
     func selectSound(_ position: Int){
         song.selectInstrument(position)
-        //instrumentNameLabel.text = song.selectedInstrumentName
+        instrumentNameLabel.text = song.selectedInstrumentName
     }
     
     func innerKnobTapped(_ knobControl: Knob){

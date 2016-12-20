@@ -43,6 +43,8 @@ class SongListTableViewController: UITableViewController, SongCellDelegate {
         selectedSong = "Song \(num)"
         //delegate?.setSongName(name: selectedSong, num: num)
         GlobalAttributes.songViewController.setSongName(title: selectedSong)
+        GlobalAttributes.songViewController.setSong(song_num: num)
+        
     }
     
     func loadSampleSongs() {

@@ -95,6 +95,11 @@ class SongViewController: UIViewController, UITextFieldDelegate {
         self.navigationItem.title = title
     }
     
+    //Load song into current song
+    func setSong(song_num: Int){
+        self.song.loadSong(song_num: song_num)
+    }
+    
     //MARK: Update song tempo
     func updateTempo(value: Double){
         self.song.setTempo(value)

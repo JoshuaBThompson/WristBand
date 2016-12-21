@@ -11,9 +11,12 @@ import UIKit
 class ParametersModalViewController: UIViewController, UITextFieldDelegate {
     
     //MARK: Properties
-    //MARK: Properties
     var song: Song!
     
+    @IBAction func deleteTrackButton(_ sender: UIButton) {
+        song.clearPreset()
+        print("song clear preset!")
+    }
     
     //Measures
     @IBAction func trackMeasuresSliderValueChanged(_ sender: TrackMeasuresSliderCtrl) {

@@ -144,8 +144,8 @@ class SongTrack: NSObject, NSCoding {
 }
 
 class SongDatabase: NSObject, NSCoding {
+    var save = false
     var name: String!
-
     var tracks: [SongTrack]!
     
     static let DocumentsDirectory = FileManager().urls(for: .documentDirectory, in: .userDomainMask).first!

@@ -40,7 +40,7 @@ class SongListTableViewController: UITableViewController, SongCellDelegate {
     //MARK: SongCellDelegate callbacks
     func selectSong(num: Int) {
         print("Song \(num) selected from song table view controller - \(num)")
-        selectedSong = "Song \(num)"
+        selectedSong = GlobalAttributes.song.getSongName(song_num: num)
         //delegate?.setSongName(name: selectedSong, num: num)
         GlobalAttributes.songViewController.setSongName(title: selectedSong)
         GlobalAttributes.songViewController.setSong(song_num: num)
@@ -61,8 +61,8 @@ class SongListTableViewController: UITableViewController, SongCellDelegate {
         if let savedSongs = loadSong(){
             songsDatabase = savedSongs
             for i in 0 ..< songsDatabase.count{
-                let name = String(format: "Song \(i)" ) //songsDatabase[i].name!
-                let dummySong = SongTemplate(name: name, num: i)!
+                let name = songsDatabase[i].name //String(format: "Song \(i)" ) //songsDatabase[i].name!
+                let dummySong = SongTemplate(name: name!, num: i)!
                 songs.append(dummySong)
                 print("loaded song \(i)")
             }

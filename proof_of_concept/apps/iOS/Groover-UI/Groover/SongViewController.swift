@@ -11,7 +11,7 @@ import UIKit
 class SongViewController: UIViewController, UITextFieldDelegate {
     //MARK: Properties
     var song: Song!
-    
+    var saved_song_name: String!
     //MARK: UI Element Controls
     
     //MARK: tempo
@@ -65,7 +65,7 @@ class SongViewController: UIViewController, UITextFieldDelegate {
         self.navigationController?.navigationBar.isTranslucent = true
         
 
-        self.navigationItem.title = "Long Ass Song Title Placeholder"
+        self.navigationItem.title = self.song.current_song.name//"Long Ass Song Title Placeholder"
     }
 
     
@@ -79,6 +79,18 @@ class SongViewController: UIViewController, UITextFieldDelegate {
     }
     
     @IBAction func unwindToSong(segue: UIStoryboardSegue) {}
+    
+    //MARK: cancel unwind
+    @IBAction func unwindCancelNewSong(segue: UIStoryboardSegue) {
+        print("cancel new song")
+        
+    }
+    
+    //MAR: Save unwind
+    @IBAction func unwindSaveNewSong(segue: UIStoryboardSegue) {
+        print("save new song")
+        self.saveSong()
+    }
 
     /*
     // MARK: - Navigation
@@ -172,6 +184,50 @@ class SongViewController: UIViewController, UITextFieldDelegate {
         print("TextField should return method called")
         textField.resignFirstResponder();
         return true;
+    }
+    
+    //MARK: make new song if necessary
+    func loadNewSong(){
+        self.song.loadNewSong()
+    }
+    
+    //MARK: save new song name
+    func updateNewSongName(name: String){
+        self.song.setSongName(name: name)
+    }
+    
+    //MARK: tell song class to mark song as to be saved in database
+    func setSongAsSaved(){
+        self.song.setSongSave()
+    }
+    
+    //MARK: save song
+    func saveSong(){
+        let song_name = self.saved_song_name!
+        let current_song_saved = self.song.isSongSaved()
+        
+        //if current song is not a saved song this means it was generated when the user started the app
+        //so it is already a new song - we will use this song as the newly created song
+        if(current_song_saved == false){
+            print("saving current song as new song")
+            self.setSongAsSaved() //tell song class to make current song a saved song
+        }
+        else{
+            //if we were currently running a saved song then make a new song
+            print("creating a new song!")
+            self.loadNewSong()
+            self.setSongAsSaved() //tell song class to make current song a saved song
+        }
+        
+        //last but not least, update the song name with the text the user input
+        print("setting song name to \(song_name)")
+        self.updateNewSongName(name: song_name)
+        
+        //now save song to database
+        self.song.saveSong()
+        
+        self.setSongName(title: song_name) //set title of song view to current song name6
+        
     }
 
 }

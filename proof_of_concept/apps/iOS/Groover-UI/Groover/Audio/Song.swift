@@ -25,8 +25,8 @@ class Song {
     var tempo = Tempo()
     var clickTrack: ClickTrack!
     var songsDatabase: [SongDatabase]!
+    var current_song: SongDatabase!
     var loadSavedSongs = true
-    var songNum = 0 //song number in database that is currently being run
     
     //MARK: computed variables
     
@@ -63,7 +63,13 @@ class Song {
     
     func getSavedSongs() -> [SongDatabase]? {
         print("Song database file path: \(SongDatabase.ArchiveURL.path)")
-        return NSKeyedUnarchiver.unarchiveObject(withFile: SongDatabase.ArchiveURL.path) as? [SongDatabase]
+        let saved_songs =  NSKeyedUnarchiver.unarchiveObject(withFile: SongDatabase.ArchiveURL.path) as? [SongDatabase]
+        if(saved_songs != nil){
+            for song in saved_songs! {
+                song.save = true
+            }
+        }
+        return saved_songs
     }
     
     func loadSong(song_num: Int){
@@ -74,7 +80,8 @@ class Song {
                 clear()
                 
                 //now load saved song track data
-                loadInstruments(song_num: song_num)
+                self.setCurrentSong(song_num: song_num)
+                self.loadInstruments()
             }
         }
         else{
@@ -82,21 +89,26 @@ class Song {
         }
     }
     
+    func setCurrentSong(song_num: Int){
+        if(song_num < songsDatabase.count){
+            self.current_song = songsDatabase[song_num]
+        }
+    }
+    
     func loadNewSong(){
         if(loadSavedSongs){
             if let savedSongs = getSavedSongs(){
                 songsDatabase = savedSongs
-                
-                songsDatabase.append(SongDatabase())
-                songNum = songsDatabase.count-1 //increment song num
             }
         }
         if((songsDatabase) == nil){
             print("Could not load saved song")
-            songsDatabase = [SongDatabase]()
-            songsDatabase.append(SongDatabase())
+            self.songsDatabase = [SongDatabase]()
         }
-        loadInstruments(song_num: songNum)
+        
+        self.current_song = SongDatabase()
+        self.current_song.name = "Unsaved Song"
+        loadInstruments()
     }
     
     func loadTrack(track: TrackManager, num: Int){
@@ -104,33 +116,67 @@ class Song {
         if(songsDatabase == nil){
             return
         }
-        if(num < songsDatabase[songNum].tracks.count){
-            songsDatabase[songNum].tracks[num].loadSavedTrack()
-            track.trackNotes = songsDatabase[songNum].tracks[num].track
-            track.velNotes = songsDatabase[songNum].tracks[num].velocity
-            track.durNotes = songsDatabase[songNum].tracks[num].duration
+        if(num < self.current_song.tracks.count){
+            self.current_song.tracks[num].loadSavedTrack()
+            track.trackNotes = self.current_song.tracks[num].track
+            track.velNotes = self.current_song.tracks[num].velocity
+            track.durNotes = self.current_song.tracks[num].duration
             track.firstInstance = (track.trackNotes.count > 0) ? false : true
-            track.updateMeasureCount(songsDatabase[songNum].tracks[num].measures)
-            track.instrument.updatePan(songsDatabase[songNum].tracks[num].pan)
-            track.instrument.updateVolume(songsDatabase[songNum].tracks[num].volume)
+            track.updateMeasureCount(self.current_song.tracks[num].measures)
+            track.instrument.updatePan(self.current_song.tracks[num].pan)
+            track.instrument.updateVolume(self.current_song.tracks[num].volume)
             print("loaded saved track \(num)")
         }
         else{
-            let count = songsDatabase[songNum].tracks.count
+            let count = self.current_song.tracks.count
             let newSongTrack = SongTrack()
             newSongTrack.loadNewTrack(trackManager: track)
             track.trackNotes = newSongTrack.track
-            songsDatabase[songNum].tracks.append(newSongTrack)
+            self.current_song.tracks.append(newSongTrack)
             print("loaded new track \(count)")
         }
     }
     
+    func isSongSaved()->Bool{
+        return self.current_song.save
+    }
+    
+    func setSongSave(){
+        print("set current song for saving")
+        current_song.save = true
+        if(songsDatabase != nil){
+            if(!songsDatabase.contains(where: {$0 === current_song})){
+                songsDatabase.append(current_song)
+            }
+        }
+    }
+    
+    func setSongName(name: String){
+        self.current_song.name = name
+    }
+    
+    func getSongName(song_num: Int)->String{
+        if(song_num < self.songsDatabase.count){
+            return self.songsDatabase[song_num].name
+        }
+        else{
+            return "Invalid Song"
+        }
+    }
+    
     func saveSong(){
-        if(songsDatabase == nil){
+        if(songsDatabase == nil || self.current_song == nil){
             return
         }
-        for i in 0 ..< songsDatabase[songNum].tracks.count {
-            songsDatabase[songNum].tracks[i].loadNewTrack(trackManager: instruments[i].trackManager)
+        
+        //only save song if marked for saving
+        if(!self.current_song.save){
+            print("song not set for saving")
+            return
+        }
+        
+        for i in 0 ..< self.current_song.tracks.count {
+            self.current_song.tracks[i].loadNewTrack(trackManager: instruments[i].trackManager)
             
         }
         
@@ -205,15 +251,8 @@ class Song {
         
     }
     
-    func loadInstruments(song_num: Int){
-        
-        //set the song number to get the correct saved song in the database
-        if(song_num >= songsDatabase.count){
-            print("Error: song_num \(song_num) exceeds number of songs in database")
-            return
-        }
-        
-        songNum = song_num
+    func loadInstruments(){
+        //Load instruments for current_song
         
         if(instruments.count == 0){
             initInstruments() //create instruments with blank tracks

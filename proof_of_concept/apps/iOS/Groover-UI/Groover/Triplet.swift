@@ -8,11 +8,11 @@
 
 import UIKit
 
-//@IBDesignable
-class Triplet: UIView {
+@IBDesignable
+class Triplet: UIButton {
     
-    override func drawRect(rect: CGRect) {
-        UIGroover.drawTripletCanvas()
+    override func draw(_ rect: CGRect) {
+        UIGroover.drawTripletCanvas(tripletFrame: self.bounds)
     }
     
 }

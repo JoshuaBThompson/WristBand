@@ -6,19 +6,15 @@
 //  Copyright © 2016 TCM. All rights reserved.
 //
 
-import UIKit
+/*import UIKit
 
-//@IBDesignable
-class Left: UIButton {
+@IBDesignable
+class Left: PopupButton {
     
-    override func drawRect(rect: CGRect) {
+    override func draw(_ rect: CGRect) {
         UIGroover.drawLeftCanvas()
-        print("left displaying!")
-    }
+         print("left displaying!")
+        
+   }
     
-    func updateState(){
-        setNeedsDisplay()
-        print("left arrow needs display")
-    }
-    
-}
+}*/

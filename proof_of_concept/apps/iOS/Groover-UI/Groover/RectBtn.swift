@@ -6,13 +6,13 @@
 //  Copyright © 2016 TCM. All rights reserved.
 //
 
-import UIKit
+/*import UIKit
 
-//@IBDesignable
+@IBDesignable
 class RectBtn: UIView {
     
-    override func drawRect(rect: CGRect) {
+    override func draw(_ rect: CGRect) {
         UIGroover.drawQuarterCanvas()
     }
     
-}
+}*/

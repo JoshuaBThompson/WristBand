@@ -8,11 +8,11 @@
 
 import UIKit
 
-//@IBDesignable
-class Quarter: UIView {
+@IBDesignable
+class Quarter: UIButton {
     
-    override func drawRect(rect: CGRect) {
-        UIGroover.drawQuarterCanvas()
+    override func draw(_ rect: CGRect) {
+        UIGroover.drawQuarterCanvas(quarterFrame: self.bounds)
     }
     
 }

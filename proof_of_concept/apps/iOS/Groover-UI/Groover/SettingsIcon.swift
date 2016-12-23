@@ -8,19 +8,11 @@
 
 import UIKit
 
-//@IBDesignable
+@IBDesignable
 class SettingsIcon: UIView {
     
-    override func drawRect(rect: CGRect) {
+    override func draw(_ rect: CGRect) {
         UIGroover.drawSettingsIconCanvas()
-    }
-    
-    func hide(){
-        hidden = true
-    }
-    
-    func show(){
-        hidden = false
     }
     
 }

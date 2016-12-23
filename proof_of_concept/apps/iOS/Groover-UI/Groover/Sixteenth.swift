@@ -8,11 +8,11 @@
 
 import UIKit
 
-//@IBDesignable
-class Sixteenth: UIView {
+@IBDesignable
+class Sixteenth: UIButton {
     
-    override func drawRect(rect: CGRect) {
-        UIGroover.drawSixteenthCanvas()
+    override func draw(_ rect: CGRect) {
+       UIGroover.drawSixteenthCanvas(sixteenthFrame: self.bounds)
     }
     
 }

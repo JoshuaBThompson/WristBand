@@ -6,19 +6,15 @@
 //  Copyright © 2016 TCM. All rights reserved.
 //
 
-import UIKit
+/*import UIKit
 
-//@IBDesignable
-class Right: UIButton {
+@IBDesignable
+class Right: PopupButton {
     
-    override func drawRect(rect: CGRect) {
+    override func draw(_ rect: CGRect) {
         UIGroover.drawRightCanvas()
         print("right displaying!")
     }
+
     
-    func updateState(){
-        setNeedsDisplay()
-        print("right arrow needs display")
-    }
-    
-}
+}*/

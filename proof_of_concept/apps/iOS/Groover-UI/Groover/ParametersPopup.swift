@@ -6,35 +6,14 @@
 //  Copyright © 2016 TCM. All rights reserved.
 //
 
-import UIKit
+/*import UIKit
 
 //@IBDesignable
-class ParametersPopup: UIView {
+class ParametersPopup: UIControl {
     
-    override func drawRect(rect: CGRect) {
-        UIGroover.drawPopupCanvas()
+    override func draw(_ rect: CGRect) {
+        UIGroover.drawParametersPopupCanvas()
     }
+
     
-    
-    //MARK: Hide popup function
-    func toggleHide(){
-        hidden = !hidden //toggle true / false
-        updateButtonStates()
-    }
-    
-    func hide(){
-        hidden = true
-        updateButtonStates()
-    }
-    
-    func show(){
-        hidden = false
-    }
-    
-    //MARK: Update buttons
-    
-    func updateButtonStates(){
-    }
-    
-    
-}
+}*/

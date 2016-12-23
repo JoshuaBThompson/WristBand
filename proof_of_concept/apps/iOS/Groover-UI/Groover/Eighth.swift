@@ -8,11 +8,11 @@
 
 import UIKit
 
-//@IBDesignable
-class Eighth: UIView {
+@IBDesignable
+class Eighth: UIButton {
     
-    override func drawRect(rect: CGRect) {
-        UIGroover.drawEighthCanvas()
+    override func draw(_ rect: CGRect) {
+        UIGroover.drawEighthCanvas(eighthFrame: self.bounds)
     }
     
 }

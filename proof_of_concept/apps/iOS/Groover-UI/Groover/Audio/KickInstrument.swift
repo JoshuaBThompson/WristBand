@@ -28,55 +28,14 @@ class KickInstrument1: SynthInstrument{
     /// - parameter voiceCount: Number of voices (usually two is plenty for drums)
     ///
     
-    init(voiceCount: Int) {
-        super.init(instrumentVoice: KickInstrument1Voice(), voiceCount: voiceCount)
+    override init() {
+        super.init()
         note = 60
         name = "Kick Instrument 1"
-    }
-    
-    /// Start playback of a particular voice with MIDI style note and velocity
-    ///
-    /// - parameter voice: Voice to start
-    /// - parameter note: MIDI Note Number
-    /// - parameter velocity: MIDI Velocity (0-127)
-    ///
-    override func playVoice(voice: AKVoice, note: Int, velocity: Int) {
-        voice.start()
-    }
-    
-    /// Stop playback of a particular voice
-    ///
-    /// - parameter voice: Voice to stop
-    /// - parameter note: MIDI Note Number
-    ///
-    override func stopVoice(voice: AKVoice, note: Int) {
-        voice.stop()
-    }
-    
-}
-
-/// Kick Instrument 1 Voice
-class KickInstrument1Voice: SynthInstrumentVoice{
-    override init(){
-        
-        super.init()
-        sampler = AKSampler()
         sampler.loadWav("Sounds/Kick/kick-1")
         self.avAudioNode = sampler.avAudioNode
     }
     
-    override func start() {
-        sampler.playNote()
-    }
-    
-    override func stop(){
-        //sampler.stopNote()
-    }
-    
-    override func duplicate() -> AKVoice {
-        let copy = KickInstrument1Voice()
-        return copy
-    }
 }
 
 
@@ -90,56 +49,15 @@ class KickInstrument2: SynthInstrument{
     /// - parameter voiceCount: Number of voices (usually two is plenty for drums)
     ///
     
-    init(voiceCount: Int) {
-        super.init(instrumentVoice: KickInstrument2Voice(), voiceCount: voiceCount)
+    override init() {
+        super.init()
         note = 70
         name = "Kick Instrument 2"
-        
-    }
-    
-    /// Start playback of a particular voice with MIDI style note and velocity
-    ///
-    /// - parameter voice: Voice to start
-    /// - parameter note: MIDI Note Number
-    /// - parameter velocity: MIDI Velocity (0-127)
-    ///
-    override func playVoice(voice: AKVoice, note: Int, velocity: Int) {
-        voice.start()
-    }
-    
-    /// Stop playback of a particular voice
-    ///
-    /// - parameter voice: Voice to stop
-    /// - parameter note: MIDI Note Number
-    ///
-    override func stopVoice(voice: AKVoice, note: Int) {
-        voice.stop()
-    }
-    
-}
-
-/// Kick Instrument 2 Voice
-class KickInstrument2Voice: SynthInstrumentVoice{
-    override init(){
-        
-        super.init()
-        sampler = AKSampler()
         sampler.loadWav("Sounds/Kick/kick-2")
         self.avAudioNode = sampler.avAudioNode
+        
     }
     
-    override func start() {
-        sampler.playNote()
-    }
-    
-    override func stop(){
-        //sampler.stopNote()
-    }
-    
-    override func duplicate() -> AKVoice {
-        let copy = KickInstrument2Voice()
-        return copy
-    }
 }
 
 
@@ -153,57 +71,16 @@ class KickInstrument3: SynthInstrument{
     /// - parameter voiceCount: Number of voices (usually two is plenty for drums)
     ///
     
-    init(voiceCount: Int) {
-        super.init(instrumentVoice: KickInstrument3Voice(), voiceCount: voiceCount)
+    override init() {
+        super.init()
         note = 80
         name = "Kick Instrument 3"
-        
-    }
-    
-    /// Start playback of a particular voice with MIDI style note and velocity
-    ///
-    /// - parameter voice: Voice to start
-    /// - parameter note: MIDI Note Number
-    /// - parameter velocity: MIDI Velocity (0-127)
-    ///
-    override func playVoice(voice: AKVoice, note: Int, velocity: Int) {
-        voice.start()
-    }
-    
-    /// Stop playback of a particular voice
-    ///
-    /// - parameter voice: Voice to stop
-    /// - parameter note: MIDI Note Number
-    ///
-    override func stopVoice(voice: AKVoice, note: Int) {
-        voice.stop()
-    }
-    
-}
-
-/// Kick Instrument 3 Voice
-class KickInstrument3Voice: SynthInstrumentVoice{
-    override init(){
-        
-        super.init()
-        sampler = AKSampler()
         sampler.loadWav("Sounds/Kick/kick-3")
         self.avAudioNode = sampler.avAudioNode
     }
     
-    override func start() {
-        sampler.playNote()
-    }
-    
-    override func stop(){
-        //sampler.stopNote()
-    }
-    
-    override func duplicate() -> AKVoice {
-        let copy = KickInstrument3Voice()
-        return copy
-    }
 }
+
 
 
 /****************Kick Instrument 4
@@ -216,56 +93,14 @@ class KickInstrument4: SynthInstrument{
     /// - parameter voiceCount: Number of voices (usually two is plenty for drums)
     ///
     
-    init(voiceCount: Int) {
-        super.init(instrumentVoice: KickInstrument4Voice(), voiceCount: voiceCount)
+    override init() {
+        super.init()
         note = 90
         name = "Kick Instrument 4"
-        
-    }
-    
-    /// Start playback of a particular voice with MIDI style note and velocity
-    ///
-    /// - parameter voice: Voice to start
-    /// - parameter note: MIDI Note Number
-    /// - parameter velocity: MIDI Velocity (0-127)
-    ///
-    override func playVoice(voice: AKVoice, note: Int, velocity: Int) {
-        voice.start()
-    }
-    
-    /// Stop playback of a particular voice
-    ///
-    /// - parameter voice: Voice to stop
-    /// - parameter note: MIDI Note Number
-    ///
-    override func stopVoice(voice: AKVoice, note: Int) {
-        voice.stop()
-    }
-    
-}
-
-/// Kick Instrument 4 Voice
-class KickInstrument4Voice: SynthInstrumentVoice{
-    override init(){
-        
-        super.init()
-        sampler = AKSampler()
         sampler.loadWav("Sounds/Kick/kick-4")
         self.avAudioNode = sampler.avAudioNode
     }
     
-    override func start() {
-        sampler.playNote()
-    }
-    
-    override func stop(){
-        //sampler.stopNote()
-    }
-    
-    override func duplicate() -> AKVoice {
-        let copy = KickInstrument4Voice()
-        return copy
-    }
 }
 
 

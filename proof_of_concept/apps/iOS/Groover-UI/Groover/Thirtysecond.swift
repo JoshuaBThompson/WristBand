@@ -8,11 +8,11 @@
 
 import UIKit
 
-//@IBDesignable
-class Thirtysecond: UIView {
+@IBDesignable
+class Thirtysecond: UIButton {
     
-    override func drawRect(rect: CGRect) {
-        UIGroover.drawThirtysecondCanvas()
+    override func draw(_ rect: CGRect) {
+        UIGroover.drawThirtysecondCanvas(thirtySecondFrame: self.bounds)
     }
     
 }

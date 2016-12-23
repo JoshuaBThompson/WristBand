@@ -10,39 +10,39 @@ import UIKit
 
 //@IBDesignable
 class PositionIndicator: UIView {
-    var currentPos: Int = 0
+   /* var currentPos: Int = 0
     let minPos = 0
     let maxPos = 17
     
-    override func drawRect(rect: CGRect) {
+    override func draw(_ rect: CGRect) {
         updatePosistion()
     }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        hidden = true
+        isHidden = true
     }
     
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        hidden = true
+        isHidden = true
         
     }
     
     func toggleHide(){
-        hidden = !hidden
+        isHidden = !isHidden
     }
     
     func hide(){
-        hidden = true
+        isHidden = true
     }
     
     func show(){
-        hidden = false
+        isHidden = false
     }
     
-    func setPosition(newPos: Int){
+    func setPosition(_ newPos: Int){
         if(newPos >= minPos && newPos <= maxPos){
             currentPos = newPos
         }
@@ -110,6 +110,6 @@ class PositionIndicator: UIView {
             
         }
     }
-    
+   */ 
     
 }

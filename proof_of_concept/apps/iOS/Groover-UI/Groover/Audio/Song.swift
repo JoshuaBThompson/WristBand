@@ -473,9 +473,6 @@ class Song {
         instruments[selectedInstrument].record()
         recordEnabled = true
         noteAdded = false
-        
-        
-        
         //now addNote function will add notes to sequences track
     }
     
@@ -540,7 +537,7 @@ class Song {
     }
     
     func setTempo(_ newBeatsPerMin: Double){
-        stop()
+        //stop()
         print("update all instruments with tempo \(newBeatsPerMin)")
         clickTrack.tempo.set_tempo(bpm: newBeatsPerMin)
         clickTrack.update()
@@ -549,7 +546,7 @@ class Song {
     
     
     func setTimeSignature(_ newBeatsPerMeasure: Int, newNote: Int){
-        stop()
+        //stop()
         print("update all instruments with beats per measure \(newBeatsPerMeasure) and \(newNote) note")
         clickTrack.timeSignature.beatsPerMeasure = newBeatsPerMeasure
         clickTrack.timeSignature.beatUnit = newNote

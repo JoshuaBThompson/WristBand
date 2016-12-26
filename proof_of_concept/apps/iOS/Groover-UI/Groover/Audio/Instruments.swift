@@ -671,13 +671,11 @@ class TrackManager{
     var velNotes = [Int]()
     var durNotes = [Double]()
     var noteCount = 0
-    var longestTime: Double = 0.0
     var measureCount = 1 //default measure count
     var firstInstance = true //informs if this is the first time the track is being filled so we can define the initial measure count / duration
     var instrument: SynthInstrument!
     var clickTrack: ClickTrack!
     var timer: Timer!
-    var new = false
     var ignore_count = 0
     
     //MARK: Computed
@@ -693,6 +691,10 @@ class TrackManager{
         return timeElapsedSec
     }
     
+    var isNewRecord: Bool {
+        return (trackNotes.count >= 1 && firstInstance)
+    }
+    
     var timeElapsed: Double {
         //this gets called when a beat is added to the track
         let timeElapsedSec = timer.stop() //gets the global click track time that is shared with the song / all instruments
@@ -702,10 +704,6 @@ class TrackManager{
         }
         else{
             time = fmod(timeElapsedSec, totalDuration)
-        }
-        if longestTime < time {
-            //this will record when a beat was added (gets the longest time beat)
-            longestTime = time
         }
         
         return time
@@ -722,8 +720,12 @@ class TrackManager{
         timer = clickTrack.timer
         prevPos = AKDuration(beats: 0)
         instrument.enableMIDI(midi.client, name: "Synth inst preset")
-        track.newTrack()
-        track.tracks[trackNum].setMIDIOutput(instrument.midiIn)
+        if(track.newTrack() != nil){
+            track.tracks[trackNum].setMIDIOutput(instrument.midiIn)
+        }
+        else{
+            print("Could not make track \(trackNum)")
+        }
         
     }
     
@@ -736,7 +738,6 @@ class TrackManager{
             let start = AKDuration(beats: 0, tempo: clickTrack.tempo.beatsPerMin)
             let end = AKDuration(beats: len+1, tempo: clickTrack.tempo.beatsPerMin)
  
-            print("resetting track length \(len)")
             track.tracks[trackNum].clearRange(start: start, duration: end)
         }
     }
@@ -748,11 +749,8 @@ class TrackManager{
         let note = instrument.note
         
         if(quantizeEnable && instrument.quantizeEnabled){
-            //print("quantizing pos \(pos.beats)")
             pos = quantizer.quantizedBeat(pos)
-            //print("...to new pos \(pos.beats)")
         }
-        
         
         //print("insert track note at \(position.seconds)")
         track.tracks[trackNum].add(noteNumber: note, velocity: velocity, position: pos, duration: AKDuration(seconds: duration))
@@ -760,19 +758,18 @@ class TrackManager{
     
     func addNote(_ velocity: Int, duration: Double){
         let elapsed = timeElapsed
-        let position = AKDuration(seconds: elapsed, tempo: clickTrack.tempo.beatsPerMin)
         let absElapsed = timeElapsedAbs
-        let absPosition = AKDuration(seconds: absElapsed, tempo: clickTrack.tempo.beatsPerMin)
+        
         
         
         if(!firstInstance){
             //use relative position
-            //print("adding note to track at \(elapsed)")
+            let position = AKDuration(seconds: elapsed, tempo: clickTrack.tempo.beatsPerMin)
             addNoteToList(velocity, position: position, duration: duration)
         }
-        else if(firstInstance){
+        else{
             //use absolute position
-            //print("adding new note at \(absElapsed)")
+            let absPosition = AKDuration(seconds: absElapsed, tempo: clickTrack.tempo.beatsPerMin)
             addNoteToList(velocity, position: absPosition, duration: duration)
         }
     }
@@ -791,24 +788,24 @@ class TrackManager{
         trackNotes = sortedNotes
     }
     
+    //MARK: Get total measure count from time elapsed and sec per measure
+    func getMeasureCountFromTimeElapsed()->Int {
+        return Int(ceil(timeElapsedAbs / secPerMeasure))
+    }
+    
     //MARK: deselect instrument track - do anything that needs to be done after user stops using this track
     func deselect(){
-        if(trackNotes.count >= 1 && firstInstance){
-            new = true
+        if(isNewRecord){
             
             //If this is the first time the track is being created then update measure count after instrument record stopped / deselected
             //measure count = roundUp(timeElapsed (sec) / secPerMeasure) roundUp = ceil math function
             //for ex: if timeElapsed = 9 sec and sec per measure = 4 then measure count = ceil(9/4) = 2.25 = 3 measure counts
             
-            let count = Int(ceil(timeElapsedAbs / secPerMeasure))
-            print("deselect update count \(count) and secPerMeasure \(secPerMeasure)")
+            let count = getMeasureCountFromTimeElapsed()
             updateMeasureCount(count)
             updateNotePositions(true)
         }
-        else{
-            new = false
-        }
-        
+
     }
     
     func updateMeasureCount(_ count: Int){
@@ -816,7 +813,6 @@ class TrackManager{
         if(count < 1){
             return
         }
-        print("inst \(instrument.name) measure count updated to \(count)")
         measureCount = count
     }
     
@@ -830,19 +826,17 @@ class TrackManager{
         print("update track pos \(position.seconds)")
         if(newRecord){
             print("new record note")
-            let beatOffset = Double((clickTrack.instrument.loop_count)*clickTrack.timeSignature.beatsPerMeasure)// + Double(measureCount*beatsPerMeasure)
+            let beatOffset = Double((clickTrack.instrument.loop_count)*clickTrack.timeSignature.beatsPerMeasure)
             position = AKDuration(beats: position.beats + beatOffset, tempo: position.tempo)
-            instrument.beatOffset = Double(beatOffset)
+            instrument.beatOffset = beatOffset
         }
         print("insert new note at \(position.seconds)")
         insertNote(velocity, position: position, duration: duration)
-        
         
     }
     
     
     func clear(){
-        longestTime = 0.0
         noteCount = 0
         trackNotes.removeAll()
         velNotes.removeAll()

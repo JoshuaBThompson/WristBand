@@ -66,7 +66,9 @@ class SliderCtrl: UIControl{
     
     //MARK: Update position x from value
     func update_pos_from_value(new_value: Int){
-        
+        if(self.position == nil){
+            self.position = CGPoint(x: 0, y: 0)
+        }
         var new_pos = CGFloat(new_value) * (self.maxPosX - self.minPosX) / CGFloat(self.max_value - self.min_value)
         new_pos = new_pos + self.pos_offset
         self.position.x = new_pos

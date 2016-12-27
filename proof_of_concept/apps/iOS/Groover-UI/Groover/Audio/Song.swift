@@ -37,6 +37,10 @@ class Song {
         return instruments[selectedInstrument].instrument.name
     }
     
+    var presetVolumePercent: Int {
+        return Int(instruments[selectedInstrument].volume)
+    }
+    
     var instrument: InstrumentTrack {
         return instruments[selectedInstrument]
     }

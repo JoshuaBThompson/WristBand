@@ -53,9 +53,29 @@ class ParametersModalViewController: UIViewController, UITextFieldDelegate {
         super.viewDidLoad()
         self.trackMeasuresSliderValueTextField.delegate = self
         self.song = GlobalAttributes.song
-
+        self.initMeasureSlider()
+        self.initPanSlider()
+        self.initVolumeSlider()
     }
 
+    //MARK: Init measure slider
+    func initMeasureSlider(){
+        self.trackMeasuresSlider.update_pos_from_value(new_value: self.song.presetMeasureCount)
+        let new_measures = trackMeasuresSlider.measures
+        trackMeasuresSliderValueTextField.text = "\(new_measures)"
+    }
+    
+    //MARK: Init pan slider
+    func initPanSlider(){
+        self.panSlider.update_pos_from_value(new_value: Int(self.song.currentPan))
+    }
+    
+    //MARK: Init vol slider
+    func initVolumeSlider(){
+        let vol = self.song.presetVolumePercent
+        self.volumeSlider.update_pos_from_value(new_value: vol)
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.

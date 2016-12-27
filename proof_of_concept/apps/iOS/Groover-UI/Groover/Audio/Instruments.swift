@@ -64,6 +64,7 @@ class SynthInstrument: AKMIDIInstrument{
     var ignore = false  // use to ignore specific beat
     var prevQuantPos = AKDuration(beats: 0)
     var realBeatPos = AKDuration(beats: 0)
+    var prevRealBeatPos = AKDuration(beats: 0)
     var real_pos: Double = 0
     var note_num: Int = 0
     var loop_count: Int = 0
@@ -107,6 +108,10 @@ class SynthInstrument: AKMIDIInstrument{
         return instTrack.trackManager.trackNotes[note_num].tempo
     }
     
+    var globalTempo: Double {
+        return instTrack.trackManager.clickTrack.tempo.beatsPerMin
+    }
+    
     
     var volumeScale: Double {
         return volumePercent/100.0
@@ -125,6 +130,7 @@ class SynthInstrument: AKMIDIInstrument{
         loop_count = 0
         total_dur_offset = 0
         beatOffset = 0
+        prevRealBeatPos = AKDuration(beats: 0)
         prevQuantPos = AKDuration(beats: 0)
         realBeatPos = AKDuration(beats: 0)
         quantizeEnabled = false
@@ -149,7 +155,7 @@ class SynthInstrument: AKMIDIInstrument{
     }
     
     func updateRealBeatPos(){
-        realBeatPos = AKDuration(beats: realPos, tempo: beatTempo)
+        realBeatPos = AKDuration(beats: realPos, tempo: beatTempo) //beatTempo
     }
     
     func handleQuantize(){
@@ -180,6 +186,7 @@ class SynthInstrument: AKMIDIInstrument{
         handleQuantize() //if quantize enabled deal with redundant beats
         
         instTrack.trackManager.insertNote(127, position: realBeatPos, duration: 0)
+        //prevRealBeatPos = AKDuration(beats: realBeatPos.beats, tempo: realBeatPos.tempo)
     }
     
     func rawPlay(_ noteNumber: MIDINoteNumber, velocity: MIDIVelocity){
@@ -716,10 +723,10 @@ class TrackManager{
         instrument = midiInstrument
         clickTrack = clickTrackRef
         track = clickTrack.track
-        trackNum = track.trackCount
         timer = clickTrack.timer
         prevPos = AKDuration(beats: 0)
         instrument.enableMIDI(midi.client, name: "Synth inst preset")
+        trackNum = track.trackCount
         if(track.newTrack() != nil){
             track.tracks[trackNum].setMIDIOutput(instrument.midiIn)
         }
@@ -731,6 +738,8 @@ class TrackManager{
     
     //MARK: init a track
     func resetTrack(){
+        
+        
         prevPos = AKDuration(beats: 0)
         if(track.tracks[trackNum].length != 0){
             let len = track.tracks[trackNum].length
@@ -740,6 +749,7 @@ class TrackManager{
  
             track.tracks[trackNum].clearRange(start: start, duration: end)
         }
+        
     }
     
     //MARK: Functions
@@ -753,7 +763,7 @@ class TrackManager{
         }
         
         //print("insert track note at \(position.seconds)")
-        track.tracks[trackNum].add(noteNumber: note, velocity: velocity, position: pos, duration: AKDuration(seconds: duration))
+        track.tracks[trackNum].add(noteNumber: note, velocity: velocity, position: pos, duration: AKDuration(seconds: 0))
     }
     
     func addNote(_ velocity: Int, duration: Double){

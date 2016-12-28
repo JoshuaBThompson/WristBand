@@ -30,6 +30,10 @@ class Song {
     
     //MARK: computed variables
     
+    var defaultMeasureCount: Int {
+        return clickTrack.instrument.defaultMeasures
+    }
+    
     var presetMeasureCount: Int {
         return instruments[selectedInstrument].trackManager.measureCount
     }
@@ -526,6 +530,11 @@ class Song {
         
     }
     
+    func startPresetWithDefaultMeasureCount(){
+        //tells preset to use the defaultMeasure count (global measure) instead of waiting for user to hit 'stop' record
+        self.instrument.trackManager.startLoopFromDefaultMeasures()
+    }
+    
     func stop(){
         print("Stop playing instrument  \(selectedInstrument)")
         recordEnabled = false
@@ -548,6 +557,9 @@ class Song {
         
     }
     
+    func setDefaultMeasures(measureCount: Int){
+        clickTrack.instrument.defaultMeasures = measureCount
+    }
     
     func setTimeSignature(_ newBeatsPerMeasure: Int, newNote: Int){
         //stop()

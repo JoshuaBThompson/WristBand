@@ -40,10 +40,10 @@ class SongViewController: UIViewController, UITextFieldDelegate {
     //MARK: Measure
     
     @IBAction func measureSliderValueChanged(_ sender: GlobalMeasuresCtrl) {
-        print("MEASURE CHANGED")
         let value = Int(sender.measures)
         measuresSliderTextField.text = "\(value)"
         /* update global measure count ? */
+        self.song.setDefaultMeasures(measureCount: value)
     }
     
     
@@ -64,10 +64,25 @@ class SongViewController: UIViewController, UITextFieldDelegate {
         self.navigationController?.navigationBar.shadowImage =  UIImage()
         self.navigationController?.navigationBar.isTranslucent = true
         
-
         self.navigationItem.title = self.song.current_song.name//"Long Ass Song Title Placeholder"
+        
+        self.initTempoSlider()
+        self.initDefaultMeasuresSlider()
     }
 
+    //MARK: Init tempo 
+    func initTempoSlider(){
+        let tempo = Int(self.song.tempo.beatsPerMin)
+        tempoSliderTextField.text = "\(tempo)"
+        tempoSlider.update_pos_from_detent(new_detent: tempo)
+    }
+    
+    //MARK: Init global default measures
+    func initDefaultMeasuresSlider(){
+        let measures = self.song.defaultMeasureCount
+        measuresSliderTextField.text = "\(measures)"
+        measureSlider.update_pos_from_detent(new_detent: measures)
+    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

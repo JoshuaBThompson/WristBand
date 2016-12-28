@@ -76,6 +76,10 @@ class SliderCtrl: UIControl{
     
     //MARK: Update current position x from detent value
     func update_pos_from_detent(new_detent: Int){
+        if(self.position == nil){
+            self.position = CGPoint(x: 0, y: 0)
+        }
+        
         var new_pos = self.snapFilter.getDetentPos(new_detent)
         if(new_pos >= self.maxPosX){
             new_pos = self.maxPosX

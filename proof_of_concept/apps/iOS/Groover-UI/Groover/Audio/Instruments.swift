@@ -9,6 +9,9 @@
 import Foundation
 import AudioKit
 
+/****************Global*********************/
+let GlobalDefaultMeasures = 4
+
 /****************Quantize*******************/
 class Quantize {
     var divPerBeat = 1.0 //divisions per beat (beat resolution, ex: 64 divisions would be highest resolution and 1 is lowest)
@@ -269,6 +272,10 @@ class ClickTrackInstrument: SynthInstrument{
     var mixer: AKMixer!
     var track: AKSequencer!
     var totalBeats: Double = 0
+    var defaultMeasureCountEnded = false
+    var defaultMeasureCountStarted = false
+    var defauttMeasureCounter = 0
+    var defaultMeasures = GlobalDefaultMeasures
     
     
     init(clickTrackRef: ClickTrack!) {
@@ -299,6 +306,20 @@ class ClickTrackInstrument: SynthInstrument{
         preRoll = true
     }
     
+    func startDefaultMeasureCounter(){
+        defaultMeasureCountStarted = true
+    }
+    
+    func updateDefaultMeasureCounter(){
+        if(defauttMeasureCounter >= defaultMeasures){
+            defaultMeasureCountEnded = true
+            defaultMeasureCountStarted = false
+        }
+        else{
+            defauttMeasureCounter += 1
+        }
+    }
+    
     /// Start playback of a particular voice with MIDI style note and velocity
     ///
     /// - parameter voice: Voice to start
@@ -307,6 +328,9 @@ class ClickTrackInstrument: SynthInstrument{
     ///
     override func play(noteNumber: MIDINoteNumber, velocity: MIDIVelocity) {
         if(beat == 0){
+            if(defaultMeasureCountStarted){
+                updateDefaultMeasureCounter()
+            }
             loop_count += 1
         }
         beat+=1
@@ -329,14 +353,19 @@ class ClickTrackInstrument: SynthInstrument{
         }
         else if(!self.muted){
             if(preRollEnded){
+                startDefaultMeasureCounter()
                 clickTrack.song.start_record()
                 preRollEnded = false
+            }
+            else if(defaultMeasureCountEnded){
+                clickTrack.song.startPresetWithDefaultMeasureCount()
             }
             
             sampler.volume = volume
             sampler.play()
         }
         else if(preRollEnded){
+            startDefaultMeasureCounter()
             clickTrack.song.start_record()
             preRollEnded = false
         }
@@ -686,6 +715,14 @@ class TrackManager{
     var ignore_count = 0
     
     //MARK: Computed
+    var defaultMeasureCount: Int {
+        if(clickTrack != nil){
+            return clickTrack.instrument.defaultMeasures
+        }
+        else{
+            return GlobalDefaultMeasures
+        }
+    }
     var secPerMeasure: Double { return clickTrack.secPerMeasure }
     var beatsPerMeasure: Int { return clickTrack.timeSignature.beatsPerMeasure }
     var totalBeats: Int { return measureCount * beatsPerMeasure}
@@ -706,7 +743,10 @@ class TrackManager{
         //this gets called when a beat is added to the track
         let timeElapsedSec = timer.stop() //gets the global click track time that is shared with the song / all instruments
         var time = 0.0
-        if timeElapsedSec <= totalDuration {
+        if timeElapsedSec < totalDuration {
+            time = timeElapsedSec
+        }
+        else if(timeElapsedSec == totalDuration){
             time = timeElapsedSec
         }
         else{
@@ -720,6 +760,7 @@ class TrackManager{
     
     init(midiInstrument: SynthInstrument, clickTrackRef: ClickTrack){
         midi = AKMIDI()
+        measureCount = defaultMeasureCount
         instrument = midiInstrument
         clickTrack = clickTrackRef
         track = clickTrack.track
@@ -738,7 +779,6 @@ class TrackManager{
     
     //MARK: init a track
     func resetTrack(){
-        
         
         prevPos = AKDuration(beats: 0)
         if(track.tracks[trackNum].length != 0){
@@ -770,8 +810,6 @@ class TrackManager{
         let elapsed = timeElapsed
         let absElapsed = timeElapsedAbs
         
-        
-        
         if(!firstInstance){
             //use relative position
             let position = AKDuration(seconds: elapsed, tempo: clickTrack.tempo.beatsPerMin)
@@ -782,6 +820,7 @@ class TrackManager{
             let absPosition = AKDuration(seconds: absElapsed, tempo: clickTrack.tempo.beatsPerMin)
             addNoteToList(velocity, position: absPosition, duration: duration)
         }
+        
     }
     
     func addNoteToList(_ velocity: Int, position: AKDuration, duration: Double){
@@ -801,6 +840,19 @@ class TrackManager{
     //MARK: Get total measure count from time elapsed and sec per measure
     func getMeasureCountFromTimeElapsed()->Int {
         return Int(ceil(timeElapsedAbs / secPerMeasure))
+    }
+    
+    //MARK: Start loop after default measure reached
+    func startLoopFromDefaultMeasures(){
+        if(isNewRecord){
+            print("Starting loop from default measures")
+            //If this is the first time the track is being created then update measure count after instrument record stopped / deselected
+            //measure count = roundUp(timeElapsed (sec) / secPerMeasure) roundUp = ceil math function
+            //for ex: if timeElapsed = 9 sec and sec per measure = 4 then measure count = ceil(9/4) = 2.25 = 3 measure counts
+            
+            updateMeasureCount(self.defaultMeasureCount)
+            updateNotePositions(true)
+        }
     }
     
     //MARK: deselect instrument track - do anything that needs to be done after user stops using this track
@@ -852,7 +904,7 @@ class TrackManager{
         velNotes.removeAll()
         durNotes.removeAll()
         firstInstance = true
-        measureCount = 1
+        measureCount = defaultMeasureCount
         resetTrack()
         instrument.reset()
         prevPos = AKDuration(beats: 0)

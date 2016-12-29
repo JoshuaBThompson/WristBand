@@ -185,6 +185,7 @@ class Song {
         
         for i in 0 ..< self.current_song.tracks.count {
             self.current_song.tracks[i].loadNewTrack(trackManager: instruments[i].trackManager)
+            print("Saving song pan \(self.current_song.tracks[i].pan)")
             
         }
         

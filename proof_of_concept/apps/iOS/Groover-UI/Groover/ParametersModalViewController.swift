@@ -60,19 +60,19 @@ class ParametersModalViewController: UIViewController, UITextFieldDelegate {
 
     //MARK: Init measure slider
     func initMeasureSlider(){
-        self.trackMeasuresSlider.update_pos_from_value(new_value: self.song.presetMeasureCount)
+        self.trackMeasuresSlider.update_pos_from_value(new_value: CGFloat(self.song.presetMeasureCount))
         let new_measures = trackMeasuresSlider.measures
         trackMeasuresSliderValueTextField.text = "\(new_measures)"
     }
     
     //MARK: Init pan slider
     func initPanSlider(){
-        self.panSlider.update_pos_from_value(new_value: Int(self.song.currentPan))
+        self.panSlider.update_pos_from_value(new_value: CGFloat(self.song.currentPanPercent))
     }
     
     //MARK: Init vol slider
     func initVolumeSlider(){
-        let vol = self.song.presetVolumePercent
+        let vol = CGFloat(self.song.presetVolumePercent)
         self.volumeSlider.update_pos_from_value(new_value: vol)
     }
     

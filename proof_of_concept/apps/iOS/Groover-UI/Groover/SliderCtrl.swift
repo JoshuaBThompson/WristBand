@@ -65,7 +65,7 @@ class SliderCtrl: UIControl{
     }
     
     //MARK: Update position x from value
-    func update_pos_from_value(new_value: Int){
+    func update_pos_from_value(new_value: CGFloat){
         if(self.position == nil){
             self.position = CGPoint(x: 0, y: 0)
         }
@@ -123,8 +123,8 @@ class SliderCtrl: UIControl{
     override func endTracking(_ touch: UITouch?, with event: UIEvent?) {
         let endLocation = touch?.location(in: self)
         print("end tracking pan at \(endLocation?.x)")
-        let final_pos_x = self.pos_from_detent //snap to neartest detent
-        self.position.x = final_pos_x
+        //let final_pos_x = self.pos_from_detent //snap to neartest detent
+        //self.position.x = final_pos_x
         setNeedsDisplay()
         sendActions(for: .valueChanged)
     }

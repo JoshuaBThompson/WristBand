@@ -21,6 +21,7 @@ class SongListTableViewController: UITableViewController, SongCellDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        tableView.backgroundView = UIImageView(image: UIImage(named: "fullBackgroundBlur"))
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         self.navigationController?.navigationBar.shadowImage =  UIImage()
         self.navigationController?.navigationBar.isTranslucent = true

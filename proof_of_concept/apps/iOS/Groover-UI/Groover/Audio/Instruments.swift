@@ -130,13 +130,19 @@ class SynthInstrument: AKMIDIInstrument{
     
     func reset(){
         note_num = 0
+        real_pos = 0
         loop_count = 0
         total_dur_offset = 0
+        _maxNoteCount = 0
+        _total_dur = 0
         beatOffset = 0
+        currentNote = AKDuration(beats: 0)
         prevRealBeatPos = AKDuration(beats: 0)
         prevQuantPos = AKDuration(beats: 0)
         realBeatPos = AKDuration(beats: 0)
         quantizeEnabled = false
+        measureUpdateReady = false
+        measureUpdateEn = false
     }
     
     func updateNoteNumAndOffset(){
@@ -152,14 +158,16 @@ class SynthInstrument: AKMIDIInstrument{
                 measureUpdateReady = false
                 measureUpdateEn = false
             }
-            
+            loop_count += 1
             total_dur_offset = total_dur_offset + total_dur
         }
     }
     
     func updateRealBeatPos(){
-        realBeatPos = AKDuration(beats: realPos, tempo: beatTempo) //beatTempo
+        //realBeatPos = AKDuration(beats: realPos, tempo: beatTempo) //beatTempo
+        realBeatPos = AKDuration(beats: realPos)
     }
+    
     
     func handleQuantize(){
         if(instTrack.trackManager.quantizeEnable){
@@ -180,16 +188,23 @@ class SynthInstrument: AKMIDIInstrument{
     }
     
     func addNote(){
+        print("add note called")
         if(instTrack.trackManager.trackNotes.count==0 || instTrack.trackManager.firstInstance){
             return
         }
         
         updateNoteNumAndOffset() //get the current note number in the loop and the total duration offset
         updateRealBeatPos() //get the real note position (original note + offset + time in current loop)
-        handleQuantize() //if quantize enabled deal with redundant beats
+        //handleQuantize() //if quantize enabled deal with redundant beats
+        print("add note \(note_num) at realBeatPos \(realBeatPos.beats)")
+        if(loop_count >= 1){
+            //let duration = instTrack.trackManager.minBeatDuration
+            //instTrack.trackManager.insertNote(127, position: realBeatPos, duration: 0.1)
+            //prevRealBeatPos = AKDuration(beats: realBeatPos.beats, tempo: realBeatPos.tempo)
+            instTrack.trackManager.appendTrack(offset: total_dur_offset) //offset in beats
+            loop_count = 0 //reset
+        }
         
-        instTrack.trackManager.insertNote(127, position: realBeatPos, duration: 0)
-        //prevRealBeatPos = AKDuration(beats: realBeatPos.beats, tempo: realBeatPos.tempo)
     }
     
     func rawPlay(_ noteNumber: MIDINoteNumber, velocity: MIDIVelocity){
@@ -207,16 +222,16 @@ class SynthInstrument: AKMIDIInstrument{
     /// - parameter velocity: MIDI Velocity (0-127)
     ///
     override func play(noteNumber: MIDINoteNumber, velocity: MIDIVelocity) {
-        addNote()
+        
         if(ignore){
             ignore = false  //ignore specific beat and then reset ignore
-            return
         }
         else if(!muted){
             let volume = volumeScale * velocity/127.0
             sampler.volume = volume
             sampler.play()
         }
+        addNote()
     }
     
     /// Stop playback of a particular voice
@@ -372,9 +387,9 @@ class ClickTrackInstrument: SynthInstrument{
         if(beat==4){
             beat=0
         }
-        
-        track.tracks[0].add(noteNumber: 60, velocity: vel, position: AKDuration(beats: Double(pos)), duration: AKDuration(seconds: 0))
-        
+        if(loop_count >= 2){
+            track.tracks[0].add(noteNumber: 60, velocity: vel, position: AKDuration(beats: Double(pos)), duration: AKDuration(seconds: 0.1))
+        }
     }
 }
 
@@ -489,13 +504,13 @@ class ClickTrack: AKNode{
             //this will erase all the other instrument tracks as well
             track.tracks.removeAll()
         }
-        track.newTrack()
-        track.tracks[0].setMIDIOutput(instrument.midiIn)
-        track.setTempo(tempo.beatsPerMin)
-        //track.tracks[0].setLength(AKDuration(beats: Double(timeSignature.beatsPerMeasure), tempo: tempo.beatsPerMin))
-        print("click track secPerMeasure \(secPerMeasure)")
-        instrument.track = track
-        resetTrack()
+        if(track.newTrack() != nil){
+            track.tracks[0].setMIDIOutput(instrument.midiIn)
+            track.setTempo(tempo.beatsPerMin)
+            print("click track secPerMeasure \(secPerMeasure)")
+            instrument.track = track
+            resetTrack()
+        }
         
     }
     
@@ -516,7 +531,13 @@ class ClickTrack: AKNode{
         track.stop()
         track.disableLooping()
         track.tracks[0].clear()
-        track.tracks[0].add(noteNumber: 60, velocity: 127, position: AKDuration(seconds: 0), duration: AKDuration(seconds: 0))
+        track.setLength(AKDuration(beats: Double(timeSignature.beatsPerMeasure), tempo: tempo.beatsPerMin))
+        //track.setLength(AKDuration(beats: 0))
+        track.tracks[0].add(noteNumber: 60, velocity: 127, position: AKDuration(beats: 0), duration: AKDuration(seconds: 0.1))
+        track.tracks[0].add(noteNumber: 60, velocity: 127, position: AKDuration(beats: 1), duration: AKDuration(seconds: 0.1))
+        track.tracks[0].add(noteNumber: 60, velocity: 127, position: AKDuration(beats: 2), duration: AKDuration(seconds: 0.1))
+        track.tracks[0].add(noteNumber: 60, velocity: 127, position: AKDuration(beats: 3), duration: AKDuration(seconds: 0.1))
+        
     }
     
     
@@ -697,13 +718,13 @@ class InstrumentTrack {
 /****************Single instrument track manager ********/
 class TrackManager{
     //MARK: Attributes
+    let minBeatDuration = 0.1
     var trackNum: Int!
     var track: AKSequencer!
     var quantizeEnable = false
     var quantizer = Quantize()
     var midi: AKMIDI!
     var trackNotes = [AKDuration]()
-    var prevPos: AKDuration!
     var velNotes = [Int]()
     var durNotes = [Double]()
     var noteCount = 0
@@ -713,6 +734,7 @@ class TrackManager{
     var clickTrack: ClickTrack!
     var timer: Timer!
     var ignore_count = 0
+    var busy = false
     
     //MARK: Computed
     var defaultMeasureCount: Int {
@@ -765,7 +787,6 @@ class TrackManager{
         clickTrack = clickTrackRef
         track = clickTrack.track
         timer = clickTrack.timer
-        prevPos = AKDuration(beats: 0)
         instrument.enableMIDI(midi.client, name: "Synth inst preset")
         trackNum = track.trackCount
         if(track.newTrack() != nil){
@@ -780,11 +801,13 @@ class TrackManager{
     //MARK: init a track
     func resetTrack(){
         
-        prevPos = AKDuration(beats: 0)
         if(track.tracks[trackNum].length != 0){
             let len = track.tracks[trackNum].length
             
-            let start = AKDuration(beats: 0, tempo: clickTrack.tempo.beatsPerMin)
+            //let start = AKDuration(beats: 0, tempo: clickTrack.tempo.beatsPerMin)
+            
+            //erase only extra beats that are not part of original record
+            let start = AKDuration(beats: Double(totalBeats), tempo: clickTrack.tempo.beatsPerMin)
             let end = AKDuration(beats: len+1, tempo: clickTrack.tempo.beatsPerMin)
  
             track.tracks[trackNum].clearRange(start: start, duration: end)
@@ -798,12 +821,13 @@ class TrackManager{
         var pos = position
         let note = instrument.note
         
-        if(quantizeEnable && instrument.quantizeEnabled){
+        if(quantizeEnable){
             pos = quantizer.quantizedBeat(pos)
+            print("quantized pos \(pos.beats)")
         }
         
         //print("insert track note at \(position.seconds)")
-        track.tracks[trackNum].add(noteNumber: note, velocity: velocity, position: pos, duration: AKDuration(seconds: 0))
+        track.tracks[trackNum].add(noteNumber: note, velocity: velocity, position: pos, duration: AKDuration(seconds: duration))
     }
     
     func addNote(_ velocity: Int, duration: Double){
@@ -814,11 +838,13 @@ class TrackManager{
             //use relative position
             let position = AKDuration(seconds: elapsed, tempo: clickTrack.tempo.beatsPerMin)
             addNoteToList(velocity, position: position, duration: duration)
+            insertNote(velocity, position: position, duration: duration)
         }
         else{
             //use absolute position
             let absPosition = AKDuration(seconds: absElapsed, tempo: clickTrack.tempo.beatsPerMin)
             addNoteToList(velocity, position: absPosition, duration: duration)
+            insertNote(velocity, position: absPosition, duration: duration)
         }
         
     }
@@ -882,6 +908,7 @@ class TrackManager{
         if(trackNotes.count==0){return}
         firstInstance = false //first instance measure count update complete
         resetTrack()
+        /*
         var position = trackNotes[0]
         let velocity = velNotes[0]
         let duration = durNotes[0]
@@ -889,15 +916,27 @@ class TrackManager{
         if(newRecord){
             print("new record note")
             let beatOffset = Double((clickTrack.instrument.loop_count)*clickTrack.timeSignature.beatsPerMeasure)
-            position = AKDuration(beats: position.beats + beatOffset, tempo: position.tempo)
+            print("loop_count \(clickTrack.instrument.loop_count) with beatOffset \(beatOffset)")
+            //position = AKDuration(beats: position.beats + beatOffset, tempo: position.tempo)
+            position = AKDuration(beats: position.beats + beatOffset)
             instrument.beatOffset = beatOffset
         }
         print("insert new note at \(position.seconds)")
-        insertNote(velocity, position: position, duration: duration)
+        insertNote(velocity, position: position, duration: 0.1)
+        */
         
     }
     
-    
+    func appendTrack(offset: Double){
+        busy = true
+        for note in trackNotes {
+            let position = AKDuration(beats: note.beats + offset)
+            insertNote(127, position: position, duration: 0.1)
+            
+        }
+        busy = false
+    }
+
     func clear(){
         noteCount = 0
         trackNotes.removeAll()
@@ -907,7 +946,6 @@ class TrackManager{
         measureCount = defaultMeasureCount
         resetTrack()
         instrument.reset()
-        prevPos = AKDuration(beats: 0)
     }
     
 }

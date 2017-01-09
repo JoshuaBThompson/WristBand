@@ -1042,33 +1042,61 @@
                         <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                         <color key="sectionIndexBackgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="SongListTableViewCell" rowHeight="76" id="G4l-DB-33N" customClass="SongListTableViewCell" customModule="Groover" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="SongListTableViewCell" rowHeight="76" id="G4l-DB-33N" customClass="SongListTableViewCell" customModule="Groover" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="320" height="76"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="G4l-DB-33N" id="4Pf-7z-Df8">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="75"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Song Name In List" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iKj-21-mpS">
-                                            <rect key="frame" x="50" y="11" width="226" height="21"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ic1-fT-KLP">
-                                            <rect key="frame" x="51" y="37" width="44" height="30"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <state key="normal" title="Select"/>
-                                            <connections>
-                                                <action selector="selectSongButton:" destination="G4l-DB-33N" eventType="touchUpInside" id="9hb-4Z-SYL"/>
-                                                <segue destination="VMw-iS-gE5" kind="unwind" unwindAction="unwindToSongWithSegue:" id="x04-X0-lBd"/>
-                                            </connections>
-                                        </button>
+                                        <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IJl-g5-uFh">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="75"/>
+                                            <subviews>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rfH-NK-HSb" userLabel="Delete View" customClass="DeleteSong" customModule="Groover" customModuleProvider="target">
+                                                    <rect key="frame" x="0.0" y="0.0" width="75" height="75"/>
+                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" secondItem="rfH-NK-HSb" secondAttribute="height" multiplier="1:1" id="93F-Eh-5Tn"/>
+                                                    </constraints>
+                                                </view>
+                                                <view contentMode="left" translatesAutoresizingMaskIntoConstraints="NO" id="zEs-XD-PnB" userLabel="Song View">
+                                                    <rect key="frame" x="75" y="0.0" width="245" height="75"/>
+                                                    <subviews>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Song Name In List" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iKj-21-mpS">
+                                                            <rect key="frame" x="7" y="53" width="226" height="21"/>
+                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ic1-fT-KLP">
+                                                            <rect key="frame" x="98" y="49" width="44" height="30"/>
+                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                            <state key="normal" title="Select"/>
+                                                            <connections>
+                                                                <action selector="selectSongButton:" destination="G4l-DB-33N" eventType="touchUpInside" id="9hb-4Z-SYL"/>
+                                                                <segue destination="VMw-iS-gE5" kind="unwind" unwindAction="unwindToSongWithSegue:" id="x04-X0-lBd"/>
+                                                            </connections>
+                                                        </button>
+                                                    </subviews>
+                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                </view>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" secondItem="IJl-g5-uFh" secondAttribute="height" multiplier="320:75" id="UR7-Q7-PJg"/>
+                                            </constraints>
+                                        </stackView>
                                     </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                    <constraints>
+                                        <constraint firstItem="IJl-g5-uFh" firstAttribute="top" secondItem="4Pf-7z-Df8" secondAttribute="top" id="OOi-Sy-gN8"/>
+                                        <constraint firstAttribute="trailing" secondItem="IJl-g5-uFh" secondAttribute="trailing" id="fFD-en-C7y"/>
+                                        <constraint firstItem="IJl-g5-uFh" firstAttribute="leading" secondItem="4Pf-7z-Df8" secondAttribute="leading" id="fxU-Nb-Bzz"/>
+                                    </constraints>
                                 </tableViewCellContentView>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <connections>
                                     <outlet property="songNameLabel" destination="iKj-21-mpS" id="Tc6-Xq-yuE"/>
                                 </connections>
@@ -1080,6 +1108,9 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" id="0eI-De-wtf">
+                        <barButtonItem key="leftBarButtonItem" style="plain" systemItem="edit" id="g6h-IP-52B">
+                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" style="plain" systemItem="cancel" id="phZ-yR-9D4">
                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <connections>

@@ -60,6 +60,7 @@
 		945EF8111E026D3300A92E73 /* TimeSigSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 945EF8101E026D3300A92E73 /* TimeSigSlider.swift */; };
 		945EF8131E026D8200A92E73 /* GlobalMeasures.swift in Sources */ = {isa = PBXBuildFile; fileRef = 945EF8121E026D8200A92E73 /* GlobalMeasures.swift */; };
 		947E19E41DFBF7E400443F7E /* NewSongViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 947E19E31DFBF7E400443F7E /* NewSongViewController.swift */; };
+		94B11F2F1E231CFD0013AFA4 /* DeleteSong.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94B11F2E1E231CFD0013AFA4 /* DeleteSong.swift */; };
 		94BD90B71DFFC02A00F6B1F6 /* SoundListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94BD90B61DFFC02A00F6B1F6 /* SoundListTableViewController.swift */; };
 		94D83CD61E012F1200EEBAC2 /* PanSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94D83CD51E012F1200EEBAC2 /* PanSlider.swift */; };
 		94D83CD81E01301200EEBAC2 /* VolumeSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94D83CD71E01301200EEBAC2 /* VolumeSlider.swift */; };
@@ -190,6 +191,7 @@
 		945EF8101E026D3300A92E73 /* TimeSigSlider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimeSigSlider.swift; sourceTree = "<group>"; };
 		945EF8121E026D8200A92E73 /* GlobalMeasures.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GlobalMeasures.swift; sourceTree = "<group>"; };
 		947E19E31DFBF7E400443F7E /* NewSongViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewSongViewController.swift; sourceTree = "<group>"; };
+		94B11F2E1E231CFD0013AFA4 /* DeleteSong.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeleteSong.swift; sourceTree = "<group>"; };
 		94BD90B61DFFC02A00F6B1F6 /* SoundListTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SoundListTableViewController.swift; sourceTree = "<group>"; };
 		94D83CD51E012F1200EEBAC2 /* PanSlider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PanSlider.swift; sourceTree = "<group>"; };
 		94D83CD71E01301200EEBAC2 /* VolumeSlider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VolumeSlider.swift; sourceTree = "<group>"; };
@@ -480,6 +482,7 @@
 				42986EA91E0306960020F028 /* TempoSliderCtrl.swift */,
 				42986EAB1E0306FB0020F028 /* TimeSigSliderCtrl.swift */,
 				42986EAD1E0307180020F028 /* GlobalMeasuresCtrl.swift */,
+				94B11F2E1E231CFD0013AFA4 /* DeleteSong.swift */,
 			);
 			name = Song;
 			sourceTree = "<group>";
@@ -664,6 +667,7 @@
 				94D83CD61E012F1200EEBAC2 /* PanSlider.swift in Sources */,
 				421425EE1DFCDC040092BCB4 /* SongLibraryLists.swift in Sources */,
 				42A59FA81D301F8B0070FE46 /* MotionFilter.cpp in Sources */,
+				94B11F2F1E231CFD0013AFA4 /* DeleteSong.swift in Sources */,
 				FA50AA551D2A3FE60035C942 /* ViewController.swift in Sources */,
 				42A59FA51D301F8B0070FE46 /* Common.cpp in Sources */,
 				42C8A3D71D9741C4004BDD58 /* ThirtysecondCtrl.swift in Sources */,

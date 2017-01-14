@@ -15,6 +15,7 @@
 		421425F01DFCDC130092BCB4 /* Sounds_Extra in Resources */ = {isa = PBXBuildFile; fileRef = 421425EF1DFCDC130092BCB4 /* Sounds_Extra */; };
 		42456FA71D73B583005D83A5 /* AudioKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 42456FA61D73B583005D83A5 /* AudioKit.framework */; };
 		42456FA81D73B583005D83A5 /* AudioKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 42456FA61D73B583005D83A5 /* AudioKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		424D86441E2ADEC400B540D8 /* DetectDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 424D86431E2ADEC400B540D8 /* DetectDevice.swift */; };
 		4254BC451D4D8366007572B6 /* PopupBlur.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4254BC441D4D8366007572B6 /* PopupBlur.swift */; };
 		4254BC491D4E9DE6007572B6 /* PopupButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4254BC481D4E9DE6007572B6 /* PopupButton.swift */; };
 		4254DD941E01C1EE005EFDFF /* SliderCtrl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4254DD931E01C1EE005EFDFF /* SliderCtrl.swift */; };
@@ -139,6 +140,7 @@
 		421425EF1DFCDC130092BCB4 /* Sounds_Extra */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Sounds_Extra; sourceTree = "<group>"; };
 		422D9D361D35525D00E27904 /* Groover.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Groover.entitlements; sourceTree = "<group>"; };
 		42456FA61D73B583005D83A5 /* AudioKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AudioKit.framework; sourceTree = "<group>"; };
+		424D86431E2ADEC400B540D8 /* DetectDevice.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetectDevice.swift; sourceTree = "<group>"; };
 		4254BC441D4D8366007572B6 /* PopupBlur.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopupBlur.swift; sourceTree = "<group>"; };
 		4254BC481D4E9DE6007572B6 /* PopupButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopupButton.swift; sourceTree = "<group>"; };
 		4254DD931E01C1EE005EFDFF /* SliderCtrl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SliderCtrl.swift; sourceTree = "<group>"; };
@@ -467,6 +469,7 @@
 				FA50AA5E1D2A3FE60035C942 /* Info.plist */,
 				422D9D361D35525D00E27904 /* Groover.entitlements */,
 				4201FDD71E006C1B00101870 /* GlobalAttributes.swift */,
+				424D86431E2ADEC400B540D8 /* DetectDevice.swift */,
 			);
 			path = Groover;
 			sourceTree = "<group>";
@@ -700,6 +703,7 @@
 				429A22BA1D338E240045023F /* HatInstrument.swift in Sources */,
 				945EF80F1E026B2B00A92E73 /* TrackMeasuresSlider.swift in Sources */,
 				42C8A3F51DA05D81004BDD58 /* PopupCtrl.swift in Sources */,
+				424D86441E2ADEC400B540D8 /* DetectDevice.swift in Sources */,
 				42C8A3EF1D9EC78F004BDD58 /* RightCtrl.swift in Sources */,
 				FA50AA8B1D2B40E40035C942 /* ParametersButton.swift in Sources */,
 				FAC132CB1DF547AD007E6EC1 /* ParametersModalViewController.swift in Sources */,

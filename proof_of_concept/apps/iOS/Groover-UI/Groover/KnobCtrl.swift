@@ -45,7 +45,22 @@ class KnobCtrl: Knob {
     
     
     override func draw(_ rect: CGRect) {
-        UIGroover.drawKnobCanvas(knobFrame: self.bounds, rotation: drawAngle, clickSelected: clickActive, clickRingActive: clickRingActive)
+        let modelNameShort = UIDevice.current.modelNameShort
+        if(modelNameShort == "iPhone SE"){
+            UIGroover.drawKnobCanvasSE(knobFrame: self.bounds, rotation: drawAngle, clickSelected: clickActive, clickRingActive: clickRingActive)
+        }
+        else if(modelNameShort == "iPhone 6and7 Plus"){
+            UIGroover.drawKnobCanvas6and7plus(knobFrame: self.bounds, rotation: drawAngle, clickSelected: clickActive, clickRingActive: clickRingActive)
+        }
+        else if(modelNameShort == "iPhone 6and7"){
+            UIGroover.drawKnobCanvas6and7(knobFrame: self.bounds, rotation: drawAngle, clickSelected: clickActive, clickRingActive: clickRingActive)
+        }
+        else if(modelNameShort == "Simulator"){
+            UIGroover.drawKnobCanvas6and7plus(knobFrame: self.bounds, rotation: drawAngle, clickSelected: clickActive, clickRingActive: clickRingActive)
+        }
+        else{
+            UIGroover.drawKnobCanvasSE(knobFrame: self.bounds, rotation: drawAngle, clickSelected: clickActive, clickRingActive: clickRingActive)
+        }
     }
     
     override init(frame: CGRect) {

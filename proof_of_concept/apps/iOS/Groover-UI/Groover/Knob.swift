@@ -11,7 +11,7 @@ import UIKit
 //@IBDesignable
 class Knob: UIControl {
     override func draw(_ rect: CGRect) {
-        let modelNameShort = UIDevice.current.modelName
+        let modelNameShort = UIDevice.current.modelNameShort
         if(modelNameShort == "iPhone SE"){
             UIGroover.drawKnobCanvasSE(knobFrame: self.bounds)
         }

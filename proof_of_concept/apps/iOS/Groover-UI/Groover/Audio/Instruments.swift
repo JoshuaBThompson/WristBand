@@ -775,17 +775,29 @@ class TrackManager{
     }
     
     //MARK: init a track
-    func resetTrack(){
-        
-        if(track.tracks[trackNum].length != 0){
-            let len = track.tracks[trackNum].length
-            //erase only extra beats that are not part of original record
-            let start = AKDuration(beats: Double(totalBeats), tempo: clickTrack.tempo.beatsPerMin)
-            let end = AKDuration(beats: len+1, tempo: clickTrack.tempo.beatsPerMin)
-            track.tracks[trackNum].clearRange(start: start, duration: end)
+    func resetTrack(clearAll: Bool = false){
+        if(!clearAll){
+            if(track.tracks[trackNum].length != 0){
+                let len = track.tracks[trackNum].length
+                //erase only extra beats that are not part of original record
+                let start = AKDuration(beats: Double(totalBeats), tempo: clickTrack.tempo.beatsPerMin)
+                let end = AKDuration(beats: len+1, tempo: clickTrack.tempo.beatsPerMin)
+                track.tracks[trackNum].clearRange(start: start, duration: end)
+            }
+        }
+        else{
+            if(track.tracks[trackNum].length != 0){
+                let len = track.tracks[trackNum].length
+                //erase only extra beats that are not part of original record
+                let start = AKDuration(beats: 0, tempo: clickTrack.tempo.beatsPerMin)
+                let end = AKDuration(beats: len+1, tempo: clickTrack.tempo.beatsPerMin)
+                track.tracks[trackNum].clearRange(start: start, duration: end)
+            
+            }
         }
         
     }
+    
     
     //MARK: Functions
     
@@ -905,7 +917,7 @@ class TrackManager{
         durNotes.removeAll()
         firstInstance = true
         measureCount = defaultMeasureCount
-        resetTrack()
+        resetTrack(clearAll: true)
         instrument.reset()
     }
     

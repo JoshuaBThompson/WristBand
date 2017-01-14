@@ -516,17 +516,15 @@ class Song {
     
     func play(){
         print("Playing notes of instrument  \(selectedInstrument)")
-        //play note in sequence track (just play first track for now)
-        //play all recorded tracks
-
         
         if(!clickTrack.enabled){
             clickTrack.enable() //run click track but mute it
         }
+        clickTrack.resetTrack()
         
         for inst in instruments{
             inst.instrument.reset()
-            inst.trackManager.updateNotePositions() //reset aksequence track and set first note, if any
+            inst.trackManager.resetTrack()
         }
         playing = true
         clickTrack.timer.start()

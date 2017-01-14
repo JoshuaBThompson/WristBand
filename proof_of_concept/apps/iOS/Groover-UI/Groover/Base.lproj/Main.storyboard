@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11542" systemVersion="15G1004" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="9I9-je-0iQ">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="9I9-je-0iQ">
     <device id="retina4_0" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -312,7 +312,7 @@
                                 <rect key="frame" x="0.0" y="28" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" tableViewCell="RgZ-2U-aj3" id="X4V-pE-ha7">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Sond Library In List" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yPp-xe-W80">
@@ -500,91 +500,103 @@
                                             <constraint firstAttribute="width" secondItem="7hE-vJ-xJ6" secondAttribute="height" multiplier="320:86" id="017-vf-HpA"/>
                                         </constraints>
                                     </stackView>
-                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="pEM-ne-jc3" userLabel="Instrument Stack View">
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fwT-zK-yKW" userLabel="Instrument View Wrap">
                                         <rect key="frame" x="0.0" y="170" width="320" height="58"/>
                                         <subviews>
-                                            <stackView opaque="NO" contentMode="scaleToFill" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="dkQ-2c-P3T" userLabel="Current Instrument Stack View">
-                                                <rect key="frame" x="0.0" y="0.0" width="320" height="42"/>
+                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="pEM-ne-jc3" userLabel="Instrument Stack View">
+                                                <rect key="frame" x="0.0" y="0.0" width="320" height="58"/>
                                                 <subviews>
-                                                    <stackView opaque="NO" contentMode="scaleToFill" alignment="bottom" translatesAutoresizingMaskIntoConstraints="NO" id="7Qz-gO-GDX" userLabel="Instrument name and button">
+                                                    <stackView opaque="NO" contentMode="scaleToFill" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="dkQ-2c-P3T" userLabel="Current Instrument Stack View">
                                                         <rect key="frame" x="0.0" y="0.0" width="320" height="42"/>
                                                         <subviews>
-                                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Sug-A2-qD0" userLabel="Spacer View">
-                                                                <rect key="frame" x="0.0" y="0.0" width="34" height="42"/>
+                                                            <stackView opaque="NO" contentMode="scaleToFill" alignment="bottom" translatesAutoresizingMaskIntoConstraints="NO" id="7Qz-gO-GDX" userLabel="Instrument name and button">
+                                                                <rect key="frame" x="0.0" y="0.0" width="320" height="42"/>
+                                                                <subviews>
+                                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Sug-A2-qD0" userLabel="Spacer View">
+                                                                        <rect key="frame" x="0.0" y="0.0" width="34" height="42"/>
+                                                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                                        <constraints>
+                                                                            <constraint firstAttribute="width" secondItem="Sug-A2-qD0" secondAttribute="height" multiplier="42:52" id="C29-Mx-up9"/>
+                                                                        </constraints>
+                                                                    </view>
+                                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Kick: Distorted" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RZc-8d-lHq">
+                                                                        <rect key="frame" x="34" y="16.5" width="164" height="25.5"/>
+                                                                        <constraints>
+                                                                            <constraint firstAttribute="width" secondItem="RZc-8d-lHq" secondAttribute="height" multiplier="268:42" id="Rw0-qS-BIw"/>
+                                                                        </constraints>
+                                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                                        <color key="textColor" red="0.34901960780000002" green="0.73333333329999995" blue="0.96078431369999995" alpha="1" colorSpace="calibratedRGB"/>
+                                                                        <nil key="highlightedColor"/>
+                                                                    </label>
+                                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7PK-8C-PRC" userLabel="ParametersButton" customClass="ParametersButton" customModule="Groover" customModuleProvider="target">
+                                                                        <rect key="frame" x="198" y="0.0" width="42" height="42"/>
+                                                                        <constraints>
+                                                                            <constraint firstAttribute="width" secondItem="7PK-8C-PRC" secondAttribute="height" multiplier="1:1" id="Z40-bs-ExK"/>
+                                                                        </constraints>
+                                                                        <connections>
+                                                                            <segue destination="WdA-DP-BGW" kind="presentation" modalTransitionStyle="crossDissolve" id="pDJ-x2-645"/>
+                                                                        </connections>
+                                                                    </button>
+                                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4pY-TO-wQB" userLabel="Trailing Space Parameters">
+                                                                        <rect key="frame" x="240" y="0.0" width="80" height="42"/>
+                                                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                                        <constraints>
+                                                                            <constraint firstAttribute="width" secondItem="4pY-TO-wQB" secondAttribute="height" multiplier="10:42" priority="750" id="9yN-BA-XRW"/>
+                                                                        </constraints>
+                                                                    </view>
+                                                                </subviews>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="width" secondItem="7Qz-gO-GDX" secondAttribute="height" multiplier="320:42" id="VXY-37-pSN"/>
+                                                                </constraints>
+                                                            </stackView>
+                                                        </subviews>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" secondItem="dkQ-2c-P3T" secondAttribute="height" multiplier="320:42" id="68r-56-Zg2"/>
+                                                        </constraints>
+                                                    </stackView>
+                                                    <stackView opaque="NO" contentMode="scaleToFill" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="HkH-5P-hdj">
+                                                        <rect key="frame" x="0.0" y="42" width="320" height="16"/>
+                                                        <subviews>
+                                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="k1P-gJ-3jN" userLabel="Sound Indicator Leading View">
+                                                                <rect key="frame" x="0.0" y="0.0" width="18.5" height="16"/>
                                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                                 <constraints>
-                                                                    <constraint firstAttribute="width" secondItem="Sug-A2-qD0" secondAttribute="height" multiplier="42:52" id="C29-Mx-up9"/>
+                                                                    <constraint firstAttribute="width" secondItem="k1P-gJ-3jN" secondAttribute="height" multiplier="15:13" id="TyX-Y1-yYC"/>
                                                                 </constraints>
                                                             </view>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Kick: Distorted" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RZc-8d-lHq">
-                                                                <rect key="frame" x="34" y="16.5" width="164" height="25.5"/>
-                                                                <constraints>
-                                                                    <constraint firstAttribute="width" secondItem="RZc-8d-lHq" secondAttribute="height" multiplier="268:42" id="Rw0-qS-BIw"/>
-                                                                </constraints>
-                                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                                <color key="textColor" red="0.34901960780000002" green="0.73333333329999995" blue="0.96078431369999995" alpha="1" colorSpace="calibratedRGB"/>
-                                                                <nil key="highlightedColor"/>
-                                                            </label>
-                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7PK-8C-PRC" userLabel="ParametersButton" customClass="ParametersButton" customModule="Groover" customModuleProvider="target">
-                                                                <rect key="frame" x="198" y="0.0" width="42" height="42"/>
-                                                                <constraints>
-                                                                    <constraint firstAttribute="width" secondItem="7PK-8C-PRC" secondAttribute="height" multiplier="1:1" id="Z40-bs-ExK"/>
-                                                                </constraints>
-                                                                <connections>
-                                                                    <segue destination="WdA-DP-BGW" kind="presentation" modalTransitionStyle="crossDissolve" id="pDJ-x2-645"/>
-                                                                </connections>
-                                                            </button>
-                                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4pY-TO-wQB" userLabel="Trailing Space Parameters">
-                                                                <rect key="frame" x="240" y="0.0" width="80" height="42"/>
+                                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6dx-es-454" customClass="PositionIndicator" customModule="Groover" customModuleProvider="target">
+                                                                <rect key="frame" x="18.5" y="0.0" width="256" height="12.5"/>
                                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                                 <constraints>
-                                                                    <constraint firstAttribute="width" secondItem="4pY-TO-wQB" secondAttribute="height" multiplier="10:42" priority="750" id="9yN-BA-XRW"/>
+                                                                    <constraint firstAttribute="width" secondItem="6dx-es-454" secondAttribute="height" multiplier="268:13" id="4zk-I5-oRq"/>
+                                                                </constraints>
+                                                            </view>
+                                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YcE-yo-LUu" userLabel="Sound Indicator Trailing View">
+                                                                <rect key="frame" x="274.5" y="0.0" width="45.5" height="16"/>
+                                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="width" secondItem="YcE-yo-LUu" secondAttribute="height" multiplier="37:13" id="MfA-cS-Bxi"/>
                                                                 </constraints>
                                                             </view>
                                                         </subviews>
                                                         <constraints>
-                                                            <constraint firstAttribute="width" secondItem="7Qz-gO-GDX" secondAttribute="height" multiplier="320:42" id="VXY-37-pSN"/>
+                                                            <constraint firstAttribute="width" secondItem="HkH-5P-hdj" secondAttribute="height" multiplier="320:16" id="Pjl-bO-BYO"/>
                                                         </constraints>
                                                     </stackView>
                                                 </subviews>
                                                 <constraints>
-                                                    <constraint firstAttribute="width" secondItem="dkQ-2c-P3T" secondAttribute="height" multiplier="320:42" id="68r-56-Zg2"/>
-                                                </constraints>
-                                            </stackView>
-                                            <stackView opaque="NO" contentMode="scaleToFill" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="HkH-5P-hdj">
-                                                <rect key="frame" x="0.0" y="42" width="320" height="16"/>
-                                                <subviews>
-                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="k1P-gJ-3jN" userLabel="Sound Indicator Leading View">
-                                                        <rect key="frame" x="0.0" y="0.0" width="18.5" height="16"/>
-                                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="width" secondItem="k1P-gJ-3jN" secondAttribute="height" multiplier="15:13" id="TyX-Y1-yYC"/>
-                                                        </constraints>
-                                                    </view>
-                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6dx-es-454" customClass="PositionIndicator" customModule="Groover" customModuleProvider="target">
-                                                        <rect key="frame" x="18.5" y="0.0" width="256" height="12.5"/>
-                                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="width" secondItem="6dx-es-454" secondAttribute="height" multiplier="268:13" id="4zk-I5-oRq"/>
-                                                        </constraints>
-                                                    </view>
-                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YcE-yo-LUu" userLabel="Sound Indicator Trailing View">
-                                                        <rect key="frame" x="274.5" y="0.0" width="45.5" height="16"/>
-                                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="width" secondItem="YcE-yo-LUu" secondAttribute="height" multiplier="37:13" id="MfA-cS-Bxi"/>
-                                                        </constraints>
-                                                    </view>
-                                                </subviews>
-                                                <constraints>
-                                                    <constraint firstAttribute="width" secondItem="HkH-5P-hdj" secondAttribute="height" multiplier="320:16" id="Pjl-bO-BYO"/>
+                                                    <constraint firstAttribute="width" secondItem="pEM-ne-jc3" secondAttribute="height" multiplier="320:58" id="45w-Ss-NVk"/>
                                                 </constraints>
                                             </stackView>
                                         </subviews>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" secondItem="pEM-ne-jc3" secondAttribute="height" multiplier="320:58" id="45w-Ss-NVk"/>
+                                            <constraint firstItem="pEM-ne-jc3" firstAttribute="top" secondItem="fwT-zK-yKW" secondAttribute="top" id="6RS-XI-pkd"/>
+                                            <constraint firstItem="pEM-ne-jc3" firstAttribute="leading" secondItem="fwT-zK-yKW" secondAttribute="leading" id="Ovz-SI-ejS"/>
+                                            <constraint firstAttribute="width" secondItem="fwT-zK-yKW" secondAttribute="height" multiplier="320:58" id="S9p-e0-Kdn"/>
+                                            <constraint firstAttribute="trailing" secondItem="pEM-ne-jc3" secondAttribute="trailing" id="trh-ol-ExZ"/>
                                         </constraints>
-                                    </stackView>
+                                    </view>
                                 </subviews>
                             </stackView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XPn-Nc-NhZ" userLabel="knobTopSpacer">
@@ -641,6 +653,7 @@
                         <outlet property="instrumentNameLabel" destination="RZc-8d-lHq" id="Wxx-x6-vnc"/>
                         <outlet property="knob" destination="D5w-T1-I82" id="VF2-uZ-jWQ"/>
                         <outlet property="playButton" destination="8US-pO-suU" id="fNq-xQ-uA3"/>
+                        <outlet property="positionIndicator" destination="6dx-es-454" id="e38-OS-5MX"/>
                         <outlet property="quarterQuantizeButton" destination="Lfp-TH-OXm" id="fdk-RP-qsL"/>
                         <outlet property="recordButton" destination="Vd0-sl-YT1" id="uX8-Rj-UYi"/>
                         <outlet property="sixteenthQuantizeButton" destination="MfR-jC-DKD" id="0w5-Wn-3P8"/>
@@ -1046,7 +1059,7 @@
                                 <rect key="frame" x="0.0" y="28" width="320" height="76"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="G4l-DB-33N" id="4Pf-7z-Df8">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="76"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="75"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IJl-g5-uFh">

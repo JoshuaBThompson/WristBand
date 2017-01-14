@@ -38,6 +38,7 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var knob: KnobCtrl!
     
+    @IBOutlet weak var positionIndicator: PositionIndicator!
     //@IBOutlet weak var parametersPopup: ParametersPopupCtrl!
     
     @IBOutlet weak var playButton: PlayCtrl!
@@ -248,10 +249,10 @@ class ViewController: UIViewController {
     
     //MARK: Hide position indicator
     func hidePositionIndicator(){
-        /*
+        
         positionIndicator.hide()
-        parametersButton.show()
-        */
+        //parametersButton.show()
+        
     }
     
     //MARK: popup buttons handler
@@ -315,8 +316,10 @@ class ViewController: UIViewController {
     
     //MARK: Knob event handlers
     func knobAngleChanged(_ knobControl: KnobCtrl){
-        /*
+        
         positionIndicator.show()
+        positionIndicator.setPosition(knobControl.detent)
+        /*
         parametersButton.hide()
         print("knob angle changed to \(knobControl.angle)!")
         print("knob detentNum \(knob.detent)")

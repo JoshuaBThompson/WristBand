@@ -56,7 +56,7 @@ class KnobCtrl: Knob {
             UIGroover.drawKnobCanvas6and7(knobFrame: self.bounds, rotation: drawAngle, clickSelected: clickActive, clickRingActive: clickRingActive)
         }
         else if(modelNameShort == "Simulator"){
-            UIGroover.drawKnobCanvas6and7plus(knobFrame: self.bounds, rotation: drawAngle, clickSelected: clickActive, clickRingActive: clickRingActive)
+            UIGroover.drawKnobCanvasSE(knobFrame: self.bounds, rotation: drawAngle, clickSelected: clickActive, clickRingActive: clickRingActive)
         }
         else{
             UIGroover.drawKnobCanvasSE(knobFrame: self.bounds, rotation: drawAngle, clickSelected: clickActive, clickRingActive: clickRingActive)

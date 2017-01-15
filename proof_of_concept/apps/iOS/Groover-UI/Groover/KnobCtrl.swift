@@ -12,7 +12,7 @@ class KnobCtrl: Knob {
    
     //MARK: properties
     var instSnap: SnapFilter!
-    var clickRingActive = true
+    var clickRingActive = false
     var clickActive = false
     var angle: CGFloat = 0.0
     var previousTimestamp = 0.0
@@ -188,7 +188,6 @@ class KnobCtrl: Knob {
             print("delta angle is \(dltaAngle)")
             
             incrementAngle(rotDir*dltaAngle)
-            clickRingActive = true
             turnKnob()
             print("new angle \(angle)")
             print("abs angle \(absAngle)")
@@ -199,9 +198,13 @@ class KnobCtrl: Knob {
     }
     
     override func endTracking(_ touch: UITouch?, with event: UIEvent?) {
-        clickRingActive = true  //TODO: should we set back to false?
         setNeedsDisplay()
         sendActions(for: .editingDidEnd)
+    }
+    
+    func updateClickRingActive(active: Bool){
+        clickRingActive = active
+        setNeedsDisplay()
     }
     
     

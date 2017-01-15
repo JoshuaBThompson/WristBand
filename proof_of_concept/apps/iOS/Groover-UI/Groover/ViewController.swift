@@ -9,9 +9,6 @@
 import UIKit
 import CoreMotion
 
-import UIKit
-import CoreMotion
-
 class ViewController: UIViewController {
     //MARK: properties
     var song: Song!
@@ -26,9 +23,13 @@ class ViewController: UIViewController {
     var selectedSong = String()
     var risingBeatFilter = RisingBeatFilter()
     var fallingBeatFilter = FallingBeatFilter()
+    var beatDetected = false
+    var beatDetectedCount = 0
+    var prevKnobDetent: Int = 0
     
     //MARK: outlets
     
+    @IBOutlet weak var instrumentViewWrap: UIView!
     //@IBOutlet weak var hamburgerButton: HamburgerIconCtrl!
     //@IBOutlet weak var settingsButton: SettingsIconCtrl!
     //@IBOutlet weak var parametersButton: ParametersButtonCtrl!
@@ -37,6 +38,8 @@ class ViewController: UIViewController {
     @IBOutlet weak var instrumentNameLabel: UILabel!
     
     @IBOutlet weak var knob: KnobCtrl!
+    
+    @IBOutlet weak var parametersButton: ParametersButtonCtrl!
     
     @IBOutlet weak var positionIndicator: PositionIndicator!
     //@IBOutlet weak var parametersPopup: ParametersPopupCtrl!
@@ -68,6 +71,9 @@ class ViewController: UIViewController {
     //@IBOutlet weak var timesigLeftButton: TimeSigLeftButton!
     //@IBOutlet weak var tempoLabel: UILabel!
     //@IBOutlet weak var timesigLabel: UILabel!
+    
+    //Button Actions
+
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -126,6 +132,7 @@ class ViewController: UIViewController {
             motionManager.startAccelerometerUpdates(to: queue, withHandler: beatHandler)
             
         }
+        prevKnobDetent = knob.detent
     }
     
     override func didReceiveMemoryWarning() {
@@ -249,8 +256,9 @@ class ViewController: UIViewController {
     
     //MARK: Hide position indicator
     func hidePositionIndicator(){
-        
+        parametersButton.show()
         positionIndicator.hide()
+        instrumentViewWrap.backgroundColor = UIColor.clear
         //parametersButton.show()
         
     }
@@ -317,8 +325,6 @@ class ViewController: UIViewController {
     //MARK: Knob event handlers
     func knobAngleChanged(_ knobControl: KnobCtrl){
         
-        positionIndicator.show()
-        positionIndicator.setPosition(knobControl.detent)
         /*
         parametersButton.hide()
         print("knob angle changed to \(knobControl.angle)!")
@@ -328,6 +334,14 @@ class ViewController: UIViewController {
         */
         let position = knob.detent
         let wasRecording = song.recordEnabled
+        if(prevKnobDetent != position){
+            parametersButton.hide()
+            instrumentViewWrap.backgroundColor = UIColor.black
+            positionIndicator.show()
+            positionIndicator.setPosition(knobControl.detent)
+        }
+        prevKnobDetent = position
+        
         selectSound(position)
         if(!song.recordEnabled && wasRecording){
             recordButton.isSelected = false
@@ -362,6 +376,8 @@ class ViewController: UIViewController {
         
         //temporary hack when not using iPhone (using simulator) to allow for beat generation
         song.addNote() //Used for testing in sim mode to simulate motion generated beat
+        knob.updateClickRingActive(active: true)
+        beatDetected = true
         updateButtonStatesAfterNoteAdded()
     }
 
@@ -377,6 +393,8 @@ class ViewController: UIViewController {
             if(fallNum >= 2 || (riseNum == 0)){
                 print("Fall Note \(fallNum)")
                 song.addNote() //make drum sound and add to track if recording!
+                knob.updateClickRingActive(active: true)
+                beatDetected = true
                 riseNum = 0
                 
             }
@@ -388,8 +406,20 @@ class ViewController: UIViewController {
             if(riseNum >= 2 || (fallNum == 0)){
                 print("Rise Note \(riseNum)")
                 song.addNote() //make drum sound and add to track if recording!
+                knob.updateClickRingActive(active: true)
+                beatDetected = true
                 fallNum = 0
                 
+            }
+        
+        }
+        
+        if(beatDetected){
+            beatDetectedCount += 1
+            if(beatDetectedCount >= 10){
+                knob.updateClickRingActive(active: false)
+                beatDetected = false
+                beatDetectedCount = 0
             }
         }
         

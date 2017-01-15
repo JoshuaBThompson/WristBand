@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="9I9-je-0iQ">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11542" systemVersion="15G1004" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="9I9-je-0iQ">
     <device id="retina4_0" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -528,7 +528,7 @@
                                                                         <color key="textColor" red="0.34901960780000002" green="0.73333333329999995" blue="0.96078431369999995" alpha="1" colorSpace="calibratedRGB"/>
                                                                         <nil key="highlightedColor"/>
                                                                     </label>
-                                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7PK-8C-PRC" userLabel="ParametersButton" customClass="ParametersButton" customModule="Groover" customModuleProvider="target">
+                                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7PK-8C-PRC" userLabel="ParametersButton" customClass="ParametersButtonCtrl" customModule="Groover" customModuleProvider="target">
                                                                         <rect key="frame" x="198" y="0.0" width="42" height="42"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="width" secondItem="7PK-8C-PRC" secondAttribute="height" multiplier="1:1" id="Z40-bs-ExK"/>
@@ -651,7 +651,9 @@
                     <connections>
                         <outlet property="eighthQuantizeButton" destination="4hs-Qx-hNS" id="hcA-r3-hDG"/>
                         <outlet property="instrumentNameLabel" destination="RZc-8d-lHq" id="Wxx-x6-vnc"/>
+                        <outlet property="instrumentViewWrap" destination="fwT-zK-yKW" id="oNX-gB-fKO"/>
                         <outlet property="knob" destination="D5w-T1-I82" id="VF2-uZ-jWQ"/>
+                        <outlet property="parametersButton" destination="7PK-8C-PRC" id="5zO-bn-dk0"/>
                         <outlet property="playButton" destination="8US-pO-suU" id="fNq-xQ-uA3"/>
                         <outlet property="positionIndicator" destination="6dx-es-454" id="e38-OS-5MX"/>
                         <outlet property="quarterQuantizeButton" destination="Lfp-TH-OXm" id="fdk-RP-qsL"/>
@@ -918,6 +920,7 @@
                     </view>
                     <connections>
                         <outlet property="panSlider" destination="Dmd-B3-g2R" id="f3y-xU-5hI"/>
+                        <outlet property="parametersButton" destination="xrk-Ic-CDT" id="2Lm-Px-Ibp"/>
                         <outlet property="trackMeasuresSlider" destination="gtp-Wc-IXU" id="vxA-NL-R6W"/>
                         <outlet property="trackMeasuresSliderValueTextField" destination="O7c-fe-L8b" id="R7V-QL-ffl"/>
                         <outlet property="volumeSlider" destination="lJB-HP-Plr" id="SFt-0k-Sxw"/>

@@ -6,24 +6,24 @@
 //  Copyright © 2016 TCM. All rights reserved.
 //
 
-/*import UIKit
+import UIKit
 
 //@IBDesignable
 class ParametersButtonCtrl: ParametersButton {
     override func draw(_ rect: CGRect) {
-        UIGroover.drawSoundParametersCanvas()
+        UIGroover.drawSoundParametersCanvas(soundParamteresFrame: self.bounds, soundParametersSelected: isSelected)
     }
     
     // MARK: Initialization
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        self.addTarget(self, action: #selector(ParametersButtonCtrl.buttonTapped(_:)), for: .touchDown)
+        //self.addTarget(self, action: #selector(ParametersButtonCtrl.buttonTapped(_:)), for: .touchDown)
     }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        self.addTarget(self, action: #selector(ParametersButtonCtrl.buttonTapped(_:)), for: .touchDown)
+        //self.addTarget(self, action: #selector(ParametersButtonCtrl.buttonTapped(_:)), for: .touchDown)
         
     }
     
@@ -31,9 +31,19 @@ class ParametersButtonCtrl: ParametersButton {
     // MARK: Button Action
     
     func buttonTapped(_ button: UIButton) {
-        print("Parameters button tapped")
-        isSelected = !isSelected //toggle selected
-        sendActions(for: .valueChanged) //this tells view controller that something changed
+        //print("Parameters button tapped")
+        //isSelected = !isSelected //toggle selected
+        //sendActions(for: .valueChanged) //this tells view controller that something changed
+        updateState()
+    }
+    
+    func lightUp(){
+        isSelected = true
+        updateState()
+    }
+    
+    func unlight(){
+        isSelected = false
         updateState()
     }
     
@@ -50,4 +60,6 @@ class ParametersButtonCtrl: ParametersButton {
         isHidden = true
     }
     
-}*/
+}
+
+

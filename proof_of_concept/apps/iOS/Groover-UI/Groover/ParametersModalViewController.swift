@@ -10,6 +10,12 @@ import UIKit
 
 class ParametersModalViewController: UIViewController, UITextFieldDelegate {
     
+    //Outlets
+    @IBOutlet weak var parametersButton: ParametersButton!
+    
+    //Buttons
+    
+    
     //MARK: Properties
     var song: Song!
     

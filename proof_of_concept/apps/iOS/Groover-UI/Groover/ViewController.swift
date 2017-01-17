@@ -30,11 +30,6 @@ class ViewController: UIViewController {
     //MARK: outlets
     
     @IBOutlet weak var instrumentViewWrap: UIView!
-    //@IBOutlet weak var hamburgerButton: HamburgerIconCtrl!
-    //@IBOutlet weak var settingsButton: SettingsIconCtrl!
-    //@IBOutlet weak var parametersButton: ParametersButtonCtrl!
-    //@IBOutlet weak var popup: PopupCtrl!
-    //@IBOutlet weak var positionIndicator: PositionIndicator!
     @IBOutlet weak var instrumentNameLabel: UILabel!
     
     @IBOutlet weak var knob: KnobCtrl!
@@ -53,39 +48,13 @@ class ViewController: UIViewController {
     @IBOutlet weak var sixteenthQuantizeButton: SixteenthCtrl!
     @IBOutlet weak var thirtysecondQuantizeButton: ThirtysecondCtrl!
     @IBOutlet weak var tripletQuantizeButton: TripletCtrl!
-    
-    //MARK: parameters popup elements
-    //@IBOutlet weak var muteButton: MuteButton!
-    //@IBOutlet weak var clearButton: ClearButton!
-    //@IBOutlet weak var soloButton: SoloButton!
-    //@IBOutlet weak var measureCountLabel: UILabel!
-    //@IBOutlet weak var measuresLabel: UILabel!
-    //@IBOutlet weak var rightMeasureButton: MeasureRightButton!
-    //@IBOutlet weak var leftMeasureButton: MeasureLeftButton!
-    
-    //MARK: settings popup elements
-    
-    //@IBOutlet weak var tempoRightButton: TempoRightButton!
-    //@IBOutlet weak var tempoLeftButton: TempoLeftButton!
-    //@IBOutlet weak var timesigRightButton: TimeSigRightButton!
-    //@IBOutlet weak var timesigLeftButton: TimeSigLeftButton!
-    //@IBOutlet weak var tempoLabel: UILabel!
-    //@IBOutlet weak var timesigLabel: UILabel!
-    
-    //Button Actions
-
 
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         self.navigationController?.navigationBar.shadowImage =  UIImage()
         self.navigationController?.navigationBar.isTranslucent = true
-        // Do any additional setup after loading the view, typically from a nib.
-        
-        //Init settings popup with buttons and labels from main storyboard
-        //popup.initButtonsAndLabels(tempoRightButtonRef: tempoRightButton, tempoLeftButtonRef: tempoLeftButton, timesigRightButtonRef: timesigRightButton, timesigLeftButtonRef: timesigLeftButton, tempoLabelRef: tempoLabel, timesigLabelRef: timesigLabel)
-        //Init parameters popup with buttons and labels from main storyboard
-        //parametersPopup.initButtonsAndLabels(clearButtonRef: clearButton, soloButtonRef: soloButton, muteButtonRef: muteButton, rightButtonRef: rightMeasureButton, leftButtonRef: leftMeasureButton, measureTitleRef: measuresLabel, measureLabelRef: measureCountLabel)
+        // Do any additional setup after loading the view, typically from a nib.s
         
         //Connect view controller functions to buttons events
         
@@ -110,19 +79,7 @@ class ViewController: UIViewController {
         quantizeButtons.append(thirtysecondQuantizeButton)
         quantizeButtons.append(tripletQuantizeButton)
         
-        /*
-        hamburgerButton.addTarget(self, action: #selector(ViewController.hamburgerButtonSelected), for: .valueChanged)
-        parametersButton.addTarget(self, action: #selector(ViewController.parametersButtonSelected), for: .valueChanged)
-        parametersPopup.addTarget(self, action: #selector(ViewController.parametersOptionSelected), for: .valueChanged)
-        popup.addTarget(self, action: #selector(ViewController.popupButtonSelected), for: .valueChanged)
-        
-        quantizeButtons.append(quarterQuantizeButton)
-        quantizeButtons.append(eighthQuantizeButton)
-        quantizeButtons.append(sixteenthQuantizeButton)
-        quantizeButtons.append(thirtysecondQuantizeButton)
-        quantizeButtons.append(tripletQuantizeButton)
-        */
-        song = GlobalAttributes.song//Song()
+        song = GlobalAttributes.song
         instrumentNameLabel.text = song.selectedInstrumentName
         song.start()
         
@@ -147,14 +104,6 @@ class ViewController: UIViewController {
     
     //MARK: Button event handlers
     
-    
-    //MARK: hamburger / settings button
-    func hamburgerButtonSelected(){
-        /*
-        print("hamburger button selected")
-        popup.toggleHide()
-        */
-    }
     
     //MARK: Quantize buttons
     func quantizeButtonSelected(_ quantizeButton: QuantizeButtonProtocol){
@@ -193,66 +142,6 @@ class ViewController: UIViewController {
         
     }
     
-    //MARK: Parameter option selected
-    func parametersOptionSelected(){
-        /*
-        var buttonType = ParametersButtonTypes.CLEAR
-        buttonType = parametersPopup.buttonTypeSelected
-        
-        switch buttonType {
-        case .CLEAR:
-            song.clearPreset()
-            print("song clear preset!")
-        case .SOLO:
-            if(parametersPopup.soloButton.isSelected){
-                song.enableSoloPreset()
-            }
-            else{
-                song.disableSoloPreset()
-            }
-            print("song solo preset!")
-        case .MUTE:
-            if(parametersPopup.muteButton.isSelected){
-                song.mutePreset()
-                print("mute preset!")
-            }
-            else{
-                song.unmutePreset()
-                print("unmute preset!")
-            }
-            
-        case .MEASURE_LEFT:
-            print("measure change decrease to \(parametersPopup.measures)!")
-        
-        case .MEASURE_RIGHT:
-            print("measure change increase to \(parametersPopup.measures)!")
-        }
-        */
-    }
-    
-    //MARK: Parameter button function
-    func parametersButtonSelected(){
-        /*
-        //hide or show popup
-        if(parametersPopup.isHidden){
-            parametersPopup.show()
-            //update measure count based on selected instrument
-            parametersPopup.setMeasure(song.presetMeasureCount)
-        }
-        else{
-            parametersPopup.hide()
-            //also see if user updated measure count and if so change preset track measure count
-            let currentMeasures = song.presetMeasureCount
-            let newMeasures = parametersPopup.measures
-            let updated = parametersPopup.measuresUpdated
-            if(newMeasures != currentMeasures && updated){
-                song.updatePresetMeasureCount(newMeasures)
-                parametersPopup.measuresUpdated = false //clear for next use
-            }
- 
-        }
-        */
-    }
     
     //MARK: Hide position indicator
     func hidePositionIndicator(){
@@ -262,37 +151,7 @@ class ViewController: UIViewController {
         //parametersButton.show()
         
     }
-    
-    //MARK: popup buttons handler
-    func popupButtonSelected(){
-        /*
-        var buttonType = SettingsButtonTypes.TEMPO_LEFT
-        buttonType = popup.buttonTypeSelected
-        
-        switch buttonType {
-        case .TEMPO_LEFT:
-            song.setTempo(popup.tempo)
-            print("update tempo dec")
-            break
-        case .TEMPO_RIGHT:
-            song.setTempo(popup.tempo)
-            print("update tempo inc")
-            break
-        case .TIMESIG_LEFT:
-            //song.instruments[song.selectedInstrument].decPresetVolume()
-            //print("dec volume to \(song.instruments[song.selectedInstrument].presetVolume)")
-            song.decPresetPan()
-            print("dec Pan to \(song.instruments[song.selectedInstrument].pan)")
-            break
-        case .TIMESIG_RIGHT:
-            //song.instruments[song.selectedInstrument].incPresetVolume()
-            //print("inc volume to \(song.instruments[song.selectedInstrument].presetVolume)")
-            song.incPresetPan()
-            print("inc Pan to \(song.instruments[song.selectedInstrument].pan)")
-            break
-        }
-        */
-    }
+
     
     //MARK: play button event handler
     func playRecordButtonSelected(_ playRecordButton: UIButton){
@@ -303,7 +162,9 @@ class ViewController: UIViewController {
                 song.play()
             }
             else{
+                song.stop_record()
                 song.stop()
+                recordButton.isSelected = false //toggle record button
             }
         }
         else if(playRecordButton == recordButton){
@@ -325,13 +186,6 @@ class ViewController: UIViewController {
     //MARK: Knob event handlers
     func knobAngleChanged(_ knobControl: KnobCtrl){
         
-        /*
-        parametersButton.hide()
-        print("knob angle changed to \(knobControl.angle)!")
-        print("knob detentNum \(knob.detent)")
-        positionIndicator.setPosition(knobControl.detent)
-        let position = positionIndicator.currentPos //ex: 0 or 1 or 2 or 3...17
-        */
         let position = knob.detent
         let wasRecording = song.recordEnabled
         if(prevKnobDetent != position){

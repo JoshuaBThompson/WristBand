@@ -503,6 +503,10 @@ class Song {
     }
     
     func stop_record(){
+        if(!recordEnabled){
+            //only do execute stop_record if recording
+            return
+        }
         recordEnabled = false
         clickTrack.timer.stop()
         for inst in instruments{

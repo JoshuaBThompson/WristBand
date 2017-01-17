@@ -146,7 +146,6 @@ class SynthInstrument: AKMIDIInstrument{
             }
             loop_count += 1
             incTotalDurOffset()
-            print("total_dur_offset at loop \(loop_count) is \(total_dur_offset)")
         }
     }
     
@@ -352,7 +351,7 @@ class ClickTrackInstrument: SynthInstrument{
         
         if(loop_count >= 2 || beat==4){
             track.tracks[0].add(noteNumber: 60, velocity: vel, position: AKDuration(beats: Double(pos)), duration: AKDuration(seconds: 0.1))
-            print("click track beat \(beat) at pos \(pos)")
+            //print("click track beat \(beat) at pos \(pos)")
         }
         if(beat==4){
             beat=0
@@ -474,7 +473,6 @@ class ClickTrack: AKNode{
         if(track.newTrack() != nil){
             track.tracks[0].setMIDIOutput(instrument.midiIn)
             track.setTempo(tempo.beatsPerMin)
-            print("click track secPerMeasure \(secPerMeasure)")
             instrument.track = track
             resetTrack()
         }
@@ -810,7 +808,7 @@ class TrackManager{
             print("quantized pos \(pos.beats)")
         }
         
-        print("track \(trackNum) insert note at \(position.seconds)")
+        print("track \(trackNum) insert note at \(position.beats)")
         track.tracks[trackNum].add(noteNumber: note, velocity: velocity, position: pos, duration: AKDuration(seconds: duration))
     }
     
@@ -843,7 +841,7 @@ class TrackManager{
         }
         //now updates notes list
         trackNotes = sortedNotes
-        print("adding note \(noteCount) to track \(trackNum) at pos \(position.beats)")
+        //print("adding note \(noteCount) to track \(trackNum) at pos \(position.beats)")
     }
     
     //MARK: Get total measure count from time elapsed and sec per measure
@@ -895,7 +893,7 @@ class TrackManager{
         firstInstance = false //first instance measure count update complete
         let beatOffset = Double(clickTrack.instrument.loop_count * clickTrack.timeSignature.beatsPerMeasure)
         instrument.beatOffset = beatOffset
-        instrument.incTotalDurOffset()
+        //instrument.incTotalDurOffset()
         instrument.loop_count = 1
         appendTrack(offset: Double(beatOffset))
     }

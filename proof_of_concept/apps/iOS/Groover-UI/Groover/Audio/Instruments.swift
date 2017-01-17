@@ -893,7 +893,6 @@ class TrackManager{
         firstInstance = false //first instance measure count update complete
         let beatOffset = Double(clickTrack.instrument.loop_count * clickTrack.timeSignature.beatsPerMeasure)
         instrument.beatOffset = beatOffset
-        //instrument.incTotalDurOffset()
         instrument.loop_count = 1
         appendTrack(offset: Double(beatOffset))
     }

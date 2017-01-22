@@ -126,6 +126,7 @@ class Song {
         }
         if(num < self.current_song.tracks.count){
             self.current_song.tracks[num].loadSavedTrack()
+            track.clear()
             track.trackNotes = self.current_song.tracks[num].track
             track.velNotes = self.current_song.tracks[num].velocity
             track.durNotes = self.current_song.tracks[num].duration
@@ -133,6 +134,8 @@ class Song {
             track.updateMeasureCount(self.current_song.tracks[num].measures)
             track.instrument.updatePan(self.current_song.tracks[num].pan)
             track.instrument.updateVolume(self.current_song.tracks[num].volume)
+            track.appendTrack(offset: 0)
+            
             print("loaded saved track \(num)")
         }
         else{

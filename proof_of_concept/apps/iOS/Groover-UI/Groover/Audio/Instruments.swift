@@ -962,7 +962,8 @@ class TrackManager{
             //for ex: if timeElapsed = 9 sec and sec per measure = 4 then measure count = ceil(9/4) = 2.25 = 3 measure counts
             
             updateMeasureCount(self.defaultMeasureCount)
-            continueTrackFromStopRecord()
+            let loop_count = clickTrack.instrument.loop_count - 1
+            continueTrackFromStopRecord(loop_count: loop_count)
         }
     }
     
@@ -976,7 +977,8 @@ class TrackManager{
             
             let count = getMeasureCountFromTimeElapsed()
             updateMeasureCount(count)
-            continueTrackFromStopRecord()
+            let loop_count = clickTrack.instrument.loop_count
+            continueTrackFromStopRecord(loop_count: loop_count)
         }
 
     }
@@ -992,10 +994,10 @@ class TrackManager{
     }
     
     //After user stops recording for a specific track, the start appending the track to the loop so it continues playing
-    func continueTrackFromStopRecord(){
+    func continueTrackFromStopRecord(loop_count: Int){
         if(trackNotes.count==0){return}
         firstInstance = false //first instance measure count update complete
-        let beatOffset = Double(clickTrack.instrument.loop_count * clickTrack.timeSignature.beatsPerMeasure)
+        let beatOffset = Double(loop_count * clickTrack.timeSignature.beatsPerMeasure)
         instrument.beatOffset = beatOffset
         appendTrack(offset: Double(beatOffset))
     }

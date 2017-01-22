@@ -72,7 +72,14 @@ class SynthInstrument: AKMIDIInstrument{
     var total_dur_offset: Double = 0
     var measureUpdateReady = false
     var measureUpdateEn = false
-    var quantizeEnabled = false
+    var quantizeHandled = true
+    var prevBeat: AKDuration!
+    var currentBeat: AKDuration!
+    
+    
+    var quantizeEnabled: Bool {
+        return instTrack.trackManager.quantizeEnable
+    }
     
     var total_dur: Double {
         _total_dur = Double(instTrack.loopLength)
@@ -85,12 +92,34 @@ class SynthInstrument: AKMIDIInstrument{
         
     }
     
+    var maxNoteNum: Int {
+        if(maxNoteCount >= 1){
+            return maxNoteCount-1
+        }
+        else{
+            return 0
+        }
+    }
+    
+    var maxBeatPos: Double {
+        if(maxNoteCount >= 1){
+            return instTrack.trackManager.trackNotes[maxNoteCount-1].beats
+        }
+        else{
+            return 0
+        }
+    }
+    
     var beatPos: Double {
         return instTrack.trackManager.trackNotes[note_num].beats
     }
     
     var realPos: Double {
         return total_dur_offset + beatPos + beatOffset
+    }
+    
+    var realMaxPos: Double {
+        return total_dur_offset + maxBeatPos + beatOffset
     }
     
     var beatTempo: Double {
@@ -122,9 +151,11 @@ class SynthInstrument: AKMIDIInstrument{
         _maxNoteCount = 0
         _total_dur = 0
         beatOffset = 0
-        quantizeEnabled = false
         measureUpdateReady = false
         measureUpdateEn = false
+        quantizeHandled = true
+        prevBeat = nil
+        currentBeat = nil
     }
     
     func incTotalDurOffset(){
@@ -132,6 +163,7 @@ class SynthInstrument: AKMIDIInstrument{
     }
     
     func updateNoteNumAndOffset(){
+        prevBeat = AKDuration(beats: realPos, tempo: globalTempo)
         note_num += 1
         
         if(note_num >= maxNoteCount){
@@ -147,8 +179,61 @@ class SynthInstrument: AKMIDIInstrument{
             loop_count += 1
             incTotalDurOffset()
         }
+        currentBeat = AKDuration(beats: realPos, tempo: globalTempo)
     }
     
+    func handleQuantize(){
+        if(quantizeEnabled && note_num != maxNoteNum && !quantizeHandled){
+            print("handle enables quantize beat at \(note_num)")
+            let nextQuantizedBeatInRange = isNextQuantizedInRange()
+                if(nextQuantizedBeatInRange){
+                    clearRemainingBeatsInCurrentLoop()
+                    appendRemainingQuantizedBeatsInCurrentLoop()
+                    quantizeHandled = true
+                }
+            
+        }
+        else if(!quantizeEnabled && note_num != maxNoteNum && !quantizeHandled){
+            print("handle disable quantize beat at \(note_num)")
+            let nextUnquantizedBeatInRange = isNextUnquantizedInRange()
+            if(nextUnquantizedBeatInRange){
+                clearRemainingBeatsInCurrentLoop()
+                appendRemainingBeatsInCurrentLoop()
+                quantizeHandled = true
+            }
+            
+        }
+    }
+    
+    
+    func clearRemainingBeatsInCurrentLoop(){
+        let currentBeat = AKDuration(beats: realPos, tempo: globalTempo)
+        let len = instTrack.trackManager.trackLength
+        let currentMaxBeat = AKDuration(beats: len, tempo: globalTempo)//AKDuration(beats: realMaxPos, tempo: tempo)
+        instTrack.trackManager.clearTrackRange(start: currentBeat, end: currentMaxBeat)
+    }
+    
+    func appendRemainingQuantizedBeatsInCurrentLoop(){
+        instTrack.trackManager.appendTrackFromNoteNum(offset: total_dur_offset + beatOffset, noteNum: note_num)
+    }
+    
+    func appendRemainingBeatsInCurrentLoop(){
+        instTrack.trackManager.appendTrackFromNoteNum(offset: total_dur_offset + beatOffset, noteNum: note_num)
+    }
+    
+    func isNextQuantizedInRange()->Bool{
+        
+        let nextQuantizedBeat = instTrack.trackManager.quantizer.quantizedBeat(currentBeat)
+        return (nextQuantizedBeat.beats > prevBeat.beats)
+        
+    }
+    
+    func isNextUnquantizedInRange()->Bool{
+        
+        let prevQuantizedBeat = instTrack.trackManager.quantizer.quantizedBeat(prevBeat)
+        return (prevQuantizedBeat.beats < currentBeat.beats)
+        
+    }
     
     func addNote(){
         if(instTrack.trackManager.trackNotes.count==0 || instTrack.trackManager.firstInstance){
@@ -161,6 +246,9 @@ class SynthInstrument: AKMIDIInstrument{
         if(loop_count >= 1){
             instTrack.trackManager.appendTrack(offset: total_dur_offset + beatOffset) //offset in beats
             loop_count = 0
+        }
+        else{
+            handleQuantize()
         }
         
     }
@@ -654,10 +742,12 @@ class InstrumentTrack {
     
     func enableQuantize(){
         trackManager.quantizeEnable = true
+        trackManager.instrument.quantizeHandled = false
     }
     
     func disableQuantize(){
         trackManager.quantizeEnable = false
+        trackManager.instrument.quantizeHandled = false
     }
     
     func record(){
@@ -718,6 +808,10 @@ class TrackManager{
         else{
             return GlobalDefaultMeasures
         }
+    }
+    
+    var trackLength: Double {
+        return track.tracks[trackNum].length
     }
     var secPerMeasure: Double { return clickTrack.secPerMeasure }
     var beatsPerMeasure: Int { return clickTrack.timeSignature.beatsPerMeasure }
@@ -789,11 +883,16 @@ class TrackManager{
                 //erase only extra beats that are not part of original record
                 let start = AKDuration(beats: 0, tempo: clickTrack.tempo.beatsPerMin)
                 let end = AKDuration(beats: len+1, tempo: clickTrack.tempo.beatsPerMin)
-                track.tracks[trackNum].clearRange(start: start, duration: end)
+                clearTrackRange(start: start, end: end)
             
             }
         }
         
+    }
+    
+    
+    func clearTrackRange(start: AKDuration, end: AKDuration){
+        track.tracks[trackNum].clearRange(start: start, duration: end)
     }
     
     
@@ -803,7 +902,8 @@ class TrackManager{
         var pos = position
         let note = instrument.note
         
-        if(quantizeEnable){
+        if(quantizeEnable && !firstInstance){
+            instrument.quantizeHandled = true
             pos = quantizer.quantizedBeat(pos)
             print("quantized pos \(pos.beats)")
         }
@@ -822,6 +922,7 @@ class TrackManager{
             insertNote(velocity, position: position, duration: duration)
         }
         else{
+            print("first instance beat")
             let absPosition = AKDuration(seconds: absElapsed, tempo: clickTrack.tempo.beatsPerMin)
             addNoteToList(velocity, position: absPosition, duration: duration)
             insertNote(velocity, position: absPosition, duration: duration)
@@ -893,7 +994,6 @@ class TrackManager{
         firstInstance = false //first instance measure count update complete
         let beatOffset = Double(clickTrack.instrument.loop_count * clickTrack.timeSignature.beatsPerMeasure)
         instrument.beatOffset = beatOffset
-        instrument.loop_count = 1
         appendTrack(offset: Double(beatOffset))
     }
     
@@ -904,6 +1004,15 @@ class TrackManager{
             let position = AKDuration(beats: note.beats + offset)
             insertNote(127, position: position, duration: 0.1)
             
+        }
+    }
+    
+    func appendTrackFromNoteNum(offset: Double, noteNum: Int){
+        if(noteNum < trackNotes.count){
+            for i in noteNum ..< trackNotes.count {
+                let position = AKDuration(beats: trackNotes[i].beats + offset)
+                insertNote(127, position: position, duration: 0.1)
+            }
         }
     }
 

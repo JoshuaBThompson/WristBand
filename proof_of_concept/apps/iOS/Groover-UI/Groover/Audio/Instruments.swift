@@ -164,6 +164,10 @@ class SynthInstrument: AKMIDIInstrument{
     
     func updateNoteNumAndOffset(){
         prevBeat = AKDuration(beats: realPos, tempo: globalTempo)
+        if(quantizeHandled && quantizeEnabled){
+            prevBeat = instTrack.trackManager.quantizer.quantizedBeat(prevBeat)
+        }
+        
         note_num += 1
         
         if(note_num >= maxNoteCount){
@@ -230,8 +234,7 @@ class SynthInstrument: AKMIDIInstrument{
     
     func isNextUnquantizedInRange()->Bool{
         
-        let prevQuantizedBeat = instTrack.trackManager.quantizer.quantizedBeat(prevBeat)
-        return (prevQuantizedBeat.beats < currentBeat.beats)
+        return (prevBeat.beats < currentBeat.beats)
         
     }
     

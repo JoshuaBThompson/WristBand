@@ -362,12 +362,20 @@ class Song {
         if(enable){
             quantizeEnabled = true
             quantizeResolution = resolution
-            instruments[selectedInstrument].enableQuantize()
-            instruments[selectedInstrument].updateQuantize(resolution)
+            for inst in instruments {
+                inst.enableQuantize()
+                inst.updateQuantize(resolution)
+            }
+            
+            //instruments[selectedInstrument].enableQuantize()
+            //instruments[selectedInstrument].updateQuantize(resolution)
         }
         else{
             quantizeEnabled = true
-            instruments[selectedInstrument].disableQuantize()
+            for inst in instruments {
+                inst.disableQuantize()
+            }
+            //instruments[selectedInstrument].disableQuantize()
         }
     }
     

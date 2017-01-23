@@ -117,6 +117,11 @@ class SongViewController: UIViewController, UITextFieldDelegate {
     }
     */
     
+    //Delete song
+    func deleteSong(num: Int){
+        song.deleteSong(num: num)
+    }
+    
     //Update Title
     func setSongName(title: String){
         self.navigationItem.title = title
@@ -241,7 +246,7 @@ class SongViewController: UIViewController, UITextFieldDelegate {
         //now save song to database
         self.song.saveSong()
         
-        self.setSongName(title: song_name) //set title of song view to current song name6
+        self.setSongName(title: song_name) //set title of song view to current song name
         
     }
 

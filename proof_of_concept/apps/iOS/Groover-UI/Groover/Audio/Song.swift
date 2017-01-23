@@ -174,6 +174,21 @@ class Song {
             return "Invalid Song"
         }
     }
+    func deleteSong(num: Int){
+        self.stop()
+        if(num < songsDatabase.count){
+            if(self.current_song == self.songsDatabase[num]){
+                self.current_song = nil
+                self.songsDatabase.remove(at: num)
+            }
+            
+            //update database after removing song
+            self.saveSongDatabase()
+            
+            //now load new empty song to take deleted songs place
+            self.loadNewSong()
+        }
+    }
     
     func saveSong(){
         if(songsDatabase == nil || self.current_song == nil){
@@ -192,7 +207,11 @@ class Song {
             
         }
         
-        //songDatabase.saveSong()
+        self.saveSongDatabase()
+        
+    }
+    
+    func saveSongDatabase(){
         print("Song database file path: \(SongDatabase.ArchiveURL.path)")
         let isSuccessfulSave = NSKeyedArchiver.archiveRootObject(songsDatabase, toFile: SongDatabase.ArchiveURL.path)
         if !isSuccessfulSave {

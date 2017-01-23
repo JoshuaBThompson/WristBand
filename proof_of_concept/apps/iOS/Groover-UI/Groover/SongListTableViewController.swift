@@ -17,6 +17,7 @@ class SongListTableViewController: UITableViewController, SongCellDelegate {
     var songs = [SongTemplate]()
     var songsDatabase: [SongDatabase]!
     var selectedSong = String()
+    var selectedSongNum: Int!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -51,6 +52,8 @@ class SongListTableViewController: UITableViewController, SongCellDelegate {
     //MARK: Delete saved song from database
     func deleteSong(num: Int){
         print("deleting song \(num)")
+        //Need to impliment iOS standard delete functionality
+        //GlobalAttributes.songViewController.deleteSong(num: num)
     }
     
     
@@ -144,18 +147,23 @@ class SongListTableViewController: UITableViewController, SongCellDelegate {
     // MARK: - Navigation
     
     // In a storyboard-based application, you will often want to do a little preparation before navigation
-    /*
+    
      override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
      
      // Get the new view controller using segue.destinationViewController.
-     let destViewController = segue.destination as! ViewController
+        if(segue.destination == GlobalAttributes.songViewController){
+            let cell = sender as! SongListTableViewCell!
+            let songNum = cell?.num
+            if(songNum != nil){
+                self.selectSong(num: songNum!)
+            }
+        }
      // Pass the selected object to the new view controller.
-     destViewController.selectedSong = selectedSong
      
      print("Send data from song table controller to view controller!")
      
      }
-     */
+ 
     
     
 }

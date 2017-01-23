@@ -26,12 +26,10 @@ class SongListTableViewCell: UITableViewCell {
      self.delegate?.selectSong(num: self.num)
      }
      */
+    //self.delegate?.selectSong(num: self.num)
     @IBAction func selectSongButton(_ sender: UIButton) {
-        print("Song \(num) select")
-        self.delegate?.selectSong(num: self.num)
     }
     @IBAction func deleteSongButton(_ sender: DeleteSong) {
-        self.delegate?.deleteSong(num: self.num)
     }
     
     @IBOutlet weak var songNameLabel: UILabel!

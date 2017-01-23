@@ -1094,7 +1094,6 @@
                                                             <state key="normal" title="Select"/>
                                                             <connections>
                                                                 <action selector="selectSongButton:" destination="G4l-DB-33N" eventType="touchUpInside" id="9hb-4Z-SYL"/>
-                                                                <segue destination="VMw-iS-gE5" kind="unwind" unwindAction="unwindToSongWithSegue:" id="x04-X0-lBd"/>
                                                             </connections>
                                                         </button>
                                                     </subviews>
@@ -1118,6 +1117,7 @@
                                 <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <connections>
                                     <outlet property="songNameLabel" destination="iKj-21-mpS" id="Tc6-Xq-yuE"/>
+                                    <segue destination="VMw-iS-gE5" kind="unwind" unwindAction="unwindToSongWithSegue:" id="5Ta-Pc-yVe"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>

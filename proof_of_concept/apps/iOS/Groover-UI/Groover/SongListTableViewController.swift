@@ -48,6 +48,12 @@ class SongListTableViewController: UITableViewController, SongCellDelegate {
         
     }
     
+    //MARK: Delete saved song from database
+    func deleteSong(num: Int){
+        print("deleting song \(num)")
+    }
+    
+    
     func loadSampleSongs() {
         /*
          let song1 = DummySong(name: "Song1")!

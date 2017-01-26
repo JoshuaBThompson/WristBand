@@ -65,7 +65,8 @@ public extension UIDevice {
             
         }
         else if(longName == "Simulator"){
-            return "Simulator"
+            return "iPhone 6and7 Plus"
+            //return "Simulator"
         }
         else {
             return "no supported"

@@ -177,10 +177,11 @@ class Song {
     func deleteSong(num: Int){
         self.stop()
         if(num < songsDatabase.count){
+            print("Deleting song \(num)")
             if(self.current_song == self.songsDatabase[num]){
                 self.current_song = nil
-                self.songsDatabase.remove(at: num)
             }
+            self.songsDatabase.remove(at: num)
             
             //update database after removing song
             self.saveSongDatabase()

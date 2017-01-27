@@ -19,15 +19,6 @@ class SongListTableViewCell: UITableViewCell {
     weak var delegate: SongCellDelegate?
     var num: Int = 0
     
-    /* Need to add these UI elements
-     @IBOutlet weak var nameLabel: UILabel!
-     @IBAction func selectSongButton(_ sender: UIButton) {
-     print("song \(num) selected from cell")
-     self.delegate?.selectSong(num: self.num)
-     }
-     */
-    //self.delegate?.selectSong(num: self.num)
-    
     @IBOutlet weak var songNameLabel: UILabel!
     
     override func awakeFromNib() {
@@ -38,9 +29,6 @@ class SongListTableViewCell: UITableViewCell {
     
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-        
-        GlobalAttributes.selectedSongNum = num
-        GlobalAttributes.songSelected = true
         
         // Configure the view for the selected state
     }

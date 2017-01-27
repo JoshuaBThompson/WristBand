@@ -27,7 +27,7 @@ class SongListTableViewController: UITableViewController, SongCellDelegate {
         self.navigationController?.navigationBar.shadowImage =  UIImage()
         self.navigationController?.navigationBar.isTranslucent = true
         self.navigationItem.leftBarButtonItem = editButtonItem
-        self.loadSampleSongs()
+        self.loadSavedSongs()
     }
     
     
@@ -58,7 +58,7 @@ class SongListTableViewController: UITableViewController, SongCellDelegate {
     }
     
     
-    func loadSampleSongs() {
+    func loadSavedSongs() {
         /*
          let song1 = DummySong(name: "Song1")!
          
@@ -114,8 +114,9 @@ class SongListTableViewController: UITableViewController, SongCellDelegate {
         if editingStyle == .delete {
             // Delete the row from the data source
             print("deleting song \(indexPath.row)")
-            //GlobalAttributes.song.deleteSong(num: indexPath.row)
             songs.remove(at: indexPath.row)
+            GlobalAttributes.song.deleteSong(num: indexPath.row)
+            
             tableView.deleteRows(at: [indexPath], with: .fade)
         } else if editingStyle == .insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
@@ -147,6 +148,17 @@ class SongListTableViewController: UITableViewController, SongCellDelegate {
      */
     
     
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print("!!selected \(indexPath.row)")
+        selectedSongNum = Int(indexPath.row)
+        if(selectedSongNum != nil){
+            print("selectSong \(selectedSongNum)")
+            let songNum = selectedSongNum
+            self.selectSong(num: songNum!)
+        }
+    }
+    
+    
     // MARK: - Navigation
     
     // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -155,17 +167,8 @@ class SongListTableViewController: UITableViewController, SongCellDelegate {
      
      // Get the new view controller using segue.destinationViewController.
         if(segue.destination == GlobalAttributes.songViewController){
-            
-            if(GlobalAttributes.songSelected){
-                print("Song Selected!")
-                let songNum = GlobalAttributes.selectedSongNum
-                if(songNum != nil){
-                    self.selectSong(num: songNum!)
-                }
-            }
-            
-            
-            
+            let current_song_name = GlobalAttributes.song.current_song.name
+            GlobalAttributes.songViewController.setSongName(title: current_song_name!)
             
         }
      // Pass the selected object to the new view controller.

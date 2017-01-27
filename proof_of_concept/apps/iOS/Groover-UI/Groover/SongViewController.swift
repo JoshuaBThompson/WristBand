@@ -96,7 +96,9 @@ class SongViewController: UIViewController, UITextFieldDelegate {
         return true
     }
     
-    @IBAction func unwindToSong(segue: UIStoryboardSegue) {}
+    @IBAction func unwindToSong(segue: UIStoryboardSegue) {
+        print("unwindToSong")
+    }
     
     //MARK: cancel unwind
     @IBAction func unwindCancelNewSong(segue: UIStoryboardSegue) {

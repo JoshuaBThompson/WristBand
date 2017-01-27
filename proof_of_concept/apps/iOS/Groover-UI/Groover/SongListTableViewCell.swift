@@ -27,10 +27,6 @@ class SongListTableViewCell: UITableViewCell {
      }
      */
     //self.delegate?.selectSong(num: self.num)
-    @IBAction func selectSongButton(_ sender: UIButton) {
-    }
-    @IBAction func deleteSongButton(_ sender: DeleteSong) {
-    }
     
     @IBOutlet weak var songNameLabel: UILabel!
     
@@ -39,8 +35,12 @@ class SongListTableViewCell: UITableViewCell {
         // Initialization code
     }
     
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
+        
+        GlobalAttributes.selectedSongNum = num
+        GlobalAttributes.songSelected = true
         
         // Configure the view for the selected state
     }

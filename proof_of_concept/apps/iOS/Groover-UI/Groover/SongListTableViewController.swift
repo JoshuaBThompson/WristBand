@@ -26,6 +26,7 @@ class SongListTableViewController: UITableViewController, SongCellDelegate {
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         self.navigationController?.navigationBar.shadowImage =  UIImage()
         self.navigationController?.navigationBar.isTranslucent = true
+        self.navigationItem.leftBarButtonItem = editButtonItem
         self.loadSampleSongs()
     }
     
@@ -108,25 +109,27 @@ class SongListTableViewController: UITableViewController, SongCellDelegate {
         return cell
     }
     
-    /*
+    // Override to support editing the table view.
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            // Delete the row from the data source
+            print("deleting song \(indexPath.row)")
+            //GlobalAttributes.song.deleteSong(num: indexPath.row)
+            songs.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .fade)
+        } else if editingStyle == .insert {
+            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
+        }
+    }
+    
+    
      // Override to support conditional editing of the table view.
      override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
      // Return false if you do not want the specified item to be editable.
      return true
      }
-     */
     
-    /*
-     // Override to support editing the table view.
-     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-     if editingStyle == .delete {
-     // Delete the row from the data source
-     tableView.deleteRows(at: [indexPath], with: .fade)
-     } else if editingStyle == .insert {
-     // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-     }
-     }
-     */
+
     
     /*
      // Override to support rearranging the table view.
@@ -152,11 +155,17 @@ class SongListTableViewController: UITableViewController, SongCellDelegate {
      
      // Get the new view controller using segue.destinationViewController.
         if(segue.destination == GlobalAttributes.songViewController){
-            let cell = sender as! SongListTableViewCell!
-            let songNum = cell?.num
-            if(songNum != nil){
-                self.selectSong(num: songNum!)
+            
+            if(GlobalAttributes.songSelected){
+                let songNum = GlobalAttributes.selectedSongNum
+                if(songNum != nil){
+                    self.selectSong(num: songNum!)
+                }
             }
+            
+            
+            
+            
         }
      // Pass the selected object to the new view controller.
      

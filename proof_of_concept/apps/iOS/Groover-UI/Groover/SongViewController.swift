@@ -12,6 +12,7 @@ class SongViewController: UIViewController, UITextFieldDelegate {
     //MARK: Properties
     var song: Song!
     var saved_song_name: String!
+    var cancelled = false
     //MARK: UI Element Controls
     
     //MARK: tempo
@@ -60,9 +61,11 @@ class SongViewController: UIViewController, UITextFieldDelegate {
         self.tempoSliderTextField.delegate = self
         self.song = GlobalAttributes.song
         GlobalAttributes.songViewController = self
+        GlobalAttributes.songSelected = false
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         self.navigationController?.navigationBar.shadowImage =  UIImage()
         self.navigationController?.navigationBar.isTranslucent = true
+        
         
         self.navigationItem.title = self.song.current_song.name//"Long Ass Song Title Placeholder"
         
@@ -99,6 +102,11 @@ class SongViewController: UIViewController, UITextFieldDelegate {
     @IBAction func unwindCancelNewSong(segue: UIStoryboardSegue) {
         print("cancel new song")
         
+    }
+    
+    @IBAction func unwindCancelSongSelection(segue: UIStoryboardSegue){
+        print("cancel song selection")
+        cancelled = true
     }
     
     //MAR: Save unwind

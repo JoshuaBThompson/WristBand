@@ -157,6 +157,7 @@ class SongListTableViewController: UITableViewController, SongCellDelegate {
         if(segue.destination == GlobalAttributes.songViewController){
             
             if(GlobalAttributes.songSelected){
+                print("Song Selected!")
                 let songNum = GlobalAttributes.selectedSongNum
                 if(songNum != nil){
                     self.selectSong(num: songNum!)

@@ -29,6 +29,7 @@ class ViewController: UIViewController {
     
     //MARK: outlets
     
+    @IBOutlet weak var measureView1: Measure!
     @IBOutlet weak var instrumentViewWrap: UIView!
     @IBOutlet weak var instrumentNameLabel: UILabel!
     
@@ -59,15 +60,18 @@ class ViewController: UIViewController {
         //Connect view controller functions to buttons events
         
         //Play / Record
+        
         playButton.addTarget(self, action: #selector(ViewController.playRecordButtonSelected(_:)), for: .valueChanged)
         recordButton.addTarget(self, action: #selector(ViewController.playRecordButtonSelected(_:)), for: .valueChanged)
         
         //Knob
+        
         knob.addTarget(self, action: #selector(ViewController.knobAngleChanged(_:)), for: .valueChanged)
         knob.addTarget(self, action: #selector(ViewController.innerKnobTapped(_:)), for: .editingChanged)
         knob.addTarget(self, action: #selector(ViewController.hidePositionIndicator), for: .editingDidEnd)
         
         //Quantize
+        
         quarterQuantizeButton.addTarget(self, action: #selector(ViewController.quantizeButtonSelected(_:)), for: .valueChanged)
         eighthQuantizeButton.addTarget(self, action: #selector(ViewController.quantizeButtonSelected(_:)), for: .valueChanged)
         sixteenthQuantizeButton.addTarget(self, action: #selector(ViewController.quantizeButtonSelected(_:)), for: .valueChanged)
@@ -80,7 +84,7 @@ class ViewController: UIViewController {
         quantizeButtons.append(tripletQuantizeButton)
         
         song = GlobalAttributes.song
-        instrumentNameLabel.text = song.selectedInstrumentName
+        
         song.start()
         
         motionManager.startAccelerometerUpdates()
@@ -90,6 +94,38 @@ class ViewController: UIViewController {
             
         }
         prevKnobDetent = knob.detent
+    
+        
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        instrumentNameLabel.text = song.selectedInstrumentName
+        //animateMeasureView()
+        //testAnimate()
+    }
+    
+    func animateMeasureView(){
+    
+        UIView.animate(withDuration: 12.0, delay: 0.0, options: .repeat, animations: {
+            self.measureView1.updateMeasureProgress(progress_prcnt: 10)
+            self.measureView1.setNeedsDisplay()
+            
+        }, completion: nil)
+    }
+    
+    func testAnimate(){
+        
+        UIView.animate(withDuration: 0.5, delay: 0.0, options: [UIViewAnimationOptions.repeat, UIViewAnimationOptions.curveEaseOut], animations: {
+            if(self.recordButton.backgroundColor == UIColor.red){
+                self.recordButton.backgroundColor = UIColor.blue
+            }
+            else{
+                self.recordButton.backgroundColor = UIColor.red
+            }
+            self.view.layoutIfNeeded()
+        }, completion: nil)
+        
     }
     
     override func didReceiveMemoryWarning() {

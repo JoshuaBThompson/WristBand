@@ -783,6 +783,55 @@ class InstrumentTrack {
 }
 
 
+/****************Measure Timeline Manager ***************/
+
+class MeasureTimeline {
+    var trackManager: TrackManager!
+    var bar_count: Int = 0
+    var bar_num = 0
+    var prev_bar_num = 0
+    var count = 0
+    var bars_progress = [Double]()
+    var ready_to_clear = false
+    
+    //MARK: Computed variables
+    var current_progress: Double {
+        return bars_progress[bar_num]
+    }
+    
+    init(track_manager_ref: TrackManager, timeline_bars: Int){
+        self.bar_count = timeline_bars
+        self.trackManager = track_manager_ref
+        
+        
+        //init bars with 0 % progress
+        for _ in 0 ..< self.bar_count {
+            self.bars_progress.append(0.0)
+        }
+    }
+    
+    //MARK: Update timeline properties based on track state
+    func update(){
+        let current_track_measure = self.trackManager.getCurrentMeasureNum()
+        let current_measure_progress = self.trackManager.getMeasureProgress()
+        prev_bar_num = bar_num
+        self.bar_num = self.getBarNumFromMeasure(measure_num: current_track_measure)
+        bars_progress[bar_num] = current_measure_progress
+        print("bar_num \(bar_num) progress \(current_measure_progress) track_num \(current_track_measure)")
+        if(bar_num == 0 && prev_bar_num != 0){
+            ready_to_clear = true
+        }
+        else{
+            ready_to_clear = false
+        }
+    }
+    
+    func getBarNumFromMeasure(measure_num: Int)->Int{
+        let bar_num = measure_num % bar_count //ex: 3 % 4 = 3 and 4 % 4 = 0
+        return bar_num
+    }
+}
+
 /****************Single instrument track manager ********/
 class TrackManager{
     //MARK: Attributes
@@ -802,6 +851,7 @@ class TrackManager{
     var clickTrack: ClickTrack!
     var timer: SongTimer!
     var ignore_count = 0
+    var timeline: MeasureTimeline!
     
     //MARK: Computed
     var defaultMeasureCount: Int {
@@ -866,6 +916,7 @@ class TrackManager{
         else{
             print("Could not make track \(trackNum)")
         }
+        timeline = MeasureTimeline(track_manager_ref: self, timeline_bars: 4)
         
     }
     
@@ -953,14 +1004,28 @@ class TrackManager{
         return Int(ceil(timeElapsedAbs / secPerMeasure))
     }
     
-    func getMeasureProgress()->Double {
+    func getCurrentMeasureNum() -> Int {
         if(!firstInstance){
-            return (self.timeElapsed / Double(self.totalDuration))
+            return Int(floor(self.timeElapsed / secPerMeasure))
         }
         else {
-            return (self.timeElapsedAbs / Double(self.totalDuration))
+            return Int(floor(timeElapsedAbs / secPerMeasure))
         }
     }
+    
+    func getMeasureProgress()->Double {
+        let measure_time: Double!
+        if(!firstInstance){
+            
+            measure_time = timeElapsed.truncatingRemainder(dividingBy: secPerMeasure)
+        }
+        else {
+             measure_time = timeElapsedAbs.truncatingRemainder(dividingBy: secPerMeasure)
+        }
+        let measure_progress = measure_time / secPerMeasure
+        return measure_progress
+    }
+
     
     //MARK: Start loop after default measure reached
     func startLoopFromDefaultMeasures(){

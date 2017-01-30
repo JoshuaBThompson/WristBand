@@ -29,6 +29,9 @@ class Song {
     var loadSavedSongs = true
     
     //MARK: computed variables
+    var timeline: MeasureTimeline {
+        return self.instrument.trackManager.timeline
+    }
     
     var defaultMeasureCount: Int {
         return clickTrack.instrument.defaultMeasures
@@ -301,8 +304,16 @@ class Song {
         
     }
     
-    func getMeasureProgress()->Double{
-        return self.instrument.trackManager.getMeasureProgress()
+
+    func updateMeasureTimeline()->Bool{
+        let recorded = !self.instrument.trackManager.firstInstance
+        let ready: Bool = (recorded || recordEnabled)
+        if(!playing || !ready){
+            return false
+        }
+        
+        self.instrument.trackManager.timeline.update()
+        return true
     }
     
     func start(){

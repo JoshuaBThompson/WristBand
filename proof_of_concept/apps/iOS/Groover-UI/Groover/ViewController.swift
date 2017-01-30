@@ -27,6 +27,7 @@ class ViewController: UIViewController {
     var beatDetectedCount = 0
     var prevKnobDetent: Int = 0
     var measureTimer: Timer!
+    var measureViews = [MeasureCtrl]()
     //MARK: outlets
     
     @IBOutlet weak var measureView1: MeasureCtrl!
@@ -98,8 +99,10 @@ class ViewController: UIViewController {
             
         }
         prevKnobDetent = knob.detent
-    
-        
+        measureViews.append(measureView1)
+        measureViews.append(measureView2)
+        measureViews.append(measureView3)
+        measureViews.append(measureView4)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -116,11 +119,37 @@ class ViewController: UIViewController {
     }
     
     func measureTimerHandler(){
-        //var measure_progress_prcnt = self.song.getMeasureProgress()
+        
+         let ready = song.updateMeasureTimeline()
+         if(!ready){
+            print("not ready")
+            return
+         }
+         let bar_num = song.timeline.bar_num
+         let prev_bar_num = song.timeline.prev_bar_num
+         let bar_progress = song.timeline.current_progress
+         let ready_to_clear = song.timeline.ready_to_clear
+         if(ready_to_clear){
+            print("Clearing measure views!")
+            for measure_view in measureViews {
+                measure_view.clearProgress()
+            }
+         }
+         print("measure view \(bar_num) progress \(bar_progress)")
+         measureViews[bar_num].updateMeasureProgress(progress_prcnt: CGFloat(bar_progress))
+        if(prev_bar_num < bar_num){
+            //fill in prev bar num to 100% just in case
+            print("handle prev bar progress")
+            measureViews[prev_bar_num].updateMeasureProgress(progress_prcnt: CGFloat(1.0))
+        }
+         
+ 
+        /*
         self.measureView1.updateMeasureProgress(progress_prcnt: 2.0)
         self.measureView2.updateMeasureProgress(progress_prcnt: 2.0)
         self.measureView3.updateMeasureProgress(progress_prcnt: 2.0)
         self.measureView4.updateMeasureProgress(progress_prcnt: 2.0)
+        */
     }
     
     func animateMeasureTimeline(){

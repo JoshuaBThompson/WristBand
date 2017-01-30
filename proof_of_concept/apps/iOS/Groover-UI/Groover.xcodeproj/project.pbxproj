@@ -36,6 +36,7 @@
 		42A59FA71D301F8B0070FE46 /* MidiSensor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42A59FA01D301F8B0070FE46 /* MidiSensor.cpp */; };
 		42A59FA81D301F8B0070FE46 /* MotionFilter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42A59FA21D301F8B0070FE46 /* MotionFilter.cpp */; };
 		42A59FAB1D301FA60070FE46 /* MidiSensorWrapper.mm in Sources */ = {isa = PBXBuildFile; fileRef = 42A59FAA1D301FA60070FE46 /* MidiSensorWrapper.mm */; };
+		42AA07D61E3E9773002FA7E8 /* MeasureCtrl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42AA07D51E3E9773002FA7E8 /* MeasureCtrl.swift */; };
 		42BA35191E099BB400338990 /* SongTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42BA35181E099BB400338990 /* SongTemplate.swift */; };
 		42BA351B1E099BEB00338990 /* SongListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42BA351A1E099BEB00338990 /* SongListTableViewCell.swift */; };
 		42C8A3CF1D9721D4004BDD58 /* KnobCtrl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42C8A3CE1D9721D4004BDD58 /* KnobCtrl.swift */; };
@@ -169,6 +170,7 @@
 		42A59FA91D301F9D0070FE46 /* MidiSensorWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MidiSensorWrapper.h; sourceTree = "<group>"; };
 		42A59FAA1D301FA60070FE46 /* MidiSensorWrapper.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MidiSensorWrapper.mm; sourceTree = "<group>"; };
 		42A59FAC1D301FAD0070FE46 /* Groover-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Groover-Bridging-Header.h"; sourceTree = "<group>"; };
+		42AA07D51E3E9773002FA7E8 /* MeasureCtrl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeasureCtrl.swift; sourceTree = "<group>"; };
 		42BA35181E099BB400338990 /* SongTemplate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SongTemplate.swift; sourceTree = "<group>"; };
 		42BA351A1E099BEB00338990 /* SongListTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SongListTableViewCell.swift; sourceTree = "<group>"; };
 		42C8A3CE1D9721D4004BDD58 /* KnobCtrl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KnobCtrl.swift; sourceTree = "<group>"; };
@@ -497,6 +499,7 @@
 			isa = PBXGroup;
 			children = (
 				FAC61A631DC520360012A93D /* Measure.swift */,
+				42AA07D51E3E9773002FA7E8 /* MeasureCtrl.swift */,
 			);
 			name = Measures;
 			sourceTree = "<group>";
@@ -723,6 +726,7 @@
 				42A59FAB1D301FA60070FE46 /* MidiSensorWrapper.mm in Sources */,
 				947E19E41DFBF7E400443F7E /* NewSongViewController.swift in Sources */,
 				FA820EB41D2E20E800C6FBF4 /* Popup.swift in Sources */,
+				42AA07D61E3E9773002FA7E8 /* MeasureCtrl.swift in Sources */,
 				421425ED1DFCDC040092BCB4 /* SongDatabase.swift in Sources */,
 				42C8A3E71D9C1859004BDD58 /* ParametersPopupCtrl.swift in Sources */,
 				42C8A3E31D974457004BDD58 /* QuantizeButtonProtocol.swift in Sources */,

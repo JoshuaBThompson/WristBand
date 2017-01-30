@@ -312,7 +312,7 @@
                                 <rect key="frame" x="0.0" y="28" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" tableViewCell="RgZ-2U-aj3" id="X4V-pE-ha7">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Sond Library In List" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yPp-xe-W80">
@@ -409,7 +409,7 @@
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Vd0-sl-YT1" customClass="RecordCtrl" customModule="Groover" customModuleProvider="target">
                                                 <rect key="frame" x="233" y="0.0" width="87" height="56"/>
-                                                <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" secondItem="Vd0-sl-YT1" secondAttribute="height" multiplier="87:56" id="qNi-U4-prR"/>
                                                 </constraints>
@@ -422,7 +422,7 @@
                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0sH-pS-3Wj" userLabel="Measures Stack View">
                                         <rect key="frame" x="0.0" y="56" width="320" height="28"/>
                                         <subviews>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="S98-Ey-tnx" customClass="Measure" customModule="Groover" customModuleProvider="target">
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="S98-Ey-tnx" customClass="MeasureCtrl" customModule="Groover" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="0.0" width="74" height="28"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TrB-Uy-skK">
@@ -438,12 +438,13 @@
                                                     <constraint firstAttribute="width" secondItem="S98-Ey-tnx" secondAttribute="height" multiplier="82:28" priority="750" id="fyR-NP-Olq"/>
                                                 </constraints>
                                             </view>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qst-AJ-wnl" customClass="Measure" customModule="Groover" customModuleProvider="target">
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qst-AJ-wnl" customClass="MeasureCtrl" customModule="Groover" customModuleProvider="target">
                                                 <rect key="frame" x="74" y="0.0" width="82" height="28"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iN3-oG-wRu">
                                                         <rect key="frame" x="0.0" y="4" width="81" height="21"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                         <nil key="highlightedColor"/>
@@ -454,7 +455,7 @@
                                                     <constraint firstAttribute="width" secondItem="qst-AJ-wnl" secondAttribute="height" multiplier="82:28" priority="750" id="ifb-Ah-Lyq"/>
                                                 </constraints>
                                             </view>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aZL-8P-4bF" customClass="Measure" customModule="Groover" customModuleProvider="target">
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aZL-8P-4bF" customClass="MeasureCtrl" customModule="Groover" customModuleProvider="target">
                                                 <rect key="frame" x="156" y="0.0" width="82" height="28"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="53I-gX-BaC">
@@ -470,7 +471,7 @@
                                                     <constraint firstAttribute="width" secondItem="aZL-8P-4bF" secondAttribute="height" multiplier="82:28" priority="750" id="dfG-vE-2O9"/>
                                                 </constraints>
                                             </view>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9g2-ls-tU2" customClass="Measure" customModule="Groover" customModuleProvider="target">
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9g2-ls-tU2" customClass="MeasureCtrl" customModule="Groover" customModuleProvider="target">
                                                 <rect key="frame" x="238" y="0.0" width="82" height="28"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="R2l-wn-gew">
@@ -708,6 +709,9 @@
                         <outlet property="instrumentViewWrap" destination="fwT-zK-yKW" id="oNX-gB-fKO"/>
                         <outlet property="knob" destination="D5w-T1-I82" id="VF2-uZ-jWQ"/>
                         <outlet property="measureView1" destination="S98-Ey-tnx" id="qu2-y2-GyY"/>
+                        <outlet property="measureView2" destination="qst-AJ-wnl" id="an4-6O-0Ux"/>
+                        <outlet property="measureView3" destination="aZL-8P-4bF" id="SuD-0F-UHF"/>
+                        <outlet property="measureView4" destination="9g2-ls-tU2" id="EcQ-yX-vjx"/>
                         <outlet property="parametersButton" destination="7PK-8C-PRC" id="5zO-bn-dk0"/>
                         <outlet property="playButton" destination="8US-pO-suU" id="fNq-xQ-uA3"/>
                         <outlet property="positionIndicator" destination="6dx-es-454" id="e38-OS-5MX"/>
@@ -1117,7 +1121,7 @@
                                 <rect key="frame" x="0.0" y="28" width="320" height="76"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="G4l-DB-33N" id="4Pf-7z-Df8">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="76"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="75"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IJl-g5-uFh">

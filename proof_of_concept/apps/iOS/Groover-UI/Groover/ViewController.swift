@@ -26,10 +26,14 @@ class ViewController: UIViewController {
     var beatDetected = false
     var beatDetectedCount = 0
     var prevKnobDetent: Int = 0
-    
+    var measureTimer: Timer!
     //MARK: outlets
     
-    @IBOutlet weak var measureView1: Measure!
+    @IBOutlet weak var measureView1: MeasureCtrl!
+    @IBOutlet weak var measureView2: MeasureCtrl!
+    @IBOutlet weak var measureView3: MeasureCtrl!
+    @IBOutlet weak var measureView4: MeasureCtrl!
+    
     @IBOutlet weak var instrumentViewWrap: UIView!
     @IBOutlet weak var instrumentNameLabel: UILabel!
     
@@ -101,31 +105,30 @@ class ViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         instrumentNameLabel.text = song.selectedInstrumentName
-        //animateMeasureView()
-        //testAnimate()
+        //animateMeasureTimeline()
+        startMeasureTimelineThread()
     }
     
-    func animateMeasureView(){
+    //continuously checks to see what % of the current instrument measure count has elapsed
+    //used to update the groover measure timeline bar progress
+    func startMeasureTimelineThread(){
+        measureTimer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(measureTimerHandler), userInfo: nil, repeats: true)
+    }
     
-        UIView.animate(withDuration: 12.0, delay: 0.0, options: .repeat, animations: {
+    func measureTimerHandler(){
+        //var measure_progress_prcnt = self.song.getMeasureProgress()
+        self.measureView1.updateMeasureProgress(progress_prcnt: 2.0)
+        self.measureView2.updateMeasureProgress(progress_prcnt: 2.0)
+        self.measureView3.updateMeasureProgress(progress_prcnt: 2.0)
+        self.measureView4.updateMeasureProgress(progress_prcnt: 2.0)
+    }
+    
+    func animateMeasureTimeline(){
+    
+        UIView.animate(withDuration: 3.0, delay: 1.0, options: [UIViewAnimationOptions.repeat, UIViewAnimationOptions.curveEaseOut], animations: {
             self.measureView1.updateMeasureProgress(progress_prcnt: 10)
-            self.measureView1.setNeedsDisplay()
             
         }, completion: nil)
-    }
-    
-    func testAnimate(){
-        
-        UIView.animate(withDuration: 0.5, delay: 0.0, options: [UIViewAnimationOptions.repeat, UIViewAnimationOptions.curveEaseOut], animations: {
-            if(self.recordButton.backgroundColor == UIColor.red){
-                self.recordButton.backgroundColor = UIColor.blue
-            }
-            else{
-                self.recordButton.backgroundColor = UIColor.red
-            }
-            self.view.layoutIfNeeded()
-        }, completion: nil)
-        
     }
     
     override func didReceiveMemoryWarning() {

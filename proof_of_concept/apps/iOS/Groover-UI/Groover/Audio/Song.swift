@@ -69,6 +69,7 @@ class Song {
 
     }
     
+    
     func getSavedSongs() -> [SongDatabase]? {
         print("Song database file path: \(SongDatabase.ArchiveURL.path)")
         let saved_songs =  NSKeyedUnarchiver.unarchiveObject(withFile: SongDatabase.ArchiveURL.path) as? [SongDatabase]
@@ -298,6 +299,10 @@ class Song {
         
         saveSong()
         
+    }
+    
+    func getMeasureProgress()->Double{
+        return self.instrument.trackManager.getMeasureProgress()
     }
     
     func start(){

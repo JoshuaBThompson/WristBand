@@ -453,7 +453,7 @@ class ClickTrackInstrument: SynthInstrument{
 
 
 //Timer
-class Timer {
+class SongTimer {
     
     var startTime:CFAbsoluteTime
     var endTime:CFAbsoluteTime?
@@ -515,7 +515,7 @@ class Tempo {
 
 //ClickTrack
 class ClickTrack: AKNode{
-    var timer = Timer()
+    var timer = SongTimer()
     var midi: AKMIDI!
     var track: AKSequencer!
     var instrument: ClickTrackInstrument!
@@ -800,7 +800,7 @@ class TrackManager{
     var firstInstance = true //informs if this is the first time the track is being filled so we can define the initial measure count / duration
     var instrument: SynthInstrument!
     var clickTrack: ClickTrack!
-    var timer: Timer!
+    var timer: SongTimer!
     var ignore_count = 0
     
     //MARK: Computed
@@ -951,6 +951,15 @@ class TrackManager{
     //MARK: Get total measure count from time elapsed and sec per measure
     func getMeasureCountFromTimeElapsed()->Int {
         return Int(ceil(timeElapsedAbs / secPerMeasure))
+    }
+    
+    func getMeasureProgress()->Double {
+        if(!firstInstance){
+            return (self.timeElapsed / Double(self.totalDuration))
+        }
+        else {
+            return (self.timeElapsedAbs / Double(self.totalDuration))
+        }
     }
     
     //MARK: Start loop after default measure reached

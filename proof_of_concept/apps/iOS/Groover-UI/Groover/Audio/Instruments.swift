@@ -927,9 +927,11 @@ class TrackManager{
                 let len = track.tracks[trackNum].length
                 //erase only extra beats that are not part of original record
                 print("clearing totalBeats \(totalBeats) to len \(len)")
-                let start = AKDuration(beats: Double(totalBeats), tempo: clickTrack.tempo.beatsPerMin)
+                //let start = AKDuration(beats: Double(totalBeats), tempo: clickTrack.tempo.beatsPerMin)
+                let start = AKDuration(beats: 0, tempo: clickTrack.tempo.beatsPerMin)
                 let end = AKDuration(beats: len+1, tempo: clickTrack.tempo.beatsPerMin)
                 track.tracks[trackNum].clearRange(start: start, duration: end)
+                appendTrack(offset: 0)
             }
         }
         else{
@@ -1081,8 +1083,10 @@ class TrackManager{
         print("append \(trackNotes.count) to track \(trackNum) with offset \(offset)!")
         
         for note in trackNotes {
-            let position = AKDuration(beats: note.beats + offset)
-            insertNote(127, position: position, duration: 0.1)
+            if(note.beats <= Double(totalBeats)){
+                let position = AKDuration(beats: note.beats + offset)
+                insertNote(127, position: position, duration: 0.1)
+            }
             
         }
     }
@@ -1090,8 +1094,10 @@ class TrackManager{
     func appendTrackFromNoteNum(offset: Double, noteNum: Int){
         if(noteNum < trackNotes.count){
             for i in noteNum ..< trackNotes.count {
-                let position = AKDuration(beats: trackNotes[i].beats + offset)
-                insertNote(127, position: position, duration: 0.1)
+                if(trackNotes[i].beats <= Double(totalBeats)){
+                    let position = AKDuration(beats: trackNotes[i].beats + offset)
+                    insertNote(127, position: position, duration: 0.1)
+                }
             }
         }
     }

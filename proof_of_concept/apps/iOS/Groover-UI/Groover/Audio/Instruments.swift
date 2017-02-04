@@ -771,7 +771,10 @@ class InstrumentTrack {
     }
     
     func updateMeasureCount(_ count: Int){
-        
+        if(!trackManager.track.isPlaying){
+            //clear non original beats from track with prev measure count
+            trackManager.resetTrack()
+        }
         trackManager.updateMeasureCount(count)
         
         //if playing tell track to wait unitl loop finishes before updating measure count
@@ -817,7 +820,7 @@ class MeasureTimeline {
         prev_bar_num = bar_num
         self.bar_num = self.getBarNumFromMeasure(measure_num: current_track_measure)
         bars_progress[bar_num] = current_measure_progress
-        print("bar_num \(bar_num) progress \(current_measure_progress) track_num \(current_track_measure)")
+        //print("bar_num \(bar_num) progress \(current_measure_progress) track_num \(current_track_measure)")
         if(bar_num == 0 && prev_bar_num != 0){
             ready_to_clear = true
         }
@@ -889,9 +892,6 @@ class TrackManager{
         if timeElapsedSec < totalDuration {
             time = timeElapsedSec
         }
-        else if(timeElapsedSec == totalDuration){
-            time = timeElapsedSec
-        }
         else{
             time = fmod(timeElapsedSec, totalDuration)
         }
@@ -926,6 +926,7 @@ class TrackManager{
             if(track.tracks[trackNum].length != 0){
                 let len = track.tracks[trackNum].length
                 //erase only extra beats that are not part of original record
+                print("clearing totalBeats \(totalBeats) to len \(len)")
                 let start = AKDuration(beats: Double(totalBeats), tempo: clickTrack.tempo.beatsPerMin)
                 let end = AKDuration(beats: len+1, tempo: clickTrack.tempo.beatsPerMin)
                 track.tracks[trackNum].clearRange(start: start, duration: end)

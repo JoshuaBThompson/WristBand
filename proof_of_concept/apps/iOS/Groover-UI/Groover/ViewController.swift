@@ -116,13 +116,16 @@ class ViewController: UIViewController {
     //used to update the groover measure timeline bar progress
     func startMeasureTimelineThread(){
         measureTimer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(measureTimerHandler), userInfo: nil, repeats: true)
+        
     }
     
     func measureTimerHandler(){
+        if(!song.playing){
+            return
+        }
         
          let ready = song.updateMeasureTimeline()
          if(!ready){
-            print("not ready")
             return
          }
          let bar_num = song.timeline.bar_num
@@ -130,26 +133,16 @@ class ViewController: UIViewController {
          let bar_progress = song.timeline.current_progress
          let ready_to_clear = song.timeline.ready_to_clear
          if(ready_to_clear){
-            print("Clearing measure views!")
             for measure_view in measureViews {
                 measure_view.clearProgress()
             }
          }
-         print("measure view \(bar_num) progress \(bar_progress)")
          measureViews[bar_num].updateMeasureProgress(progress_prcnt: CGFloat(bar_progress))
         if(prev_bar_num < bar_num){
             //fill in prev bar num to 100% just in case
-            print("handle prev bar progress")
             measureViews[prev_bar_num].updateMeasureProgress(progress_prcnt: CGFloat(1.0))
         }
-         
- 
-        /*
-        self.measureView1.updateMeasureProgress(progress_prcnt: 2.0)
-        self.measureView2.updateMeasureProgress(progress_prcnt: 2.0)
-        self.measureView3.updateMeasureProgress(progress_prcnt: 2.0)
-        self.measureView4.updateMeasureProgress(progress_prcnt: 2.0)
-        */
+        
     }
     
     func animateMeasureTimeline(){

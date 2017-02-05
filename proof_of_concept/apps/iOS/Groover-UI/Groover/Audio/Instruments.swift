@@ -340,6 +340,7 @@ class ClickTrackInstrument: SynthInstrument{
     var defaultMeasureCountStarted = false
     var defaultMeasureCounter = 0
     var defaultMeasures = GlobalDefaultMeasures
+    var startRecordOffset = 0.0
     
     
     init(clickTrackRef: ClickTrack!) {
@@ -366,6 +367,7 @@ class ClickTrackInstrument: SynthInstrument{
         defaultMeasureCountEnded = false
         defaultMeasureCountStarted = false
         defaultMeasureCounter  = 0
+        startRecordOffset = 0.0
         pos = 0
     }
     
@@ -423,6 +425,7 @@ class ClickTrackInstrument: SynthInstrument{
         else if(!self.muted){
             if(preRollEnded){
                 clickTrack.song.start_record()
+                startRecordOffset = clickTrack.track.currentPosition.beats
                 preRollEnded = false
             }
             
@@ -431,6 +434,7 @@ class ClickTrackInstrument: SynthInstrument{
         }
         else if(preRollEnded){
             clickTrack.song.start_record()
+            startRecordOffset = clickTrack.track.currentPosition.beats
             preRollEnded = false
         }
         
@@ -817,6 +821,7 @@ class MeasureTimeline {
     func update(){
         let current_track_measure = self.trackManager.getCurrentMeasureNum()
         let current_measure_progress = self.trackManager.getMeasureProgress()
+        print("current measure \(current_track_measure)")
         prev_bar_num = bar_num
         self.bar_num = self.getBarNumFromMeasure(measure_num: current_track_measure)
         bars_progress[bar_num] = current_measure_progress
@@ -876,6 +881,7 @@ class TrackManager{
         
         return secPerMeasure * Double(measureCount)
     }
+    
     var timeElapsedAbs: Double {
         let timeElapsedSec = timer.stop()
         return timeElapsedSec
@@ -897,6 +903,16 @@ class TrackManager{
         }
         
         return time
+    }
+    
+    var beatsElapsed: Double {
+        let total_beats_elapsed = clickTrack.track.currentPosition.beats
+        if(total_beats_elapsed < Double(totalBeats)){
+            return total_beats_elapsed
+        }
+        else{
+            return total_beats_elapsed.truncatingRemainder(dividingBy: Double(totalBeats))
+        }
     }
     
     //MARK: Initialize
@@ -1008,24 +1024,36 @@ class TrackManager{
     }
     
     func getCurrentMeasureNum() -> Int {
+        let beats_elapsed = track.currentPosition.beats
+        let beat_offset = clickTrack.instrument.startRecordOffset
         if(!firstInstance){
-            return Int(floor(self.timeElapsed / secPerMeasure))
+            return Int(floor((beatsElapsed) / beatsPerMeasure))//Int(floor(self.timeElapsed / secPerMeasure))
         }
         else {
-            return Int(floor(timeElapsedAbs / secPerMeasure))
+            return Int(floor((beats_elapsed - beat_offset)  / beatsPerMeasure))//Int(floor(timeElapsedAbs / secPerMeasure))
         }
     }
     
     func getMeasureProgress()->Double {
         let measure_time: Double!
+        let beats_elapsed = track.currentPosition.beats
+        let tempo = clickTrack.track.tempo
         if(!firstInstance){
             
-            measure_time = timeElapsed.truncatingRemainder(dividingBy: secPerMeasure)
+            //measure_time = timeElapsed.truncatingRemainder(dividingBy: secPerMeasure)
+            measure_time = beats_elapsed.truncatingRemainder(dividingBy: Double(beatsPerMeasure))
         }
         else {
-             measure_time = timeElapsedAbs.truncatingRemainder(dividingBy: secPerMeasure)
+             //measure_time = timeElapsedAbs.truncatingRemainder(dividingBy: secPerMeasure)
+             measure_time = beats_elapsed.truncatingRemainder(dividingBy: Double(beatsPerMeasure))
         }
-        let measure_progress = measure_time / secPerMeasure
+        print("current pos \(track.currentPosition.beats)")
+        print("measure time \(measure_time)")
+        print("beats per measure \(beatsPerMeasure)")
+        print("tempo \(tempo)")
+        //let measure_progress = measure_time / secPerMeasure
+        let measure_progress = measure_time / beatsPerMeasure
+        print("measure progress \(measure_progress)")
         return measure_progress
     }
 

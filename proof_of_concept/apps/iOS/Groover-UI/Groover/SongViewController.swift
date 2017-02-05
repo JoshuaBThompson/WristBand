@@ -19,7 +19,10 @@ class SongViewController: UIViewController, UITextFieldDelegate {
     @IBAction func tempoSliderValueChanged(_ sender: TempoSliderCtrl) {
         let value = Int(sender.tempo)
         tempoSliderTextField.text = "\(value)"
-        self.updateTempo(value: Double(value))
+        if(tempoSlider.ready){
+            print("JOSH!")
+            self.updateTempo(value: Double(value))
+        }
     }
     
     @IBOutlet weak var tempoSlider: TempoSliderCtrl!
@@ -44,6 +47,7 @@ class SongViewController: UIViewController, UITextFieldDelegate {
         let value = Int(sender.measures)
         measuresSliderTextField.text = "\(value)"
         /* update global measure count ? */
+        
         self.song.setDefaultMeasures(measureCount: value)
     }
     

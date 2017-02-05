@@ -28,8 +28,10 @@ class ParametersModalViewController: UIViewController, UITextFieldDelegate {
     @IBAction func trackMeasuresSliderValueChanged(_ sender: TrackMeasuresSliderCtrl) {
         let new_measures = trackMeasuresSlider.measures
         trackMeasuresSliderValueTextField.text = "\(new_measures)"
-        self.song.updatePresetMeasureCount(new_measures)
-        print("updated track measures to \(new_measures)")
+        if(trackMeasuresSlider.ready){
+            self.song.updatePresetMeasureCount(new_measures)
+            print("updated track measures to \(new_measures)")
+        }
     }
     
     @IBOutlet weak var trackMeasuresSlider: TrackMeasuresSliderCtrl!

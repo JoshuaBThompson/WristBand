@@ -58,7 +58,7 @@ class VolumeSliderCtrl: SliderCtrl{
     override func draw(_ rect: CGRect) {
         if(self.position == nil){
             self.position = CGPoint(x: 0, y: 0)
-            self.update_pos_from_value(new_value: self.default_value)
+            self.update_pos_from_value(new_value: CGFloat(self.default_value))
             UIGroover.drawSliderCanvas(sliderPosition: self.position.x)
             
         }

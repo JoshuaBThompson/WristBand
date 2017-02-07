@@ -60,7 +60,7 @@ class NewSongViewController: UIViewController, UITextFieldDelegate {
     }
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if(textField == self.newSongTextField){
-            self.newSongLabel.text = textField.text
+            //self.newSongLabel.text = textField.text
         }
         
         print("TextField should return method called")
@@ -78,7 +78,7 @@ class NewSongViewController: UIViewController, UITextFieldDelegate {
         
         if(segue.destination is SongViewController){
             print("about to leave new song view")
-            GlobalAttributes.songViewController.saved_song_name = self.newSongLabel.text
+            GlobalAttributes.songViewController.saved_song_name = self.newSongTextField.text
         }
     }
     

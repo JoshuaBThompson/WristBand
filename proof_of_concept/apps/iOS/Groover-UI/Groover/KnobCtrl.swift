@@ -12,7 +12,7 @@ class KnobCtrl: Knob {
    
     //MARK: properties
     var instSnap: SnapFilter!
-    var clickRingActive = true
+    var clickRingActive = false
     var clickActive = false
     var angle: CGFloat = 0.0
     var previousTimestamp = 0.0
@@ -45,7 +45,22 @@ class KnobCtrl: Knob {
     
     
     override func draw(_ rect: CGRect) {
-        UIGroover.drawKnobCanvas(knobFrame: self.bounds, rotation: drawAngle, clickSelected: clickActive, clickRingActive: clickRingActive)
+        let modelNameShort = UIDevice.current.modelNameShort
+        if(modelNameShort == "iPhone SE"){
+            UIGroover.drawKnobCanvasSE(knobFrame: self.bounds, rotation: drawAngle, clickSelected: clickActive, clickRingActive: clickRingActive)
+        }
+        else if(modelNameShort == "iPhone 6and7 Plus"){
+            UIGroover.drawKnobCanvas6and7plus(knobFrame: self.bounds, rotation: drawAngle, clickSelected: clickActive, clickRingActive: clickRingActive)
+        }
+        else if(modelNameShort == "iPhone 6and7"){
+            UIGroover.drawKnobCanvas6and7(knobFrame: self.bounds, rotation: drawAngle, clickSelected: clickActive, clickRingActive: clickRingActive)
+        }
+        else if(modelNameShort == "Simulator"){
+            UIGroover.drawKnobCanvasSE(knobFrame: self.bounds, rotation: drawAngle, clickSelected: clickActive, clickRingActive: clickRingActive)
+        }
+        else{
+            UIGroover.drawKnobCanvasSE(knobFrame: self.bounds, rotation: drawAngle, clickSelected: clickActive, clickRingActive: clickRingActive)
+        }
     }
     
     override init(frame: CGRect) {
@@ -173,7 +188,6 @@ class KnobCtrl: Knob {
             print("delta angle is \(dltaAngle)")
             
             incrementAngle(rotDir*dltaAngle)
-            clickRingActive = true
             turnKnob()
             print("new angle \(angle)")
             print("abs angle \(absAngle)")
@@ -184,9 +198,13 @@ class KnobCtrl: Knob {
     }
     
     override func endTracking(_ touch: UITouch?, with event: UIEvent?) {
-        clickRingActive = true  //TODO: should we set back to false?
         setNeedsDisplay()
         sendActions(for: .editingDidEnd)
+    }
+    
+    func updateClickRingActive(active: Bool){
+        clickRingActive = active
+        setNeedsDisplay()
     }
     
     

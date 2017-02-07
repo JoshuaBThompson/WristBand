@@ -9,9 +9,6 @@
 import UIKit
 import CoreMotion
 
-import UIKit
-import CoreMotion
-
 class ViewController: UIViewController {
     //MARK: properties
     var song: Song!
@@ -26,18 +23,26 @@ class ViewController: UIViewController {
     var selectedSong = String()
     var risingBeatFilter = RisingBeatFilter()
     var fallingBeatFilter = FallingBeatFilter()
-    
+    var beatDetected = false
+    var beatDetectedCount = 0
+    var prevKnobDetent: Int = 0
+    var measureTimer: Timer!
+    var measureViews = [MeasureCtrl]()
     //MARK: outlets
     
-    //@IBOutlet weak var hamburgerButton: HamburgerIconCtrl!
-    //@IBOutlet weak var settingsButton: SettingsIconCtrl!
-    //@IBOutlet weak var parametersButton: ParametersButtonCtrl!
-    //@IBOutlet weak var popup: PopupCtrl!
-    //@IBOutlet weak var positionIndicator: PositionIndicator!
+    @IBOutlet weak var measureView1: MeasureCtrl!
+    @IBOutlet weak var measureView2: MeasureCtrl!
+    @IBOutlet weak var measureView3: MeasureCtrl!
+    @IBOutlet weak var measureView4: MeasureCtrl!
+    
+    @IBOutlet weak var instrumentViewWrap: UIView!
     @IBOutlet weak var instrumentNameLabel: UILabel!
     
     @IBOutlet weak var knob: KnobCtrl!
     
+    @IBOutlet weak var parametersButton: ParametersButtonCtrl!
+    
+    @IBOutlet weak var positionIndicator: PositionIndicator!
     //@IBOutlet weak var parametersPopup: ParametersPopupCtrl!
     
     @IBOutlet weak var playButton: PlayCtrl!
@@ -49,49 +54,29 @@ class ViewController: UIViewController {
     @IBOutlet weak var sixteenthQuantizeButton: SixteenthCtrl!
     @IBOutlet weak var thirtysecondQuantizeButton: ThirtysecondCtrl!
     @IBOutlet weak var tripletQuantizeButton: TripletCtrl!
-    
-    //MARK: parameters popup elements
-    //@IBOutlet weak var muteButton: MuteButton!
-    //@IBOutlet weak var clearButton: ClearButton!
-    //@IBOutlet weak var soloButton: SoloButton!
-    //@IBOutlet weak var measureCountLabel: UILabel!
-    //@IBOutlet weak var measuresLabel: UILabel!
-    //@IBOutlet weak var rightMeasureButton: MeasureRightButton!
-    //@IBOutlet weak var leftMeasureButton: MeasureLeftButton!
-    
-    //MARK: settings popup elements
-    
-    //@IBOutlet weak var tempoRightButton: TempoRightButton!
-    //@IBOutlet weak var tempoLeftButton: TempoLeftButton!
-    //@IBOutlet weak var timesigRightButton: TimeSigRightButton!
-    //@IBOutlet weak var timesigLeftButton: TimeSigLeftButton!
-    //@IBOutlet weak var tempoLabel: UILabel!
-    //@IBOutlet weak var timesigLabel: UILabel!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         self.navigationController?.navigationBar.shadowImage =  UIImage()
         self.navigationController?.navigationBar.isTranslucent = true
-        // Do any additional setup after loading the view, typically from a nib.
-        
-        //Init settings popup with buttons and labels from main storyboard
-        //popup.initButtonsAndLabels(tempoRightButtonRef: tempoRightButton, tempoLeftButtonRef: tempoLeftButton, timesigRightButtonRef: timesigRightButton, timesigLeftButtonRef: timesigLeftButton, tempoLabelRef: tempoLabel, timesigLabelRef: timesigLabel)
-        //Init parameters popup with buttons and labels from main storyboard
-        //parametersPopup.initButtonsAndLabels(clearButtonRef: clearButton, soloButtonRef: soloButton, muteButtonRef: muteButton, rightButtonRef: rightMeasureButton, leftButtonRef: leftMeasureButton, measureTitleRef: measuresLabel, measureLabelRef: measureCountLabel)
+        // Do any additional setup after loading the view, typically from a nib.s
         
         //Connect view controller functions to buttons events
         
         //Play / Record
+        
         playButton.addTarget(self, action: #selector(ViewController.playRecordButtonSelected(_:)), for: .valueChanged)
         recordButton.addTarget(self, action: #selector(ViewController.playRecordButtonSelected(_:)), for: .valueChanged)
         
         //Knob
+        
         knob.addTarget(self, action: #selector(ViewController.knobAngleChanged(_:)), for: .valueChanged)
         knob.addTarget(self, action: #selector(ViewController.innerKnobTapped(_:)), for: .editingChanged)
         knob.addTarget(self, action: #selector(ViewController.hidePositionIndicator), for: .editingDidEnd)
         
         //Quantize
+        
         quarterQuantizeButton.addTarget(self, action: #selector(ViewController.quantizeButtonSelected(_:)), for: .valueChanged)
         eighthQuantizeButton.addTarget(self, action: #selector(ViewController.quantizeButtonSelected(_:)), for: .valueChanged)
         sixteenthQuantizeButton.addTarget(self, action: #selector(ViewController.quantizeButtonSelected(_:)), for: .valueChanged)
@@ -103,20 +88,8 @@ class ViewController: UIViewController {
         quantizeButtons.append(thirtysecondQuantizeButton)
         quantizeButtons.append(tripletQuantizeButton)
         
-        /*
-        hamburgerButton.addTarget(self, action: #selector(ViewController.hamburgerButtonSelected), for: .valueChanged)
-        parametersButton.addTarget(self, action: #selector(ViewController.parametersButtonSelected), for: .valueChanged)
-        parametersPopup.addTarget(self, action: #selector(ViewController.parametersOptionSelected), for: .valueChanged)
-        popup.addTarget(self, action: #selector(ViewController.popupButtonSelected), for: .valueChanged)
+        song = GlobalAttributes.song
         
-        quantizeButtons.append(quarterQuantizeButton)
-        quantizeButtons.append(eighthQuantizeButton)
-        quantizeButtons.append(sixteenthQuantizeButton)
-        quantizeButtons.append(thirtysecondQuantizeButton)
-        quantizeButtons.append(tripletQuantizeButton)
-        */
-        song = GlobalAttributes.song//Song()
-        instrumentNameLabel.text = song.selectedInstrumentName
         song.start()
         
         motionManager.startAccelerometerUpdates()
@@ -125,6 +98,59 @@ class ViewController: UIViewController {
             motionManager.startAccelerometerUpdates(to: queue, withHandler: beatHandler)
             
         }
+        prevKnobDetent = knob.detent
+        measureViews.append(measureView1)
+        measureViews.append(measureView2)
+        measureViews.append(measureView3)
+        measureViews.append(measureView4)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        instrumentNameLabel.text = song.selectedInstrumentName
+        //animateMeasureTimeline()
+        startMeasureTimelineThread()
+    }
+    
+    //continuously checks to see what % of the current instrument measure count has elapsed
+    //used to update the groover measure timeline bar progress
+    func startMeasureTimelineThread(){
+        measureTimer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(measureTimerHandler), userInfo: nil, repeats: true)
+        
+    }
+    
+    func measureTimerHandler(){
+        if(!song.playing){
+            return
+        }
+        
+         let ready = song.updateMeasureTimeline()
+         if(!ready){
+            return
+         }
+         let bar_num = song.timeline.bar_num
+         let prev_bar_num = song.timeline.prev_bar_num
+         let bar_progress = song.timeline.current_progress
+         let ready_to_clear = song.timeline.ready_to_clear
+         if(ready_to_clear){
+            for measure_view in measureViews {
+                measure_view.clearProgress()
+            }
+         }
+         measureViews[bar_num].updateMeasureProgress(progress_prcnt: CGFloat(bar_progress))
+        if(prev_bar_num < bar_num){
+            //fill in prev bar num to 100% just in case
+            measureViews[prev_bar_num].updateMeasureProgress(progress_prcnt: CGFloat(1.0))
+        }
+        
+    }
+    
+    func animateMeasureTimeline(){
+    
+        UIView.animate(withDuration: 3.0, delay: 1.0, options: [UIViewAnimationOptions.repeat, UIViewAnimationOptions.curveEaseOut], animations: {
+            self.measureView1.updateMeasureProgress(progress_prcnt: 10)
+            
+        }, completion: nil)
     }
     
     override func didReceiveMemoryWarning() {
@@ -139,14 +165,6 @@ class ViewController: UIViewController {
     
     //MARK: Button event handlers
     
-    
-    //MARK: hamburger / settings button
-    func hamburgerButtonSelected(){
-        /*
-        print("hamburger button selected")
-        popup.toggleHide()
-        */
-    }
     
     //MARK: Quantize buttons
     func quantizeButtonSelected(_ quantizeButton: QuantizeButtonProtocol){
@@ -185,105 +203,16 @@ class ViewController: UIViewController {
         
     }
     
-    //MARK: Parameter option selected
-    func parametersOptionSelected(){
-        /*
-        var buttonType = ParametersButtonTypes.CLEAR
-        buttonType = parametersPopup.buttonTypeSelected
-        
-        switch buttonType {
-        case .CLEAR:
-            song.clearPreset()
-            print("song clear preset!")
-        case .SOLO:
-            if(parametersPopup.soloButton.isSelected){
-                song.enableSoloPreset()
-            }
-            else{
-                song.disableSoloPreset()
-            }
-            print("song solo preset!")
-        case .MUTE:
-            if(parametersPopup.muteButton.isSelected){
-                song.mutePreset()
-                print("mute preset!")
-            }
-            else{
-                song.unmutePreset()
-                print("unmute preset!")
-            }
-            
-        case .MEASURE_LEFT:
-            print("measure change decrease to \(parametersPopup.measures)!")
-        
-        case .MEASURE_RIGHT:
-            print("measure change increase to \(parametersPopup.measures)!")
-        }
-        */
-    }
-    
-    //MARK: Parameter button function
-    func parametersButtonSelected(){
-        /*
-        //hide or show popup
-        if(parametersPopup.isHidden){
-            parametersPopup.show()
-            //update measure count based on selected instrument
-            parametersPopup.setMeasure(song.presetMeasureCount)
-        }
-        else{
-            parametersPopup.hide()
-            //also see if user updated measure count and if so change preset track measure count
-            let currentMeasures = song.presetMeasureCount
-            let newMeasures = parametersPopup.measures
-            let updated = parametersPopup.measuresUpdated
-            if(newMeasures != currentMeasures && updated){
-                song.updatePresetMeasureCount(newMeasures)
-                parametersPopup.measuresUpdated = false //clear for next use
-            }
- 
-        }
-        */
-    }
     
     //MARK: Hide position indicator
     func hidePositionIndicator(){
-        /*
-        positionIndicator.hide()
         parametersButton.show()
-        */
-    }
-    
-    //MARK: popup buttons handler
-    func popupButtonSelected(){
-        /*
-        var buttonType = SettingsButtonTypes.TEMPO_LEFT
-        buttonType = popup.buttonTypeSelected
+        positionIndicator.hide()
+        instrumentViewWrap.backgroundColor = UIColor.clear
+        //parametersButton.show()
         
-        switch buttonType {
-        case .TEMPO_LEFT:
-            song.setTempo(popup.tempo)
-            print("update tempo dec")
-            break
-        case .TEMPO_RIGHT:
-            song.setTempo(popup.tempo)
-            print("update tempo inc")
-            break
-        case .TIMESIG_LEFT:
-            //song.instruments[song.selectedInstrument].decPresetVolume()
-            //print("dec volume to \(song.instruments[song.selectedInstrument].presetVolume)")
-            song.decPresetPan()
-            print("dec Pan to \(song.instruments[song.selectedInstrument].pan)")
-            break
-        case .TIMESIG_RIGHT:
-            //song.instruments[song.selectedInstrument].incPresetVolume()
-            //print("inc volume to \(song.instruments[song.selectedInstrument].presetVolume)")
-            song.incPresetPan()
-            print("inc Pan to \(song.instruments[song.selectedInstrument].pan)")
-            break
-        }
-        */
     }
+
     
     //MARK: play button event handler
     func playRecordButtonSelected(_ playRecordButton: UIButton){
@@ -294,7 +223,9 @@ class ViewController: UIViewController {
                 song.play()
             }
             else{
+                song.stop_record()
                 song.stop()
+                recordButton.isSelected = false //toggle record button
             }
         }
         else if(playRecordButton == recordButton){
@@ -315,16 +246,17 @@ class ViewController: UIViewController {
     
     //MARK: Knob event handlers
     func knobAngleChanged(_ knobControl: KnobCtrl){
-        /*
-        positionIndicator.show()
-        parametersButton.hide()
-        print("knob angle changed to \(knobControl.angle)!")
-        print("knob detentNum \(knob.detent)")
-        positionIndicator.setPosition(knobControl.detent)
-        let position = positionIndicator.currentPos //ex: 0 or 1 or 2 or 3...17
-        */
+        
         let position = knob.detent
         let wasRecording = song.recordEnabled
+        if(prevKnobDetent != position){
+            parametersButton.hide()
+            instrumentViewWrap.backgroundColor = UIColor.black
+            positionIndicator.show()
+            positionIndicator.setPosition(knobControl.detent)
+        }
+        prevKnobDetent = position
+        
         selectSound(position)
         if(!song.recordEnabled && wasRecording){
             recordButton.isSelected = false
@@ -359,6 +291,8 @@ class ViewController: UIViewController {
         
         //temporary hack when not using iPhone (using simulator) to allow for beat generation
         song.addNote() //Used for testing in sim mode to simulate motion generated beat
+        knob.updateClickRingActive(active: true)
+        beatDetected = true
         updateButtonStatesAfterNoteAdded()
     }
 
@@ -374,6 +308,8 @@ class ViewController: UIViewController {
             if(fallNum >= 2 || (riseNum == 0)){
                 print("Fall Note \(fallNum)")
                 song.addNote() //make drum sound and add to track if recording!
+                knob.updateClickRingActive(active: true)
+                beatDetected = true
                 riseNum = 0
                 
             }
@@ -385,8 +321,20 @@ class ViewController: UIViewController {
             if(riseNum >= 2 || (fallNum == 0)){
                 print("Rise Note \(riseNum)")
                 song.addNote() //make drum sound and add to track if recording!
+                knob.updateClickRingActive(active: true)
+                beatDetected = true
                 fallNum = 0
                 
+            }
+        
+        }
+        
+        if(beatDetected){
+            beatDetectedCount += 1
+            if(beatDetectedCount >= 10){
+                knob.updateClickRingActive(active: false)
+                beatDetected = false
+                beatDetectedCount = 0
             }
         }
         

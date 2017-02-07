@@ -11,7 +11,19 @@ import UIKit
 //@IBDesignable
 class Knob: UIControl {
     override func draw(_ rect: CGRect) {
-        UIGroover.drawKnobCanvas(knobFrame: self.bounds)
+        let modelNameShort = UIDevice.current.modelNameShort
+        if(modelNameShort == "iPhone SE"){
+            UIGroover.drawKnobCanvasSE(knobFrame: self.bounds)
+        }
+        else if(modelNameShort == "iPhone 6and7 Plus"){
+            UIGroover.drawKnobCanvas6and7(knobFrame: self.bounds)
+        }
+        else if(modelNameShort == "iPhone 6and7"){
+            UIGroover.drawKnobCanvas6and7plus(knobFrame: self.bounds)
+        }
+        else{
+            UIGroover.drawKnobCanvasSE(knobFrame: self.bounds)
+        }
     }
 }
 

@@ -12,13 +12,17 @@ class SongViewController: UIViewController, UITextFieldDelegate {
     //MARK: Properties
     var song: Song!
     var saved_song_name: String!
+    var cancelled = false
     //MARK: UI Element Controls
     
     //MARK: tempo
     @IBAction func tempoSliderValueChanged(_ sender: TempoSliderCtrl) {
         let value = Int(sender.tempo)
         tempoSliderTextField.text = "\(value)"
-        self.updateTempo(value: Double(value))
+        if(tempoSlider.ready){
+            print("JOSH!")
+            self.updateTempo(value: Double(value))
+        }
     }
     
     @IBOutlet weak var tempoSlider: TempoSliderCtrl!
@@ -40,10 +44,11 @@ class SongViewController: UIViewController, UITextFieldDelegate {
     //MARK: Measure
     
     @IBAction func measureSliderValueChanged(_ sender: GlobalMeasuresCtrl) {
-        print("MEASURE CHANGED")
         let value = Int(sender.measures)
         measuresSliderTextField.text = "\(value)"
         /* update global measure count ? */
+        
+        self.song.setDefaultMeasures(measureCount: value)
     }
     
     
@@ -60,14 +65,31 @@ class SongViewController: UIViewController, UITextFieldDelegate {
         self.tempoSliderTextField.delegate = self
         self.song = GlobalAttributes.song
         GlobalAttributes.songViewController = self
+        GlobalAttributes.songSelected = false
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         self.navigationController?.navigationBar.shadowImage =  UIImage()
         self.navigationController?.navigationBar.isTranslucent = true
         
-
+        
         self.navigationItem.title = self.song.current_song.name//"Long Ass Song Title Placeholder"
+        
+        self.initTempoSlider()
+        self.initDefaultMeasuresSlider()
     }
 
+    //MARK: Init tempo 
+    func initTempoSlider(){
+        let tempo = Int(self.song.tempo.beatsPerMin)
+        tempoSliderTextField.text = "\(tempo)"
+        tempoSlider.update_pos_from_detent(new_detent: tempo)
+    }
+    
+    //MARK: Init global default measures
+    func initDefaultMeasuresSlider(){
+        let measures = self.song.defaultMeasureCount
+        measuresSliderTextField.text = "\(measures)"
+        measureSlider.update_pos_from_detent(new_detent: measures)
+    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -78,12 +100,19 @@ class SongViewController: UIViewController, UITextFieldDelegate {
         return true
     }
     
-    @IBAction func unwindToSong(segue: UIStoryboardSegue) {}
+    @IBAction func unwindToSong(segue: UIStoryboardSegue) {
+        print("unwindToSong")
+    }
     
     //MARK: cancel unwind
     @IBAction func unwindCancelNewSong(segue: UIStoryboardSegue) {
         print("cancel new song")
         
+    }
+    
+    @IBAction func unwindCancelSongSelection(segue: UIStoryboardSegue){
+        print("cancel song selection")
+        cancelled = true
     }
     
     //MAR: Save unwind
@@ -101,6 +130,11 @@ class SongViewController: UIViewController, UITextFieldDelegate {
         // Pass the selected object to the new view controller.
     }
     */
+    
+    //Delete song
+    func deleteSong(num: Int){
+        song.deleteSong(num: num)
+    }
     
     //Update Title
     func setSongName(title: String){
@@ -226,7 +260,7 @@ class SongViewController: UIViewController, UITextFieldDelegate {
         //now save song to database
         self.song.saveSong()
         
-        self.setSongName(title: song_name) //set title of song view to current song name6
+        self.setSongName(title: song_name) //set title of song view to current song name
         
     }
 

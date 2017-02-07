@@ -10,7 +10,7 @@ import UIKit
 
 //@IBDesignable
 class PositionIndicator: UIView {
-   /* var currentPos: Int = 0
+    var currentPos: Int = 0
     let minPos = 0
     let maxPos = 17
     
@@ -110,6 +110,5 @@ class PositionIndicator: UIView {
             
         }
     }
-   */ 
     
 }

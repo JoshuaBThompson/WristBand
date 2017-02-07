@@ -29,12 +29,23 @@ class Song {
     var loadSavedSongs = true
     
     //MARK: computed variables
+    var timeline: MeasureTimeline {
+        return self.instrument.trackManager.timeline
+    }
+    
+    var defaultMeasureCount: Int {
+        return clickTrack.instrument.defaultMeasures
+    }
     
     var presetMeasureCount: Int {
         return instruments[selectedInstrument].trackManager.measureCount
     }
     var selectedInstrumentName: String {
         return instruments[selectedInstrument].instrument.name
+    }
+    
+    var presetVolumePercent: Int {
+        return Int(instruments[selectedInstrument].volume)
     }
     
     var instrument: InstrumentTrack {
@@ -60,6 +71,7 @@ class Song {
         AudioKit.output = mixer
 
     }
+    
     
     func getSavedSongs() -> [SongDatabase]? {
         print("Song database file path: \(SongDatabase.ArchiveURL.path)")
@@ -118,6 +130,7 @@ class Song {
         }
         if(num < self.current_song.tracks.count){
             self.current_song.tracks[num].loadSavedTrack()
+            track.clear()
             track.trackNotes = self.current_song.tracks[num].track
             track.velNotes = self.current_song.tracks[num].velocity
             track.durNotes = self.current_song.tracks[num].duration
@@ -125,6 +138,8 @@ class Song {
             track.updateMeasureCount(self.current_song.tracks[num].measures)
             track.instrument.updatePan(self.current_song.tracks[num].pan)
             track.instrument.updateVolume(self.current_song.tracks[num].volume)
+            track.appendTrack(offset: 0)
+            
             print("loaded saved track \(num)")
         }
         else{
@@ -163,6 +178,22 @@ class Song {
             return "Invalid Song"
         }
     }
+    func deleteSong(num: Int){
+        self.stop()
+        if(num < songsDatabase.count){
+            print("Deleting song \(num)")
+            if(self.current_song == self.songsDatabase[num]){
+                self.current_song = nil
+            }
+            self.songsDatabase.remove(at: num)
+            
+            //update database after removing song
+            self.saveSongDatabase()
+            
+            //now load new empty song to take deleted songs place
+            self.loadNewSong()
+        }
+    }
     
     func saveSong(){
         if(songsDatabase == nil || self.current_song == nil){
@@ -177,10 +208,15 @@ class Song {
         
         for i in 0 ..< self.current_song.tracks.count {
             self.current_song.tracks[i].loadNewTrack(trackManager: instruments[i].trackManager)
+            print("Saving song pan \(self.current_song.tracks[i].pan)")
             
         }
         
-        //songDatabase.saveSong()
+        self.saveSongDatabase()
+        
+    }
+    
+    func saveSongDatabase(){
         print("Song database file path: \(SongDatabase.ArchiveURL.path)")
         let isSuccessfulSave = NSKeyedArchiver.archiveRootObject(songsDatabase, toFile: SongDatabase.ArchiveURL.path)
         if !isSuccessfulSave {
@@ -268,6 +304,18 @@ class Song {
         
     }
     
+
+    func updateMeasureTimeline()->Bool{
+        let recorded = !self.instrument.trackManager.firstInstance
+        let ready: Bool = (recorded || recordEnabled)
+        if(!playing || !ready){
+            return false
+        }
+        
+        self.instrument.trackManager.timeline.update()
+        return true
+    }
+    
     func start(){
         //start audiokit output
         AudioKit.start()
@@ -340,7 +388,8 @@ class Song {
             return
         }
         noteAdded = true
-        instruments[selectedInstrument].addNote(127, duration: 0)
+        let duration = instrument.trackManager.minBeatDuration
+        instruments[selectedInstrument].addNote(127, duration: duration)
         if !playing {
             print("record started play")
             play()
@@ -352,12 +401,20 @@ class Song {
         if(enable){
             quantizeEnabled = true
             quantizeResolution = resolution
-            instruments[selectedInstrument].enableQuantize()
-            instruments[selectedInstrument].updateQuantize(resolution)
+            for inst in instruments {
+                inst.enableQuantize()
+                inst.updateQuantize(resolution)
+            }
+            
+            //instruments[selectedInstrument].enableQuantize()
+            //instruments[selectedInstrument].updateQuantize(resolution)
         }
         else{
             quantizeEnabled = true
-            instruments[selectedInstrument].disableQuantize()
+            for inst in instruments {
+                inst.disableQuantize()
+            }
+            //instruments[selectedInstrument].disableQuantize()
         }
     }
     
@@ -473,9 +530,6 @@ class Song {
         instruments[selectedInstrument].record()
         recordEnabled = true
         noteAdded = false
-        
-        
-        
         //now addNote function will add notes to sequences track
     }
     
@@ -496,6 +550,10 @@ class Song {
     }
     
     func stop_record(){
+        if(!recordEnabled){
+            //only do execute stop_record if recording
+            return
+        }
         recordEnabled = false
         clickTrack.timer.stop()
         for inst in instruments{
@@ -509,20 +567,25 @@ class Song {
     
     func play(){
         print("Playing notes of instrument  \(selectedInstrument)")
-        //play note in sequence track (just play first track for now)
-        //play all recorded tracks
+        
         if(!clickTrack.enabled){
             clickTrack.enable() //run click track but mute it
         }
+        clickTrack.resetTrack()
         
         for inst in instruments{
             inst.instrument.reset()
-            inst.trackManager.updateNotePositions() //reset aksequence track and set first note, if any
+            inst.trackManager.resetTrack()
         }
         playing = true
         clickTrack.timer.start()
         clickTrack.start() //start global multitrack
         
+    }
+    
+    func startPresetWithDefaultMeasureCount(){
+        //tells preset to use the defaultMeasure count (global measure) instead of waiting for user to hit 'stop' record
+        self.instrument.trackManager.startLoopFromDefaultMeasures()
     }
     
     func stop(){
@@ -540,16 +603,19 @@ class Song {
     }
     
     func setTempo(_ newBeatsPerMin: Double){
-        stop()
+        //stop()
         print("update all instruments with tempo \(newBeatsPerMin)")
         clickTrack.tempo.set_tempo(bpm: newBeatsPerMin)
         clickTrack.update()
         
     }
     
+    func setDefaultMeasures(measureCount: Int){
+        clickTrack.instrument.defaultMeasures = measureCount
+    }
     
     func setTimeSignature(_ newBeatsPerMeasure: Int, newNote: Int){
-        stop()
+        //stop()
         print("update all instruments with beats per measure \(newBeatsPerMeasure) and \(newNote) note")
         clickTrack.timeSignature.beatsPerMeasure = newBeatsPerMeasure
         clickTrack.timeSignature.beatUnit = newNote

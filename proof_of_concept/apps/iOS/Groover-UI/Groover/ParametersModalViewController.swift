@@ -10,6 +10,12 @@ import UIKit
 
 class ParametersModalViewController: UIViewController, UITextFieldDelegate {
     
+    //Outlets
+    @IBOutlet weak var parametersButton: ParametersButton!
+    
+    //Buttons
+    
+    
     //MARK: Properties
     var song: Song!
     
@@ -22,8 +28,10 @@ class ParametersModalViewController: UIViewController, UITextFieldDelegate {
     @IBAction func trackMeasuresSliderValueChanged(_ sender: TrackMeasuresSliderCtrl) {
         let new_measures = trackMeasuresSlider.measures
         trackMeasuresSliderValueTextField.text = "\(new_measures)"
-        self.song.updatePresetMeasureCount(new_measures)
-        print("updated track measures to \(new_measures)")
+        if(trackMeasuresSlider.ready){
+            self.song.updatePresetMeasureCount(new_measures)
+            print("updated track measures to \(new_measures)")
+        }
     }
     
     @IBOutlet weak var trackMeasuresSlider: TrackMeasuresSliderCtrl!
@@ -53,9 +61,29 @@ class ParametersModalViewController: UIViewController, UITextFieldDelegate {
         super.viewDidLoad()
         self.trackMeasuresSliderValueTextField.delegate = self
         self.song = GlobalAttributes.song
-
+        self.initMeasureSlider()
+        self.initPanSlider()
+        self.initVolumeSlider()
     }
 
+    //MARK: Init measure slider
+    func initMeasureSlider(){
+        self.trackMeasuresSlider.update_pos_from_value(new_value: CGFloat(self.song.presetMeasureCount))
+        let new_measures = trackMeasuresSlider.measures
+        trackMeasuresSliderValueTextField.text = "\(new_measures)"
+    }
+    
+    //MARK: Init pan slider
+    func initPanSlider(){
+        self.panSlider.update_pos_from_value(new_value: CGFloat(self.song.currentPanPercent))
+    }
+    
+    //MARK: Init vol slider
+    func initVolumeSlider(){
+        let vol = CGFloat(self.song.presetVolumePercent)
+        self.volumeSlider.update_pos_from_value(new_value: vol)
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.

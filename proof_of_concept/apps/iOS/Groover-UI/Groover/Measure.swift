@@ -9,10 +9,22 @@
 import UIKit
  
  @IBDesignable
- class Measure: UIButton {
- 
+ class Measure: UIView {
+    
+    /*
      override func draw(_ rect: CGRect) {
-         UIGroover.drawMeasureCanvas(measureFrame: self.bounds)
+        UIGroover.drawMeasureCanvas(measureFrame: self.bounds, measureProgress: measure_progress)
      }
+    */
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        
+    }
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+    }
+    
  
  }

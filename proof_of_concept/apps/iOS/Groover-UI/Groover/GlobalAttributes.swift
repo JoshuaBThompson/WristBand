@@ -11,4 +11,6 @@ import Foundation
 class GlobalAttributes {
     static let song = Song()
     static var songViewController: SongViewController!
+    static var selectedSongNum: Int!
+    static var songSelected = false
 }

@@ -12,6 +12,7 @@ import UIKit
 class SliderCtrl: UIControl{
     
     //MARK: Properties
+    var ready = false
     var max_value: Int = 200
     var min_value: Int = 1
     var default_value: Int = 60
@@ -65,8 +66,10 @@ class SliderCtrl: UIControl{
     }
     
     //MARK: Update position x from value
-    func update_pos_from_value(new_value: Int){
-        
+    func update_pos_from_value(new_value: CGFloat){
+        if(self.position == nil){
+            self.position = CGPoint(x: 0, y: 0)
+        }
         var new_pos = CGFloat(new_value) * (self.maxPosX - self.minPosX) / CGFloat(self.max_value - self.min_value)
         new_pos = new_pos + self.pos_offset
         self.position.x = new_pos
@@ -74,6 +77,10 @@ class SliderCtrl: UIControl{
     
     //MARK: Update current position x from detent value
     func update_pos_from_detent(new_detent: Int){
+        if(self.position == nil){
+            self.position = CGPoint(x: 0, y: 0)
+        }
+        
         var new_pos = self.snapFilter.getDetentPos(new_detent)
         if(new_pos >= self.maxPosX){
             new_pos = self.maxPosX
@@ -86,7 +93,7 @@ class SliderCtrl: UIControl{
     
     //MARK: touch tracking functions
     override func beginTracking(_ touch: UITouch, with event: UIEvent?) -> Bool {
-        
+        ready = false
         self.previousTimestamp = event!.timestamp //need initial timestamp for continue tracking with touch calculations
         self.previousLocation = touch.previousLocation(in: self)
         updateBeginPosition(self.previousLocation)
@@ -98,7 +105,7 @@ class SliderCtrl: UIControl{
     }
     
     override func continueTracking(_ touch: UITouch, with event: UIEvent?) -> Bool {
-        
+        ready = false
         let timeSincePrevious = event!.timestamp - previousTimestamp
         
         //only calc angle after 1 sec since delta angles are too small if calc every time continue tracking is called
@@ -115,10 +122,11 @@ class SliderCtrl: UIControl{
     }
     
     override func endTracking(_ touch: UITouch?, with event: UIEvent?) {
+        ready = true
         let endLocation = touch?.location(in: self)
         print("end tracking pan at \(endLocation?.x)")
-        let final_pos_x = self.pos_from_detent //snap to neartest detent
-        self.position.x = final_pos_x
+        //let final_pos_x = self.pos_from_detent //snap to neartest detent
+        //self.position.x = final_pos_x
         setNeedsDisplay()
         sendActions(for: .valueChanged)
     }

@@ -10,6 +10,7 @@ import UIKit
 
 protocol SongCellDelegate: class {
     func selectSong(num: Int)
+    func deleteSong(num: Int)
     
 }
 
@@ -18,24 +19,13 @@ class SongListTableViewCell: UITableViewCell {
     weak var delegate: SongCellDelegate?
     var num: Int = 0
     
-    /* Need to add these UI elements
-     @IBOutlet weak var nameLabel: UILabel!
-     @IBAction func selectSongButton(_ sender: UIButton) {
-     print("song \(num) selected from cell")
-     self.delegate?.selectSong(num: self.num)
-     }
-     */
-    @IBAction func selectSongButton(_ sender: UIButton) {
-        print("Song \(num) select")
-        self.delegate?.selectSong(num: self.num)
-    }
-    
     @IBOutlet weak var songNameLabel: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
     }
+    
     
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)

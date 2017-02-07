@@ -13,7 +13,7 @@ class RecordCtrl: Record, PlayRecordProtocol {
     var type: PlayRecordButtonTypes_t = .RECORD
     
     override func draw(_ rect: CGRect) {
-        UIGroover.drawRecordCanvas(recordSelected: isSelected)
+        UIGroover.drawRecordCanvas(recordFrame: self.bounds, recordSelected: isSelected)
     }
     
     override init(frame: CGRect) {

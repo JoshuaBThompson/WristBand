@@ -906,7 +906,7 @@ class TrackManager{
     }
     
     var beatsElapsed: Double {
-        let total_beats_elapsed = clickTrack.track.currentPosition.beats
+        let total_beats_elapsed = clickTrack.track.currentPosition.beats - clickTrack.instrument.startRecordOffset
         if(total_beats_elapsed < Double(totalBeats)){
             return total_beats_elapsed
         }
@@ -1026,11 +1026,15 @@ class TrackManager{
     func getCurrentMeasureNum() -> Int {
         let beats_elapsed = track.currentPosition.beats
         let beat_offset = clickTrack.instrument.startRecordOffset
-        if(!firstInstance){
+        let abs_beats_elapsed = beats_elapsed - beat_offset
+        let first_loop_finished = (abs_beats_elapsed > totalDuration)
+        if(!firstInstance && first_loop_finished){
+            print("!abs_beats \(abs_beats_elapsed) total \(totalDuration) beats elapsed \(beatsElapsed)")
             return Int(floor((beatsElapsed) / beatsPerMeasure))//Int(floor(self.timeElapsed / secPerMeasure))
         }
         else {
-            return Int(floor((beats_elapsed - beat_offset)  / beatsPerMeasure))//Int(floor(timeElapsedAbs / secPerMeasure))
+            print("abs_beats \(abs_beats_elapsed) total \(totalDuration)")
+            return Int(floor(abs_beats_elapsed / beatsPerMeasure))//Int(floor(timeElapsedAbs / secPerMeasure))
         }
     }
     

@@ -11,13 +11,18 @@ import Foundation
 class SoundLibraryHelper {
     static let fileManager = FileManager.default
     
+    //MARK: Init
+    init(){
+        
+    }
+    
     //MARK: Get list of sounds from path
-    static func getSoundsFromLibraryPath(directory: String)->[String]{
+    func getSoundsFromLibraryPath(directory: String)->[String]{
         let sound_lib_paths = Bundle.main.paths(forResourcesOfType: "wav", inDirectory: directory)
         return sound_lib_paths
     }
     
-    static func getSoundFileNameFromPath(path: String)->String{
+    func getSoundFileNameFromPath(path: String)->String{
         return path.fileName()
     }
 }

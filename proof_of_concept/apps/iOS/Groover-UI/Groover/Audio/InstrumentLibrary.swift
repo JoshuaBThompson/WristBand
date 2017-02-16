@@ -41,9 +41,10 @@ class SoundLibrary {
     var instruments = [SynthInstrument]()
     var soundLibraryList: [String]!
     var subDirectory: String!
+    var sound_lib_helper = SoundLibraryHelper()
     
     init(location: String="Main", subDirectory: String="Sounds_Extra"){
-        
+        self.subDirectory = subDirectory
         if(location == "Main"){
             getSoundsFromMainBundle()
         }
@@ -53,13 +54,14 @@ class SoundLibrary {
         else if(location == "Library"){
             //TODO: add library sound finder
         }
-        
     }
     
     func getSoundsFromMainBundle(){
-        soundLibraryList = SoundLibraryHelper.getSoundsFromLibraryPath(directory: self.subDirectory)
+        soundLibraryList = sound_lib_helper.getSoundsFromLibraryPath(directory: self.subDirectory)
         for soundPath in soundLibraryList {
-            instruments.append(SavedInstrument(soundFilePath: soundPath))
+            let inst = SavedInstrument(soundFilePath: soundPath)
+            instruments.append(inst)
+            print("!got sound \(inst.name)")
         }
     }
 }

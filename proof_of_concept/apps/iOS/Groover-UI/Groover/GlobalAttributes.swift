@@ -13,5 +13,4 @@ class GlobalAttributes {
     static var songViewController: SongViewController!
     static var selectedSongNum: Int!
     static var songSelected = false
-    static var soundLibraryList = SoundLibraryHelper.getSoundsFromLibraryPath(directory: "Sounds_Extra/")
 }

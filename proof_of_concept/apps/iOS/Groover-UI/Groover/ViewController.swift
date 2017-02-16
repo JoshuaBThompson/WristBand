@@ -105,7 +105,7 @@ class ViewController: UIViewController {
         measureViews.append(measureView4)
         
         let soundLibHelper = SoundLibraryHelper()
-        soundLibHelper.getSoundsFromLibraryPath(path: "test")
+        soundLibHelper.getSoundsFromLibraryPath(directory: "test")
     }
     
     override func viewDidAppear(_ animated: Bool) {

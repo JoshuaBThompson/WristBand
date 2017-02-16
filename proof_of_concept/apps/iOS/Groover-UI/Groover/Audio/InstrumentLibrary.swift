@@ -39,6 +39,7 @@ class SavedInstrument: SynthInstrument{
 
 class SoundLibrary {
     var instruments = [SynthInstrument]()
+    var position_map: [String: Int]!
     var soundLibraryList: [String]!
     var subDirectory: String!
     var sound_lib_helper = SoundLibraryHelper()
@@ -47,6 +48,7 @@ class SoundLibrary {
         self.subDirectory = subDirectory
         if(location == "Main"){
             getSoundsFromMainBundle()
+            self.position_map = SoundMapCollection[self.subDirectory]
         }
         else if(location == "Documents"){
             //TODO: add documents sound finder

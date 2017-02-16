@@ -284,7 +284,8 @@ class ViewController: UIViewController {
     
     
     func selectSound(_ position: Int){
-        song.selectInstrument(position)
+        //song.selectInstrument(position)
+        song.selectInstrumentByAssignedPosition(position)
         instrumentNameLabel.text = song.selectedInstrumentName
     }
     

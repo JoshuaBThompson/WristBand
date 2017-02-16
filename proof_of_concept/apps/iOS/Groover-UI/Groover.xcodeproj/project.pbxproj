@@ -59,6 +59,7 @@
 		42EC121F1E35E7D80015FD7E /* DeleteSongCtrl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42EC121E1E35E7D80015FD7E /* DeleteSongCtrl.swift */; };
 		42F2C5B61E502B2100C87540 /* SoundLibraryHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F2C5B51E502B2100C87540 /* SoundLibraryHelper.swift */; };
 		42F2C5BA1E5211E900C87540 /* InstrumentLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F2C5B91E5211E900C87540 /* InstrumentLibrary.swift */; };
+		42F2C5BC1E561A9800C87540 /* SoundsMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F2C5BB1E561A9800C87540 /* SoundsMap.swift */; };
 		945BD38A1DFFBBB9002A70E9 /* SongListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 945BD3891DFFBBB9002A70E9 /* SongListTableViewController.swift */; };
 		945BD38C1DFFBC8A002A70E9 /* SongViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 945BD38B1DFFBC8A002A70E9 /* SongViewController.swift */; };
 		945EF80F1E026B2B00A92E73 /* TrackMeasuresSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 945EF80E1E026B2B00A92E73 /* TrackMeasuresSlider.swift */; };
@@ -195,6 +196,7 @@
 		42EC121E1E35E7D80015FD7E /* DeleteSongCtrl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeleteSongCtrl.swift; sourceTree = "<group>"; };
 		42F2C5B51E502B2100C87540 /* SoundLibraryHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SoundLibraryHelper.swift; sourceTree = "<group>"; };
 		42F2C5B91E5211E900C87540 /* InstrumentLibrary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InstrumentLibrary.swift; sourceTree = "<group>"; };
+		42F2C5BB1E561A9800C87540 /* SoundsMap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SoundsMap.swift; sourceTree = "<group>"; };
 		945BD3891DFFBBB9002A70E9 /* SongListTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SongListTableViewController.swift; sourceTree = "<group>"; };
 		945BD38B1DFFBC8A002A70E9 /* SongViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SongViewController.swift; sourceTree = "<group>"; };
 		945EF80E1E026B2B00A92E73 /* TrackMeasuresSlider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackMeasuresSlider.swift; sourceTree = "<group>"; };
@@ -378,6 +380,7 @@
 				429A22A91D338E240045023F /* Song.swift */,
 				42F2C5B51E502B2100C87540 /* SoundLibraryHelper.swift */,
 				42F2C5B91E5211E900C87540 /* InstrumentLibrary.swift */,
+				42F2C5BB1E561A9800C87540 /* SoundsMap.swift */,
 			);
 			path = Audio;
 			sourceTree = "<group>";
@@ -678,6 +681,7 @@
 				42C8A3F11D9EC799004BDD58 /* LeftCtrl.swift in Sources */,
 				42986EA71E03048D0020F028 /* TrackMeasuresSliderCtrl.swift in Sources */,
 				FA908EE11D3F3EB6009FAFA4 /* ParametersPopup.swift in Sources */,
+				42F2C5BC1E561A9800C87540 /* SoundsMap.swift in Sources */,
 				4254BC491D4E9DE6007572B6 /* PopupButton.swift in Sources */,
 				94D83CD61E012F1200EEBAC2 /* PanSlider.swift in Sources */,
 				421425EE1DFCDC040092BCB4 /* SongLibraryLists.swift in Sources */,

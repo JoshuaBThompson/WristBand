@@ -24,10 +24,7 @@
 		42986EAA1E0306960020F028 /* TempoSliderCtrl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42986EA91E0306960020F028 /* TempoSliderCtrl.swift */; };
 		42986EAC1E0306FB0020F028 /* TimeSigSliderCtrl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42986EAB1E0306FB0020F028 /* TimeSigSliderCtrl.swift */; };
 		42986EAE1E0307180020F028 /* GlobalMeasuresCtrl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42986EAD1E0307180020F028 /* GlobalMeasuresCtrl.swift */; };
-		429A22BA1D338E240045023F /* HatInstrument.swift in Sources */ = {isa = PBXBuildFile; fileRef = 429A22A51D338E240045023F /* HatInstrument.swift */; };
 		429A22BB1D338E240045023F /* Instruments.swift in Sources */ = {isa = PBXBuildFile; fileRef = 429A22A61D338E240045023F /* Instruments.swift */; };
-		429A22BC1D338E240045023F /* KickInstrument.swift in Sources */ = {isa = PBXBuildFile; fileRef = 429A22A71D338E240045023F /* KickInstrument.swift */; };
-		429A22BD1D338E240045023F /* SnareInstrument.swift in Sources */ = {isa = PBXBuildFile; fileRef = 429A22A81D338E240045023F /* SnareInstrument.swift */; };
 		429A22BE1D338E240045023F /* Song.swift in Sources */ = {isa = PBXBuildFile; fileRef = 429A22A91D338E240045023F /* Song.swift */; };
 		429A22CC1D338E400045023F /* Sounds in Resources */ = {isa = PBXBuildFile; fileRef = 429A22CB1D338E400045023F /* Sounds */; };
 		42A59FA41D301F8B0070FE46 /* BeatFilter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42A59F9A1D301F8B0070FE46 /* BeatFilter.cpp */; };
@@ -154,10 +151,7 @@
 		42986EA91E0306960020F028 /* TempoSliderCtrl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TempoSliderCtrl.swift; sourceTree = "<group>"; };
 		42986EAB1E0306FB0020F028 /* TimeSigSliderCtrl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimeSigSliderCtrl.swift; sourceTree = "<group>"; };
 		42986EAD1E0307180020F028 /* GlobalMeasuresCtrl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GlobalMeasuresCtrl.swift; sourceTree = "<group>"; };
-		429A22A51D338E240045023F /* HatInstrument.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HatInstrument.swift; sourceTree = "<group>"; };
 		429A22A61D338E240045023F /* Instruments.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Instruments.swift; sourceTree = "<group>"; };
-		429A22A71D338E240045023F /* KickInstrument.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KickInstrument.swift; sourceTree = "<group>"; };
-		429A22A81D338E240045023F /* SnareInstrument.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SnareInstrument.swift; sourceTree = "<group>"; };
 		429A22A91D338E240045023F /* Song.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Song.swift; sourceTree = "<group>"; };
 		429A22CB1D338E400045023F /* Sounds */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Sounds; sourceTree = "<group>"; };
 		42A59F9A1D301F8B0070FE46 /* BeatFilter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BeatFilter.cpp; sourceTree = "<group>"; };
@@ -373,10 +367,7 @@
 			children = (
 				421425EF1DFCDC130092BCB4 /* Sounds_Extra */,
 				429A22CB1D338E400045023F /* Sounds */,
-				429A22A51D338E240045023F /* HatInstrument.swift */,
 				429A22A61D338E240045023F /* Instruments.swift */,
-				429A22A71D338E240045023F /* KickInstrument.swift */,
-				429A22A81D338E240045023F /* SnareInstrument.swift */,
 				429A22A91D338E240045023F /* Song.swift */,
 				42F2C5B51E502B2100C87540 /* SoundLibraryHelper.swift */,
 				42F2C5B91E5211E900C87540 /* InstrumentLibrary.swift */,
@@ -668,9 +659,7 @@
 				4201FDD81E006C1B00101870 /* GlobalAttributes.swift in Sources */,
 				42BA351B1E099BEB00338990 /* SongListTableViewCell.swift in Sources */,
 				42A59FA71D301F8B0070FE46 /* MidiSensor.cpp in Sources */,
-				429A22BD1D338E240045023F /* SnareInstrument.swift in Sources */,
 				FA479EC71D376CB000619BA0 /* Right.swift in Sources */,
-				429A22BC1D338E240045023F /* KickInstrument.swift in Sources */,
 				94BD90B71DFFC02A00F6B1F6 /* SoundListTableViewController.swift in Sources */,
 				42C8A3DF1D974298004BDD58 /* SixteenthCtrl.swift in Sources */,
 				945BD38A1DFFBBB9002A70E9 /* SongListTableViewController.swift in Sources */,
@@ -717,7 +706,6 @@
 				FA56CA431DEEA57F00738409 /* SettingsTableViewController.swift in Sources */,
 				FA50AA911D2B44DD0035C942 /* Sixteenth.swift in Sources */,
 				4254BC451D4D8366007572B6 /* PopupBlur.swift in Sources */,
-				429A22BA1D338E240045023F /* HatInstrument.swift in Sources */,
 				945EF80F1E026B2B00A92E73 /* TrackMeasuresSlider.swift in Sources */,
 				42C8A3F51DA05D81004BDD58 /* PopupCtrl.swift in Sources */,
 				424D86441E2ADEC400B540D8 /* DetectDevice.swift in Sources */,

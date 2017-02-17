@@ -348,8 +348,8 @@ class ClickTrackInstrument: SynthInstrument{
         clickTrack = clickTrackRef
         note = 60
         muted = true
-        preRollSampler.loadWav("Sounds/Kick/kick-2")
-        sampler.loadWav("Sounds/Hat/hat-3")
+        preRollSampler.loadWav("Sounds/kick-2")
+        sampler.loadWav("Sounds/hat-3")
         mixer = AKMixer()
         mixer.connect(preRollSampler)
         mixer.connect(sampler)

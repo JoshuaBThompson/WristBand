@@ -27,6 +27,7 @@ class ViewController: UIViewController {
     var beatDetectedCount = 0
     var prevKnobDetent: Int = 0
     var measureTimer: Timer!
+    var timeline_needs_clear = false
     var measureViews = [MeasureCtrl]()
     //MARK: outlets
     
@@ -121,11 +122,13 @@ class ViewController: UIViewController {
     
     func measureTimerHandler(){
         if(!song.playing){
+            clearTimelineIfNeedsClear()
             return
         }
         
          let ready = song.updateMeasureTimeline()
          if(!ready){
+            clearTimelineIfNeedsClear()
             return
          }
          let bar_num = song.timeline.bar_num
@@ -133,24 +136,28 @@ class ViewController: UIViewController {
          let bar_progress = song.timeline.current_progress
          let ready_to_clear = song.timeline.ready_to_clear
          if(ready_to_clear){
-            for measure_view in measureViews {
-                measure_view.clearProgress()
-            }
+            clearTimeline()
          }
          measureViews[bar_num].updateMeasureProgress(progress_prcnt: CGFloat(bar_progress))
         if(prev_bar_num < bar_num){
             //fill in prev bar num to 100% just in case
             measureViews[prev_bar_num].updateMeasureProgress(progress_prcnt: CGFloat(1.0))
         }
+        timeline_needs_clear = true //used when song is stopped, check if this is set and clear again
         
     }
     
-    func animateMeasureTimeline(){
+    func clearTimeline(){
+        for measure_view in measureViews {
+            measure_view.clearProgress()
+        }
+    }
     
-        UIView.animate(withDuration: 3.0, delay: 1.0, options: [UIViewAnimationOptions.repeat, UIViewAnimationOptions.curveEaseOut], animations: {
-            self.measureView1.updateMeasureProgress(progress_prcnt: 10)
-            
-        }, completion: nil)
+    func clearTimelineIfNeedsClear(){
+        if(timeline_needs_clear){
+            clearTimeline()
+            timeline_needs_clear = false
+        }
     }
     
     override func didReceiveMemoryWarning() {
@@ -281,7 +288,8 @@ class ViewController: UIViewController {
     
     
     func selectSound(_ position: Int){
-        song.selectInstrument(position)
+        //song.selectInstrument(position)
+        song.selectInstrumentByAssignedPosition(position)
         instrumentNameLabel.text = song.selectedInstrumentName
     }
     

@@ -27,6 +27,7 @@ class Song {
     var songsDatabase: [SongDatabase]!
     var current_song: SongDatabase!
     var loadSavedSongs = true
+    var sound_library: SoundLibrary!
     
     //MARK: computed variables
     var timeline: MeasureTimeline {
@@ -64,12 +65,82 @@ class Song {
         mixer = AKMixer()
         clickTrack = ClickTrack(songRef: self, clickTempo: tempo, clickTimeSignature: timeSignature)
         mixer.connect(clickTrack)
-        
+        sound_library = SoundLibrary() //load instrument sounds from default library 'Sounds_Extra' in main bundle
         loadNewSong()
         
         //connect all instrument outputs to Audiokit output
         AudioKit.output = mixer
 
+    }
+    
+    func initInstruments(){
+        for instrument in sound_library.instruments {
+            let inst_track = InstrumentTrack(clickTrack: clickTrack, presetInst: instrument)
+            instruments.append(inst_track)
+            mixer.connect(inst_track.instrument.panner)
+        }
+        //snare instruments
+        /*
+         let instrument1Track = InstrumentTrack(clickTrack: clickTrack, presetInst: SnareInstrument1())
+         instruments.append(instrument1Track)
+         mixer.connect(instrument1Track.instrument.panner)
+         
+         let instrument2Track = InstrumentTrack(clickTrack: clickTrack, presetInst: SnareInstrument2())
+         instruments.append(instrument2Track)
+         mixer.connect(instrument2Track.instrument.panner)
+         
+         let instrument3Track = InstrumentTrack(clickTrack: clickTrack, presetInst: SnareInstrument3())
+         instruments.append(instrument3Track)
+         mixer.connect(instrument3Track.instrument.panner)
+         
+         let instrument4Track = InstrumentTrack(clickTrack: clickTrack, presetInst: SnareInstrument4())
+         instruments.append(instrument4Track)
+         mixer.connect(instrument4Track.instrument.panner)
+         
+         
+         //kick instruments
+         
+         let instrument5Track = InstrumentTrack(clickTrack: clickTrack, presetInst: KickInstrument1())
+         instruments.append(instrument5Track)
+         mixer.connect(instrument5Track.instrument.panner)
+         
+         let instrument6Track = InstrumentTrack(clickTrack: clickTrack, presetInst: KickInstrument2())
+         instruments.append(instrument6Track)
+         mixer.connect(instrument6Track.instrument.panner)
+         
+         
+         let instrument7Track = InstrumentTrack(clickTrack: clickTrack, presetInst: KickInstrument3())
+         instruments.append(instrument7Track)
+         mixer.connect(instrument7Track.instrument.panner)
+         
+         
+         let instrument8Track = InstrumentTrack(clickTrack: clickTrack, presetInst: KickInstrument4())
+         instruments.append(instrument8Track)
+         mixer.connect(instrument8Track.instrument.panner)
+         
+         //hat instruments
+         
+         let instrument9Track = InstrumentTrack(clickTrack: clickTrack, presetInst: HatInstrument1())
+         instruments.append(instrument9Track)
+         mixer.connect(instrument9Track.instrument.panner)
+         
+         
+         let instrument10Track = InstrumentTrack(clickTrack: clickTrack, presetInst: HatInstrument2())
+         instruments.append(instrument10Track)
+         mixer.connect(instrument10Track.instrument.panner)
+         
+         
+         let instrument11Track = InstrumentTrack(clickTrack: clickTrack, presetInst: HatInstrument3())
+         instruments.append(instrument11Track)
+         mixer.connect(instrument11Track.instrument.panner)
+         
+         
+         let instrument12Track = InstrumentTrack(clickTrack: clickTrack, presetInst: HatInstrument4())
+         instruments.append(instrument12Track)
+         mixer.connect(instrument12Track.instrument.panner)
+         */
+        
+        
     }
     
     
@@ -225,68 +296,6 @@ class Song {
     }
     
     
-    func initInstruments(){
-        //snare instruments
-        let instrument1Track = InstrumentTrack(clickTrack: clickTrack, presetInst: SnareInstrument1())
-        instruments.append(instrument1Track)
-        mixer.connect(instrument1Track.instrument.panner)
-        
-        let instrument2Track = InstrumentTrack(clickTrack: clickTrack, presetInst: SnareInstrument2())
-        instruments.append(instrument2Track)
-        mixer.connect(instrument2Track.instrument.panner)
-        
-        let instrument3Track = InstrumentTrack(clickTrack: clickTrack, presetInst: SnareInstrument3())
-        instruments.append(instrument3Track)
-        mixer.connect(instrument3Track.instrument.panner)
-        
-        let instrument4Track = InstrumentTrack(clickTrack: clickTrack, presetInst: SnareInstrument4())
-        instruments.append(instrument4Track)
-        mixer.connect(instrument4Track.instrument.panner)
-        
-        
-        //kick instruments
-        
-        let instrument5Track = InstrumentTrack(clickTrack: clickTrack, presetInst: KickInstrument1())
-        instruments.append(instrument5Track)
-        mixer.connect(instrument5Track.instrument.panner)
-        
-        let instrument6Track = InstrumentTrack(clickTrack: clickTrack, presetInst: KickInstrument2())
-        instruments.append(instrument6Track)
-        mixer.connect(instrument6Track.instrument.panner)
-        
-        
-        let instrument7Track = InstrumentTrack(clickTrack: clickTrack, presetInst: KickInstrument3())
-        instruments.append(instrument7Track)
-        mixer.connect(instrument7Track.instrument.panner)
-        
-        
-        let instrument8Track = InstrumentTrack(clickTrack: clickTrack, presetInst: KickInstrument4())
-        instruments.append(instrument8Track)
-        mixer.connect(instrument8Track.instrument.panner)
-        
-        //hat instruments
-        
-        let instrument9Track = InstrumentTrack(clickTrack: clickTrack, presetInst: HatInstrument1())
-        instruments.append(instrument9Track)
-        mixer.connect(instrument9Track.instrument.panner)
-        
-        
-        let instrument10Track = InstrumentTrack(clickTrack: clickTrack, presetInst: HatInstrument2())
-        instruments.append(instrument10Track)
-        mixer.connect(instrument10Track.instrument.panner)
-        
-        
-        let instrument11Track = InstrumentTrack(clickTrack: clickTrack, presetInst: HatInstrument3())
-        instruments.append(instrument11Track)
-        mixer.connect(instrument11Track.instrument.panner)
-        
-        
-        let instrument12Track = InstrumentTrack(clickTrack: clickTrack, presetInst: HatInstrument4())
-        instruments.append(instrument12Track)
-        mixer.connect(instrument12Track.instrument.panner)
-        
-    }
-    
     func loadInstruments(){
         //Load instruments for current_song
         
@@ -376,6 +385,20 @@ class Song {
             prevSelectedInstrument = selectedInstrument
             selectedInstrument = number
             
+        }
+    }
+    
+    func selectInstrumentByAssignedPosition(_ position: Int){
+        //use sound_library.position_map to get sound mapped know position
+        var i = 0
+        for inst in instruments {
+            let name = inst.instrument.name
+            let pos = self.sound_library.position_map[name]
+            if(pos == position){
+                selectInstrument(i)
+                return
+            }
+            i += 1
         }
     }
     

@@ -44,7 +44,7 @@ class SoundLibrary {
     var subDirectory: String!
     var sound_lib_helper = SoundLibraryHelper()
     
-    init(location: String="Main", subDirectory: String="Sounds_Extra"){
+    init(location: String="Main", subDirectory: String=DefaultSoundsLibrary){
         self.subDirectory = subDirectory
         if(location == "Main"){
             getSoundsFromMainBundle()

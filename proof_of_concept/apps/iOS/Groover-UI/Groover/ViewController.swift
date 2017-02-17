@@ -103,9 +103,6 @@ class ViewController: UIViewController {
         measureViews.append(measureView2)
         measureViews.append(measureView3)
         measureViews.append(measureView4)
-        
-        let soundLibHelper = SoundLibraryHelper()
-        soundLibHelper.getSoundsFromLibraryPath(directory: "test")
     }
     
     override func viewDidAppear(_ animated: Bool) {

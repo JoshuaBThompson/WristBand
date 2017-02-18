@@ -298,7 +298,7 @@ class ViewController: UIViewController {
         song.toggleClickTrackMute()
         
         //temporary hack when not using iPhone (using simulator) to allow for beat generation
-        song.addNote() //Used for testing in sim mode to simulate motion generated beat
+        //song.addNote() //Used for testing in sim mode to simulate motion generated beat
         knob.updateClickRingActive(active: true)
         beatDetected = true
         updateButtonStatesAfterNoteAdded()

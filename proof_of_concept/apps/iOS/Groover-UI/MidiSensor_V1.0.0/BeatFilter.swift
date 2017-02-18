@@ -7,14 +7,18 @@
 //
 
 import Foundation
+let min_g: Int16 = 35 //increase to make more sensitive
+let max_g: Int16 = 70 //increase to make more sensitive
+let max_count = 8
+let min_g_sum: Int16 = 250 //decrease to make more sensitive or increase for less sensitive
 
 class RisingBeatFilter {
     
     //Constants
-    let min_rise: Int16 = 55 //100 * Gs
-    let min_fall: Int16 = -24 //100 * Gs
-    let min_sum: Int16 = 150 //100 * Gs
-    let max_samples = 15
+    let min_rise: Int16 = max_g //100 * Gs
+    let min_fall: Int16 = -(min_g) //100 * Gs
+    let min_sum: Int16 = min_g_sum //100 * Gs
+    let max_samples = max_count
     
     //Variables
     var prev_x: Int16!
@@ -89,10 +93,10 @@ class RisingBeatFilter {
 class FallingBeatFilter {
     
     //Constants
-    let min_rise: Int16 = 24 //100 * Gs
-    let min_fall: Int16 = -55 //100 * Gs
-    let min_sum: Int16 = 150 //100 * Gs
-    let max_samples = 15
+    let min_rise: Int16 = min_g //100 * Gs
+    let min_fall: Int16 = -(max_g) //100 * Gs
+    let min_sum: Int16 = min_g_sum //100 * Gs
+    let max_samples = max_count
     
     //Variables
     var prev_x: Int16!

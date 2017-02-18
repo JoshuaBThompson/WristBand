@@ -12,7 +12,7 @@
 		421425EA1DFCDB510092BCB4 /* BeatFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 421425E91DFCDB510092BCB4 /* BeatFilter.swift */; };
 		421425ED1DFCDC040092BCB4 /* SongDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 421425EB1DFCDC040092BCB4 /* SongDatabase.swift */; };
 		421425EE1DFCDC040092BCB4 /* SongLibraryLists.swift in Sources */ = {isa = PBXBuildFile; fileRef = 421425EC1DFCDC040092BCB4 /* SongLibraryLists.swift */; };
-		421425F01DFCDC130092BCB4 /* Sounds_Extra in Resources */ = {isa = PBXBuildFile; fileRef = 421425EF1DFCDC130092BCB4 /* Sounds_Extra */; };
+		421425F01DFCDC130092BCB4 /* Sounds_electronic_drumset in Resources */ = {isa = PBXBuildFile; fileRef = 421425EF1DFCDC130092BCB4 /* Sounds_electronic_drumset */; };
 		42456FA71D73B583005D83A5 /* AudioKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 42456FA61D73B583005D83A5 /* AudioKit.framework */; };
 		42456FA81D73B583005D83A5 /* AudioKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 42456FA61D73B583005D83A5 /* AudioKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		424D86441E2ADEC400B540D8 /* DetectDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 424D86431E2ADEC400B540D8 /* DetectDevice.swift */; };
@@ -26,7 +26,7 @@
 		42986EAE1E0307180020F028 /* GlobalMeasuresCtrl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42986EAD1E0307180020F028 /* GlobalMeasuresCtrl.swift */; };
 		429A22BB1D338E240045023F /* Instruments.swift in Sources */ = {isa = PBXBuildFile; fileRef = 429A22A61D338E240045023F /* Instruments.swift */; };
 		429A22BE1D338E240045023F /* Song.swift in Sources */ = {isa = PBXBuildFile; fileRef = 429A22A91D338E240045023F /* Song.swift */; };
-		429A22CC1D338E400045023F /* Sounds in Resources */ = {isa = PBXBuildFile; fileRef = 429A22CB1D338E400045023F /* Sounds */; };
+		429A22CC1D338E400045023F /* Sounds_acoustic_drumset in Resources */ = {isa = PBXBuildFile; fileRef = 429A22CB1D338E400045023F /* Sounds_acoustic_drumset */; };
 		42A59FA41D301F8B0070FE46 /* BeatFilter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42A59F9A1D301F8B0070FE46 /* BeatFilter.cpp */; };
 		42A59FA51D301F8B0070FE46 /* Common.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42A59F9C1D301F8B0070FE46 /* Common.cpp */; };
 		42A59FA61D301F8B0070FE46 /* IMUFilter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42A59F9E1D301F8B0070FE46 /* IMUFilter.cpp */; };
@@ -139,7 +139,7 @@
 		421425E91DFCDB510092BCB4 /* BeatFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BeatFilter.swift; sourceTree = "<group>"; };
 		421425EB1DFCDC040092BCB4 /* SongDatabase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SongDatabase.swift; path = Audio/SongDatabase.swift; sourceTree = "<group>"; };
 		421425EC1DFCDC040092BCB4 /* SongLibraryLists.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SongLibraryLists.swift; path = Audio/SongLibraryLists.swift; sourceTree = "<group>"; };
-		421425EF1DFCDC130092BCB4 /* Sounds_Extra */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Sounds_Extra; sourceTree = "<group>"; };
+		421425EF1DFCDC130092BCB4 /* Sounds_electronic_drumset */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Sounds_electronic_drumset; sourceTree = "<group>"; };
 		422D9D361D35525D00E27904 /* Groover.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Groover.entitlements; sourceTree = "<group>"; };
 		42456FA61D73B583005D83A5 /* AudioKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AudioKit.framework; sourceTree = "<group>"; };
 		424D86431E2ADEC400B540D8 /* DetectDevice.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetectDevice.swift; sourceTree = "<group>"; };
@@ -153,7 +153,7 @@
 		42986EAD1E0307180020F028 /* GlobalMeasuresCtrl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GlobalMeasuresCtrl.swift; sourceTree = "<group>"; };
 		429A22A61D338E240045023F /* Instruments.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Instruments.swift; sourceTree = "<group>"; };
 		429A22A91D338E240045023F /* Song.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Song.swift; sourceTree = "<group>"; };
-		429A22CB1D338E400045023F /* Sounds */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Sounds; sourceTree = "<group>"; };
+		429A22CB1D338E400045023F /* Sounds_acoustic_drumset */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Sounds_acoustic_drumset; sourceTree = "<group>"; };
 		42A59F9A1D301F8B0070FE46 /* BeatFilter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BeatFilter.cpp; sourceTree = "<group>"; };
 		42A59F9B1D301F8B0070FE46 /* BeatFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BeatFilter.h; sourceTree = "<group>"; };
 		42A59F9C1D301F8B0070FE46 /* Common.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Common.cpp; sourceTree = "<group>"; };
@@ -365,8 +365,8 @@
 		429A22A41D338E240045023F /* Audio */ = {
 			isa = PBXGroup;
 			children = (
-				421425EF1DFCDC130092BCB4 /* Sounds_Extra */,
-				429A22CB1D338E400045023F /* Sounds */,
+				421425EF1DFCDC130092BCB4 /* Sounds_electronic_drumset */,
+				429A22CB1D338E400045023F /* Sounds_acoustic_drumset */,
 				429A22A61D338E240045023F /* Instruments.swift */,
 				429A22A91D338E240045023F /* Song.swift */,
 				42F2C5B51E502B2100C87540 /* SoundLibraryHelper.swift */,
@@ -621,10 +621,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				429A22CC1D338E400045023F /* Sounds in Resources */,
+				429A22CC1D338E400045023F /* Sounds_acoustic_drumset in Resources */,
 				FA50AA821D2A433B0035C942 /* images in Resources */,
 				FA50AA5D1D2A3FE60035C942 /* LaunchScreen.storyboard in Resources */,
-				421425F01DFCDC130092BCB4 /* Sounds_Extra in Resources */,
+				421425F01DFCDC130092BCB4 /* Sounds_electronic_drumset in Resources */,
 				FA50AA5A1D2A3FE60035C942 /* Assets.xcassets in Resources */,
 				FA50AA581D2A3FE60035C942 /* Main.storyboard in Resources */,
 			);

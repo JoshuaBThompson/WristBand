@@ -11,18 +11,20 @@ import Foundation
 /*****************Position mapping for 'Sounds_acoustic_drumset' library******************/
 
 let sounds_acoustic_maps = [
-"hat-1": 0,
-"hat-2": 1,
-"hat-3": 2,
-"hat-4": 3,
-"kick-1": 4,
-"kick-2": 5,
-"kick-3": 6,
-"kick-4": 7,
-"snare-1": 8,
-"snare-2": 9,
-"snare-3": 10,
-"snare-4": 11]
+"1-TCA-Kick": 0,
+"2-TCA-Snare": 1,
+"3-TCA-Hat": 2,
+"4-TCA-Hat-Choke": 3,
+"5-TCA-Crash-Hi": 4,
+"6-TCA-Crash-Low": 5,
+"7-TCA-Ride": 6,
+"8-TCA-Tom-High": 7,
+"9-TCA-Tom-Mid": 8,
+"10-TCA-Tom-Floor": 9,
+"11-TCA-Hat-Bell": 10,
+"12-TCA-Ride-Bell": 11,
+"13-TCA Stack": 12,
+"14-TCA-Crash-Hi-Mallet": 13]
 
 /*****************Position mapping for 'Sounds_electronic_drumset' library******************/
 let sounds_electronic_maps = [
@@ -55,4 +57,4 @@ let SoundMapCollection = ["Sounds_acoustic_drumset": sounds_acoustic_maps, "Soun
      */
 
 /******************Default Sound Library used by InstrumentLibrary.swift **************/
-let DefaultSoundsLibrary = "Sounds_electronic_drumset" //"Sounds_acoustic_drumset"
+let DefaultSoundsLibrary = "Sounds_acoustic_drumset" //"Sounds_electronic_drumset"

@@ -29,12 +29,18 @@ class ViewController: UIViewController {
     var measureTimer: Timer!
     var timeline_needs_clear = false
     var measureViews = [MeasureCtrl]()
+    var measureLabels = [UILabel]()
     //MARK: outlets
     
     @IBOutlet weak var measureView1: MeasureCtrl!
     @IBOutlet weak var measureView2: MeasureCtrl!
     @IBOutlet weak var measureView3: MeasureCtrl!
     @IBOutlet weak var measureView4: MeasureCtrl!
+    
+    @IBOutlet weak var measureView1Label: UILabel!
+    @IBOutlet weak var measureView2Label: UILabel!
+    @IBOutlet weak var measureView4Label: UILabel!
+    @IBOutlet weak var measureView3Label: UILabel!
     
     @IBOutlet weak var instrumentViewWrap: UIView!
     @IBOutlet weak var instrumentNameLabel: UILabel!
@@ -104,6 +110,16 @@ class ViewController: UIViewController {
         measureViews.append(measureView2)
         measureViews.append(measureView3)
         measureViews.append(measureView4)
+        
+        measureLabels.append(measureView1Label)
+        measureLabels.append(measureView2Label)
+        measureLabels.append(measureView3Label)
+        measureLabels.append(measureView4Label)
+        
+        for label in measureLabels {
+            label.text = ""
+        }
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -123,22 +139,28 @@ class ViewController: UIViewController {
     func measureTimerHandler(){
         if(!song.playing){
             clearTimelineIfNeedsClear()
-            return
+        return
         }
-        
-         let ready = song.updateMeasureTimeline()
-         if(!ready){
+
+        let ready = song.updateMeasureTimeline()
+        if(!ready){
             clearTimelineIfNeedsClear()
             return
-         }
-         let bar_num = song.timeline.bar_num
-         let prev_bar_num = song.timeline.prev_bar_num
-         let bar_progress = song.timeline.current_progress
-         let ready_to_clear = song.timeline.ready_to_clear
-         if(ready_to_clear){
+        }
+        let bar_num = song.timeline.bar_num
+        let prev_bar_num = song.timeline.prev_bar_num
+        let bar_progress = song.timeline.current_progress
+        let ready_to_clear = song.timeline.ready_to_clear
+        if(ready_to_clear){
             clearTimeline()
-         }
-         measureViews[bar_num].updateMeasureProgress(progress_prcnt: CGFloat(bar_progress))
+        }
+        measureViews[bar_num].updateMeasureProgress(progress_prcnt: CGFloat(bar_progress))
+        let measure_count = song.instrument.trackManager.getCurrentMeasureNum() + 1
+        
+        let label_num_str = "\(measure_count)"
+        if(label_num_str != measureLabels[bar_num].text){
+            measureLabels[bar_num].text = label_num_str
+        }
         if(prev_bar_num < bar_num){
             //fill in prev bar num to 100% just in case
             measureViews[prev_bar_num].updateMeasureProgress(progress_prcnt: CGFloat(1.0))
@@ -151,6 +173,11 @@ class ViewController: UIViewController {
         for measure_view in measureViews {
             measure_view.clearProgress()
         }
+        
+        for label in measureLabels {
+            label.text = ""
+        }
+        
     }
     
     func clearTimelineIfNeedsClear(){
@@ -298,7 +325,7 @@ class ViewController: UIViewController {
         song.toggleClickTrackMute()
         
         //temporary hack when not using iPhone (using simulator) to allow for beat generation
-        //song.addNote() //Used for testing in sim mode to simulate motion generated beat
+        song.addNote() //Used for testing in sim mode to simulate motion generated beat
         knob.updateClickRingActive(active: true)
         beatDetected = true
         updateButtonStatesAfterNoteAdded()

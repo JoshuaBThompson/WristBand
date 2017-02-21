@@ -67,6 +67,7 @@
 		94BD90B71DFFC02A00F6B1F6 /* SoundListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94BD90B61DFFC02A00F6B1F6 /* SoundListTableViewController.swift */; };
 		94D83CD61E012F1200EEBAC2 /* PanSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94D83CD51E012F1200EEBAC2 /* PanSlider.swift */; };
 		94D83CD81E01301200EEBAC2 /* VolumeSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94D83CD71E01301200EEBAC2 /* VolumeSlider.swift */; };
+		94F2C9981E5C2B3500E74A87 /* Sounds_clicks in Resources */ = {isa = PBXBuildFile; fileRef = 94F2C9971E5C2B3500E74A87 /* Sounds_clicks */; };
 		FA0CCADC1DF6A26E00EC3F6A /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0CCADB1DF6A26E00EC3F6A /* SettingsViewController.swift */; };
 		FA3E2E2E1DBF007800DBCA24 /* Transports.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA3E2E2D1DBF007800DBCA24 /* Transports.swift */; };
 		FA479EC71D376CB000619BA0 /* Right.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA479EC61D376CB000619BA0 /* Right.swift */; };
@@ -201,6 +202,7 @@
 		94BD90B61DFFC02A00F6B1F6 /* SoundListTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SoundListTableViewController.swift; sourceTree = "<group>"; };
 		94D83CD51E012F1200EEBAC2 /* PanSlider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PanSlider.swift; sourceTree = "<group>"; };
 		94D83CD71E01301200EEBAC2 /* VolumeSlider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VolumeSlider.swift; sourceTree = "<group>"; };
+		94F2C9971E5C2B3500E74A87 /* Sounds_clicks */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Sounds_clicks; sourceTree = "<group>"; };
 		FA0CCADB1DF6A26E00EC3F6A /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		FA3E2E2D1DBF007800DBCA24 /* Transports.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Transports.swift; sourceTree = "<group>"; };
 		FA479EC61D376CB000619BA0 /* Right.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Right.swift; sourceTree = "<group>"; };
@@ -365,6 +367,7 @@
 		429A22A41D338E240045023F /* Audio */ = {
 			isa = PBXGroup;
 			children = (
+				94F2C9971E5C2B3500E74A87 /* Sounds_clicks */,
 				421425EF1DFCDC130092BCB4 /* Sounds_electronic_drumset */,
 				429A22CB1D338E400045023F /* Sounds_acoustic_drumset */,
 				429A22A61D338E240045023F /* Instruments.swift */,
@@ -626,6 +629,7 @@
 				FA50AA5D1D2A3FE60035C942 /* LaunchScreen.storyboard in Resources */,
 				421425F01DFCDC130092BCB4 /* Sounds_electronic_drumset in Resources */,
 				FA50AA5A1D2A3FE60035C942 /* Assets.xcassets in Resources */,
+				94F2C9981E5C2B3500E74A87 /* Sounds_clicks in Resources */,
 				FA50AA581D2A3FE60035C942 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

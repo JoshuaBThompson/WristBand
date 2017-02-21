@@ -1590,7 +1590,8 @@ public class UIGroover : NSObject {
 
         if (measureActive) {
             //// measureActiveFill Drawing
-            let measureActiveFillPath = UIBezierPath(roundedRect: CGRect(x: 1, y: 1, width: measureProgress, height: 22), cornerRadius: 2)
+            let measureActiveFillPath = UIBezierPath(roundedRect: CGRect(x: 1, y: 1, width: measureProgress, height: measureFrame.size.height), cornerRadius: 2)
+            //let measureActiveFillPath = UIBezierPath(roundedRect: CGRect(x: 1, y: 1, width: measureProgress, height: 22), cornerRadius: 2)
             UIGroover.lightBlue.setFill()
             measureActiveFillPath.fill()
         }

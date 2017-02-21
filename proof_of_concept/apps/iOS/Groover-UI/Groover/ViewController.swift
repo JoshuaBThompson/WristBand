@@ -154,7 +154,10 @@ class ViewController: UIViewController {
         if(ready_to_clear){
             clearTimeline()
         }
+        
+        measureViews[bar_num].active = true
         measureViews[bar_num].updateMeasureProgress(progress_prcnt: CGFloat(bar_progress))
+    
         let measure_count = song.instrument.trackManager.getCurrentMeasureNum() + 1
         
         let label_num_str = "\(measure_count)"
@@ -174,16 +177,20 @@ class ViewController: UIViewController {
             measure_view.clearProgress()
         }
         
-        for label in measureLabels {
-            label.text = ""
-        }
-        
     }
     
     func clearTimelineIfNeedsClear(){
         if(timeline_needs_clear){
             clearTimeline()
             timeline_needs_clear = false
+            
+            for measure_view in measureViews {
+                measure_view.active = false
+            }
+            
+            for label in measureLabels {
+                label.text = ""
+            }
         }
     }
     

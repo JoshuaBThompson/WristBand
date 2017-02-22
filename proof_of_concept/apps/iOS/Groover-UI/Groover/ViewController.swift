@@ -154,7 +154,7 @@ class ViewController: UIViewController {
         if(ready_to_clear){
             clearTimeline()
         }
-        
+        measureViews[bar_num].exists = true
         measureViews[bar_num].active = true
         measureViews[bar_num].updateMeasureProgress(progress_prcnt: CGFloat(bar_progress))
     
@@ -164,9 +164,10 @@ class ViewController: UIViewController {
         if(label_num_str != measureLabels[bar_num].text){
             measureLabels[bar_num].text = label_num_str
         }
-        if(prev_bar_num < bar_num){
+        if(prev_bar_num < bar_num || ((bar_num == 0) && (prev_bar_num > 0))){
             //fill in prev bar num to 100% just in case
             measureViews[prev_bar_num].updateMeasureProgress(progress_prcnt: CGFloat(1.0))
+            measureViews[prev_bar_num].active = false
         }
         timeline_needs_clear = true //used when song is stopped, check if this is set and clear again
         
@@ -186,6 +187,7 @@ class ViewController: UIViewController {
             
             for measure_view in measureViews {
                 measure_view.active = false
+                measure_view.exists = false
             }
             
             for label in measureLabels {

@@ -29,6 +29,10 @@ class ViewController: UIViewController {
     var measureTimer: Timer!
     var timeline_needs_clear = false
     var measureViews = [MeasureCtrl]()
+    let fall_orientation1 = 3
+    let fall_orientation2 = 5
+    let rise_orientation1 = 1
+    let rise_orientation2 = 4
     //MARK: outlets
     
     @IBOutlet weak var measureView1: MeasureCtrl!
@@ -310,6 +314,8 @@ class ViewController: UIViewController {
         //let valx = Int32(16383.0 * (data!.acceleration.x))
         let valx_f: Double = (data!.acceleration.x)*100.0
         let valx = Int16(valx_f)
+        let orientation = UIDevice.current.orientation.rawValue
+        print("orientation \(orientation)")
         
         if fallingBeatFilter.isBeat(x: valx){
             fallNum += 1

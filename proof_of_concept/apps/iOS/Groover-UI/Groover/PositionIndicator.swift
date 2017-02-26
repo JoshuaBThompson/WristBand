@@ -24,15 +24,14 @@ class PositionIndicator: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         //isHidden = true
-        hideDraw = true
+        hide()
     }
     
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         //isHidden = true
-        hideDraw = true
-        
+        hide()
     }
     
     func toggleHide(){

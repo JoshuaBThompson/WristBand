@@ -13,33 +13,41 @@ class PositionIndicator: UIView {
     var currentPos: Int = 0
     let minPos = 0
     let maxPos = 17
+    var hideDraw = false
     
     override func draw(_ rect: CGRect) {
-        updatePosistion()
+        if(!hideDraw){
+            updatePosition()
+        }
     }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        isHidden = true
+        //isHidden = true
+        hideDraw = true
     }
     
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        isHidden = true
+        //isHidden = true
+        hideDraw = true
         
     }
     
     func toggleHide(){
-        isHidden = !isHidden
+        //isHidden = !isHidden
+        hideDraw = !hideDraw
     }
     
     func hide(){
-        isHidden = true
+        hideDraw = true
+        setNeedsDisplay()
     }
     
     func show(){
-        isHidden = false
+        hideDraw = false
+        setNeedsDisplay()
     }
     
     func setPosition(_ newPos: Int){
@@ -49,7 +57,11 @@ class PositionIndicator: UIView {
         setNeedsDisplay() //tells swift to update drawing
     }
     
-    func updatePosistion(){
+    func updatePosition(){
+        if(hideDraw){
+            return
+        }
+        
         switch currentPos {
         case 0:
             UIGroover.drawPositionsCanvas(position1Selected: true)

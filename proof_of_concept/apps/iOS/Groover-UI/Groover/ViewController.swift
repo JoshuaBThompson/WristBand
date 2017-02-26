@@ -30,6 +30,10 @@ class ViewController: UIViewController {
     var timeline_needs_clear = false
     var measureViews = [MeasureCtrl]()
     var measureLabels = [UILabel]()
+    let fall_orientation1 = 3
+    let fall_orientation2 = 5
+    let rise_orientation1 = 1
+    let rise_orientation2 = 4
     //MARK: outlets
     
     @IBOutlet weak var measureView1: MeasureCtrl!
@@ -252,7 +256,6 @@ class ViewController: UIViewController {
         parametersButton.show()
         positionIndicator.hide()
         instrumentViewWrap.backgroundColor = UIColor.clear
-        //parametersButton.show()
         
     }
 
@@ -346,10 +349,12 @@ class ViewController: UIViewController {
         //let valx = Int32(16383.0 * (data!.acceleration.x))
         let valx_f: Double = (data!.acceleration.x)*100.0
         let valx = Int16(valx_f)
+        let orientation = UIDevice.current.orientation.rawValue
+        //print("orientation \(orientation)")
         
         if fallingBeatFilter.isBeat(x: valx){
             fallNum += 1
-            if(fallNum >= 2 || (riseNum == 0)){
+            if(orientation == fall_orientation1 || orientation == fall_orientation2){
                 print("Fall Note \(fallNum)")
                 song.addNote() //make drum sound and add to track if recording!
                 knob.updateClickRingActive(active: true)
@@ -362,7 +367,7 @@ class ViewController: UIViewController {
             
         else if risingBeatFilter.isBeat(x: valx) {
             riseNum += 1
-            if(riseNum >= 2 || (fallNum == 0)){
+            if(orientation == rise_orientation1 || orientation == rise_orientation2){
                 print("Rise Note \(riseNum)")
                 song.addNote() //make drum sound and add to track if recording!
                 knob.updateClickRingActive(active: true)
@@ -370,7 +375,7 @@ class ViewController: UIViewController {
                 fallNum = 0
                 
             }
-        
+            
         }
         
         if(beatDetected){
@@ -381,29 +386,6 @@ class ViewController: UIViewController {
                 beatDetectedCount = 0
             }
         }
-        
-        //let valy_f: Double = (data!.acceleration.y)*100.0
-        //let valy = Int16(valy_f)
-        
-        //let valz_f: Double = (data!.acceleration.z)*100.0
-        //let valz = Int16(valz_f)
-        
-        
-        /*
-        sensor?.updateState(with: valx, andY: valy, andZ: valz, andMillisElapsed: timeIntervalMillis);
-        sensor?.printXList();
-        sensor?.handleMidiEvents();
-        if(sensor?.beat)!{
-            let eventStatus = Int((sensor?.getEventStatus())!)
-            if eventStatus != 0x80{
-                testNum += 1
-                print("Note \(testNum)")
-                song.addNote() //make drum sound and add to track if recording!
-//                updateButtonStatesAfterNoteAdded()
-            }
-            
-        }
-        */
         
     }
     

@@ -10,8 +10,11 @@ import UIKit
 
 //@IBDesignable
 class ParametersButtonCtrl: ParametersButton {
+    var hideDraw = false
     override func draw(_ rect: CGRect) {
-        UIGroover.drawSoundParametersCanvas(soundParamteresFrame: self.bounds, soundParametersSelected: isSelected)
+        if(!hideDraw){
+            UIGroover.drawSoundParametersCanvas(soundParamteresFrame: self.bounds, soundParametersSelected: isSelected)
+        }
     }
     
     // MARK: Initialization
@@ -53,11 +56,15 @@ class ParametersButtonCtrl: ParametersButton {
     
     //MARK: show / hide functions
     func show(){
-        isHidden = false
+        //isHidden = false
+        hideDraw = false
+        setNeedsDisplay()
     }
     
     func hide(){
-        isHidden = true
+        //isHidden = true
+        hideDraw = true
+        setNeedsDisplay()
     }
     
 }

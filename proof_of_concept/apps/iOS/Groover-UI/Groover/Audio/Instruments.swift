@@ -70,8 +70,6 @@ class SynthInstrument: AKMIDIInstrument{
     var _total_dur: Double = 0
     var _maxNoteCount: Int = 0
     var total_dur_offset: Double = 0
-    var measureUpdateReady = false
-    var measureUpdateEn = false
     var quantizeHandled = true
     var prevBeat: AKDuration!
     var currentBeat: AKDuration!
@@ -151,15 +149,21 @@ class SynthInstrument: AKMIDIInstrument{
         _maxNoteCount = 0
         _total_dur = 0
         beatOffset = 0
-        measureUpdateReady = false
-        measureUpdateEn = false
         quantizeHandled = true
         prevBeat = nil
         currentBeat = nil
     }
     
+    func updateMeasureCount(count: Int){
+        
+    }
+    
     func incTotalDurOffset(){
         total_dur_offset = total_dur_offset + total_dur
+    }
+    
+    func decTotalDurOffset(){
+        total_dur_offset = total_dur_offset - total_dur
     }
     
     func updateNoteNumAndOffset(){
@@ -173,13 +177,6 @@ class SynthInstrument: AKMIDIInstrument{
         if(note_num >= maxNoteCount){
             
             note_num = 0
-            if(measureUpdateReady && !measureUpdateEn){
-                measureUpdateEn = true
-            }
-            else if(measureUpdateEn){
-                measureUpdateReady = false
-                measureUpdateEn = false
-            }
             loop_count += 1
             incTotalDurOffset()
         }
@@ -247,13 +244,17 @@ class SynthInstrument: AKMIDIInstrument{
         updateNoteNumAndOffset() //get the current note number in the loop and the total duration offset
         print("track \(instTrack.trackManager.trackNum) playing note \(note_num) at realBeatPos \(realPos)")
         if(loop_count >= 1){
-            instTrack.trackManager.appendTrack(offset: total_dur_offset + beatOffset) //offset in beats
-            loop_count = 0
+            appedTrack()
         }
         else{
             handleQuantize()
         }
         
+    }
+    
+    func appedTrack(){
+        instTrack.trackManager.appendTrack(offset: total_dur_offset + beatOffset) //offset in beats
+        loop_count = 0
     }
     
     func rawPlay(_ noteNumber: MIDINoteNumber, velocity: MIDIVelocity){
@@ -778,30 +779,20 @@ class InstrumentTrack {
         if(!trackManager.track.isPlaying){
             //clear non original beats from track with prev measure count
             trackManager.resetTrack()
+            
         }
-        //if playing tell track to wait unitl loop finishes before updating measure count
-        else if(trackManager.track.isPlaying){
-            if(count >= trackManager.measureCount && (instrument.note_num < instrument.maxNoteNum)){
-                if(instrument.total_dur_offset >= clickTrack.instrument.track.currentPosition.beats){
-                    trackManager.resetTrack(clearAll: true)
-                    instrument.total_dur_offset -= instrument.total_dur
-                    trackManager.updateMeasureCount(count)
-                    instrument.incTotalDurOffset()
-                    trackManager.appendTrack(offset: instrument.total_dur_offset)
-                }
-                else{
-                    trackManager.updateMeasureCount(count)
-                }
+        else{
+            let alreadyAppended = (instrument.note_num == instrument.maxNoteNum)
+            if(alreadyAppended){
                 
-            }
-            else{
-                trackManager.resetTrack(clearAll: true)
+                instrument.decTotalDurOffset()
+                trackManager.resetTrack()
                 trackManager.updateMeasureCount(count)
-                let new_duration_offset = trackManager.appendTrackFromCurrentMeasure()
-                instrument.total_dur_offset = new_duration_offset
-                instrument.measureUpdateReady = true //tells instrument to update measure count in looping after next loop is ready, but not during current loop
+                instrument.incTotalDurOffset()
+                instrument.appedTrack()
             }
         }
+        trackManager.updateMeasureCount(count)
     }
     
 }

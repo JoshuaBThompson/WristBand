@@ -7,18 +7,18 @@
 //
 
 import Foundation
+
 let min_g: Int16 = 35 //increase to make more sensitive
 let max_g: Int16 = 70 //increase to make more sensitive
 let max_count = 8
-let min_g_sum: Int16 = 250 //decrease to make more sensitive or increase for less sensitive
+let min_g_sum: Int16 = 200 //decrease to make more sensitive or increase for less sensitive
 
-class RisingBeatFilter {
-    
+class BeatFilter {
     //Constants
-    let min_rise: Int16 = max_g //100 * Gs
-    let min_fall: Int16 = -(min_g) //100 * Gs
-    let min_sum: Int16 = min_g_sum //100 * Gs
-    let max_samples = max_count
+    var min_rise: Int16 = 55 //100 * Gs
+    var min_fall: Int16 = -24 //100 * Gs
+    var min_sum: Int16 = 150 //100 * Gs
+    var max_samples = 15
     
     //Variables
     var prev_x: Int16!
@@ -27,6 +27,29 @@ class RisingBeatFilter {
     var _rising: Bool = false
     var _falling: Bool = false
     var samples = 0
+    var sample_values = [Int16]()
+    var max_sample_value: Int16!
+    var max_sample_scale: Double = 0.65
+    
+    init() {
+    }
+    
+    func reset_capture(){
+        self.samples = 0
+        self._rising = false
+        self._falling = false
+        self.sum = 0
+        self.diff = 0
+        self.sample_values = [Int16]()
+    }
+    
+}
+
+class RisingBeatFilter: BeatFilter {
+    
+    //Constants
+    
+    //Variables
     
     //Computed Variables
     var is_rising: Bool {
@@ -37,6 +60,15 @@ class RisingBeatFilter {
     var is_falling: Bool {
         _falling = (_falling || (diff <= min_fall)) && _rising //only falling if prev rising
         return _falling
+    }
+    
+    override init() {
+        super.init()
+        min_rise = max_g //100 * Gs
+        min_fall = -(min_g) //100 * Gs
+        min_sum = min_g_sum //100 * Gs
+        max_samples = max_count
+
     }
     
     
@@ -67,48 +99,47 @@ class RisingBeatFilter {
         }
         
         
-        let beat: Bool = (self.is_rising && self.is_falling) && (self.sum >= self.min_sum) && (self.samples <= self.max_samples)
+        var beat: Bool = (self.is_rising && self.is_falling) && (self.sum >= self.min_sum) && (self.samples <= self.max_samples)
         
         if((self.samples > max_samples) || beat){
             //print("beat at sample \(samples) with sum \(self.sum)")
+            if(beat){
+                let temp_max_sample = sample_values.max() //rising requires max (most positive number)
+                print("max_sample \(max_sample_value)")
+                print("temp_max \(temp_max_sample)")
+                if(max_sample_value != nil && temp_max_sample != nil){
+                    if(Double(temp_max_sample!) < max_sample_scale*(Double(max_sample_value))){
+                        print("beat canceled")
+                        beat = false
+                    }
+                }
+                max_sample_value = temp_max_sample
+            }
+            
+            if(!beat){
+                max_sample_value = nil
+            }
             self.reset_capture()
         }
         
         return beat
     }
     
-    func reset_capture(){
-        self.samples = 0
-        self._rising = false
-        self._falling = false
-        self.sum = 0
-        self.diff = 0
-    }
     
 }
 
 
 
 
-class FallingBeatFilter {
+class FallingBeatFilter: BeatFilter {
     
     //Constants
-    let min_rise: Int16 = min_g //100 * Gs
-    let min_fall: Int16 = -(max_g) //100 * Gs
-    let min_sum: Int16 = min_g_sum //100 * Gs
-    let max_samples = max_count
     
     //Variables
-    var prev_x: Int16!
-    var diff: Int16 = 0
-    var sum: Int16 = 0
-    var _rising: Bool = false
-    var _falling: Bool = false
-    var samples = 0
     
     //Computed Variables
     var is_rising: Bool {
-        _rising = (_rising || (diff >= min_rise)) && _falling //only falling if prev falling
+        _rising = (_rising || (diff >= min_rise)) && _falling //only rising if prev falling
         return _rising
     }
     
@@ -117,6 +148,14 @@ class FallingBeatFilter {
         return _falling
     }
     
+    override init(){
+        super.init()
+        min_rise = min_g //100 * Gs
+        min_fall = -(max_g) //100 * Gs
+        min_sum = min_g_sum //100 * Gs
+        max_samples = max_count
+        
+    }
     
     //Functions
     func isBeat(x: Int16)->Bool{
@@ -134,34 +173,45 @@ class FallingBeatFilter {
         let rising = self.is_rising
         
         if(rising){
+            self.sample_values.append(x)
             self.sum += diff
             samples += 1
             //print("rising sum \(self.sum) sample \(self.samples) diff \(diff)")
         }
             
         else if(falling){
+            self.sample_values.append(x)
             self.sum += abs(diff) //abs value of falling difference
             samples += 1
             //print("falling sum \(self.sum) sample \(self.samples) diff \(diff)")
         }
         
         
-        let beat: Bool = (self.is_rising && self.is_falling) && (self.sum >= self.min_sum) && (self.samples <= self.max_samples)
+        var beat: Bool = (self.is_rising && self.is_falling) && (self.sum >= self.min_sum) && (self.samples <= self.max_samples)
         
         if((self.samples > max_samples) || beat){
             //print("beat at sample \(samples) with sum \(self.sum)")
+            if(beat){
+                let temp_max_sample = sample_values.min() //falling requires minimum (most negative number)
+                print("max_sample \(max_sample_value)")
+                print("temp_max \(temp_max_sample)")
+                if(max_sample_value != nil && temp_max_sample != nil){
+                    if(Double(temp_max_sample!) > max_sample_scale*(Double(max_sample_value))){
+                        beat = false
+                        print("beat canceled")
+                    }
+                }
+                max_sample_value = temp_max_sample
+            }
+            
+            if(!beat){
+                max_sample_value = nil
+            }
             self.reset_capture()
         }
         
         return beat
     }
     
-    func reset_capture(){
-        self.samples = 0
-        self._rising = false
-        self._falling = false
-        self.sum = 0
-        self.diff = 0
-    }
     
 }

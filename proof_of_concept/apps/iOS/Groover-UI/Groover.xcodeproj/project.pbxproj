@@ -379,6 +379,13 @@
 			path = MidiSensor_V1.0.0;
 			sourceTree = "<group>";
 		};
+		94BCC38A1E653DDC001A7C76 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		FA0CCAD91DF69FD700EC3F6A /* SongTab */ = {
 			isa = PBXGroup;
 			children = (
@@ -419,6 +426,7 @@
 				42A59F991D301F8B0070FE46 /* MidiSensor_V1.0.0 */,
 				FA50AA511D2A3FE60035C942 /* Groover */,
 				FA50AA501D2A3FE60035C942 /* Products */,
+				94BCC38A1E653DDC001A7C76 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -558,8 +566,9 @@
 				TargetAttributes = {
 					FA50AA4E1D2A3FE60035C942 = {
 						CreatedOnToolsVersion = 7.3.1;
-						DevelopmentTeam = XPYTM2G2L5;
+						DevelopmentTeam = HR9AR8D9W2;
 						LastSwiftMigration = 0800;
+						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
@@ -862,7 +871,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = XPYTM2G2L5;
+				DEVELOPMENT_TEAM = HR9AR8D9W2;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -884,7 +893,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = XPYTM2G2L5;
+				DEVELOPMENT_TEAM = HR9AR8D9W2;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",

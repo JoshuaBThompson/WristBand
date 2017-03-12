@@ -162,7 +162,7 @@ class ViewController: UIViewController {
         measureViews[bar_num].active = true
         measureViews[bar_num].updateMeasureProgress(progress_prcnt: CGFloat(bar_progress))
     
-        let measure_count = song.instrument.trackManager.getCurrentMeasureNum() + 1
+        let measure_count = song.instrument.trackManager.currentMeasureNum + 1
         
         let label_num_str = "\(measure_count)"
         if(label_num_str != measureLabels[bar_num].text){

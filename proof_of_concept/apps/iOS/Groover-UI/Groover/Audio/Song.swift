@@ -598,6 +598,7 @@ class Song {
         
         for inst in instruments{
             inst.instrument.reset()
+            inst.trackManager.startRecordOffset = 0.0
             inst.trackManager.resetTrack()
         }
         playing = true

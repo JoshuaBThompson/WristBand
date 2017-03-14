@@ -369,13 +369,16 @@ class Song {
         if(enable){
             quantizeEnabled = true
             quantizeResolution = resolution
+            /* quantize should be track specific so don't update all track quantize
             for inst in instruments {
                 inst.enableQuantize()
                 inst.updateQuantize(resolution)
             }
+            */
             
-            //instruments[selectedInstrument].enableQuantize()
-            //instruments[selectedInstrument].updateQuantize(resolution)
+            //track specific update only
+            instruments[selectedInstrument].enableQuantize()
+            instruments[selectedInstrument].updateQuantize(resolution)
         }
         else{
             quantizeEnabled = true

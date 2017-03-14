@@ -1020,7 +1020,7 @@ class TrackManager{
         }
         else{
             print("addMeasureUpdateEvent")
-            var start_pos = getRealPosFromNextRelativePos(pos: Double(0))
+            let start_pos = getRealPosFromNextRelativePos(pos: Double(0))
             let pos = AKDuration(beats: start_pos, tempo: clickTrack.tempo.beatsPerMin)
             instrument.measureUpdateEvent = true
             instrument.nextStartOffset = start_pos

@@ -10,6 +10,10 @@ import Foundation
 import CoreFoundation
 import AudioKit
 
+protocol SongCallbacks: class {
+    func stopRecordFromSong()
+}
+
 class Song {
     var quantizeResolution = 1.0
     var quantizeEnabled = false
@@ -28,7 +32,8 @@ class Song {
     var current_song: SongDatabase!
     var loadSavedSongs = true
     var sound_library: SoundLibrary!
-    
+    var delegate: SongCallbacks?
+
     //MARK: computed variables
     var timeline: MeasureTimeline {
         return self.instrument.trackManager.timeline
@@ -79,67 +84,6 @@ class Song {
             instruments.append(inst_track)
             mixer.connect(inst_track.instrument.panner)
         }
-        //snare instruments
-        /*
-         let instrument1Track = InstrumentTrack(clickTrack: clickTrack, presetInst: SnareInstrument1())
-         instruments.append(instrument1Track)
-         mixer.connect(instrument1Track.instrument.panner)
-         
-         let instrument2Track = InstrumentTrack(clickTrack: clickTrack, presetInst: SnareInstrument2())
-         instruments.append(instrument2Track)
-         mixer.connect(instrument2Track.instrument.panner)
-         
-         let instrument3Track = InstrumentTrack(clickTrack: clickTrack, presetInst: SnareInstrument3())
-         instruments.append(instrument3Track)
-         mixer.connect(instrument3Track.instrument.panner)
-         
-         let instrument4Track = InstrumentTrack(clickTrack: clickTrack, presetInst: SnareInstrument4())
-         instruments.append(instrument4Track)
-         mixer.connect(instrument4Track.instrument.panner)
-         
-         
-         //kick instruments
-         
-         let instrument5Track = InstrumentTrack(clickTrack: clickTrack, presetInst: KickInstrument1())
-         instruments.append(instrument5Track)
-         mixer.connect(instrument5Track.instrument.panner)
-         
-         let instrument6Track = InstrumentTrack(clickTrack: clickTrack, presetInst: KickInstrument2())
-         instruments.append(instrument6Track)
-         mixer.connect(instrument6Track.instrument.panner)
-         
-         
-         let instrument7Track = InstrumentTrack(clickTrack: clickTrack, presetInst: KickInstrument3())
-         instruments.append(instrument7Track)
-         mixer.connect(instrument7Track.instrument.panner)
-         
-         
-         let instrument8Track = InstrumentTrack(clickTrack: clickTrack, presetInst: KickInstrument4())
-         instruments.append(instrument8Track)
-         mixer.connect(instrument8Track.instrument.panner)
-         
-         //hat instruments
-         
-         let instrument9Track = InstrumentTrack(clickTrack: clickTrack, presetInst: HatInstrument1())
-         instruments.append(instrument9Track)
-         mixer.connect(instrument9Track.instrument.panner)
-         
-         
-         let instrument10Track = InstrumentTrack(clickTrack: clickTrack, presetInst: HatInstrument2())
-         instruments.append(instrument10Track)
-         mixer.connect(instrument10Track.instrument.panner)
-         
-         
-         let instrument11Track = InstrumentTrack(clickTrack: clickTrack, presetInst: HatInstrument3())
-         instruments.append(instrument11Track)
-         mixer.connect(instrument11Track.instrument.panner)
-         
-         
-         let instrument12Track = InstrumentTrack(clickTrack: clickTrack, presetInst: HatInstrument4())
-         instruments.append(instrument12Track)
-         mixer.connect(instrument12Track.instrument.panner)
-         */
-        
         
     }
     
@@ -610,6 +554,9 @@ class Song {
     func startPresetWithDefaultMeasureCount(){
         //tells preset to use the defaultMeasure count (global measure) instead of waiting for user to hit 'stop' record
         self.instrument.trackManager.startLoopFromDefaultMeasures()
+        self.stop_record()
+        self.delegate?.stopRecordFromSong()
+        
     }
     
     func stop(){

@@ -9,7 +9,7 @@
 import UIKit
 import CoreMotion
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, SongCallbacks {
     //MARK: properties
     var song: Song!
     var audioMidiSetupEn = true
@@ -27,6 +27,7 @@ class ViewController: UIViewController {
     var beatDetectedCount = 0
     var prevKnobDetent: Int = 0
     var measureTimer: Timer!
+    var buttonEventTimer: Timer!
     var timeline_needs_clear = false
     var measureViews = [MeasureCtrl]()
     var measureLabels = [UILabel]()
@@ -34,6 +35,10 @@ class ViewController: UIViewController {
     let fall_orientation2 = 5
     let rise_orientation1 = 1
     let rise_orientation2 = 4
+    
+    //Events
+    var stopRecordButtonEvent = false
+    
     //MARK: outlets
     
     @IBOutlet weak var measureView1: MeasureCtrl!
@@ -68,6 +73,7 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        GlobalAttributes.viewController = self
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         self.navigationController?.navigationBar.shadowImage =  UIImage()
         self.navigationController?.navigationBar.isTranslucent = true
@@ -100,6 +106,7 @@ class ViewController: UIViewController {
         quantizeButtons.append(tripletQuantizeButton)
         
         song = GlobalAttributes.song
+        song.delegate = self
         
         song.start()
         
@@ -131,6 +138,7 @@ class ViewController: UIViewController {
         instrumentNameLabel.text = song.selectedInstrumentName
         //animateMeasureTimeline()
         startMeasureTimelineThread()
+        startButtonEventHandler()
     }
     
     //continuously checks to see what % of the current instrument measure count has elapsed
@@ -138,6 +146,18 @@ class ViewController: UIViewController {
     func startMeasureTimelineThread(){
         measureTimer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(measureTimerHandler), userInfo: nil, repeats: true)
         
+    }
+    
+    func startButtonEventHandler(){
+        buttonEventTimer = Timer.scheduledTimer(timeInterval: 0.2, target: self, selector: #selector(buttonEventHandler), userInfo: nil, repeats: true)
+    }
+    
+    
+    func buttonEventHandler(){
+        if(stopRecordButtonEvent){
+            stopRecordButtonEvent = false
+            self.recordButton.isSelected = false
+        }
     }
     
     func measureTimerHandler(){
@@ -259,6 +279,11 @@ class ViewController: UIViewController {
         
     }
 
+    //MARK: stop record callback delegate
+    func stopRecordFromSong(){
+        print("!JOSH: stopRecordFromSong")
+        stopRecordButtonEvent = true
+    }
     
     //MARK: play button event handler
     func playRecordButtonSelected(_ playRecordButton: UIButton){

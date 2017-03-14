@@ -262,6 +262,7 @@ class Song {
         let recorded = !self.instrument.trackManager.firstInstance
         let ready: Bool = (recorded || recordEnabled)
         if(!playing || !ready){
+            print("recorded: \(recorded) enabled: \(recordEnabled) !playing: \(!playing)")
             return false
         }
         
@@ -561,7 +562,7 @@ class Song {
     
     func stop(){
         print("Stop playing instrument  \(selectedInstrument)")
-        recordEnabled = false
+        //recordEnabled = false
         //stop all recorded tracks
         clickTrack.stop()
         if(recordEnabled){
@@ -569,6 +570,7 @@ class Song {
                 inst.deselect()
             }
         }
+        recordEnabled = false
         playing = false
         saveSong()
     }

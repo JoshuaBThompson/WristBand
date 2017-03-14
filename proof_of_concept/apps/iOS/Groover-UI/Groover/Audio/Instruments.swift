@@ -366,15 +366,19 @@ class ClickTrackInstrument: SynthInstrument{
         preRoll = false
         loop_count = 0
         totalBeats = 0
-        defaultMeasureCountEnded = false
-        defaultMeasureCountStarted = false
-        defaultMeasureCounter  = 0
+        self.resetDefaultMeasureCounter()
         pos = 0
     }
     
     //this tells click track to start pre roll sound and then tell instruments to start recording on last beat
     func set_record(){
         preRoll = true
+    }
+    
+    func resetDefaultMeasureCounter(){
+        defaultMeasureCountEnded = false
+        defaultMeasureCountStarted = false
+        defaultMeasureCounter  = 0
     }
     
     func startDefaultMeasureCounter(){
@@ -1118,6 +1122,7 @@ class TrackManager{
             updateMeasureCount(count)
             let loop_count = clickTrack.instrument.loop_count
             continueTrackFromStopRecord(loop_count: loop_count)
+            self.clickTrack.instrument.resetDefaultMeasureCounter()
         }
 
     }

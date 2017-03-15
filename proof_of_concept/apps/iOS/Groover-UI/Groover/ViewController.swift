@@ -157,20 +157,17 @@ class ViewController: UIViewController, SongCallbacks {
         if(stopRecordButtonEvent){
             stopRecordButtonEvent = false
             self.recordButton.isSelected = false
-            print("buttonEventHandler")
         }
     }
     
     func measureTimerHandler(){
         if(!song.playing){
-            print("timeline: no song playing")
             clearTimelineIfNeedsClear()
         return
         }
 
         let ready = song.updateMeasureTimeline()
         if(!ready){
-            print("timeline: song not ready")
             clearTimelineIfNeedsClear()
             return
         }
@@ -205,6 +202,17 @@ class ViewController: UIViewController, SongCallbacks {
             measure_view.clearProgress()
         }
         
+    }
+    func showInactiveTimeline(){
+            let count = song.instrument.trackManager.measureCount
+        for i in 0..<count {
+            if(i >= measureViews.count){
+                break
+            }
+            else{
+                measureViews[i].exists = true
+            }
+        }
     }
     
     func clearTimelineIfNeedsClear(){
@@ -328,6 +336,9 @@ class ViewController: UIViewController, SongCallbacks {
             instrumentViewWrap.backgroundColor = UIColor.black
             positionIndicator.show()
             positionIndicator.setPosition(knobControl.detent)
+            if(!song.playing){
+                //showInactiveTimeline()
+            }
         }
         prevKnobDetent = position
         

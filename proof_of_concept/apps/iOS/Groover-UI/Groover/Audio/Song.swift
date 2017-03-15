@@ -262,7 +262,6 @@ class Song {
         let recorded = !self.instrument.trackManager.firstInstance
         let ready: Bool = (recorded || recordEnabled)
         if(!playing || !ready){
-            print("recorded: \(recorded) enabled: \(recordEnabled) !playing: \(!playing)")
             return false
         }
         
@@ -580,7 +579,6 @@ class Song {
     
     func setTempo(_ newBeatsPerMin: Double){
         //stop()
-        print("update all instruments with tempo \(newBeatsPerMin)")
         clickTrack.tempo.set_tempo(bpm: newBeatsPerMin)
         clickTrack.update()
         
@@ -592,7 +590,6 @@ class Song {
     
     func setTimeSignature(_ newBeatsPerMeasure: Int, newNote: Int){
         //stop()
-        print("update all instruments with beats per measure \(newBeatsPerMeasure) and \(newNote) note")
         clickTrack.timeSignature.beatsPerMeasure = newBeatsPerMeasure
         clickTrack.timeSignature.beatUnit = newNote
         clickTrack.update()

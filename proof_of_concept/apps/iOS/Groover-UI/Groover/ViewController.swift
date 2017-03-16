@@ -388,12 +388,11 @@ class ViewController: UIViewController, SongCallbacks {
         //let valx = Int32(16383.0 * (data!.acceleration.x))
         let valx_f: Double = (data!.acceleration.x)*100.0
         let valx = Int16(valx_f)
-        let orientation = UIDevice.current.orientation.rawValue
-        //print("orientation \(orientation)")
+        //let orientation = UIDevice.current.orientation.rawValue
         
         if fallingBeatFilter.isBeat(x: valx){
             fallNum += 1
-            if(orientation == fall_orientation1 || orientation == fall_orientation2){
+            if(fallNum >= 2 || (riseNum == 0)){
                 print("Fall Note \(fallNum)")
                 song.addNote() //make drum sound and add to track if recording!
                 knob.updateClickRingActive(active: true)
@@ -406,7 +405,7 @@ class ViewController: UIViewController, SongCallbacks {
             
         else if risingBeatFilter.isBeat(x: valx) {
             riseNum += 1
-            if(orientation == rise_orientation1 || orientation == rise_orientation2){
+            if(riseNum >= 2 || (fallNum == 0)){
                 print("Rise Note \(riseNum)")
                 song.addNote() //make drum sound and add to track if recording!
                 knob.updateClickRingActive(active: true)

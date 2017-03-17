@@ -31,10 +31,6 @@ class ViewController: UIViewController, SongCallbacks {
     var timeline_needs_clear = false
     var measureViews = [MeasureCtrl]()
     var measureLabels = [UILabel]()
-    let fall_orientation1 = 3
-    let fall_orientation2 = 5
-    let rise_orientation1 = 1
-    let rise_orientation2 = 4
     
     //Events
     var stopRecordButtonEvent = false

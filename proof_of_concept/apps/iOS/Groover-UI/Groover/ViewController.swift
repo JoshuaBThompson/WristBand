@@ -132,7 +132,6 @@ class ViewController: UIViewController, SongCallbacks {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         instrumentNameLabel.text = song.selectedInstrumentName
-        //animateMeasureTimeline()
         startMeasureTimelineThread()
         startButtonEventHandler()
     }
@@ -172,7 +171,7 @@ class ViewController: UIViewController, SongCallbacks {
         let bar_progress = song.timeline.current_progress
         let ready_to_clear = song.timeline.ready_to_clear
         if(ready_to_clear){
-            clearTimeline()
+            clearTimelineProgress()
         }
         measureViews[bar_num].exists = true
         measureViews[bar_num].active = true
@@ -193,20 +192,32 @@ class ViewController: UIViewController, SongCallbacks {
         
     }
     
-    func clearTimeline(){
+    func clearTimelineProgress(){
         for measure_view in measureViews {
             measure_view.clearProgress()
         }
         
     }
     func showInactiveTimeline(){
-            let count = song.instrument.trackManager.measureCount
+        let count = song.instrument.trackManager.measureCount
+        let recorded = song.instrument.trackManager.trackNotes.count
+        
+        clearTimeline()
+        if(recorded == 0){
+            return
+        }
+        print("show active timeline count \(count)")
+        
         for i in 0..<count {
             if(i >= measureViews.count){
                 break
             }
             else{
                 measureViews[i].exists = true
+                let label_num_str = "\(i + 1)"
+                if(label_num_str != measureLabels[i].text){
+                    measureLabels[i].text = label_num_str
+                }
             }
         }
     }
@@ -214,16 +225,20 @@ class ViewController: UIViewController, SongCallbacks {
     func clearTimelineIfNeedsClear(){
         if(timeline_needs_clear){
             clearTimeline()
-            timeline_needs_clear = false
-            
-            for measure_view in measureViews {
-                measure_view.active = false
-                measure_view.exists = false
-            }
-            
-            for label in measureLabels {
-                label.text = ""
-            }
+        }
+    }
+    
+    func clearTimeline(){
+        clearTimelineProgress()
+        timeline_needs_clear = false
+        
+        for measure_view in measureViews {
+            measure_view.active = false
+            measure_view.exists = false
+        }
+        
+        for label in measureLabels {
+            label.text = ""
         }
     }
     
@@ -327,23 +342,24 @@ class ViewController: UIViewController, SongCallbacks {
         
         let position = knob.detent
         let wasRecording = song.recordEnabled
-        if(prevKnobDetent != position){
+        let newSelected = (prevKnobDetent != position)
+        if(newSelected){
             parametersButton.hide()
             instrumentViewWrap.backgroundColor = UIColor.black
             positionIndicator.show()
             positionIndicator.setPosition(knobControl.detent)
-            if(!song.playing){
-                //showInactiveTimeline()
-            }
         }
         prevKnobDetent = position
-        
-        selectSound(position)
-        if(!song.recordEnabled && wasRecording){
-            recordButton.isSelected = false
-        }
-        else{
-            updateButtonStatesAfterKnobTurn()
+        if(newSelected){
+            selectSound(position)
+            if(!song.recordEnabled && wasRecording){
+                recordButton.isSelected = false
+            }
+            else{
+                updateButtonStatesAfterKnobTurn()
+            }
+            showInactiveTimeline()
+            
         }
         
     }

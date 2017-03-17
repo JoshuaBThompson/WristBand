@@ -131,6 +131,9 @@ class ViewController: UIViewController, SongCallbacks {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        if(song.instruments.count > 0){
+            selectSound(0)
+        }
         instrumentNameLabel.text = song.selectedInstrumentName
         startMeasureTimelineThread()
         startButtonEventHandler()

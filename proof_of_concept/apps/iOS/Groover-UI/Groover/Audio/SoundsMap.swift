@@ -26,6 +26,7 @@ let sounds_acoustic_maps = [
 "13-TCA Stack": 12,
 "14-TCA-Crash-Hi-Mallet": 13]
 
+
 /*****************Position mapping for 'Sounds_electronic_drumset' library******************/
 let sounds_electronic_maps = [
 "kick-1": 0,

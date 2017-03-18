@@ -429,17 +429,17 @@
                                     <stackView opaque="NO" contentMode="scaleToFill" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="0sH-pS-3Wj" userLabel="Measures Stack View">
                                         <rect key="frame" x="0.0" y="58" width="320" height="24"/>
                                         <subviews>
-                                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="MAa-gl-TzL" userLabel="Measure Spacer View 1">
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MAa-gl-TzL" userLabel="Measure Spacer View 1">
                                                 <rect key="frame" x="0.0" y="0.0" width="2.5" height="24"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" secondItem="MAa-gl-TzL" secondAttribute="height" multiplier="1:12" identifier="measures-leading-ratio" id="yIg-BK-ONk"/>
                                                 </constraints>
                                             </view>
-                                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="S98-Ey-tnx" customClass="MeasureCtrl" customModule="Groover" customModuleProvider="target">
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="S98-Ey-tnx" customClass="MeasureCtrl" customModule="Groover" customModuleProvider="target">
                                                 <rect key="frame" x="2.5" y="0.0" width="77" height="24"/>
                                                 <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TrB-Uy-skK" userLabel="Measure Label 1">
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TrB-Uy-skK" userLabel="Measure Label 1">
                                                         <rect key="frame" x="9.5" y="2" width="58" height="20.5"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" secondItem="TrB-Uy-skK" secondAttribute="height" multiplier="79:28" id="7Oz-5D-FDq"/>
@@ -456,17 +456,17 @@
                                                     <constraint firstItem="TrB-Uy-skK" firstAttribute="centerX" secondItem="S98-Ey-tnx" secondAttribute="centerX" id="wa6-2K-TQW"/>
                                                 </constraints>
                                             </view>
-                                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VIi-Sm-jN0" userLabel="Measure Spacer View 2">
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VIi-Sm-jN0" userLabel="Measure Spacer View 2">
                                                 <rect key="frame" x="79.5" y="0.0" width="2" height="24"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" secondItem="VIi-Sm-jN0" secondAttribute="height" multiplier="1:12" identifier="measure-2-spacer-ratio" id="wkT-gl-BHr"/>
                                                 </constraints>
                                             </view>
-                                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qst-AJ-wnl" customClass="MeasureCtrl" customModule="Groover" customModuleProvider="target">
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qst-AJ-wnl" customClass="MeasureCtrl" customModule="Groover" customModuleProvider="target">
                                                 <rect key="frame" x="81.5" y="0.0" width="77" height="24"/>
                                                 <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iN3-oG-wRu" userLabel="Measure Label 2">
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iN3-oG-wRu" userLabel="Measure Label 2">
                                                         <rect key="frame" x="9.5" y="2" width="58" height="20.5"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                         <constraints>
@@ -484,17 +484,17 @@
                                                     <constraint firstAttribute="width" secondItem="qst-AJ-wnl" secondAttribute="height" multiplier="77:24" identifier="measure-2-ratio" id="rXH-Ip-fCj"/>
                                                 </constraints>
                                             </view>
-                                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pX8-0M-tK9" userLabel="Measure Spacer View 3">
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pX8-0M-tK9" userLabel="Measure Spacer View 3">
                                                 <rect key="frame" x="158.5" y="0.0" width="2" height="24"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" secondItem="pX8-0M-tK9" secondAttribute="height" multiplier="1:12" identifier="measure-3-spacer-ratio" id="QHM-Q6-wSk"/>
                                                 </constraints>
                                             </view>
-                                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="aZL-8P-4bF" customClass="MeasureCtrl" customModule="Groover" customModuleProvider="target">
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aZL-8P-4bF" customClass="MeasureCtrl" customModule="Groover" customModuleProvider="target">
                                                 <rect key="frame" x="160.5" y="0.0" width="77" height="24"/>
                                                 <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="53I-gX-BaC" userLabel="Measure Label 3">
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="53I-gX-BaC" userLabel="Measure Label 3">
                                                         <rect key="frame" x="9.5" y="2" width="58" height="20.5"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" secondItem="53I-gX-BaC" secondAttribute="height" multiplier="79:28" id="Ywr-MH-yWB"/>
@@ -511,7 +511,7 @@
                                                     <constraint firstItem="53I-gX-BaC" firstAttribute="centerX" secondItem="aZL-8P-4bF" secondAttribute="centerX" id="x7X-ow-y0o"/>
                                                 </constraints>
                                             </view>
-                                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="aoR-DF-BVC" userLabel="Measure Spacer View 4">
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aoR-DF-BVC" userLabel="Measure Spacer View 4">
                                                 <rect key="frame" x="237.5" y="0.0" width="2" height="24"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 <constraints>
@@ -535,7 +535,7 @@
                                                 <constraints>
                                                     <constraint firstItem="R2l-wn-gew" firstAttribute="centerY" secondItem="9g2-ls-tU2" secondAttribute="centerY" id="2uQ-XD-hi3"/>
                                                     <constraint firstItem="R2l-wn-gew" firstAttribute="centerX" secondItem="9g2-ls-tU2" secondAttribute="centerX" id="VG1-c1-f4R"/>
-                                                    <constraint firstAttribute="width" secondItem="9g2-ls-tU2" secondAttribute="height" multiplier="77:24" identifier="measure-4-ratio" id="pJT-iS-4b5"/>
+                                                    <constraint firstAttribute="width" secondItem="9g2-ls-tU2" secondAttribute="height" multiplier="77:24" priority="750" identifier="measure-4-ratio" id="pJT-iS-4b5"/>
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="w1E-Dy-IIz" userLabel="Measure Spacer">
@@ -859,7 +859,7 @@
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="170"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8Is-KH-kwg">
-                                                <rect key="frame" x="54" y="67" width="214" height="36"/>
+                                                <rect key="frame" x="53" y="67" width="214" height="36"/>
                                                 <color key="backgroundColor" red="0.61960784313725492" green="0.14509803921568626" blue="0.16078431372549018" alpha="1" colorSpace="calibratedRGB"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="36" id="YzK-YU-rYJ"/>

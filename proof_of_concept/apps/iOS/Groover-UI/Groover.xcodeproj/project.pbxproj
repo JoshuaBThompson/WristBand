@@ -54,6 +54,13 @@
 		42F2C5B61E502B2100C87540 /* SoundLibraryHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F2C5B51E502B2100C87540 /* SoundLibraryHelper.swift */; };
 		42F2C5BA1E5211E900C87540 /* InstrumentLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F2C5B91E5211E900C87540 /* InstrumentLibrary.swift */; };
 		42F2C5BC1E561A9800C87540 /* SoundsMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F2C5BB1E561A9800C87540 /* SoundsMap.swift */; };
+		9450E20E1E7E64FE002D5BB3 /* Song.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9450E20D1E7E64FE002D5BB3 /* Song.storyboard */; };
+		9450E2101E7E657A002D5BB3 /* Groove.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9450E20F1E7E657A002D5BB3 /* Groove.storyboard */; };
+		9450E2121E7E65EF002D5BB3 /* Settings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9450E2111E7E65EF002D5BB3 /* Settings.storyboard */; };
+		9450E2141E7E664D002D5BB3 /* Parameters.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9450E2131E7E664D002D5BB3 /* Parameters.storyboard */; };
+		9450E2161E7E6693002D5BB3 /* NewSong.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9450E2151E7E6693002D5BB3 /* NewSong.storyboard */; };
+		9450E2181E7E66CB002D5BB3 /* SongList.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9450E2171E7E66CB002D5BB3 /* SongList.storyboard */; };
+		9450E21A1E7E6708002D5BB3 /* SoundList.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9450E2191E7E6708002D5BB3 /* SoundList.storyboard */; };
 		945BD38A1DFFBBB9002A70E9 /* SongListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 945BD3891DFFBBB9002A70E9 /* SongListTableViewController.swift */; };
 		945BD38C1DFFBC8A002A70E9 /* SongViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 945BD38B1DFFBC8A002A70E9 /* SongViewController.swift */; };
 		945EF80F1E026B2B00A92E73 /* TrackMeasuresSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 945EF80E1E026B2B00A92E73 /* TrackMeasuresSlider.swift */; };
@@ -183,6 +190,13 @@
 		42F2C5B51E502B2100C87540 /* SoundLibraryHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SoundLibraryHelper.swift; sourceTree = "<group>"; };
 		42F2C5B91E5211E900C87540 /* InstrumentLibrary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InstrumentLibrary.swift; sourceTree = "<group>"; };
 		42F2C5BB1E561A9800C87540 /* SoundsMap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SoundsMap.swift; sourceTree = "<group>"; };
+		9450E20D1E7E64FE002D5BB3 /* Song.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Song.storyboard; sourceTree = "<group>"; };
+		9450E20F1E7E657A002D5BB3 /* Groove.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Groove.storyboard; sourceTree = "<group>"; };
+		9450E2111E7E65EF002D5BB3 /* Settings.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Settings.storyboard; sourceTree = "<group>"; };
+		9450E2131E7E664D002D5BB3 /* Parameters.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Parameters.storyboard; sourceTree = "<group>"; };
+		9450E2151E7E6693002D5BB3 /* NewSong.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = NewSong.storyboard; sourceTree = "<group>"; };
+		9450E2171E7E66CB002D5BB3 /* SongList.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = SongList.storyboard; sourceTree = "<group>"; };
+		9450E2191E7E6708002D5BB3 /* SoundList.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = SoundList.storyboard; sourceTree = "<group>"; };
 		945BD3891DFFBBB9002A70E9 /* SongListTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SongListTableViewController.swift; sourceTree = "<group>"; };
 		945BD38B1DFFBC8A002A70E9 /* SongViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SongViewController.swift; sourceTree = "<group>"; };
 		945EF80E1E026B2B00A92E73 /* TrackMeasuresSlider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackMeasuresSlider.swift; sourceTree = "<group>"; };
@@ -455,6 +469,13 @@
 				423174F91D6CADB000A97065 /* PlayRecord */,
 				FA50AA521D2A3FE60035C942 /* AppDelegate.swift */,
 				FA50AA541D2A3FE60035C942 /* ViewController.swift */,
+				9450E20D1E7E64FE002D5BB3 /* Song.storyboard */,
+				9450E2111E7E65EF002D5BB3 /* Settings.storyboard */,
+				9450E2131E7E664D002D5BB3 /* Parameters.storyboard */,
+				9450E2151E7E6693002D5BB3 /* NewSong.storyboard */,
+				9450E2171E7E66CB002D5BB3 /* SongList.storyboard */,
+				9450E2191E7E6708002D5BB3 /* SoundList.storyboard */,
+				9450E20F1E7E657A002D5BB3 /* Groove.storyboard */,
 				FA50AA561D2A3FE60035C942 /* Main.storyboard */,
 				FA0CCADD1DF6A27D00EC3F6A /* SettingsTab */,
 				FA0CCADA1DF6A01700EC3F6A /* GrooveTab */,
@@ -616,12 +637,19 @@
 			buildActionMask = 2147483647;
 			files = (
 				429A22CC1D338E400045023F /* Sounds_acoustic_drumset in Resources */,
+				9450E2101E7E657A002D5BB3 /* Groove.storyboard in Resources */,
+				9450E2161E7E6693002D5BB3 /* NewSong.storyboard in Resources */,
 				FA50AA821D2A433B0035C942 /* images in Resources */,
 				FA50AA5D1D2A3FE60035C942 /* LaunchScreen.storyboard in Resources */,
 				421425F01DFCDC130092BCB4 /* Sounds_electronic_drumset in Resources */,
 				FA50AA5A1D2A3FE60035C942 /* Assets.xcassets in Resources */,
+				9450E2181E7E66CB002D5BB3 /* SongList.storyboard in Resources */,
+				9450E2141E7E664D002D5BB3 /* Parameters.storyboard in Resources */,
 				94F2C9981E5C2B3500E74A87 /* Sounds_clicks in Resources */,
+				9450E20E1E7E64FE002D5BB3 /* Song.storyboard in Resources */,
 				FA50AA581D2A3FE60035C942 /* Main.storyboard in Resources */,
+				9450E21A1E7E6708002D5BB3 /* SoundList.storyboard in Resources */,
+				9450E2121E7E65EF002D5BB3 /* Settings.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

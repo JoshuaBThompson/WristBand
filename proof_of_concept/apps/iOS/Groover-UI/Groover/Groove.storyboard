@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
-    <device id="retina4_7" orientation="portrait">
+    <device id="retina4_0" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -17,147 +18,208 @@
                         <viewControllerLayoutGuide type="bottom" id="TBr-B3-I2E"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="EOu-Z6-DP0">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="618"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="519"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="fullBackground" translatesAutoresizingMaskIntoConstraints="NO" id="xCp-lJ-JyE">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="fullBackground" translatesAutoresizingMaskIntoConstraints="NO" id="xCp-lJ-JyE">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="519"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fcM-Fm-0KM" userLabel="TCA logo image view">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="56"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </imageView>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cAW-e9-Q7h" customClass="PlayCtrl" customModule="Groover" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="56" width="320" height="56"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                            </view>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hLf-Ek-uwG" customClass="RecordCtrl" customModule="Groover" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="112" width="320" height="56"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                            </view>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4rX-SC-0v9" customClass="MeasureCtrl" customModule="Groover" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="168" width="320" height="15"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8cF-q5-HKt" userLabel="Upper Content View">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="169"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Ha-cJ-pXp" userLabel="Measure Label 1">
-                                        <rect key="frame" x="9.5" y="2" width="58" height="20.5"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
+                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" translatesAutoresizingMaskIntoConstraints="NO" id="ttT-kd-0yE" userLabel="Transport Stack View">
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="56"/>
+                                        <subviews>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" translatesAutoresizingMaskIntoConstraints="NO" id="fcM-Fm-0KM" userLabel="TCA logo image view">
+                                                <rect key="frame" x="0.0" y="0.0" width="144.5" height="56"/>
+                                            </imageView>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cAW-e9-Q7h" customClass="PlayCtrl" customModule="Groover" customModuleProvider="target">
+                                                <rect key="frame" x="144.5" y="0.0" width="87.5" height="56"/>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                            </view>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hLf-Ek-uwG" customClass="RecordCtrl" customModule="Groover" customModuleProvider="target">
+                                                <rect key="frame" x="232" y="0.0" width="88" height="56"/>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                            </view>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="ttT-kd-0yE" secondAttribute="height" multiplier="40:7" id="fLJ-lL-4rI"/>
+                                        </constraints>
+                                    </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="bgw-hQ-Sm4" userLabel="Measures Stack View">
+                                        <rect key="frame" x="0.0" y="58" width="320" height="24.5"/>
+                                        <subviews>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4rX-SC-0v9" customClass="MeasureCtrl" customModule="Groover" customModuleProvider="target">
+                                                <rect key="frame" x="0.0" y="0.0" width="78.5" height="24.5"/>
+                                                <subviews>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Ha-cJ-pXp" userLabel="Measure Label 1">
+                                                        <rect key="frame" x="9.5" y="2" width="58" height="20.5"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                </subviews>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                            </view>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="g4C-ga-yaQ" customClass="MeasureCtrl" customModule="Groover" customModuleProvider="target">
+                                                <rect key="frame" x="80.5" y="0.0" width="78.5" height="24.5"/>
+                                                <subviews>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XZS-LT-4oq" userLabel="Measure Label 2">
+                                                        <rect key="frame" x="9.5" y="2" width="58" height="20.5"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                </subviews>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                            </view>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jwW-6C-ajv" customClass="MeasureCtrl" customModule="Groover" customModuleProvider="target">
+                                                <rect key="frame" x="161" y="0.0" width="78.5" height="24.5"/>
+                                                <subviews>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xe7-29-Ujg" userLabel="Measure Label 3">
+                                                        <rect key="frame" x="9.5" y="2" width="58" height="20.5"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                </subviews>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                            </view>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ITs-IP-RbO" customClass="MeasureCtrl" customModule="Groover" customModuleProvider="target">
+                                                <rect key="frame" x="241.5" y="0.0" width="78.5" height="24.5"/>
+                                                <subviews>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tHl-R9-TSN" userLabel="Measure Label 4">
+                                                        <rect key="frame" x="15.5" y="2" width="58" height="20.5"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                </subviews>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                            </view>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="bgw-hQ-Sm4" secondAttribute="height" multiplier="316:24" id="GRH-wv-5In"/>
+                                        </constraints>
+                                    </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="1SY-zb-Vzf" userLabel="Quantize Stack View">
+                                        <rect key="frame" x="0.0" y="83" width="320" height="86"/>
+                                        <subviews>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yYp-3k-475" userLabel="Quarter Wrapper View">
+                                                <rect key="frame" x="0.0" y="0.0" width="64" height="86"/>
+                                                <subviews>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VgF-D8-fQA" customClass="QuarterCtrl" customModule="Groover" customModuleProvider="target">
+                                                        <rect key="frame" x="5" y="16" width="54" height="54"/>
+                                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="54" id="0y9-i0-cgw"/>
+                                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="54" id="yUh-x2-0Wd"/>
+                                                        </constraints>
+                                                    </view>
+                                                </subviews>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                <constraints>
+                                                    <constraint firstItem="VgF-D8-fQA" firstAttribute="centerX" secondItem="yYp-3k-475" secondAttribute="centerX" id="Lle-yN-VjB"/>
+                                                    <constraint firstItem="VgF-D8-fQA" firstAttribute="centerY" secondItem="yYp-3k-475" secondAttribute="centerY" id="Wfh-lz-OcB"/>
+                                                </constraints>
+                                            </view>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PjJ-h4-zDx" userLabel="Eighth Wrapper View">
+                                                <rect key="frame" x="64" y="0.0" width="64" height="86"/>
+                                                <subviews>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="auJ-89-aKz" customClass="EighthCtrl" customModule="Groover" customModuleProvider="target">
+                                                        <rect key="frame" x="5" y="16" width="54" height="54"/>
+                                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="54" id="7B2-vg-HyI"/>
+                                                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="54" id="bKD-vB-fIA"/>
+                                                        </constraints>
+                                                    </view>
+                                                </subviews>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                <constraints>
+                                                    <constraint firstItem="auJ-89-aKz" firstAttribute="centerX" secondItem="PjJ-h4-zDx" secondAttribute="centerX" id="cmx-7a-H06"/>
+                                                    <constraint firstItem="auJ-89-aKz" firstAttribute="centerY" secondItem="PjJ-h4-zDx" secondAttribute="centerY" id="gnX-9X-hWL"/>
+                                                </constraints>
+                                            </view>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="020-cv-8E6" userLabel="Sixteenth Wrapper View">
+                                                <rect key="frame" x="128" y="0.0" width="64" height="86"/>
+                                                <subviews>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uOt-k8-0QV" customClass="SixteenthCtrl" customModule="Groover" customModuleProvider="target">
+                                                        <rect key="frame" x="5" y="16" width="54" height="54"/>
+                                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="54" id="Chf-po-n5t"/>
+                                                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="54" id="lHd-JV-2cg"/>
+                                                        </constraints>
+                                                    </view>
+                                                </subviews>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                <constraints>
+                                                    <constraint firstItem="uOt-k8-0QV" firstAttribute="centerY" secondItem="020-cv-8E6" secondAttribute="centerY" id="UmM-7J-GJJ"/>
+                                                    <constraint firstItem="uOt-k8-0QV" firstAttribute="centerX" secondItem="020-cv-8E6" secondAttribute="centerX" id="yZo-lE-TXe"/>
+                                                </constraints>
+                                            </view>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2XL-T4-RRS" userLabel="Thirtysecond Wrapper View">
+                                                <rect key="frame" x="192" y="0.0" width="64" height="86"/>
+                                                <subviews>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NAq-Zr-Ce5" customClass="ThirtysecondCtrl" customModule="Groover" customModuleProvider="target">
+                                                        <rect key="frame" x="5" y="16" width="54" height="54"/>
+                                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="54" id="2x0-Oe-BXM"/>
+                                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="54" id="9Mr-Xq-y6e"/>
+                                                        </constraints>
+                                                    </view>
+                                                </subviews>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                <constraints>
+                                                    <constraint firstItem="NAq-Zr-Ce5" firstAttribute="centerX" secondItem="2XL-T4-RRS" secondAttribute="centerX" id="UQ4-UB-Had"/>
+                                                    <constraint firstItem="NAq-Zr-Ce5" firstAttribute="centerY" secondItem="2XL-T4-RRS" secondAttribute="centerY" id="jsJ-1Q-vEe"/>
+                                                </constraints>
+                                            </view>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EA3-ID-o0r" userLabel="Triplet Wrapper View">
+                                                <rect key="frame" x="256" y="0.0" width="64" height="86"/>
+                                                <subviews>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zZL-JS-2rx" customClass="TripletCtrl" customModule="Groover" customModuleProvider="target">
+                                                        <rect key="frame" x="5" y="16" width="54" height="54"/>
+                                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="54" id="KLk-AT-Bwf"/>
+                                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="54" id="OTL-yV-O8b"/>
+                                                        </constraints>
+                                                    </view>
+                                                </subviews>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                <constraints>
+                                                    <constraint firstItem="zZL-JS-2rx" firstAttribute="centerX" secondItem="EA3-ID-o0r" secondAttribute="centerX" id="FAT-hg-vaX"/>
+                                                    <constraint firstItem="zZL-JS-2rx" firstAttribute="centerY" secondItem="EA3-ID-o0r" secondAttribute="centerY" id="VZ6-Nf-zue"/>
+                                                </constraints>
+                                            </view>
+                                        </subviews>
+                                    </stackView>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="ttT-kd-0yE" firstAttribute="leading" secondItem="8cF-q5-HKt" secondAttribute="leading" id="0Xg-Nz-0IJ"/>
+                                    <constraint firstAttribute="trailing" secondItem="ttT-kd-0yE" secondAttribute="trailing" id="984-nI-rAT"/>
+                                    <constraint firstAttribute="trailing" secondItem="1SY-zb-Vzf" secondAttribute="trailing" id="GFR-Va-8dh"/>
+                                    <constraint firstItem="1SY-zb-Vzf" firstAttribute="leading" secondItem="8cF-q5-HKt" secondAttribute="leading" id="RKV-Xy-btL"/>
+                                    <constraint firstItem="ttT-kd-0yE" firstAttribute="top" secondItem="8cF-q5-HKt" secondAttribute="top" id="Sqq-0g-6RV"/>
+                                    <constraint firstItem="bgw-hQ-Sm4" firstAttribute="leading" secondItem="8cF-q5-HKt" secondAttribute="leading" id="XSc-xF-FFZ"/>
+                                    <constraint firstAttribute="trailing" secondItem="bgw-hQ-Sm4" secondAttribute="trailing" id="YWC-Y2-hwf"/>
+                                    <constraint firstItem="bgw-hQ-Sm4" firstAttribute="top" secondItem="ttT-kd-0yE" secondAttribute="bottom" constant="2" id="ahs-8G-Kzj"/>
+                                    <constraint firstAttribute="width" secondItem="8cF-q5-HKt" secondAttribute="height" multiplier="320:169" id="f7n-ZX-U7N"/>
+                                    <constraint firstAttribute="bottom" secondItem="1SY-zb-Vzf" secondAttribute="bottom" id="t1x-XO-z5n"/>
+                                    <constraint firstItem="1SY-zb-Vzf" firstAttribute="top" secondItem="bgw-hQ-Sm4" secondAttribute="bottom" id="xg3-a1-g2X"/>
+                                </constraints>
                             </view>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="g4C-ga-yaQ" customClass="MeasureCtrl" customModule="Groover" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="183" width="320" height="0.0"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XZS-LT-4oq" userLabel="Measure Label 2">
-                                        <rect key="frame" x="9.5" y="2" width="58" height="20.5"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                </subviews>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                            </view>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jwW-6C-ajv" customClass="MeasureCtrl" customModule="Groover" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="183" width="320" height="0.0"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xe7-29-Ujg" userLabel="Measure Label 3">
-                                        <rect key="frame" x="9.5" y="2" width="58" height="20.5"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                </subviews>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                            </view>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ITs-IP-RbO" customClass="MeasureCtrl" customModule="Groover" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="183" width="320" height="0.0"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tHl-R9-TSN" userLabel="Measure Label 4">
-                                        <rect key="frame" x="15.5" y="2" width="58" height="20.5"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                </subviews>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                            </view>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yYp-3k-475" userLabel="Quarter Wrapper View">
-                                <rect key="frame" x="0.0" y="183" width="320" height="0.0"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <subviews>
-                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VgF-D8-fQA" customClass="QuarterCtrl" customModule="Groover" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="14.5" width="58" height="58"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                    </view>
-                                </subviews>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                            </view>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PjJ-h4-zDx" userLabel="Eighth Wrapper View">
-                                <rect key="frame" x="0.0" y="183" width="320" height="0.0"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <subviews>
-                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="auJ-89-aKz" customClass="EighthCtrl" customModule="Groover" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="15" width="57.5" height="57.5"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                    </view>
-                                </subviews>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                            </view>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="020-cv-8E6" userLabel="Sixteenth Wrapper View">
-                                <rect key="frame" x="0.0" y="183" width="320" height="0.0"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <subviews>
-                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uOt-k8-0QV" customClass="SixteenthCtrl" customModule="Groover" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="14.5" width="58" height="58"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                    </view>
-                                </subviews>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                            </view>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2XL-T4-RRS" userLabel="Thirtysecond Wrapper View">
-                                <rect key="frame" x="0.0" y="183" width="320" height="0.0"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <subviews>
-                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="NAq-Zr-Ce5" customClass="ThirtysecondCtrl" customModule="Groover" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="14.5" width="58" height="58"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                    </view>
-                                </subviews>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                            </view>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="EA3-ID-o0r" userLabel="Triplet Wrapper View">
-                                <rect key="frame" x="0.0" y="183" width="320" height="0.0"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <subviews>
-                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zZL-JS-2rx" customClass="TripletCtrl" customModule="Groover" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="14" width="58.5" height="59"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                    </view>
-                                </subviews>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                            </view>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yjR-iJ-Xzm" userLabel="Instrument View Wrap">
-                                <rect key="frame" x="0.0" y="183" width="320" height="58"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yjR-iJ-Xzm" userLabel="Instrument View Wrap">
+                                <rect key="frame" x="0.0" y="169" width="320" height="58"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nna-6v-3ME" customClass="PositionIndicator" customModule="Groover" customModuleProvider="target">
                                         <rect key="frame" x="26" y="21" width="268" height="16"/>
@@ -184,10 +246,12 @@
                                     </view>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="yjR-iJ-Xzm" secondAttribute="height" multiplier="160:29" id="lDF-c3-iF7"/>
+                                </constraints>
                             </view>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="t24-DR-dST" userLabel="knobWrapper">
-                                <rect key="frame" x="0.0" y="241" width="320" height="270"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="t24-DR-dST" userLabel="knobWrapper">
+                                <rect key="frame" x="0.0" y="241" width="320" height="278"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="D1U-Ip-OgR" customClass="KnobCtrl" customModule="Groover" customModuleProvider="target">
                                         <rect key="frame" x="25" y="0.0" width="270" height="270"/>
@@ -200,6 +264,22 @@
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="TBr-B3-I2E" firstAttribute="top" secondItem="t24-DR-dST" secondAttribute="bottom" id="8LB-17-Xrp"/>
+                            <constraint firstItem="8cF-q5-HKt" firstAttribute="top" secondItem="EOu-Z6-DP0" secondAttribute="top" id="IHT-P8-LBQ"/>
+                            <constraint firstItem="xCp-lJ-JyE" firstAttribute="top" secondItem="EOu-Z6-DP0" secondAttribute="top" id="IoY-ga-WMw"/>
+                            <constraint firstItem="yjR-iJ-Xzm" firstAttribute="top" secondItem="8cF-q5-HKt" secondAttribute="bottom" id="JnS-wg-Hlv"/>
+                            <constraint firstAttribute="trailing" secondItem="t24-DR-dST" secondAttribute="trailing" id="Q5e-9M-Iqt"/>
+                            <constraint firstItem="t24-DR-dST" firstAttribute="leading" secondItem="EOu-Z6-DP0" secondAttribute="leading" id="ThN-Cf-V6J"/>
+                            <constraint firstItem="8cF-q5-HKt" firstAttribute="leading" secondItem="EOu-Z6-DP0" secondAttribute="leading" id="WXB-NV-0HM"/>
+                            <constraint firstAttribute="trailing" secondItem="yjR-iJ-Xzm" secondAttribute="trailing" id="Yi2-Qh-CZC"/>
+                            <constraint firstItem="yjR-iJ-Xzm" firstAttribute="leading" secondItem="EOu-Z6-DP0" secondAttribute="leading" id="fwL-vU-alp"/>
+                            <constraint firstAttribute="trailing" secondItem="8cF-q5-HKt" secondAttribute="trailing" id="iFT-MT-nFb"/>
+                            <constraint firstItem="xCp-lJ-JyE" firstAttribute="leading" secondItem="EOu-Z6-DP0" secondAttribute="leading" id="jTz-Zi-6EX"/>
+                            <constraint firstAttribute="bottom" secondItem="xCp-lJ-JyE" secondAttribute="bottom" id="sEH-UG-0j6"/>
+                            <constraint firstItem="t24-DR-dST" firstAttribute="top" secondItem="yjR-iJ-Xzm" secondAttribute="bottom" constant="14" id="uR8-kk-UyW"/>
+                            <constraint firstAttribute="trailing" secondItem="xCp-lJ-JyE" secondAttribute="trailing" id="yYE-pY-QX3"/>
+                        </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="" image="drumIcon" selectedImage="drumIconSelected" id="7Hv-x9-xcT">
                         <inset key="imageInsets" minX="0.0" minY="7" maxX="0.0" maxY="-7"/>
@@ -230,7 +310,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Tm1-B3-2Rj" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-513.5" y="662.5"/>
+            <point key="canvasLocation" x="-515.625" y="660.21126760563379"/>
         </scene>
     </scenes>
     <resources>

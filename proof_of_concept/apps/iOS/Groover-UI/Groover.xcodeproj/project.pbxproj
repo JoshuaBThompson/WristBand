@@ -97,7 +97,6 @@
 		FA56CA431DEEA57F00738409 /* SettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA56CA421DEEA57F00738409 /* SettingsTableViewController.swift */; };
 		FA56CA451DEEA7A000738409 /* TempoSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA56CA441DEEA7A000738409 /* TempoSlider.swift */; };
 		FA908EE31D3F490A009FAFA4 /* RectBtn.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA908EE21D3F490A009FAFA4 /* RectBtn.swift */; };
-		FA9FBB011DDC12EE00706200 /* GrooveViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA9FBB001DDC12EE00706200 /* GrooveViewController.swift */; };
 		FAB995F01D2E2B510002EE38 /* Left.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB995EF1D2E2B510002EE38 /* Left.swift */; };
 		FAC132CB1DF547AD007E6EC1 /* ParametersModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC132CA1DF547AD007E6EC1 /* ParametersModalViewController.swift */; };
 		FAC61A641DC520360012A93D /* Measure.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC61A631DC520360012A93D /* Measure.swift */; };
@@ -237,7 +236,6 @@
 		FA56CA421DEEA57F00738409 /* SettingsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsTableViewController.swift; sourceTree = "<group>"; };
 		FA56CA441DEEA7A000738409 /* TempoSlider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TempoSlider.swift; sourceTree = "<group>"; };
 		FA908EE21D3F490A009FAFA4 /* RectBtn.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RectBtn.swift; sourceTree = "<group>"; };
-		FA9FBB001DDC12EE00706200 /* GrooveViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GrooveViewController.swift; sourceTree = "<group>"; };
 		FAB995EF1D2E2B510002EE38 /* Left.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Left.swift; sourceTree = "<group>"; };
 		FAC132CA1DF547AD007E6EC1 /* ParametersModalViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParametersModalViewController.swift; sourceTree = "<group>"; };
 		FAC61A631DC520360012A93D /* Measure.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Measure.swift; sourceTree = "<group>"; };
@@ -393,6 +391,80 @@
 			path = MidiSensor_V1.0.0;
 			sourceTree = "<group>";
 		};
+		42CD35161E8185CC00A33F7A /* SongStoryboard */ = {
+			isa = PBXGroup;
+			children = (
+				FA56CA461DEEA7A800738409 /* Song */,
+				FA0CCAD91DF69FD700EC3F6A /* SongTab */,
+				9450E20D1E7E64FE002D5BB3 /* Song.storyboard */,
+			);
+			name = SongStoryboard;
+			sourceTree = "<group>";
+		};
+		42CD35171E8185E800A33F7A /* SettingsStoryboard */ = {
+			isa = PBXGroup;
+			children = (
+				423174FB1D6CAE2E00A97065 /* Settings */,
+				FA0CCADD1DF6A27D00EC3F6A /* SettingsTab */,
+				9450E2111E7E65EF002D5BB3 /* Settings.storyboard */,
+			);
+			name = SettingsStoryboard;
+			sourceTree = "<group>";
+		};
+		42CD35181E8185F300A33F7A /* ParametersStoryboard */ = {
+			isa = PBXGroup;
+			children = (
+				423174FA1D6CADF500A97065 /* Parameters */,
+				9450E2131E7E664D002D5BB3 /* Parameters.storyboard */,
+			);
+			name = ParametersStoryboard;
+			sourceTree = "<group>";
+		};
+		42CD35191E81860000A33F7A /* NewSongStoryboard */ = {
+			isa = PBXGroup;
+			children = (
+				9450E2151E7E6693002D5BB3 /* NewSong.storyboard */,
+			);
+			name = NewSongStoryboard;
+			sourceTree = "<group>";
+		};
+		42CD351A1E81860A00A33F7A /* SongListStoryboard */ = {
+			isa = PBXGroup;
+			children = (
+				9450E2171E7E66CB002D5BB3 /* SongList.storyboard */,
+			);
+			name = SongListStoryboard;
+			sourceTree = "<group>";
+		};
+		42CD351B1E81861400A33F7A /* SoundListStoryboard */ = {
+			isa = PBXGroup;
+			children = (
+				9450E2191E7E6708002D5BB3 /* SoundList.storyboard */,
+			);
+			name = SoundListStoryboard;
+			sourceTree = "<group>";
+		};
+		42CD351C1E81861E00A33F7A /* GrooveStoryboard */ = {
+			isa = PBXGroup;
+			children = (
+				FA50AA541D2A3FE60035C942 /* ViewController.swift */,
+				423174FE1D6CAED000A97065 /* Knob */,
+				423174FD1D6CAEC800A97065 /* Quantize */,
+				423174F91D6CADB000A97065 /* PlayRecord */,
+				FA0CCADA1DF6A01700EC3F6A /* GrooveTab */,
+				9450E20F1E7E657A002D5BB3 /* Groove.storyboard */,
+			);
+			name = GrooveStoryboard;
+			sourceTree = "<group>";
+		};
+		42CD351D1E81867900A33F7A /* MainStoryboard */ = {
+			isa = PBXGroup;
+			children = (
+				FA50AA561D2A3FE60035C942 /* Main.storyboard */,
+			);
+			name = MainStoryboard;
+			sourceTree = "<group>";
+		};
 		94BCC38A1E653DDC001A7C76 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -415,7 +487,6 @@
 		FA0CCADA1DF6A01700EC3F6A /* GrooveTab */ = {
 			isa = PBXGroup;
 			children = (
-				FA9FBB001DDC12EE00706200 /* GrooveViewController.swift */,
 				FAC132CA1DF547AD007E6EC1 /* ParametersModalViewController.swift */,
 			);
 			name = GrooveTab;
@@ -457,29 +528,19 @@
 		FA50AA511D2A3FE60035C942 /* Groover */ = {
 			isa = PBXGroup;
 			children = (
+				42CD351D1E81867900A33F7A /* MainStoryboard */,
+				42CD351C1E81861E00A33F7A /* GrooveStoryboard */,
+				42CD351B1E81861400A33F7A /* SoundListStoryboard */,
+				42CD351A1E81860A00A33F7A /* SongListStoryboard */,
+				42CD35191E81860000A33F7A /* NewSongStoryboard */,
+				42CD35181E8185F300A33F7A /* ParametersStoryboard */,
+				42CD35171E8185E800A33F7A /* SettingsStoryboard */,
+				42CD35161E8185CC00A33F7A /* SongStoryboard */,
 				42986EA81E03066D0020F028 /* Slider */,
 				FAC61A621DC51F5E0012A93D /* Measures */,
 				429A22A41D338E240045023F /* Audio */,
-				FA56CA461DEEA7A800738409 /* Song */,
-				423174FE1D6CAED000A97065 /* Knob */,
-				423174FD1D6CAEC800A97065 /* Quantize */,
 				423174FC1D6CAE5B00A97065 /* MiscButtons */,
-				423174FB1D6CAE2E00A97065 /* Settings */,
-				423174FA1D6CADF500A97065 /* Parameters */,
-				423174F91D6CADB000A97065 /* PlayRecord */,
 				FA50AA521D2A3FE60035C942 /* AppDelegate.swift */,
-				FA50AA541D2A3FE60035C942 /* ViewController.swift */,
-				9450E20D1E7E64FE002D5BB3 /* Song.storyboard */,
-				9450E2111E7E65EF002D5BB3 /* Settings.storyboard */,
-				9450E2131E7E664D002D5BB3 /* Parameters.storyboard */,
-				9450E2151E7E6693002D5BB3 /* NewSong.storyboard */,
-				9450E2171E7E66CB002D5BB3 /* SongList.storyboard */,
-				9450E2191E7E6708002D5BB3 /* SoundList.storyboard */,
-				9450E20F1E7E657A002D5BB3 /* Groove.storyboard */,
-				FA50AA561D2A3FE60035C942 /* Main.storyboard */,
-				FA0CCADD1DF6A27D00EC3F6A /* SettingsTab */,
-				FA0CCADA1DF6A01700EC3F6A /* GrooveTab */,
-				FA0CCAD91DF69FD700EC3F6A /* SongTab */,
 				FA50AA801D2A433B0035C942 /* images */,
 				FA50AA811D2A433B0035C942 /* UIGroover.swift */,
 				FA50AA591D2A3FE60035C942 /* Assets.xcassets */,
@@ -674,7 +735,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FA9FBB011DDC12EE00706200 /* GrooveViewController.swift in Sources */,
 				429A22BE1D338E240045023F /* Song.swift in Sources */,
 				FAB995F01D2E2B510002EE38 /* Left.swift in Sources */,
 				FAC61A641DC520360012A93D /* Measure.swift in Sources */,

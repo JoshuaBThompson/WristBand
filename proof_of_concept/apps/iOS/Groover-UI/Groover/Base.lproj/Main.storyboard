@@ -39,7 +39,7 @@
         <!--settingsNavView-->
         <scene sceneID="p6H-0a-XmL">
             <objects>
-                <viewControllerPlaceholder storyboardIdentifier="settingsView" storyboardName="Settings" referencedIdentifier="settingsNavView" id="ImJ-lu-pXT" sceneMemberID="viewController">
+                <viewControllerPlaceholder storyboardIdentifier="settingsStoryboard" storyboardName="Settings" referencedIdentifier="settingsNavView" id="ImJ-lu-pXT" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Item" id="m23-rd-nva"/>
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5Da-Cr-vDe" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -49,7 +49,7 @@
         <!--songNavView-->
         <scene sceneID="PJE-vW-aXh">
             <objects>
-                <viewControllerPlaceholder storyboardIdentifier="songView" storyboardName="Song" referencedIdentifier="songNavView" id="Dgj-fa-aL1" sceneMemberID="viewController">
+                <viewControllerPlaceholder storyboardIdentifier="songStoryboard" storyboardName="Song" referencedIdentifier="songNavView" id="Dgj-fa-aL1" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Item" id="twl-WF-INr"/>
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Tq0-p9-0o4" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -59,7 +59,7 @@
         <!--grooverView-->
         <scene sceneID="OK6-pe-19I">
             <objects>
-                <viewControllerPlaceholder storyboardIdentifier="grooverView" storyboardName="Groove" referencedIdentifier="grooverView" id="Pbv-YH-meU" sceneMemberID="viewController">
+                <viewControllerPlaceholder storyboardIdentifier="grooverStoryboard" storyboardName="Groove" referencedIdentifier="grooverView" id="Pbv-YH-meU" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Item" id="vON-wp-aVK"/>
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FG5-Aa-7gi" userLabel="First Responder" sceneMemberID="firstResponder"/>

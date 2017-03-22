@@ -240,6 +240,11 @@
                                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jgs-qS-zgz" userLabel="ParametersButton" customClass="ParametersButtonCtrl" customModule="Groover" customModuleProvider="target">
                                                 <rect key="frame" x="103" y="0.0" width="42" height="42"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <connections>
+                                                    <segue destination="Ujh-HD-yjp" kind="popoverPresentation" popoverAnchorView="jgs-qS-zgz" id="RQm-hT-NYN">
+                                                        <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
+                                                    </segue>
+                                                </connections>
                                             </button>
                                         </subviews>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -311,6 +316,14 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Tm1-B3-2Rj" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-515.625" y="660.21126760563379"/>
+        </scene>
+        <!--parametersView-->
+        <scene sceneID="9GD-3U-gje">
+            <objects>
+                <viewControllerPlaceholder storyboardIdentifier="parametersStoryboard" storyboardName="Parameters" referencedIdentifier="parametersView" id="Ujh-HD-yjp" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="yv3-aL-lem" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="423" y="339"/>
         </scene>
     </scenes>
     <resources>

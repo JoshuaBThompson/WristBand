@@ -30,12 +30,23 @@
                     <navigationItem key="navigationItem" id="pNj-Ir-OeB">
                         <barButtonItem key="rightBarButtonItem" title="&gt;" style="plain" id="K1f-TD-EhF">
                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <connections>
+                                <segue destination="QoF-he-KlY" kind="show" id="8HV-AD-pFi"/>
+                            </connections>
                         </barButtonItem>
                     </navigationItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JnH-qM-Clg" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3062" y="573"/>
+        </scene>
+        <!--soundListNavView-->
+        <scene sceneID="R4h-2d-M8w">
+            <objects>
+                <viewControllerPlaceholder storyboardIdentifier="soundListStoryboard" storyboardName="SoundList" referencedIdentifier="soundListNavView" id="QoF-he-KlY" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="bem-ka-xsS" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3833" y="301"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Mz9-OZ-VBL">

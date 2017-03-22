@@ -171,9 +171,15 @@
                     <navigationItem key="navigationItem" id="g6u-Tv-hD8">
                         <barButtonItem key="leftBarButtonItem" style="plain" systemItem="add" id="sZt-8P-vka">
                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <connections>
+                                <segue destination="M0D-Y7-sW1" kind="show" id="pCd-da-Ai5"/>
+                            </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="&gt;" style="plain" id="fGj-gu-FD2">
                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <connections>
+                                <segue destination="9Jw-Oi-aF3" kind="show" id="8Hp-DF-2aL"/>
+                            </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
@@ -189,6 +195,22 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="M9a-kb-dCh" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="890" y="662"/>
+        </scene>
+        <!--newSongNavView-->
+        <scene sceneID="ree-NY-raC">
+            <objects>
+                <viewControllerPlaceholder storyboardIdentifier="newSongStoryboard" storyboardName="NewSong" referencedIdentifier="newSongNavView" id="M0D-Y7-sW1" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="xZY-Ph-7yY" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1740" y="276"/>
+        </scene>
+        <!--songListNavView-->
+        <scene sceneID="kS6-82-jWd">
+            <objects>
+                <viewControllerPlaceholder storyboardIdentifier="songListStoryboard" storyboardName="SongList" referencedIdentifier="songListNavView" id="9Jw-Oi-aF3" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="fkp-3f-bUo" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1740" y="938"/>
         </scene>
     </scenes>
     <resources>

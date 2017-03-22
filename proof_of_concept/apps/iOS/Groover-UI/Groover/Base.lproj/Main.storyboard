@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" colorMatched="YES" initialViewController="9I9-je-0iQ">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11542" systemVersion="15G1004" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" colorMatched="YES" initialViewController="9I9-je-0iQ">
     <device id="retina4_0" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -26,10 +26,34 @@
                             </userDefinedRuntimeAttribute>
                         </userDefinedRuntimeAttributes>
                     </tabBar>
+                    <connections>
+                        <segue destination="Pbv-YH-meU" kind="relationship" relationship="viewControllers" id="VOx-oF-san"/>
+                        <segue destination="ImJ-lu-pXT" kind="relationship" relationship="viewControllers" id="ycY-t7-3hQ"/>
+                    </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NCC-dn-rJw" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-513.125" y="-355.73333333333329"/>
+        </scene>
+        <!--settingsNavView-->
+        <scene sceneID="p6H-0a-XmL">
+            <objects>
+                <viewControllerPlaceholder storyboardIdentifier="settingsView" storyboardName="Settings" referencedIdentifier="settingsNavView" id="ImJ-lu-pXT" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Item" id="m23-rd-nva"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="5Da-Cr-vDe" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-107" y="-329"/>
+        </scene>
+        <!--grooverView-->
+        <scene sceneID="OK6-pe-19I">
+            <objects>
+                <viewControllerPlaceholder storyboardIdentifier="grooverView" storyboardName="Groove" referencedIdentifier="grooverView" id="Pbv-YH-meU" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Item" id="vON-wp-aVK"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="FG5-Aa-7gi" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-137" y="-784"/>
         </scene>
     </scenes>
     <resources>

@@ -12,7 +12,7 @@
         <!--Groove-->
         <scene sceneID="gwi-GP-DfD">
             <objects>
-                <viewController id="6sE-Dz-anz" userLabel="Groove" customClass="ViewController" customModule="Groover" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="grooverView" id="6sE-Dz-anz" userLabel="Groove" customClass="ViewController" customModule="Groover" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="xAU-tE-XdV"/>
                         <viewControllerLayoutGuide type="bottom" id="TBr-B3-I2E"/>

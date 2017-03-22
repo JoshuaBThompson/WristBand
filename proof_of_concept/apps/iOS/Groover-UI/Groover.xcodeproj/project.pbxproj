@@ -414,6 +414,7 @@
 		42CD35181E8185F300A33F7A /* ParametersStoryboard */ = {
 			isa = PBXGroup;
 			children = (
+				FAC132CA1DF547AD007E6EC1 /* ParametersModalViewController.swift */,
 				423174FA1D6CADF500A97065 /* Parameters */,
 				9450E2131E7E664D002D5BB3 /* Parameters.storyboard */,
 			);
@@ -487,7 +488,6 @@
 		FA0CCADA1DF6A01700EC3F6A /* GrooveTab */ = {
 			isa = PBXGroup;
 			children = (
-				FAC132CA1DF547AD007E6EC1 /* ParametersModalViewController.swift */,
 			);
 			name = GrooveTab;
 			sourceTree = "<group>";

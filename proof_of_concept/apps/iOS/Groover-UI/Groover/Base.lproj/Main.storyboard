@@ -29,6 +29,7 @@
                     <connections>
                         <segue destination="Pbv-YH-meU" kind="relationship" relationship="viewControllers" id="VOx-oF-san"/>
                         <segue destination="ImJ-lu-pXT" kind="relationship" relationship="viewControllers" id="ycY-t7-3hQ"/>
+                        <segue destination="Dgj-fa-aL1" kind="relationship" relationship="viewControllers" id="dgD-uZ-Gfa"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NCC-dn-rJw" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -44,6 +45,16 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5Da-Cr-vDe" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-107" y="-329"/>
+        </scene>
+        <!--songNavView-->
+        <scene sceneID="PJE-vW-aXh">
+            <objects>
+                <viewControllerPlaceholder storyboardIdentifier="songView" storyboardName="Song" referencedIdentifier="songNavView" id="Dgj-fa-aL1" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Item" id="twl-WF-INr"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Tq0-p9-0o4" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-141" y="-78"/>
         </scene>
         <!--grooverView-->
         <scene sceneID="OK6-pe-19I">

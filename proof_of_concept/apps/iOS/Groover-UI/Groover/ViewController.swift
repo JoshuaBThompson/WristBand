@@ -31,6 +31,8 @@ class ViewController: UIViewController, SongCallbacks {
     var timeline_needs_clear = false
     var measureViews = [MeasureCtrl]()
     var measureLabels = [UILabel]()
+    let knobWidthRef: CGFloat = 270.0 //pixels
+    let iphoneWidthRef: CGFloat = 320.0 //pixels
     
     //Events
     var stopRecordButtonEvent = false
@@ -69,6 +71,8 @@ class ViewController: UIViewController, SongCallbacks {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        scaleKnobView()
+        
         GlobalAttributes.viewController = self
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         self.navigationController?.navigationBar.shadowImage =  UIImage()
@@ -254,6 +258,11 @@ class ViewController: UIViewController, SongCallbacks {
         return true
     }
     
+    //MARK: update knob width on view load
+    func scaleKnobView(){
+        let scalePhoneWidth = view.frame.size.width * (knobWidthRef / iphoneWidthRef) //0.84
+        knob.frame.size.width = scalePhoneWidth
+    }
     
     //MARK: Button event handlers
     

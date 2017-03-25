@@ -6,6 +6,7 @@
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -270,13 +271,20 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="t24-DR-dST" userLabel="knobWrapper">
                                 <rect key="frame" x="0.0" y="241" width="320" height="278"/>
                                 <subviews>
-                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="D1U-Ip-OgR" customClass="KnobCtrl" customModule="Groover" customModuleProvider="target">
-                                        <rect key="frame" x="25" y="0.0" width="270" height="270"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="D1U-Ip-OgR" customClass="KnobCtrl" customModule="Groover" customModuleProvider="target">
+                                        <rect key="frame" x="25" y="4" width="270" height="270"/>
+                                        <color key="backgroundColor" red="0.61960784310000006" green="0.1450980392" blue="0.16078431369999999" alpha="1" colorSpace="calibratedRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="D1U-Ip-OgR" secondAttribute="height" multiplier="1:1" id="A0x-FE-jd3"/>
+                                        </constraints>
                                     </view>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="D1U-Ip-OgR" firstAttribute="centerX" secondItem="t24-DR-dST" secondAttribute="centerX" id="8ve-vp-ofs"/>
+                                    <constraint firstItem="D1U-Ip-OgR" firstAttribute="centerY" secondItem="t24-DR-dST" secondAttribute="centerY" id="qhS-Vk-uUv"/>
+                                    <constraint firstItem="D1U-Ip-OgR" firstAttribute="width" secondItem="t24-DR-dST" secondAttribute="width" multiplier="0.84375" id="xEd-bQ-Dk7"/>
+                                </constraints>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>

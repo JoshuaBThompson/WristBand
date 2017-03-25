@@ -39,6 +39,7 @@ class ViewController: UIViewController, SongCallbacks {
     
     //MARK: outlets
     
+    @IBOutlet weak var testView: UIView!
     @IBOutlet weak var measureView1: MeasureCtrl!
     @IBOutlet weak var measureView2: MeasureCtrl!
     @IBOutlet weak var measureView3: MeasureCtrl!
@@ -69,10 +70,9 @@ class ViewController: UIViewController, SongCallbacks {
     @IBOutlet weak var thirtysecondQuantizeButton: ThirtysecondCtrl!
     @IBOutlet weak var tripletQuantizeButton: TripletCtrl!
 
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        scaleKnobView()
-        
         GlobalAttributes.viewController = self
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         self.navigationController?.navigationBar.shadowImage =  UIImage()
@@ -258,11 +258,6 @@ class ViewController: UIViewController, SongCallbacks {
         return true
     }
     
-    //MARK: update knob width on view load
-    func scaleKnobView(){
-        let scalePhoneWidth = view.frame.size.width * (knobWidthRef / iphoneWidthRef) //0.84
-        knob.frame.size.width = scalePhoneWidth
-    }
     
     //MARK: Button event handlers
     

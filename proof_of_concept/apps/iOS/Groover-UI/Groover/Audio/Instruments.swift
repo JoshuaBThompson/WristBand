@@ -484,10 +484,11 @@ class ClickTrackInstrument: SynthInstrument{
         }
         
         
-        if(loop_count >= 2 || beat==beatsPerMeasure){
-            print("adding new click track note to \(pos)")
-            track.tracks[0].add(noteNumber: 60, velocity: vel, position: AKDuration(beats: Double(pos)), duration: AKDuration(seconds: 0.1))
+        if(beat==beatsPerMeasure){
+            //track.tracks[0].add(noteNumber: 60, velocity: vel, position: AKDuration(beats: Double(pos)), duration: AKDuration(seconds: 0.1))
             //print("click track beat \(beat) at pos \(pos)")
+            clickTrack.appendTrack(offset: loop_count * beatLenPerMeasure)
+            
         }
         if(beat == beatsPerMeasure){
             beat=0
@@ -662,32 +663,46 @@ class ClickTrack: AKNode{
         track.stop()
         track.disableLooping()
         if(track.tracks[0].length != 0 && !clearAll){
-            let len = track.tracks[0].length
             print("calling click track reset")
-            //erase only extra beats that are not part of original record
             let start = AKDuration(beats: beatLenPerMeasure, tempo: tempo.beatsPerMin)
-            let end = AKDuration(beats: len+1, tempo: tempo.beatsPerMin)
-            track.tracks[0].clearRange(start: start, duration: end)
+            clearTrack(start: start)
             track.setLength(AKDuration(beats: 1000))
         }
         else{
+            let start = AKDuration(beats: 0, tempo: tempo.beatsPerMin)
+            clearTrack(start: start)
             track.setLength(AKDuration(beats: 1000))
-            let timeSigBeats = timeSignature.beatsPerMeasure
-            let timeSigScale = timeSignature.beatScale //ex: if 1/8 notes then scale = 1/2 since 1/2 * quarter note = eigth note (1/8)
-            
-            for i in 0 ..< timeSigBeats {
-                if(i < timeSigBeats){
-                    let beat_pos = AKDuration(beats: Double(i * timeSigScale))
-                    var velocity = 110
-                    if(i == 0){
-                        velocity = 127 //first beat in measure is loudest
-                    }
-                    print("adding click track note to pos \(beat_pos.beats)")
-                    track.tracks[0].add(noteNumber: 60, velocity: velocity, position: beat_pos, duration: AKDuration(seconds: 0.1))
-                }
-            }
+            appendTrack(offset: 0.0)
         }
         
+    }
+    
+    func clearTrack(start: AKDuration){
+        let len = track.tracks[0].length
+        print("calling click track reset")
+        //erase only extra beats that are not part of original record
+        let end = AKDuration(beats: len+1, tempo: tempo.beatsPerMin)
+        track.tracks[0].clearRange(start: start, duration: end)
+        track.setLength(AKDuration(beats: 1000))
+    }
+    
+    func appendTrack(offset: Double){
+        print("Appending notes to click track at \(offset)")
+
+        let timeSigBeats = timeSignature.beatsPerMeasure
+        let timeSigScale = timeSignature.beatScale //ex: if 1/8 notes then scale = 1/2 since 1/2 * quarter note = eigth note (1/8)
+        
+        for i in 0 ..< timeSigBeats {
+            if(i < timeSigBeats){
+                let beat_pos = AKDuration(beats: Double(i * timeSigScale) + offset)
+                var velocity = 110
+                if(i == 0){
+                    velocity = 127 //first beat in measure is loudest
+                }
+                print("adding click track note to pos \(beat_pos.beats)")
+                track.tracks[0].add(noteNumber: 60, velocity: velocity, position: beat_pos, duration: AKDuration(seconds: 0.1))
+            }
+        }
     }
     
     

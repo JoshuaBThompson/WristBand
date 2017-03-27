@@ -344,6 +344,7 @@ class ClickTrackInstrument: SynthInstrument{
     var defaultMeasureCountStarted = false
     var defaultMeasureCounter = 0
     var defaultMeasures = GlobalDefaultMeasures
+    var newRecordEnabled = false
     
     var timeSignature: TimeSignature {
         return clickTrack.timeSignature
@@ -379,6 +380,7 @@ class ClickTrackInstrument: SynthInstrument{
         preRoll = false
         loop_count = 0
         totalBeats = 0
+        newRecordEnabled = false
         self.resetDefaultMeasureCounter()
         pos = 0
     }
@@ -395,10 +397,22 @@ class ClickTrackInstrument: SynthInstrument{
     }
     
     func startDefaultMeasureCounter(){
-        defaultMeasureCountStarted = true
+        if(!newRecordEnabled){
+            defaultMeasureCountStarted = false
+        }
+        else{
+            defaultMeasureCountStarted = true
+        }
     }
     
     func updateDefaultMeasureCounter(){
+        if(!newRecordEnabled){
+            defaultMeasureCountEnded = false
+            defaultMeasureCounter = 0
+            return
+            
+        }
+        
         if(defaultMeasureCounter >= defaultMeasures){
             defaultMeasureCountEnded = true
             defaultMeasureCountStarted = false
@@ -420,7 +434,7 @@ class ClickTrackInstrument: SynthInstrument{
     /// - parameter velocity: MIDI Velocity (0-127)
     ///
     override func play(noteNumber: MIDINoteNumber, velocity: MIDIVelocity) {
-        print("playing click track note at \(pos)")
+        
         if(beat == 0){
             if(defaultMeasureCountStarted){
                 updateDefaultMeasureCounter()
@@ -514,6 +528,8 @@ class SongTimer {
 
 //Time Signature
 struct TimeSignature {
+    var maxBaseBeatUnit = 16
+    var maxBeatsPerMeasure = 32
     var baseBeatUnit = 4 //quater note is base beat unit
     var beatsPerMeasure = 4//4 //upper - ex: 4 quarter notes in a measure for a (4/4th)
     var beatUnit = 4 //lower - ex: quarter note (4/4th)
@@ -526,6 +542,25 @@ struct TimeSignature {
     var beatLenPerMeasure: Double {
         return Double(beatsPerMeasure) * beatScale
     }
+    
+    func getBeatUnit(beat_unit: Int)->Int{
+        if(maxBaseBeatUnit < beat_unit){
+            return maxBaseBeatUnit
+        }
+        else{
+            return beat_unit
+        }
+    }
+    
+    func getBeatsPerMeasure(bpm: Int)->Int{
+        if(maxBeatsPerMeasure < bpm){
+            return maxBeatsPerMeasure
+        }
+        else{
+            return bpm
+        }
+    }
+    
 }
 
 
@@ -612,23 +647,21 @@ class ClickTrack: AKNode{
         
     }
     
-    func reset(){
-        if(!enabled){
-            return
-        }
+    func reset(clearAll: Bool = false){
+        //if(!enabled){
+        //    return
+        //}
         
         if((track) != nil){
-            resetTrack()
-            track.rewind()
-            track.enableLooping()
-            track.play()
+            instrument.reset()
+            resetTrack(clearAll: clearAll)
         }
     }
     
-    func resetTrack(){
+    func resetTrack(clearAll: Bool = false){
         track.stop()
         track.disableLooping()
-        if(track.tracks[0].length != 0){
+        if(track.tracks[0].length != 0 && !clearAll){
             let len = track.tracks[0].length
             print("calling click track reset")
             //erase only extra beats that are not part of original record
@@ -653,12 +686,6 @@ class ClickTrack: AKNode{
                     track.tracks[0].add(noteNumber: 60, velocity: velocity, position: beat_pos, duration: AKDuration(seconds: 0.1))
                 }
             }
-            /*
-            track.tracks[0].add(noteNumber: 60, velocity: 127, position: AKDuration(beats: 0), duration: AKDuration(seconds: 0.1))
-            track.tracks[0].add(noteNumber: 60, velocity: 127, position: AKDuration(beats: 1), duration: AKDuration(seconds: 0.1))
-            track.tracks[0].add(noteNumber: 60, velocity: 127, position: AKDuration(beats: 2), duration: AKDuration(seconds: 0.1))
-            track.tracks[0].add(noteNumber: 60, velocity: 127, position: AKDuration(beats: 3), duration: AKDuration(seconds: 0.1))
-            */
         }
         
     }

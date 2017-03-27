@@ -512,6 +512,7 @@ class Song {
         if(instruments[selectedInstrument].trackManager.firstInstance){
             //only start preroll if selected preset is empty / has not been recorded
             clickTrack.start_preroll()
+            clickTrack.instrument.newRecordEnabled = true
         }
         else{
             start_record()
@@ -525,7 +526,8 @@ class Song {
             return
         }
         recordEnabled = false
-        clickTrack.timer.stop()
+        clickTrack.instrument.newRecordEnabled = recordEnabled
+        //clickTrack.timer.stop()
         for inst in instruments{
             inst.recording = false
             inst.deselect()
@@ -541,7 +543,7 @@ class Song {
         if(!clickTrack.enabled){
             clickTrack.enable() //run click track but mute it
         }
-        clickTrack.resetTrack()
+        clickTrack.reset()
         
         for inst in instruments{
             inst.instrument.reset()
@@ -549,7 +551,7 @@ class Song {
             inst.trackManager.resetTrack()
         }
         playing = true
-        clickTrack.timer.start()
+        //clickTrack.timer.start()
         clickTrack.start() //start global multitrack
         
     }
@@ -588,11 +590,12 @@ class Song {
         clickTrack.instrument.defaultMeasures = measureCount
     }
     
-    func setTimeSignature(_ newBeatsPerMeasure: Int, newNote: Int){
-        //stop()
-        clickTrack.timeSignature.beatsPerMeasure = newBeatsPerMeasure
-        clickTrack.timeSignature.beatUnit = newNote
-        clickTrack.update()
+    func setTimeSignature(_ newBeatsPerMeasure: Int, beatUnit: Int){
+        if(!playing){
+            clickTrack.timeSignature.beatsPerMeasure = clickTrack.timeSignature.getBeatsPerMeasure(bpm: newBeatsPerMeasure)
+            clickTrack.timeSignature.beatUnit = clickTrack.timeSignature.getBeatUnit(beat_unit: beatUnit)
+            clickTrack.reset(clearAll: true)
+        }
         
     }
     

@@ -66,9 +66,10 @@ class ViewController: UIViewController, SongCallbacks {
     @IBOutlet weak var sixteenthQuantizeButton: SixteenthCtrl!
     @IBOutlet weak var thirtysecondQuantizeButton: ThirtysecondCtrl!
     @IBOutlet weak var tripletQuantizeButton: TripletCtrl!
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         GlobalAttributes.viewController = self
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         self.navigationController?.navigationBar.shadowImage =  UIImage()

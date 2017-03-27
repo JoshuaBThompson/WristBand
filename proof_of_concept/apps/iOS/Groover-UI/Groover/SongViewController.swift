@@ -20,7 +20,6 @@ class SongViewController: UIViewController, UITextFieldDelegate {
         let value = Int(sender.tempo)
         tempoSliderTextField.text = "\(value)"
         if(tempoSlider.ready){
-            print("JOSH!")
             self.updateTempo(value: Double(value))
         }
     }
@@ -35,6 +34,10 @@ class SongViewController: UIViewController, UITextFieldDelegate {
     @IBAction func timeSignatureValueChanged(_ sender: TimeSigSliderCtrl) {
         timeSigBeatsTextField.text = "\(sender.time_sig_gen.current_time_sig.beat)"
         timeSigDivisionsTextField.text = "\(sender.time_sig_gen.current_time_sig.division)"
+        if(timeSignatureSlider.ready){
+            song.setTimeSignature(sender.time_sig_gen.current_time_sig.beat, beatUnit: sender.time_sig_gen.current_time_sig.division)
+        }
+        
     }
     
     @IBOutlet weak var timeSignatureSlider: TimeSigSliderCtrl!
@@ -48,7 +51,9 @@ class SongViewController: UIViewController, UITextFieldDelegate {
         measuresSliderTextField.text = "\(value)"
         /* update global measure count ? */
         
-        self.song.setDefaultMeasures(measureCount: value)
+        if(measureSlider.ready){
+            self.song.setDefaultMeasures(measureCount: value)
+        }
     }
     
     

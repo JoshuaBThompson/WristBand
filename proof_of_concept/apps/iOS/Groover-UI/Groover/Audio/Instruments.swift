@@ -249,6 +249,7 @@ class SynthInstrument: AKMIDIInstrument{
     
     func appendTrack(){
         let next_start_pos = instTrack.trackManager.getRealPosFromNextRelativePos(pos: 0)
+        print("next_start_pos \(next_start_pos)")
         instTrack.trackManager.appendTrack(offset: next_start_pos)
         loop_count = 0
         loop_finished = true
@@ -542,6 +543,7 @@ struct TimeSignature {
     
     var beatLenPerMeasure: Double {
         return Double(beatsPerMeasure) * beatScale
+        //return Double(beatUnit) * beatScale
     }
     
     func getBeatUnit(beat_unit: Int)->Int{
@@ -784,8 +786,8 @@ class InstrumentTrack {
     var _maxNoteCount: Int = 0
     var clickTrack: ClickTrack!
     var recording = false
-    var loopLength: Int {
-        return trackManager.measureCount * trackManager.beatsPerMeasure
+    var loopLength: Double {
+        return trackManager.totalBeats
     }
     var volume: Double {
         return instrument.volumePercent
@@ -971,14 +973,21 @@ class TrackManager{
         return track.tracks[trackNum].length
     }
     var secPerMeasure: Double { return clickTrack.secPerMeasure }
-    var beatsPerMeasure: Int { return clickTrack.beatsPerMeasure }
-    var beatsPerMeasurePos: Int { return beatsPerMeasure - 1 }
-    var totalBeats: Int {
+    var beatsPerMeasure: Double {
+        //return clickTrack.beatsPerMeasure
+        return clickTrack.beatLenPerMeasure
+    }
+    var beatsPerMeasurePos: Double {
+        //return beatsPerMeasure - 1
+        return beatsPerMeasure - clickTrack.timeSignature.beatScale
+    }
+    var totalBeats: Double {
         return measureCount * beatsPerMeasure
     }
     
-    var totalBeatsPos: Int {
-        return totalBeats - 1
+    var totalBeatsPos: Double {
+        //return totalBeats - 1
+        return totalBeats - clickTrack.timeSignature.beatScale
     }
     
     var isNewRecord: Bool {
@@ -1143,7 +1152,7 @@ class TrackManager{
             pos = quantizer.quantizedBeat(pos)
             print("quantized pos \(pos.beats)")
         }
-        
+        print("insertNote at \(pos.beats)")
         track.tracks[trackNum].add(noteNumber: note, velocity: velocity, position: pos, duration: AKDuration(seconds: duration))
     }
     
@@ -1249,7 +1258,7 @@ class TrackManager{
     func continueTrackFromStopRecord(loop_count: Int){
         if(trackNotes.count==0){return}
         firstInstance = false //first instance measure count update complete
-        let beatOffset = Double(loop_count * clickTrack.timeSignature.beatsPerMeasure)
+        let beatOffset = Double(loop_count * beatsPerMeasure)
         appendTrack(offset: Double(beatOffset))
     }
     

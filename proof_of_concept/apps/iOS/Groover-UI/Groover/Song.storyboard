@@ -46,24 +46,24 @@
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="fullBackgroundBlur" translatesAutoresizingMaskIntoConstraints="NO" id="aHD-Nd-oRJ">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                 <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </imageView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="1uP-ZT-xx3">
-                                <rect key="frame" x="80.5" y="133.5" width="214" height="420"/>
+                                <rect key="frame" x="80.5" y="103.5" width="214" height="460"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bXl-Yb-VK0" userLabel="tempoWrapView">
-                                        <rect key="frame" x="0.0" y="0.0" width="214" height="140"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="214" height="153.5"/>
                                         <subviews>
                                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="60" minimumFontSize="32" translatesAutoresizingMaskIntoConstraints="NO" id="Jeb-I4-asH">
-                                                <rect key="frame" x="0.0" y="0.0" width="46" height="39"/>
+                                                <rect key="frame" x="0.0" y="15" width="46" height="39"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="32"/>
                                                 <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                                             </textField>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Mrt-m7-oof" customClass="TempoSliderCtrl" customModule="Groover" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="49" width="214" height="26"/>
+                                                <rect key="frame" x="0.0" y="64" width="214" height="26"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="214" id="Dgy-2Y-qHk"/>
@@ -74,7 +74,7 @@
                                                 </connections>
                                             </view>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tempo" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RP6-1k-cq9">
-                                                <rect key="frame" x="0.0" y="80" width="52.5" height="20.5"/>
+                                                <rect key="frame" x="0.0" y="95" width="52.5" height="20.5"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <color key="textColor" red="0.34509803919999998" green="0.3921568627" blue="0.43921568630000002" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
@@ -84,17 +84,17 @@
                                         <constraints>
                                             <constraint firstItem="RP6-1k-cq9" firstAttribute="top" secondItem="Mrt-m7-oof" secondAttribute="bottom" constant="5" id="CGI-18-coh"/>
                                             <constraint firstItem="RP6-1k-cq9" firstAttribute="leading" secondItem="bXl-Yb-VK0" secondAttribute="leading" id="Cr0-aX-Dpu"/>
-                                            <constraint firstItem="Jeb-I4-asH" firstAttribute="top" secondItem="bXl-Yb-VK0" secondAttribute="top" id="NEE-PW-GT3"/>
+                                            <constraint firstItem="Mrt-m7-oof" firstAttribute="centerY" secondItem="bXl-Yb-VK0" secondAttribute="centerY" id="R7p-Cw-lr6"/>
                                             <constraint firstItem="Mrt-m7-oof" firstAttribute="leading" secondItem="bXl-Yb-VK0" secondAttribute="leading" id="b18-c9-MSx"/>
                                             <constraint firstItem="Mrt-m7-oof" firstAttribute="top" secondItem="Jeb-I4-asH" secondAttribute="bottom" constant="10" id="e8p-Ew-L7B"/>
                                             <constraint firstItem="Jeb-I4-asH" firstAttribute="leading" secondItem="bXl-Yb-VK0" secondAttribute="leading" id="hCy-Gu-8j5"/>
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Nxq-0C-53v" userLabel="timeWrapView">
-                                        <rect key="frame" x="0.0" y="140" width="214" height="140"/>
+                                        <rect key="frame" x="0.0" y="153.5" width="214" height="153"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="oYY-0P-DqC">
-                                                <rect key="frame" x="0.0" y="0.0" width="60" height="39"/>
+                                                <rect key="frame" x="0.0" y="14.5" width="60" height="39"/>
                                                 <subviews>
                                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="4" minimumFontSize="32" translatesAutoresizingMaskIntoConstraints="NO" id="yyl-1P-021">
                                                         <rect key="frame" x="0.0" y="0.0" width="25" height="39"/>
@@ -119,7 +119,7 @@
                                                 </subviews>
                                             </stackView>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Cvr-UO-cTA" customClass="TimeSigSliderCtrl" customModule="Groover" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="49" width="214" height="26"/>
+                                                <rect key="frame" x="0.0" y="63.5" width="214" height="26"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="214" id="JAu-jj-nNO"/>
@@ -130,7 +130,7 @@
                                                 </connections>
                                             </view>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Time Signature" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Uu5-nX-yKM">
-                                                <rect key="frame" x="0.0" y="80" width="116" height="20.5"/>
+                                                <rect key="frame" x="0.0" y="94.5" width="116" height="20.5"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <color key="textColor" red="0.34509803919999998" green="0.3921568627" blue="0.43921568630000002" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
@@ -142,22 +142,22 @@
                                             <constraint firstItem="Uu5-nX-yKM" firstAttribute="leading" secondItem="Nxq-0C-53v" secondAttribute="leading" id="Nc0-YW-0fj"/>
                                             <constraint firstItem="Uu5-nX-yKM" firstAttribute="top" secondItem="Cvr-UO-cTA" secondAttribute="bottom" constant="5" id="O2Y-ts-lJS"/>
                                             <constraint firstItem="oYY-0P-DqC" firstAttribute="leading" secondItem="Nxq-0C-53v" secondAttribute="leading" id="WG9-53-c0F"/>
-                                            <constraint firstItem="oYY-0P-DqC" firstAttribute="top" secondItem="Nxq-0C-53v" secondAttribute="top" id="aB4-AM-C02"/>
+                                            <constraint firstItem="Cvr-UO-cTA" firstAttribute="centerY" secondItem="Nxq-0C-53v" secondAttribute="centerY" id="tix-oO-0Gf"/>
                                             <constraint firstItem="Cvr-UO-cTA" firstAttribute="leading" secondItem="Nxq-0C-53v" secondAttribute="leading" id="yWy-Bf-npb"/>
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Sz6-bd-dbL" userLabel="measuresWrapView">
-                                        <rect key="frame" x="0.0" y="280" width="214" height="140"/>
+                                        <rect key="frame" x="0.0" y="306.5" width="214" height="153.5"/>
                                         <subviews>
                                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="1" minimumFontSize="32" translatesAutoresizingMaskIntoConstraints="NO" id="scF-Cr-jlc">
-                                                <rect key="frame" x="0.0" y="0.0" width="20" height="39"/>
+                                                <rect key="frame" x="0.0" y="14.5" width="20" height="39"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="32"/>
                                                 <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                                             </textField>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1vS-fb-klS" customClass="GlobalMeasuresCtrl" customModule="Groover" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="49" width="214" height="26"/>
+                                                <rect key="frame" x="0.0" y="63.5" width="214" height="26"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="214" id="Fjn-aS-ySA"/>
@@ -168,7 +168,7 @@
                                                 </connections>
                                             </view>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Measures" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WJa-bk-M4z">
-                                                <rect key="frame" x="0.0" y="80" width="74.5" height="20.5"/>
+                                                <rect key="frame" x="0.0" y="94.5" width="74.5" height="20.5"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <color key="textColor" red="0.34509803919999998" green="0.3921568627" blue="0.43921568630000002" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
@@ -177,23 +177,24 @@
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstItem="1vS-fb-klS" firstAttribute="leading" secondItem="Sz6-bd-dbL" secondAttribute="leading" id="9qQ-E4-pRt"/>
+                                            <constraint firstItem="1vS-fb-klS" firstAttribute="centerY" secondItem="Sz6-bd-dbL" secondAttribute="centerY" id="Bqn-2u-zsq"/>
                                             <constraint firstItem="WJa-bk-M4z" firstAttribute="top" secondItem="1vS-fb-klS" secondAttribute="bottom" constant="5" id="DUx-mu-poA"/>
                                             <constraint firstItem="WJa-bk-M4z" firstAttribute="leading" secondItem="Sz6-bd-dbL" secondAttribute="leading" id="hGP-ED-FB2"/>
                                             <constraint firstItem="1vS-fb-klS" firstAttribute="top" secondItem="scF-Cr-jlc" secondAttribute="bottom" constant="10" id="hIZ-Eo-BAn"/>
-                                            <constraint firstItem="scF-Cr-jlc" firstAttribute="top" secondItem="Sz6-bd-dbL" secondAttribute="top" id="vdW-6E-DQf"/>
                                             <constraint firstItem="scF-Cr-jlc" firstAttribute="leading" secondItem="Sz6-bd-dbL" secondAttribute="leading" id="wqC-Mz-suZ"/>
                                         </constraints>
                                     </view>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="420" id="ptK-nT-cR3"/>
+                                    <constraint firstAttribute="height" constant="460" id="ptK-nT-cR3"/>
                                     <constraint firstAttribute="width" constant="214" id="tmj-0a-ccG"/>
                                 </constraints>
                             </stackView>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="1uP-ZT-xx3" firstAttribute="centerY" secondItem="yt2-QU-V3I" secondAttribute="centerY" constant="10" id="Hkr-9h-zlf"/>
+                            <constraint firstItem="1uP-ZT-xx3" firstAttribute="centerY" secondItem="yt2-QU-V3I" secondAttribute="centerY" id="Hkr-9h-zlf"/>
                             <constraint firstItem="aHD-Nd-oRJ" firstAttribute="leading" secondItem="yt2-QU-V3I" secondAttribute="leading" id="O3u-oq-4zc"/>
                             <constraint firstAttribute="trailing" secondItem="aHD-Nd-oRJ" secondAttribute="trailing" id="U0E-7M-CTX"/>
                             <constraint firstItem="1uP-ZT-xx3" firstAttribute="centerX" secondItem="yt2-QU-V3I" secondAttribute="centerX" id="hK3-nN-LfL"/>
@@ -227,7 +228,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="M9a-kb-dCh" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="890" y="662"/>
+            <point key="canvasLocation" x="911" y="663"/>
         </scene>
         <!--newSongNavView-->
         <scene sceneID="ree-NY-raC">
@@ -235,7 +236,7 @@
                 <viewControllerPlaceholder storyboardIdentifier="newSongStoryboard" storyboardName="NewSong" referencedIdentifier="newSongNavView" id="M0D-Y7-sW1" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xZY-Ph-7yY" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1740" y="276"/>
+            <point key="canvasLocation" x="1742" y="430"/>
         </scene>
         <!--songListNavView-->
         <scene sceneID="kS6-82-jWd">

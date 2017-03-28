@@ -269,9 +269,7 @@
                                             <constraint firstAttribute="width" secondItem="jgs-qS-zgz" secondAttribute="height" multiplier="1:1" id="z3I-t2-TQg"/>
                                         </constraints>
                                         <connections>
-                                            <segue destination="Ujh-HD-yjp" kind="popoverPresentation" popoverAnchorView="jgs-qS-zgz" id="RQm-hT-NYN">
-                                                <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
-                                            </segue>
+                                            <segue destination="Ujh-HD-yjp" kind="presentation" modalPresentationStyle="fullScreen" modalTransitionStyle="crossDissolve" id="RQm-hT-NYN"/>
                                         </connections>
                                     </button>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nna-6v-3ME" customClass="PositionIndicator" customModule="Groover" customModuleProvider="target">

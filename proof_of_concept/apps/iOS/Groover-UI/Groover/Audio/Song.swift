@@ -320,6 +320,7 @@ class Song {
     }
     
     func selectInstrument(_ number: Int){
+        print("Selecting instrument \(number)")
         if(number < instruments.count){
             if(recordEnabled){
                 instruments[selectedInstrument].deselect()

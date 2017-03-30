@@ -31,6 +31,7 @@ class ViewController: UIViewController, SongCallbacks {
     var timeline_needs_clear = false
     var measureViews = [MeasureCtrl]()
     var measureLabels = [UILabel]()
+    var currentPosition = 0
     
     //Events
     var stopRecordButtonEvent = false
@@ -133,7 +134,7 @@ class ViewController: UIViewController, SongCallbacks {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         if(song.instruments.count > 0){
-            selectSound(0)
+            selectSound(currentPosition)
         }
         instrumentNameLabel.text = song.selectedInstrumentName
         startMeasureTimelineThread()
@@ -383,6 +384,7 @@ class ViewController: UIViewController, SongCallbacks {
     
     func selectSound(_ position: Int){
         //song.selectInstrument(position)
+        currentPosition = position
         song.selectInstrumentByAssignedPosition(position)
         instrumentNameLabel.text = song.selectedInstrumentName
     }

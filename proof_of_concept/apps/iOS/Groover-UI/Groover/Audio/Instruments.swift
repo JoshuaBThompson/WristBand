@@ -1030,7 +1030,7 @@ class TrackManager{
     }
     
     var beatsElapsedAbs: Double {
-        
+        //let total_beats_elapsed = clickTrack.track.currentPosition.beats - startRecordOffset - beatsElapsedOffset
         let beat_pos = clickTrack.track.currentPosition.beats
         let offset = startRecordOffset
         
@@ -1039,6 +1039,7 @@ class TrackManager{
         }
         else{
              return beat_pos - offset
+            //return total_beats_elapsed
         }
     }
     
@@ -1046,12 +1047,16 @@ class TrackManager{
         let abs_beats_elapsed = beatsElapsedAbs
         let first_loop_finished = (abs_beats_elapsed > Double(totalBeats))
         if(!firstInstance && first_loop_finished){
+            
+            print("first current measure num \(beatsElapsed) / \(beatsPerMeasure)")
             return Int(floor((beatsElapsed) / (beatsPerMeasure)))
         }
         else if(!firstInstance) {
+            print("current measure num \(beatsElapsed) / \(beatsPerMeasure)")
             return Int(floor((beatsElapsed) / (beatsPerMeasure)))
         }
         else{
+            print("current measure num  abs \(beatsElapsed) / \(beatsPerMeasure)")
             return Int(floor(abs_beats_elapsed / (beatsPerMeasure)))
             
         }
@@ -1061,13 +1066,17 @@ class TrackManager{
         let measure_time: Double!
         var beats_elapsed = beatsElapsed
         if(!firstInstance){
-            beats_elapsed = beatsElapsedAbs
+            //beats_elapsed = beatsElapsedAbs
+            beats_elapsed = clickTrack.track.currentPosition.beats - startRecordOffset - beatsElapsedOffset
             measure_time = beats_elapsed.truncatingRemainder(dividingBy: Double(beatsPerMeasure))
         }
         else {
+            print("first instance")
             beats_elapsed = beatsElapsed
             measure_time = beats_elapsed.truncatingRemainder(dividingBy: Double(beatsPerMeasure))
         }
+        print("beats Elapsed \(beats_elapsed)")
+        print("beats Per measure \(beatsPerMeasure)")
         let measure_progress = measure_time / beatsPerMeasure
         print("measure_progress \(measure_progress)")
         return measure_progress

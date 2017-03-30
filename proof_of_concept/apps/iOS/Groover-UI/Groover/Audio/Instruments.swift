@@ -76,6 +76,8 @@ class SynthInstrument: AKMIDIInstrument{
     var measureUpdateEvent = false
     var eventNoteNum = MIDINoteNumber(2)
     var nextStartOffset: Double = 0
+    var prevStart = 0.0
+    var next_start_pos = 0.0
     
     
     var quantizeEnabled: Bool {
@@ -85,6 +87,10 @@ class SynthInstrument: AKMIDIInstrument{
     var total_dur: Double {
         _total_dur = Double(instTrack.loopLength)
         return _total_dur
+    }
+    
+    var start_offset: Double {
+        return instTrack.trackManager.startRecordOffset
     }
     
     var maxNoteCount: Int {
@@ -159,6 +165,11 @@ class SynthInstrument: AKMIDIInstrument{
         prevBeat = nil
         currentBeat = nil
         loop_finished = false
+        next_start_pos = 0
+    }
+    
+    func updateNextStartPos(){
+        next_start_pos += total_dur
     }
     
     func updateNoteNumAndOffset(){
@@ -167,7 +178,9 @@ class SynthInstrument: AKMIDIInstrument{
         if(quantizeHandled && quantizeEnabled){
             prevBeat = instTrack.trackManager.quantizer.quantizedBeat(prevBeat)
         }
-        
+        if(note_num == 0){
+            updateNextStartPos()
+        }
         note_num += 1
         
         if(note_num >= maxNoteCount){
@@ -248,9 +261,15 @@ class SynthInstrument: AKMIDIInstrument{
     }
     
     func appendTrack(){
-        let next_start_pos = instTrack.trackManager.getRealPosFromNextRelativePos(pos: 0)
+        let start_pos = instTrack.trackManager.getRealPosFromNextRelativePos(pos: 0)
+        print("start_pos \(start_pos)")
         print("next_start_pos \(next_start_pos)")
-        instTrack.trackManager.appendTrack(offset: next_start_pos)
+        print("offset \(start_offset)")
+        print("prevStart \(prevStart)")
+        print("prevStartDiff \(start_pos - prevStart)")
+        prevStart = start_pos
+        
+        instTrack.trackManager.appendTrack(offset: self.next_start_pos + self.start_offset)
         loop_count = 0
         loop_finished = true
     }
@@ -1050,6 +1069,7 @@ class TrackManager{
             measure_time = beats_elapsed.truncatingRemainder(dividingBy: Double(beatsPerMeasure))
         }
         let measure_progress = measure_time / beatsPerMeasure
+        print("measure_progress \(measure_progress)")
         return measure_progress
     }
     
@@ -1203,6 +1223,7 @@ class TrackManager{
             //for ex: if timeElapsed = 9 sec and sec per measure = 4 then measure count = ceil(9/4) = 2.25 = 3 measure counts
             
             updateMeasureCount(self.defaultMeasureCount)
+            instrument.updateNextStartPos()
             let loop_count = clickTrack.instrument.loop_count - 1
             continueTrackFromStopRecord(loop_count: loop_count)
         }
@@ -1218,7 +1239,9 @@ class TrackManager{
             
             let count = getMeasureCountFromBeatsElapsed()//getMeasureCountFromTimeElapsed()
             updateMeasureCount(count)
+            instrument.updateNextStartPos()
             let loop_count = clickTrack.instrument.loop_count
+            
             continueTrackFromStopRecord(loop_count: loop_count)
             self.clickTrack.instrument.resetDefaultMeasureCounter()
         }

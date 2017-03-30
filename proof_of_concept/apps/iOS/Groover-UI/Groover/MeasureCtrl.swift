@@ -24,7 +24,6 @@ class MeasureCtrl: Measure {
         if(!max_progress_set){
             max_progress = self.bounds.size.width
             bar_height = self.bounds.size.height
-            print("max_progress = \(max_progress)")
         }
         
         UIGroover.drawMeasureCanvas(measureFrame: self.bounds, measureExists: exists, measureActive: active, measureProgress: measure_progress, measureHeight: bar_height)

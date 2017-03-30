@@ -143,7 +143,7 @@ class ViewController: UIViewController, SongCallbacks {
     //continuously checks to see what % of the current instrument measure count has elapsed
     //used to update the groover measure timeline bar progress
     func startMeasureTimelineThread(){
-        measureTimer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(measureTimerHandler), userInfo: nil, repeats: true)
+        measureTimer = Timer.scheduledTimer(timeInterval: 0.05, target: self, selector: #selector(measureTimerHandler), userInfo: nil, repeats: true)
         
     }
     

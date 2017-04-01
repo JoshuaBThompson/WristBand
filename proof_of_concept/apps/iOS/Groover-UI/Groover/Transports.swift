@@ -8,7 +8,7 @@
 
 import UIKit
 
-@IBDesignable
+//@IBDesignable
 class Transports: UIView {
     
 /*    override func draw(_ rect: CGRect) {

@@ -14,10 +14,20 @@ class MeasureCtrl: Measure {
     var max_progress: CGFloat = 76.5
     var start_width: CGFloat = 0.0
     var progress_view: UIView!
+    var max_progress_set = false
+    var bar_height: CGFloat = 22.0
+    var active = false
+    var exists = false
 
     
     override func draw(_ rect: CGRect) {
-        UIGroover.drawMeasureCanvas(measureFrame: self.bounds, measureProgress: measure_progress)
+        if(!max_progress_set){
+            max_progress = self.bounds.size.width
+            bar_height = self.bounds.size.height
+        }
+        
+        UIGroover.drawMeasureCanvas(measureFrame: self.bounds, measureExists: exists, measureActive: active, measureProgress: measure_progress, measureHeight: bar_height)
+            //// measureActiveFill Drawing
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -27,6 +37,7 @@ class MeasureCtrl: Measure {
     override init(frame: CGRect) {
         super.init(frame: frame)
     }
+    
     
     //Clear the progress bar
     func clearProgress(){

@@ -9,7 +9,7 @@
 import UIKit
 import CoreMotion
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, SongCallbacks {
     //MARK: properties
     var song: Song!
     var audioMidiSetupEn = true
@@ -27,14 +27,27 @@ class ViewController: UIViewController {
     var beatDetectedCount = 0
     var prevKnobDetent: Int = 0
     var measureTimer: Timer!
+    var buttonEventTimer: Timer!
     var timeline_needs_clear = false
     var measureViews = [MeasureCtrl]()
+    var measureLabels = [UILabel]()
+    var currentPosition = 0
+    
+    //Events
+    var stopRecordButtonEvent = false
+    
     //MARK: outlets
     
+    @IBOutlet weak var testView: UIView!
     @IBOutlet weak var measureView1: MeasureCtrl!
     @IBOutlet weak var measureView2: MeasureCtrl!
     @IBOutlet weak var measureView3: MeasureCtrl!
     @IBOutlet weak var measureView4: MeasureCtrl!
+    
+    @IBOutlet weak var measureView1Label: UILabel!
+    @IBOutlet weak var measureView2Label: UILabel!
+    @IBOutlet weak var measureView4Label: UILabel!
+    @IBOutlet weak var measureView3Label: UILabel!
     
     @IBOutlet weak var instrumentViewWrap: UIView!
     @IBOutlet weak var instrumentNameLabel: UILabel!
@@ -55,9 +68,11 @@ class ViewController: UIViewController {
     @IBOutlet weak var sixteenthQuantizeButton: SixteenthCtrl!
     @IBOutlet weak var thirtysecondQuantizeButton: ThirtysecondCtrl!
     @IBOutlet weak var tripletQuantizeButton: TripletCtrl!
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        GlobalAttributes.viewController = self
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         self.navigationController?.navigationBar.shadowImage =  UIImage()
         self.navigationController?.navigationBar.isTranslucent = true
@@ -90,6 +105,7 @@ class ViewController: UIViewController {
         quantizeButtons.append(tripletQuantizeButton)
         
         song = GlobalAttributes.song
+        song.delegate = self
         
         song.start()
         
@@ -104,59 +120,131 @@ class ViewController: UIViewController {
         measureViews.append(measureView2)
         measureViews.append(measureView3)
         measureViews.append(measureView4)
+        
+        measureLabels.append(measureView1Label)
+        measureLabels.append(measureView2Label)
+        measureLabels.append(measureView3Label)
+        measureLabels.append(measureView4Label)
+        
+        for label in measureLabels {
+            label.text = ""
+        }
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        if(song.instruments.count > 0){
+            selectSound(currentPosition)
+        }
         instrumentNameLabel.text = song.selectedInstrumentName
-        //animateMeasureTimeline()
         startMeasureTimelineThread()
+        startButtonEventHandler()
     }
     
     //continuously checks to see what % of the current instrument measure count has elapsed
     //used to update the groover measure timeline bar progress
     func startMeasureTimelineThread(){
-        measureTimer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(measureTimerHandler), userInfo: nil, repeats: true)
+        measureTimer = Timer.scheduledTimer(timeInterval: 0.05, target: self, selector: #selector(measureTimerHandler), userInfo: nil, repeats: true)
         
+    }
+    
+    func startButtonEventHandler(){
+        buttonEventTimer = Timer.scheduledTimer(timeInterval: 0.25, target: self, selector: #selector(buttonEventHandler), userInfo: nil, repeats: true)
+    }
+    
+    
+    func buttonEventHandler(){
+        if(stopRecordButtonEvent){
+            stopRecordButtonEvent = false
+            self.recordButton.isSelected = false
+        }
     }
     
     func measureTimerHandler(){
         if(!song.playing){
-            clearTimelineIfNeedsClear()
+            //clearTimelineIfNeedsClear()
+        return
+        }
+
+        let ready = song.updateMeasureTimeline()
+        if(!ready){
+            //clearTimelineIfNeedsClear()
             return
         }
+        let bar_num = song.timeline.bar_num
+        let prev_bar_num = song.timeline.prev_bar_num
+        let bar_progress = song.timeline.current_progress
+        let ready_to_clear = song.timeline.ready_to_clear
+        if(ready_to_clear){
+            clearTimelineProgress()
+        }
+        measureViews[bar_num].exists = true
+        measureViews[bar_num].active = true
+        measureViews[bar_num].updateMeasureProgress(progress_prcnt: CGFloat(bar_progress))
+    
+        let measure_count = song.instrument.trackManager.currentMeasureNum + 1
         
-         let ready = song.updateMeasureTimeline()
-         if(!ready){
-            clearTimelineIfNeedsClear()
-            return
-         }
-         let bar_num = song.timeline.bar_num
-         let prev_bar_num = song.timeline.prev_bar_num
-         let bar_progress = song.timeline.current_progress
-         let ready_to_clear = song.timeline.ready_to_clear
-         if(ready_to_clear){
-            clearTimeline()
-         }
-         measureViews[bar_num].updateMeasureProgress(progress_prcnt: CGFloat(bar_progress))
-        if(prev_bar_num < bar_num){
+        let label_num_str = "\(measure_count)"
+        if(label_num_str != measureLabels[bar_num].text){
+            measureLabels[bar_num].text = label_num_str
+        }
+        if(prev_bar_num < bar_num || ((bar_num == 0) && (prev_bar_num > 0))){
             //fill in prev bar num to 100% just in case
             measureViews[prev_bar_num].updateMeasureProgress(progress_prcnt: CGFloat(1.0))
+            measureViews[prev_bar_num].active = false
         }
         timeline_needs_clear = true //used when song is stopped, check if this is set and clear again
         
     }
     
-    func clearTimeline(){
+    func clearTimelineProgress(){
         for measure_view in measureViews {
             measure_view.clearProgress()
+        }
+        
+    }
+    func showInactiveTimeline(){
+        let count = song.instrument.trackManager.measureCount
+        let recorded = song.instrument.trackManager.trackNotes.count
+        
+        clearTimeline()
+        if(recorded == 0){
+            return
+        }
+        print("show active timeline count \(count)")
+        
+        for i in 0..<count {
+            if(i >= measureViews.count){
+                break
+            }
+            else{
+                measureViews[i].exists = true
+                let label_num_str = "\(i + 1)"
+                if(label_num_str != measureLabels[i].text){
+                    measureLabels[i].text = label_num_str
+                }
+            }
         }
     }
     
     func clearTimelineIfNeedsClear(){
         if(timeline_needs_clear){
             clearTimeline()
-            timeline_needs_clear = false
+        }
+    }
+    
+    func clearTimeline(){
+        clearTimelineProgress()
+        timeline_needs_clear = false
+        
+        for measure_view in measureViews {
+            measure_view.active = false
+            measure_view.exists = false
+        }
+        
+        for label in measureLabels {
+            label.text = ""
         }
     }
     
@@ -170,7 +258,21 @@ class ViewController: UIViewController {
     }
     
     
-    //MARK: Button event handlers
+    //MARK: Update Quantize Button from selected instrument state
+    func updateQuantizeButtonsFromInstrument(){
+        /*
+         let resolution = song.instrument.trackManager.quantizer.resolution
+         let triplet_en = song.instrument.trackManager.quantizer.triplet_en
+         let quantize_en = song.instrument.trackManager.quantizeEnabled
+         if(!quantize_en){
+            return
+         }
+         
+         if(resolution ==
+         
+        */
+    }
+    
     
     
     //MARK: Quantize buttons
@@ -216,10 +318,13 @@ class ViewController: UIViewController {
         parametersButton.show()
         positionIndicator.hide()
         instrumentViewWrap.backgroundColor = UIColor.clear
-        //parametersButton.show()
         
     }
 
+    //MARK: stop record callback delegate
+    func stopRecordFromSong(){
+        stopRecordButtonEvent = true
+    }
     
     //MARK: play button event handler
     func playRecordButtonSelected(_ playRecordButton: UIButton){
@@ -233,6 +338,7 @@ class ViewController: UIViewController {
                 song.stop_record()
                 song.stop()
                 recordButton.isSelected = false //toggle record button
+                showInactiveTimeline()
             }
         }
         else if(playRecordButton == recordButton){
@@ -256,20 +362,24 @@ class ViewController: UIViewController {
         
         let position = knob.detent
         let wasRecording = song.recordEnabled
-        if(prevKnobDetent != position){
+        let newSelected = (prevKnobDetent != position)
+        if(newSelected){
             parametersButton.hide()
             instrumentViewWrap.backgroundColor = UIColor.black
             positionIndicator.show()
             positionIndicator.setPosition(knobControl.detent)
         }
         prevKnobDetent = position
-        
-        selectSound(position)
-        if(!song.recordEnabled && wasRecording){
-            recordButton.isSelected = false
-        }
-        else{
-            updateButtonStatesAfterKnobTurn()
+        if(newSelected){
+            selectSound(position)
+            if(!song.recordEnabled && wasRecording){
+                recordButton.isSelected = false
+            }
+            else{
+                updateButtonStatesAfterKnobTurn()
+            }
+            showInactiveTimeline()
+            
         }
         
     }
@@ -289,6 +399,7 @@ class ViewController: UIViewController {
     
     func selectSound(_ position: Int){
         //song.selectInstrument(position)
+        currentPosition = position
         song.selectInstrumentByAssignedPosition(position)
         instrumentNameLabel.text = song.selectedInstrumentName
     }
@@ -310,6 +421,7 @@ class ViewController: UIViewController {
         //let valx = Int32(16383.0 * (data!.acceleration.x))
         let valx_f: Double = (data!.acceleration.x)*100.0
         let valx = Int16(valx_f)
+        //let orientation = UIDevice.current.orientation.rawValue
         
         if fallingBeatFilter.isBeat(x: valx){
             fallNum += 1
@@ -334,7 +446,7 @@ class ViewController: UIViewController {
                 fallNum = 0
                 
             }
-        
+            
         }
         
         if(beatDetected){
@@ -345,29 +457,6 @@ class ViewController: UIViewController {
                 beatDetectedCount = 0
             }
         }
-        
-        //let valy_f: Double = (data!.acceleration.y)*100.0
-        //let valy = Int16(valy_f)
-        
-        //let valz_f: Double = (data!.acceleration.z)*100.0
-        //let valz = Int16(valz_f)
-        
-        
-        /*
-        sensor?.updateState(with: valx, andY: valy, andZ: valz, andMillisElapsed: timeIntervalMillis);
-        sensor?.printXList();
-        sensor?.handleMidiEvents();
-        if(sensor?.beat)!{
-            let eventStatus = Int((sensor?.getEventStatus())!)
-            if eventStatus != 0x80{
-                testNum += 1
-                print("Note \(testNum)")
-                song.addNote() //make drum sound and add to track if recording!
-//                updateButtonStatesAfterNoteAdded()
-            }
-            
-        }
-        */
         
     }
     

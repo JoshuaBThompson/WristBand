@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Song List Table View Controller-->
+        <scene sceneID="SI8-lr-iBH">
+            <objects>
+                <tableViewController title="Song List Table View Controller" id="CPt-5B-V1S" userLabel="Song List Table View Controller" customClass="SongListTableViewController" customModule="Groover" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="76" sectionHeaderHeight="28" sectionFooterHeight="28" id="QV0-UD-hqQ">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                        <color key="sectionIndexBackgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" shouldIndentWhileEditing="NO" reuseIdentifier="SongListTableViewCell" rowHeight="76" id="dN3-bo-0kx" customClass="SongListTableViewCell" customModule="Groover" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="28" width="375" height="76"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="dN3-bo-0kx" id="Usm-ZZ-dvo">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="75"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Song Name In List" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dFT-rz-OWm">
+                                            <rect key="frame" x="28" y="27" width="139" height="20.5"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                    <constraints>
+                                        <constraint firstItem="dFT-rz-OWm" firstAttribute="leading" secondItem="Usm-ZZ-dvo" secondAttribute="leadingMargin" constant="20" id="8Z6-Og-E1D"/>
+                                        <constraint firstItem="dFT-rz-OWm" firstAttribute="centerY" secondItem="Usm-ZZ-dvo" secondAttribute="centerY" id="8g4-DK-k35"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <outlet property="songNameLabel" destination="dFT-rz-OWm" id="5Bl-L4-hmP"/>
+                                    <segue destination="ZMP-tR-nUf" kind="unwind" unwindAction="unwindToSongWithSegue:" id="E2N-aQ-av2"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="CPt-5B-V1S" id="en0-XH-78n"/>
+                            <outlet property="delegate" destination="CPt-5B-V1S" id="4yY-j7-qHT"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" id="dH0-Rt-XpX">
+                        <barButtonItem key="leftBarButtonItem" style="plain" systemItem="edit" id="MGy-dN-bTO">
+                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" style="plain" systemItem="cancel" id="bWa-y0-Xr6">
+                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <connections>
+                                <segue destination="ZMP-tR-nUf" kind="unwind" unwindAction="unwindCancelSongSelectionWithSegue:" id="Odj-2h-hfE"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="OUG-aj-nW0" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="ZMP-tR-nUf" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="2092" y="663"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="48G-0D-zus">
+            <objects>
+                <navigationController storyboardIdentifier="songListNavView" automaticallyAdjustsScrollViewInsets="NO" id="AaE-QB-12X" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="KsG-Rq-VX7">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="CPt-5B-V1S" kind="relationship" relationship="rootViewController" id="pqN-Uh-b3Q"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="BfK-7d-RVL" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1105" y="662.55333333333328"/>
+        </scene>
+    </scenes>
+</document>

@@ -60,12 +60,12 @@ public extension UIDevice {
         else if(longName == "iPhone 6" || longName == "iPhone 6s" || longName == "iPhone 7" || longName == "iPhone 7s"){
             return "iPhone 6and7"
         }
-        else if(longName == "iPhone 6 Plus" || longName == "iPhone 7 Plus"){
+        else if(longName == "iPhone 6 Plus" || longName == "iPhone 7 Plus" || longName == "iPhone 6s Plus"){
             return "iPhone 6and7 Plus"
             
         }
         else if(longName == "Simulator"){
-            return "iPhone 6and7 Plus"
+            return "iPhone 6and7"
             //return "Simulator"
         }
         else {

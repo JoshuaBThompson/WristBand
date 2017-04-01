@@ -260,17 +260,22 @@ class ViewController: UIViewController, SongCallbacks {
     
     //MARK: Update Quantize Button from selected instrument state
     func updateQuantizeButtonsFromInstrument(){
-        /*
          let resolution = song.instrument.trackManager.quantizer.resolution
          let triplet_en = song.instrument.trackManager.quantizer.triplet_en
-         let quantize_en = song.instrument.trackManager.quantizeEnabled
-         if(!quantize_en){
-            return
-         }
-         
-         if(resolution ==
-         
-        */
+         let quantize_en = song.instrument.trackManager.quantizeEnable
+     
+        for button in quantizeButtons {
+            if(button.resolution == resolution){
+                button.on = quantize_en
+            }
+            else if(button.resolution != TripletResolution){
+                button.on = false
+            }
+            if(button.resolution == TripletResolution){
+                button.on = triplet_en
+            }
+        }
+        
     }
     
     
@@ -300,14 +305,15 @@ class ViewController: UIViewController, SongCallbacks {
             }
         }
         
-        
+        /*
         print("Triplet Quantize is \(tripletQuantizeButton.isSelected)")
         if(tripletQuantizeButton.isSelected){
             resolution = resolution * tripletQuantizeButton.resolution //ex: if quarter not selected and triplet then resolution = 1*3
             print("resolution \(resolution)")
         }
+        */
         print("updated quantize sel \(selected) res \(resolution)")
-        song.updatePresetQuantize(enabled: selected, resolution: resolution)
+        song.updatePresetQuantize(enabled: selected, resolution: resolution, triplet_en: tripletQuantizeButton.isSelected)
         
         
     }
@@ -379,6 +385,7 @@ class ViewController: UIViewController, SongCallbacks {
                 updateButtonStatesAfterKnobTurn()
             }
             showInactiveTimeline()
+            updateQuantizeButtonsFromInstrument()
             
         }
         

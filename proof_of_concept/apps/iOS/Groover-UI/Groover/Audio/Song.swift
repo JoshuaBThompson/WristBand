@@ -365,7 +365,7 @@ class Song {
     }
     
     //MARK: update quantize
-    func updatePresetQuantize(enabled enable: Bool=true, resolution: Double=1.0){
+    func updatePresetQuantize(enabled enable: Bool=true, resolution: Double=1.0, triplet_en: Bool = false){
         if(enable){
             quantizeEnabled = true
             quantizeResolution = resolution
@@ -378,7 +378,7 @@ class Song {
             
             //track specific update only
             instruments[selectedInstrument].enableQuantize()
-            instruments[selectedInstrument].updateQuantize(resolution)
+            instruments[selectedInstrument].updateQuantize(resolution, triplet_en: triplet_en)
         }
         else{
             quantizeEnabled = false

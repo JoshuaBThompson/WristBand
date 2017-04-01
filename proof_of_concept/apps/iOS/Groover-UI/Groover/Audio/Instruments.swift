@@ -14,6 +14,8 @@ let GlobalDefaultMeasures = 4
 
 /****************Quantize*******************/
 class Quantize {
+    var resolution = 1.0
+    var triplet_en = false
     var divPerBeat = 1.0 //divisions per beat (beat resolution, ex: 64 divisions would be highest resolution and 1 is lowest)
     let maxDivisions = 64.0
     let minDivisions = 1.0
@@ -31,9 +33,13 @@ class Quantize {
     }
     
     //MARK: update the quantization beat divisions
-    func update(_ newBeatDivision: Double){
+    func update(_ newBeatDivision: Double, triplet_en: Bool = false){
         var div = newBeatDivision
-        
+        self.triplet_en = triplet_en
+        self.resolution = div
+        if(self.triplet_en){
+            div = div * TripletResolution
+        }
         //enforce max and min beat resolution
         if(div > maxDivisions){
             div = maxDivisions
@@ -858,9 +864,9 @@ class InstrumentTrack {
     }
     
     //MARK: update quantized number using resolution of the beat (ex: beat divided into 16 pieces)
-    func updateQuantize(_ res: Double){
+    func updateQuantize(_ res: Double, triplet_en: Bool = false){
         //res is the resolution of the beat: ex: 16
-        trackManager.quantizer.update(res)
+        trackManager.quantizer.update(res, triplet_en: triplet_en)
     }
     
     func enableQuantize(){

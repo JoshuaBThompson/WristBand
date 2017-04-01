@@ -38,6 +38,7 @@ class ViewController: UIViewController, SongCallbacks {
     
     //MARK: outlets
     
+    @IBOutlet weak var testView: UIView!
     @IBOutlet weak var measureView1: MeasureCtrl!
     @IBOutlet weak var measureView2: MeasureCtrl!
     @IBOutlet weak var measureView3: MeasureCtrl!

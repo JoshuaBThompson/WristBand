@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Settings-->
+        <scene sceneID="Mk3-OL-vKz">
+            <objects>
+                <viewController id="Ac8-cK-qIW" userLabel="Settings" customClass="SettingsViewController" customModule="Groover" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="ObY-pD-724"/>
+                        <viewControllerLayoutGuide type="bottom" id="RPf-WK-86L"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="DnT-0k-fyH">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="fullBackgroundBlur" translatesAutoresizingMaskIntoConstraints="NO" id="Z7Z-g0-39r">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="Z7Z-g0-39r" firstAttribute="top" secondItem="DnT-0k-fyH" secondAttribute="top" id="Qe0-NW-1hG"/>
+                            <constraint firstAttribute="trailing" secondItem="Z7Z-g0-39r" secondAttribute="trailing" id="Uku-IK-DVA"/>
+                            <constraint firstItem="Z7Z-g0-39r" firstAttribute="leading" secondItem="DnT-0k-fyH" secondAttribute="leading" id="VuX-0E-aeh"/>
+                            <constraint firstAttribute="bottom" secondItem="Z7Z-g0-39r" secondAttribute="bottom" id="eRZ-2a-9mh"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="pNj-Ir-OeB">
+                        <barButtonItem key="rightBarButtonItem" title="&gt;" style="plain" id="K1f-TD-EhF">
+                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <connections>
+                                <segue destination="QoF-he-KlY" kind="show" id="8HV-AD-pFi"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="JnH-qM-Clg" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3062" y="573"/>
+        </scene>
+        <!--soundListNavView-->
+        <scene sceneID="R4h-2d-M8w">
+            <objects>
+                <viewControllerPlaceholder storyboardIdentifier="soundListStoryboard" storyboardName="SoundList" referencedIdentifier="soundListNavView" id="QoF-he-KlY" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="bem-ka-xsS" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3833" y="301"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="Mz9-OZ-VBL">
+            <objects>
+                <navigationController storyboardIdentifier="settingsNavView" automaticallyAdjustsScrollViewInsets="NO" id="zyu-c9-OG1" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="" image="gearIcon" selectedImage="gearIconSelected" id="Rkg-Kv-hR7">
+                        <inset key="imageInsets" minX="0.0" minY="7" maxX="0.0" maxY="-7"/>
+                        <offsetWrapper key="titlePositionAdjustment" horizontal="0.0" vertical="0.0"/>
+                    </tabBarItem>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="PBX-O8-zfs">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <textAttributes key="titleTextAttributes">
+                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <color key="textShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        </textAttributes>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="Ac8-cK-qIW" kind="relationship" relationship="rootViewController" id="cbi-pq-akR"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="J79-FY-eaB" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2153" y="573"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="fullBackgroundBlur" width="414" height="736"/>
+        <image name="gearIcon" width="22" height="22"/>
+        <image name="gearIconSelected" width="22" height="22"/>
+    </resources>
+</document>

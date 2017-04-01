@@ -16,7 +16,7 @@ class ViewController: UIViewController, SongCallbacks {
     let sensor = MidiSensorWrapper()
     let motionManager = CMMotionManager()
     let queue = OperationQueue.main
-    var timeIntervalMillis: UInt = 25 //25
+    var timeIntervalMillis: UInt = 20 //25
     var quantizeButtons = [QuantizeButtonProtocol]()
     var riseNum: Int = 0
     var fallNum: Int = 0

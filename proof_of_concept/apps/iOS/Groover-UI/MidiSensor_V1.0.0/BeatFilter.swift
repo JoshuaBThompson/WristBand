@@ -8,10 +8,10 @@
 
 import Foundation
 
-let min_g: Int16 = 35 //increase to make more sensitive
-let max_g: Int16 = 70 //increase to make more sensitive
-let max_count = 8
-let min_g_sum: Int16 = 200 //decrease to make more sensitive or increase for less sensitive
+let min_g: Int16 = 40 //increase to make more sensitive
+let max_g: Int16 = 75 //increase to make more sensitive
+let max_count = 7
+let min_g_sum: Int16 = 250 //decrease to make more sensitive or increase for less sensitive
 
 class BeatFilter {
     //Constants

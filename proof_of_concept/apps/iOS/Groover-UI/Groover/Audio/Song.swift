@@ -514,6 +514,7 @@ class Song {
         }
         if(instruments[selectedInstrument].trackManager.firstInstance){
             //only start preroll if selected preset is empty / has not been recorded
+            clickTrack.instrument.resetDefaultMeasureCounter()
             clickTrack.start_preroll()
             clickTrack.instrument.newRecordEnabled = true
         }

@@ -150,7 +150,7 @@ class ViewController: UIViewController, SongCallbacks {
     }
     
     func startButtonEventHandler(){
-        buttonEventTimer = Timer.scheduledTimer(timeInterval: 0.2, target: self, selector: #selector(buttonEventHandler), userInfo: nil, repeats: true)
+        buttonEventTimer = Timer.scheduledTimer(timeInterval: 0.25, target: self, selector: #selector(buttonEventHandler), userInfo: nil, repeats: true)
     }
     
     
@@ -163,13 +163,13 @@ class ViewController: UIViewController, SongCallbacks {
     
     func measureTimerHandler(){
         if(!song.playing){
-            clearTimelineIfNeedsClear()
+            //clearTimelineIfNeedsClear()
         return
         }
 
         let ready = song.updateMeasureTimeline()
         if(!ready){
-            clearTimelineIfNeedsClear()
+            //clearTimelineIfNeedsClear()
             return
         }
         let bar_num = song.timeline.bar_num
@@ -325,6 +325,7 @@ class ViewController: UIViewController, SongCallbacks {
                 song.stop_record()
                 song.stop()
                 recordButton.isSelected = false //toggle record button
+                showInactiveTimeline()
             }
         }
         else if(playRecordButton == recordButton){

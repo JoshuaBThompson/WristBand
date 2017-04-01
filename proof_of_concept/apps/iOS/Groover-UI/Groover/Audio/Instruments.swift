@@ -1179,7 +1179,7 @@ class TrackManager{
         if(quantizeEnable && !firstInstance){
             instrument.quantizeHandled = true
             pos = quantizer.quantizedBeat(pos)
-            print("quantized pos \(pos.beats)")
+            print("inst \(trackNum) quantized pos \(pos.beats)")
         }
         print("insertNote at \(pos.beats)")
         track.tracks[trackNum].add(noteNumber: note, velocity: velocity, position: pos, duration: AKDuration(seconds: duration))

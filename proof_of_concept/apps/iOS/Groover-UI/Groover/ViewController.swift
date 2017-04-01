@@ -258,7 +258,21 @@ class ViewController: UIViewController, SongCallbacks {
     }
     
     
-    //MARK: Button event handlers
+    //MARK: Update Quantize Button from selected instrument state
+    func updateQuantizeButtonsFromInstrument(){
+        /*
+         let resolution = song.instrument.trackManager.quantizer.resolution
+         let triplet_en = song.instrument.trackManager.quantizer.triplet_en
+         let quantize_en = song.instrument.trackManager.quantizeEnabled
+         if(!quantize_en){
+            return
+         }
+         
+         if(resolution ==
+         
+        */
+    }
+    
     
     
     //MARK: Quantize buttons
@@ -309,7 +323,6 @@ class ViewController: UIViewController, SongCallbacks {
 
     //MARK: stop record callback delegate
     func stopRecordFromSong(){
-        print("!JOSH: stopRecordFromSong")
         stopRecordButtonEvent = true
     }
     

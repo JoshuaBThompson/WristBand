@@ -13,6 +13,7 @@ import AudioKit
 protocol SongCallbacks: class {
     func stopRecordFromSong()
     func updateTimelineAfterDelete()
+    func startRecordFromSong()
 }
 
 class Song {
@@ -509,6 +510,7 @@ class Song {
         instruments[selectedInstrument].record()
         recordEnabled = true
         noteAdded = false
+        delegate?.startRecordFromSong()
         //now addNote function will add notes to sequences track
     }
     

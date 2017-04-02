@@ -11,9 +11,13 @@ import UIKit
 class RecordCtrl: Record, PlayRecordProtocol {
     //MARK: properties
     var type: PlayRecordButtonTypes_t = .RECORD
-    
+    var preroll: Bool = false
+    var recording: Bool = false
+    var stopped: Bool = false
+
     override func draw(_ rect: CGRect) {
-        UIGroover.drawRecordCanvas(recordFrame: self.bounds, recordSelected: isSelected)
+        UIGroover.drawRecordCanvas(recordFrame: self.bounds, recordSelected: recording, recordTransitioning: preroll)
+        
     }
     
     override init(frame: CGRect) {

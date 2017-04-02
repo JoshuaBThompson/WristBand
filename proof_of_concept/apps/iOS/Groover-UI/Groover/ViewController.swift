@@ -35,6 +35,7 @@ class ViewController: UIViewController, SongCallbacks {
     
     //Events
     var stopRecordButtonEvent = false
+    var startRecordButtonEvent = false
     var deleteTrackEvent = false
     
     //MARK: outlets
@@ -158,21 +159,35 @@ class ViewController: UIViewController, SongCallbacks {
     func buttonEventHandler(){
         if(stopRecordButtonEvent){
             stopRecordButtonEvent = false
+            recordButton.stopped = true
+            recordButton.recording = false
+            recordButton.preroll = false
             self.recordButton.isSelected = false
+            
         }
         else if(deleteTrackEvent){
+            deleteTrackEvent = false
             self.showInactiveTimeline()
+        }
+        else if(startRecordButtonEvent){
+            startRecordButtonEvent = false
+            recordButton.preroll = false
+            recordButton.recording = true
+            recordButton.stopped = false
+            recordButton.setNeedsDisplay()
         }
     }
     
     func measureTimerHandler(){
         if(!song.playing){
+            print("meaasureTimeerHandler - not playing")
             //clearTimelineIfNeedsClear()
         return
         }
 
         let ready = song.updateMeasureTimeline()
         if(!ready){
+            print("meaasureTimeerHandler - not ready")
             //clearTimelineIfNeedsClear()
             return
         }
@@ -340,6 +355,10 @@ class ViewController: UIViewController, SongCallbacks {
         deleteTrackEvent = true
     }
     
+    func startRecordFromSong(){
+        startRecordButtonEvent = true
+    }
+    
     //MARK: play button event handler
     func playRecordButtonSelected(_ playRecordButton: UIButton){
         if(playRecordButton == playButton){
@@ -353,6 +372,9 @@ class ViewController: UIViewController, SongCallbacks {
                 song.stop()
                 recordButton.isSelected = false //toggle record button
                 showInactiveTimeline()
+                recordButton.preroll = false
+                recordButton.recording = false
+                recordButton.stopped = true
             }
         }
         else if(playRecordButton == recordButton){
@@ -362,10 +384,16 @@ class ViewController: UIViewController, SongCallbacks {
             //record if on and is playing
             if(recordButton.isSelected && playButton.isSelected){
                 song.record()
+                recordButton.preroll = true
+                recordButton.recording = false
+                recordButton.stopped = false
                 print("start record")
             }
             else{
                 song.stop_record()
+                recordButton.preroll = false
+                recordButton.recording = false
+                recordButton.stopped = true
             }
         }
         

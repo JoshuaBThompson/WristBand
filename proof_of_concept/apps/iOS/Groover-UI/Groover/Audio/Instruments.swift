@@ -371,6 +371,8 @@ class ClickTrackInstrument: SynthInstrument{
     var defaultMeasureCounter = 0
     var defaultMeasures = GlobalDefaultMeasures
     var newRecordEnabled = false
+    var highSampler: AKSampler!
+    var highPrerollSampler: AKSampler!
     
     var timeSignature: TimeSignature {
         return clickTrack.timeSignature
@@ -391,10 +393,15 @@ class ClickTrackInstrument: SynthInstrument{
         note = 60
         muted = true
         preRollSampler.loadWav("Sounds_clicks/AlertClick-1-low")
+        highPrerollSampler = AKSampler()
+        highPrerollSampler.loadWav("Sounds_clicks/AlertClick-1-hi")
+        highSampler = AKSampler()
+        highSampler.loadWav("Sounds_clicks/MainClick-1-hi")
         sampler.loadWav("Sounds_clicks/MainClick-1-low")
         mixer = AKMixer()
         mixer.connect(preRollSampler)
         mixer.connect(sampler)
+        mixer.connect(highSampler)
         self.avAudioNode = mixer.avAudioNode //sampler.avAudioNode
         
     }
@@ -483,8 +490,14 @@ class ClickTrackInstrument: SynthInstrument{
                 preRollEnded = true
                 startDefaultMeasureCounter()
             }
-            preRollSampler.volume = volume
-            preRollSampler.play()
+            if(beat == 1){
+                highPrerollSampler.volume = 127
+                highPrerollSampler.play()
+            }
+            else{
+                preRollSampler.volume = 127
+                preRollSampler.play()
+            }
             print("preroll \(beat)")
         }
         else if(!self.muted){
@@ -493,9 +506,14 @@ class ClickTrackInstrument: SynthInstrument{
                 clickTrack.song.instrument.trackManager.setStartRecordOffset(offset: clickTrack.track.currentPosition.beats)
                 preRollEnded = false
             }
-            
-            sampler.volume = volume
-            sampler.play()
+            if(beat == 1){
+                highSampler.volume = 127
+                highSampler.play()
+            }
+            else{
+                sampler.volume = 127
+                sampler.play()
+            }
         }
         else if(preRollEnded){
             clickTrack.song.start_record()

@@ -39,11 +39,11 @@ class PanSliderCtrl: SliderCtrl{
         self.max_value = 100
         self.min_value = -100
         self.default_value = 0
-        self.maxPosX = 190.0
-        self.minPosX = 5.0
-        self.snapFilter = SliderSnapFilter(detentCount: 200, posOffset: self.minPosX, posRange: self.maxPosX)
+        self.maxPosX = 95//95.0
+        self.minPosX = -95//-95.0
+        self.snapFilter = SliderSnapFilter(detentCount: 200, posOffset: -100, posRange: 200)
         self.snapFilter.scale = 1.0 /* tempo is updated by 5 pbm at a time using the slider */
-        self.snapFilter.scale_offset = -100.0
+        self.snapFilter.scale_offset = -100.0//
         
     }
     
@@ -63,11 +63,13 @@ class PanSliderCtrl: SliderCtrl{
         if(self.position == nil){
             self.position = CGPoint(x: 0, y: 0)
             self.update_pos_from_value(new_value: CGFloat(self.default_value))
-            UIGroover.drawSliderCanvas(sliderPosition: self.position.x)
+            //UIGroover.drawSliderCanvas(sliderPosition: self.position.x)
+            UIGroover.drawPanSliderCanvas(panSliderPosition: self.position.x)
             
         }
         else{
-            UIGroover.drawSliderCanvas(sliderPosition: self.position.x)
+            //UIGroover.drawSliderCanvas(sliderPosition: self.position.x)
+            UIGroover.drawPanSliderCanvas(panSliderPosition: self.position.x)
         }
     }
         

@@ -35,6 +35,7 @@ class ViewController: UIViewController, SongCallbacks {
     
     //Events
     var stopRecordButtonEvent = false
+    var deleteTrackEvent = false
     
     //MARK: outlets
     
@@ -158,6 +159,9 @@ class ViewController: UIViewController, SongCallbacks {
         if(stopRecordButtonEvent){
             stopRecordButtonEvent = false
             self.recordButton.isSelected = false
+        }
+        else if(deleteTrackEvent){
+            self.showInactiveTimeline()
         }
     }
     
@@ -330,6 +334,10 @@ class ViewController: UIViewController, SongCallbacks {
     //MARK: stop record callback delegate
     func stopRecordFromSong(){
         stopRecordButtonEvent = true
+    }
+    
+    func updateTimelineAfterDelete(){
+        deleteTrackEvent = true
     }
     
     //MARK: play button event handler

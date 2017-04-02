@@ -20,7 +20,7 @@ class ParametersModalViewController: UIViewController, UITextFieldDelegate {
     var song: Song!
     
     @IBAction func deleteTrackButton(_ sender: UIButton) {
-        song.clearPreset()
+        song.deleteTrack()
         print("song clear preset!")
     }
     

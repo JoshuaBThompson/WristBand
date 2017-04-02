@@ -12,6 +12,7 @@ import AudioKit
 
 protocol SongCallbacks: class {
     func stopRecordFromSong()
+    func updateTimelineAfterDelete()
 }
 
 class Song {
@@ -276,6 +277,11 @@ class Song {
     func clearPreset(){
         //stop()
         instruments[selectedInstrument].trackManager.clear()
+    }
+    
+    func deleteTrack(){
+        clearPreset()
+        delegate?.updateTimelineAfterDelete()
     }
     
     func clear(){

@@ -36,4 +36,25 @@ class RecordCtrl: Record, PlayRecordProtocol {
         sendActions(for: .valueChanged) //this tells view controller that something changed
     }
     
+    func setRecording(){
+        preroll = false
+        recording = true
+        stopped = false
+        setNeedsDisplay()
+    }
+    
+    func setPreroll(){
+        preroll = true
+        recording = false
+        stopped = false
+        setNeedsDisplay()
+    }
+    
+    func setStopped(){
+        preroll = false
+        recording = false
+        stopped = true
+        setNeedsDisplay()
+    }
+    
 }

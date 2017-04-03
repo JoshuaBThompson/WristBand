@@ -261,7 +261,7 @@ class Song {
     
 
     func updateMeasureTimeline()->Bool{
-        let recorded = !self.instrument.trackManager.firstInstance
+        let recorded = self.instrument.trackManager.recorded//!self.instrument.trackManager.firstInstance
         let ready: Bool = (recorded || recordEnabled)
         if(!playing || !ready){
             return false
@@ -539,11 +539,10 @@ class Song {
         }
         recordEnabled = false
         clickTrack.instrument.newRecordEnabled = recordEnabled
-        //clickTrack.timer.stop()
-        for inst in instruments{
-            inst.recording = false
-            inst.deselect()
-        }
+        instruments[selectedInstrument].deselect()
+        //for inst in instruments{
+        //    inst.deselect()
+        //}
         
         saveSong()
         

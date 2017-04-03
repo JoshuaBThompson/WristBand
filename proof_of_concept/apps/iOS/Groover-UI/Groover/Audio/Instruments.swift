@@ -828,7 +828,6 @@ class InstrumentTrack {
     var instrument: SynthInstrument!
     var _maxNoteCount: Int = 0
     var clickTrack: ClickTrack!
-    var recording = false
     var loopLength: Double {
         return trackManager.totalBeats
     }
@@ -898,7 +897,7 @@ class InstrumentTrack {
     }
     
     func record(){
-        recording = true
+        trackManager.recordSet = true
     }
     
     func getMaxNoteNum()->Int{
@@ -1001,6 +1000,8 @@ class TrackManager{
     var timeline: MeasureTimeline!
     var beatsElapsedOffset: Double = 0
     var startRecordOffset: Double = 0
+    var recordSet = false
+    var recorded = false
     
     //MARK: Computed
     var defaultMeasureCount: Int {
@@ -1034,7 +1035,7 @@ class TrackManager{
     }
     
     var isNewRecord: Bool {
-        return (trackNotes.count >= 1 && firstInstance)
+        return (((trackNotes.count >= 1) || recordSet) && firstInstance)
     }
     
     var beatsElapsed: Double {
@@ -1251,6 +1252,7 @@ class TrackManager{
     func startLoopFromDefaultMeasures(){
         if(isNewRecord){
             print("Starting loop from default measures")
+            recorded = true
             //If this is the first time the track is being created then update measure count after instrument record stopped / deselected
             //measure count = roundUp(timeElapsed (sec) / secPerMeasure) roundUp = ceil math function
             //for ex: if timeElapsed = 9 sec and sec per measure = 4 then measure count = ceil(9/4) = 2.25 = 3 measure counts
@@ -1277,7 +1279,10 @@ class TrackManager{
             
             continueTrackFromStopRecord(loop_count: loop_count)
             self.clickTrack.instrument.resetDefaultMeasureCounter()
+            recordSet = false
+            recorded = true
         }
+        
 
     }
     
@@ -1312,8 +1317,8 @@ class TrackManager{
     
     //After user stops recording for a specific track, the start appending the track to the loop so it continues playing
     func continueTrackFromStopRecord(loop_count: Int){
-        if(trackNotes.count==0){return}
         firstInstance = false //first instance measure count update complete
+        if(trackNotes.count==0){return}
         let beatOffset = Double(loop_count * beatsPerMeasure)
         appendTrack(offset: Double(beatOffset))
     }
@@ -1342,6 +1347,8 @@ class TrackManager{
     }
 
     func clear(){
+        recordSet = false
+        recorded = false
         startRecordOffset = 0
         noteCount = 0
         trackNotes.removeAll()

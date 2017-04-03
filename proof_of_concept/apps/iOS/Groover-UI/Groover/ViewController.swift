@@ -159,9 +159,7 @@ class ViewController: UIViewController, SongCallbacks {
     func buttonEventHandler(){
         if(stopRecordButtonEvent){
             stopRecordButtonEvent = false
-            recordButton.stopped = true
-            recordButton.recording = false
-            recordButton.preroll = false
+            recordButton.setStopped()
             self.recordButton.isSelected = false
             
         }
@@ -171,23 +169,20 @@ class ViewController: UIViewController, SongCallbacks {
         }
         else if(startRecordButtonEvent){
             startRecordButtonEvent = false
-            recordButton.preroll = false
-            recordButton.recording = true
-            recordButton.stopped = false
-            recordButton.setNeedsDisplay()
+            recordButton.setRecording()
         }
     }
     
     func measureTimerHandler(){
         if(!song.playing){
-            print("meaasureTimeerHandler - not playing")
+            //print("meaasureTimeerHandler - not playing")
             //clearTimelineIfNeedsClear()
         return
         }
 
         let ready = song.updateMeasureTimeline()
         if(!ready){
-            print("meaasureTimeerHandler - not ready")
+            //print("meaasureTimeerHandler - not ready")
             //clearTimelineIfNeedsClear()
             return
         }
@@ -372,9 +367,7 @@ class ViewController: UIViewController, SongCallbacks {
                 song.stop()
                 recordButton.isSelected = false //toggle record button
                 showInactiveTimeline()
-                recordButton.preroll = false
-                recordButton.recording = false
-                recordButton.stopped = true
+                recordButton.setStopped()
             }
         }
         else if(playRecordButton == recordButton){
@@ -384,16 +377,12 @@ class ViewController: UIViewController, SongCallbacks {
             //record if on and is playing
             if(recordButton.isSelected && playButton.isSelected){
                 song.record()
-                recordButton.preroll = true
-                recordButton.recording = false
-                recordButton.stopped = false
+                recordButton.setPreroll()
                 print("start record")
             }
             else{
                 song.stop_record()
-                recordButton.preroll = false
-                recordButton.recording = false
-                recordButton.stopped = true
+                recordButton.setStopped()
             }
         }
         

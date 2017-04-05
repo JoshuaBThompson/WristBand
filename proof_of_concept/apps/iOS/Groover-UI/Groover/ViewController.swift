@@ -6,6 +6,11 @@
 //  Copyright © 2016 TCM. All rights reserved.
 //
 
+/*
+ * AudioKit v3.5.4 -- for xcode 8.3
+ */
+
+
 import UIKit
 import CoreMotion
 

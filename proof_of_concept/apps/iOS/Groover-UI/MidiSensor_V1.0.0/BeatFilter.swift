@@ -106,7 +106,7 @@ class RisingBeatFilter: BeatFilter {
             if(beat){
                 let temp_max_sample = sample_values.max() //rising requires max (most positive number)
                 print("max_sample \(max_sample_value)")
-                print("temp_max \(temp_max_sample)")
+                print("temp_max \(String(describing: temp_max_sample))")
                 if(max_sample_value != nil && temp_max_sample != nil){
                     if(Double(temp_max_sample!) < max_sample_scale*(Double(max_sample_value))){
                         print("beat canceled")
@@ -194,7 +194,7 @@ class FallingBeatFilter: BeatFilter {
             if(beat){
                 let temp_max_sample = sample_values.min() //falling requires minimum (most negative number)
                 print("max_sample \(max_sample_value)")
-                print("temp_max \(temp_max_sample)")
+                print("temp_max \(String(describing: temp_max_sample))")
                 if(max_sample_value != nil && temp_max_sample != nil){
                     if(Double(temp_max_sample!) > max_sample_scale*(Double(max_sample_value))){
                         beat = false

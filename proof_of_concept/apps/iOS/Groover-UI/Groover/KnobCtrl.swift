@@ -110,7 +110,7 @@ class KnobCtrl: Knob {
             //if divide by zero then just set angle to 0 radians
             deltaAngleRad = 0.0
         }
-        let degPerRad = CGFloat(180.0/M_PI)
+        let degPerRad = CGFloat(180.0/Double.pi)
         
         let deltaAngleDeg = deltaAngleRad*degPerRad //convert radians to degrees
         return deltaAngleDeg

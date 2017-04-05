@@ -13,8 +13,6 @@
 		421425ED1DFCDC040092BCB4 /* SongDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 421425EB1DFCDC040092BCB4 /* SongDatabase.swift */; };
 		421425EE1DFCDC040092BCB4 /* SongLibraryLists.swift in Sources */ = {isa = PBXBuildFile; fileRef = 421425EC1DFCDC040092BCB4 /* SongLibraryLists.swift */; };
 		421425F01DFCDC130092BCB4 /* Sounds_electronic_drumset in Resources */ = {isa = PBXBuildFile; fileRef = 421425EF1DFCDC130092BCB4 /* Sounds_electronic_drumset */; };
-		42456FA71D73B583005D83A5 /* AudioKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 42456FA61D73B583005D83A5 /* AudioKit.framework */; };
-		42456FA81D73B583005D83A5 /* AudioKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 42456FA61D73B583005D83A5 /* AudioKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		424D86441E2ADEC400B540D8 /* DetectDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 424D86431E2ADEC400B540D8 /* DetectDevice.swift */; };
 		4254BC451D4D8366007572B6 /* PopupBlur.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4254BC441D4D8366007572B6 /* PopupBlur.swift */; };
 		4254BC491D4E9DE6007572B6 /* PopupButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4254BC481D4E9DE6007572B6 /* PopupButton.swift */; };
@@ -54,6 +52,8 @@
 		42F2C5B61E502B2100C87540 /* SoundLibraryHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F2C5B51E502B2100C87540 /* SoundLibraryHelper.swift */; };
 		42F2C5BA1E5211E900C87540 /* InstrumentLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F2C5B91E5211E900C87540 /* InstrumentLibrary.swift */; };
 		42F2C5BC1E561A9800C87540 /* SoundsMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F2C5BB1E561A9800C87540 /* SoundsMap.swift */; };
+		42F912101E953F6700024E9C /* AudioKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 42F9120F1E953F6700024E9C /* AudioKit.framework */; };
+		42F912111E953F6700024E9C /* AudioKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 42F9120F1E953F6700024E9C /* AudioKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9450E20E1E7E64FE002D5BB3 /* Song.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9450E20D1E7E64FE002D5BB3 /* Song.storyboard */; };
 		9450E2101E7E657A002D5BB3 /* Groove.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9450E20F1E7E657A002D5BB3 /* Groove.storyboard */; };
 		9450E2121E7E65EF002D5BB3 /* Settings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9450E2111E7E65EF002D5BB3 /* Settings.storyboard */; };
@@ -127,7 +127,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				42456FA81D73B583005D83A5 /* AudioKit.framework in Embed Frameworks */,
+				42F912111E953F6700024E9C /* AudioKit.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -142,7 +142,6 @@
 		421425EC1DFCDC040092BCB4 /* SongLibraryLists.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SongLibraryLists.swift; path = Audio/SongLibraryLists.swift; sourceTree = "<group>"; };
 		421425EF1DFCDC130092BCB4 /* Sounds_electronic_drumset */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Sounds_electronic_drumset; sourceTree = "<group>"; };
 		422D9D361D35525D00E27904 /* Groover.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Groover.entitlements; sourceTree = "<group>"; };
-		42456FA61D73B583005D83A5 /* AudioKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AudioKit.framework; sourceTree = "<group>"; };
 		424D86431E2ADEC400B540D8 /* DetectDevice.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetectDevice.swift; sourceTree = "<group>"; };
 		4254BC441D4D8366007572B6 /* PopupBlur.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopupBlur.swift; sourceTree = "<group>"; };
 		4254BC481D4E9DE6007572B6 /* PopupButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopupButton.swift; sourceTree = "<group>"; };
@@ -189,6 +188,7 @@
 		42F2C5B51E502B2100C87540 /* SoundLibraryHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SoundLibraryHelper.swift; sourceTree = "<group>"; };
 		42F2C5B91E5211E900C87540 /* InstrumentLibrary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InstrumentLibrary.swift; sourceTree = "<group>"; };
 		42F2C5BB1E561A9800C87540 /* SoundsMap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SoundsMap.swift; sourceTree = "<group>"; };
+		42F9120F1E953F6700024E9C /* AudioKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AudioKit.framework; sourceTree = "<group>"; };
 		9450E20D1E7E64FE002D5BB3 /* Song.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Song.storyboard; sourceTree = "<group>"; };
 		9450E20F1E7E657A002D5BB3 /* Groove.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Groove.storyboard; sourceTree = "<group>"; };
 		9450E2111E7E65EF002D5BB3 /* Settings.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Settings.storyboard; sourceTree = "<group>"; };
@@ -247,7 +247,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				42456FA71D73B583005D83A5 /* AudioKit.framework in Frameworks */,
+				42F912101E953F6700024E9C /* AudioKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -504,7 +504,7 @@
 		FA50AA461D2A3FE60035C942 = {
 			isa = PBXGroup;
 			children = (
-				42456FA61D73B583005D83A5 /* AudioKit.framework */,
+				42F9120F1E953F6700024E9C /* AudioKit.framework */,
 				42A59FAC1D301FAD0070FE46 /* Groover-Bridging-Header.h */,
 				42A59FAA1D301FA60070FE46 /* MidiSensorWrapper.mm */,
 				42A59FA91D301F9D0070FE46 /* MidiSensorWrapper.h */,

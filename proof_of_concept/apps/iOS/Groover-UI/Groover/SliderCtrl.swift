@@ -124,7 +124,7 @@ class SliderCtrl: UIControl{
     override func endTracking(_ touch: UITouch?, with event: UIEvent?) {
         ready = true
         let endLocation = touch?.location(in: self)
-        print("end tracking pan at \(endLocation?.x)")
+        print("end tracking pan at \(String(describing: endLocation?.x))")
         //let final_pos_x = self.pos_from_detent //snap to neartest detent
         //self.position.x = final_pos_x
         setNeedsDisplay()

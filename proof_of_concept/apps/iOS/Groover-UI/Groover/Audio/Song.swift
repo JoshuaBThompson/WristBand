@@ -322,8 +322,8 @@ class Song {
     func playNote(){
         //play note based on selected instrument
         let note = instruments[selectedInstrument].instrument.note
-        instruments[selectedInstrument].instrument.play(noteNumber: note, velocity: 127)
-        instruments[selectedInstrument].instrument.stop(noteNumber: note)
+        instruments[selectedInstrument].instrument.play(noteNumber: MIDINoteNumber(note), velocity: 127)
+        instruments[selectedInstrument].instrument.stop(noteNumber: MIDINoteNumber(note))
     }
     
     func selectInstrument(_ number: Int){
@@ -365,10 +365,12 @@ class Song {
         noteAdded = true
         let duration = instrument.trackManager.minBeatDuration
         instruments[selectedInstrument].addNote(127, duration: duration)
+        /*
         if !playing {
             print("record started play")
             play()
         }
+        */
     }
     
     //MARK: update quantize
@@ -499,6 +501,14 @@ class Song {
         for instNum in 0 ..< instruments.count{
             instruments[instNum].instrument.unmute()
         }
+    }
+    
+    func start_last_preroll_record(){
+        //for rushed beats record any beats between last preroll and first track beat
+        //but just quantize that beat to first beat of track
+        recordEnabled = true
+        noteAdded = false
+        
     }
     
     func start_record(){

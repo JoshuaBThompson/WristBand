@@ -11,6 +11,9 @@ import AudioKit
 
 /****************Global*********************/
 let GlobalDefaultMeasures = 4
+enum InstrumentError: Error {
+    case InvalidSongLoaded
+}
 
 /****************Quantize*******************/
 class Quantize {
@@ -19,6 +22,17 @@ class Quantize {
     var divPerBeat = 1.0 //divisions per beat (beat resolution, ex: 64 divisions would be highest resolution and 1 is lowest)
     let maxDivisions = 64.0
     let minDivisions = 1.0
+    
+    //MARK: quantize to next beat pos
+    func quantizeToNextBeat(_ beat: AKDuration)->AKDuration{
+        let beats = beat.beats
+        let divPos = beats * divPerBeat //position in beat divisions (based on quantized number / resolution set by user in UI: ex: 4 or 32)
+        let divPosQuantized = round(divPos) //round to nearest division
+        let beatsQuantized = divPosQuantized / divPerBeat //get beat position quantized
+        
+        let posQuantized = AKDuration(beats: beatsQuantized, tempo: beat.tempo)
+        return posQuantized
+    }
     
     //MARK: quantize a beat pos
     func quantizedBeat(_ beat: AKDuration)->AKDuration{
@@ -282,7 +296,7 @@ class SynthInstrument: AKMIDIInstrument{
     
     func rawPlay(_ noteNumber: MIDINoteNumber, velocity: MIDIVelocity){
         if(!muted){
-            let volume = volumeScale * velocity/127.0
+            let volume = volumeScale * Double(velocity)/127.0
             sampler.volume = volume
             sampler.play()
         }
@@ -306,7 +320,7 @@ class SynthInstrument: AKMIDIInstrument{
             ignore = false  //ignore specific beat and then reset ignore
         }
         else if(!muted){
-            let volume = volumeScale * velocity/127.0
+            let volume = volumeScale * Double(velocity)/127.0
             sampler.volume = volume
             sampler.play()
         }
@@ -392,18 +406,32 @@ class ClickTrackInstrument: SynthInstrument{
         clickTrack = clickTrackRef
         note = 60
         muted = true
-        preRollSampler.loadWav("Sounds_clicks/AlertClick-1-low")
+        loadSamplers()
+        self.avAudioNode = mixer.avAudioNode //sampler.avAudioNode
+        
+    }
+    
+    func loadSamplers(){
         highPrerollSampler = AKSampler()
-        highPrerollSampler.loadWav("Sounds_clicks/AlertClick-1-hi")
         highSampler = AKSampler()
-        highSampler.loadWav("Sounds_clicks/MainClick-1-hi")
-        sampler.loadWav("Sounds_clicks/MainClick-1-low")
+        
+        do {
+            try preRollSampler.loadWav("Sounds_clicks/AlertClick-1-low")
+        
+            try highPrerollSampler.loadWav("Sounds_clicks/AlertClick-1-hi")
+            try highSampler.loadWav("Sounds_clicks/MainClick-1-hi")
+            try sampler.loadWav("Sounds_clicks/MainClick-1-low")
+            
+        } catch {
+            print("failed to load sampler files")
+        }
+        
+        
         mixer = AKMixer()
         mixer.connect(preRollSampler)
         mixer.connect(sampler)
         mixer.connect(highSampler)
-        self.avAudioNode = mixer.avAudioNode //sampler.avAudioNode
-        
+            
     }
     
     
@@ -482,7 +510,7 @@ class ClickTrackInstrument: SynthInstrument{
             vel = 127
         }
         
-        var volume = velocity/127.0
+        var volume = Double(velocity) / 127.0
         if(preRoll && beat <= beatsPerMeasure){
             volume = 127
             if(beat == beatsPerMeasure){
@@ -745,7 +773,7 @@ class ClickTrack: AKNode{
                     velocity = 127 //first beat in measure is loudest
                 }
                 print("adding click track note to pos \(beat_pos.beats)")
-                track.tracks[0].add(noteNumber: 60, velocity: velocity, position: beat_pos, duration: AKDuration(seconds: 0.1))
+                track.tracks[0].add(noteNumber: 60, velocity: MIDIVelocity(velocity), position: beat_pos, duration: AKDuration(seconds: 0.1))
             }
         }
     }
@@ -1207,14 +1235,19 @@ class TrackManager{
             print("inst \(trackNum) quantized pos \(pos.beats)")
         }
         print("insertNote at \(pos.beats)")
-        track.tracks[trackNum].add(noteNumber: note, velocity: velocity, position: pos, duration: AKDuration(seconds: duration))
+        track.tracks[trackNum].add(noteNumber: MIDINoteNumber(note), velocity: MIDIVelocity(velocity), position: pos, duration: AKDuration(seconds: duration))
     }
     
     func addNote(_ velocity: Int, duration: Double){
         let elapsed = beatsElapsed //timeElapsed
         let absElapsed = beatsElapsedAbs //timeElapsedAbs
         
-        if(!firstInstance){
+        if(clickTrack.instrument.preRollEnded){
+            let absPosition = AKDuration(beats: absElapsed, tempo: clickTrack.tempo.beatsPerMin)
+            addNoteToList(velocity, position: absPosition, duration: duration)
+            insertNote(velocity, position: absPosition, duration: duration)
+        }
+        else if(!firstInstance){
             //let position = AKDuration(seconds: elapsed, tempo: clickTrack.tempo.beatsPerMin)
             let position = AKDuration(beats: elapsed, tempo: clickTrack.tempo.beatsPerMin)
             addNoteToList(velocity, position: position, duration: duration)

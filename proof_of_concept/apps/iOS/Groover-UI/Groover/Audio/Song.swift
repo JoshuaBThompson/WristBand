@@ -514,8 +514,7 @@ class Song {
     func start_record(){
         
         if(instruments[selectedInstrument].trackManager.firstInstance){
-            //only restart timer if new track otherwise timer should have already been started in the play function
-            clickTrack.timer.start()
+            //todo?
         }
         instruments[selectedInstrument].record()
         recordEnabled = true

@@ -569,36 +569,6 @@ class ClickTrackInstrument: SynthInstrument{
 }
 
 
-
-//Timer
-class SongTimer {
-    
-    var startTime:CFAbsoluteTime
-    var endTime:CFAbsoluteTime?
-    
-    init() {
-        startTime = CFAbsoluteTimeGetCurrent()
-    }
-    
-    func start(){
-        startTime = CFAbsoluteTimeGetCurrent()
-    }
-    
-    func stop() -> CFAbsoluteTime {
-        endTime = CFAbsoluteTimeGetCurrent()
-        
-        return duration!
-    }
-    
-    var duration:CFAbsoluteTime? {
-        if let endTime = endTime {
-            return endTime - startTime
-        } else {
-            return nil
-        }
-    }
-}
-
 //Time Signature
 struct TimeSignature {
     var maxBaseBeatUnit = 16
@@ -664,7 +634,6 @@ class Tempo {
 
 //ClickTrack
 class ClickTrack: AKNode{
-    var timer = SongTimer()
     var midi: AKMIDI!
     var track: AKSequencer!
     var instrument: ClickTrackInstrument!
@@ -1023,7 +992,7 @@ class TrackManager{
     var firstInstance = true //informs if this is the first time the track is being filled so we can define the initial measure count / duration
     var instrument: SynthInstrument!
     var clickTrack: ClickTrack!
-    var timer: SongTimer!
+    //var timer: SongTimer!
     var ignore_count = 0
     var timeline: MeasureTimeline!
     var beatsElapsedOffset: Double = 0
@@ -1143,7 +1112,6 @@ class TrackManager{
         instrument = midiInstrument
         clickTrack = clickTrackRef
         track = clickTrack.track
-        timer = clickTrack.timer
         instrument.enableMIDI(midi.client, name: "Synth inst preset")
         trackNum = track.trackCount
         if(track.newTrack() != nil){

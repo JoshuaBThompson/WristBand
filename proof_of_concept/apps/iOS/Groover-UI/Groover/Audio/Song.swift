@@ -358,7 +358,8 @@ class Song {
         //play note event if not recording
         
         playNote()
-        if !recordEnabled || !clickTrack.running {
+        let last_preroll = clickTrack.instrument.preRollEnded
+        if (!recordEnabled || !clickTrack.running) && !last_preroll {
             //print("Record not enabled or pre-record not finished, no add note allowed")
             return
         }
@@ -503,13 +504,6 @@ class Song {
         }
     }
     
-    func start_last_preroll_record(){
-        //for rushed beats record any beats between last preroll and first track beat
-        //but just quantize that beat to first beat of track
-        recordEnabled = true
-        noteAdded = false
-        
-    }
     
     func start_record(){
         

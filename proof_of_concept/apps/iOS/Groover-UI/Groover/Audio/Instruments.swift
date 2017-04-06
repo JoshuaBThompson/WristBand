@@ -26,8 +26,9 @@ class Quantize {
     //MARK: quantize to next beat pos
     func quantizeToNextBeat(_ beat: AKDuration)->AKDuration{
         let beats = beat.beats
-        let divPos = beats * divPerBeat //position in beat divisions (based on quantized number / resolution set by user in UI: ex: 4 or 32)
-        let divPosQuantized = round(divPos) //round to nearest division
+        let tempDivPerBeat = 1.0
+        let divPos = beats * tempDivPerBeat //position in beat divisions (based on quantized number / resolution set by user in UI: ex: 4 or 32)
+        let divPosQuantized = ceil(divPos) //round to next beat
         let beatsQuantized = divPosQuantized / divPerBeat //get beat position quantized
         
         let posQuantized = AKDuration(beats: beatsQuantized, tempo: beat.tempo)
@@ -1211,9 +1212,10 @@ class TrackManager{
         let absElapsed = beatsElapsedAbs //timeElapsedAbs
         
         if(clickTrack.instrument.preRollEnded){
-            let absPosition = AKDuration(beats: absElapsed, tempo: clickTrack.tempo.beatsPerMin)
-            addNoteToList(velocity, position: absPosition, duration: duration)
-            insertNote(velocity, position: absPosition, duration: duration)
+            //if receive beat between last preroll and first record beat then save it but quantize to first record beat
+            let position = AKDuration(beats: 0, tempo: clickTrack.tempo.beatsPerMin)
+            addNoteToList(velocity, position: position, duration: duration)
+            //insertNote(velocity, position: position, duration: duration)
         }
         else if(!firstInstance){
             //let position = AKDuration(seconds: elapsed, tempo: clickTrack.tempo.beatsPerMin)

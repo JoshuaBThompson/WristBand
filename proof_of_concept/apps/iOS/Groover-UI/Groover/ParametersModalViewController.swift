@@ -10,6 +10,7 @@ import UIKit
 
 class ParametersModalViewController: UIViewController, UITextFieldDelegate {
     
+    @IBOutlet weak var instrumentNameLabel: UILabel!
     //Outlets
     @IBOutlet weak var parametersButton: ParametersButton!
     
@@ -71,6 +72,7 @@ class ParametersModalViewController: UIViewController, UITextFieldDelegate {
         self.trackMeasuresSlider.update_pos_from_value(new_value: CGFloat(self.song.presetMeasureCount))
         let new_measures = trackMeasuresSlider.measures
         trackMeasuresSliderValueTextField.text = "\(new_measures)"
+        instrumentNameLabel.text = self.song.selectedInstrumentName
     }
     
     //MARK: Init pan slider

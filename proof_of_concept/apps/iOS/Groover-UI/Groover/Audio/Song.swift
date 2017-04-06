@@ -322,7 +322,7 @@ class Song {
     func playNote(){
         //play note based on selected instrument
         let note = instruments[selectedInstrument].instrument.note
-        instruments[selectedInstrument].instrument.play(noteNumber: MIDINoteNumber(note), velocity: 127)
+        instruments[selectedInstrument].instrument.rawPlay(MIDINoteNumber(note), velocity: 127)
         instruments[selectedInstrument].instrument.stop(noteNumber: MIDINoteNumber(note))
     }
     

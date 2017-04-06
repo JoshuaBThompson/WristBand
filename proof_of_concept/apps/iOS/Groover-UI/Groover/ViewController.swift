@@ -176,6 +176,8 @@ class ViewController: UIViewController, SongCallbacks {
             startRecordButtonEvent = false
             recordButton.setRecording()
         }
+        
+        knob.activated = !recordButton.isSelected
     }
     
     func measureTimerHandler(){
@@ -390,6 +392,8 @@ class ViewController: UIViewController, SongCallbacks {
                 recordButton.setStopped()
             }
         }
+        
+        
         
     }
     

@@ -11,6 +11,7 @@ import UIKit
 class KnobCtrl: Knob {
    
     //MARK: properties
+    var activated = true
     var instSnap: SnapFilter!
     var clickRingActive = false
     var clickActive = false
@@ -161,6 +162,10 @@ class KnobCtrl: Knob {
     
     //MARK: touch tracking functions
     override func beginTracking(_ touch: UITouch, with event: UIEvent?) -> Bool {
+        if(!activated){
+            //knob disabled so don't do anything
+            return false
+        }
         previousTimestamp = event!.timestamp //need initial timestamp for continue tracking with touch calculations
         previousLocation = touch.previousLocation(in: self)
         print("started touch at x \(previousLocation.x) and y \(previousLocation.y)")
@@ -173,6 +178,10 @@ class KnobCtrl: Knob {
     }
     
     override func continueTracking(_ touch: UITouch, with event: UIEvent?) -> Bool {
+        if(!activated){
+            //knob disabled so don't do anything
+            return false
+        }
         print("continue tracking with touch")
         
         let timeSincePrevious = event!.timestamp - previousTimestamp
@@ -198,6 +207,10 @@ class KnobCtrl: Knob {
     }
     
     override func endTracking(_ touch: UITouch?, with event: UIEvent?) {
+        if(!activated){
+            //knob disabled so don't do anything
+            return
+        }
         setNeedsDisplay()
         sendActions(for: .editingDidEnd)
     }

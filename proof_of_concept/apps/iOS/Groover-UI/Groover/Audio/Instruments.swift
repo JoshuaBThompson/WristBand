@@ -396,8 +396,8 @@ class ClickTrackInstrument: SynthInstrument{
     var defaultMeasureCounter = 0
     var defaultMeasures = GlobalDefaultMeasures
     var newRecordEnabled = false
-    var highSampler: AKSampler!
-    var highPrerollSampler: AKSampler!
+    var highSampler = AKSampler()
+    var highPrerollSampler = AKSampler()
     
     var timeSignature: TimeSignature {
         return clickTrack.timeSignature
@@ -423,9 +423,6 @@ class ClickTrackInstrument: SynthInstrument{
     }
     
     func loadSamplers(){
-        highPrerollSampler = AKSampler()
-        highSampler = AKSampler()
-        
         do {
             try preRollSampler.loadWav("Sounds_clicks/AlertClick-1-low")
         
@@ -530,8 +527,10 @@ class ClickTrackInstrument: SynthInstrument{
                 startDefaultMeasureCounter()
             }
             if(beat == 1){
-                highPrerollSampler.volume = 127
-                highPrerollSampler.play()
+                //highPrerollSampler.volume = 127
+                //highPrerollSampler.play()
+                preRollSampler.volume = 127
+                preRollSampler.play()
             }
             else{
                 preRollSampler.volume = 127

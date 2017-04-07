@@ -96,6 +96,15 @@ class SongViewController: UIViewController, UITextFieldDelegate {
         measureSlider.update_pos_from_detent(new_detent: measures)
     }
     
+    //MARK: Init time signature values
+    func initTimeSignatureSlider(){
+        let beats = self.song.timeSignature.beatsPerMeasure
+        let note = self.song.timeSignature.beatUnit
+        timeSigBeatsTextField.text = "\(beats)"
+        timeSigDivisionsTextField.text = "\(note)"
+        
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.

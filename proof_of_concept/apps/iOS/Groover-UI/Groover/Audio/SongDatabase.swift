@@ -17,6 +17,10 @@ import AudioKit
 struct SongPropertyKey {
     static let nameKey = "name"
     static let tracksKey = "tracks"
+    static let tempoKey = "tempo"
+    static let measuresKey = "measures"
+    static let timeSigBeatsKey = "time_sig_beats"
+    static let timeSigNoteKey = "time_sig_note"
 }
 
 struct SongTrackPropertyKey {
@@ -146,37 +150,62 @@ class SongTrack: NSObject, NSCoding {
 class SongDatabase: NSObject, NSCoding {
     var save = false
     var name: String!
+    var global_measures: Int!
+    var tempo: Int!
+    var time_sig_beats: Int!
+    var time_sig_note: Int!
     var tracks: [SongTrack]!
     
     static let DocumentsDirectory = FileManager().urls(for: .documentDirectory, in: .userDomainMask).first!
     static let ArchiveURL = DocumentsDirectory.appendingPathComponent("song_database")
     
-    init!(name: String="Song", tracks: [SongTrack] = [SongTrack]()){
+    init!(name: String="Song", measures: Int = 4, tempo: Int = 60, time_sig_beats: Int = 4, time_sig_note: Int = 4, tracks: [SongTrack] = [SongTrack]()){
         self.name = name
         self.tracks = tracks
+        self.tempo = tempo
+        self.global_measures = measures
+        self.time_sig_note = time_sig_note
+        self.time_sig_beats = time_sig_beats
     }
     
     //MARK: NSCoding methods
     func encode(with aCoder: NSCoder) {
         aCoder.encode(name, forKey: SongPropertyKey.nameKey)
+        aCoder.encode(tempo, forKey: SongPropertyKey.tempoKey)
+        aCoder.encode(global_measures, forKey: SongPropertyKey.measuresKey)
+        aCoder.encode(time_sig_beats, forKey: SongPropertyKey.timeSigBeatsKey)
+        aCoder.encode(time_sig_note, forKey: SongPropertyKey.timeSigNoteKey)
         aCoder.encode(tracks, forKey: SongPropertyKey.tracksKey)
     }
     
     required convenience init?(coder aDecoder: NSCoder) {
         //grab saved data
         var saved_name = aDecoder.decodeObject(forKey: SongPropertyKey.nameKey) as! String!
+        var saved_tempo = aDecoder.decodeObject(forKey: SongPropertyKey.tempoKey) as! Int!
+        var saved_measures = aDecoder.decodeObject(forKey: SongPropertyKey.measuresKey) as! Int!
+        var saved_time_sig_beats = aDecoder.decodeObject(forKey: SongPropertyKey.timeSigBeatsKey) as! Int!
+        var saved_time_sig_note = aDecoder.decodeObject(forKey: SongPropertyKey.timeSigNoteKey) as! Int!
         var saved_tracks = aDecoder.decodeObject(forKey: SongPropertyKey.tracksKey) as! [SongTrack]!
         if(saved_name == nil){
             saved_name = "Song"
+        }
+        if(saved_measures == nil){
+            saved_measures = 4
+        }
+        if(saved_time_sig_note == nil){
+            saved_time_sig_note = 4
+        }
+        if(saved_time_sig_beats == nil){
+            saved_time_sig_beats = 4
+        }
+        if(saved_tempo == nil){
+            saved_tempo = 60
         }
         if(saved_tracks == nil){
             saved_tracks = [SongTrack]()
         }
         
-        let unwr_name = saved_name!
-        let unwr_tracks = saved_tracks!
-        
-        self.init(name: unwr_name, tracks: unwr_tracks)
+        self.init(name: saved_name!, measures: saved_measures!, tempo: saved_tempo!, time_sig_beats: saved_time_sig_beats!, time_sig_note: saved_time_sig_note!, tracks: saved_tracks!)
     }
     
     

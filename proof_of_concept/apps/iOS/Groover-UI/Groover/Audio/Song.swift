@@ -121,6 +121,16 @@ class Song {
     func setCurrentSong(song_num: Int){
         if(song_num < songsDatabase.count){
             self.current_song = songsDatabase[song_num]
+            //now update global variables
+            let saved_tempo = Double(self.current_song.tempo!)
+            let saved_global_measues = self.current_song.global_measures
+            let saved_time_sig_beats = self.current_song.time_sig_beats
+            let saved_time_sig_note = self.current_song.time_sig_note
+            
+            setTempo(saved_tempo)
+            setTimeSignature(saved_time_sig_beats!, beatUnit: saved_time_sig_note!)
+            setDefaultMeasures(measureCount: saved_global_measues!)
+            
         }
     }
     
@@ -223,6 +233,13 @@ class Song {
             return
         }
         
+        /* save global vars */
+        self.current_song.tempo = Int(self.clickTrack.tempo.beatsPerMin)
+        self.current_song.global_measures = clickTrack.instrument.defaultMeasures
+        self.current_song.time_sig_beats = clickTrack.timeSignature.beatsPerMeasure
+        self.current_song.time_sig_note = clickTrack.timeSignature.beatUnit
+        
+        /* save track vars */
         for i in 0 ..< self.current_song.tracks.count {
             self.current_song.tracks[i].loadNewTrack(trackManager: instruments[i].trackManager)
             print("Saving song pan \(self.current_song.tracks[i].pan)")

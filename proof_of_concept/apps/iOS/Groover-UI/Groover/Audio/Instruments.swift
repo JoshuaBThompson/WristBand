@@ -17,6 +17,7 @@ enum InstrumentError: Error {
 
 /****************Quantize*******************/
 class Quantize {
+    var beatScale = 1.0
     var resolution = 1.0
     var triplet_en = false
     var divPerBeat = 1.0 //divisions per beat (beat resolution, ex: 64 divisions would be highest resolution and 1 is lowest)
@@ -37,10 +38,10 @@ class Quantize {
     
     //MARK: quantize a beat pos
     func quantizedBeat(_ beat: AKDuration)->AKDuration{
-        let beats = beat.beats
+        let beats = beat.beats * beatScale
         let divPos = beats * divPerBeat //position in beat divisions (based on quantized number / resolution set by user in UI: ex: 4 or 32)
         let divPosQuantized = round(divPos) //round to nearest division
-        let beatsQuantized = divPosQuantized / divPerBeat //get beat position quantized
+        let beatsQuantized = (divPosQuantized / divPerBeat) / beatScale//get beat position quantized
         
         let posQuantized = AKDuration(beats: beatsQuantized, tempo: beat.tempo)
         return posQuantized
@@ -48,10 +49,11 @@ class Quantize {
     }
     
     //MARK: update the quantization beat divisions
-    func update(_ newBeatDivision: Double, triplet_en: Bool = false){
+    func update(_ newBeatDivision: Double, triplet_en: Bool = false, beat_scale: Double = 1.0){
         var div = newBeatDivision
         self.triplet_en = triplet_en
         self.resolution = div
+        self.beatScale = beat_scale
         if(self.triplet_en){
             div = div * TripletResolution
         }
@@ -863,6 +865,7 @@ class InstrumentTrack {
     }
     
     init(clickTrack: ClickTrack, presetInst: SynthInstrument){
+        self.clickTrack = clickTrack
         instrument = presetInst //custom synth instrument
         instrument.instTrack = self
         trackManager = TrackManager(midiInstrument: instrument, clickTrackRef: clickTrack)
@@ -890,7 +893,7 @@ class InstrumentTrack {
     //MARK: update quantized number using resolution of the beat (ex: beat divided into 16 pieces)
     func updateQuantize(_ res: Double, triplet_en: Bool = false){
         //res is the resolution of the beat: ex: 16
-        trackManager.quantizer.update(res, triplet_en: triplet_en)
+        trackManager.quantizer.update(res, triplet_en: triplet_en, beat_scale: clickTrack.timeSignature.beatScale)
     }
     
     func enableQuantize(){

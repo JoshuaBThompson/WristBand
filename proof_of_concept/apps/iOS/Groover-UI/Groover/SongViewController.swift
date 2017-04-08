@@ -81,6 +81,12 @@ class SongViewController: UIViewController, UITextFieldDelegate {
         self.initTempoSlider()
         self.initDefaultMeasuresSlider()
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        initTempoSlider()
+        initDefaultMeasuresSlider()
+    }
 
     //MARK: Init tempo 
     func initTempoSlider(){

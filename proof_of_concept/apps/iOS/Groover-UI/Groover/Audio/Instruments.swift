@@ -943,6 +943,7 @@ class InstrumentTrack {
 class MeasureTimeline {
     var trackManager: TrackManager!
     var bar_count: Int = 0
+    var measure_count: Int = 0
     var bar_num = 0
     var prev_bar_num = 0
     var count = 0
@@ -971,6 +972,7 @@ class MeasureTimeline {
         let current_measure_progress = self.trackManager.measureProgress
         print("current measure \(current_track_measure)")
         prev_bar_num = bar_num
+        self.measure_count = current_track_measure
         self.bar_num = self.getBarNumFromMeasure(measure_num: current_track_measure)
         bars_progress[bar_num] = current_measure_progress
         //print("bar_num \(bar_num) progress \(current_measure_progress) track_num \(current_track_measure)")

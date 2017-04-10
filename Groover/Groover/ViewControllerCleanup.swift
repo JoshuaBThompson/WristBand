@@ -18,6 +18,11 @@ class ViewControllerCleanup: UIViewController {
     //Song
     var song: Song!
     
+    //Measure Timeline
+    var measureTimelineManager: MeasureTimelineManager!
+    var measureViews = [MeasureCtrl]()
+    var measureLabels = [UILabel]()
+    var measureTimelineTimer: Timer!
     
     //MARK: UI Elements
     
@@ -34,6 +39,8 @@ class ViewControllerCleanup: UIViewController {
         //Quantize
         initQuantizeCtrls()
         
+        //Timeline
+        initMeasureTimeline()
 
         // Do any additional setup after loading the view.
     }
@@ -132,13 +139,47 @@ class ViewControllerCleanup: UIViewController {
         
     }
     
-    //MARK: Track parameters handling
-    
-    //MARK: Song Settings handling
-    
-    //MARK: Sound Library handling
-    
     //MARK: Timeline handling
+    
+    func initMeasureTimeline(){
+        //put measure views in array
+        /*
+         measureViews.append(measureView1)
+         measureViews.append(measureView2)
+         measureViews.append(measureView3)
+         measureViews.append(measureView4)
+         
+         measureLabels.append(measureView1Label)
+         measureLabels.append(measureView2Label)
+         measureLabels.append(measureView3Label)
+         measureLabels.append(measureView4Label)
+         
+         for label in measureLabels {
+         label.text = ""
+         }
+        */
+        
+        //updates measure view and label states based on current instrument and measure progress
+        measureTimelineManager = MeasureTimelineManager(measure_views: measureViews, measure_labels: measureLabels)
+        
+        //setup timer thread to update timeline graphics
+        startMeasureTimelineThread()
+    }
+    
+    //continuously checks to see what % of the current instrument measure count has elapsed
+    //used to update the groover measure timeline bar progress
+    func startMeasureTimelineThread(){
+        measureTimelineTimer = Timer.scheduledTimer(timeInterval: 0.05, target: self, selector: #selector(measureTimelineHandler), userInfo: nil, repeats: true)
+        
+    }
+    
+    func measureTimelineHandler(){
+        //check if timeline update should be updated or note
+        let is_ready = measureTimelineManager.isReadyForUpdate()
+        if(is_ready){
+            measureTimelineManager.updateMeasureTimeline()
+        }
+    }
     
     //MARK: Position indicator handling
     

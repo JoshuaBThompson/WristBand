@@ -25,6 +25,9 @@ class KnobCtrl: Knob {
     let detentCount = 12 //number of instruments / presets
     let angleRangeEn = false //enforce angle range limits
     let angleRate: CGFloat = 0.5 // if set to 1 then knob turns with user finger at same speed
+    var _detent: Int = 0
+    var prevDetent: Int = 0
+    var newDetent = false
     
     var absAngle: CGFloat {
         if(angle < 0){
@@ -36,14 +39,25 @@ class KnobCtrl: Knob {
     }
     
     var detent: Int {
-        return instSnap.getDetent(absAngle)
+        
+        _detent = instSnap.getDetent(absAngle)
+        return _detent
     }
     
     var drawAngle: CGFloat {
         return -angle
     }
     
+    func setPrevDetent(){
+        prevDetent = self.detent
+    }
     
+    func updateNewDetent(){
+        if(detent != prevDetent){
+            prevDetent = _detent
+            newDetent = true
+        }
+    }
     
     override func draw(_ rect: CGRect) {
         let modelNameShort = UIDevice.current.modelNameShort
@@ -66,14 +80,12 @@ class KnobCtrl: Knob {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        print("instrument snap")
         instSnap = SnapFilter(detentCount: detentCount, angleOffset: angle, angleRange: 360)
     }
     
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        print("instrument snap")
         instSnap = SnapFilter(detentCount: detentCount, angleOffset: angle, angleRange: 360)
         
     }
@@ -104,7 +116,6 @@ class KnobCtrl: Knob {
         var deltaAngleRad: CGFloat = 0.0
         if(r1s*r2s != 0.0 && r1r2/(r1s*r2s) <= 1.0){
             //make sure don't divide by zero
-            print("acos \(r1r2/(r1s*r2s))")
             deltaAngleRad = acos(r1r2/(r1s*r2s))
         }
         else{
@@ -164,8 +175,8 @@ class KnobCtrl: Knob {
     override func beginTracking(_ touch: UITouch, with event: UIEvent?) -> Bool {
         if(!activated){
             //knob disabled so don't do anything
+            setPrevDetent()
             previousLocation = touch.previousLocation(in: self)
-            print("started touch at x \(previousLocation.x) and y \(previousLocation.y)")
             if(isWithinInnerKnob(previousLocation)){
                 clickActive = !clickActive
                 sendActions(for: .editingChanged)
@@ -175,7 +186,6 @@ class KnobCtrl: Knob {
         }
         previousTimestamp = event!.timestamp //need initial timestamp for continue tracking with touch calculations
         previousLocation = touch.previousLocation(in: self)
-        print("started touch at x \(previousLocation.x) and y \(previousLocation.y)")
         if(isWithinInnerKnob(previousLocation)){
             clickActive = !clickActive
             sendActions(for: .editingChanged)
@@ -189,7 +199,6 @@ class KnobCtrl: Knob {
             //knob disabled so don't do anything
             return true
         }
-        print("continue tracking with touch")
         
         let timeSincePrevious = event!.timestamp - previousTimestamp
         
@@ -201,12 +210,10 @@ class KnobCtrl: Knob {
             
             previousLocation = location //update prev loc
             previousTimestamp = event!.timestamp //update prev timestamp
-            print("delta angle is \(dltaAngle)")
             
             incrementAngle(rotDir*dltaAngle)
             turnKnob()
-            print("new angle \(angle)")
-            print("abs angle \(absAngle)")
+            updateNewDetent()
             sendActions(for: .valueChanged) //this tells view controller that something changed
         }
         

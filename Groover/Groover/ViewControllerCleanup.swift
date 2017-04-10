@@ -36,8 +36,17 @@ class ViewControllerCleanup: UIViewController {
         //Song
         initSong()
         
+        //Knob
+        initKnobCtrl()
+        
         //Quantize
         initQuantizeCtrls()
+        
+        //Play / Record
+        initPlayRecordCtrl()
+        
+        //Position Indicator
+        initPositionIndicator()
         
         //Timeline
         initMeasureTimeline()
@@ -69,17 +78,37 @@ class ViewControllerCleanup: UIViewController {
     
     func handleKnobStarted(){
         //If knob starts to turn then show position indicator
-        hidePositionIndicator()
+        //showPositionIndicator()
+        //parametersButton.hide()
     }
     
     func handleKnobPositionChange(){
         //Get new position number
         //Update instrument selected from position number
+        /*
+        let newPosition = knob.newDetent
+        let wasRecording = song.recordEnabled
+        if(newPosition){
+            
+            instrumentViewWrap.backgroundColor = UIColor.black
+            positionIndicator.show()
+            positionIndicator.setPosition(knobControl.detent)
+            selectSound(knobControl.detent)
+            if(!song.recordEnabled && wasRecording){
+                recordButton.isSelected = false
+            }
+            else{
+                updateButtonStatesAfterKnobTurn()
+            }
+            showInactiveTimeline()
+            updateQuantizeButtonsFromInstrument()
+            */
+            
     }
     
     func handleKnobStopped(){
         //If knob stopped turning then hide position indicator
-        showPositionIndicator()
+        hidePositionIndicator()
     }
     
     
@@ -182,6 +211,9 @@ class ViewControllerCleanup: UIViewController {
     }
     
     //MARK: Position indicator handling
+    func initPositionIndicator(){
+        hidePositionIndicator()
+    }
     
     func hidePositionIndicator(){
         

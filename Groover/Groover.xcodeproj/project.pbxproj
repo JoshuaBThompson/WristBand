@@ -48,6 +48,9 @@
 		42F2C5BC1E561A9800C87540 /* SoundsMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F2C5BB1E561A9800C87540 /* SoundsMap.swift */; };
 		42F912101E953F6700024E9C /* AudioKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 42F9120F1E953F6700024E9C /* AudioKit.framework */; };
 		42F912111E953F6700024E9C /* AudioKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 42F9120F1E953F6700024E9C /* AudioKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		42FB4DE61E99A15500731BAC /* ViewControllerCleanup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42FB4DE51E99A15500731BAC /* ViewControllerCleanup.swift */; };
+		42FB4DE81E9AA80200731BAC /* QuantizeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42FB4DE71E9AA80200731BAC /* QuantizeManager.swift */; };
+		42FB4DEA1E9AFFA300731BAC /* MeasureTimelineManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42FB4DE91E9AFFA300731BAC /* MeasureTimelineManager.swift */; };
 		9450E20E1E7E64FE002D5BB3 /* Song.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9450E20D1E7E64FE002D5BB3 /* Song.storyboard */; };
 		9450E2101E7E657A002D5BB3 /* Groove.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9450E20F1E7E657A002D5BB3 /* Groove.storyboard */; };
 		9450E2121E7E65EF002D5BB3 /* Settings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9450E2111E7E65EF002D5BB3 /* Settings.storyboard */; };
@@ -94,7 +97,6 @@
 		FAB995F01D2E2B510002EE38 /* Left.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB995EF1D2E2B510002EE38 /* Left.swift */; };
 		FAC132CB1DF547AD007E6EC1 /* ParametersModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC132CA1DF547AD007E6EC1 /* ParametersModalViewController.swift */; };
 		FAC61A641DC520360012A93D /* Measure.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC61A631DC520360012A93D /* Measure.swift */; };
-		FAC61A661DC524EB0012A93D /* QuantizeButtons.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC61A651DC524EA0012A93D /* QuantizeButtons.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -170,6 +172,9 @@
 		42F2C5B91E5211E900C87540 /* InstrumentLibrary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InstrumentLibrary.swift; sourceTree = "<group>"; };
 		42F2C5BB1E561A9800C87540 /* SoundsMap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SoundsMap.swift; sourceTree = "<group>"; };
 		42F9120F1E953F6700024E9C /* AudioKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AudioKit.framework; sourceTree = "<group>"; };
+		42FB4DE51E99A15500731BAC /* ViewControllerCleanup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewControllerCleanup.swift; sourceTree = "<group>"; };
+		42FB4DE71E9AA80200731BAC /* QuantizeManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuantizeManager.swift; sourceTree = "<group>"; };
+		42FB4DE91E9AFFA300731BAC /* MeasureTimelineManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeasureTimelineManager.swift; sourceTree = "<group>"; };
 		9450E20D1E7E64FE002D5BB3 /* Song.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Song.storyboard; sourceTree = "<group>"; };
 		9450E20F1E7E657A002D5BB3 /* Groove.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Groove.storyboard; sourceTree = "<group>"; };
 		9450E2111E7E65EF002D5BB3 /* Settings.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Settings.storyboard; sourceTree = "<group>"; };
@@ -220,7 +225,6 @@
 		FAB995EF1D2E2B510002EE38 /* Left.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Left.swift; sourceTree = "<group>"; };
 		FAC132CA1DF547AD007E6EC1 /* ParametersModalViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParametersModalViewController.swift; sourceTree = "<group>"; };
 		FAC61A631DC520360012A93D /* Measure.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Measure.swift; sourceTree = "<group>"; };
-		FAC61A651DC524EA0012A93D /* QuantizeButtons.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuantizeButtons.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -306,7 +310,6 @@
 			isa = PBXGroup;
 			children = (
 				FA50AA921D2B454D0035C942 /* Thirtysecond.swift */,
-				FAC61A651DC524EA0012A93D /* QuantizeButtons.swift */,
 				FA50AA901D2B44DD0035C942 /* Sixteenth.swift */,
 				FA50AA941D2B45570035C942 /* Triplet.swift */,
 				FA50AA8C1D2B43620035C942 /* Quarter.swift */,
@@ -317,6 +320,7 @@
 				42C8A3DE1D974298004BDD58 /* SixteenthCtrl.swift */,
 				42C8A3E01D9742CA004BDD58 /* TripletCtrl.swift */,
 				42C8A3E21D974457004BDD58 /* QuantizeButtonProtocol.swift */,
+				42FB4DE71E9AA80200731BAC /* QuantizeManager.swift */,
 			);
 			name = Quantize;
 			sourceTree = "<group>";
@@ -419,6 +423,7 @@
 		42CD351C1E81861E00A33F7A /* GrooveStoryboard */ = {
 			isa = PBXGroup;
 			children = (
+				42FB4DE51E99A15500731BAC /* ViewControllerCleanup.swift */,
 				FA50AA541D2A3FE60035C942 /* ViewController.swift */,
 				423174FE1D6CAED000A97065 /* Knob */,
 				423174FD1D6CAEC800A97065 /* Quantize */,
@@ -543,6 +548,7 @@
 			children = (
 				FAC61A631DC520360012A93D /* Measure.swift */,
 				42AA07D51E3E9773002FA7E8 /* MeasureCtrl.swift */,
+				42FB4DE91E9AFFA300731BAC /* MeasureTimelineManager.swift */,
 			);
 			name = Measures;
 			sourceTree = "<group>";
@@ -716,7 +722,6 @@
 				42C8A3D11D972845004BDD58 /* RecordCtrl.swift in Sources */,
 				42986EAE1E0307180020F028 /* GlobalMeasuresCtrl.swift in Sources */,
 				FA50AA951D2B45570035C942 /* Triplet.swift in Sources */,
-				FAC61A661DC524EB0012A93D /* QuantizeButtons.swift in Sources */,
 				42C8A3F11D9EC799004BDD58 /* LeftCtrl.swift in Sources */,
 				42986EA71E03048D0020F028 /* TrackMeasuresSliderCtrl.swift in Sources */,
 				42F2C5BC1E561A9800C87540 /* SoundsMap.swift in Sources */,
@@ -735,6 +740,7 @@
 				FA50AA531D2A3FE60035C942 /* AppDelegate.swift in Sources */,
 				42F2C5BA1E5211E900C87540 /* InstrumentLibrary.swift in Sources */,
 				42C8A3D51D972F12004BDD58 /* PlayRecordProtocol.swift in Sources */,
+				42FB4DEA1E9AFFA300731BAC /* MeasureTimelineManager.swift in Sources */,
 				4254DD961E01C26B005EFDFF /* VolumeSliderCtrl.swift in Sources */,
 				42C8A3E11D9742CA004BDD58 /* TripletCtrl.swift in Sources */,
 				429A22BB1D338E240045023F /* Instruments.swift in Sources */,
@@ -751,6 +757,7 @@
 				FA56CA431DEEA57F00738409 /* SettingsTableViewController.swift in Sources */,
 				FA50AA911D2B44DD0035C942 /* Sixteenth.swift in Sources */,
 				4254BC451D4D8366007572B6 /* PopupBlur.swift in Sources */,
+				42FB4DE81E9AA80200731BAC /* QuantizeManager.swift in Sources */,
 				945EF80F1E026B2B00A92E73 /* TrackMeasuresSlider.swift in Sources */,
 				424D86441E2ADEC400B540D8 /* DetectDevice.swift in Sources */,
 				42C8A3EF1D9EC78F004BDD58 /* RightCtrl.swift in Sources */,
@@ -763,6 +770,7 @@
 				FA50AA831D2A433B0035C942 /* UIGroover.swift in Sources */,
 				945EF8131E026D8200A92E73 /* GlobalMeasures.swift in Sources */,
 				FA0CCADC1DF6A26E00EC3F6A /* SettingsViewController.swift in Sources */,
+				42FB4DE61E99A15500731BAC /* ViewControllerCleanup.swift in Sources */,
 				42C8A3CF1D9721D4004BDD58 /* KnobCtrl.swift in Sources */,
 				421425EA1DFCDB510092BCB4 /* BeatFilter.swift in Sources */,
 				947E19E41DFBF7E400443F7E /* NewSongViewController.swift in Sources */,

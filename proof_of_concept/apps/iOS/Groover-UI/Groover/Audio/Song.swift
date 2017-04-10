@@ -166,6 +166,7 @@ class Song {
             track.instrument.updatePan(self.current_song.tracks[num].pan)
             track.instrument.updateVolume(self.current_song.tracks[num].volume)
             track.appendTrack(offset: 0)
+            track.recorded = (track.trackNotes.count >= 1)
             
             print("loaded saved track \(num)")
         }

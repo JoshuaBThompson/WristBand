@@ -1242,9 +1242,16 @@ class TrackManager{
         
         if(clickTrack.instrument.preRollEnded){
             //if receive beat between last preroll and first record beat then save it but quantize to first record beat
+            if(trackNotes.count > 0){
+                return
+            }
             let position = AKDuration(beats: 0, tempo: clickTrack.tempo.beatsPerMin)
             addNoteToList(velocity, position: position, duration: duration)
             //insertNote(velocity, position: position, duration: duration)
+            let noteNum = trackNotes.count - 1
+            let offset = (self.clickTrack.instrument.loop_count + self.defaultMeasureCount) * self.beatsPerMeasure
+            print("insert note at offset \(offset) default measure count \(self.defaultMeasureCount)")
+            appendNoteFromOffset(offset: offset, noteNum: noteNum )
         }
         else if(!firstInstance){
             //let position = AKDuration(seconds: elapsed, tempo: clickTrack.tempo.beatsPerMin)
@@ -1259,7 +1266,11 @@ class TrackManager{
             //let absPosition = AKDuration(seconds: absElapsed, tempo: clickTrack.tempo.beatsPerMin)
             let absPosition = AKDuration(beats: absElapsed, tempo: clickTrack.tempo.beatsPerMin)
             addNoteToList(velocity, position: absPosition, duration: duration)
-            insertNote(velocity, position: absPosition, duration: duration)
+            //insertNote(velocity, position: absPosition, duration: duration)
+            let noteNum = trackNotes.count - 1
+            let offset = self.startRecordOffset + self.defaultMeasureCount * self.beatsPerMeasure
+            print("insert note at offset \(offset) default measure count \(self.defaultMeasureCount)")
+            appendNoteFromOffset(offset: offset, noteNum: noteNum )
         }
         
     }
@@ -1291,11 +1302,12 @@ class TrackManager{
             //If this is the first time the track is being created then update measure count after instrument record stopped / deselected
             //measure count = roundUp(timeElapsed (sec) / secPerMeasure) roundUp = ceil math function
             //for ex: if timeElapsed = 9 sec and sec per measure = 4 then measure count = ceil(9/4) = 2.25 = 3 measure counts
-            
+            //self.resetTrack(clearAll: true)
             updateMeasureCount(self.defaultMeasureCount)
             instrument.updateNextStartPos()
-            let loop_count = clickTrack.instrument.loop_count - 1
-            continueTrackFromStopRecord(loop_count: loop_count)
+            //let loop_count = clickTrack.instrument.loop_count - 1
+            //continueTrackFromStopRecord(loop_count: loop_count)
+            firstInstance = false
         }
     }
     
@@ -1379,6 +1391,14 @@ class TrackManager{
                 }
             }
         }
+    }
+    
+    func appendNoteFromOffset(offset: Double, noteNum: Int){
+        if(noteNum >= trackNotes.count){
+            return
+        }
+        let position = AKDuration(beats: trackNotes[noteNum].beats + offset)
+        insertNote(127, position: position, duration: 0.1)
     }
 
     func clear(){

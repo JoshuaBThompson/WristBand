@@ -166,7 +166,6 @@ class ViewController: UIViewController, SongCallbacks {
             stopRecordButtonEvent = false
             recordButton.setStopped()
             self.recordButton.isSelected = false
-            
         }
         else if(deleteTrackEvent){
             deleteTrackEvent = false

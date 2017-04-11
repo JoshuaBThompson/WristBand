@@ -21,7 +21,7 @@ class ViewController: UIViewController, SongCallbacks {
     let sensor = MidiSensorWrapper()
     let motionManager = CMMotionManager()
     let queue = OperationQueue.main
-    var timeIntervalMillis: UInt = 20 //25
+    var timeIntervalMillis: UInt = 15 //25
     var quantizeButtons = [QuantizeButtonProtocol]()
     var riseNum: Int = 0
     var fallNum: Int = 0
@@ -177,7 +177,7 @@ class ViewController: UIViewController, SongCallbacks {
             recordButton.setRecording()
         }
         
-        knob.activated = !recordButton.isSelected
+        knob.activated = (!recordButton.isSelected || song.instrument.trackManager.recorded)
     }
     
     func measureTimerHandler(){

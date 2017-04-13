@@ -102,6 +102,7 @@ class SynthInstrument: AKMIDIInstrument{
     var nextStartOffset: Double = 0
     var prevStart = 0.0
     var next_start_pos = 0.0
+    var _start_offset = 0.0
     
     
     var quantizeEnabled: Bool {
@@ -118,6 +119,9 @@ class SynthInstrument: AKMIDIInstrument{
     }
     
     var maxNoteCount: Int {
+        if(instTrack.trackManager.recordSet){
+            return _maxNoteCount
+        }
         _maxNoteCount = instTrack.maxNoteCount
         return _maxNoteCount
         
@@ -192,6 +196,10 @@ class SynthInstrument: AKMIDIInstrument{
         next_start_pos = 0
     }
     
+    func updateMaxNoteCount(){
+        _maxNoteCount = instTrack.maxNoteCount
+    }
+    
     func updateNextStartPos(){
         
         next_start_pos += total_dur
@@ -205,7 +213,7 @@ class SynthInstrument: AKMIDIInstrument{
             prevBeat = instTrack.trackManager.quantizer.quantizedBeat(prevBeat)
         }
         if(note_num == 0){
-            print("not_num == 0")
+            print("note_num == 0")
             updateNextStartPos()
         }
         note_num += 1
@@ -288,14 +296,16 @@ class SynthInstrument: AKMIDIInstrument{
     }
     
     func appendTrack(){
+        let current_beat = instTrack.clickTrack.track.currentPosition.beats
         let start_pos = instTrack.trackManager.getRealPosFromNextRelativePos(pos: 0)
+        print("current beat \(current_beat)")
         print("start_pos \(start_pos)")
         print("next_start_pos \(next_start_pos)")
         print("offset \(start_offset)")
         print("prevStart \(prevStart)")
         print("prevStartDiff \(start_pos - prevStart)")
         prevStart = start_pos
-        
+        updateMaxNoteCount()
         instTrack.trackManager.appendTrack(offset: self.next_start_pos + self.start_offset)
         loop_count = 0
         loop_finished = true
@@ -331,13 +341,15 @@ class SynthInstrument: AKMIDIInstrument{
         }
         else if(ignore){
             ignore = false  //ignore specific beat and then reset ignore
+            addNote()
         }
         else if(!muted){
             let volume = volumeScale * Double(velocity)/127.0
             sampler.volume = volume
             sampler.play()
+            addNote()
         }
-        addNote()
+        
     }
     
     /// Stop playback of a particular voice
@@ -1255,10 +1267,20 @@ class TrackManager{
         }
         else if(!firstInstance){
             //let position = AKDuration(seconds: elapsed, tempo: clickTrack.tempo.beatsPerMin)
-            addRecordUpdateEvent()
+            //addRecordUpdateEvent()
             let position = AKDuration(beats: elapsed, tempo: clickTrack.tempo.beatsPerMin)
             //let absPosition = AKDuration(beats: absElapsed, tempo: clickTrack.tempo.beatsPerMin)
-            addNoteToList(velocity, position: position, duration: duration)
+            if(position.beats > (trackNotes.last?.beats)!){
+                addNoteToList(velocity, position: position, duration: duration)
+                let next_offset = instrument.next_start_pos + instrument.start_offset
+                instrument.updateMaxNoteCount()
+                appendNoteFromOffset(offset: next_offset, noteNum: trackNotes.count - 1)
+            }
+            else{
+                addNoteToList(velocity, position: position, duration: duration)
+            }
+            
+            
             //insertNote(velocity, position: position, duration: duration)
             //insertNote(velocity, position: absPosition, duration: duration)
         }
@@ -1270,7 +1292,7 @@ class TrackManager{
             let noteNum = trackNotes.count - 1
             let offset = self.startRecordOffset + self.defaultMeasureCount * self.beatsPerMeasure
             print("insert note at offset \(offset) default measure count \(self.defaultMeasureCount)")
-            appendNoteFromOffset(offset: offset, noteNum: noteNum )
+            //appendNoteFromOffset(offset: offset, noteNum: noteNum )
         }
         
     }

@@ -1270,7 +1270,13 @@ class TrackManager{
             //addRecordUpdateEvent()
             let position = AKDuration(beats: elapsed, tempo: clickTrack.tempo.beatsPerMin)
             //let absPosition = AKDuration(beats: absElapsed, tempo: clickTrack.tempo.beatsPerMin)
-            if(position.beats > (trackNotes.last?.beats)!){
+            if(trackNotes.count == 0){
+                addNoteToList(velocity, position: position, duration: duration)
+                let next_offset = instrument.next_start_pos + instrument.start_offset
+                instrument.updateMaxNoteCount()
+                appendNoteFromOffset(offset: next_offset, noteNum: trackNotes.count - 1)
+            }
+            else if(position.beats > (trackNotes.last?.beats)!){
                 addNoteToList(velocity, position: position, duration: duration)
                 let next_offset = instrument.next_start_pos + instrument.start_offset
                 instrument.updateMaxNoteCount()
@@ -1280,19 +1286,11 @@ class TrackManager{
                 addNoteToList(velocity, position: position, duration: duration)
             }
             
-            
-            //insertNote(velocity, position: position, duration: duration)
-            //insertNote(velocity, position: absPosition, duration: duration)
         }
         else{
             //let absPosition = AKDuration(seconds: absElapsed, tempo: clickTrack.tempo.beatsPerMin)
             let absPosition = AKDuration(beats: absElapsed, tempo: clickTrack.tempo.beatsPerMin)
             addNoteToList(velocity, position: absPosition, duration: duration)
-            //insertNote(velocity, position: absPosition, duration: duration)
-            let noteNum = trackNotes.count - 1
-            let offset = self.startRecordOffset + self.defaultMeasureCount * self.beatsPerMeasure
-            print("insert note at offset \(offset) default measure count \(self.defaultMeasureCount)")
-            //appendNoteFromOffset(offset: offset, noteNum: noteNum )
         }
         
     }

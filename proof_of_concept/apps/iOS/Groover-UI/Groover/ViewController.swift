@@ -228,7 +228,7 @@ class ViewController: UIViewController, SongCallbacks {
         
     }
     func showInactiveTimeline(){
-        let count = song.instrument.trackManager.measureCount
+        let count = song.instrument.trackManager.measureManager.measures
         let recorded = song.instrument.trackManager.trackNotes.count
         
         clearTimeline()

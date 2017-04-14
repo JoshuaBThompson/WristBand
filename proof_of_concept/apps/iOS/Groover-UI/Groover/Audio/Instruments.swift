@@ -69,6 +69,156 @@ class Quantize {
     }
 }
 
+/***************Measure Manager*********/
+/* Keeps track of current measure, current beat, loop counter, measure progress ...etc
+   Call methods in this class to know where to put beats in loop for recording
+*/
+
+
+class MeasureManager {
+    //MARK: Attributes
+    var _current_measure: Int = 0
+    var _default_measures: Int = 4
+    var _measures: Int = 0
+    var _loop: Int = 0
+    var _measure_progress: Double = 0.0
+    var _beats_elapsed_offset: Double = 0.0
+    var _start_offset: Double = 0.0
+    var _beats_elapsed: Double = 0.0
+    var _beats_elapsed_abs: Double = 0.0
+    var clickTrack: ClickTrack!
+    var _recorded: Bool = false
+    
+    //MARK: Computed 
+    var recorded: Bool {
+        get{
+            return _recorded
+        }
+        set(rec){
+            _recorded = rec
+        }
+    }
+    
+    var measures: Int {
+        get{
+            return _measures
+        }
+        set(meas){
+            _measures = meas
+        }
+    }
+    
+    var loop: Int {
+        get {
+            return _loop
+        }
+        set(lp){
+            _loop = lp
+        }
+    }
+    
+    var default_measures: Int {
+        _default_measures = clickTrack.instrument.defaultMeasures
+        return _default_measures
+    }
+    
+    var start_offset: Double {
+        get {
+            return _start_offset
+        }
+        set(offset){
+            _start_offset = offset
+        }
+    }
+    
+    var beats_elapsed_offset: Double {
+        get {
+            return _beats_elapsed_offset
+        }
+        set(offset){
+            _beats_elapsed_offset = offset
+        }
+    }
+
+    var sec_per_measure: Double { return clickTrack.secPerMeasure }
+    
+    var beats_per_measure: Double { return clickTrack.beatLenPerMeasure }
+    
+    var beats_per_measure_pos: Double { return beats_per_measure - clickTrack.timeSignature.beatScale }
+    
+    var beats_per_loop: Double { return measures * beats_per_measure }
+    
+    var last_beat_in_loop: Double { return beats_per_loop - clickTrack.timeSignature.beatScale }
+    
+    var beats_elapsed: Double {
+        let total_beats_elapsed = clickTrack.track.currentPosition.beats - start_offset - beats_elapsed_offset
+        if(total_beats_elapsed < beats_per_loop){
+            _beats_elapsed = total_beats_elapsed
+            return _beats_elapsed
+        }
+        else{
+            _beats_elapsed = total_beats_elapsed.truncatingRemainder(dividingBy: beats_per_loop)
+            return _beats_elapsed
+        }
+    }
+    
+    var beats_elapsed_abs: Double {
+        let beat_pos = clickTrack.track.currentPosition.beats
+        let offset = start_offset
+        
+        if(offset > beat_pos){
+            _beats_elapsed_abs = 0
+            return _beats_elapsed_abs
+        }
+        else{
+            _beats_elapsed_abs = beat_pos - offset
+            return _beats_elapsed_abs
+        }
+    }
+    
+    var current_measure: Int {
+        let abs_beats_elapsed = beats_elapsed_abs
+        let first_loop_finished = (abs_beats_elapsed > Double(beats_per_loop))
+        if(!recorded && first_loop_finished){
+            
+            return Int(floor(beats_elapsed / beats_per_measure))
+        }
+        else if(!recorded) {
+            let elapsed = beats_elapsed
+            let permeasure = beats_per_measure
+            return Int(floor(beats_elapsed / beats_per_measure))
+        }
+        else{
+            return Int(floor(abs_beats_elapsed / (beats_per_measure)))
+        }
+    }
+    
+    var measures_elapsed_abs: Int {
+        return Int(ceil(beats_elapsed_abs / beats_per_measure))
+    }
+    
+    var measure_progress: Double {
+        let measure_time = beats_elapsed.truncatingRemainder(dividingBy: beats_per_measure)
+        let measure_progress = measure_time / beats_per_measure
+        return measure_progress
+    }
+    
+    //MARK: Init
+    
+    init(click_track: ClickTrack){
+        self.clickTrack = click_track
+        measures = default_measures
+    }
+    
+    //MARK: Functions
+    func reset(){
+        _measures = 0
+        _start_offset = 0
+        _loop = 0
+        _beats_elapsed_offset = 0
+    }
+    
+}
 
 /****************Base class of synth instruments
  ****************/
@@ -115,7 +265,7 @@ class SynthInstrument: AKMIDIInstrument{
     }
     
     var start_offset: Double {
-        return instTrack.trackManager.startRecordOffset
+        return instTrack.trackManager.measureManager.start_offset
     }
     
     var maxNoteCount: Int {
@@ -850,7 +1000,7 @@ class InstrumentTrack {
     var _maxNoteCount: Int = 0
     var clickTrack: ClickTrack!
     var loopLength: Double {
-        return trackManager.totalBeats
+        return trackManager.measureManager.beats_per_loop
     }
     var volume: Double {
         return instrument.volumePercent
@@ -980,14 +1130,12 @@ class MeasureTimeline {
     
     //MARK: Update timeline properties based on track state
     func update(){
-        let current_track_measure = self.trackManager.currentMeasureNum
-        let current_measure_progress = self.trackManager.measureProgress
-        print("current measure \(current_track_measure)")
+        let current_track_measure = self.trackManager.measureManager.current_measure
+        let current_measure_progress = self.trackManager.measureManager.measure_progress
         prev_bar_num = bar_num
         self.measure_count = current_track_measure
         self.bar_num = self.getBarNumFromMeasure(measure_num: current_track_measure)
         bars_progress[bar_num] = current_measure_progress
-        //print("bar_num \(bar_num) progress \(current_measure_progress) track_num \(current_track_measure)")
         if(bar_num == 0 && prev_bar_num != 0){
             ready_to_clear = true
         }
@@ -1005,7 +1153,6 @@ class MeasureTimeline {
 /****************Single instrument track manager ********/
 class TrackManager{
     //MARK: Attributes
-    let minBeatDuration = 0.1
     var trackNum: Int!
     var track: AKSequencer!
     var quantizeEnable = false
@@ -1015,129 +1162,32 @@ class TrackManager{
     var velNotes = [Int]()
     var durNotes = [Double]()
     var noteCount = 0
-    var measureCount = 1 //default measure count
-    var firstInstance = true //informs if this is the first time the track is being filled so we can define the initial measure count / duration
+    var firstInstance = true
     var instrument: SynthInstrument!
     var clickTrack: ClickTrack!
     //var timer: SongTimer!
-    var ignore_count = 0
     var timeline: MeasureTimeline!
-    var beatsElapsedOffset: Double = 0
-    var startRecordOffset: Double = 0
     var recordSet = false
     var recorded = false
+    var measureManager: MeasureManager!
     
     //MARK: Computed
-    var defaultMeasureCount: Int {
-        if(clickTrack != nil){
-            return clickTrack.instrument.defaultMeasures
-        }
-        else{
-            return GlobalDefaultMeasures
-        }
-    }
     
     var trackLength: Double {
         return track.tracks[trackNum].length
-    }
-    var secPerMeasure: Double { return clickTrack.secPerMeasure }
-    var beatsPerMeasure: Double {
-        //return clickTrack.beatsPerMeasure
-        return clickTrack.beatLenPerMeasure
-    }
-    var beatsPerMeasurePos: Double {
-        //return beatsPerMeasure - 1
-        return beatsPerMeasure - clickTrack.timeSignature.beatScale
-    }
-    var totalBeats: Double {
-        return measureCount * beatsPerMeasure
-    }
-    
-    var totalBeatsPos: Double {
-        //return totalBeats - 1
-        return totalBeats - clickTrack.timeSignature.beatScale
     }
     
     var isNewRecord: Bool {
         return (((trackNotes.count >= 1) || recordSet) && firstInstance)
     }
     
-    var beatsElapsed: Double {
-        let total_beats_elapsed = clickTrack.track.currentPosition.beats - startRecordOffset - beatsElapsedOffset
-        if(total_beats_elapsed < Double(totalBeats)){
-            return total_beats_elapsed
-        }
-        else{
-            return total_beats_elapsed.truncatingRemainder(dividingBy: Double(totalBeats))
-        }
-    }
-    
-    var startOfLoopBeatsElapsed: Double {
-        let start_of_loop_beats = beatsElapsedAbs - beatsElapsed
-        
-        return start_of_loop_beats
-    }
-    
-    var beatsElapsedAbs: Double {
-        //let total_beats_elapsed = clickTrack.track.currentPosition.beats - startRecordOffset - beatsElapsedOffset
-        let beat_pos = clickTrack.track.currentPosition.beats
-        let offset = startRecordOffset
-        
-        if(offset > beat_pos){
-            return 0
-        }
-        else{
-             return beat_pos - offset
-            //return total_beats_elapsed
-        }
-    }
-    
-    var currentMeasureNum: Int {
-        let abs_beats_elapsed = beatsElapsedAbs
-        let first_loop_finished = (abs_beats_elapsed > Double(totalBeats))
-        if(!firstInstance && first_loop_finished){
-            
-            print("first current measure num \(beatsElapsed) / \(beatsPerMeasure)")
-            return Int(floor((beatsElapsed) / (beatsPerMeasure)))
-        }
-        else if(!firstInstance) {
-            print("current measure num \(beatsElapsed) / \(beatsPerMeasure)")
-            return Int(floor((beatsElapsed) / (beatsPerMeasure)))
-        }
-        else{
-            print("current measure num  abs \(beatsElapsed) / \(beatsPerMeasure)")
-            return Int(floor(abs_beats_elapsed / (beatsPerMeasure)))
-            
-        }
-    }
-    
-    var measureProgress: Double {
-        let measure_time: Double!
-        var beats_elapsed = beatsElapsed
-        if(!firstInstance){
-            //beats_elapsed = beatsElapsedAbs
-            beats_elapsed = clickTrack.track.currentPosition.beats - startRecordOffset - beatsElapsedOffset
-            measure_time = beats_elapsed.truncatingRemainder(dividingBy: Double(beatsPerMeasure))
-        }
-        else {
-            print("first instance")
-            beats_elapsed = beatsElapsed
-            measure_time = beats_elapsed.truncatingRemainder(dividingBy: Double(beatsPerMeasure))
-        }
-        print("beats Elapsed \(beats_elapsed)")
-        print("beats Per measure \(beatsPerMeasure)")
-        let measure_progress = measure_time / beatsPerMeasure
-        print("measure_progress \(measure_progress)")
-        return measure_progress
-    }
-    
     //MARK: Initialize
     
     init(midiInstrument: SynthInstrument, clickTrackRef: ClickTrack){
         midi = AKMIDI()
-        measureCount = defaultMeasureCount
         instrument = midiInstrument
         clickTrack = clickTrackRef
+        measureManager = MeasureManager(click_track: clickTrack)
         track = clickTrack.track
         instrument.enableMIDI(midi.client, name: "Synth inst preset")
         trackNum = track.trackCount
@@ -1152,20 +1202,17 @@ class TrackManager{
     }
     
     func setStartRecordOffset(offset: Double){
-        startRecordOffset = round(offset)
-        print("startRecordOffset set to \(startRecordOffset)")
+        measureManager.start_offset = round(offset)
         
     }
     
     //MARK: init a track
     func resetTrack(clearAll: Bool = false){
-        beatsElapsedOffset = 0
+        measureManager.beats_elapsed_offset = 0
+        
         if(!clearAll){
             if(track.tracks[trackNum].length != 0){
                 let len = track.tracks[trackNum].length
-                //erase only extra beats that are not part of original record
-                print("clearing totalBeats \(totalBeats) to len \(len)")
-                //let start = AKDuration(beats: Double(totalBeats), tempo: clickTrack.tempo.beatsPerMin)
                 let start = AKDuration(beats: 0, tempo: clickTrack.tempo.beatsPerMin)
                 let end = AKDuration(beats: len+1, tempo: clickTrack.tempo.beatsPerMin)
                 clearTrackRange(start: start, end: end)
@@ -1214,7 +1261,7 @@ class TrackManager{
            return
         }
         print("addRecordUpdateEvent")
-        let start_pos = self.instrument.next_start_pos + self.instrument.start_offset//getRealPosFromNextRelativePos(pos: Double(0))
+        let start_pos = self.instrument.next_start_pos + self.instrument.start_offset
         let pos = AKDuration(beats: start_pos, tempo: clickTrack.tempo.beatsPerMin)
         instrument.recordUpdateEvent = true
         track.tracks[trackNum].add(noteNumber: 3, velocity: 127, position: pos, duration: AKDuration(seconds: 0.0))
@@ -1225,14 +1272,15 @@ class TrackManager{
     }
     
     func getRealPosFromNextRelativePos(pos: Double)->Double{
-        let beats_remaining_till_next_loop  = totalBeats - beatsElapsed
-        let next_real_loop_pos = round(startRecordOffset + beatsElapsedAbs + beats_remaining_till_next_loop)
-        print("next_real_loop_pos \(next_real_loop_pos)")
+        let beats_remaining_till_next_loop  = measureManager.beats_per_loop - measureManager.beats_elapsed
+        let start_offset = measureManager.start_offset
+        let beats_elapsed_abs = measureManager.beats_elapsed_abs
+        let next_real_loop_pos = round(start_offset + beats_elapsed_abs + beats_remaining_till_next_loop)
         return next_real_loop_pos + pos
     }
     
     func getStartOfCurrentLoop()->Double {
-        return startRecordOffset + beatsElapsedAbs - beatsElapsed
+        return measureManager.start_offset + measureManager.beats_elapsed_abs - measureManager.beats_elapsed
     }
     
     func insertNote(_ velocity: Int, position: AKDuration, duration: Double){
@@ -1249,8 +1297,8 @@ class TrackManager{
     }
     
     func addNote(_ velocity: Int, duration: Double){
-        let elapsed = beatsElapsed //timeElapsed
-        let absElapsed = beatsElapsedAbs //timeElapsedAbs
+        let elapsed = measureManager.beats_elapsed
+        let absElapsed = measureManager.beats_elapsed_abs
         
         if(clickTrack.instrument.preRollEnded){
             //if receive beat between last preroll and first record beat then save it but quantize to first record beat
@@ -1259,17 +1307,14 @@ class TrackManager{
             }
             let position = AKDuration(beats: 0, tempo: clickTrack.tempo.beatsPerMin)
             addNoteToList(velocity, position: position, duration: duration)
-            //insertNote(velocity, position: position, duration: duration)
             let noteNum = trackNotes.count - 1
-            let offset = (self.clickTrack.instrument.loop_count + self.defaultMeasureCount) * self.beatsPerMeasure
-            print("insert note at offset \(offset) default measure count \(self.defaultMeasureCount)")
+            let default_measures = measureManager.default_measures
+            let beats_per_measure = measureManager.beats_per_measure
+            let offset = (self.clickTrack.instrument.loop_count + default_measures) * beats_per_measure
             appendNoteFromOffset(offset: offset, noteNum: noteNum )
         }
         else if(!firstInstance){
-            //let position = AKDuration(seconds: elapsed, tempo: clickTrack.tempo.beatsPerMin)
-            //addRecordUpdateEvent()
             let position = AKDuration(beats: elapsed, tempo: clickTrack.tempo.beatsPerMin)
-            //let absPosition = AKDuration(beats: absElapsed, tempo: clickTrack.tempo.beatsPerMin)
             if(trackNotes.count == 0){
                 addNoteToList(velocity, position: position, duration: duration)
                 let next_offset = instrument.next_start_pos + instrument.start_offset
@@ -1288,7 +1333,6 @@ class TrackManager{
             
         }
         else{
-            //let absPosition = AKDuration(seconds: absElapsed, tempo: clickTrack.tempo.beatsPerMin)
             let absPosition = AKDuration(beats: absElapsed, tempo: clickTrack.tempo.beatsPerMin)
             addNoteToList(velocity, position: absPosition, duration: duration)
         }
@@ -1305,28 +1349,16 @@ class TrackManager{
         sortedNotes = trackNotes.sorted {
             return $0.beats < $1.beats
         }
-        //now updates notes list
         trackNotes = sortedNotes
-    }
-    
-    func getMeasureCountFromBeatsElapsed()->Int {
-        return Int(ceil(beatsElapsedAbs / beatsPerMeasure))
     }
     
     
     //MARK: Start loop after default measure reached
     func startLoopFromDefaultMeasures(){
         if(isNewRecord){
-            print("Starting loop from default measures")
             recorded = true
-            //If this is the first time the track is being created then update measure count after instrument record stopped / deselected
-            //measure count = roundUp(timeElapsed (sec) / secPerMeasure) roundUp = ceil math function
-            //for ex: if timeElapsed = 9 sec and sec per measure = 4 then measure count = ceil(9/4) = 2.25 = 3 measure counts
-            //self.resetTrack(clearAll: true)
-            updateMeasureCount(self.defaultMeasureCount)
+            updateMeasureCount(measureManager.default_measures)
             instrument.updateNextStartPos()
-            //let loop_count = clickTrack.instrument.loop_count - 1
-            //continueTrackFromStopRecord(loop_count: loop_count)
             firstInstance = false
         }
     }
@@ -1334,14 +1366,8 @@ class TrackManager{
     //MARK: deselect instrument track - do anything that needs to be done after user stops using this track
     func deselect(){
         if(isNewRecord){
-            
-            //If this is the first time the track is being created then update measure count after instrument record stopped / deselected
-            //measure count = roundUp(timeElapsed (sec) / secPerMeasure) roundUp = ceil math function
-            //for ex: if timeElapsed = 9 sec and sec per measure = 4 then measure count = ceil(9/4) = 2.25 = 3 measure counts
-            
-            let count = getMeasureCountFromBeatsElapsed()//getMeasureCountFromTimeElapsed()
+            let count = measureManager.measures_elapsed_abs
             updateMeasureCount(count)
-            print("deselect update next start pos")
             instrument.updateNextStartPos()
             let loop_count = clickTrack.instrument.loop_count
             
@@ -1350,7 +1376,6 @@ class TrackManager{
             recordSet = false
             recorded = true
         }
-        
 
     }
     
@@ -1360,7 +1385,7 @@ class TrackManager{
             return
         }
         if(firstInstance || !track.isPlaying){
-            measureCount = count
+            measureManager.measures = count
         }
         else if(!instrument.measureUpdateEvent){
             addMeasureUpdateEvent(count: count)
@@ -1372,12 +1397,11 @@ class TrackManager{
     
     func applyUpdateMeasureCount(count: Int){
         if(instrument.measureUpdateEvent){
-            print("apply measure update")
-            let prev_end_loop_pos = instrument.nextStartOffset //getRealPosFromNextRelativePos(pos: 0)
+            let prev_end_loop_pos = instrument.nextStartOffset
             instrument.measureUpdateEvent = false
             resetTrack(clearAll: true)
-            measureCount = instrument.nextMeasureCount
-            beatsElapsedOffset = beatsElapsedAbs
+            measureManager.measures = instrument.nextMeasureCount
+            measureManager.beats_elapsed_offset = measureManager.beats_elapsed_abs
             appendTrack(offset: prev_end_loop_pos)
         }
     }
@@ -1385,8 +1409,9 @@ class TrackManager{
     //After user stops recording for a specific track, the start appending the track to the loop so it continues playing
     func continueTrackFromStopRecord(loop_count: Int){
         firstInstance = false //first instance measure count update complete
-        if(trackNotes.count==0){return}
-        let beatOffset = Double(loop_count * beatsPerMeasure)
+        if(trackNotes.count==0){ return }
+        let beats_per_measure = measureManager.beats_per_measure
+        let beatOffset = Double(loop_count * beats_per_measure)
         appendTrack(offset: Double(beatOffset))
     }
     
@@ -1394,7 +1419,7 @@ class TrackManager{
         print("append \(trackNotes.count) to track \(trackNum) with offset \(offset)!")
         
         for note in trackNotes {
-            if(note.beats <= Double(totalBeats)){ //totalBeats
+            if(note.beats <= Double(measureManager.beats_per_loop)){
                 let position = AKDuration(beats: note.beats + offset)
                 insertNote(127, position: position, duration: 0.1)
             }
@@ -1405,7 +1430,7 @@ class TrackManager{
     func appendTrackFromNoteNum(offset: Double, noteNum: Int){
         if(noteNum < trackNotes.count){
             for i in noteNum ..< trackNotes.count {
-                if(trackNotes[i].beats <= Double(totalBeats)){ //totalBeats
+                if(trackNotes[i].beats <= Double(measureManager.beats_per_loop)){
                     let position = AKDuration(beats: trackNotes[i].beats + offset)
                     insertNote(127, position: position, duration: 0.1)
                 }
@@ -1424,13 +1449,12 @@ class TrackManager{
     func clear(){
         recordSet = false
         recorded = false
-        startRecordOffset = 0
+        measureManager.reset()
         noteCount = 0
         trackNotes.removeAll()
         velNotes.removeAll()
         durNotes.removeAll()
         firstInstance = true
-        measureCount = defaultMeasureCount
         resetTrack(clearAll: true)
         instrument.reset()
     }

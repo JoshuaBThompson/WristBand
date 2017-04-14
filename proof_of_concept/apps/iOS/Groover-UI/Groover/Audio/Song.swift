@@ -46,7 +46,7 @@ class Song {
     }
     
     var presetMeasureCount: Int {
-        return instruments[selectedInstrument].trackManager.measureCount
+        return instruments[selectedInstrument].trackManager.measureManager.measures
     }
     var selectedInstrumentName: String {
         return instruments[selectedInstrument].instrument.name
@@ -382,8 +382,8 @@ class Song {
             return
         }
         noteAdded = true
-        let duration = instrument.trackManager.minBeatDuration
-        instruments[selectedInstrument].addNote(127, duration: duration)
+        
+        instruments[selectedInstrument].addNote(127, duration: 0.1)
         /*
         if !playing {
             print("record started play")
@@ -579,7 +579,7 @@ class Song {
         
         for inst in instruments{
             inst.instrument.reset()
-            inst.trackManager.startRecordOffset = 0.0
+            inst.trackManager.measureManager.start_offset = 0
             inst.trackManager.resetTrack()
         }
         playing = true

@@ -46,7 +46,7 @@ class Song {
     }
     
     var presetMeasureCount: Int {
-        return instruments[selectedInstrument].trackManager.measureManager.measures
+        return instruments[selectedInstrument].trackManager.loopManager.measures
     }
     var selectedInstrumentName: String {
         return instruments[selectedInstrument].instrument.name
@@ -579,7 +579,7 @@ class Song {
         
         for inst in instruments{
             inst.instrument.reset()
-            inst.trackManager.measureManager.start_offset = 0
+            inst.trackManager.loopManager.start_offset = 0
             inst.trackManager.resetTrack()
         }
         playing = true

@@ -20,7 +20,7 @@ class ViewController: UIViewController, SongCallbacks {
     var audioMidiSetupEn = true
     let motionManager = CMMotionManager()
     let queue = OperationQueue.main
-    var timeIntervalMillis: UInt = 20 //25
+    var timeIntervalMillis: UInt = 15 //25
     var quantizeButtons = [QuantizeButtonProtocol]()
     var riseNum: Int = 0
     var fallNum: Int = 0
@@ -165,7 +165,6 @@ class ViewController: UIViewController, SongCallbacks {
             stopRecordButtonEvent = false
             recordButton.setStopped()
             self.recordButton.isSelected = false
-            
         }
         else if(deleteTrackEvent){
             deleteTrackEvent = false
@@ -176,7 +175,7 @@ class ViewController: UIViewController, SongCallbacks {
             recordButton.setRecording()
         }
         
-        knob.activated = !recordButton.isSelected
+        knob.activated = (!recordButton.isSelected || song.instrument.trackManager.recorded)
     }
     
     func measureTimerHandler(){
@@ -192,9 +191,12 @@ class ViewController: UIViewController, SongCallbacks {
             //clearTimelineIfNeedsClear()
             return
         }
+        
+        let bar_progress = song.timeline.current_progress
+        let measure_count = song.timeline.measure_count + 1
         let bar_num = song.timeline.bar_num
         let prev_bar_num = song.timeline.prev_bar_num
-        let bar_progress = song.timeline.current_progress
+        
         let ready_to_clear = song.timeline.ready_to_clear
         if(ready_to_clear){
             clearTimelineProgress()
@@ -203,12 +205,12 @@ class ViewController: UIViewController, SongCallbacks {
         measureViews[bar_num].active = true
         measureViews[bar_num].updateMeasureProgress(progress_prcnt: CGFloat(bar_progress))
     
-        let measure_count = song.instrument.trackManager.currentMeasureNum + 1
         
         let label_num_str = "\(measure_count)"
         if(label_num_str != measureLabels[bar_num].text){
             measureLabels[bar_num].text = label_num_str
         }
+
         if(prev_bar_num < bar_num || ((bar_num == 0) && (prev_bar_num > 0))){
             //fill in prev bar num to 100% just in case
             measureViews[prev_bar_num].updateMeasureProgress(progress_prcnt: CGFloat(1.0))
@@ -225,7 +227,7 @@ class ViewController: UIViewController, SongCallbacks {
         
     }
     func showInactiveTimeline(){
-        let count = song.instrument.trackManager.measureCount
+        let count = song.instrument.trackManager.loopManager.measures
         let recorded = song.instrument.trackManager.trackNotes.count
         
         clearTimeline()

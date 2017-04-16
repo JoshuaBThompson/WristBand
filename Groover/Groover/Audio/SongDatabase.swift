@@ -132,7 +132,7 @@ class SongTrack: NSObject, NSCoding {
         duration = [Double]()
         pan = trackManager.instrument.panner.pan
         volume = trackManager.instrument.volumePercent
-        measures = trackManager.measureCount
+        measures = trackManager.loopManager.measures
         
         let velNotes = trackManager.velNotes
         let durNotes = trackManager.durNotes

@@ -17,8 +17,6 @@ protocol SongCallbacks: class {
 }
 
 class Song {
-    var quantizeResolution = 1.0
-    var quantizeEnabled = false
     var noteAdded = false
     var selectedInstrument = 0
     var prevSelectedInstrument = 0
@@ -395,26 +393,11 @@ class Song {
     //MARK: update quantize
     func updatePresetQuantize(enabled enable: Bool=true, resolution: Double=1.0, triplet_en: Bool = false){
         if(enable){
-            quantizeEnabled = true
-            quantizeResolution = resolution
-            /* quantize should be track specific so don't update all track quantize
-            for inst in instruments {
-                inst.enableQuantize()
-                inst.updateQuantize(resolution)
-            }
-            */
-            
             //track specific update only
             instruments[selectedInstrument].enableQuantize()
             instruments[selectedInstrument].updateQuantize(resolution, triplet_en: triplet_en)
         }
         else{
-            quantizeEnabled = false
-            /*
-            for inst in instruments {
-                inst.disableQuantize()
-            }
-            */
             instruments[selectedInstrument].disableQuantize()
         }
     }

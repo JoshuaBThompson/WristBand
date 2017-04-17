@@ -23,6 +23,7 @@ class Quantize {
     var divPerBeat = 1.0 //divisions per beat (beat resolution, ex: 64 divisions would be highest resolution and 1 is lowest)
     let maxDivisions = 64.0
     let minDivisions = 1.0
+    var enabled: Bool = false
     
     //MARK: quantize to next beat pos
     func quantizeToNextBeat(_ beat: AKDuration)->AKDuration{
@@ -86,7 +87,7 @@ class LoopManager {
     var _start_offset: Double = 0.0
     var _beats_elapsed: Double = 0.0
     var _beats_elapsed_abs: Double = 0.0
-    var start_position: Double = 0.0
+    var _current_note: Int = 0
     var clickTrack: ClickTrack!
     var _recorded: Bool = false
     
@@ -140,7 +141,21 @@ class LoopManager {
             _beats_elapsed_offset = offset
         }
     }
-
+    
+    var current_note: Int {
+        get {
+            return _current_note
+        }
+        set(note){
+            _current_note = note
+            if(_current_note >= notes_per_loop){
+                _current_note = 0
+            }
+        }
+    }
+    
+    var notes_per_loop: Int { return clickTrack.timeSignature.beatsPerMeasure * measures }
+    
     var sec_per_measure: Double { return clickTrack.secPerMeasure }
     
     var beats_per_measure: Double { return clickTrack.beatLenPerMeasure }
@@ -211,6 +226,7 @@ class LoopManager {
     
     //MARK: Functions
     func reset(){
+        _current_note = 0
         _measures = 0
         _start_offset = 0
         _loop = 0
@@ -237,7 +253,6 @@ class InstrumentManager {
     var recording: Bool = false
     var recorded: Bool = false
     var measures: Int = 0
-    var quantize_enabled: Bool = false
     var track_num: Int!
     
     //MARK: Audiokit
@@ -247,8 +262,10 @@ class InstrumentManager {
     var notes = [InstrumentNote]()
     var clickTrack: ClickTrack!
     var quantizer: Quantize!
+    var timeline: LoopTimeline!
     
     //MARK: Computed
+    
     var beats_per_loop: Double { return measures * beats_per_measure }
     
     var beats_elapsed: Double { return loop.beats_elapsed }
@@ -261,8 +278,15 @@ class InstrumentManager {
     
     var global_beats_elapsed: Double { return clickTrack.track.currentPosition.beats }
     
-    var track: AKMusicTrack {
-        return clickTrack.track.tracks[track_num]
+    var track: AKMusicTrack { return clickTrack.track.tracks[track_num] }
+    
+    var quantize_enabled: Bool {
+        get {
+            return quantizer.enabled
+        }
+        set(en){
+            quantizer.enabled = en
+        }
     }
     
     //MARK: Init
@@ -270,7 +294,10 @@ class InstrumentManager {
         midi = AKMIDI()
         clickTrack = click_track
         loop = LoopManager(click_track: clickTrack)
+        //timeline bars count from viewcontroller measure views count
+        timeline = LoopTimeline(loop_manager: loop, timeline_bars: 4)
         track_num = clickTrack.track.trackCount
+        midi_instrument = MidiInstrument(inst_manager: self)
         midi_instrument.enableMIDI(midi.client, name: "Midi instrument \(track_num)")
         if(clickTrack.track.newTrack() != nil){
             clickTrack.track.tracks[track_num].setMIDIOutput(midi_instrument.midiIn)
@@ -328,33 +355,43 @@ class InstrumentManager {
         loop.measures = measures
     }
     
-    func updateCurrentLoopPosition(){
-        if((global_beats_elapsed - loop.start_position) > loop.beats_per_loop){
-            loop.start_position += loop.beats_per_loop
+    func updateLoopAfterQuantize(){
+        //If quantize en then find last note played and clear remaining
+        if((loop.current_note < notes.count) && quantize_enabled){
+            clearNotesFrom(note_num: loop.current_note)
+            //Then append remaining quantized notes
+            appendNotesFromOffset(start_note_num: loop.current_note, offset: loop.beats_elapsed_offset)
+        }
+    }
+    
+    func updateLoopFromClickTrack(){
+        if((global_beats_elapsed - loop.beats_elapsed_offset) > loop.beats_per_loop){
+            loop.beats_elapsed_offset += loop.beats_per_loop
+            loop.measures = measures
         }
     }
     
     func appendNotesToNextLoop(){
-        let offset_beats = loop.start_position + loop.beats_per_loop
-        
-        loop.start_position = offset_beats
-        loop.measures = measures
-        
+        let offset_beats = loop.beats_elapsed_offset + loop.beats_per_loop
         appendNotesFromOffset(offset: offset_beats)
     }
     
     
-    func appendNotesFromOffset(offset: Double){
+    func appendNotesFromOffset(start_note_num: Int=0, offset: Double){
+        var i = 0
         for note in notes {
-            var new_note = AKDuration(beats: offset + note.beats, tempo: tempo)
-            if(quantize_enabled){
-                new_note = quantizer.quantizedBeat(new_note)
-            }
-            
-            if(new_note.beats <= beats_per_loop){
+            if(i >= start_note_num){
+                var new_note = AKDuration(beats: offset + note.beats, tempo: tempo)
+                if(quantize_enabled){
+                    new_note = quantizer.quantizedBeat(new_note)
+                }
                 
-                insertNote(note: InstrumentNote(note: new_note, velocity: note.velocity))
+                if(new_note.beats <= beats_per_loop){
+                    
+                    insertNote(note: InstrumentNote(note: new_note, velocity: note.velocity))
+                }
             }
+            i += 1
         }
     }
     
@@ -385,15 +422,21 @@ class InstrumentManager {
         if(track.length != 0){
             let len = track.length
             //erase only extra beats that are not part of original record
-            let start = AKDuration(beats: 0, tempo: clickTrack.tempo.beatsPerMin)
-            let end = AKDuration(beats: len+1, tempo: clickTrack.tempo.beatsPerMin)
-            clearTrackRange(start: start, end: end)
+            let start = AKDuration(beats: 0, tempo: tempo)
+            let end = AKDuration(beats: len+1, tempo: tempo)
+            track.clearRange(start: start, duration: end)
             
         }
     }
-
-
-    func clearTrackRange(start: AKDuration, end: AKDuration){
+    
+    func clearNotesFrom(note_num: Int){
+        if(note_num >= notes.count){
+            return
+        }
+        let offset = loop.beats_elapsed_offset + notes[note_num].beats
+        let len = track.length
+        let start = AKDuration(beats: offset, tempo: tempo)
+        let end = AKDuration(beats: len + 1, tempo: tempo)
         track.clearRange(start: start, duration: end)
     }
     
@@ -406,14 +449,28 @@ class MidiInstrument: AKMIDIInstrument {
     var midi_note: MIDINoteNumber = 60
     var panner: AKPanner!
     var sampler = AKSampler()
-    
+    var instrument_manager: InstrumentManager!
     //MARK: Init
-    override init(){
+    init(inst_manager: InstrumentManager){
         super.init()
         panner = AKPanner(sampler, pan: 0)
+        instrument_manager = inst_manager
     }
     
     //MARK: Functions
+    func reset(){
+    }
+    
+    override func play(noteNumber: MIDINoteNumber, velocity: MIDIVelocity) {
+        //update note counter and
+        //play sound
+        //if muted don't play
+    }
+    
+    func update(){
+        //update note counter
+        instrument_manager.loop.current_note += 1
+    }
     
 }
 
@@ -866,6 +923,8 @@ class ClickTrackInstrument: SynthInstrument{
     override func play(noteNumber: MIDINoteNumber, velocity: MIDIVelocity) {
         
         if(beat == 0){
+            updateInstrumentLoops()
+            
             if(defaultMeasureCountStarted){
                 updateDefaultMeasureCounter()
             }
@@ -874,14 +933,11 @@ class ClickTrackInstrument: SynthInstrument{
         
         updateBeatAndPos()
         
-        var vel = 100
         if(pos.truncatingRemainder(dividingBy: Double(beatLenPerMeasure)) == 0){
-            vel = 127
         }
         
-        var volume = Double(velocity) / 127.0
+        let volume = Double(velocity) / 127.0
         if(preRoll && beat <= beatsPerMeasure){
-            volume = 127
             if(beat == beatsPerMeasure){
                 preRoll = false
                 preRollEnded = true
@@ -890,14 +946,13 @@ class ClickTrackInstrument: SynthInstrument{
             if(beat == 1){
                 //highPrerollSampler.volume = 127
                 //highPrerollSampler.play()
-                preRollSampler.volume = 127
+                preRollSampler.volume = volume
                 preRollSampler.play()
             }
             else{
-                preRollSampler.volume = 127
+                preRollSampler.volume = volume
                 preRollSampler.play()
             }
-            print("preroll \(beat)")
         }
         else if(!self.muted){
             if(preRollEnded){
@@ -926,16 +981,21 @@ class ClickTrackInstrument: SynthInstrument{
             defaultMeasureCountEnded = false
         }
         
-        
         if(beat==beatsPerMeasure){
-            //track.tracks[0].add(noteNumber: 60, velocity: vel, position: AKDuration(beats: Double(pos)), duration: AKDuration(seconds: 0.1))
-            //print("click track beat \(beat) at pos \(pos)")
             clickTrack.appendTrack(offset: loop_count * beatLenPerMeasure)
-            
-        }
-        if(beat == beatsPerMeasure){
+            updateInstrumentNotes()
             beat=0
         }
+    }
+    
+    func updateInstrumentLoops(){
+        //update start_offsets and measure count for each instrument
+        clickTrack.updateInstrumentLoops()
+    }
+    
+    func updateInstrumentNotes(){
+        //append new notes to instrument tracks
+        clickTrack.updateInstrumentNotes()
     }
 }
 
@@ -1005,6 +1065,7 @@ class Tempo {
 
 //ClickTrack
 class ClickTrack: AKNode{
+    //MARK: Attributes
     var midi: AKMIDI!
     var track: AKSequencer!
     var instrument: ClickTrackInstrument!
@@ -1014,7 +1075,7 @@ class ClickTrack: AKNode{
     var recording = false
     var song: Song!
     
-    //computed
+    //MARK: Computed
     var beatsPerMeasure: Int { return timeSignature.beatsPerMeasure }
     var beatLenPerMeasure: Double {return timeSignature.beatLenPerMeasure }
     var secPerMeasure: Double {return timeSignature.beatScale * Double(timeSignature.beatsPerMeasure) / tempo.beatsPerSec }
@@ -1028,6 +1089,8 @@ class ClickTrack: AKNode{
     var enabled: Bool { return _enabled }
     var muted: Bool { return instrument.muted}
     
+    
+    //MARK: Init
     init(songRef: Song, clickTempo: Tempo, clickTimeSignature: TimeSignature){
         super.init()
         song = songRef
@@ -1038,18 +1101,18 @@ class ClickTrack: AKNode{
         timeSignature = clickTimeSignature
         initInstrumentTrack()
         self.avAudioNode = instrument.avAudioNode
-        
-        
     }
     
+    
+    //MARK: Functions
     func initInstrumentTrack(){
-        instrument.enableMIDI(midi.client, name: "click track midi in")
+        instrument.enableMIDI(midi.client, name: "midi click track instrument")
         init_track_notes()
     }
     
     func init_track_notes(){
         if(track.trackCount != 0){
-            //this will erase all the other instrument tracks as well
+            //this will erase all the other instrument tracks as well so be careful
             track.tracks.removeAll()
         }
         if(track.newTrack() != nil){
@@ -1058,14 +1121,9 @@ class ClickTrack: AKNode{
             instrument.track = track
             resetTrack()
         }
-        
     }
     
     func reset(clearAll: Bool = false){
-        //if(!enabled){
-        //    return
-        //}
-        
         if((track) != nil){
             instrument.reset()
             resetTrack(clearAll: clearAll)
@@ -1076,7 +1134,6 @@ class ClickTrack: AKNode{
         track.stop()
         track.disableLooping()
         if(track.tracks[0].length != 0 && !clearAll){
-            print("calling click track reset")
             let start = AKDuration(beats: beatLenPerMeasure, tempo: tempo.beatsPerMin)
             clearTrack(start: start)
             track.setLength(AKDuration(beats: 1000))
@@ -1092,7 +1149,6 @@ class ClickTrack: AKNode{
     
     func clearTrack(start: AKDuration){
         let len = track.tracks[0].length
-        print("calling click track reset")
         //erase only extra beats that are not part of original record
         let end = AKDuration(beats: len+1, tempo: tempo.beatsPerMin)
         track.tracks[0].clearRange(start: start, duration: end)
@@ -1100,10 +1156,8 @@ class ClickTrack: AKNode{
     }
     
     func appendTrack(offset: Double){
-        print("Appending notes to click track at \(offset)")
-
         let timeSigBeats = timeSignature.beatsPerMeasure
-        let timeSigScale = timeSignature.beatScale //ex: if 1/8 notes then scale = 1/2 since 1/2 * quarter note = eigth note (1/8)
+        let timeSigScale = timeSignature.beatScale //ex: if 1/8 notes then scale = 1/2 since 1/2 * quarter note = eigth note
         
         for i in 0 ..< timeSigBeats {
             if(i < timeSigBeats){
@@ -1112,16 +1166,21 @@ class ClickTrack: AKNode{
                 if(i == 0){
                     velocity = 127 //first beat in measure is loudest
                 }
-                print("adding click track note to pos \(beat_pos.beats)")
                 track.tracks[0].add(noteNumber: 60, velocity: MIDIVelocity(velocity), position: beat_pos, duration: AKDuration(seconds: 0.1))
             }
         }
     }
     
-    
     func update(){
-        //tempo.beatsPerMin is updated in Song.swift
         track.setTempo(tempo.beatsPerMin)
+    }
+    
+    func updateInstrumentLoops(){
+        
+    }
+    
+    func updateInstrumentNotes(){
+        
     }
     
     func mute(){
@@ -1134,7 +1193,6 @@ class ClickTrack: AKNode{
     
     
     //MARK: Enable / Disable used by start() to determine if it should play the track or not
-    
     func enable(){
         _enabled = true
     }
@@ -1145,7 +1203,6 @@ class ClickTrack: AKNode{
     
     
     //MARK: overriden functions
-    
     /// Tells whether the node is processing (ie. started, playing, or active)
     var isStarted: Bool {
         return running
@@ -1179,7 +1236,6 @@ class ClickTrack: AKNode{
         track.disableLooping()
         track.rewind()
         instrument.reset()
-        
         _running = false
     }
     
@@ -1296,6 +1352,57 @@ class InstrumentTrack {
     
 }
 
+
+/****************Timeline*****************/
+class LoopTimeline {
+    //MARK: Attributes
+    var loop: LoopManager!
+    var bar_count: Int = 0
+    var measure_count: Int = 0
+    var bar_num = 0
+    var prev_bar_num = 0
+    var count = 0
+    var bars_progress = [Double]()
+    var ready_to_clear = false
+    
+    //MARK: Computed variables
+    var current_progress: Double {
+        return bars_progress[bar_num]
+    }
+    
+    //MARK: Init
+    init(loop_manager: LoopManager, timeline_bars: Int){
+        self.bar_count = timeline_bars
+        self.loop = loop_manager
+        
+        
+        //init bars with 0 % progress
+        for _ in 0 ..< self.bar_count {
+            self.bars_progress.append(0.0)
+        }
+    }
+    
+    //MARK: Functions
+    func update(){
+        let current_track_measure = self.loop.current_measure
+        let current_measure_progress = self.loop.measure_progress
+        prev_bar_num = bar_num
+        self.measure_count = current_track_measure
+        self.bar_num = self.getBarNumFromMeasure(measure_num: current_track_measure)
+        bars_progress[bar_num] = current_measure_progress
+        if(bar_num == 0 && prev_bar_num != 0){
+            ready_to_clear = true
+        }
+        else{
+            ready_to_clear = false
+        }
+    }
+    
+    func getBarNumFromMeasure(measure_num: Int)->Int{
+        let bar_num = measure_num % bar_count //ex: 3 % 4 = 3 and 4 % 4 = 0
+        return bar_num
+    }
+}
 
 /****************Measure Timeline Manager ***************/
 

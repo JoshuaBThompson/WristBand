@@ -35,11 +35,11 @@ struct SongTrackPropertyKey {
 
 class SongTrack: NSObject, NSCoding {
     var name: String!
-    var track = [AKDuration]()
-    var beats: [Double]!
-    var tempos: [Double]!
-    var velocity: [Int]!
-    var duration: [Double]!
+    var track = [InstrumentNote]()
+    var beats = [Double]()
+    var tempos = [Double]()
+    var velocity = [Int]()
+    var duration = [Double]()
     var pan: Double!
     var volume: Double!
     var measures: Int!
@@ -120,29 +120,27 @@ class SongTrack: NSObject, NSCoding {
         for i in 0 ..< beats.count {
             let beat = beats[i]
             let tempo = tempos[i]
-            let note = AKDuration(beats: beat, tempo: tempo)
+            let vel = velocity[i]
+            let pos = AKDuration(beats: beat, tempo: tempo)
+            let note = InstrumentNote(note: pos, velocity: MIDIVelocity(vel))
             track.append(note)
         }
     }
     
-    func loadNewTrack(trackManager: TrackManager){
+    func loadNewTrack(instrument_manager: InstrumentManager){
         beats = [Double]()
         tempos = [Double]()
         velocity = [Int]()
         duration = [Double]()
-        pan = trackManager.instrument.panner.pan
-        volume = trackManager.instrument.volumePercent
-        measures = trackManager.loopManager.measures
-        
-        let velNotes = trackManager.velNotes
-        let durNotes = trackManager.durNotes
-        var i = 0
-        for note in trackManager.trackNotes {
-            beats.append(note.beats)
-            tempos.append(note.tempo)
-            velocity.append(velNotes[i])
-            duration.append(durNotes[i])
-            i += 1
+        pan = instrument_manager.midi_instrument.panner.pan
+        volume = instrument_manager.midi_instrument.volume
+        measures = instrument_manager.loop.measures
+    
+        for note in instrument_manager.notes {
+            beats.append(note.note.beats)
+            tempos.append(note.note.tempo)
+            velocity.append(Int(note.velocity))
+            duration.append(note.duration.seconds)
         }
     }
 }

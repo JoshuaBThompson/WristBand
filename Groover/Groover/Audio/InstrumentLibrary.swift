@@ -13,7 +13,7 @@ import AudioKit
  Desc: This synth drum replicates a Snare instrument
  *****************/
 
-class SavedInstrument: SynthInstrument{
+class SavedInstrument: MidiInstrument{
     /// Create the synth Snare instrument
     ///
     /// - parameter voiceCount: Number of voices (usually two is plenty for drums)
@@ -38,7 +38,7 @@ class SavedInstrument: SynthInstrument{
 }
 
 class SoundLibrary {
-    var instruments = [SynthInstrument]()
+    var instruments = [MidiInstrument]()
     var position_map: [String: Int]!
     var soundLibraryList: [String]!
     var subDirectory: String!

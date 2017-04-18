@@ -175,7 +175,7 @@ class ViewController: UIViewController, SongCallbacks {
             recordButton.setRecording()
         }
         
-        knob.activated = (!recordButton.isSelected || song.instrument.trackManager.recorded)
+        knob.activated = (!recordButton.isSelected || song.instrument.recorded)
     }
     
     func measureTimerHandler(){
@@ -227,11 +227,11 @@ class ViewController: UIViewController, SongCallbacks {
         
     }
     func showInactiveTimeline(){
-        let count = song.instrument.trackManager.loopManager.measures
-        let recorded = song.instrument.trackManager.trackNotes.count
+        let count = song.instrument.loop.measures
+        let recorded = song.instrument.recorded
         
         clearTimeline()
-        if(recorded == 0){
+        if(!recorded){
             return
         }
         print("show active timeline count \(count)")
@@ -282,9 +282,9 @@ class ViewController: UIViewController, SongCallbacks {
     
     //MARK: Update Quantize Button from selected instrument state
     func updateQuantizeButtonsFromInstrument(){
-         let resolution = song.instrument.trackManager.quantizer.resolution
-         let triplet_en = song.instrument.trackManager.quantizer.triplet_en
-         let quantize_en = song.instrument.trackManager.quantizeEnable
+         let resolution = song.instrument.quantizer.resolution
+         let triplet_en = song.instrument.quantizer.triplet_en
+         let quantize_en = song.instrument.quantize_enabled
      
         for button in quantizeButtons {
             if(button.resolution == resolution){

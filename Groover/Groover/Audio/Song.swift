@@ -24,7 +24,7 @@ class Song {
     var notePosition: Double = 1
     var recordEnabled = false
     var playing = false
-    var instruments = [InstrumentTrack]()
+    var instruments = [InstrumentManager]()
     var timeSignature = TimeSignature()
     var tempo = Tempo()
     var clickTrack: ClickTrack!
@@ -35,8 +35,8 @@ class Song {
     var delegate: SongCallbacks?
 
     //MARK: computed variables
-    var timeline: MeasureTimeline {
-        return self.instrument.trackManager.timeline
+    var timeline: LoopTimeline {
+        return self.instruments[selectedInstrument].timeline
     }
     
     var defaultMeasureCount: Int {
@@ -44,26 +44,26 @@ class Song {
     }
     
     var presetMeasureCount: Int {
-        return instruments[selectedInstrument].trackManager.loopManager.measures
+        return instruments[selectedInstrument].loop.measures
     }
     var selectedInstrumentName: String {
-        return instruments[selectedInstrument].instrument.name
+        return instruments[selectedInstrument].midi_instrument.name
     }
     
     var presetVolumePercent: Int {
-        return Int(instruments[selectedInstrument].volume)
+        return Int(instruments[selectedInstrument].midi_instrument.volume)
     }
     
-    var instrument: InstrumentTrack {
+    var instrument: InstrumentManager {
         return instruments[selectedInstrument]
     }
     
     var currentPan: Double {
-        return instruments[selectedInstrument].pan
+        return instruments[selectedInstrument].midi_instrument.panner.pan
     }
     
     var currentPanPercent: Double {
-        return instruments[selectedInstrument].pan * 100.0
+        return instruments[selectedInstrument].midi_instrument.panner.pan * 100.0
     }
     
     init(){
@@ -80,9 +80,9 @@ class Song {
     
     func initInstruments(){
         for instrument in sound_library.instruments {
-            let inst_track = InstrumentTrack(clickTrack: clickTrack, presetInst: instrument)
-            instruments.append(inst_track)
-            mixer.connect(inst_track.instrument.panner)
+            let instrument_manager = InstrumentManager(click_track: clickTrack, midi_instrument: instrument)
+            instruments.append(instrument_manager)
+            mixer.connect(instrument_manager.midi_instrument.panner)
         }
         
     }
@@ -148,31 +148,27 @@ class Song {
         loadInstruments()
     }
     
-    func loadTrack(track: TrackManager, num: Int){
+    func loadTrack(instrument_manager: InstrumentManager, num: Int){
         
         if(songsDatabase == nil){
             return
         }
         if(num < self.current_song.tracks.count){
             self.current_song.tracks[num].loadSavedTrack()
-            track.clear()
-            track.trackNotes = self.current_song.tracks[num].track
-            track.velNotes = self.current_song.tracks[num].velocity
-            track.durNotes = self.current_song.tracks[num].duration
-            track.firstInstance = (track.trackNotes.count > 0) ? false : true
-            track.updateMeasureCount(self.current_song.tracks[num].measures)
-            track.instrument.updatePan(self.current_song.tracks[num].pan)
-            track.instrument.updateVolume(self.current_song.tracks[num].volume)
-            track.appendTrack(offset: 0)
-            track.recorded = (track.trackNotes.count >= 1)
+            instrument_manager.clear()
+            instrument_manager.notes = self.current_song.tracks[num].track
+            instrument_manager.recorded = (instrument_manager.notes.count > 0) ? false : true
+            instrument_manager.measures = self.current_song.tracks[num].measures
+            instrument_manager.midi_instrument.panner.pan = self.current_song.tracks[num].pan
+            instrument_manager.midi_instrument.volume = self.current_song.tracks[num].volume
             
             print("loaded saved track \(num)")
         }
         else{
             let count = self.current_song.tracks.count
             let newSongTrack = SongTrack()
-            newSongTrack.loadNewTrack(trackManager: track)
-            track.trackNotes = newSongTrack.track
+            newSongTrack.loadNewTrack(instrument_manager: instrument_manager)
+            instrument_manager.notes = newSongTrack.track
             self.current_song.tracks.append(newSongTrack)
             print("loaded new track \(count)")
         }
@@ -240,7 +236,7 @@ class Song {
         
         /* save track vars */
         for i in 0 ..< self.current_song.tracks.count {
-            self.current_song.tracks[i].loadNewTrack(trackManager: instruments[i].trackManager)
+            self.current_song.tracks[i].loadNewTrack(instrument_manager: instruments[i])
             print("Saving song pan \(self.current_song.tracks[i].pan)")
             
         }
@@ -268,7 +264,7 @@ class Song {
         
         //now load saved track data from database
         for instNum in 0 ..< instruments.count {
-            loadTrack(track: instruments[instNum].trackManager, num: instNum)
+            loadTrack(instrument_manager: instruments[instNum], num: instNum)
         }
         
         saveSong()
@@ -277,13 +273,13 @@ class Song {
     
 
     func updateMeasureTimeline()->Bool{
-        let recorded = self.instrument.trackManager.recorded//!self.instrument.trackManager.firstInstance
+        let recorded = self.instrument.recorded//!self.instrument.trackManager.firstInstance
         let ready: Bool = (recorded || recordEnabled)
         if(!playing || !ready){
             return false
         }
         
-        self.instrument.trackManager.timeline.update()
+        self.instrument.timeline.update()
         return true
     }
     
@@ -293,7 +289,7 @@ class Song {
     }
     func clearPreset(){
         //stop()
-        instruments[selectedInstrument].trackManager.clear()
+        instrument.clear()
     }
     
     func deleteTrack(){
@@ -308,7 +304,7 @@ class Song {
         //clear all recorded tracks
         for instTracks in instruments {
             //clear all recorded tracks
-            instTracks.trackManager.clear()
+            instTracks.clear()
         }
         
     }
@@ -337,16 +333,16 @@ class Song {
     
     func playNote(){
         //play note based on selected instrument
-        let note = instruments[selectedInstrument].instrument.note
-        instruments[selectedInstrument].instrument.rawPlay(MIDINoteNumber(note), velocity: 127)
-        instruments[selectedInstrument].instrument.stop(noteNumber: MIDINoteNumber(note))
+        let note = instruments[selectedInstrument].midi_instrument.midi_note
+        instruments[selectedInstrument].midi_instrument.rawPlay(note, velocity: 127)
+        instruments[selectedInstrument].midi_instrument.stop(noteNumber: MIDINoteNumber(note))
     }
     
     func selectInstrument(_ number: Int){
         print("Selecting instrument \(number)")
         if(number < instruments.count){
             if(recordEnabled){
-                instruments[selectedInstrument].deselect()
+                instruments[selectedInstrument].stopRecord()
                 stop_record()
                 //update track measure length of instruments in collection if first recording of a track
             }
@@ -360,7 +356,7 @@ class Song {
         //use sound_library.position_map to get sound mapped know position
         var i = 0
         for inst in instruments {
-            let name = inst.instrument.name
+            let name = inst.midi_instrument.name
             let pos = self.sound_library.position_map[name]
             if(pos == position){
                 selectInstrument(i)
@@ -380,42 +376,36 @@ class Song {
             return
         }
         noteAdded = true
-        
-        instruments[selectedInstrument].addNote(127, duration: 0.1)
-        /*
-        if !playing {
-            print("record started play")
-            play()
-        }
-        */
+        instruments[selectedInstrument].addNote()
     }
     
     //MARK: update quantize
     func updatePresetQuantize(enabled enable: Bool=true, resolution: Double=1.0, triplet_en: Bool = false){
         if(enable){
             //track specific update only
-            instruments[selectedInstrument].enableQuantize()
-            instruments[selectedInstrument].updateQuantize(resolution, triplet_en: triplet_en)
+            instrument.quantize_enabled = true
+            instrument.quantizer.update(resolution, triplet_en: triplet_en, beat_scale: clickTrack.timeSignature.beatScale)
+            
         }
         else{
-            instruments[selectedInstrument].disableQuantize()
+            instruments[selectedInstrument].quantize_enabled = false
         }
     }
     
     //MARK: change measure count of a preset track
     func updatePresetMeasureCount(_ count: Int){
         print("updated inst \(selectedInstrument) measure count to \(count)")
-        instruments[selectedInstrument].updateMeasureCount(count)
+        instruments[selectedInstrument].measures = count
     }
     
     //MARK: set current preset to mute
     func mutePreset(){
         
-        instruments[selectedInstrument].instrument.mute()
+        instrument.midi_instrument.muted = true
     }
     
     func unmutePreset(){
-        instruments[selectedInstrument].instrument.unmute()
+        instrument.midi_instrument.muted = false
     }
     
     //MARK: Volume - update preset volume (percent 0 - 100%)
@@ -428,14 +418,14 @@ class Song {
         if(vol < 0.0){vol = 0.0}
         
         //now all volume of notes heard for preset will be amplified or decreased by scale factor
-        instruments[selectedInstrument].updateVolume(vol)
+        instrument.midi_instrument.volume = vol/100.0
         
     }
     
     //MARK: Pan - update preset pan (-1 left, 0 center, 1 right and everything else in between)
     func updatePresetPan(_ pan: Double){
         if(pan != self.currentPan){
-            instruments[selectedInstrument].updatePan(pan)
+            instrument.midi_instrument.panner.pan = pan
         }
     }
     
@@ -450,7 +440,7 @@ class Song {
         }
         if(pan != self.currentPan){
             print("pan percent \(pan)")
-            instruments[selectedInstrument].updatePan(pan)
+            instrument.midi_instrument.panner.pan = pan
         }
     }
     
@@ -489,10 +479,10 @@ class Song {
     func enableSoloPreset(){
         for instNum in 0 ..< instruments.count{
             if(instNum != selectedInstrument){
-                instruments[instNum].instrument.mute()
+                instruments[instNum].midi_instrument.muted = true
             }
             else{
-                instruments[instNum].instrument.unmute()
+                instruments[instNum].midi_instrument.muted = false
             }
         }
     }
@@ -501,17 +491,17 @@ class Song {
     func disableSoloPreset(){
         
         for instNum in 0 ..< instruments.count{
-            instruments[instNum].instrument.unmute()
+            instruments[instNum].midi_instrument.muted = false
         }
     }
     
     
     func start_record(){
         
-        if(instruments[selectedInstrument].trackManager.firstInstance){
+        if(!instrument.recorded){
             //todo?
         }
-        instruments[selectedInstrument].record()
+        instrument.record()
         recordEnabled = true
         noteAdded = false
         delegate?.startRecordFromSong()
@@ -524,7 +514,7 @@ class Song {
             print("record cannot start before play")
             return
         }
-        if(instruments[selectedInstrument].trackManager.firstInstance){
+        if(!instrument.recorded){
             //only start preroll if selected preset is empty / has not been recorded
             clickTrack.instrument.resetDefaultMeasureCounter()
             clickTrack.start_preroll()
@@ -543,13 +533,8 @@ class Song {
         }
         recordEnabled = false
         clickTrack.instrument.newRecordEnabled = recordEnabled
-        instruments[selectedInstrument].deselect()
-        //for inst in instruments{
-        //    inst.deselect()
-        //}
-        
+        instrument.stopRecord()
         saveSong()
-        
     }
     
     func play(){
@@ -561,9 +546,7 @@ class Song {
         clickTrack.reset()
         
         for inst in instruments{
-            inst.instrument.reset()
-            inst.trackManager.loopManager.start_offset = 0
-            inst.trackManager.resetTrack()
+            inst.play()
         }
         playing = true
         //clickTrack.timer.start()
@@ -573,7 +556,7 @@ class Song {
     
     func startPresetWithDefaultMeasureCount(){
         //tells preset to use the defaultMeasure count (global measure) instead of waiting for user to hit 'stop' record
-        self.instrument.trackManager.startLoopFromDefaultMeasures()
+        self.instrument.startLoopFromDefaultMeasures()
         self.stop_record()
         self.delegate?.stopRecordFromSong()
         
@@ -586,7 +569,7 @@ class Song {
         clickTrack.stop()
         if(recordEnabled){
             for inst in instruments{
-                inst.deselect()
+                inst.stop()
             }
         }
         recordEnabled = false
@@ -612,6 +595,18 @@ class Song {
             clickTrack.reset(clearAll: true)
         }
         
+    }
+    
+    func updateLoopFromClickTrack(){
+        for inst in instruments {
+            inst.updateLoopFromClickTrack()
+        }
+    }
+    
+    func updateNotesFromClickTrack(){
+        for inst in instruments {
+            inst.updateNotesFromClickTrack()
+        }
     }
     
     

@@ -323,15 +323,28 @@ class InstrumentManager {
     //MARK: Add Note
     //Song.instrument.addNote()
     func addNote() {
-        if(!recording){
+        if(!recording && !clickTrack.instrument.preRollEnded){
             return
         }
-        
-        var position = AKDuration(beats: beats_elapsed_abs, tempo: tempo)
-        if(recorded){
-            position.beats = beats_elapsed
+        if(clickTrack.instrument.preRollEnded){
+            addPrerollNote()
         }
-        updateNotesList(position: position)
+        else{
+            var position = AKDuration(beats: beats_elapsed_abs, tempo: tempo)
+            if(recorded){
+                position.beats = beats_elapsed
+            }
+            updateNotesList(position: position)
+        }
+    }
+    
+    func addPrerollNote(){
+            //if receive beat between last preroll and first record beat then save it but quantize to first record beat
+            if(notes.count > 0){
+                return
+            }
+            let position = AKDuration(beats: 0, tempo: tempo) //just quantize to first beats
+            updateNotesList(position: position)
     }
     
     func updateNotesList(position: AKDuration){
@@ -417,7 +430,20 @@ class InstrumentManager {
             recorded = true
             measures = loop.default_measures
             loop.measures = measures
+            //hack, since preroll pos same as when default measure start gets called
+            playPrerollIfAvailable()
+            
+            
             appendNotesToNextLoop()
+        }
+    }
+    
+    func playPrerollIfAvailable(){
+        if(notes.count > 0){
+            let note = notes[0]
+            if(note.beats == 0.0){
+                midi_instrument.rawPlay(midi_instrument.midi_note, velocity: MIDIVelocity(127))
+            }
         }
     }
     

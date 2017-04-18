@@ -228,7 +228,7 @@ class LoopManager {
     //MARK: Functions
     func reset(){
         _current_note = 0
-        _measures = 0
+        _measures = default_measures
         _start_offset = 0
         _loop = 0
         _beats_elapsed_offset = 0
@@ -262,7 +262,7 @@ class InstrumentManager {
     var playing: Bool = false
     var recording: Bool = false
     var recorded: Bool = false
-    var measures: Int = 0
+    var measures: Int = 1
     var volume: Int = 127
     var track_num: Int!
     
@@ -307,6 +307,7 @@ class InstrumentManager {
         midi = AKMIDI()
         clickTrack = click_track
         loop = LoopManager(click_track: clickTrack)
+        measures = loop.default_measures
         //timeline bars count from viewcontroller measure views count
         timeline = LoopTimeline(loop_manager: loop, timeline_bars: 4)
         track_num = clickTrack.track.trackCount
@@ -498,6 +499,7 @@ class InstrumentManager {
     
     func clear(){
         recorded = false
+        measures = loop.default_measures
         loop.reset()
         notes.removeAll()
         clearTrack()

@@ -417,6 +417,7 @@ class InstrumentManager {
             recorded = true
             measures = loop.default_measures
             loop.measures = measures
+            appendNotesToNextLoop()
         }
     }
     

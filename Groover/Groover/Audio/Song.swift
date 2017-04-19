@@ -385,10 +385,13 @@ class Song {
             //track specific update only
             instrument.quantize_enabled = true
             instrument.quantizer.update(resolution, triplet_en: triplet_en, beat_scale: clickTrack.timeSignature.beatScale)
+            instrument.updateLoopAfterQuantize()
             
         }
         else{
-            instruments[selectedInstrument].quantize_enabled = false
+            instrument.quantize_enabled = false
+            instrument.updateLoopAfterQuantize()
+            
         }
     }
     

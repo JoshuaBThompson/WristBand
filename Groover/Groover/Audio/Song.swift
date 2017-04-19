@@ -36,7 +36,7 @@ class Song {
 
     //MARK: computed variables
     var timeline: LoopTimeline {
-        return self.instruments[selectedInstrument].timeline
+        return self.instrument.timeline
     }
     
     var defaultMeasureCount: Int {
@@ -44,10 +44,10 @@ class Song {
     }
     
     var presetMeasureCount: Int {
-        return instruments[selectedInstrument].loop.measures
+        return instrument.measures
     }
     var selectedInstrumentName: String {
-        return instruments[selectedInstrument].midi_instrument.name
+        return instrument.midi_instrument.name
     }
     
     var presetVolumePercent: Int {
@@ -59,7 +59,7 @@ class Song {
     }
     
     var currentPan: Double {
-        return instruments[selectedInstrument].midi_instrument.panner.pan
+        return instrument.midi_instrument.panner.pan
     }
     
     var currentPanPercent: Double {
@@ -398,7 +398,7 @@ class Song {
     //MARK: change measure count of a preset track
     func updatePresetMeasureCount(_ count: Int){
         print("updated inst \(selectedInstrument) measure count to \(count)")
-        instruments[selectedInstrument].measures = count
+        instrument.measures = count
     }
     
     //MARK: set current preset to mute

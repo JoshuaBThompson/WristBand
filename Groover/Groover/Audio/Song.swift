@@ -51,7 +51,7 @@ class Song {
     }
     
     var presetVolumePercent: Int {
-        return Int(instruments[selectedInstrument].midi_instrument.volume)
+        return Int(instrument.midi_instrument.volume * 100.0)
     }
     
     var instrument: InstrumentManager {
@@ -63,7 +63,7 @@ class Song {
     }
     
     var currentPanPercent: Double {
-        return instruments[selectedInstrument].midi_instrument.panner.pan * 100.0
+        return instrument.midi_instrument.panner.pan * 100.0
     }
     
     init(){

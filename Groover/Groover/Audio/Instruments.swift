@@ -540,7 +540,6 @@ class InstrumentManager {
 class MidiInstrument: AKMIDIInstrument {
     //MARK: Attributes
     var midi_note: MIDINoteNumber = 60
-    //var panner: AKPanner!
     var sampler = AKSampler()
     var instrument_manager: InstrumentManager!
     var volume: Double = 1.0
@@ -554,7 +553,6 @@ class MidiInstrument: AKMIDIInstrument {
     //MARK: Init
     override init(){
         super.init()
-        //panner = AKPanner(sampler, pan: 0)
         panner.pan = 0
         reset()
     }

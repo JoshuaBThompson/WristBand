@@ -342,7 +342,7 @@ class Song {
         print("Selecting instrument \(number)")
         if(number < instruments.count){
             if(recordEnabled){
-                instruments[selectedInstrument].stopRecord()
+                instrument.stopRecord()
                 stop_record()
                 //update track measure length of instruments in collection if first recording of a track
             }
@@ -398,7 +398,7 @@ class Song {
     //MARK: change measure count of a preset track
     func updatePresetMeasureCount(_ count: Int){
         print("updated inst \(selectedInstrument) measure count to \(count)")
-        instrument.measures = count
+        instrument.updateMeasure(count: count)
     }
     
     //MARK: set current preset to mute
@@ -570,11 +570,10 @@ class Song {
         //recordEnabled = false
         //stop all recorded tracks
         clickTrack.stop()
-        if(recordEnabled){
-            for inst in instruments{
-                inst.stop()
-            }
+        for inst in instruments{
+            inst.stop()
         }
+        
         recordEnabled = false
         playing = false
         saveSong()
@@ -589,6 +588,12 @@ class Song {
     
     func setDefaultMeasures(measureCount: Int){
         clickTrack.instrument.defaultMeasures = measureCount
+        for inst in instruments {
+            //only override local instrument default measure if it was not recorded yet
+            if(!inst.recorded){
+                inst.updateMeasure(count: measureCount)
+            }
+        }
     }
     
     func setTimeSignature(_ newBeatsPerMeasure: Int, beatUnit: Int){

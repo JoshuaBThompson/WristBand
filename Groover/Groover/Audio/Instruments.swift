@@ -121,8 +121,12 @@ class LoopManager {
     }
     
     var default_measures: Int {
-        _default_measures = clickTrack.instrument.defaultMeasures
-        return _default_measures
+        get {
+            return _default_measures
+        }
+        set (count){
+            _default_measures = count
+        }
     }
     
     var start_offset: Double {
@@ -222,13 +226,13 @@ class LoopManager {
     
     init(click_track: ClickTrack){
         self.clickTrack = click_track
+        default_measures = clickTrack.instrument.defaultMeasures
         measures = default_measures
     }
     
     //MARK: Functions
     func reset(){
         _current_note = 0
-        _measures = default_measures
         _start_offset = 0
         _loop = 0
         _beats_elapsed_offset = 0
@@ -392,6 +396,14 @@ class InstrumentManager {
         loop.measures = measures
     }
     
+    func updateMeasure(count: Int){
+        measures = count
+        loop.default_measures = measures
+        if(!playing){
+            loop.measures = measures
+        }
+    }
+    
     func updateLoopAfterQuantize(){
         //If quantize en then find last note played and clear remaining
         if((loop.current_note < notes.count) && quantize_enabled){
@@ -481,8 +493,8 @@ class InstrumentManager {
     
     func stop(){
         playing = false
-        stopRecord()
-        clearTrack()
+        //stopRecord()
+        //clearTrack()
     }
     
     //MARK: Start Play
@@ -526,7 +538,6 @@ class InstrumentManager {
     
     func clear(){
         recorded = false
-        measures = loop.default_measures
         loop.reset()
         notes.removeAll()
         clearTrack()
@@ -769,7 +780,6 @@ class SynthInstrument: AKMIDIInstrument{
             
         }
     }
-    
     
     func clearRemainingBeatsInCurrentLoop(){
         let currentBeat = AKDuration(beats: realPos, tempo: globalTempo)

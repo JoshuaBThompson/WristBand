@@ -493,8 +493,6 @@ class InstrumentManager {
     
     func stop(){
         playing = false
-        //stopRecord()
-        //clearTrack()
     }
     
     //MARK: Start Play

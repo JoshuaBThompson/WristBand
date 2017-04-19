@@ -175,7 +175,7 @@ class ViewController: UIViewController, SongCallbacks {
             recordButton.setRecording()
         }
         
-        knob.activated = (!recordButton.isSelected || song.instrument.recorded)
+        knob.activated = (!recordButton.isSelected || song.instrument.recorded) && (!song.instrument.recording)
     }
     
     func measureTimerHandler(){

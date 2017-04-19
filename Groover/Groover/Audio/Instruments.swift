@@ -153,9 +153,6 @@ class LoopManager {
         }
         set(note){
             _current_note = note
-            if(_current_note >= notes_per_loop){
-                _current_note = 0
-            }
         }
     }
     
@@ -269,6 +266,7 @@ class InstrumentManager {
     var measures: Int = 1
     var volume: Int = 127
     var track_num: Int!
+    var appended = false
     
     //MARK: Audiokit
     var midi: AKMIDI!
@@ -406,10 +404,15 @@ class InstrumentManager {
     
     func updateLoopAfterQuantize(){
         //If quantize en then find last note played and clear remaining
-        if((loop.current_note < notes.count) && quantize_enabled){
+        if(loop.current_note < notes.count){
             clearNotesFrom(note_num: loop.current_note)
             //Then append remaining quantized notes
             appendNotesFromOffset(start_note_num: loop.current_note, offset: global_offset)
+        }
+        else if(appended){
+            clearRemainingTrack()
+            //Then append remaining quantized notes
+            appendNotesToNextLoop()
         }
     }
     
@@ -420,9 +423,14 @@ class InstrumentManager {
         }
         let elapsed = global_beats_elapsed - global_offset
         if(elapsed > loop.beats_per_loop){
+            loop.current_note = 0
             loop.beats_elapsed_offset += loop.beats_per_loop
             loop.measures = measures
+            
             loop.loop += 1
+            print("loop \(loop.loop) global_offset \(global_offset)")
+            appended = false
+            
         }
     }
     
@@ -430,6 +438,7 @@ class InstrumentManager {
         if(!recorded){
             return
         }
+        appended = true
         loop.loop_notes += clickTrack.timeSignature.beatsPerMeasure
         if(loop.loop_notes >= loop.notes_per_loop){
             loop.loop_notes = 0
@@ -444,7 +453,6 @@ class InstrumentManager {
             loop.measures = measures
             //hack, since preroll pos same as when default measure start gets called
             playPrerollIfAvailable()
-            
             
             appendNotesToNextLoop()
         }
@@ -476,7 +484,9 @@ class InstrumentManager {
                 }
                 
                 if(note.beats <= beats_per_loop){
-                    
+                    if(quantize_enabled){
+                        print("applying quantized note \(new_note.beats)")
+                    }
                     insertNote(note: InstrumentNote(note: new_note, velocity: note.velocity))
                 }
             }
@@ -499,6 +509,7 @@ class InstrumentManager {
     //Song.instrument.play()
     
     func play(){
+        appended = false
         resetPlay()
         playing = true
         appendNotesFromOffset(offset: 0)
@@ -507,6 +518,7 @@ class InstrumentManager {
     func resetPlay(){
         midi_instrument.reset()
         loop.resetPlay()
+        loop.measures = measures
         clearTrack()
     }
     
@@ -527,14 +539,25 @@ class InstrumentManager {
         if(note_num >= notes.count){
             return
         }
+        
         let offset = global_offset + notes[note_num].beats
         let len = track.length
         let start = AKDuration(beats: offset, tempo: tempo)
         let end = AKDuration(beats: len + 1, tempo: tempo)
+        print("clear: from \(start.beats) to \(end.beats)")
+        track.clearRange(start: start, duration: end)
+    }
+    
+    func clearRemainingTrack(){
+        let len = track.length
+        let start = AKDuration(beats: 0, tempo: tempo)
+        let end = AKDuration(beats: len + 1, tempo: tempo)
+        print("clear: from \(start.beats) to \(end.beats)")
         track.clearRange(start: start, duration: end)
     }
     
     func clear(){
+        appended = false
         recorded = false
         loop.reset()
         notes.removeAll()

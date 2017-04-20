@@ -337,6 +337,15 @@ class InstrumentManager {
                 position.beats = beats_elapsed
             }
             updateNotesList(position: position)
+            if(appended){
+                //if user make beat in pre recorded loop right at end of loop (after next set of notes already queued)
+                //then append this note to the already queued track
+                let offset_beats = global_offset + loop.beats_per_loop
+                let note_num = notes.count - 1
+                appendNotesFromOffset(start_note_num: note_num, offset: offset_beats)
+                
+            }
+            
         }
     }
     

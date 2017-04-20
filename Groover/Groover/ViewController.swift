@@ -30,20 +30,23 @@ class ViewController: UIViewController, SongCallbacks {
     var beatDetected = false
     var beatDetectedCount = 0
     var prevKnobDetent: Int = 0
-    var measureTimer: Timer!
     var buttonEventTimer: Timer!
+    var currentPosition = 0
+    
+    //MARK: Timeline attributes
+    var timeline_remaining_cleared = false
     var timeline_needs_clear = false
     var measureViews = [MeasureCtrl]()
     var measureLabels = [UILabel]()
-    var currentPosition = 0
+    var measureTimer: Timer!
     
-    //Events
+    //MARK: Events
     var stopRecordButtonEvent = false
     var startRecordButtonEvent = false
     var deleteTrackEvent = false
+    var measureUpdateEvent = false
     
     //MARK: outlets
-    
     @IBOutlet weak var testView: UIView!
     @IBOutlet weak var measureView1: MeasureCtrl!
     @IBOutlet weak var measureView2: MeasureCtrl!
@@ -174,21 +177,23 @@ class ViewController: UIViewController, SongCallbacks {
             startRecordButtonEvent = false
             recordButton.setRecording()
         }
+        else if(measureUpdateEvent){
+            if(!song.playing){
+                showInactiveTimeline()
+            }
+            measureUpdateEvent = false
+        }
         
         knob.activated = (!recordButton.isSelected || song.instrument.recorded) && (!song.instrument.recording)
     }
     
     func measureTimerHandler(){
         if(!song.playing){
-            //print("meaasureTimeerHandler - not playing")
-            //clearTimelineIfNeedsClear()
         return
         }
 
         let ready = song.updateMeasureTimeline()
         if(!ready){
-            //print("meaasureTimeerHandler - not ready")
-            //clearTimelineIfNeedsClear()
             return
         }
         
@@ -216,7 +221,22 @@ class ViewController: UIViewController, SongCallbacks {
             measureViews[prev_bar_num].updateMeasureProgress(progress_prcnt: CGFloat(1.0))
             measureViews[prev_bar_num].active = false
         }
-        timeline_needs_clear = true //used when song is stopped, check if this is set and clear again
+        timeline_needs_clear = true //used when song is stopped, check if this is set
+        
+         if((bar_num + song.timeline.bars_remaining) < measureViews.count){
+            let last_bar_num = song.timeline.last_bar_num
+            for i in (last_bar_num + 1) ..< measureViews.count {
+                if(!measureViews[i].exists){
+                    print("JOSH!")
+                    break
+                }
+                measureViews[i].clearProgress()
+                measureViews[i].active = false
+                measureViews[i].exists = false
+                measureLabels[i].text = ""
+            }
+         }
+        
         
     }
     
@@ -226,6 +246,7 @@ class ViewController: UIViewController, SongCallbacks {
         }
         
     }
+    
     func showInactiveTimeline(){
         let count = song.instrument.loop.measures
         let recorded = song.instrument.recorded
@@ -326,14 +347,6 @@ class ViewController: UIViewController, SongCallbacks {
                 }
             }
         }
-        
-        /*
-        print("Triplet Quantize is \(tripletQuantizeButton.isSelected)")
-        if(tripletQuantizeButton.isSelected){
-            resolution = resolution * tripletQuantizeButton.resolution //ex: if quarter not selected and triplet then resolution = 1*3
-            print("resolution \(resolution)")
-        }
-        */
         print("updated quantize sel \(selected) res \(resolution)")
         song.updatePresetQuantize(enabled: selected, resolution: resolution, triplet_en: tripletQuantizeButton.isSelected)
         
@@ -360,6 +373,10 @@ class ViewController: UIViewController, SongCallbacks {
     
     func startRecordFromSong(){
         startRecordButtonEvent = true
+    }
+    
+    func updateMeasureCount(){
+        measureUpdateEvent = true
     }
     
     //MARK: play button event handler

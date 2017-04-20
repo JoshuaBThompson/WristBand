@@ -31,6 +31,7 @@ class ParametersModalViewController: UIViewController, UITextFieldDelegate {
         trackMeasuresSliderValueTextField.text = "\(new_measures)"
         if(trackMeasuresSlider.ready){
             self.song.updatePresetMeasureCount(new_measures)
+            GlobalAttributes.viewController.updateMeasureCount()
             print("updated track measures to \(new_measures)")
         }
     }

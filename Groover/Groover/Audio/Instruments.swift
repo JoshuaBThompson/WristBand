@@ -1529,6 +1529,15 @@ class LoopTimeline {
         return bars_progress[bar_num]
     }
     
+    var bars_remaining: Int {
+        
+        return self.loop.measures - self.loop.current_measure
+    }
+    
+    var last_bar_num: Int {
+        return (self.loop.measures - 1) % bar_count
+    }
+    
     //MARK: Init
     init(loop_manager: LoopManager, timeline_bars: Int){
         self.bar_count = timeline_bars
@@ -1545,7 +1554,6 @@ class LoopTimeline {
     func update(){
         let current_track_measure = self.loop.current_measure
         let current_measure_progress = self.loop.measure_progress
-        prev_bar_num = bar_num
         self.measure_count = current_track_measure
         self.bar_num = self.getBarNumFromMeasure(measure_num: current_track_measure)
         bars_progress[bar_num] = current_measure_progress
@@ -1558,8 +1566,11 @@ class LoopTimeline {
     }
     
     func getBarNumFromMeasure(measure_num: Int)->Int{
-        let bar_num = measure_num % bar_count //ex: 3 % 4 = 3 and 4 % 4 = 0
-        return bar_num
+        let next_bar_num = measure_num % bar_count //ex: 3 % 4 = 3 and 4 % 4 = 0
+        if(next_bar_num != bar_num){
+            prev_bar_num = bar_num
+        }
+        return next_bar_num
     }
 }
 

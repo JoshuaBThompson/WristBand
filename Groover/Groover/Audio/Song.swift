@@ -40,7 +40,7 @@ class Song {
     }
     
     var defaultMeasureCount: Int {
-        return clickTrack.instrument.defaultMeasures
+        return clickTrack.instrument.default_measures
     }
     
     var presetMeasureCount: Int {
@@ -230,7 +230,7 @@ class Song {
         
         /* save global vars */
         self.current_song.tempo = Int(self.clickTrack.tempo.beatsPerMin)
-        self.current_song.global_measures = clickTrack.instrument.defaultMeasures
+        self.current_song.global_measures = clickTrack.instrument.default_measures
         self.current_song.time_sig_beats = clickTrack.timeSignature.beatsPerMeasure
         self.current_song.time_sig_note = clickTrack.timeSignature.beatUnit
         
@@ -587,7 +587,7 @@ class Song {
     }
     
     func setDefaultMeasures(measureCount: Int){
-        clickTrack.instrument.defaultMeasures = measureCount
+        clickTrack.instrument.default_measures = measureCount
         for inst in instruments {
             //only override local instrument default measure if it was not recorded yet
             if(!inst.recorded){

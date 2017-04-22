@@ -211,7 +211,7 @@ class LoopManager {
     
     init(click_track: ClickTrack){
         self.clickTrack = click_track
-        default_measures = clickTrack.instrument.defaultMeasures
+        default_measures = clickTrack.instrument.default_measures
         measures = default_measures
     }
     
@@ -643,7 +643,7 @@ class ClickTrackInstrument: MidiInstrument{
     var defaultMeasureCountEnded = false
     var defaultMeasureCountStarted = false
     var defaultMeasureCounter = 0
-    var defaultMeasures = GlobalDefaultMeasures
+    var _default_measures = GlobalDefaultMeasures
     var newRecordEnabled = false
     var highSampler = AKSampler()
     var highPrerollSampler = AKSampler()
@@ -652,12 +652,25 @@ class ClickTrackInstrument: MidiInstrument{
         return clickTrack.timeSignature
     }
     
-    var beatsPerMeasure: Int {
+    var beats_per_measure: Int {
         return timeSignature.beatsPerMeasure
     }
     
-    var beatLenPerMeasure: Double {
+    var beat_len_per_measure: Double {
         return timeSignature.beatLenPerMeasure
+    }
+    
+    var default_measures: Int {
+        get {
+            return _default_measures
+        }
+        set(count){
+            _default_measures = count
+        }
+    }
+    
+    var instrument_default_measures: Int {
+        return clickTrack.song.instrument.loop.default_measures
     }
     
     
@@ -731,7 +744,7 @@ class ClickTrackInstrument: MidiInstrument{
             
         }
         
-        if(defaultMeasureCounter >= defaultMeasures){
+        if(defaultMeasureCounter >= instrument_default_measures){
             defaultMeasureCountEnded = true
             defaultMeasureCountStarted = false
         }
@@ -764,12 +777,12 @@ class ClickTrackInstrument: MidiInstrument{
         
         updateBeatAndPos()
         
-        if(pos.truncatingRemainder(dividingBy: Double(beatLenPerMeasure)) == 0){
+        if(pos.truncatingRemainder(dividingBy: Double(beats_per_measure)) == 0){
         }
         
         let volume = Double(velocity) / 127.0
-        if(preRoll && beat <= beatsPerMeasure){
-            if(beat == beatsPerMeasure){
+        if(preRoll && beat <= beats_per_measure){
+            if(beat == beats_per_measure){
                 preRoll = false
                 preRollEnded = true
                 startDefaultMeasureCounter()
@@ -812,8 +825,8 @@ class ClickTrackInstrument: MidiInstrument{
             defaultMeasureCountEnded = false
         }
         
-        if(beat==beatsPerMeasure){
-            clickTrack.appendTrack(offset: loop_count * beatLenPerMeasure)
+        if(beat==beats_per_measure){
+            clickTrack.appendTrack(offset: loop_count * beats_per_measure)
             updateInstrumentNotes()
             beat=0
         }

@@ -252,7 +252,6 @@ class InstrumentManager {
     var recording: Bool = false
     var recorded: Bool = false
     var measures: Int = 1
-    var volume: Int = 127
     var track_num: Int!
     var appended = false
     
@@ -573,10 +572,25 @@ class MidiInstrument: AKMIDIInstrument {
     var instrument_manager: InstrumentManager!
     var volume: Double = 1.0
     var muted: Bool = false
+    var max_scaled_vol = 1.0
+    var min_scaled_vol = 0.6
+    var min_zero_vol = 0.03
+    var max_vol = 1.0
+    var min_vol = 0.0
     
     //MARK: Computed
     var panner: AKSampler {
         return sampler
+    }
+    
+    var volume_scaled: Double {
+        //convert 0 - 100% to 70 - 100% volume
+        if(volume <= min_zero_vol){
+            return 0.0
+        }
+        else{
+            return volume * (max_scaled_vol - min_scaled_vol)/(max_vol - min_vol) + min_scaled_vol
+        }
     }
     
     //MARK: Init
@@ -594,7 +608,7 @@ class MidiInstrument: AKMIDIInstrument {
     
     func rawPlay(_ noteNumber: MIDINoteNumber, velocity: MIDIVelocity){
         if(!muted){
-            sampler.volume = volume
+            sampler.volume = volume_scaled
             sampler.play()
         }
         
@@ -608,7 +622,7 @@ class MidiInstrument: AKMIDIInstrument {
     override func play(noteNumber: MIDINoteNumber, velocity: MIDIVelocity) {
         update()
         if(!muted){
-            sampler.volume = volume
+            sampler.volume = volume_scaled
             sampler.play()
         }
     }

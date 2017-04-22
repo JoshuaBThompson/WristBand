@@ -36,7 +36,7 @@ class VolumeSliderCtrl: SliderCtrl{
         self.min_value = 0
         self.default_value = 75
         self.maxPosX = 190.0
-        self.minPosX = 5.0
+        self.minPosX = 1.0
         self.snapFilter = SliderSnapFilter(detentCount: 100, posOffset: self.minPosX, posRange: self.maxPosX)
         self.snapFilter.scale = 1.0 /* tempo is updated by 5 pbm at a time using the slider */
         self.snapFilter.scale_offset = 0.0

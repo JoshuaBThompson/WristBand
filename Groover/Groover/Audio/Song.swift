@@ -462,22 +462,6 @@ class Song {
         updatePresetPan(currentPan + 0.01)
     }
     
-    //MARK: Instrument volume updates
-    func decPresetVolume(){
-        let currentVol = instruments[selectedInstrument].volume
-        
-        //decrease volume by 1% (out of 100%)
-        updatePresetVolume(currentVol-1)
-    }
-    
-    func incPresetVolume(){
-        let currentVol = instruments[selectedInstrument].volume
-        
-        //increase volume by 1% (out of 100%)
-        updatePresetVolume(currentVol+1)
-    }
-    
-    
     //MARK: set current preset to solo (mute all other preset tracks but keep them looping)
     func enableSoloPreset(){
         for instNum in 0 ..< instruments.count{

@@ -157,7 +157,7 @@ class Song {
             self.current_song.tracks[num].loadSavedTrack()
             instrument_manager.clear()
             instrument_manager.notes = self.current_song.tracks[num].track
-            instrument_manager.recorded = (instrument_manager.notes.count > 0) ? false : true
+            instrument_manager.recorded = (instrument_manager.notes.count > 0) ? true : false
             instrument_manager.measures = self.current_song.tracks[num].measures
             instrument_manager.midi_instrument.panner.pan = self.current_song.tracks[num].pan
             instrument_manager.midi_instrument.volume = self.current_song.tracks[num].volume

@@ -227,7 +227,6 @@ class ViewController: UIViewController, SongCallbacks {
             let last_bar_num = song.timeline.last_bar_num
             for i in (last_bar_num + 1) ..< measureViews.count {
                 if(!measureViews[i].exists){
-                    print("JOSH!")
                     break
                 }
                 measureViews[i].clearProgress()

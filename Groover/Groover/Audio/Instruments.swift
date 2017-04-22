@@ -25,24 +25,12 @@ class Quantize {
     let minDivisions = 1.0
     var enabled: Bool = false
     
-    //MARK: quantize to next beat pos
-    func quantizeToNextBeat(_ beat: AKDuration)->AKDuration{
-        let beats = beat.beats
-        let tempDivPerBeat = 1.0
-        let divPos = beats * tempDivPerBeat //position in beat divisions (based on quantized number / resolution set by user in UI: ex: 4 or 32)
-        let divPosQuantized = ceil(divPos) //round to next beat
-        let beatsQuantized = divPosQuantized / divPerBeat //get beat position quantized
-        
-        let posQuantized = AKDuration(beats: beatsQuantized, tempo: beat.tempo)
-        return posQuantized
-    }
-    
     //MARK: quantize a beat pos
     func quantizedBeat(_ beat: AKDuration)->AKDuration{
-        let beats = beat.beats * beatScale
+        let beats = beat.beats
         let divPos = beats * divPerBeat //position in beat divisions (based on quantized number / resolution set by user in UI: ex: 4 or 32)
         let divPosQuantized = round(divPos) //round to nearest division
-        let beatsQuantized = (divPosQuantized / divPerBeat) / beatScale//get beat position quantized
+        let beatsQuantized = (divPosQuantized / divPerBeat) //get beat position quantized
         
         let posQuantized = AKDuration(beats: beatsQuantized, tempo: beat.tempo)
         return posQuantized

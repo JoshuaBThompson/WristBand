@@ -805,11 +805,11 @@ class ClickTrackInstrument: MidiInstrument{
                 preRollEnded = false
             }
             if(beat == 1){
-                highSampler.volume = 127
+                highSampler.volume = volume
                 highSampler.play()
             }
             else{
-                sampler.volume = 127
+                sampler.volume = volume
                 sampler.play()
             }
         }
@@ -1006,7 +1006,7 @@ class ClickTrack: AKNode{
         for i in 0 ..< timeSigBeats {
             if(i < timeSigBeats){
                 let beat_pos = AKDuration(beats: Double(i * timeSigScale) + offset)
-                var velocity = 110
+                var velocity = 127
                 if(i == 0){
                     velocity = 127 //first beat in measure is loudest
                 }

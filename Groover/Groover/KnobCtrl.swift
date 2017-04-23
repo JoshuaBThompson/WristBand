@@ -191,6 +191,10 @@ class KnobCtrl: Knob {
             sendActions(for: .editingChanged)
             setNeedsDisplay()
         }
+        else{
+            sendActions(for: .editingDidBegin)
+            setNeedsDisplay()
+        }
         return true
     }
     
@@ -233,8 +237,6 @@ class KnobCtrl: Knob {
         clickRingActive = active
         setNeedsDisplay()
     }
-    
-    
 }
 
 

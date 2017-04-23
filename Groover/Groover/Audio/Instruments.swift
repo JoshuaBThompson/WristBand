@@ -901,7 +901,7 @@ struct TimeSignature {
 class Tempo {
     let maxBeatsPerMin = 200.0
     let minBeatsPerMin = 1.0
-    var beatsPerMin = Double(60.0) //60.0
+    var beatsPerMin = Double(120.0) //default
     let secPerMin = Double(60.0)
     var beatsPerSec: Double { return beatsPerMin / secPerMin }
     

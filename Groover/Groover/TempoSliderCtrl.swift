@@ -36,16 +36,15 @@ class TempoSliderCtrl: SliderCtrl{
         self.default_value = 60
         self.maxPosX = 190.0
         self.minPosX = 5.0
-        self.snapFilter = SliderSnapFilter(detentCount: 40, posOffset: self.minPosX, posRange: self.maxPosX)
-        self.snapFilter.scale = 5.0 /* tempo is updated by 5 pbm at a time using the slider */
-        self.snapFilter.scale_offset = 5.0
+        self.snapFilter = SliderSnapFilter(detentCount: 200, posOffset: self.minPosX, posRange: self.maxPosX)
+        self.snapFilter.scale = 1.0 /* tempo is updated by 1 pbm at a time using the slider */
+        self.snapFilter.scale_offset = 1.0
         
     }
     
      override init(frame: CGRect) {
      super.init(frame: frame)
         init_vars()
-     
      }
      
      
@@ -53,6 +52,11 @@ class TempoSliderCtrl: SliderCtrl{
      super.init(coder: aDecoder)
         init_vars()
      }
+    
+    override func update_pos_from_detent(new_detent: Int) {
+        super.update_pos_from_detent(new_detent: new_detent)
+        print("tempo detent updated from \(new_detent)")
+    }
     
     
     //MARK: Draw

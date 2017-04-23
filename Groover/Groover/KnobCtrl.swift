@@ -81,12 +81,14 @@ class KnobCtrl: Knob {
     override init(frame: CGRect) {
         super.init(frame: frame)
         instSnap = SnapFilter(detentCount: detentCount, angleOffset: angle, angleRange: 360)
+        clickActive = !clickActive
     }
     
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         instSnap = SnapFilter(detentCount: detentCount, angleOffset: angle, angleRange: 360)
+        clickActive = !clickActive
         
     }
     

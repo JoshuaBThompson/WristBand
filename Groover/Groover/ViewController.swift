@@ -188,6 +188,7 @@ class ViewController: UIViewController, SongCallbacks {
         song = GlobalAttributes.song
         song.delegate = self
         song.start()
+        song.toggleClickTrackMute()
     }
     
     

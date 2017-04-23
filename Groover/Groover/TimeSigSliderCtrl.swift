@@ -25,7 +25,8 @@ class TimeSigSliderCtrl: SliderCtrl{
         self.default_value = 0
         self.maxPosX = 190.0
         self.minPosX = 5.0
-        self.snapFilter = SliderSnapFilter(detentCount: 100, posOffset: self.minPosX, posRange: self.maxPosX)
+        let max_detent_count = self.time_sig_gen.max_beats * self.time_sig_gen.max_divisions
+        self.snapFilter = SliderSnapFilter(detentCount: max_detent_count, posOffset: self.minPosX, posRange: self.maxPosX)
         self.snapFilter.scale = 1.0 /* tempo is updated by 5 pbm at a time using the slider */
         self.snapFilter.scale_offset = 0.0
     }
@@ -73,13 +74,13 @@ class TimeSigLabelGen {
     var beats = [Int]()
     var divisions = [Int]()
     var time_sigs = [TimeSigStruct]()
-    let max_divisions = 10
-    let max_beats = 10
+    let max_divisions = 3
+    let max_beats = 13
     var current_time_sig = TimeSigStruct()
     
     func init_beats_array(){
         /*
-         1,2,3,4,5,6,7,8,9,10
+         1,2,3,4,5,6,7,8,9,10,12,13
         */
         for i in 1 ... max_beats {
             beats.append(i)
@@ -88,11 +89,11 @@ class TimeSigLabelGen {
     
     func init_divisions_array(){
         /*
-         1,2,3,4,5,6,7,8,9,10
+         2/2, 4/4, 8/8
         */
-        for i in 1 ... max_divisions {
-            divisions.append(i)
-        }
+        divisions.append(2)
+        divisions.append(4)
+        divisions.append(8)
     }
     
     func init_time_sigs(){

@@ -7,20 +7,54 @@
 //
 
 import Foundation
+import UIKit
 
 let min_g: Int16 = 40 //increase to make less sensitive
 let max_g: Int16 = 60 //increase to make less sensitive
-let max_count = 10
+let max_samples: Int = 10
 let min_g_sum: Int16 = 235 //decrease to make more sensitive or increase for less sensitive
 
-class BeatFilter {
-    //Constants
-    var min_rise: Int16 = 55 //100 * Gs
-    var min_fall: Int16 = -24 //100 * Gs
-    var min_sum: Int16 = 150 //100 * Gs
-    var max_samples = 15
+//Sensitivity dictionary based on iPhone model
+struct SensitivityDictionaryType {
+    var min_g: Int16 = 40
+    var max_g: Int16 = 60
+    var max_samples: Int = 10
+    var min_g_sum: Int16 = 235
     
-    //Variables
+    init(min_g: Int16 = 40, max_g: Int16 = 60, samples: Int = 10, sum: Int16 = 235){
+        self.min_g = min_g
+        self.max_g = max_g
+        self.max_samples = samples
+        self.min_g_sum = sum
+    }
+}
+
+let iphone_se_config = SensitivityDictionaryType(min_g: 60, max_g: 75, samples: 10, sum: 300)
+let iphone_6and7_config = SensitivityDictionaryType(min_g: 20, max_g: 30, samples: 14, sum: 180)
+let iphone_6and7plus_config = SensitivityDictionaryType(min_g: 15, max_g: 25, samples: 14, sum: 165)
+let iphone_default_config = SensitivityDictionaryType(min_g: 30, max_g: 40, samples: 13, sum: 200)
+
+let DeviceSensitivityConfig = [
+    "iPhone SE": iphone_se_config,
+    "iPhone 6and7 Plus": iphone_6and7plus_config,
+    "iPhone 6and7": iphone_6and7_config,
+    "default": iphone_default_config
+]
+
+enum BeatFilterTypes {
+    case rising
+    case falling
+}
+
+class BeatFilter {
+    //Properties
+    var filter_type: BeatFilterTypes!
+    var config = SensitivityDictionaryType()
+    var min_rise: Int16!
+    var min_fall: Int16!
+    var min_sum: Int16!
+    var max_samples: Int!
+    
     var prev_x: Int16!
     var diff: Int16 = 0
     var sum: Int16 = 0
@@ -42,15 +76,34 @@ class BeatFilter {
         self.diff = 0
         self.sample_values = [Int16]()
     }
+    func updateSensitivity(){
+        let modelNameShort = UIDevice.current.modelNameShort
+        if(DeviceSensitivityConfig[modelNameShort] == nil){
+            self.config = DeviceSensitivityConfig["default"]!
+            print("beat filter default sensitivity")
+        }
+        else{
+            self.config = DeviceSensitivityConfig[modelNameShort]!
+            print("beat filter \(modelNameShort) sensitivity")
+        }
+        
+        if(filter_type == BeatFilterTypes.rising){
+             min_rise = config.max_g //100 * Gs
+             min_fall = -(config.min_g) //100 * Gs
+             min_sum = config.min_g_sum //100 * Gs
+             max_samples = config.max_samples
+        }
+        else{
+             min_rise = config.min_g //100 * Gs
+             min_fall = -(config.max_g) //100 * Gs
+             min_sum = config.min_g_sum //100 * Gs
+             max_samples = config.max_samples
+        }
+    }
     
 }
 
 class RisingBeatFilter: BeatFilter {
-    
-    //Constants
-    
-    //Variables
-    
     //Computed Variables
     var is_rising: Bool {
         _rising = (_rising || (diff >= min_rise))
@@ -64,11 +117,8 @@ class RisingBeatFilter: BeatFilter {
     
     override init() {
         super.init()
-        min_rise = max_g //100 * Gs
-        min_fall = -(min_g) //100 * Gs
-        min_sum = min_g_sum //100 * Gs
-        max_samples = max_count
-
+        filter_type = BeatFilterTypes.rising
+        self.updateSensitivity()
     }
     
     
@@ -81,7 +131,6 @@ class RisingBeatFilter: BeatFilter {
             return false
         }
         
-        
         self.diff = x - self.prev_x
         self.prev_x = x
         let rising = self.is_rising
@@ -90,26 +139,19 @@ class RisingBeatFilter: BeatFilter {
         if(falling){
             self.sum += abs(diff) //abs value of falling difference
             samples += 1
-            //print("falling sum \(self.sum) sample \(self.samples) diff \(diff)")
         }
         else if(rising){
             self.sum += diff
             samples += 1
-            //print("rising sum \(self.sum) sample \(self.samples) diff \(diff)")
         }
-        
         
         var beat: Bool = (self.is_rising && self.is_falling) && (self.sum >= self.min_sum) && (self.samples <= self.max_samples)
         
         if((self.samples > max_samples) || beat){
-            //print("beat at sample \(samples) with sum \(self.sum)")
             if(beat){
                 let temp_max_sample = sample_values.max() //rising requires max (most positive number)
-                print("max_sample \(max_sample_value)")
-                print("temp_max \(String(describing: temp_max_sample))")
                 if(max_sample_value != nil && temp_max_sample != nil){
                     if(Double(temp_max_sample!) < max_sample_scale*(Double(max_sample_value))){
-                        print("beat canceled")
                         beat = false
                     }
                 }
@@ -132,11 +174,6 @@ class RisingBeatFilter: BeatFilter {
 
 
 class FallingBeatFilter: BeatFilter {
-    
-    //Constants
-    
-    //Variables
-    
     //Computed Variables
     var is_rising: Bool {
         _rising = (_rising || (diff >= min_rise)) && _falling //only rising if prev falling
@@ -150,11 +187,8 @@ class FallingBeatFilter: BeatFilter {
     
     override init(){
         super.init()
-        min_rise = min_g //100 * Gs
-        min_fall = -(max_g) //100 * Gs
-        min_sum = min_g_sum //100 * Gs
-        max_samples = max_count
-        
+        filter_type = BeatFilterTypes.falling
+        self.updateSensitivity()
     }
     
     //Functions
@@ -176,29 +210,23 @@ class FallingBeatFilter: BeatFilter {
             self.sample_values.append(x)
             self.sum += diff
             samples += 1
-            //print("rising sum \(self.sum) sample \(self.samples) diff \(diff)")
         }
             
         else if(falling){
             self.sample_values.append(x)
             self.sum += abs(diff) //abs value of falling difference
             samples += 1
-            //print("falling sum \(self.sum) sample \(self.samples) diff \(diff)")
         }
         
         
         var beat: Bool = (self.is_rising && self.is_falling) && (self.sum >= self.min_sum) && (self.samples <= self.max_samples)
         
         if((self.samples > max_samples) || beat){
-            //print("beat at sample \(samples) with sum \(self.sum)")
             if(beat){
                 let temp_max_sample = sample_values.min() //falling requires minimum (most negative number)
-                print("max_sample \(max_sample_value)")
-                print("temp_max \(String(describing: temp_max_sample))")
                 if(max_sample_value != nil && temp_max_sample != nil){
                     if(Double(temp_max_sample!) > max_sample_scale*(Double(max_sample_value))){
                         beat = false
-                        print("beat canceled")
                     }
                 }
                 max_sample_value = temp_max_sample

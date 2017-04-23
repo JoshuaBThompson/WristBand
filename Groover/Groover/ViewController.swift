@@ -29,7 +29,7 @@ class ViewController: UIViewController, SongCallbacks {
     //MARK: Beat detection
     let motionManager = CMMotionManager()
     let queue = OperationQueue.main
-    var timeIntervalMillis: UInt = 15 //25
+    var timeIntervalMillis: UInt = 12 //25
     var beatDetected = false
     var beatDetectedCount = 0
     var riseNum: Int = 0
@@ -138,13 +138,49 @@ class ViewController: UIViewController, SongCallbacks {
     
     //MARK: Beat filter
     func initBeatFilter(){
+        //init motion events handler
         motionManager.startAccelerometerUpdates()
         if motionManager.isAccelerometerAvailable {
             motionManager.accelerometerUpdateInterval = TimeInterval(Double(timeIntervalMillis)/1000.0)
             motionManager.startAccelerometerUpdates(to: queue, withHandler: beatHandler)
-            
         }
     }
+    
+    func beatHandler(_ data: CMAccelerometerData?, error: Error?){
+        
+        let valx_f: Double = (data!.acceleration.x)*100.0
+        let valx = Int16(valx_f)
+        
+        if fallingBeatFilter.isBeat(x: valx){
+            fallNum += 1
+            if(fallNum >= 2 || (riseNum == 0)){
+                song.addNote() //make drum sound and add to track if recording!
+                knob.updateClickRingActive(active: true)
+                beatDetected = true
+                riseNum = 0
+            }
+        }
+            
+        else if risingBeatFilter.isBeat(x: valx) {
+            riseNum += 1
+            if(riseNum >= 2 || (fallNum == 0)){
+                song.addNote() //make drum sound and add to track if recording!
+                knob.updateClickRingActive(active: true)
+                beatDetected = true
+                fallNum = 0
+            }
+        }
+        
+        if(beatDetected){
+            beatDetectedCount += 1
+            if(beatDetectedCount >= 10){
+                knob.updateClickRingActive(active: false)
+                beatDetected = false
+                beatDetectedCount = 0
+            }
+        }
+    }
+    
     
     
     //MARK: Song / instrument
@@ -419,47 +455,6 @@ class ViewController: UIViewController, SongCallbacks {
     func handleKnobStarted(){
         //If knob starts to turn then show position indicator
         showPositionIndicator()
-    }
-
-    //MARK: Motion Sensor Functions
-    func beatHandler(_ data: CMAccelerometerData?, error: Error?){
-    
-        let valx_f: Double = (data!.acceleration.x)*100.0
-        let valx = Int16(valx_f)
-        
-        if fallingBeatFilter.isBeat(x: valx){
-            fallNum += 1
-            if(fallNum >= 2 || (riseNum == 0)){
-                song.addNote() //make drum sound and add to track if recording!
-                knob.updateClickRingActive(active: true)
-                beatDetected = true
-                riseNum = 0
-                
-            }
-            
-        }
-            
-        else if risingBeatFilter.isBeat(x: valx) {
-            riseNum += 1
-            if(riseNum >= 2 || (fallNum == 0)){
-                song.addNote() //make drum sound and add to track if recording!
-                knob.updateClickRingActive(active: true)
-                beatDetected = true
-                fallNum = 0
-                
-            }
-            
-        }
-        
-        if(beatDetected){
-            beatDetectedCount += 1
-            if(beatDetectedCount >= 10){
-                knob.updateClickRingActive(active: false)
-                beatDetected = false
-                beatDetectedCount = 0
-            }
-        }
-        
     }
     
     //MARK: Segue to next view

@@ -239,7 +239,13 @@ class ViewController: UIViewController, SongCallbacks {
     func handlePlayButtonSelected(){
         
         playButton.isSelected = !playButton.isSelected
-        if(playButton.isSelected){
+        if(!playButton.isSelected && recordButton.isSelected){
+            playButton.isSelected = !playButton.isSelected //keep play enabled and stop recording
+            recordButton.isSelected = false
+            song.stop_record()
+            recordButton.setStopped()
+        }
+        else if(playButton.isSelected && !recordButton.isSelected){
             //If play set then set song play
             song.stop() //disable recording first
             song.play()

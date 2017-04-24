@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		4201FDD81E006C1B00101870 /* GlobalAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4201FDD71E006C1B00101870 /* GlobalAttributes.swift */; };
 		4201FDDA1E01ACEE00101870 /* PanSliderCtrl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4201FDD91E01ACEE00101870 /* PanSliderCtrl.swift */; };
-		421425EA1DFCDB510092BCB4 /* BeatFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 421425E91DFCDB510092BCB4 /* BeatFilter.swift */; };
+		42139B6A1EAC2796006418E5 /* BeatFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42139B691EAC2796006418E5 /* BeatFilter.swift */; };
 		421425ED1DFCDC040092BCB4 /* SongDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 421425EB1DFCDC040092BCB4 /* SongDatabase.swift */; };
 		421425EE1DFCDC040092BCB4 /* SongLibraryLists.swift in Sources */ = {isa = PBXBuildFile; fileRef = 421425EC1DFCDC040092BCB4 /* SongLibraryLists.swift */; };
 		421425F01DFCDC130092BCB4 /* Sounds_electronic_drumset in Resources */ = {isa = PBXBuildFile; fileRef = 421425EF1DFCDC130092BCB4 /* Sounds_electronic_drumset */; };
@@ -48,7 +48,6 @@
 		42F2C5BC1E561A9800C87540 /* SoundsMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F2C5BB1E561A9800C87540 /* SoundsMap.swift */; };
 		42F912101E953F6700024E9C /* AudioKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 42F9120F1E953F6700024E9C /* AudioKit.framework */; };
 		42F912111E953F6700024E9C /* AudioKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 42F9120F1E953F6700024E9C /* AudioKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		42FB4DE61E99A15500731BAC /* ViewControllerCleanup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42FB4DE51E99A15500731BAC /* ViewControllerCleanup.swift */; };
 		42FB4DE81E9AA80200731BAC /* QuantizeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42FB4DE71E9AA80200731BAC /* QuantizeManager.swift */; };
 		42FB4DEA1E9AFFA300731BAC /* MeasureTimelineManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42FB4DE91E9AFFA300731BAC /* MeasureTimelineManager.swift */; };
 		9450E20E1E7E64FE002D5BB3 /* Song.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9450E20D1E7E64FE002D5BB3 /* Song.storyboard */; };
@@ -133,7 +132,7 @@
 /* Begin PBXFileReference section */
 		4201FDD71E006C1B00101870 /* GlobalAttributes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GlobalAttributes.swift; sourceTree = "<group>"; };
 		4201FDD91E01ACEE00101870 /* PanSliderCtrl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PanSliderCtrl.swift; sourceTree = "<group>"; };
-		421425E91DFCDB510092BCB4 /* BeatFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BeatFilter.swift; path = MidiSensor_V1.0.0/BeatFilter.swift; sourceTree = "<group>"; };
+		42139B691EAC2796006418E5 /* BeatFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BeatFilter.swift; path = Groover/BeatFilter.swift; sourceTree = "<group>"; };
 		421425EB1DFCDC040092BCB4 /* SongDatabase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SongDatabase.swift; path = Audio/SongDatabase.swift; sourceTree = "<group>"; };
 		421425EC1DFCDC040092BCB4 /* SongLibraryLists.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SongLibraryLists.swift; path = Audio/SongLibraryLists.swift; sourceTree = "<group>"; };
 		421425EF1DFCDC130092BCB4 /* Sounds_electronic_drumset */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Sounds_electronic_drumset; sourceTree = "<group>"; };
@@ -172,7 +171,6 @@
 		42F2C5B91E5211E900C87540 /* InstrumentLibrary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InstrumentLibrary.swift; sourceTree = "<group>"; };
 		42F2C5BB1E561A9800C87540 /* SoundsMap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SoundsMap.swift; sourceTree = "<group>"; };
 		42F9120F1E953F6700024E9C /* AudioKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AudioKit.framework; sourceTree = "<group>"; };
-		42FB4DE51E99A15500731BAC /* ViewControllerCleanup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewControllerCleanup.swift; sourceTree = "<group>"; };
 		42FB4DE71E9AA80200731BAC /* QuantizeManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuantizeManager.swift; sourceTree = "<group>"; };
 		42FB4DE91E9AFFA300731BAC /* MeasureTimelineManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeasureTimelineManager.swift; sourceTree = "<group>"; };
 		9450E20D1E7E64FE002D5BB3 /* Song.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Song.storyboard; sourceTree = "<group>"; };
@@ -338,7 +336,7 @@
 		425FA0241E999EE3001A9EC6 /* BeatFilter */ = {
 			isa = PBXGroup;
 			children = (
-				421425E91DFCDB510092BCB4 /* BeatFilter.swift */,
+				42139B691EAC2796006418E5 /* BeatFilter.swift */,
 			);
 			name = BeatFilter;
 			sourceTree = "<group>";
@@ -423,7 +421,6 @@
 		42CD351C1E81861E00A33F7A /* GrooveStoryboard */ = {
 			isa = PBXGroup;
 			children = (
-				42FB4DE51E99A15500731BAC /* ViewControllerCleanup.swift */,
 				FA50AA541D2A3FE60035C942 /* ViewController.swift */,
 				423174FE1D6CAED000A97065 /* Knob */,
 				423174FD1D6CAEC800A97065 /* Quantize */,
@@ -752,6 +749,7 @@
 				42BA35191E099BB400338990 /* SongTemplate.swift in Sources */,
 				42C8A3DB1D97422F004BDD58 /* EighthCtrl.swift in Sources */,
 				FA908EE31D3F490A009FAFA4 /* RectBtn.swift in Sources */,
+				42139B6A1EAC2796006418E5 /* BeatFilter.swift in Sources */,
 				FA50AA891D2B40160035C942 /* Record.swift in Sources */,
 				FA56CA451DEEA7A000738409 /* TempoSlider.swift in Sources */,
 				FA56CA431DEEA57F00738409 /* SettingsTableViewController.swift in Sources */,
@@ -770,9 +768,7 @@
 				FA50AA831D2A433B0035C942 /* UIGroover.swift in Sources */,
 				945EF8131E026D8200A92E73 /* GlobalMeasures.swift in Sources */,
 				FA0CCADC1DF6A26E00EC3F6A /* SettingsViewController.swift in Sources */,
-				42FB4DE61E99A15500731BAC /* ViewControllerCleanup.swift in Sources */,
 				42C8A3CF1D9721D4004BDD58 /* KnobCtrl.swift in Sources */,
-				421425EA1DFCDB510092BCB4 /* BeatFilter.swift in Sources */,
 				947E19E41DFBF7E400443F7E /* NewSongViewController.swift in Sources */,
 				42AA07D61E3E9773002FA7E8 /* MeasureCtrl.swift in Sources */,
 				421425ED1DFCDC040092BCB4 /* SongDatabase.swift in Sources */,

@@ -288,12 +288,17 @@ class Song {
         AudioKit.start()
     }
     func clearPreset(){
-        //stop()
         instrument.clear()
     }
     
     func deleteTrack(){
+        if(instrument.recording){
+            stop_record()
+        }
+        instrument.stop()
         clearPreset()
+        saveSong()
+        delegate?.stopRecordFromSong()
         delegate?.updateTimelineAfterDelete()
     }
     

@@ -386,7 +386,7 @@ class InstrumentManager {
     func updateMeasuresFromBeatsElapsesAbs(){
         let elapsed = beats_elapsed_abs
         let new_measure_count = Int(ceil(elapsed / beats_per_measure))
-        measures = new_measure_count
+        updateMeasure(count: new_measure_count)
         loop.measures = measures
     }
     

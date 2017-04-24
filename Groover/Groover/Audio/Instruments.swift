@@ -154,6 +154,8 @@ class LoopManager {
     
     var beats_per_loop: Double { return measures * beats_per_measure }
     
+    var beats_per_loop_pos: Double { return (measures * beats_per_measure) - clickTrack.timeSignature.beatScale }
+    
     var last_beat_in_loop: Double { return beats_per_loop - clickTrack.timeSignature.beatScale }
     
     var beats_elapsed: Double {
@@ -417,8 +419,9 @@ class InstrumentManager {
         if(!recorded){
             return
         }
+
         let elapsed = global_beats_elapsed - global_offset
-        if(elapsed > loop.beats_per_loop){
+        if(elapsed >= loop.beats_per_loop){
             loop.current_note = 0
             loop.beats_elapsed_offset += loop.beats_per_loop
             loop.measures = measures
@@ -451,6 +454,7 @@ class InstrumentManager {
             playPrerollIfAvailable()
             
             appendNotesToNextLoop()
+            updateLoopFromClickTrack()
         }
     }
     

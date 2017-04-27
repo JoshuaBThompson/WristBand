@@ -11,7 +11,6 @@
 		4201FDDA1E01ACEE00101870 /* PanSliderCtrl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4201FDD91E01ACEE00101870 /* PanSliderCtrl.swift */; };
 		42139B6A1EAC2796006418E5 /* BeatFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42139B691EAC2796006418E5 /* BeatFilter.swift */; };
 		421425ED1DFCDC040092BCB4 /* SongDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 421425EB1DFCDC040092BCB4 /* SongDatabase.swift */; };
-		421425EE1DFCDC040092BCB4 /* SongLibraryLists.swift in Sources */ = {isa = PBXBuildFile; fileRef = 421425EC1DFCDC040092BCB4 /* SongLibraryLists.swift */; };
 		421425F01DFCDC130092BCB4 /* Sounds_electronic_drumset in Resources */ = {isa = PBXBuildFile; fileRef = 421425EF1DFCDC130092BCB4 /* Sounds_electronic_drumset */; };
 		424D86441E2ADEC400B540D8 /* DetectDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 424D86431E2ADEC400B540D8 /* DetectDevice.swift */; };
 		4254BC451D4D8366007572B6 /* PopupBlur.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4254BC441D4D8366007572B6 /* PopupBlur.swift */; };
@@ -134,7 +133,6 @@
 		4201FDD91E01ACEE00101870 /* PanSliderCtrl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PanSliderCtrl.swift; sourceTree = "<group>"; };
 		42139B691EAC2796006418E5 /* BeatFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BeatFilter.swift; path = Groover/BeatFilter.swift; sourceTree = "<group>"; };
 		421425EB1DFCDC040092BCB4 /* SongDatabase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SongDatabase.swift; path = Audio/SongDatabase.swift; sourceTree = "<group>"; };
-		421425EC1DFCDC040092BCB4 /* SongLibraryLists.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SongLibraryLists.swift; path = Audio/SongLibraryLists.swift; sourceTree = "<group>"; };
 		421425EF1DFCDC130092BCB4 /* Sounds_electronic_drumset */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Sounds_electronic_drumset; sourceTree = "<group>"; };
 		422D9D361D35525D00E27904 /* Groover.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Groover.entitlements; sourceTree = "<group>"; };
 		424D86431E2ADEC400B540D8 /* DetectDevice.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetectDevice.swift; sourceTree = "<group>"; };
@@ -526,7 +524,6 @@
 		FA56CA461DEEA7A800738409 /* Song */ = {
 			isa = PBXGroup;
 			children = (
-				421425EC1DFCDC040092BCB4 /* SongLibraryLists.swift */,
 				421425EB1DFCDC040092BCB4 /* SongDatabase.swift */,
 				FA56CA441DEEA7A000738409 /* TempoSlider.swift */,
 				945EF8101E026D3300A92E73 /* TimeSigSlider.swift */,
@@ -724,7 +721,6 @@
 				42F2C5BC1E561A9800C87540 /* SoundsMap.swift in Sources */,
 				4254BC491D4E9DE6007572B6 /* PopupButton.swift in Sources */,
 				94D83CD61E012F1200EEBAC2 /* PanSlider.swift in Sources */,
-				421425EE1DFCDC040092BCB4 /* SongLibraryLists.swift in Sources */,
 				94B11F2F1E231CFD0013AFA4 /* DeleteSong.swift in Sources */,
 				FA50AA551D2A3FE60035C942 /* ViewController.swift in Sources */,
 				42C8A3D71D9741C4004BDD58 /* ThirtysecondCtrl.swift in Sources */,

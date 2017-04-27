@@ -571,6 +571,7 @@ class InstrumentManager {
 
 class MidiInstrument: AKMIDIInstrument {
     //MARK: Attributes
+    var sound_map: SoundMapInfo!
     var midi_note: MIDINoteNumber = 60
     var sampler = AKSampler()
     var instrument_manager: InstrumentManager!

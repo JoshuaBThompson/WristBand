@@ -361,8 +361,7 @@ class Song {
         //use sound_library.position_map to get sound mapped know position
         var i = 0
         for inst in instruments {
-            let name = inst.midi_instrument.name
-            let pos = self.sound_library.position_map[name]
+            let pos = inst.midi_instrument.sound_map.number
             if(pos == position){
                 selectInstrument(i)
                 return

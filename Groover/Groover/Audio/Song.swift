@@ -14,6 +14,7 @@ protocol SongCallbacks: class {
     func stopRecordFromSong()
     func updateTimelineAfterDelete()
     func startRecordFromSong()
+    func updatePositionIndicator()
 }
 
 class Song {
@@ -268,6 +269,7 @@ class Song {
         }
         
         saveSong()
+        self.delegate?.updatePositionIndicator()
         
     }
     

@@ -22,7 +22,7 @@ class KnobCtrl: Knob {
     var previousLocation: CGPoint!
     let circleAngle: CGFloat = 360
     let innerKnobRadius: CGFloat = 70.0
-    let detentCount = 12 //number of instruments / presets
+    var detentCount = 14 //number of instruments / presets
     let angleRangeEn = false //enforce angle range limits
     let angleRate: CGFloat = 0.5 // if set to 1 then knob turns with user finger at same speed
     var _detent: Int = 0

@@ -53,6 +53,7 @@ class ViewController: UIViewController, SongCallbacks {
     var delete_track_event = false
     var measure_update_event = false
     var events_started = false
+    var update_pos_indicator_event = false
     
     
     //MARK: Timeline UI
@@ -134,6 +135,7 @@ class ViewController: UIViewController, SongCallbacks {
             startEventHandler()
             events_started = true
         }
+        updatePositionIndicator()
     }
     
     //MARK: Beat filter
@@ -189,6 +191,10 @@ class ViewController: UIViewController, SongCallbacks {
         song.delegate = self
         song.start()
         song.toggleClickTrackMute()
+    }
+    
+    func updatePositionIndicator(){
+        update_pos_indicator_event = true
     }
     
     
@@ -355,6 +361,11 @@ class ViewController: UIViewController, SongCallbacks {
                 self.measureTimelineManager.showInactive()
             }
             measure_update_event = false
+        }
+        else if(update_pos_indicator_event){
+            knob.detentCount = song.instruments.count
+            positionIndicator.set_max_position(max_pos: song.instruments.count)
+            update_pos_indicator_event = false
         }
         
         knob.activated = (!recordButton.isSelected || song.instrument.recorded) && (!song.instrument.recording)

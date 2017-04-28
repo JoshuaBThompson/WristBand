@@ -12,7 +12,7 @@ import UIKit
 class GlobalMeasuresCtrl: SliderCtrl{
     
     //MARK: Computed properties
-    let max_measures: Int = 15
+    let max_measures: Int = 32
     var measures: Int {
         if(self.position==nil){
             return 1

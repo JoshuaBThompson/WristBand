@@ -67,16 +67,46 @@ class MeasureTimelineManager {
         }
         needs_clear = true //used when song is stopped, check if this is set
         
+        
+        //clear measures that are not part of the loop
         if((bar_num + song.timeline.bars_remaining) < measureViews.count){
             let last_bar_num = song.timeline.last_bar_num
             for i in (last_bar_num + 1) ..< measureViews.count {
                 if(!measureViews[i].exists){
                     break
                 }
+                
                 measureViews[i].clearProgress()
                 measureViews[i].active = false
                 measureViews[i].exists = false
                 measureLabels[i].text = ""
+            }
+        }
+        
+        if(bar_num == 0){
+            var last_bar_num = 0
+            if((bar_num + song.timeline.bars_remaining) < measureViews.count){
+                last_bar_num = song.timeline.last_bar_num
+            }
+            else{
+                last_bar_num = measureViews.count - 1
+            }
+            
+            var j = 0
+            for i in bar_num + 1 ... last_bar_num {
+                j += 1
+                let text = "\(measure_count + j)"
+                if(measureLabels[i].text == text){
+                    measureViews[i].clearProgress()
+                    measureViews[i].active = false
+                    measureViews[i].exists = true
+                    break
+                }
+                
+                measureViews[i].clearProgress()
+                measureViews[i].active = false
+                measureViews[i].exists = true
+                measureLabels[i].text = text
             }
         }
         

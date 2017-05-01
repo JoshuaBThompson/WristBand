@@ -93,6 +93,9 @@ class MeasureTimelineManager {
             }
             
             var j = 0
+            if(bar_num + 1 < last_bar_num){
+                return
+            }
             for i in bar_num + 1 ... last_bar_num {
                 j += 1
                 let text = "\(measure_count + j)"

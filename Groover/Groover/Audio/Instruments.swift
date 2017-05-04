@@ -11,6 +11,7 @@ import AudioKit
 
 /****************Global*********************/
 let GlobalDefaultMeasures = 4
+let GlobalBeatDur = 0.1
 enum InstrumentError: Error {
     case InvalidSongLoaded
 }
@@ -240,7 +241,7 @@ class LoopManager {
 struct InstrumentNote {
     var note: AKDuration!
     var velocity: MIDIVelocity!
-    let duration = AKDuration(seconds: 0.1)
+    let duration = AKDuration(seconds: GlobalBeatDur)
     
     var beats: Double {
         return note.beats
@@ -282,6 +283,8 @@ class InstrumentManager {
     var global_beats_elapsed: Double { return clickTrack.track.currentPosition.beats }
     
     var track: AKMusicTrack { return clickTrack.track.tracks[track_num] }
+    
+    var default_measure_count_started: Bool { return clickTrack.instrument.defaultMeasureCountStarted }
     
     var quantize_enabled: Bool {
         get {
@@ -343,8 +346,9 @@ class InstrumentManager {
             if(notes.count > 0){
                 return
             }
-            let position = AKDuration(beats: 0, tempo: tempo) //just quantize to first beats
+            let position = AKDuration(beats: 0.05, tempo: tempo) //just quantize to first beats
             updateNotesList(position: position)
+            print("addPrerollNote - position \(position.beats)")
     }
     
     func updateNotesList(position: AKDuration){
@@ -374,6 +378,7 @@ class InstrumentManager {
         recording = false
         
         if(!recorded){
+            print("stopRecord!")
             recorded = true
             updateMeasuresFromBeatsElapsesAbs()
             appendNotesToNextLoop()
@@ -395,7 +400,7 @@ class InstrumentManager {
     func updateMeasure(count: Int){
         measures = count
         loop.default_measures = measures
-        if(!playing){
+        if(!playing || !recorded){
             loop.measures = measures
         }
     }
@@ -427,16 +432,21 @@ class InstrumentManager {
             loop.measures = measures
             
             loop.loop += 1
-            print("loop \(loop.loop) global_offset \(global_offset)")
             appended = false
             
+            //check if stop record event
+            if(recording && clickTrack.instrument.defaultMeasureCountEnded){
+                clickTrack.instrument.resetDefaultMeasureCounter()
+                clickTrack.song.stopRecordFromSong()
+            }
         }
     }
     
     func updateNotesFromClickTrack(){
-        if(!recorded){
+        if(!recorded && !default_measure_count_started){
             return
         }
+        
         appended = true
         loop.loop_notes += clickTrack.timeSignature.beatsPerMeasure
         if(loop.loop_notes >= loop.notes_per_loop){
@@ -447,21 +457,19 @@ class InstrumentManager {
     
     func startLoopFromDefaultMeasures(){
         if(!recorded){
+            print("startLoopFromDefaultMeasures!")
             recorded = true
             measures = loop.default_measures
             loop.measures = measures
-            //hack, since preroll pos same as when default measure start gets called
-            playPrerollIfAvailable()
-            
-            appendNotesToNextLoop()
-            updateLoopFromClickTrack()
         }
     }
     
     func playPrerollIfAvailable(){
         if(notes.count > 0){
             let note = notes[0]
+            print("playPrerollIfAvailable \(note.beats)")
             if(note.beats == 0.0){
+                print("playPrerollIfAvailable note.beats")
                 midi_instrument.rawPlay(midi_instrument.midi_note, velocity: MIDIVelocity(127))
             }
         }
@@ -747,6 +755,7 @@ class ClickTrackInstrument: MidiInstrument{
     }
     
     func startDefaultMeasureCounter(){
+        resetDefaultMeasureCounter()
         if(!newRecordEnabled){
             defaultMeasureCountStarted = false
         }
@@ -763,12 +772,10 @@ class ClickTrackInstrument: MidiInstrument{
             
         }
         
+        defaultMeasureCounter += 1
         if(defaultMeasureCounter >= instrument_default_measures){
             defaultMeasureCountEnded = true
             defaultMeasureCountStarted = false
-        }
-        else{
-            defaultMeasureCounter += 1
         }
     }
     
@@ -791,6 +798,7 @@ class ClickTrackInstrument: MidiInstrument{
             if(defaultMeasureCountStarted){
                 updateDefaultMeasureCounter()
             }
+            
             loop_count += 1
         }
         
@@ -839,16 +847,18 @@ class ClickTrackInstrument: MidiInstrument{
         }
         
         
-        if(defaultMeasureCountEnded){
-            clickTrack.song.startPresetWithDefaultMeasureCount()
-            defaultMeasureCountEnded = false
-        }
-        
         if(beat==beats_per_measure){
+            if(defaultMeasureCounter >= instrument_default_measures){
+                endInstRecordFromDefaultMeasures()
+            }
             clickTrack.appendTrack(offset: loop_count * beats_per_measure)
             updateInstrumentNotes()
             beat=0
         }
+    }
+    
+    func endInstRecordFromDefaultMeasures(){
+        clickTrack.song.startPresetWithDefaultMeasureCount()
     }
     
     func updateInstrumentLoops(){
@@ -1029,7 +1039,7 @@ class ClickTrack: AKNode{
                 if(i == 0){
                     velocity = 127 //first beat in measure is loudest
                 }
-                track.tracks[0].add(noteNumber: 60, velocity: MIDIVelocity(velocity), position: beat_pos, duration: AKDuration(seconds: 0.1))
+                track.tracks[0].add(noteNumber: 60, velocity: MIDIVelocity(velocity), position: beat_pos, duration: AKDuration(seconds: GlobalBeatDur))
             }
         }
     }

@@ -550,9 +550,11 @@ class Song {
     func startPresetWithDefaultMeasureCount(){
         //tells preset to use the defaultMeasure count (global measure) instead of waiting for user to hit 'stop' record
         self.instrument.startLoopFromDefaultMeasures()
+    }
+    
+    func stopRecordFromSong(){
         self.stop_record()
         self.delegate?.stopRecordFromSong()
-        
     }
     
     func stop(){

@@ -93,7 +93,7 @@ class MeasureTimelineManager {
             }
             
             var j = 0
-            if(bar_num + 1 < last_bar_num){
+            if(bar_num + 1 > last_bar_num){
                 return
             }
             for i in bar_num + 1 ... last_bar_num {

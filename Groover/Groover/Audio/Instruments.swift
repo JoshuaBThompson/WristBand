@@ -301,18 +301,30 @@ class InstrumentManager {
     //MARK: Init
     init(click_track: ClickTrack, midi_instrument: MidiInstrument){
         quantizer = Quantize()
-        midi = AKMIDI()
         clickTrack = click_track
         loop = LoopManager(click_track: clickTrack)
         measures = loop.default_measures
         //timeline bars count from viewcontroller measure views count
         timeline = LoopTimeline(loop_manager: loop, timeline_bars: 4)
         track_num = clickTrack.track.trackCount
+        if(clickTrack.track.newTrack() == nil){
+            print("failed to load track \(track_num)")
+        }
+        
+        loadMidiInstrument(midi_instrument: midi_instrument)
+        
+    }
+    
+    func loadMidiInstrument(midi_instrument: MidiInstrument){
+        midi = AKMIDI()
         self.midi_instrument = midi_instrument
         self.midi_instrument.instrument_manager = self
         self.midi_instrument.enableMIDI(midi.client, name: "Midi instrument \(track_num)")
-        if(clickTrack.track.newTrack() != nil){
+        if(track_num < clickTrack.track.trackCount){
             clickTrack.track.tracks[track_num].setMIDIOutput(midi_instrument.midiIn)
+        }
+        else{
+            print("failed to load midi instrumet - track num out of range")
         }
     }
     

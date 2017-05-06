@@ -52,6 +52,10 @@ class SoundLibrary {
     var sound_lib_helper = SoundLibraryHelper()
     
     init(location: String="Main", subDirectory: String=DefaultSoundsLibrary){
+        load(location: location, subDirectory: subDirectory)
+    }
+    
+    func load(location: String="Main", subDirectory: String=DefaultSoundsLibrary){
         self.subDirectory = subDirectory
         if(location == "Main"){
             self.position_map = SoundMapCollection[self.subDirectory]
@@ -65,7 +69,25 @@ class SoundLibrary {
         }
     }
     
+    func isLib(location: String="Main", subDirectory: String=DefaultSoundsLibrary) -> Bool{
+        if(location == "Main"){
+            if(SoundMapCollection[subDirectory] != nil){
+                return true
+            }
+        }
+        else if(location == "Documents"){
+            //TODO: add documents sound finder
+        }
+        else if(location == "Library"){
+            //TODO: add library sound finder
+        }
+        
+        return false
+    }
+    
     func getSoundsFromMainBundle(){
+        instruments.removeAll() //clear
+        
         soundLibraryList = sound_lib_helper.getSoundsFromLibraryPath(directory: self.subDirectory)
         for soundPath in soundLibraryList {
             let inst = SavedInstrument(soundFilePath: soundPath, position_map: self.position_map)

@@ -69,13 +69,22 @@ class Song {
     
     init(){
         initAudioSettings()
-        mixer = AKMixer()
         clickTrack = ClickTrack(songRef: self, clickTempo: tempo, clickTimeSignature: timeSignature)
-        mixer.connect(clickTrack)
         sound_library = SoundLibrary() //load instrument sounds from default library 'Sounds_Extra' in main bundle
         loadNewSong()
         
-        //connect all instrument outputs to Audiokit output
+        //connect all instrument outputs to Audiokit output via self.mixer
+        loadMixer()
+    }
+    
+    func loadMixer(){
+        mixer = AKMixer() //new mixer
+        
+        mixer.connect(clickTrack)
+        for inst in instruments {
+            mixer.connect(inst.midi_instrument.panner)
+        }
+        
         AudioKit.output = mixer
     }
     
@@ -88,9 +97,29 @@ class Song {
         for instrument in sound_library.instruments {
             let instrument_manager = InstrumentManager(click_track: clickTrack, midi_instrument: instrument)
             instruments.append(instrument_manager)
-            mixer.connect(instrument_manager.midi_instrument.panner)
         }
         
+    }
+    
+    func loadAudioLibrary(audio_lib_name: String){
+        
+        let lib_available = sound_library.isLib(subDirectory: audio_lib_name)
+        if(!lib_available){
+            print("audio library \(audio_lib_name) failed to load or not available")
+            return
+        }
+        //stop any playback or loop
+        self.stop()
+        
+        //load new library
+        sound_library.load(subDirectory: "Sounds_electronic_drumset")
+        
+        //load new instrument sounds into existing instruments and add instrument managers if not in list
+        
+        //remove instruments from sequence tracks
+        
+        //reload instruments with new sounds
+    
     }
     
     

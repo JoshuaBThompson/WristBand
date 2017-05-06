@@ -68,6 +68,7 @@ class Song {
     }
     
     init(){
+        initAudioSettings()
         mixer = AKMixer()
         clickTrack = ClickTrack(songRef: self, clickTempo: tempo, clickTimeSignature: timeSignature)
         mixer.connect(clickTrack)
@@ -76,7 +77,11 @@ class Song {
         
         //connect all instrument outputs to Audiokit output
         AudioKit.output = mixer
-
+    }
+    
+    func initAudioSettings(){
+        AKSettings.defaultToSpeaker = true
+        AKSettings.playbackWhileMuted = true // prevents audio from muting when user mutes device
     }
     
     func initInstruments(){

@@ -94,11 +94,29 @@ class Song {
     }
     
     func initInstruments(){
+        var i = 0
+        
         for instrument in sound_library.instruments {
-            let instrument_manager = InstrumentManager(click_track: clickTrack, midi_instrument: instrument)
-            instruments.append(instrument_manager)
+            if(i < instruments.count){
+                //instrument manager exists so just load midi_instrument
+                instruments[i].loadMidiInstrument(midi_instrument: instrument)
+                instruments[i].enable()
+            }
+            else{
+                //new instrument manager instance
+                let instrument_manager = InstrumentManager(click_track: clickTrack, midi_instrument: instrument)
+                instruments.append(instrument_manager)
+            }
+            
+            i += 1
         }
         
+        //now disable any previous instrument managers that are not part of sound library
+        if(instruments.count > sound_library.instruments.count){
+            for j in sound_library.instruments.count ..< instruments.count {
+                instruments[j].disable()
+            }
+        }
     }
     
     func loadAudioLibrary(audio_lib_name: String){

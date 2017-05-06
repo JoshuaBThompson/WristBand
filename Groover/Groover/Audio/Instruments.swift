@@ -251,6 +251,7 @@ struct InstrumentNote {
 
 class InstrumentManager {
     //MARK: Attributes
+    var enabled: Bool = true
     var playing: Bool = false
     var recording: Bool = false
     var recorded: Bool = false
@@ -329,10 +330,20 @@ class InstrumentManager {
     }
     
     //MARK: Functions
+    
+    //MARK: Disable or Enable instrument
+    func enable(){
+        enabled = true
+    }
+    
+    func disable(){
+        enabled = false
+    }
+    
     //MARK: Add Note
     //Song.instrument.addNote()
     func addNote() {
-        if(!recording && !clickTrack.instrument.preRollEnded){
+        if((!recording && !clickTrack.instrument.preRollEnded) || !enabled){
             return
         }
         if(clickTrack.instrument.preRollEnded){

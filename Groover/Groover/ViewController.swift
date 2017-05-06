@@ -29,7 +29,7 @@ class ViewController: UIViewController, SongCallbacks {
     //MARK: Beat detection
     let motionManager = CMMotionManager()
     let queue = OperationQueue.main
-    var timeIntervalMillis: UInt = 12 //25
+    var timeIntervalMillis: UInt = 10 //25
     var beatDetected = false
     var beatDetectedCount = 0
     var riseNum: Int = 0

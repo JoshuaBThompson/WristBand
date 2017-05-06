@@ -11,7 +11,7 @@ import AudioKit
 
 /****************Global*********************/
 let GlobalDefaultMeasures = 4
-let GlobalBeatDur = 0.1
+let GlobalBeatDur = 0.01
 enum InstrumentError: Error {
     case InvalidSongLoaded
 }
@@ -268,6 +268,7 @@ class InstrumentManager {
     var timeline: LoopTimeline!
     
     //MARK: Computed
+    
     var global_offset: Double { return loop.beats_elapsed_offset + loop.start_offset }
     
     var beats_per_loop: Double { return measures * beats_per_measure }
@@ -285,6 +286,8 @@ class InstrumentManager {
     var track: AKMusicTrack { return clickTrack.track.tracks[track_num] }
     
     var default_measure_count_started: Bool { return clickTrack.instrument.defaultMeasureCountStarted }
+    
+    var default_measure_count_ended: Bool { return clickTrack.instrument.defaultMeasureCountEnded }
     
     var quantize_enabled: Bool {
         get {
@@ -435,11 +438,15 @@ class InstrumentManager {
             appended = false
             
             //check if stop record event
-            if(recording && clickTrack.instrument.defaultMeasureCountEnded){
-                clickTrack.instrument.resetDefaultMeasureCounter()
-                clickTrack.song.stopRecordFromSong()
+            if(recording && default_measure_count_ended){
+                stopRecordAfterDefaultMeasureEnded()
             }
         }
+    }
+    
+    func stopRecordAfterDefaultMeasureEnded(){
+        clickTrack.instrument.resetDefaultMeasureCounter()
+        clickTrack.song.stopRecordFromSong()
     }
     
     func updateNotesFromClickTrack(){
@@ -457,30 +464,16 @@ class InstrumentManager {
     
     func startLoopFromDefaultMeasures(){
         if(!recorded){
-            print("startLoopFromDefaultMeasures!")
             recorded = true
             measures = loop.default_measures
             loop.measures = measures
         }
     }
     
-    func playPrerollIfAvailable(){
-        if(notes.count > 0){
-            let note = notes[0]
-            print("playPrerollIfAvailable \(note.beats)")
-            if(note.beats == 0.0){
-                print("playPrerollIfAvailable note.beats")
-                midi_instrument.rawPlay(midi_instrument.midi_note, velocity: MIDIVelocity(127))
-            }
-        }
-    }
-    
     func appendNotesToNextLoop(){
         let offset_beats = global_offset + loop.beats_per_loop
-        print("appendNotesToNextLoop \(offset_beats)")
         appendNotesFromOffset(offset: offset_beats)
     }
-    
     
     func appendNotesFromOffset(start_note_num: Int=0, offset: Double){
         var i = 0

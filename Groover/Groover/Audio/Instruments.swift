@@ -867,7 +867,7 @@ class ClickTrackInstrument: MidiInstrument{
             if(defaultMeasureCounter >= instrument_default_measures){
                 endInstRecordFromDefaultMeasures()
             }
-            clickTrack.appendTrack(offset: loop_count * beats_per_measure)
+            clickTrack.appendTrack(offset: loop_count * beat_len_per_measure)
             updateInstrumentNotes()
             beat=0
         }
@@ -1052,9 +1052,7 @@ class ClickTrack: AKNode{
             if(i < timeSigBeats){
                 let beat_pos = AKDuration(beats: Double(i * timeSigScale) + offset)
                 var velocity = 127
-                if(i == 0){
-                    velocity = 127 //first beat in measure is loudest
-                }
+                print("click track append offset \(offset) at beat_pos \(beat_pos.beats)")
                 track.tracks[0].add(noteNumber: 60, velocity: MIDIVelocity(velocity), position: beat_pos, duration: AKDuration(seconds: GlobalBeatDur))
             }
         }

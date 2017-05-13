@@ -329,6 +329,13 @@ class InstrumentManager {
         }
     }
     
+    func loadNewAudioFile(url: URL, name: String, position_map: SoundMapInfo){
+        
+        if(self.midi_instrument != nil){
+            self.midi_instrument.loadNewAudioFile(url: url, name: name, position_map: position_map)
+        }
+    }
+    
     //MARK: Functions
     
     //MARK: Disable or Enable instrument
@@ -659,6 +666,25 @@ class MidiInstrument: AKMIDIInstrument {
     func update(){
         //update note counter
         instrument_manager?.loop.current_note += 1
+    }
+    
+    func loadNewAudioFile(url: URL, name: String, position_map: SoundMapInfo){
+        do {
+            let audioFile = try AKAudioFile(forReading: url)
+            try sampler.loadAudioFile(audioFile)
+            self.name = name
+            self.sound_map = position_map
+            if(self.sound_map != nil){
+                self.name = self.sound_map.name
+            }
+            else{
+                print("failed to load sound")
+            }
+            print("url: \(url)")
+        }
+        catch {
+            print("error: \(error)")
+        }
     }
     
 }

@@ -99,12 +99,13 @@ class Song {
         for instrument in sound_library.instruments {
             if(i < instruments.count){
                 //instrument manager exists so just load midi_instrument
-                instruments[i].loadMidiInstrument(midi_instrument: instrument)
+                instruments[i].loadNewAudioFile(url: instrument.url, name: instrument.name, position_map: instrument.sound_map)
                 instruments[i].enable()
             }
             else{
                 //new instrument manager instance
-                let instrument_manager = InstrumentManager(click_track: clickTrack, midi_instrument: instrument)
+                let instrument_manager = InstrumentManager(click_track: clickTrack, midi_instrument: MidiInstrument())
+                instrument_manager.loadNewAudioFile(url: instrument.url, name: instrument.name, position_map: instrument.sound_map)
                 instruments.append(instrument_manager)
             }
             
@@ -119,7 +120,7 @@ class Song {
         }
     }
     
-    func loadAudioLibrary(audio_lib_name: String){
+    func loadAudioLibrary(audio_lib_name: String = "Sounds_electronic_drumset"){
         
         let lib_available = sound_library.isLib(subDirectory: audio_lib_name)
         if(!lib_available){
@@ -130,14 +131,11 @@ class Song {
         self.stop()
         
         //load new library
-        sound_library.load(subDirectory: "Sounds_electronic_drumset")
+        sound_library.load(subDirectory: audio_lib_name)
         
         //load new instrument sounds into existing instruments and add instrument managers if not in list
+        self.loadInstruments()
         
-        //remove instruments from sequence tracks
-        
-        //reload instruments with new sounds
-    
     }
     
     
@@ -206,7 +204,7 @@ class Song {
         if(songsDatabase == nil){
             return
         }
-        if(num < self.current_song.tracks.count){
+        if(num < self.current_song.tracks.count && !instrument_manager.recorded){
             self.current_song.tracks[num].loadSavedTrack()
             instrument_manager.clear()
             instrument_manager.notes = self.current_song.tracks[num].track
@@ -217,7 +215,7 @@ class Song {
             
             print("loaded saved track \(num)")
         }
-        else{
+        else if(num >= self.current_song.tracks.count){
             let count = self.current_song.tracks.count
             let newSongTrack = SongTrack()
             newSongTrack.loadNewTrack(instrument_manager: instrument_manager)
@@ -310,9 +308,7 @@ class Song {
     func loadInstruments(){
         //Load instruments for current_song
         
-        if(instruments.count == 0){
-            initInstruments() //create instruments with blank tracks
-        }
+        initInstruments() //create instruments with blank tracks
         
         
         //now load saved track data from database

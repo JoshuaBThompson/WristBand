@@ -13,18 +13,20 @@ import AudioKit
  Desc: This synth drum replicates a Snare instrument
  *****************/
 
-class SavedInstrument: MidiInstrument{
+class SavedInstrument{
+    var url: URL!
+    var name: String!
+    var sound_map: SoundMapInfo!
+    
     /// Create the synth Snare instrument
     ///
     /// - parameter voiceCount: Number of voices (usually two is plenty for drums)
     ///
     
     init(soundFilePath: String, position_map: [String: SoundMapInfo]) {
-        super.init()
-        let url = URL(fileURLWithPath: soundFilePath)
+        url = URL(fileURLWithPath: soundFilePath)
         do {
-            let audioFile = try AKAudioFile(forReading: url)
-            try sampler.loadAudioFile(audioFile)
+            _ = try AKAudioFile(forReading: url)
             self.name = soundFilePath.fileName()
             self.sound_map = position_map[name]
             if(self.sound_map != nil){
@@ -39,13 +41,12 @@ class SavedInstrument: MidiInstrument{
             print("error: \(error)")
         }
         
-        self.avAudioNode = sampler.avAudioNode
     }
     
 }
 
 class SoundLibrary {
-    var instruments = [MidiInstrument]()
+    var instruments = [SavedInstrument]()
     var position_map: [String: SoundMapInfo]!
     var soundLibraryList: [String]!
     var subDirectory: String!

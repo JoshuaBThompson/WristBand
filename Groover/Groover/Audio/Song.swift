@@ -69,13 +69,22 @@ class Song {
     
     init(){
         initAudioSettings()
-        mixer = AKMixer()
         clickTrack = ClickTrack(songRef: self, clickTempo: tempo, clickTimeSignature: timeSignature)
-        mixer.connect(clickTrack)
         sound_library = SoundLibrary() //load instrument sounds from default library 'Sounds_Extra' in main bundle
         loadNewSong()
         
-        //connect all instrument outputs to Audiokit output
+        //connect all instrument outputs to Audiokit output via self.mixer
+        loadMixer()
+    }
+    
+    func loadMixer(){
+        mixer = AKMixer() //new mixer
+        
+        mixer.connect(clickTrack)
+        for inst in instruments {
+            mixer.connect(inst.midi_instrument.panner)
+        }
+        
         AudioKit.output = mixer
     }
     
@@ -85,11 +94,47 @@ class Song {
     }
     
     func initInstruments(){
+        var i = 0
+        
         for instrument in sound_library.instruments {
-            let instrument_manager = InstrumentManager(click_track: clickTrack, midi_instrument: instrument)
-            instruments.append(instrument_manager)
-            mixer.connect(instrument_manager.midi_instrument.panner)
+            if(i < instruments.count){
+                //instrument manager exists so just load midi_instrument
+                instruments[i].loadNewAudioFile(url: instrument.url, name: instrument.name, position_map: instrument.sound_map)
+                instruments[i].enable()
+            }
+            else{
+                //new instrument manager instance
+                let instrument_manager = InstrumentManager(click_track: clickTrack, midi_instrument: MidiInstrument())
+                instrument_manager.loadNewAudioFile(url: instrument.url, name: instrument.name, position_map: instrument.sound_map)
+                instruments.append(instrument_manager)
+            }
+            
+            i += 1
         }
+        
+        //now disable any previous instrument managers that are not part of sound library
+        if(instruments.count > sound_library.instruments.count){
+            for j in sound_library.instruments.count ..< instruments.count {
+                instruments[j].disable()
+            }
+        }
+    }
+    
+    func loadAudioLibrary(audio_lib_name: String = "Sounds_electronic_drumset"){
+        
+        let lib_available = sound_library.isLib(subDirectory: audio_lib_name)
+        if(!lib_available){
+            print("audio library \(audio_lib_name) failed to load or not available")
+            return
+        }
+        //stop any playback or loop
+        self.stop()
+        
+        //load new library
+        sound_library.load(subDirectory: audio_lib_name)
+        
+        //load new instrument sounds into existing instruments and add instrument managers if not in list
+        self.loadInstruments()
         
     }
     
@@ -159,7 +204,7 @@ class Song {
         if(songsDatabase == nil){
             return
         }
-        if(num < self.current_song.tracks.count){
+        if(num < self.current_song.tracks.count && !instrument_manager.recorded){
             self.current_song.tracks[num].loadSavedTrack()
             instrument_manager.clear()
             instrument_manager.notes = self.current_song.tracks[num].track
@@ -170,7 +215,7 @@ class Song {
             
             print("loaded saved track \(num)")
         }
-        else{
+        else if(num >= self.current_song.tracks.count){
             let count = self.current_song.tracks.count
             let newSongTrack = SongTrack()
             newSongTrack.loadNewTrack(instrument_manager: instrument_manager)
@@ -263,9 +308,7 @@ class Song {
     func loadInstruments(){
         //Load instruments for current_song
         
-        if(instruments.count == 0){
-            initInstruments() //create instruments with blank tracks
-        }
+        initInstruments() //create instruments with blank tracks
         
         
         //now load saved track data from database

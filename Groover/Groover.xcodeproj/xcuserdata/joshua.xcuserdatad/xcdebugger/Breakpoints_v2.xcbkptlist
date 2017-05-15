@@ -34,7 +34,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "207"
             endingLineNumber = "207"
-            landmarkName = "measureTimerHandler()"
+            landmarkName = "initQuantizeCtrls()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -50,8 +50,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "87"
             endingLineNumber = "87"
-            landmarkName = "viewDidLoad()"
-            landmarkType = "7">
+            landmarkName = "ViewController"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -66,7 +66,71 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "84"
             endingLineNumber = "84"
-            landmarkName = "viewDidLoad()"
+            landmarkName = "ViewController"
+            landmarkType = "3">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Groover/Audio/Instruments.swift"
+            timestampString = "515784409.743033"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "701"
+            endingLineNumber = "701"
+            landmarkName = "default_measures"
+            landmarkType = "24">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Groover/Audio/Song.swift"
+            timestampString = "515784409.743033"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "645"
+            endingLineNumber = "645"
+            landmarkName = "Song"
+            landmarkType = "3">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Groover/Audio/Instruments.swift"
+            timestampString = "515784409.743033"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "695"
+            endingLineNumber = "695"
+            landmarkName = "default_measures"
+            landmarkType = "24">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Groover/Audio/Instruments.swift"
+            timestampString = "515784409.743033"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "558"
+            endingLineNumber = "558"
+            landmarkName = "clearNotesFrom(note_num:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -77,12 +141,26 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Groover/Audio/Instruments.swift"
-            timestampString = "513270695.836638"
+            timestampString = "515784409.743033"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "689"
-            endingLineNumber = "689"
-            landmarkName = "initInstrumentTrack()"
+            startingLineNumber = "1335"
+            endingLineNumber = "1335">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Groover/Audio/Song.swift"
+            timestampString = "515784409.743033"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "376"
+            endingLineNumber = "376"
+            landmarkName = "playNote()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -93,75 +171,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Groover/Audio/Song.swift"
-            timestampString = "513273259.049123"
+            timestampString = "515784409.743033"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "616"
-            endingLineNumber = "616"
-            landmarkName = "setTempo(_:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Groover/Audio/Instruments.swift"
-            timestampString = "513270695.836638"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "683"
-            endingLineNumber = "683"
-            landmarkName = "init(songRef:clickTempo:clickTimeSignature:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Groover/Audio/Instruments.swift"
-            timestampString = "513270695.836638"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "546"
-            endingLineNumber = "546"
-            landmarkName = "play(noteNumber:velocity:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Groover/Audio/Instruments.swift"
-            timestampString = "513270695.836638"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1323"
-            endingLineNumber = "1323"
-            landmarkName = "updateMeasureCount(_:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Groover/Audio/Song.swift"
-            timestampString = "513273259.049123"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "347"
-            endingLineNumber = "347"
+            startingLineNumber = "391"
+            endingLineNumber = "391"
             landmarkName = "selectInstrument(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -172,29 +186,13 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Groover/Audio/Song.swift"
-            timestampString = "513273259.049123"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "362"
-            endingLineNumber = "362"
-            landmarkName = "selectInstrumentByAssignedPosition(_:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "Groover/Audio/Instruments.swift"
-            timestampString = "513270695.836638"
+            timestampString = "515784409.743033"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "520"
-            endingLineNumber = "520"
-            landmarkName = "play(noteNumber:velocity:)"
+            startingLineNumber = "532"
+            endingLineNumber = "532"
+            landmarkName = "resetPlay()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -205,12 +203,42 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Groover/Audio/Song.swift"
-            timestampString = "513273259.049123"
+            timestampString = "515784409.743033"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "281"
-            endingLineNumber = "281"
-            landmarkName = "updateMeasureTimeline()"
+            startingLineNumber = "310"
+            endingLineNumber = "310"
+            landmarkName = "Song"
+            landmarkType = "3">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Groover/Audio/Instruments.swift"
+            timestampString = "515784409.743033"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1287"
+            endingLineNumber = "1287">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Groover/Audio/Instruments.swift"
+            timestampString = "515784409.743033"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1074"
+            endingLineNumber = "1074"
+            landmarkName = "enable()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -221,12 +249,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Groover/Audio/Instruments.swift"
-            timestampString = "513270695.836638"
+            timestampString = "515784409.743033"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1275"
-            endingLineNumber = "1275"
-            landmarkName = "addNoteToList(_:position:duration:)"
+            startingLineNumber = "1070"
+            endingLineNumber = "1070"
+            landmarkName = "unmute()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -237,13 +265,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Groover/Audio/Instruments.swift"
-            timestampString = "513270695.836638"
+            timestampString = "515784409.743033"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1062"
-            endingLineNumber = "1062"
-            landmarkName = "startOfLoopBeatsElapsed"
-            landmarkType = "24">
+            startingLineNumber = "1253"
+            endingLineNumber = "1253">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -253,13 +279,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Groover/Audio/Instruments.swift"
-            timestampString = "513270695.836638"
+            timestampString = "515784409.743033"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1058"
-            endingLineNumber = "1058"
-            landmarkName = "beatsElapsed"
-            landmarkType = "24">
+            startingLineNumber = "1214"
+            endingLineNumber = "1214">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -269,44 +293,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Groover/Audio/Instruments.swift"
-            timestampString = "513270695.836638"
+            timestampString = "515784409.743033"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1241"
-            endingLineNumber = "1241"
-            landmarkName = "addNote(_:duration:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Groover/Audio/Instruments.swift"
-            timestampString = "513270695.836638"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1202"
-            endingLineNumber = "1202"
-            landmarkName = "addRecordUpdateEvent()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Groover/Audio/Instruments.swift"
-            timestampString = "513270695.836638"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "327"
-            endingLineNumber = "327"
-            landmarkName = "play(noteNumber:velocity:)"
+            startingLineNumber = "339"
+            endingLineNumber = "339"
+            landmarkName = "addNote()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -322,8 +314,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "197"
             endingLineNumber = "197"
-            landmarkName = "updateNextStartPos()"
-            landmarkType = "7">
+            landmarkName = "current_measure"
+            landmarkType = "24">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -338,7 +330,23 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "196"
             endingLineNumber = "196"
-            landmarkName = "updateNextStartPos()"
+            landmarkName = "current_measure"
+            landmarkType = "24">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Groover/Audio/Instruments.swift"
+            timestampString = "515784409.743033"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "825"
+            endingLineNumber = "825"
+            landmarkName = "play(noteNumber:velocity:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -349,12 +357,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Groover/Audio/Instruments.swift"
-            timestampString = "513270695.836638"
+            timestampString = "515784409.743033"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "813"
-            endingLineNumber = "813"
-            landmarkName = "start()"
+            startingLineNumber = "820"
+            endingLineNumber = "820"
+            landmarkName = "play(noteNumber:velocity:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -365,28 +373,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Groover/Audio/Instruments.swift"
-            timestampString = "513270695.836638"
+            timestampString = "515784409.743033"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "808"
-            endingLineNumber = "808"
-            landmarkName = "start()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Groover/Audio/Instruments.swift"
-            timestampString = "513270695.836638"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "798"
-            endingLineNumber = "798"
-            landmarkName = "start_preroll()"
+            startingLineNumber = "810"
+            endingLineNumber = "810"
+            landmarkName = "play(noteNumber:velocity:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -397,11 +389,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Groover/Audio/Song.swift"
-            timestampString = "513273408.089035"
+            timestampString = "515784409.743033"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "130"
-            endingLineNumber = "130"
+            startingLineNumber = "159"
+            endingLineNumber = "159"
             landmarkName = "setCurrentSong(song_num:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -413,11 +405,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Groover/Audio/Song.swift"
-            timestampString = "513273506.215216"
+            timestampString = "515784409.743033"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "237"
-            endingLineNumber = "237"
+            startingLineNumber = "266"
+            endingLineNumber = "266"
             landmarkName = "saveSong()"
             landmarkType = "7">
          </BreakpointContent>
@@ -429,11 +421,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Groover/Audio/Song.swift"
-            timestampString = "513273662.30249"
+            timestampString = "515784409.743033"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "112"
-            endingLineNumber = "112"
+            startingLineNumber = "141"
+            endingLineNumber = "141"
             landmarkName = "loadSong(song_num:)"
             landmarkType = "7">
          </BreakpointContent>

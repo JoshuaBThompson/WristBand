@@ -251,6 +251,7 @@ struct InstrumentNote {
 
 class InstrumentManager {
     //MARK: Attributes
+    var enabled: Bool = true
     var playing: Bool = false
     var recording: Bool = false
     var recorded: Bool = false
@@ -301,26 +302,55 @@ class InstrumentManager {
     //MARK: Init
     init(click_track: ClickTrack, midi_instrument: MidiInstrument){
         quantizer = Quantize()
-        midi = AKMIDI()
         clickTrack = click_track
         loop = LoopManager(click_track: clickTrack)
         measures = loop.default_measures
         //timeline bars count from viewcontroller measure views count
         timeline = LoopTimeline(loop_manager: loop, timeline_bars: 4)
         track_num = clickTrack.track.trackCount
+        if(clickTrack.track.newTrack() == nil){
+            print("failed to load track \(track_num)")
+        }
+        
+        loadMidiInstrument(midi_instrument: midi_instrument)
+        
+    }
+    
+    func loadMidiInstrument(midi_instrument: MidiInstrument){
+        midi = AKMIDI()
         self.midi_instrument = midi_instrument
         self.midi_instrument.instrument_manager = self
         self.midi_instrument.enableMIDI(midi.client, name: "Midi instrument \(track_num)")
-        if(clickTrack.track.newTrack() != nil){
+        if(track_num < clickTrack.track.trackCount){
             clickTrack.track.tracks[track_num].setMIDIOutput(midi_instrument.midiIn)
+        }
+        else{
+            print("failed to load midi instrumet - track num out of range")
+        }
+    }
+    
+    func loadNewAudioFile(url: URL, name: String, position_map: SoundMapInfo){
+        
+        if(self.midi_instrument != nil){
+            self.midi_instrument.loadNewAudioFile(url: url, name: name, position_map: position_map)
         }
     }
     
     //MARK: Functions
+    
+    //MARK: Disable or Enable instrument
+    func enable(){
+        enabled = true
+    }
+    
+    func disable(){
+        enabled = false
+    }
+    
     //MARK: Add Note
     //Song.instrument.addNote()
     func addNote() {
-        if(!recording && !clickTrack.instrument.preRollEnded){
+        if((!recording && !clickTrack.instrument.preRollEnded) || !enabled){
             return
         }
         if(clickTrack.instrument.preRollEnded){
@@ -638,6 +668,25 @@ class MidiInstrument: AKMIDIInstrument {
         instrument_manager?.loop.current_note += 1
     }
     
+    func loadNewAudioFile(url: URL, name: String, position_map: SoundMapInfo){
+        do {
+            let audioFile = try AKAudioFile(forReading: url)
+            try sampler.loadAudioFile(audioFile)
+            self.name = name
+            self.sound_map = position_map
+            if(self.sound_map != nil){
+                self.name = self.sound_map.name
+            }
+            else{
+                print("failed to load sound")
+            }
+            print("url: \(url)")
+        }
+        catch {
+            print("error: \(error)")
+        }
+    }
+    
 }
 
 
@@ -844,7 +893,7 @@ class ClickTrackInstrument: MidiInstrument{
             if(defaultMeasureCounter >= instrument_default_measures){
                 endInstRecordFromDefaultMeasures()
             }
-            clickTrack.appendTrack(offset: loop_count * beats_per_measure)
+            clickTrack.appendTrack(offset: loop_count * beat_len_per_measure)
             updateInstrumentNotes()
             beat=0
         }
@@ -1029,9 +1078,7 @@ class ClickTrack: AKNode{
             if(i < timeSigBeats){
                 let beat_pos = AKDuration(beats: Double(i * timeSigScale) + offset)
                 var velocity = 127
-                if(i == 0){
-                    velocity = 127 //first beat in measure is loudest
-                }
+                print("click track append offset \(offset) at beat_pos \(beat_pos.beats)")
                 track.tracks[0].add(noteNumber: 60, velocity: MIDIVelocity(velocity), position: beat_pos, duration: AKDuration(seconds: GlobalBeatDur))
             }
         }

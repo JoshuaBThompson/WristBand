@@ -82,8 +82,21 @@ class MeasureTimelineManager {
                 measureLabels[i].text = ""
             }
         }
+            //clear measures in timeline if this is a first record and only highlight up to current measure
+        if(!song.instrument.recorded && bar_num < measureViews.count){
+             for i in (bar_num + 1) ..< measureViews.count {
+             if(!measureViews[i].exists){
+             break
+             }
+             
+             measureViews[i].clearProgress()
+             measureViews[i].active = false
+             measureViews[i].exists = false
+             measureLabels[i].text = ""
+             }
+         }
         
-        if(bar_num == 0){
+        if(bar_num == 0 && song.instrument.recorded){
             var last_bar_num = 0
             if((bar_num + song.timeline.bars_remaining) < measureViews.count){
                 last_bar_num = song.timeline.last_bar_num

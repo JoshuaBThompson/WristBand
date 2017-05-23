@@ -558,6 +558,7 @@
 				FA50AA4C1D2A3FE60035C942 /* Frameworks */,
 				FA50AA4D1D2A3FE60035C942 /* Resources */,
 				429A22A31D338DF70045023F /* Embed Frameworks */,
+				4220CFA51ECD9F3000584D31 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -697,6 +698,22 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		4220CFA51ECD9F3000584D31 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"$BUILT_PRODUCTS_DIR/$FRAMEWORKS_FOLDER_PATH/AudioKit.framework/fix-framework.sh\"";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		FA50AA4B1D2A3FE60035C942 /* Sources */ = {
@@ -929,7 +946,7 @@
 				INFOPLIST_FILE = Groover/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = TCM.Groover;
+				PRODUCT_BUNDLE_IDENTIFIER = com.TCM.Groovr;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
@@ -951,7 +968,7 @@
 				INFOPLIST_FILE = Groover/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = TCM.Groover;
+				PRODUCT_BUNDLE_IDENTIFIER = com.TCM.Groovr;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "";

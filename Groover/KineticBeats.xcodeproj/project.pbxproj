@@ -192,15 +192,15 @@
 		FA0CCADB1DF6A26E00EC3F6A /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		FA3E2E2D1DBF007800DBCA24 /* Transports.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Transports.swift; sourceTree = "<group>"; };
 		FA479EC61D376CB000619BA0 /* Right.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Right.swift; sourceTree = "<group>"; };
-		FA50AA4F1D2A3FE60035C942 /* Groover.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Groover.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		FA50AA4F1D2A3FE60035C942 /* KineticBeats.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KineticBeats.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA50AA521D2A3FE60035C942 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FA50AA541D2A3FE60035C942 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		FA50AA571D2A3FE60035C942 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		FA50AA591D2A3FE60035C942 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FA50AA5C1D2A3FE60035C942 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		FA50AA5E1D2A3FE60035C942 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		FA50AA631D2A3FE60035C942 /* GrooverTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GrooverTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		FA50AA6E1D2A3FE60035C942 /* GrooverUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GrooverUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		FA50AA631D2A3FE60035C942 /* KineticBeatsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = KineticBeatsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		FA50AA6E1D2A3FE60035C942 /* KineticBeatsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = KineticBeatsUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA50AA801D2A433B0035C942 /* images */ = {isa = PBXFileReference; lastKnownFileType = folder; path = images; sourceTree = "<group>"; };
 		FA50AA811D2A433B0035C942 /* UIGroover.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIGroover.swift; sourceTree = "<group>"; };
 		FA50AA841D2B397F0035C942 /* Knob.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Knob.swift; sourceTree = "<group>"; };
@@ -486,9 +486,9 @@
 		FA50AA501D2A3FE60035C942 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				FA50AA4F1D2A3FE60035C942 /* Groover.app */,
-				FA50AA631D2A3FE60035C942 /* GrooverTests.xctest */,
-				FA50AA6E1D2A3FE60035C942 /* GrooverUITests.xctest */,
+				FA50AA4F1D2A3FE60035C942 /* KineticBeats.app */,
+				FA50AA631D2A3FE60035C942 /* KineticBeatsTests.xctest */,
+				FA50AA6E1D2A3FE60035C942 /* KineticBeatsUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -550,9 +550,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		FA50AA4E1D2A3FE60035C942 /* Groover */ = {
+		FA50AA4E1D2A3FE60035C942 /* KineticBeats */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = FA50AA771D2A3FE60035C942 /* Build configuration list for PBXNativeTarget "Groover" */;
+			buildConfigurationList = FA50AA771D2A3FE60035C942 /* Build configuration list for PBXNativeTarget "KineticBeats" */;
 			buildPhases = (
 				FA50AA4B1D2A3FE60035C942 /* Sources */,
 				FA50AA4C1D2A3FE60035C942 /* Frameworks */,
@@ -564,14 +564,14 @@
 			);
 			dependencies = (
 			);
-			name = Groover;
+			name = KineticBeats;
 			productName = Groover;
-			productReference = FA50AA4F1D2A3FE60035C942 /* Groover.app */;
+			productReference = FA50AA4F1D2A3FE60035C942 /* KineticBeats.app */;
 			productType = "com.apple.product-type.application";
 		};
-		FA50AA621D2A3FE60035C942 /* GrooverTests */ = {
+		FA50AA621D2A3FE60035C942 /* KineticBeatsTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = FA50AA7A1D2A3FE60035C942 /* Build configuration list for PBXNativeTarget "GrooverTests" */;
+			buildConfigurationList = FA50AA7A1D2A3FE60035C942 /* Build configuration list for PBXNativeTarget "KineticBeatsTests" */;
 			buildPhases = (
 				FA50AA5F1D2A3FE60035C942 /* Sources */,
 				FA50AA601D2A3FE60035C942 /* Frameworks */,
@@ -582,14 +582,14 @@
 			dependencies = (
 				FA50AA651D2A3FE60035C942 /* PBXTargetDependency */,
 			);
-			name = GrooverTests;
+			name = KineticBeatsTests;
 			productName = GrooverTests;
-			productReference = FA50AA631D2A3FE60035C942 /* GrooverTests.xctest */;
+			productReference = FA50AA631D2A3FE60035C942 /* KineticBeatsTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		FA50AA6D1D2A3FE60035C942 /* GrooverUITests */ = {
+		FA50AA6D1D2A3FE60035C942 /* KineticBeatsUITests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = FA50AA7D1D2A3FE60035C942 /* Build configuration list for PBXNativeTarget "GrooverUITests" */;
+			buildConfigurationList = FA50AA7D1D2A3FE60035C942 /* Build configuration list for PBXNativeTarget "KineticBeatsUITests" */;
 			buildPhases = (
 				FA50AA6A1D2A3FE60035C942 /* Sources */,
 				FA50AA6B1D2A3FE60035C942 /* Frameworks */,
@@ -600,9 +600,9 @@
 			dependencies = (
 				FA50AA701D2A3FE60035C942 /* PBXTargetDependency */,
 			);
-			name = GrooverUITests;
+			name = KineticBeatsUITests;
 			productName = GrooverUITests;
-			productReference = FA50AA6E1D2A3FE60035C942 /* GrooverUITests.xctest */;
+			productReference = FA50AA6E1D2A3FE60035C942 /* KineticBeatsUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
@@ -641,7 +641,7 @@
 					};
 				};
 			};
-			buildConfigurationList = FA50AA4A1D2A3FE60035C942 /* Build configuration list for PBXProject "Groover" */;
+			buildConfigurationList = FA50AA4A1D2A3FE60035C942 /* Build configuration list for PBXProject "KineticBeats" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -654,9 +654,9 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				FA50AA4E1D2A3FE60035C942 /* Groover */,
-				FA50AA621D2A3FE60035C942 /* GrooverTests */,
-				FA50AA6D1D2A3FE60035C942 /* GrooverUITests */,
+				FA50AA4E1D2A3FE60035C942 /* KineticBeats */,
+				FA50AA621D2A3FE60035C942 /* KineticBeatsTests */,
+				FA50AA6D1D2A3FE60035C942 /* KineticBeatsUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -814,12 +814,12 @@
 /* Begin PBXTargetDependency section */
 		FA50AA651D2A3FE60035C942 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = FA50AA4E1D2A3FE60035C942 /* Groover */;
+			target = FA50AA4E1D2A3FE60035C942 /* KineticBeats */;
 			targetProxy = FA50AA641D2A3FE60035C942 /* PBXContainerItemProxy */;
 		};
 		FA50AA701D2A3FE60035C942 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = FA50AA4E1D2A3FE60035C942 /* Groover */;
+			target = FA50AA4E1D2A3FE60035C942 /* KineticBeats */;
 			targetProxy = FA50AA6F1D2A3FE60035C942 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -946,7 +946,7 @@
 				INFOPLIST_FILE = Groover/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.TCM.Groovr;
+				PRODUCT_BUNDLE_IDENTIFIER = com.TCM.KineticBeats;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
@@ -968,7 +968,7 @@
 				INFOPLIST_FILE = Groover/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.TCM.Groovr;
+				PRODUCT_BUNDLE_IDENTIFIER = com.TCM.KineticBeats;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
@@ -984,7 +984,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = TCM.GrooverTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Groover.app/Groover";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/KineticBeats.app/KineticBeats";
 			};
 			name = Debug;
 		};
@@ -996,7 +996,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = TCM.GrooverTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Groover.app/Groover";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/KineticBeats.app/KineticBeats";
 			};
 			name = Release;
 		};
@@ -1025,7 +1025,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		FA50AA4A1D2A3FE60035C942 /* Build configuration list for PBXProject "Groover" */ = {
+		FA50AA4A1D2A3FE60035C942 /* Build configuration list for PBXProject "KineticBeats" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				FA50AA751D2A3FE60035C942 /* Debug */,
@@ -1034,7 +1034,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		FA50AA771D2A3FE60035C942 /* Build configuration list for PBXNativeTarget "Groover" */ = {
+		FA50AA771D2A3FE60035C942 /* Build configuration list for PBXNativeTarget "KineticBeats" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				FA50AA781D2A3FE60035C942 /* Debug */,
@@ -1043,7 +1043,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		FA50AA7A1D2A3FE60035C942 /* Build configuration list for PBXNativeTarget "GrooverTests" */ = {
+		FA50AA7A1D2A3FE60035C942 /* Build configuration list for PBXNativeTarget "KineticBeatsTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				FA50AA7B1D2A3FE60035C942 /* Debug */,
@@ -1052,7 +1052,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		FA50AA7D1D2A3FE60035C942 /* Build configuration list for PBXNativeTarget "GrooverUITests" */ = {
+		FA50AA7D1D2A3FE60035C942 /* Build configuration list for PBXNativeTarget "KineticBeatsUITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				FA50AA7E1D2A3FE60035C942 /* Debug */,

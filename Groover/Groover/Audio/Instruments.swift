@@ -299,6 +299,8 @@ class InstrumentManager {
         }
     }
     
+    var quantize_ready: Bool { return !recording && quantize_enabled }
+    
     //MARK: Init
     init(click_track: ClickTrack, midi_instrument: MidiInstrument){
         quantizer = Quantize()
@@ -416,6 +418,7 @@ class InstrumentManager {
             updateMeasuresFromBeatsElapsesAbs()
             appendNotesToNextLoop()
         }
+
     }
     
     func setStartRecordOffset(offset: Double){
@@ -440,6 +443,11 @@ class InstrumentManager {
     
     func updateLoopAfterQuantize(){
         //If quantize en then find last note played and clear remaining
+        if(!quantize_ready){
+            //only apply quantize when not recording
+            return
+        }
+        
         if(loop.current_note < notes.count){
             clearNotesFrom(note_num: loop.current_note)
             //Then append remaining quantized notes
@@ -450,6 +458,12 @@ class InstrumentManager {
             //Then append remaining quantized notes
             appendNotesToNextLoop()
         }
+    }
+    
+    func forceQuantize(){
+        clearRemainingTrack()
+        //Then append remaining quantized notes
+        appendNotesToNextLoop()
     }
     
     //call when click track starts at 0 beats (this will update instrument measure count appropriately)
@@ -1077,7 +1091,7 @@ class ClickTrack: AKNode{
         for i in 0 ..< timeSigBeats {
             if(i < timeSigBeats){
                 let beat_pos = AKDuration(beats: Double(i * timeSigScale) + offset)
-                var velocity = 127
+                let velocity = 127
                 print("click track append offset \(offset) at beat_pos \(beat_pos.beats)")
                 track.tracks[0].add(noteNumber: 60, velocity: MIDIVelocity(velocity), position: beat_pos, duration: AKDuration(seconds: GlobalBeatDur))
             }

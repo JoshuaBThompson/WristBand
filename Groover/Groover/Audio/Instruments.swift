@@ -383,7 +383,6 @@ class InstrumentManager {
             }
             let position = AKDuration(beats: 0.05, tempo: tempo) //just quantize to first beats
             updateNotesList(position: position)
-            print("addPrerollNote - position \(position.beats)")
     }
     
     func updateNotesList(position: AKDuration){
@@ -413,7 +412,6 @@ class InstrumentManager {
         recording = false
         
         if(!recorded){
-            print("stopRecord!")
             recorded = true
             updateMeasuresFromBeatsElapsesAbs()
             appendNotesToNextLoop()
@@ -498,11 +496,13 @@ class InstrumentManager {
             return
         }
         
-        appended = true
         loop.loop_notes += clickTrack.timeSignature.beatsPerMeasure
         if(loop.loop_notes >= loop.notes_per_loop){
             loop.loop_notes = 0
             appendNotesToNextLoop()
+            if(notes.count > 0){
+                appended = true
+            }
         }
     }
     
@@ -904,7 +904,7 @@ class ClickTrackInstrument: MidiInstrument{
         
         
         if(beat==beats_per_measure){
-            if(defaultMeasureCounter >= instrument_default_measures){
+            if((defaultMeasureCounter >= instrument_default_measures) && newRecordEnabled){
                 endInstRecordFromDefaultMeasures()
             }
             clickTrack.appendTrack(offset: loop_count * beat_len_per_measure)

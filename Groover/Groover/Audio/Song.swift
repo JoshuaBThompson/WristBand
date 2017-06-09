@@ -556,6 +556,7 @@ class Song {
             return
         }
         if(!instrument.recorded){
+            print("instrument not recorded yet")
             //only start preroll if selected preset is empty / has not been recorded
             clickTrack.instrument.resetDefaultMeasureCounter()
             clickTrack.start_preroll()
@@ -572,6 +573,7 @@ class Song {
             //only do execute stop_record if recording
             return
         }
+        print("stop_record")
         recordEnabled = false
         clickTrack.instrument.newRecordEnabled = recordEnabled
         instrument.stopRecord()
@@ -653,6 +655,7 @@ class Song {
     
     func updateNotesFromClickTrack(){
         for inst in instruments {
+            
             inst.updateNotesFromClickTrack()
         }
     }

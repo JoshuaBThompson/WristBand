@@ -410,7 +410,6 @@ class InstrumentManager {
         }
         
         recording = false
-        
         if(!recorded){
             recorded = true
             updateMeasuresFromBeatsElapsesAbs()
@@ -492,17 +491,19 @@ class InstrumentManager {
     }
     
     func updateNotesFromClickTrack(){
-        if(!recorded && !default_measure_count_started){
+        if(!recorded && (!default_measure_count_started || !recording) ){
             return
         }
         
         loop.loop_notes += clickTrack.timeSignature.beatsPerMeasure
         if(loop.loop_notes >= loop.notes_per_loop){
-            loop.loop_notes = 0
+            
+            //print("updateNotesFromClickTrack \(track_num) and append loop_notes \(loop.loop_notes) and notes per \(loop.notes_per_loop)")
             appendNotesToNextLoop()
             if(notes.count > 0){
                 appended = true
             }
+            loop.loop_notes = 0
         }
     }
     
@@ -515,6 +516,7 @@ class InstrumentManager {
     }
     
     func appendNotesToNextLoop(){
+        
         let offset_beats = global_offset + loop.beats_per_loop
         appendNotesFromOffset(offset: offset_beats)
     }
@@ -524,13 +526,12 @@ class InstrumentManager {
         for note in notes {
             if(i >= start_note_num){
                 var new_note = AKDuration(beats: offset + note.beats, tempo: tempo)
-                if(quantize_enabled){
+                if(quantize_ready){
                     new_note = quantizer.quantizedBeat(new_note)
                 }
                 
                 if(note.beats <= beats_per_loop){
-                    if(quantize_enabled){
-                        print("applying quantized note \(new_note.beats)")
+                    if(quantize_ready){
                     }
                     insertNote(note: InstrumentNote(note: new_note, velocity: note.velocity))
                 }
@@ -904,12 +905,14 @@ class ClickTrackInstrument: MidiInstrument{
         
         
         if(beat==beats_per_measure){
+            beat=0
             if((defaultMeasureCounter >= instrument_default_measures) && newRecordEnabled){
                 endInstRecordFromDefaultMeasures()
             }
+            
             clickTrack.appendTrack(offset: loop_count * beat_len_per_measure)
             updateInstrumentNotes()
-            beat=0
+            
         }
     }
     
@@ -1092,7 +1095,7 @@ class ClickTrack: AKNode{
             if(i < timeSigBeats){
                 let beat_pos = AKDuration(beats: Double(i * timeSigScale) + offset)
                 let velocity = 127
-                print("click track append offset \(offset) at beat_pos \(beat_pos.beats)")
+                //print("click track append offset \(offset) at beat_pos \(beat_pos.beats)")
                 track.tracks[0].add(noteNumber: 60, velocity: MIDIVelocity(velocity), position: beat_pos, duration: AKDuration(seconds: GlobalBeatDur))
             }
         }

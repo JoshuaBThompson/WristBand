@@ -440,17 +440,20 @@ class InstrumentManager {
     
     func updateLoopAfterQuantize(){
         //If quantize en then find last note played and clear remaining
-        if(!quantize_ready){
+        //if(!quantize_enabled){
             //only apply quantize when not recording
-            return
-        }
+        //    return
+        //}
         
         if(loop.current_note < notes.count){
-            clearNotesFrom(note_num: loop.current_note)
+            //print("updateLoopAfterQuantize \(quantize_enabled) from note \(loop.current_note) of count \(notes.count)")
+            clearNotesFrom(note_num: 0)
+            //clearNotesFrom(note_num: loop.current_note)
             //Then append remaining quantized notes
             appendNotesFromOffset(start_note_num: loop.current_note, offset: global_offset)
         }
         else if(appended){
+            //print("updateLoopAfterQuantize appended")
             clearRemainingTrack()
             //Then append remaining quantized notes
             appendNotesToNextLoop()
@@ -491,7 +494,11 @@ class InstrumentManager {
     }
     
     func updateNotesFromClickTrack(){
-        if(!recorded && (!default_measure_count_started || !recording) ){
+        /*if(!recorded && (!default_measure_count_started || !recording) ){
+            return
+        }
+        */
+        if(!recorded){
             return
         }
         
@@ -500,9 +507,6 @@ class InstrumentManager {
             
             //print("updateNotesFromClickTrack \(track_num) and append loop_notes \(loop.loop_notes) and notes per \(loop.notes_per_loop)")
             appendNotesToNextLoop()
-            if(notes.count > 0){
-                appended = true
-            }
             loop.loop_notes = 0
         }
     }
@@ -512,12 +516,16 @@ class InstrumentManager {
             recorded = true
             measures = loop.default_measures
             loop.measures = measures
+            appendNotesToNextLoop()
         }
     }
     
     func appendNotesToNextLoop(){
-        
+        if(notes.count > 0){
+            appended = true
+        }
         let offset_beats = global_offset + loop.beats_per_loop
+        //print("appendingNotesToNextLoop at global \(global_offset) at \(offset_beats)")
         appendNotesFromOffset(offset: offset_beats)
     }
     
@@ -526,12 +534,13 @@ class InstrumentManager {
         for note in notes {
             if(i >= start_note_num){
                 var new_note = AKDuration(beats: offset + note.beats, tempo: tempo)
-                if(quantize_ready){
+                if(quantize_enabled){
                     new_note = quantizer.quantizedBeat(new_note)
                 }
                 
                 if(note.beats <= beats_per_loop){
-                    if(quantize_ready){
+                    if(quantize_enabled){
+                        //print("appendNotesFromOffset at \(new_note.beats)")
                     }
                     insertNote(note: InstrumentNote(note: new_note, velocity: note.velocity))
                 }
@@ -590,7 +599,7 @@ class InstrumentManager {
         let len = track.length
         let start = AKDuration(beats: offset, tempo: tempo)
         let end = AKDuration(beats: len + 1, tempo: tempo)
-        print("clear: from \(start.beats) to \(end.beats)")
+        //print("clear: from \(start.beats) to \(end.beats)")
         track.clearRange(start: start, duration: end)
     }
     
@@ -598,7 +607,7 @@ class InstrumentManager {
         let len = track.length
         let start = AKDuration(beats: 0, tempo: tempo)
         let end = AKDuration(beats: len + 1, tempo: tempo)
-        print("clear: from \(start.beats) to \(end.beats)")
+        //print("clear: from \(start.beats) to \(end.beats)")
         track.clearRange(start: start, duration: end)
     }
     

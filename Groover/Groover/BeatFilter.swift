@@ -29,10 +29,10 @@ struct SensitivityDictionaryType {
     }
 }
 
-let iphone_se_config = SensitivityDictionaryType(min_g: 60, max_g: 75, samples: 10, sum: 300)
-let iphone_6and7_config = SensitivityDictionaryType(min_g: 20, max_g: 30, samples: 14, sum: 100)
-let iphone_6and7plus_config = SensitivityDictionaryType(min_g: 15, max_g: 25, samples: 14, sum: 150)
-let iphone_default_config = SensitivityDictionaryType(min_g: 30, max_g: 40, samples: 13, sum: 200)
+let iphone_se_config = SensitivityDictionaryType(min_g: 50, max_g: 60, samples: 20, sum: (2*50 + 60))
+let iphone_6and7_config = SensitivityDictionaryType(min_g: 20, max_g: 20, samples: 20, sum: (2*20 + 20))
+let iphone_6and7plus_config = SensitivityDictionaryType(min_g: 15, max_g: 20, samples: 20, sum: (2*15 + 20))
+let iphone_default_config = SensitivityDictionaryType(min_g: 30, max_g: 40, samples: 20, sum: (2*30 + 40))
 
 let DeviceSensitivityConfig = [
     "iPhone SE": iphone_se_config,

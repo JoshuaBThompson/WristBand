@@ -439,14 +439,10 @@ class InstrumentManager {
     }
     
     func updateLoopAfterQuantize(){
-        //If quantize en then find last note played and clear remaining
-        //if(!quantize_enabled){
-            //only apply quantize when not recording
-        //    return
-        //}
+        //If user selects quantize (en or disable) then update loop
         
         if(loop.current_note < notes.count){
-            //print("updateLoopAfterQuantize \(quantize_enabled) from note \(loop.current_note) of count \(notes.count)")
+            //print("updateLoopAfterQuantize \(quantize_enabled) from note \(loop.current_note) of count \(notes.count) at offset \(global_offset)")
             clearNotesFrom(note_num: 0)
             //clearNotesFrom(note_num: loop.current_note)
             //Then append remaining quantized notes
@@ -505,7 +501,7 @@ class InstrumentManager {
         loop.loop_notes += clickTrack.timeSignature.beatsPerMeasure
         if(loop.loop_notes >= loop.notes_per_loop){
             
-            //print("updateNotesFromClickTrack \(track_num) and append loop_notes \(loop.loop_notes) and notes per \(loop.notes_per_loop)")
+            //print("updateNotesFromClickTrack \(track_num) and append loop_notes \(loop.loop_notes) and notes per \(loop.notes_per_loop) at offset \(global_offset)")
             appendNotesToNextLoop()
             loop.loop_notes = 0
         }
@@ -915,12 +911,11 @@ class ClickTrackInstrument: MidiInstrument{
         
         if(beat==beats_per_measure){
             beat=0
+            clickTrack.appendTrack(offset: loop_count * beat_len_per_measure)
+            updateInstrumentNotes()
             if((defaultMeasureCounter >= instrument_default_measures) && newRecordEnabled){
                 endInstRecordFromDefaultMeasures()
             }
-            
-            clickTrack.appendTrack(offset: loop_count * beat_len_per_measure)
-            updateInstrumentNotes()
             
         }
     }

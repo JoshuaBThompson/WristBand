@@ -1027,14 +1027,14 @@ class ClickTrack: AKNode{
     
     
     //MARK: Init
-    init(songRef: Song, clickTempo: Tempo, clickTimeSignature: TimeSignature){
+    init(songRef: Song){
         super.init()
         song = songRef
         midi = AKMIDI()
         track = AKSequencer()
         instrument = ClickTrackInstrument(clickTrackRef: self)
-        tempo = clickTempo
-        timeSignature = clickTimeSignature
+        tempo = Tempo()
+        timeSignature = TimeSignature()
         initInstrumentTrack()
         self.avAudioNode = instrument.avAudioNode
     }

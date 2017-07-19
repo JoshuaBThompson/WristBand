@@ -21,6 +21,8 @@ class SongViewController: UIViewController, UITextFieldDelegate {
         tempoSliderTextField.text = "\(value)"
         if(tempoSlider.ready){
             self.updateTempo(value: Double(value))
+            //save song params
+            self.song.saveSong()
         }
     }
     
@@ -36,6 +38,8 @@ class SongViewController: UIViewController, UITextFieldDelegate {
         timeSigDivisionsTextField.text = "\(sender.time_sig_gen.current_time_sig.division)"
         if(timeSignatureSlider.ready){
             song.setTimeSignature(sender.time_sig_gen.current_time_sig.beat, beatUnit: sender.time_sig_gen.current_time_sig.division)
+            //save song params
+            self.song.saveSong()
         }
         
     }
@@ -53,7 +57,10 @@ class SongViewController: UIViewController, UITextFieldDelegate {
         
         if(measureSlider.ready){
             self.song.setDefaultMeasures(measureCount: value)
+            //save song params
+            self.song.saveSong()
         }
+        
     }
     
     
@@ -80,12 +87,14 @@ class SongViewController: UIViewController, UITextFieldDelegate {
         
         self.initTempoSlider()
         self.initDefaultMeasuresSlider()
+        self.initTimeSignatureSlider()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         initTempoSlider()
         initDefaultMeasuresSlider()
+        initTimeSignatureSlider()
     }
 
     //MARK: Init tempo 
@@ -108,6 +117,12 @@ class SongViewController: UIViewController, UITextFieldDelegate {
         let note = self.song.timeSignature.beatUnit
         timeSigBeatsTextField.text = "\(beats)"
         timeSigDivisionsTextField.text = "\(note)"
+        if(self.song.playing){
+            timeSignatureSlider.isEnabled = false
+        }
+        else{
+            timeSignatureSlider.isEnabled = true
+        }
         
     }
     

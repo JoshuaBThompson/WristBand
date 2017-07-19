@@ -94,6 +94,9 @@ class SliderCtrl: UIControl{
     //MARK: touch tracking functions
     override func beginTracking(_ touch: UITouch, with event: UIEvent?) -> Bool {
         ready = false
+        if(!isEnabled){
+            return false
+        }
         self.previousTimestamp = event!.timestamp //need initial timestamp for continue tracking with touch calculations
         self.previousLocation = touch.previousLocation(in: self)
         updateBeginPosition(self.previousLocation)
@@ -106,6 +109,9 @@ class SliderCtrl: UIControl{
     
     override func continueTracking(_ touch: UITouch, with event: UIEvent?) -> Bool {
         ready = false
+        if(!isEnabled){
+            return false
+        }
         let timeSincePrevious = event!.timestamp - previousTimestamp
         
         //only calc angle after 1 sec since delta angles are too small if calc every time continue tracking is called
@@ -123,6 +129,9 @@ class SliderCtrl: UIControl{
     
     override func endTracking(_ touch: UITouch?, with event: UIEvent?) {
         ready = true
+        if(!isEnabled){
+            return
+        }
         let endLocation = touch?.location(in: self)
         print("end tracking pan at \(String(describing: endLocation?.x))")
         //let final_pos_x = self.pos_from_detent //snap to neartest detent

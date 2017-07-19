@@ -8,7 +8,7 @@
 
 import UIKit
 
-class NewSongViewController: UIViewController, UITextFieldDelegate {
+class NewSongViewController: UIViewController {
     //MARK: Properties
     var saved = false
     
@@ -18,7 +18,7 @@ class NewSongViewController: UIViewController, UITextFieldDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.newSongTextField?.delegate = self
+        //self.newSongTextField?.delegate = self
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         self.navigationController?.navigationBar.shadowImage =  UIImage()
         self.navigationController?.navigationBar.isTranslucent = true
@@ -36,8 +36,10 @@ class NewSongViewController: UIViewController, UITextFieldDelegate {
     
     
     //MARK: Text Field Delegates
+    /*
     func textFieldDidBeginEditing(_ textField: UITextField) {
         print("TextField did begin editing method called")
+        textField.becomeFirstResponder()
     }
     func textFieldDidEndEditing(_ textField: UITextField) {
         print("TextField did end editing method called")
@@ -67,6 +69,7 @@ class NewSongViewController: UIViewController, UITextFieldDelegate {
         textField.resignFirstResponder();
         return true;
     }
+    */
 
     
     // MARK: - Navigation

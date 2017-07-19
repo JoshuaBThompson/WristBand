@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
         <!--New Song View Controller-->
         <scene sceneID="KzR-Q4-nLR">
             <objects>
-                <viewController id="k2I-vd-pdA" customClass="NewSongViewController" customModule="Groover" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="k2I-vd-pdA" customClass="NewSongViewController" customModule="KineticBeats" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="LBC-nY-7VE"/>
                         <viewControllerLayoutGuide type="bottom" id="ozM-bz-29i"/>
@@ -28,25 +28,18 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DKI-bi-RZi">
                                 <rect key="frame" x="80" y="226" width="214" height="214"/>
                                 <subviews>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Blah Blah Blah" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="uhN-qJ-H8j">
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="New Song Name" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="uhN-qJ-H8j">
                                         <rect key="frame" x="0.0" y="0.0" width="214" height="30"/>
-                                        <color key="backgroundColor" red="0.34509803919999998" green="0.3921568627" blue="0.43921568630000002" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                        <color key="tintColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="New Song Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hyk-hi-XXv">
-                                        <rect key="frame" x="0.0" y="40" width="128" height="20.5"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <color key="textColor" red="0.34509803919999998" green="0.3921568627" blue="0.43921568630000002" alpha="1" colorSpace="calibratedRGB"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="214" id="CUs-2w-y5X"/>
                                     <constraint firstAttribute="trailing" secondItem="uhN-qJ-H8j" secondAttribute="trailing" id="GM5-ZY-31y"/>
-                                    <constraint firstItem="hyk-hi-XXv" firstAttribute="leading" secondItem="DKI-bi-RZi" secondAttribute="leading" id="XnK-5B-86t"/>
-                                    <constraint firstItem="hyk-hi-XXv" firstAttribute="top" secondItem="uhN-qJ-H8j" secondAttribute="bottom" constant="10" id="cvc-ln-3Jl"/>
                                     <constraint firstItem="uhN-qJ-H8j" firstAttribute="top" secondItem="DKI-bi-RZi" secondAttribute="top" id="fhf-M5-Dfc"/>
                                     <constraint firstItem="uhN-qJ-H8j" firstAttribute="leading" secondItem="DKI-bi-RZi" secondAttribute="leading" id="lUb-pp-PGI"/>
                                     <constraint firstAttribute="width" constant="214" id="rgP-NC-6WY"/>
@@ -79,7 +72,6 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="newSongLabel" destination="hyk-hi-XXv" id="72d-14-EmT"/>
                         <outlet property="newSongTextField" destination="uhN-qJ-H8j" id="sTk-eh-q6a"/>
                     </connections>
                 </viewController>

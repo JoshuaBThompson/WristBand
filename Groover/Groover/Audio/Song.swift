@@ -26,8 +26,7 @@ class Song {
     var recordEnabled = false
     var playing = false
     var instruments = [InstrumentManager]()
-    var timeSignature = TimeSignature()
-    var tempo = Tempo()
+    //var tempo = Tempo()
     var clickTrack: ClickTrack!
     var songsDatabase: [SongDatabase]!
     var current_song: SongDatabase!
@@ -36,6 +35,14 @@ class Song {
     var delegate: SongCallbacks?
 
     //MARK: computed variables
+    var timeSignature: TimeSignature {
+        return self.clickTrack.timeSignature
+    }
+    
+    var tempo: Tempo {
+        return self.clickTrack.tempo
+    }
+    
     var timeline: LoopTimeline {
         return self.instrument.timeline
     }
@@ -69,7 +76,7 @@ class Song {
     
     init(){
         initAudioSettings()
-        clickTrack = ClickTrack(songRef: self, clickTempo: tempo, clickTimeSignature: timeSignature)
+        clickTrack = ClickTrack(songRef: self)
         sound_library = SoundLibrary() //load instrument sounds from default library 'Sounds_Extra' in main bundle
         loadNewSong()
         

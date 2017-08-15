@@ -11,6 +11,7 @@ import AudioKit
 
 /****************Global*********************/
 let GlobalDefaultMeasures = 4
+let GlobalTempBeatsMax: Double = 10000
 let GlobalBeatDur = 0.01
 enum InstrumentError: Error {
     case InvalidSongLoaded
@@ -853,7 +854,6 @@ class ClickTrackInstrument: MidiInstrument{
     /// - parameter velocity: MIDI Velocity (0-127)
     ///
     override func play(noteNumber: MIDINoteNumber, velocity: MIDIVelocity) {
-        
         if(beat == 0){
             updateInstrumentLoops()
             
@@ -869,23 +869,16 @@ class ClickTrackInstrument: MidiInstrument{
         if(pos.truncatingRemainder(dividingBy: Double(beats_per_measure)) == 0){
         }
         
-        let volume = Double(velocity) / 127.0
+        //let volume = Double(velocity) / 127.0
         if(preRoll && beat <= beats_per_measure){
             if(beat == beats_per_measure){
                 preRoll = false
                 preRollEnded = true
                 startDefaultMeasureCounter()
             }
-            if(beat == 1){
-                //highPrerollSampler.volume = 127
-                //highPrerollSampler.play()
-                preRollSampler.volume = volume
-                preRollSampler.play()
-            }
-            else{
-                preRollSampler.volume = volume
-                preRollSampler.play()
-            }
+            //preRollSampler.volume = volume
+            preRollSampler.play()
+            //sampler.play()
         }
         else if(!self.muted){
             if(preRollEnded){
@@ -894,11 +887,12 @@ class ClickTrackInstrument: MidiInstrument{
                 preRollEnded = false
             }
             if(beat == 1){
-                highSampler.volume = volume
+                //highSampler.volume = volume
                 highSampler.play()
+                //sampler.play()
             }
             else{
-                sampler.volume = volume
+                //sampler.volume = volume
                 sampler.play()
             }
         }
@@ -911,13 +905,14 @@ class ClickTrackInstrument: MidiInstrument{
         
         if(beat==beats_per_measure){
             beat=0
-            clickTrack.appendTrack(offset: loop_count * beat_len_per_measure)
+            //clickTrack.appendTrack(offset: loop_count * beat_len_per_measure)
             updateInstrumentNotes()
             if((defaultMeasureCounter >= instrument_default_measures) && newRecordEnabled){
                 endInstRecordFromDefaultMeasures()
             }
             
         }
+        //print("clickTrackInstrument at \(clickTrack.track.currentPosition.beats)")
     }
     
     func endInstRecordFromDefaultMeasures(){
@@ -1072,12 +1067,12 @@ class ClickTrack: AKNode{
         if(track.tracks[0].length != 0 && !clearAll){
             let start = AKDuration(beats: beatLenPerMeasure, tempo: tempo.beatsPerMin)
             clearTrack(start: start)
-            track.setLength(AKDuration(beats: 1000))
+            track.setLength(AKDuration(beats: GlobalTempBeatsMax))
         }
         else{
             let start = AKDuration(beats: 0, tempo: tempo.beatsPerMin)
             clearTrack(start: start)
-            track.setLength(AKDuration(beats: 1000))
+            track.setLength(AKDuration(beats: GlobalTempBeatsMax))
             appendTrack(offset: 0.0)
         }
         
@@ -1088,11 +1083,11 @@ class ClickTrack: AKNode{
         //erase only extra beats that are not part of original record
         let end = AKDuration(beats: len+1, tempo: tempo.beatsPerMin)
         track.tracks[0].clearRange(start: start, duration: end)
-        track.setLength(AKDuration(beats: 1000))
+        track.setLength(AKDuration(beats: GlobalTempBeatsMax))
     }
     
     func appendTrack(offset: Double){
-        let timeSigBeats = timeSignature.beatsPerMeasure
+        let timeSigBeats = Int(GlobalTempBeatsMax)//timeSignature.beatsPerMeasure
         let timeSigScale = timeSignature.beatScale //ex: if 1/8 notes then scale = 1/2 since 1/2 * quarter note = eigth note
         
         for i in 0 ..< timeSigBeats {

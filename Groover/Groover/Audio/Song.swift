@@ -593,13 +593,12 @@ class Song {
         if(!clickTrack.enabled){
             clickTrack.enable() //run click track but mute it
         }
-        clickTrack.reset()
+        clickTrack.reset(clearAll: true)
         
         for inst in instruments{
             inst.play()
         }
         playing = true
-        //clickTrack.timer.start()
         clickTrack.start() //start global multitrack
         
     }

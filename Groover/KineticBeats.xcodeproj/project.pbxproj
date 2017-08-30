@@ -617,7 +617,7 @@
 				TargetAttributes = {
 					FA50AA4E1D2A3FE60035C942 = {
 						CreatedOnToolsVersion = 7.3.1;
-						DevelopmentTeam = XPYTM2G2L5;
+						DevelopmentTeam = HR9AR8D9W2;
 						LastSwiftMigration = 0800;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
@@ -938,7 +938,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = XPYTM2G2L5;
+				DEVELOPMENT_TEAM = HR9AR8D9W2;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -960,7 +960,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = XPYTM2G2L5;
+				DEVELOPMENT_TEAM = HR9AR8D9W2;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",

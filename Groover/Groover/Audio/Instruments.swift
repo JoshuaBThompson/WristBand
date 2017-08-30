@@ -11,7 +11,7 @@ import AudioKit
 
 /****************Global*********************/
 let GlobalDefaultMeasures = 4
-let GlobalTempBeatsMax: Double = 10000
+let GlobalTempBeatsMax: Double = 100000
 let GlobalBeatDur = 0.01
 enum InstrumentError: Error {
     case InvalidSongLoaded

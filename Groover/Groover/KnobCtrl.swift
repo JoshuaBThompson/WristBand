@@ -14,7 +14,7 @@ class KnobCtrl: Knob {
     var activated = true
     var instSnap: SnapFilter!
     var clickRingActive = false
-    var clickActive = false
+    var clickActive = true
     var angle: CGFloat = 0.0
     var previousTimestamp = 0.0
     var rotDir: CGFloat = 1
@@ -81,14 +81,14 @@ class KnobCtrl: Knob {
     override init(frame: CGRect) {
         super.init(frame: frame)
         instSnap = SnapFilter(detentCount: detentCount, angleOffset: angle, angleRange: 360)
-        clickActive = !clickActive
+        //clickActive = !clickActive
     }
     
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         instSnap = SnapFilter(detentCount: detentCount, angleOffset: angle, angleRange: 360)
-        clickActive = !clickActive
+        //clickActive = !clickActive
         
     }
     
@@ -180,7 +180,7 @@ class KnobCtrl: Knob {
             setPrevDetent()
             previousLocation = touch.previousLocation(in: self)
             if(isWithinInnerKnob(previousLocation)){
-                clickActive = !clickActive
+                //clickActive = !clickActive
                 sendActions(for: .editingChanged)
                 setNeedsDisplay()
             }
@@ -189,7 +189,7 @@ class KnobCtrl: Knob {
         previousTimestamp = event!.timestamp //need initial timestamp for continue tracking with touch calculations
         previousLocation = touch.previousLocation(in: self)
         if(isWithinInnerKnob(previousLocation)){
-            clickActive = !clickActive
+            //clickActive = !clickActive
             sendActions(for: .editingChanged)
             setNeedsDisplay()
         }

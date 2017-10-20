@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11542" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_0" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -13,7 +13,7 @@
         <!--Groove-->
         <scene sceneID="gwi-GP-DfD">
             <objects>
-                <viewController storyboardIdentifier="grooverView" id="6sE-Dz-anz" userLabel="Groove" customClass="ViewController" customModule="Groover" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="grooverView" id="6sE-Dz-anz" userLabel="Groove" customClass="ViewController" customModule="KineticBeats" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="xAU-tE-XdV"/>
                         <viewControllerLayoutGuide type="bottom" id="TBr-B3-I2E"/>
@@ -37,11 +37,11 @@
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="ttT-kd-0yE" userLabel="Transport Stack View">
                                         <rect key="frame" x="146" y="0.0" width="174" height="56"/>
                                         <subviews>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cAW-e9-Q7h" customClass="PlayCtrl" customModule="Groover" customModuleProvider="target">
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cAW-e9-Q7h" customClass="PlayCtrl" customModule="KineticBeats" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="0.0" width="87" height="56"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                             </view>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hLf-Ek-uwG" customClass="RecordCtrl" customModule="Groover" customModuleProvider="target">
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hLf-Ek-uwG" customClass="RecordCtrl" customModule="KineticBeats" customModuleProvider="target">
                                                 <rect key="frame" x="87" y="0.0" width="87" height="56"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                             </view>
@@ -57,7 +57,7 @@
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="bgw-hQ-Sm4" userLabel="Measures Stack View">
                                         <rect key="frame" x="0.0" y="58" width="320" height="24"/>
                                         <subviews>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4rX-SC-0v9" customClass="MeasureCtrl" customModule="Groover" customModuleProvider="target">
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4rX-SC-0v9" customClass="MeasureCtrl" customModule="KineticBeats" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="0.0" width="78.5" height="24"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Ha-cJ-pXp" userLabel="Measure Label 1">
@@ -73,7 +73,7 @@
                                                     <constraint firstItem="0Ha-cJ-pXp" firstAttribute="centerX" secondItem="4rX-SC-0v9" secondAttribute="centerX" id="JBM-7a-l6O"/>
                                                 </constraints>
                                             </view>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="g4C-ga-yaQ" customClass="MeasureCtrl" customModule="Groover" customModuleProvider="target">
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="g4C-ga-yaQ" customClass="MeasureCtrl" customModule="KineticBeats" customModuleProvider="target">
                                                 <rect key="frame" x="80.5" y="0.0" width="78.5" height="24"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XZS-LT-4oq" userLabel="Measure Label 2">
@@ -90,7 +90,7 @@
                                                     <constraint firstItem="XZS-LT-4oq" firstAttribute="centerY" secondItem="g4C-ga-yaQ" secondAttribute="centerY" id="o52-ul-q1A"/>
                                                 </constraints>
                                             </view>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jwW-6C-ajv" customClass="MeasureCtrl" customModule="Groover" customModuleProvider="target">
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jwW-6C-ajv" customClass="MeasureCtrl" customModule="KineticBeats" customModuleProvider="target">
                                                 <rect key="frame" x="161" y="0.0" width="78.5" height="24"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xe7-29-Ujg" userLabel="Measure Label 3">
@@ -106,7 +106,7 @@
                                                     <constraint firstItem="Xe7-29-Ujg" firstAttribute="centerY" secondItem="jwW-6C-ajv" secondAttribute="centerY" id="Flq-zp-H1Z"/>
                                                 </constraints>
                                             </view>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ITs-IP-RbO" customClass="MeasureCtrl" customModule="Groover" customModuleProvider="target">
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ITs-IP-RbO" customClass="MeasureCtrl" customModule="KineticBeats" customModuleProvider="target">
                                                 <rect key="frame" x="241.5" y="0.0" width="78.5" height="24"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tHl-R9-TSN" userLabel="Measure Label 4">
@@ -133,7 +133,7 @@
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yYp-3k-475" userLabel="Quarter Wrapper View">
                                                 <rect key="frame" x="0.0" y="0.0" width="64" height="73"/>
                                                 <subviews>
-                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VgF-D8-fQA" customClass="QuarterCtrl" customModule="Groover" customModuleProvider="target">
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VgF-D8-fQA" customClass="QuarterCtrl" customModule="KineticBeats" customModuleProvider="target">
                                                         <rect key="frame" x="5" y="9.5" width="54" height="54"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                         <constraints>
@@ -151,7 +151,7 @@
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PjJ-h4-zDx" userLabel="Eighth Wrapper View">
                                                 <rect key="frame" x="64" y="0.0" width="64" height="73"/>
                                                 <subviews>
-                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="auJ-89-aKz" customClass="EighthCtrl" customModule="Groover" customModuleProvider="target">
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="auJ-89-aKz" customClass="EighthCtrl" customModule="KineticBeats" customModuleProvider="target">
                                                         <rect key="frame" x="5" y="9.5" width="54" height="54"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                         <constraints>
@@ -169,7 +169,7 @@
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="020-cv-8E6" userLabel="Sixteenth Wrapper View">
                                                 <rect key="frame" x="128" y="0.0" width="64" height="73"/>
                                                 <subviews>
-                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uOt-k8-0QV" customClass="SixteenthCtrl" customModule="Groover" customModuleProvider="target">
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uOt-k8-0QV" customClass="SixteenthCtrl" customModule="KineticBeats" customModuleProvider="target">
                                                         <rect key="frame" x="5" y="9.5" width="54" height="54"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                         <constraints>
@@ -187,7 +187,7 @@
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2XL-T4-RRS" userLabel="Thirtysecond Wrapper View">
                                                 <rect key="frame" x="192" y="0.0" width="64" height="73"/>
                                                 <subviews>
-                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NAq-Zr-Ce5" customClass="ThirtysecondCtrl" customModule="Groover" customModuleProvider="target">
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NAq-Zr-Ce5" customClass="ThirtysecondCtrl" customModule="KineticBeats" customModuleProvider="target">
                                                         <rect key="frame" x="5" y="9.5" width="54" height="54"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                         <constraints>
@@ -205,7 +205,7 @@
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EA3-ID-o0r" userLabel="Triplet Wrapper View">
                                                 <rect key="frame" x="256" y="0.0" width="64" height="73"/>
                                                 <subviews>
-                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zZL-JS-2rx" customClass="TripletCtrl" customModule="Groover" customModuleProvider="target">
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zZL-JS-2rx" customClass="TripletCtrl" customModule="KineticBeats" customModuleProvider="target">
                                                         <rect key="frame" x="5" y="9.5" width="54" height="54"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                         <constraints>
@@ -263,7 +263,7 @@
                                             <constraint firstItem="O67-FV-FyG" firstAttribute="leading" secondItem="wsc-pV-Df3" secondAttribute="leading" constant="20" id="bud-9n-9jg"/>
                                         </constraints>
                                     </view>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jgs-qS-zgz" userLabel="ParametersButton" customClass="ParametersButtonCtrl" customModule="Groover" customModuleProvider="target">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jgs-qS-zgz" userLabel="ParametersButton" customClass="ParametersButtonCtrl" customModule="KineticBeats" customModuleProvider="target">
                                         <rect key="frame" x="258" y="1" width="42" height="42"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="jgs-qS-zgz" secondAttribute="height" multiplier="1:1" id="z3I-t2-TQg"/>
@@ -272,7 +272,7 @@
                                             <segue destination="Ujh-HD-yjp" kind="presentation" modalPresentationStyle="fullScreen" modalTransitionStyle="crossDissolve" id="RQm-hT-NYN"/>
                                         </connections>
                                     </button>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nna-6v-3ME" customClass="PositionIndicator" customModule="Groover" customModuleProvider="target">
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nna-6v-3ME" customClass="PositionIndicator" customModule="KineticBeats" customModuleProvider="target">
                                         <rect key="frame" x="20" y="42" width="280" height="16"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     </view>
@@ -303,7 +303,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="t24-DR-dST" userLabel="knobWrapper">
                                 <rect key="frame" x="0.0" y="227.5" width="320" height="291.5"/>
                                 <subviews>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="D1U-Ip-OgR" customClass="KnobCtrl" customModule="Groover" customModuleProvider="target">
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="D1U-Ip-OgR" customClass="KnobCtrl" customModule="KineticBeats" customModuleProvider="target">
                                         <rect key="frame" x="25" y="0.0" width="270" height="270"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <constraints>
